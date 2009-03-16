@@ -57,7 +57,7 @@ class uv extends stdentity
   var $alias_of = array();
   var $aliases = array();
   var $cursus = array();
-  
+
   var $comments = null;
 
   /**
@@ -116,7 +116,7 @@ class uv extends stdentity
     $this->state = $row['state'];
     $this->tc_available = $row['tc_available'];
     $this->credits = $row['guide_credits'];
-    
+
     return $this->id;
   }
 
@@ -133,7 +133,7 @@ class uv extends stdentity
                                     WHERE `id_uv` = ".$this->id." LIMIT 1");
     if($sql->is_success()){
       $row = $sql->get_row();
-      
+
       $this->responsable = $row['responsable'];
       $this->guide['objectifs'] = $row['guide_objectifs'];
       $this->guide['programme'] = $row['guide_programme'];
@@ -163,10 +163,10 @@ class uv extends stdentity
         else
           $this->alias_of[] = array("id" => $row['id_uv_cible'],
                                     "commentaire" => $row['commentaire']);
-          
+
       }
     }
-    
+
     /* chargement nb commentaires */
     $sql = new requete($this->db, "SELECT COUNT(*) as `nb_comments`
                                     FROM `pedag_uv_commentaire`
@@ -175,20 +175,20 @@ class uv extends stdentity
       $row = $sql->get_row();
       $this->nb_comments = $row['nb_comments'];
     }
-    
+
     /* chargement cursus */
-    $sql = new requete($this->db, "SELECT `id_cursus` 
+    $sql = new requete($this->db, "SELECT `id_cursus`
                                     FROM `pedag_uv_cursus`
                                     WHERE `id_uv` = ".$this->id);
     if($sql->is_success())
       while($row = $sql->get_row());
         $this->cursus[] = $row['id_cursus'];
-        
+
     $this->load_dept();
-    
+
     $this->extra_loaded = true;
   }
-  
+
   /**
    * Ajout d'une UV
    */
@@ -198,8 +198,8 @@ class uv extends stdentity
     /* verification qu elle n existe pas deja, avec le code */
     if(uv::exists($this->db, $code))
       throw new Exception("UV code already used in database");
-    
-    $sql = new insert($this->dbrw, "pedag_uv", 
+
+    $sql = new insert($this->dbrw, "pedag_uv",
                       array("code" => $code,
                             "intitule" => mysql_real_escape_string($intitule),
                             "type" => $type,
@@ -210,30 +210,30 @@ class uv extends stdentity
     if($sql->is_success())
       return $this->load_by_id($sql->get_id());
     else
-      return false;      
+      return false;
   }
-  
+
   /* mise a jour des infos */
   public function update($code=null, $intitule=null, $type=null, $responsable=null, $semestre=null, $tc_available=null){
     $data = array();
     if($code)     $data['code'] = $code;
     if($intitule) $data['intitule'] = $intitule;
-    if(isset($type))  $data['type'] = $type;    
+    if(isset($type))  $data['type'] = $type;
     if($responsable)  $data['responsable'] =  $responsable;
     if($semestre)     $data['semestre'] = $semestre;
     if(isset($tc_available)) $data['tc_available'] = $tc_available;
     $data['state'] = STATE_MODIFIED;
 
     $sql = new update($this->dbrw, "pedag_uv", $data, array("id_uv"=>$this->id));
-    return $sql->is_success(); 
+    return $sql->is_success();
   }
-  
+
   /* separation des infos du guide pour ne pas alourdir la fonction de creation */
   public function update_guide_infos($objectifs=null, $programme=null, $c=null, $td=null, $tp=null, $the=null, $credits=null){
     $data = array();
     if(isset($objectifs)) $data['guide_objectifs'] = $objectifs;
     if(isset($programme)) $data['guide_programme'] = $programme;
-    if(isset($credits))   $data['guide_credits'] = $credits;    
+    if(isset($credits))   $data['guide_credits'] = $credits;
     if(isset($c))  $data['guide_c'] =  $c;
     if(isset($td)) $data['guide_td'] = $td;
     if(isset($tp)) $data['guide_tp'] = $tp;
@@ -243,7 +243,7 @@ class uv extends stdentity
     $sql = new update($this->dbrw, "pedag_uv", $data, array("id_uv"=>$this->id));
     return $sql->is_success();
   }
-  
+
   public function add_or_update($code=null, $intitule=null, $type=null, $responsable=null, $semestre=null, $tc_available=null,
                                 $objectifs=null, $programme=null, $c=null, $td=null, $tp=null, $the=null, $credits=null){
     $code = strtoupper($code);
@@ -254,14 +254,14 @@ class uv extends stdentity
     $sql = new requete($this->db, "SELECT `id` FROM `pedag_uv` WHERE `code` = '".$code."'");
     if(!$sql->is_success())
       return false;
-    
+
     $row = $sql->get_row();
     if($row == null){
       add($code, $intitule, $type, $responsable, $semestre, $tc_available);
       update_guide_infos($objectifs, $programme, $c, $td, $tp, $the, $credits);
     }else{
       update($code, $intitule, $type, $responsable, $semestre, $tc_available);
-      update_guide_infos($objectifs, $programme, $c, $td, $tp, $the, $credits);      
+      update_guide_infos($objectifs, $programme, $c, $td, $tp, $the, $credits);
     }
   }
 
@@ -283,7 +283,7 @@ class uv extends stdentity
   public function is_alias(){
     if(!$this->extra_loaded)
       $this->load_extra();
-    
+
     if(empty($this->alias_of))
       return false;
     else
@@ -297,17 +297,17 @@ class uv extends stdentity
                             'commentaire' => $comment));
     return $sql->is_success();
   }
-  
+
   public function has_alias(){
     if(!$this->extra_loaded)
       $this->load_extra();
-    
+
     if(empty($this->aliases))
       return false;
     else
       return true;
   }
-  
+
   /**
    * N'oublions pas les methodes d'acces aux tags heritees de stdentity
    * @see stdentity::set_tags_array
@@ -315,7 +315,7 @@ class uv extends stdentity
    * @see stdentity::get_tags_list
    * @see stdentity::get_tags
    */
-  
+
 
 
   /**
@@ -324,7 +324,7 @@ class uv extends stdentity
   public function has_antecedent(){
     if(!$this->extra_loaded)
       $this->load_extra();
-      
+
     return !empty($this->antecedent);
   }
 
@@ -344,7 +344,7 @@ class uv extends stdentity
    */
   public function get_nb_students($semestre=SEMESTER_NOW){
     $sql = new requete($this->db, "SELECT COUNT( DISTINCT `id_utilisateur` ) as `nb`
-                                    FROM `pedag_groupe_utl` 
+                                    FROM `pedag_groupe_utl`
                                     NATURAL JOIN `pedag_groupe`
                                     WHERE `id_uv` = ".$this->id."
                                     AND `semestre` = '".$semestre."'");
@@ -354,22 +354,22 @@ class uv extends stdentity
     }else
       return false;
   }
-  
+
   /**
    * Chargement des commentaires associés à cette uv
    */
   public function load_comments(){
     $sql = new requete($this->db, "SELECT `id_commentaire` as `id` FROM `pedag_uv_commentaire` WHERE `id_uv` = ".$this->id);
     $this->comments = array();
-    
+
     if($sql->is_success()){
       while($row = $sql->get_row())
         $this->comments[] = $row['id'];
-        
+
       return count($this->comments);
     }else
       return false;
-    
+
   }
 
 
@@ -391,7 +391,7 @@ class uv extends stdentity
   public function add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null){
     if(!check_semester_format($semestre))
       throw new Exception("Wrong format \$semestre ".$semestre);
-      
+
     $data = array("id_uv" => $this->id,
                   "type" => $type,
                   "num_groupe" => $num,
@@ -401,12 +401,12 @@ class uv extends stdentity
                   "fin" => $fin,
                   "jour" => $jour,
                   "salle" => $salle);
-      
+
     $sql = new insert($this->dbrw, "pedag_groupe", $data);
-    
+
     if($sql->is_success())
       return $sql->get_id();
-    else 
+    else
       return false;
   }
 
@@ -428,7 +428,7 @@ class uv extends stdentity
     $sql = new update($this->dbrw, "pedag_groupe", $data, array("id_groupe"=>$id_groupe));
     return $sql->is_success();
   }
-  
+
   /**
    * Recuperation des infos de groupes
    * @param $type type des groupes recherches du style GROUP_TD ou null si tout
@@ -443,21 +443,23 @@ class uv extends stdentity
     if($type)
       $sql .= "  AND `type` = ".$type;
 
+    $sql .= "  ORDER BY `semestre`, `type`";
+
     $req = new requete($this->db, $sql);
     if(!$req->is_success())
       return false;
     else
       $t = array();
-      
+
     while($row = $req->get_row())
       $t[] = $row;
-      
+
     return $t;
   }
-  
+
   public function has_group($id_group, $type, $semestre = SEMESTER_NOW){
-    if(!isset($this->groups) 
-        || !isset($this->groups[$semestre]) 
+    if(!isset($this->groups)
+        || !isset($this->groups[$semestre])
         || empty($this->groups[$semestre])){
       $tab = $this->get_groups(null, $semestre);
       foreach($tab as $grp)
@@ -465,28 +467,28 @@ class uv extends stdentity
     }
     if(isset($this->groups[$semestre][$type]))
       return in_array($id_group, $this->groups[$semestre][$type]);
-    else 
+    else
       return false;
   }
-  
+
   /**
    * recherche avec un numéro de groupe et non un id
    */
   public function search_group($numgroup, $type, $semestre=SEMESTER_NOW){
-    $sql = new requete($this->db, "SELECT `id_groupe` FROM `pedag_groupe` 
+    $sql = new requete($this->db, "SELECT `id_groupe` FROM `pedag_groupe`
                                     WHERE `id_uv` = '".$this->id."'
-                                    AND `num_groupe` = '".$numgroup."' 
-                                    AND `type` = ".$type." 
+                                    AND `num_groupe` = '".$numgroup."'
+                                    AND `type` = ".$type."
                                     AND `semestre` = '".$semestre."'");
     if($sql->is_success() && $sql->lines > 0){
       $row = $sql->get_row();
       return $row['id_groupe'];
     }else
-      return false;    
+      return false;
   }
-  
+
   public function get_nb_students_group($id_group){
-    $sql = new requete($this->db, "SELECT COUNT(*) as `nb` 
+    $sql = new requete($this->db, "SELECT COUNT(*) as `nb`
                                     FROM `pedag_groupe_utl`
                                     WHERE `id_groupe` = ".$id_group);
     if($sql->is_success()){
@@ -505,14 +507,14 @@ class uv extends stdentity
       while($row = $sql->get_row())
         $this->dept[] = $row[0];
   }
-  
+
   public function get_dept_list(){
     if(empty($this->dept))
       $this->load_dept();
 
     return $this->dept;
   }
-  
+
   public function add_to_dept($dept){
     if(empty($this->dept))
       $this->load_dept();
@@ -532,7 +534,7 @@ class uv extends stdentity
     $sql = new delete($this->dbrw, "pedag_uv_dept", array("id_uv" => $this->id, "departement" => $dept));
     return $sql->is_success();
   }
-  
+
   /**
    * Admin des commentaires
    * dans leur globalité
@@ -541,13 +543,13 @@ class uv extends stdentity
     $sql = new update($this->dbrw, "pedag_uv_commentaire", array("eval_comment" => 0), array("id_uv" => $this->id));
     return $sql->is_success();
   }
-  
+
   /**
    * recupere le nombre de commentaires enregistres pour une UV quoi
    * @return le nombre, ou false si echec
    */
   public function get_nb_comments(){
-    $sql = new requete($this->db, "SELECT COUNT(*) as `nb` 
+    $sql = new requete($this->db, "SELECT COUNT(*) as `nb`
                                     FROM `pedag_uv_commentaire`
                                     WHERE `id_uv` = ".$this->id);
     if($sql->is_success()){
@@ -556,21 +558,21 @@ class uv extends stdentity
     }else
       return false;
   }
-  
+
   /**
    * Fonctions static
    * plutot destinees a etre appelees rapidement par un appel AJAX
    */
-  
+
   /**
    * @brief Tente de détecter une erreur de saisie des UV
-   * 
-   * Si un etudiant noté GI, donc sur Belfort, s'inscrit a une UV sur 
+   *
+   * Si un etudiant noté GI, donc sur Belfort, s'inscrit a une UV sur
    * Sévenans comme LE03 et qu'il existe un alias sur Belfort (XE03)
    * alors on lui propose.
    * Fonction destinee a un controle pendant la creation d'un EDT
    * (voire ajout de resultat), donc en static pour l'instant
-   * 
+   *
    * @param $db base de donnee en lecture seule
    * @param $id_utl utilisateur concerné par le contrôle
    * @param $id_uv UV entrée par l'utilisateur et que l'on controle
@@ -578,7 +580,7 @@ class uv extends stdentity
    */
   public static function find_proper_uv(&$db, $id_utl, $id_uv){
   }
-  
+
   /**
    * Recuperation en static d'un code d UV a partir d un id
    */
@@ -590,7 +592,7 @@ class uv extends stdentity
     }else
       return false;
   }
-  
+
   /**
    * teste l'existence d'une UV dans la base d apres son id ou son code
    */
@@ -598,10 +600,10 @@ class uv extends stdentity
     if(check_uv_format($uv))
       $sql = new requete($db, "SELECT 1 FROM `pedag_uv` WHERE `code` = '".$uv."'");
     else
-      $sql = new requete($db, "SELECT 1 FROM `pedag_uv` WHERE `id_uv` = ".$uv);  
+      $sql = new requete($db, "SELECT 1 FROM `pedag_uv` WHERE `id_uv` = ".$uv);
     return $sql->lines;
   }
-  
+
   /**
    * retourne la liste des uvs et leurs infos
    */
@@ -622,7 +624,7 @@ class uv extends stdentity
       $req .= " `pedag_uv`.`type` = ".$type;
     }
     $req .= " ORDER BY `code` ASC";
-    
+
     $sql = new requete($db, $req);
 
     if(!$sql->is_success())
@@ -631,7 +633,7 @@ class uv extends stdentity
       $t=null;
       while($row = $sql->get_row())
         $t[] = $row;
-        
+
       return $t;
     }
   }

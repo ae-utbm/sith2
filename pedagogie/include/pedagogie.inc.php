@@ -29,7 +29,7 @@
  * @todo remplacer toutes ces constates par une vraie class enum
  */
 
-/* Resultat 
+/* Resultat
  * @var _RESULT */
 define("RESULT_A",      1);
 define("RESULT_B",      2);
@@ -53,7 +53,7 @@ $_RESULT = array(
 );
 
 
-/* type de cours 
+/* type de cours
  * @var _GROUP */
 define("GROUP_C",  1);
 define("GROUP_TD", 2);
@@ -65,8 +65,8 @@ $_GROUP = array(
   GROUP_TP => array('short'=>'tp', 'long'=>"TP"),
   GROUP_THE => array('short'=>'the', 'long'=>"THE")
 );
-  
-/* type d'UV 
+
+/* type d'UV
  * @var _TYPE */
 define("TYPE_CS", 1);
 define("TYPE_TM", 2);
@@ -96,7 +96,7 @@ $_SEMESTER = array(
   SEMESTER_closed => array('short'=>'closed', 'long'=>"UV fermée")
 );
 
-/* Etats 
+/* Etats
  * @var _STATE  */
 define("STATE_VALID",   1);
 define("STATE_PENDING", 2);
@@ -108,7 +108,7 @@ define("CURSUS_FILIERE",1);
 define("CURSUS_MINEUR", 2);
 define("CURSUS_AUTRE",  3);
 
-/* departements 
+/* departements
  * @var _DPT  */
 define("DPT_HUMA",  1);
 define("DPT_TC",    2);
@@ -123,11 +123,11 @@ $_DPT = array(
   DPT_GI => array('short'=>'GI', 'long'=>"Informatique"),
   DPT_GESC => array('short'=>'GESC', 'long'=>"Génie Électrique et Systèmes de Commande"),
   DPT_IMAP => array('short'=>'IMAP', 'long'=>"Ingénierie et Management de Process"),
-  DPT_GMC => array('short'=>'GMC', 'long'=>"Mécanique et Conception"),
-  DPT_EDIM => array('short'=>'EDIM', 'long'=>"Ergonomie, Design et Ingénierie Mécanique")  
+  DPT_GMC => array('short'=>'MC', 'long'=>"Mécanique et Conception"),
+  DPT_EDIM => array('short'=>'EDIM', 'long'=>"Ergonomie, Design et Ingénierie Mécanique")
 );
 
-/* definition du semestre actuel 
+/* definition du semestre actuel
  * @var SEMESTRE_NOW  */
 $m = date('n');
 if($m > 7)       $s = 'A'.date('Y');   /* entre Aout et Decembre */
@@ -183,7 +183,7 @@ function __semester_comp($row1, $row2){
     /* si < : A pour 1 et P pour 2 */
     if($s1[1] < $s2[1])
       return 1;
-     else 
+     else
       return -1;
   }
 }

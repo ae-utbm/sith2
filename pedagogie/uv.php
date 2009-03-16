@@ -51,40 +51,40 @@ if(isset($_REQUEST['id_uv']))
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
   $uv = new uv($site->db, $site->dbrw);
-  
+
   /**
-   * nouvelle UV 
+   * nouvelle UV
    */
   if($_REQUEST['magicform']['name']=='newuv'){
     $uv->add($_REQUEST['code'], $_REQUEST['intitule'], $_REQUEST['type'], $_REQUEST['responsable'], $_REQUEST['semestre'], $_REQUEST['tc_avail']);
-    
+
     if(!$uv->is_valid())
       exit; //ouais faudra trouver mieux :)
-    
+
     if(isset($_REQUEST['alias_of']) && !empty($_REQUEST['alias_of']))
       $uv->set_alias_of($_REQUEST['alias_uv']);
-      
+
     $site->redirect("./uv.php?id=".$uv->id."&action=edit#guide");
   }
-  
+
   $uv->load_by_id(intval($_REQUEST['id']));
   if(!$uv->is_valid()){
     print_r($uv);
     exit;
   }
-    
+
   //  $site->redirect('uv.php');
   /**
-   * edition UV 
+   * edition UV
    */
   if($_REQUEST['magicform']['name']=='editmain'){   /* informations principales */
-    $uv->update($_REQUEST['code'], 
-                $_REQUEST['intitule'], 
-                $_REQUEST['type'], 
+    $uv->update($_REQUEST['code'],
+                $_REQUEST['intitule'],
+                $_REQUEST['type'],
                 $_REQUEST['responsable'],
                 $_REQUEST['semestre'],
                 isset($_REQUEST['tc_available']) && $_REQUEST['tc_available']);
-                
+
     $site->redirect('uv.php?id='.$uv->id);
   }
 
@@ -96,14 +96,14 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
                             $_REQUEST['tp'],
                             $_REQUEST['the'],
                             $_REQUEST['credits']);
-                            
+
     $site->redirect('uv.php?id='.$uv->id);
   }
-  
+
   if($_REQUEST['magicform']['name']=='editrelative'){ /* infos relatives */
-  
+
   }
-  
+
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
@@ -112,43 +112,43 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   $cts = new contents($path);
   $cts->add_paragraph("Vous pouvez ici ajouter une UV au guide des UV. Bien
   que quelques vérifications automatiques seront faites, nous vous incitons
-  à bien vous assurer que la fiche n'existe pas déjà. De plus, nous vous 
+  à bien vous assurer que la fiche n'existe pas déjà. De plus, nous vous
   demandons de n'ajouter *que* des UV réelles de l'UTBM, et non pas vos
   permanences de foyer, etc (utilisez pour cela le planning à cet effet).
   Merci de votre participation !");
-  
+
   $frm = new form("newuv", "uv.php?action=save", true, "post");
   $frm->add_text_field("code", "Code", "", true, 4, false, true, "(format XX00)");
   $frm->add_text_field("intitule", "Intitulé", "", true, 36);
   $frm->add_text_field("responsable", "Responsable");
-  
+
   $avail_type=array();
   foreach($_TYPE as $type=>$desc)
     $avail_type[$type] = $desc['long'];
   $frm->add_select_field("type", "Catégorie", $avail_type);
-  
+
   $avail_sem=array();
   foreach($_SEMESTER as $sem=>$desc)
     $avail_sem[$sem] = $desc['long'];
   $frm->add_select_field("semestre", "Semestre(s) d'ouverture", $avail_sem, SEMESTER_AP);
-    
+
   $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
   $frm->add_checkbox("tc_avail", "UV ouverte aux TC", true);
-  
+
   $frm->add_submit("saveuv", "Enregistrer l'UV & éditer la fiche");
   $cts->add($frm);
-  
+
   $site->add_contents($cts);
   $site->end_page();
   exit;
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
-{ 
+{
   $uv = new uv($site->db, $site->dbrw, intval($_REQUEST['id']));
   if(!$uv->is_valid())
     $site->redirect('./');
-  
+
   $uv->load_extra();
 
   $path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />";
@@ -157,13 +157,13 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
     $path .= "<a href=\"uv.php?dept=".$uv->dept[$i]."\"> ".$_DPT[$uv->dept[$i]]['short']."</a>";
     if($i+1 < $stop) $path .= ",";
   }
-  	
+
   $path .= " / "."<a href=\"./uv.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
   $path .= " / "."Éditer";
   $cts = new contents($path);
   $cts->add_paragraph("");
-  
-  /** 
+
+  /**
    * informations principales
    */
   $frm = new form("editmain", "uv.php?action=save", true, "post", "Informations principales");
@@ -171,24 +171,24 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm->add_text_field("code", "Code", $uv->code, true, 4, false, false);
   $frm->add_text_field("intitule", "Intitulé", $uv->intitule, true, 36);
   $frm->add_text_field("responsable", "Responsable", $uv->responsable);
-  
+
   $avail_type=array();
   foreach($_TYPE as $type=>$desc)
     $avail_type[$type] = $desc['long'];
   $frm->add_select_field("type", "Catégorie", $avail_type, $uv->type);
-  
+
   $avail_sem=array();
   foreach($_SEMESTER as $sem=>$desc)
     $avail_sem[$sem] = $desc['long'];
   $frm->add_select_field("semestre", "Semestre(s) d'ouverture", $avail_sem, $uv->semestre);
-  
+
   $frm->add_checkbox("tc_avail", "UV ouverte aux TC", $uv->tc_available);
-  
+
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "main", false, true);
-  
+
   /**
-   * infos du guide 
+   * infos du guide
    */
   unset($frm);
   $frm = new form("editextra", "uv.php?action=save", true, "post", "Informations du guide des UV");
@@ -200,14 +200,14 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
     $subfrm->add_text_field("tp", "TP", $uv->guide['tp'], false, 2);
     $subfrm->add_text_field("the", "THE", $uv->guide['the'], false, 2);
   $frm->add($subfrm, false, false, false, false, true);
-    
+
   $frm->add_text_field("credits", "Nombre de crédits ECTS", $uv->credits, true, 2);
   $frm->add_text_area("objectifs", "Objectifs de l'UV", $uv->guide['objectifs']);
   $frm->add_text_area("programme", "Programme de l'UV", $uv->guide['programme']);
-  
+
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "guide", false, true);
-  
+
   /**
    * Informations relatives
    */
@@ -215,10 +215,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   unset($frm);
   $frm = new form("editrelative", "uv.php?action=save", true, "post", "Informations relatives");
   $frm->add_hidden("id", $uv->id);
-  
+
   //$frm->add_entity_smartselect("alias_of2", "Alias de", new uv($site->db), true);
   //$frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
-  
+
   $avail_dept=array();
   $already_dept=array();
   foreach($_DPT as $dept=>$desc){
@@ -228,10 +228,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
       $avail_dept[$dept] = $desc['long'];
   }
   $frm->add(new selectbox("dept", "Départements", $avail_dept, null, null, $already_dept, 120));
-  
+
   //$sql = new requete($site->db, "SELECT `id_cursus`, `intitule` FROM `pedag_cursus` WHERE ");
   //$frm->add(new selectbox("cursus", "Cursus", null, null, null, null, 120));
-  
+
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "relative", false, true);
   $site->add_contents($cts);
@@ -245,12 +245,12 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
   if(!$uv->is_valid())
     $site->redirect('uv.php');
-    
+
   $cts = new contents("Ajout d'une séance de ".$uv->code);
-  
+
   if(isset($_REQUEST['save'])){
     /** on va dire que ca a marche */
-    
+
     $type = $_REQUEST['type'];
     $num = $_REQUEST['num'];
     $freq = $_REQUEST['freq'];
@@ -259,18 +259,18 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     $debut = $_REQUEST['hdebut'].":".$_REQUEST['mdebut'];
     $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
     $salle = strtoupper($_REQUEST['salle']);
-    
+
     if($uv->search_group($num, $type, $semestre)){
       $cts->add_paragraph("Le groupe de ".$_GROUP[ $type ]['long']." n°".$num." existe déjà pour ".$uv->code." !");
       $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Revenir en arrière\" onclick=\"history.go(-1);\" />");
-      
+
       $site->add_contents($cts);
-      $site->popup_end_page(); 
+      $site->popup_end_page();
       exit;
     }
-    
+
     $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
-    
+
     $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $debut à $fin en $salle";
     $cts->puts("<script type='text/javascript'>
     function ret(){
@@ -294,12 +294,12 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
 
     if(isset($_REQUEST['semestre']))  $semestre = $_REQUEST['semestre'];
     else                              $semestre = SEMESTER_NOW;
-      
+
     $cts->add(new add_seance_box($uv->id, $type, $semestre), false, false, "seance_".$uv->code, "popup_add_seance");
   }
-  
+
   $site->add_contents($cts);
-  $site->popup_end_page(); 
+  $site->popup_end_page();
   exit;
 }
 
@@ -310,9 +310,9 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
   if(!$uv->is_valid())
     $site->redirect('uv.php');
-    
+
   $cts = new contents("Ajout d'une séance de ".$uv->code);
-  
+
   if(isset($_REQUEST['save'])){
     $id_groupe = $_REQUEST['id_groupe'];
     $type = $_REQUEST['type'];
@@ -323,10 +323,10 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     $debut = $_REQUEST['hdebut'].":".$_REQUEST['mdebut'];
     $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
     $salle = strtoupper($_REQUEST['salle']);
-    
-    
+
+
     $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
-    
+
     $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $debut à $fin en $salle";
     $cts->puts("<script type='text/javascript'>
     function ret(){
@@ -338,7 +338,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
       self.close();
     }
   </script>");
-  
+
     if($r)
       $cts->add_paragraph("Votre séance de ".$_GROUP[$type]['long']." de ".$uv->code." du ".get_day($jour)." à bien été modifiée.");
     else
@@ -360,17 +360,17 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
       $cts->add_paragraph("Impossible de trouver le groupe sélectionné.");
       $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Fermer\" onclick=\"self.close();\"/>");
       $site->add_contents($cts);
-      $site->popup_end_page(); 
+      $site->popup_end_page();
       exit;
     }
-    
+
     $data = $sql->get_row();
-      
+
     $cts->add(new add_seance_box($uv->id, $data['type'], $data['semestre'], $data), false, false, "seance_".$uv->code, "popup_add_seance");
   }
-  
+
   $site->add_contents($cts);
-  $site->popup_end_page(); 
+  $site->popup_end_page();
   exit;
 }
 
@@ -379,16 +379,16 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_comment')
   require_once("include/uv_comment.inc.php");
   $user = new pedag_user($site->db);
   $user->load_by_id($site->user->id);
-        
+
   $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
   if(!$uv->is_valid())
     $site->redirect('uv.php');
-  
+
   if(empty($_REQUEST['content'])) /* PAS de commentaires sans texte */
     $site->redirect('uv.php?id='.$uv->id.'&view=commentaires'); /* faudra mettre un message d erreur pour etre moins bourrin */
-    
+
   $com = new uv_comment($site->db, $site->dbrw);
-  $com->add($uv->id, $user->id, 
+  $com->add($uv->id, $user->id,
                      $_REQUEST['generale'], $_REQUEST['utilite'], $_REQUEST['interet'], $_REQUEST['enseignement'], $_REQUEST['travail'],
                      $_REQUEST['content']);
   if($com->is_valid)
@@ -429,16 +429,16 @@ if($_REQUEST['id'])
             array("ressources", "pedagogie/uv.php?id=".$uv->id."&view=ressources", "Ressources")
           );
   $cts->add(new tabshead($tabs, $_REQUEST['view']));
-  
+
   /**
    * onglet commentaires
    */
   if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'commentaires'){
     require_once("include/cts/uv_comment.inc.php");
     require_once("include/uv_comment.inc.php");
-    
+
     if($uv->load_comments()){
-      
+
       foreach($uv->comments as $commentid){
         $comment = new uv_comment($site->db, $site->dbrw, $commentid);
         $author = new pedag_user($site->db);
@@ -446,12 +446,12 @@ if($_REQUEST['id'])
 
         $cts->add(new uv_comment_box($comment, $uv, $site->user, $author));
       }
-      
+
     }else{
       $cts->add_paragraph("Il n'y a pas encore de commentaires associées
         à cette UV, soyez le premier !");
     }
-    
+
     /** formulaire d'ajout */
     $frm = new form("add_comment_".$uv->id."", false, true, "POST");
     $frm->add_submit("clic", "+ Ajouter un commentaire");
@@ -474,17 +474,29 @@ if($_REQUEST['id'])
     $cts->add($frm);
 
     $cts->puts("</div>");
-    
+
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'suivi'){
-    $cts->add_paragraph("Bientôt ;)");    
+    $cts->add_paragraph("En travaux ;)");
+
+    $cts->add(new sqltable("grouplist", "Séances disponibles pour ".SEMESTER_NOW,
+                            $uv->get_groups(), "", "id_groupe",
+                            array("type"=>"Type",
+                                  "num_groupe"=>"N°",
+                                  "jour"=>"Jour",
+                                  "debut"=>"De",
+                                  "fin"=>"À",
+                                  "salle"=>"Salle",
+                                  "freq"=>"Fréquence"),
+                            array(), array()), true);
+
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'ressources'){
     $cts->add_paragraph("Bientôt ;)");
   }else{
     require_once($topdir."include/cts/board.inc.php");
     $uv->load_extra();
-    
+
     $cts->add_title(2, $uv->intitule);
-    
+
     $left = new contents("");
     if($uv->responsable)  $left->add_paragraph("Responsable : ".$uv->responsable);
     if($uv->credits)      $left->add_paragraph("Crédits ECTS : ".$uv->credits);
@@ -500,12 +512,12 @@ if($_REQUEST['id'])
     $right = new contents("");
     if($uv->tc_available) $right->add_paragraph("Cette UV est ouverte aux élèves de Tronc Commun");
     if($uv->state == 'MODIFIED') $right->add_paragraph("<i>Cette fiche à été modifiée récemment.</i>");
-    
+
     $board = new board();
     $board->add($left, false);
     $board->add($right, false);
     $cts->add($board);
-    
+
     $obj = new contents("Objectifs");
     $obj->add_paragraph(doku2xhtml($uv->guide['objectifs']));
     $prog = new contents("Programme");
@@ -514,10 +526,10 @@ if($_REQUEST['id'])
     $board->add($obj, true);
     $board->add($prog, true);
     $cts->add($board);
-    
+
     $cts->puts("<input type=\"button\" onclick=\"location.href='uv.php?action=edit&id=$uv->id';\" value=\"Corriger la fiche\" style=\"float:right;\"/>");
-  } 
-  
+  }
+
   $site->add_contents($cts);
   $site->end_page();
   exit;
@@ -540,15 +552,15 @@ if($_REQUEST['dept'])
     $dept = $_REQUEST['dept'];
   else
     $site->redirect('./');
-  
+
   $path .= " / "."<a href=\"".$topdir."pedagogie/uv.php?dept=$dept\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> ".$_DPT[$dept]['short']." </a>";
   $cts = new contents($path);
   $cts->add(new tabshead($tabs, $_REQUEST['dept']));
   $cts->add_paragraph("");
-  
+
   $uvlist = uv::get_list($site->db, null, $dept);
   $cts->add(new uv_dept_table($uvlist));
-  
+
   $cts->add(new sqltable("uvlist_".$dept, "UV de ".$_DPT[$dept]['long'], $uvlist, "", 'id_uv',
                           array("code"=>"Code",
                                 "intitule"=>"Intitulé",
@@ -557,7 +569,7 @@ if($_REQUEST['dept'])
                                 "semestre"=>"Ouverture"),
                           array(), array()
                           ), true);
-  
+
   $site->add_contents($cts);
   $site->end_page();
   exit;
@@ -569,7 +581,7 @@ $cts = new contents($path);
 $cts->add(new tabshead($tabs, $_REQUEST['dept']));
 
 $cts->add_paragraph("Bienvenue sur la version \"site AE\" du guide des UV.
-Nous vous rappelons que tout comme le reste de la partie pédagogie, toutes 
+Nous vous rappelons que tout comme le reste de la partie pédagogie, toutes
 les informations que vous pouvez trouver ici sont fournies uniquement à
 titre indicatif et que seules les informations issues des documents
 officiels de l'UTBM (notamment le guide des UV et le récapitulatif

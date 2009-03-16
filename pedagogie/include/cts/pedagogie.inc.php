@@ -29,65 +29,65 @@ class add_uv_edt_box extends form
   {
     if( !($uv instanceof uv) )
       throw new Exception("Incorrect type");
-    
+
     $this->form($uv->code, null, null, null, $uv->code." - ".$uv->intitule);
-    
+
     $code = $uv->code;
-    $this->buffer = "";    
-    
+    $this->buffer = "";
+
     if(!$uv->extra_loaded)
       $uv->load_extra();
-    
+
     /* si UV sans C/TD/TP, peut etre une TX ou un stage */
     if(empty($uv->guide['c']) && empty($uv->guide['td']) && empty($uv->guide['tp'])){
       /* ou alors c'est une erreur */
       if(empty($uv->guide['the'])){
-        $this->buffer .= "<p><b>Désolé</b>, aucune information sur les nombres 
+        $this->buffer .= "<p><b>Désolé</b>, aucune information sur les nombres
           d'heures de cours/TD/TP/THE n'ont été donné concernant cette UV,
           il est nécessaire de corriger la fiche pour continuer.</p>";
-          
+
       /* mais sinon c'est cool */
       }else{
-        $this->buffer .= "<p><b>Cette UV ne semble comporter que des heures 
-          hors emplois du temps</b>, c'est le cas pour les TX, TW... ou les 
-          stages. Vous ne pouvez pas lui ajouter de 
+        $this->buffer .= "<p><b>Cette UV ne semble comporter que des heures
+          hors emplois du temps</b>, c'est le cas pour les TX, TW... ou les
+          stages. Vous ne pouvez pas lui ajouter de
           \"séances\" mais elle apparaitra bien sur votre emploi du temps.</p>";
         $this->buffer .= "<p>Si vous pensez que l'absence d'heures de cours
           est une erreur, vous pouvez corriger la fiche.</p>";
         $this->buffer .= "  <input type=\"hidden\" name=\"seance_".$uv->id."_the\" value=\"1\" />\n";
       }
-        
+
     /* UV normale */
-    }else{     
+    }else{
       $this->buffer .= "<p>Selon nos informations, les enseignements de cette UV
         sont composés de "
           .$uv->guide['c']."h de Cours, "
           .$uv->guide['td']."h de TD et "
           .$uv->guide['tp']."h de TP (*)</p>";
-      
+
       $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_C);
       $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TD);
       $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TP);
-      
+
       if(!empty($uv->guide['the']))
         $this->buffer .= "<p>Cette UV comporte également ".$uv->guide['the']." heures hors emploi du temps.</p>";
-      
-    } 
-      
+
+    }
+
     $this->buffer .= "<p><input type=\"button\" onclick=\"edt.remove('".$uv->code."_row');\" value=\"Annuler l'inscription\" />";
     $this->buffer .= "<input type=\"button\" onclick=\"window.open('uv.php?action=edit&id=$uv->id');\" value=\"Corriger la fiche\" />";
     $this->buffer .= "<input type=\"button\" style=\"font-weight: bold;\" onclick=\"window.open('uv.php?id=$uv->id');\" value=\"Voir la fiche\" /></p>";
-  
+
   }
-  
+
   private function build_uv_choice($uv, $sem, $type){
     global $_GROUP;
-    
+
     if($uv->guide[ $_GROUP[$type]['short'] ]){
       $groups = $uv->get_groups($type, $sem);
       $divid = $uv->id."_".$type;
       $sel_id = "seance_".$uv->id."_".$_GROUP[$type]['short'];
-      
+
       $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".$_GROUP[$type]['long']." : </div>\n";
       $buffer .= "  <div class=\"formfield\">\n";
@@ -106,21 +106,21 @@ class add_uv_edt_box extends form
     }
     else
       $buffer = null;
-      
+
     return $buffer;
   }
 }
 
 /**
  * plus utilisee
- * 
+ *
 class add_edt_start_box extends stdcontents
 {
   public function __construct($semestre=SEMESTER_NOW)
   {
     $this->title = "Ajoutez un nouvel emploi du temps   (Étape 1/2)";
     $this->buffer = "";
-    
+
     $y = date('Y');
     $sem = array();
     for($i = $y-2; $i <= $y; $i++){
@@ -128,7 +128,7 @@ class add_edt_start_box extends stdcontents
       $sem[] = array('val'=>'A'.$i, 'name'=>'Automne '.$i);
     }
     sort_by_semester($sem, 'val');
-    
+
     $this->buffer  = "<div class=\"formrow\">\n";
     $this->buffer .= "  <div class=\"formlabel\">Semestre concerné : </div>\n";
     $this->buffer .= "  <div class=\"formfield\">\n";
@@ -142,13 +142,13 @@ class add_edt_start_box extends stdcontents
     $this->buffer .= "UV disponibles : <br />";
     $this->build_uv_choice();
   }
-  
+
   private function build_uv_choice(){
     global $site;
     $tab= array();
     foreach(uv::get_list($site->db) as $uv)
       $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
-      
+
     $this->add(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
   }
 }
@@ -156,12 +156,12 @@ class add_edt_start_box extends stdcontents
 
 class add_seance_box extends stdcontents
 {
-  public function __construct($iduv, $type=null, $semestre=SEMESTER_NOW, 
+  public function __construct($iduv, $type=null, $semestre=SEMESTER_NOW,
     $data=array("id_groupe"=>null,
                 "id_uv"=>null,
                 "type"=>null,
                 "num_groupe"=>null,
-                "freq"=>null,
+                "freq"=>1,
                 "semestre"=>null,
                 "debut"=>null,
                 "fin"=>null,
@@ -170,19 +170,19 @@ class add_seance_box extends stdcontents
   {
     global $site;
     global $_GROUP;
-    
+
     $uv = new uv($site->db, $site->dbrw);
     $uv->load_by_id($iduv);
     if(!$uv->is_valid())
       throw new Exception("Object not found : UV ".$iduv);
-    
+
     $this->title = "Ajout d'une séance de ".$uv->code;
 
     $frm = new form("seance_".$iduv, "");
     $frm->allow_only_one_usage();
-    
+
     $frm->add_hidden("id_groupe", $data['id_groupe']);
-    
+
     /* type de seance C/TD/TP (on vire THE) */
     $avail_type = array();
     foreach($_GROUP as $grp => $desc)
@@ -191,7 +191,7 @@ class add_seance_box extends stdcontents
     $frm->add_select_field("type", "Type", $avail_type, $type, "", true, is_null($type) && !empty($data['type']));
     if($type)
       $frm->add_info("Il y a déjà ".count($uv->get_groups($type, $semestre))." séance(s) de ".$_GROUP[$type]['long']." enregistrées pour ".$semestre.".");
-    
+
     /* semestre */
     $y = date('Y');
     $avail_sem = array();
@@ -200,10 +200,10 @@ class add_seance_box extends stdcontents
       $avail_sem['A'.$i] = 'Automne '.$i;
     }
     $frm->add_select_field("semestre", "Semestre", $avail_sem, $semestre, "", true, ($semestre == SEMESTER_NOW  && !empty($data['semestre'])));
-    
+
     /* numéro du groupe */
     $frm->add_text_field("num", "N° du groupe", $data['num_groupe'], true, 2, true, true, "(Indiquez '1' pour les cours sans numéro.)");
-    
+
     /* jour */
     $avail_jour = array(
       1 => "Lundi",
@@ -215,9 +215,9 @@ class add_seance_box extends stdcontents
       7 => "Dimanche ?!",
     );
     $frm->add_select_field("jour", "Jour", $avail_jour, $data['jour']);
-    
+
     /* heures */
-    $min = array(0=>'00', 15=>'15', 30=>'30', 45=>'45'); 
+    $min = array(0=>'00', 15=>'15', 30=>'30', 45=>'45');
 
       $deb = explode(":", $data['debut']);
       $fin = explode(":", $data['fin']);
@@ -228,23 +228,23 @@ class add_seance_box extends stdcontents
     $subfrm->add_text_field("hfin", "Fin", $fin[0] ,false, 2, true);
     $subfrm->add_select_field("mfin", ":", $min, $fin[1]);
     $frm->add($subfrm, false, false, false, false, true);
-    
+
     /* frequence */
-    $frm->add_select_field("freq", "Fréquence", array(1=>"Toutes les semaines", 2=>"Une semaine sur deux"), $data['freq'] || 1);
-    
+    $frm->add_select_field("freq", "Fréquence", array(1=>"Toutes les semaines", 2=>"Une semaine sur deux"), $data['freq']);
+
     /* salle */
     $frm->add_text_field("salle", "Salle", $data['salle'], false, 8, false, true, "(ex: P108)");
-    
-    $frm->puts("<p>Tous les champs sont requis. Veuillez vérifier minutieusement 
+
+    $frm->puts("<p>Tous les champs sont requis. Veuillez vérifier minutieusement
     les informations que vous avez entré.</p>");
-    
+
     /* submit */
     if(!empty($data['id_groupe']))
       $label = "Modifier la séance";
     else
       $label = "+ Ajouter la séance";
     $frm->add_submit("save", $label);
-    
+
     $this->buffer .= $frm->html_render();
   }
 }
@@ -263,8 +263,8 @@ class uv_dept_table extends stdcontents
       $this->buffer .= "  <td><a href=\"./uv.php?id=".$uv['id_uv']."\">".$uv['code']."</a></td>\n";
       $i++;
       if($i == 15){
-        $this->buffer .= "</tr><tr>\n"; 
-        $i = 0; 
+        $this->buffer .= "</tr><tr>\n";
+        $i = 0;
       }
     }
     $this->buffer .= "\n </tr>\n</table>\n";
@@ -274,7 +274,7 @@ class uv_dept_table extends stdcontents
 function pedag_menu_box()
 {
   global $_DPT;
-  
+
   $cts = new contents("Pédagogie");
 
   $dpt = new itemlist("<a href=\"uv.php\" title=\"Toutes les UV\">Guide des UV</a>");
@@ -287,14 +287,14 @@ function pedag_menu_box()
                                                /* "<a href=\"profils.php\" title=\"Toutes les UV\"> Profils types </a>",*/
                                                /* "<a href=\"cursus.php\" title=\"Cursus\">Filières, mineurs, ...</a>" */ ));
   $cts->add($outils, true);
-  
+
   return $cts;
 }
 
 function last_comments_box(&$db, $nb=5)
 {
   $cts = new contents("Commentaires");
-  
+
   $sql = new requete(&$db, "SELECT id_uv as id, id_commentaire, code, surnom_utbm
                             FROM pedag_uv_commentaire
                             NATURAL JOIN pedag_uv
