@@ -77,7 +77,13 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   $salle = strtoupper($_REQUEST['salle']);
 
   if(isset($_REQUEST['editmode'])){
+    print_r($_REQUEST);
+    $sql = new requete($site->db, "SELECT * FROM `pedag_groupe` WHERE `id_groupe` = ".$id_groupe);
+    print_r($sql->get_row());
     $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
+    $sql = new requete($site->db, "SELECT * FROM `pedag_groupe` WHERE `id_groupe` = ".$id_groupe);
+    print_r($sql->get_row());
+    exit;
     if($r)
       $site->redirect("uv.groupe.php?id=".$id_groupe);
   }else{
