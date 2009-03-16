@@ -76,14 +76,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
   $salle = strtoupper($_REQUEST['salle']);
 
-  if(isset($_REQUEST['editmode']))
+  if(isset($_REQUEST['editmode'])){
     $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
-  else{
+    if($r)
+      $site->redirect("uv.groupe.php?id=".$id_groupe);
+  }else{
     if($uv->search_group($num, $type, $semestre)){
       $cts->add_paragraph("Le groupe de ".$_GROUP[ $type ]['long']." n°".$num." existe déjà pour ".$uv->code." !");
       $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Revenir en arrière\" onclick=\"history.go(-1);\" />");
     }else{
       $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
+      if($id_groupe > 0)
+        $site->redirect("uv.groupe.php?id=".$id_groupe);
     }
   }
 /*
@@ -145,8 +149,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
 /***********************************************************************
  * Affichage detail groupe
  */
-if($_REQUEST['id'])
+if(isset($groupid))
 {
+  $cts->add_paragraph("groupe ".$groupid);
 }
 
 $site->add_contents($cts);
