@@ -436,7 +436,8 @@ class uv extends stdentity
    * @return tableau des informations
    */
   public function get_groups($type=null, $semestre=SEMESTER_NOW, $idgroup=null){
-    $sql = "SELECT *
+    $sql = "SELECT *,
+              `type`+0 as `type_num`
             FROM `pedag_groupe`
             WHERE `id_uv` = ".$this->id."
               AND `semestre` = '".$semestre."'";
