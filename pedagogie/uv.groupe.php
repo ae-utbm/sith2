@@ -46,7 +46,7 @@ if(isset($_REQUEST['id_groupe'])){
 }else if(isset($_REQUEST['id'])){
   $uv->load_by_group_id($_REQUEST['id']);
   $groupid = $_REQUEST['id'];
-}else
+}else if(!isset($_REQUEST['action']) || !$_REQUEST['action'] == 'new')
   $site->redirect("uv.php");
 
 /* ouais enfin c'est mieux si l'UV existe */
@@ -62,6 +62,8 @@ $cts = new contents($path);
 /***********************************************************************
  * Actions
  */
+
+/* ajout/modification effectif des actions ajouts/editions */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
   $id_groupe = $_REQUEST['id_groupe'];
@@ -74,9 +76,17 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
   $salle = strtoupper($_REQUEST['salle']);
 
-
-  $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
-
+  if(isset($_REQUEST['editmode']))
+    $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
+  else{
+    if($uv->search_group($num, $type, $semestre)){
+      $cts->add_paragraph("Le groupe de ".$_GROUP[ $type ]['long']." n°".$num." existe déjà pour ".$uv->code." !");
+      $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Revenir en arrière\" onclick=\"history.go(-1);\" />");
+    }else{
+      $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
+    }
+  }
+/*
   $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de ".strftime("%H:%M", strtotime($debut))." à ".strftime("%H:%M", strtotime($fin))." en $salle";
   $cts->puts("<script type='text/javascript'>
   function ret(){
@@ -97,6 +107,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                   ."value=\"Continuer\" "
                   ."onclick=\"ret();\"/>");
+*/
 }
 
 /* inscription d'un utilisateur a une seance (nom choisi pour l'icone uniquement */
@@ -104,16 +115,26 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'done')
 {
 }
 
+/* ajout d'une nouvelle séance */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 {
+  /** formulaire d ajout */
+  if(isset($_REQUEST['type']))  $type = $_REQUEST['type'];
+  else                          $type = null;
+
+  if(isset($_REQUEST['semestre']))  $semestre = $_REQUEST['semestre'];
+  else                              $semestre = SEMESTER_NOW;
+
+  $cts->add(new add_seance_box($uv->id, $type, $semestre), false, false, "seance_".$uv->code, "popup_add_seance");
 }
 
+/* modification d'une séance existante */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
 {
   /* normalement ne peut pas echouer maintenant */
   $sql = new requete($site->db, "SELECT *, `type`+0 as `type` FROM `pedag_groupe` WHERE `id_groupe` = ".intval($groupid));
   $data = $sql->get_row();
-  print_r($data);
+
   $cts->add(new add_seance_box($uv->id, $data['type'], $data['semestre'], $data), false, false, "seance_".$uv->code, "popup_add_seance");
 }
 

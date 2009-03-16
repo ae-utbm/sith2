@@ -171,6 +171,11 @@ class add_seance_box extends stdcontents
     global $site;
     global $_GROUP;
 
+    if(!empty($data['id_groupe']))
+      define("EDITMODE", true);
+    else
+      define("EDITMODE", false);
+
     $uv = new uv($site->db, $site->dbrw);
     $uv->load_by_id($iduv);
     if(!$uv->is_valid())
@@ -182,6 +187,8 @@ class add_seance_box extends stdcontents
     $frm->allow_only_one_usage();
 
     $frm->add_hidden("id_groupe", $data['id_groupe']);
+    if(EDITMODE)
+      $frm->add_hidden("editmode", "1");
 
     /* type de seance C/TD/TP (on vire THE) */
     $avail_type = array();
@@ -239,7 +246,7 @@ class add_seance_box extends stdcontents
     les informations que vous avez entré.</p>");
 
     /* submit */
-    if(!empty($data['id_groupe']))
+    if(EDITMODE)
       $label = "Modifier la séance";
     else
       $label = "+ Ajouter la séance";

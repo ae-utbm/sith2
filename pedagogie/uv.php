@@ -249,7 +249,6 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   $cts = new contents("Ajout d'une séance de ".$uv->code);
 
   if(isset($_REQUEST['save'])){
-    /** on va dire que ca a marche */
 
     $type = $_REQUEST['type'];
     $num = $_REQUEST['num'];
@@ -507,6 +506,7 @@ if($_REQUEST['id'])
                                   "edit"=>"Corriger",
                                   "delete"=>"Supprimer"),
                             array()), true);
+    $cts->puts("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=new';\" value=\"+ Ajouter une séance\" />");
 
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'ressources'){
     $cts->add_paragraph("Bientôt ;)");
