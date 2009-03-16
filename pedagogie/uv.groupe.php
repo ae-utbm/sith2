@@ -78,6 +78,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 
   if(isset($_REQUEST['editmode'])){
     $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
+    print_r($_REQUEST);
+    exit;
     if($r)
       $site->redirect("uv.groupe.php?id=".$id_groupe);
   }else{
