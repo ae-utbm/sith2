@@ -486,8 +486,8 @@ if($_REQUEST['id'])
                  'type' => $_GROUP[ $g['type_num'] ]['long'],
                  'num_groupe' => $g['num_groupe'],
                  'jour' => get_day($g['jour']),
-                 'debut' => $g['debut'],
-                 'fin' => $g['fin'],
+                 'debut' => strftime("%H:%M", strtotime($g['debut'])),
+                 'fin' => strftime("%H:%M", strtotime($g['fin'])),
                  'salle' => $g['salle'],
                  'freq' => $g['freq']
                );
