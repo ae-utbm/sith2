@@ -478,8 +478,23 @@ if($_REQUEST['id'])
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'suivi'){
     $cts->add_paragraph("En travaux ;)");
 
+    /* remise en forme des éléments que l'on veut afficher */
+    $grp = array();
+    foreach($uv->get_groups() as $g){
+      $grp[] = array(
+                 'id_groupe' => $g['id_groupe'],
+                 'type' => $_GROUP[ $g['type'] ]['long'],
+                 'num_groupe' => $g['num_groupe'],
+                 'jour' => get_day($g['jour']),
+                 'debut' => $g['debut'],
+                 'fin' => $g['fin'],
+                 'salle' => $g['salle'],
+                 'freq' => $g['freq']
+               );
+    }
+
     $cts->add(new sqltable("grouplist", "Séances disponibles pour ".SEMESTER_NOW,
-                            $uv->get_groups(), "", "id_groupe",
+                            $grp, "", "id_groupe",
                             array("type"=>"Type",
                                   "num_groupe"=>"N°",
                                   "jour"=>"Jour",
@@ -487,7 +502,10 @@ if($_REQUEST['id'])
                                   "fin"=>"À",
                                   "salle"=>"Salle",
                                   "freq"=>"Fréquence"),
-                            array(), array()), true);
+                            array("view"=>"Voir détails",
+                                  "edit"=>"Corriger",
+                                  "delete"=>"Supprimer"),
+                            array()), true);
 
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'ressources'){
     $cts->add_paragraph("Bientôt ;)");
