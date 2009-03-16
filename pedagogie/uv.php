@@ -489,7 +489,7 @@ if($_REQUEST['id'])
                  'debut' => strftime("%H:%M", strtotime($g['debut'])),
                  'fin' => strftime("%H:%M", strtotime($g['fin'])),
                  'salle' => $g['salle'],
-                 'freq' => $g['freq']
+                 'freq' => ($g['freq'] == 1)?"":"Une semaine sur 2"
                );
     }
 
