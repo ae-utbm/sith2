@@ -55,6 +55,7 @@ if(!$uv->is_valid())
 
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 $path .= " / "."<a href=\"./uv.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
+$path .= " / "."Groupes";
 
 $cts = new contents($path);
 
@@ -107,7 +108,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
                     ."onclick=\"ret();\"/>");
   }else{
     /* normalement ne peut pas echouer maintenant */
-    $sql = new requete($site->db, "SELECT *, `type`+0 as `type` FROM `pedag_groupe` WHERE `id_groupe` = ".intval($_REQUEST['idgroup']));
+    $sql = new requete($site->db, "SELECT *, `type`+0 as `type` FROM `pedag_groupe` WHERE `id_groupe` = ".intval($idgroup));
     $data = $sql->get_row();
 
     $cts->add(new add_seance_box($uv->id, $data['type'], $data['semestre'], $data), false, false, "seance_".$uv->code, "popup_add_seance");

@@ -45,7 +45,7 @@ $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\
 $path .= " / "."<a href=\"./edt.php\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> Emploi du temps </a>";
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
-{  
+{
   /**
    * creation edt : etape 2 !
    */
@@ -54,70 +54,70 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     if(!isset($_REQUEST['semestre'])  || empty($_REQUEST['semestre']) ||
         !isset($_REQUEST['uvlist_to']) || empty($_REQUEST['uvlist_to']))
       $site->redirect("edt.php?action=new");
-    
+
     $path .= " / "."Ajouter un emploi du temps (Étape 2/2)";
     $cts = new contents($path);
-  
+
     $sem = $_REQUEST['semestre'];
-    
+
     /* on a dit un seul emploi du temps par semestre */
     if(in_array($sem, $user->get_edt_list())){
-      $cts->add_paragraph("Attention, vous avez déjà un emploi du temps 
-        d'enregistré pour le semestre <a href=\"edt.php?semestre=$sem&action=view\">$sem</a>. 
+      $cts->add_paragraph("Attention, vous avez déjà un emploi du temps
+        d'enregistré pour le semestre <a href=\"edt.php?semestre=$sem&action=view\">$sem</a>.
         Il n'est possible de n'en faire qu'un seul par semestre.");
       $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" onclick=\"history.go(-1);\" value=\"Promis je ferai attention\" />");
       $site->add_contents($cts);
       $site->end_page();
-      exit;  
+      exit;
     }
-    
+
     $cts->add_paragraph("Vous ajoutez un emploi du temps pour le semestre <b>$sem</b>");
     $cts->add_paragraph("Pour chacune de vos UV, choisissez à présent
     les séances auxquelles vous êtes inscrit, si la séance n'apparait pas
-    dans la liste proposée, c'est que vous êtes le premier à l'entrer 
-    sur le site, cliquez alors sur \"Ajouter une séance manquante\" pour 
+    dans la liste proposée, c'est que vous êtes le premier à l'entrer
+    sur le site, cliquez alors sur \"Ajouter une séance manquante\" pour
     poursuivre.");
-    
+
     $frm = new form("newedt", "edt.php?action=save", true, "post", "Ajouter un nouvel emploi du temps   (Étape 2/2)");
     $frm->add_hidden("semestre", $sem);
-  
+
     foreach($_REQUEST['uvlist_to'] as $iduv){
       $uv = new uv($site->db, $site->dbrw, $iduv);
       if($uv->is_valid())
         $frm->add(new add_uv_edt_box($uv, $sem), false, false, false, false, false, true);
     }
-    
+
     $frm->add_submit("newedtstep2", "Enregistrer l'emploi du temps");
-    
+
     $cts->add($frm);
     $site->add_contents($cts);
     $site->end_page();
-    exit;  
+    exit;
   }
   /**
-   * sinon etape 1 
+   * sinon etape 1
    */
   else
   {
     $path .= " / "."Ajouter un emploi du temps (Étape 1/2)";
     $cts = new contents($path);
-    
+
     $cts->add_paragraph("Vous pouvez ici créer d'un nouvel emploi du temps
     sur le site de l'AE.");
     $cts->add_paragraph("Choisissez pour commencer les UV auxquelles vous
     vous êtes inscrit (y compris les UV hors emploi du temps), le semestre
     concerné (par défaut il s'agit du semestre courant) et appuyez sur \"Passer
     à l'étape suivante\".");
-    $cts->add_paragraph("Notez que vous ne pouvez créer qu'un emploi du 
+    $cts->add_paragraph("Notez que vous ne pouvez créer qu'un emploi du
     temps par semestre, mais vous aurez la possibilité de l'éditer.");
-    
+
     $frm = new form("newedt", "edt.php?action=new", true, "post", "Ajouter un nouvel emploi du temps   (Étape 1/2)");
     $frm->add_hidden("step", "1");
-    
+
     $tab = array();
     foreach(uv::get_list($site->db) as $uv)
       $tab[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
-      
+
     $frm->add(new selectbox('uvlist', 'Choisissez les UV de ce nouvel emploi du temps', $tab, '', 'UV'));
     /* semestre */
     $y = date('Y');
@@ -130,7 +130,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     $frm->add_submit("newedtstep1", "Passer à l'étape suivante");
     $cts->add($frm);
   }
-  
+
   $site->add_contents($cts);
   $site->end_page();
   exit;
@@ -148,34 +148,34 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     $site->redirect('edt.php?action=new');
   else
     $semestre = $_REQUEST['semestre'];
-  
-  
-  $freq = array(); //tableau des frequences envoyees 
+
+
+  $freq = array(); //tableau des frequences envoyees
   $seances = array(); //tableau des seances
   foreach($_REQUEST as $arg=>$value){
     if(preg_match("/^freq/", $arg) && ($value == 'A' || $value == 'B')){
       list(, $uv, $type) = explode("_", $arg);
       $freq[$uv][$_GROUP[$type]['short']] = $value;
     }
-    
+
     if(preg_match("/^seance/", $arg) && $value){
       list(, $uv, $type) = explode("_", $arg);
       $seances[$uv][$type] = $value;
-    }    
+    }
   }
-  
+
   if(empty($seances))
     $site->redirect('edt.php?action=new');
-    
+
   foreach($seances as $iduv=>$types){
     $uv = new uv($site->db, $site->dbrw, $iduv);
     if(!$uv->is_valid())
       continue;
-    
+
     foreach($types as $type => $val){
       if($val == 'add' || $val == 'none')
         continue;
-      
+
       if($type == 'the'){
         $sql = new requete($site->db, "SELECT `id_groupe` FROM `pedag_groupe` WHERE `id_uv` = $uv->id AND `type` = 'THE'");
         if(!$sql->is_success())
@@ -186,7 +186,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
           $row = $sql->get_row();
           $idgroup = $row[0];
         }
-          
+
         $user->join_uv_group($idgroup);
       }
       else if($uv->has_group(intval($val), $type, $semestre)){
@@ -194,12 +194,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
           $semaine = $freq[$uv->id][$type];
         else
           $semaine = null;
-          
+
         $user->join_uv_group($val, $semaine);
       }
-    }    
+    }
   }
-  
+
   $site->redirect("edt.php?semestre=".$semestre."&action=view");
 }
 
@@ -207,7 +207,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
 {
   if(!isset($_REQUEST['semestre']))
     $site->redirect('edt.php');
-    
+
   /** confirmation anti boulets */
   if(isset($_REQUEST['sure']) && $_REQUEST['sure'] == 'yes')
   {
@@ -218,23 +218,23 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
   {
     $path .= " / "."Suppression emploi du temps ".$_REQUEST['semestre'];
     $cts = new contents($path);
-    
+
     $cts->add_paragraph("<b>Vous vous apprêtez à supprimer l'emploi du temps
     du semestre ".$_REQUEST['semestre'].". Êtes vous absolument sûr ?</b>");
-    
+
     $frm = new form("iwantit", "edt.php?action=delete", true, "post", "");
     $frm->add_hidden("semestre", $_REQUEST['semestre']);
     $frm->add_hidden("sure", "yes");
     $frm->add_submit("send", "Supprimer ".$_REQUEST['semestre']);
     $cts->add($frm);
-    
+
     $cts->add_paragraph("<a href=\"edt.php\">Annuler</a>");
-    
+
     $site->add_contents($cts);
     $site->end_page();
     exit;
   }
-  
+
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
@@ -243,18 +243,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
     $semestre = $_REQUEST['semestre'];
   else
     $semestre = SEMESTER_NOW;
-  
+
   if(!in_array($semestre, $user->get_edt_list()))
     $site->redirect('edt.php');
-  
+
   require_once ("include/cts/edt_render.inc.php");
-  
+
   $groups = $user->get_groups_detail($semestre);
   if(empty($groups))
     $site->redirect('edt.php');
-    
+
   $lines = array();
-  
+
   foreach($groups as $group){
     $lines[] = array(
                 "semaine_seance" => $group['semaine'],
@@ -264,7 +264,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
                 "type_seance" => $group['type'],
                 "grp_seance" => $group['num_groupe'],
                 "nom_uv" => $group['code'],
-                "salle_seance" => $group['salle'] 
+                "salle_seance" => $group['salle']
                );
   }
 
@@ -277,18 +277,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 {
   $path .= " / ".$_REQUEST['semestre'];
   $cts = new contents($path);
-    
+
   if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
     $semestre = $_REQUEST['semestre'];
   else
     $semestre = SEMESTER_NOW;
-  
+
   if(!in_array($semestre, $user->get_edt_list()))
     $site->redirect('edt.php');
-    
+
   $uvs = $user->get_edt_detail($semestre);
-  
-  $cts->add(new sqltable("edtdetail", "Liste de vos UV pour ".$semestre, $uvs, "uv.php", 'id_uv',
+
+  $cts->add(new sqltable("edtdetail", "Liste de vos UV pour ".$semestre, $uvs, "uv.groupe.php", 'id_uv',
                           array("code"=>"Code",
                                 "intitule"=>"Intitulé",
                                 "type"=>"Type",
@@ -307,12 +307,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
-{ 
+{
   $path .= " / "." Édition ".$_REQUEST['semestre'];
   $cts = new contents($path);
-  
+
   $cts->add_paragraph("Bientôt ;)");
-  
+
   $site->add_contents($cts);
   $site->end_page();
   exit;

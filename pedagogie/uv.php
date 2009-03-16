@@ -494,7 +494,7 @@ if($_REQUEST['id'])
     }
 
     $cts->add(new sqltable("grouplist", "Séances disponibles pour ".SEMESTER_NOW,
-                            $grp, "groupe.php", "id_groupe",
+                            $grp, "uv.groupe.php", "id_groupe",
                             array("type"=>"Type",
                                   "num_groupe"=>"N°",
                                   "jour"=>"Jour",
