@@ -91,6 +91,8 @@ class add_uv_edt_box extends form
       $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".$_GROUP[$type]['long']." : </div>\n";
       $buffer .= "  <div class=\"formfield\">\n";
+//      $buffer .= "  <a href=\"#\" onclick=\"edt.refresh_list('".$sel_id."');\"><img src=\"/images/icons/16/reload.png\" class=\"icon\"/></a>\n";
+      $buffer .= "  <a href=\"#\" onclick=\"openInContents('$sel_id', 'edt.php', 'action=get_seances_as_options&id_uv=$uv->id&type=$type&semestre=$sem');\"><img src=\"/images/icons/16/reload.png\" class=\"icon\"/></a>\n";
       $buffer .= "    <select name=\"$sel_id\" id=\"$sel_id\">\n";
       $buffer .= "      <option value=\"none\">S&eacute;lectionnez votre s&eacute;ance</option>\n";
       foreach($groups as $group){

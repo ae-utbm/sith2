@@ -67,6 +67,6 @@ var edt = {
    *        ]
    */
   refresh_list: function(selectid){
-    
+    //xhr = 
   }
 }

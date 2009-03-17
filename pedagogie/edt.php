@@ -136,6 +136,16 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   exit;
 }
 
+
+/**
+ * recuperation de la liste des seances d une UV pour affichage dans la creation des EDT/2
+ */
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'get_seances_as_options')
+{
+  echo "<option>bleh</option>";
+  exit;
+}
+
 /**
  * enregistrement effectif du nouvel emploi du temps
  */
