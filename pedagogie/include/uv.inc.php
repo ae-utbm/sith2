@@ -450,14 +450,17 @@ class uv extends stdentity
    * @param $semestre semestre visé
    * @return tableau des informations
    */
-  public function get_groups($type=null, $semestre=SEMESTER_NOW, $idgroup=null){
+  public function get_groups($type=null, $semestre=null, $idgroup=null){
     $sql = "SELECT *,
               `type`+0 as `type_num`
             FROM `pedag_groupe`
-            WHERE `id_uv` = ".$this->id."
-              AND `semestre` = '".$semestre."'";
+            WHERE `id_uv` = ".$this->id;
+    if($semestre)
+      $sql .= "  AND `semestre` = '".$semestre."'";
     if($type)
       $sql .= "  AND `type` = ".$type;
+    if($idgroup)
+      $sql .= "  AND `id` = ".$idgroup;
 
     $sql .= "  ORDER BY `semestre`, `type`";
 

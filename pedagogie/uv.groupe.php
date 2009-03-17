@@ -150,9 +150,20 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 {
   if(!isset($groupid))
     $site->redirect("uv.php");
+
   /***********************************************************************
    * Affichage detail groupe
    */
+  $details = $uv->get_groups(null, null, $idgroup);
+    $type = $_GROUP[ $details['type_num'] ]['long'];
+    $jour = get_day($details['jour']);
+    $debut = strftime("%H:%M", strtotime($details['debut']));
+    $fin = strftime("%H:%M", strtotime($details['fin']));
+    $freq = ($details['freq'] == 1)?"Toutes les semaines":"Une semaine sur deux";
+
+  $cts->add_paragraph("Séance de ".$type." de ".$uv->code." du ".$jour." de ".$debut." à ".$fin." en ".$details['salle'].".");
+  $cts->add_paragraph("Fréquence : ".$freq);
+
   $sql = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
                                   CONCAT(`prenom_utl`,' ',`nom_utl`) AS `nom_utilisateur`, `semaine`
                                   FROM `pedag_groupe_utl`
@@ -162,14 +173,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   if(!$sql->is_success())
     $site->redirect("uv.php");
 
-  $cts->add(new sqltable("seance_utl", "Élèves inscrits", $sql, "", 'id_utilisateur',
+  $cts->add(new sqltable("seance_utl", "Élèves inscrits ce semestre", $sql, "", 'id_utilisateur',
                          array("nom_utilisateur"=>"Élève", "semaine"=>"Semaine"),
                          array(), array()), true);
-}
-
-if(isset($groupid))
-{
-  $cts->add_paragraph("groupe ".$groupid);
 }
 
 $site->add_contents($cts);
