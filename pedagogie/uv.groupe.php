@@ -121,8 +121,13 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 /* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
 if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'join' || $_REQUEST['action'] == 'done'))
 {
+  if(isset($_REQUEST['freq']) && ($_REQUEST['freq'] == 'A' || $_REQUEST['freq'] == 'B'))
+    $freq = $_REQUEST['freq'];
+  else
+    $freq = null;
+
   if(!$user->is_attending_uv_group($groupid))
-    $user->join_uv_group($groupid);
+    $user->join_uv_group($groupid, $freq);
   $site->redirect("uv.groupe.php?id=$groupid&action=view");
 }
 
@@ -175,7 +180,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
     $jour = get_day($details['jour']);
     $debut = strftime("%H:%M", strtotime($details['debut']));
     $fin = strftime("%H:%M", strtotime($details['fin']));
-    $freq = ($details['freq'] == 1)?"Toutes les semaines":"Une semaine sur deux";
+    $freq = ($details['freq'] != 2)?"Toutes les semaines":"Une semaine sur deux";
 
   $cts->add_paragraph("<b>Séance de ".$type." de ".$uv->code." du ".$jour." de ".$debut." à ".$fin." en ".$details['salle']."</b>.");
   $cts->add_paragraph("Fréquence : ".$freq.".");
@@ -195,8 +200,15 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                          array(), array()), true);
   if($user->is_attending_uv_group($groupid))
     $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=leave&id=$groupid';\" value=\"Se désinscrire\"/>");
-  else
-    $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=join&id=$groupid';\" value=\"S'inscrire\"/>");
+  else{
+    $buf = "<input type=\"button\" onclick=\"var f = document.getElementById('freq').value; location.href='uv.groupe.php?action=join&id=$groupid&freq='+f;\" value=\"S'inscrire\"/>";
+    if($details['freq'] == 2)
+      $buf .= "<select name=\"freq\" id=\"freq\">
+                <option value=\"A\">Semaine A</option>
+                <option value=\"B\">Semaine B</option>
+              </select>";
+    $cts->add_paragraph($buf);
+  }
 
 
   $cts->puts("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=edit&id=$groupid';\" value=\"Corriger la séance\" style=\"float:right;\"/>");
