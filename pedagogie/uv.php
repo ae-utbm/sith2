@@ -399,7 +399,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_comment')
 /***********************************************************************
  * Affichage detail UV
  */
-if($_REQUEST['id'])
+if(isset($_REQUEST['id']))
 {
   $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
   if(!$uv->is_valid())
