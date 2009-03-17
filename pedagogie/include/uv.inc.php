@@ -470,8 +470,11 @@ class uv extends stdentity
     else
       $t = array();
 
-    while($row = $req->get_row())
-      $t[] = $row;
+    if($idgroup && $sql->lines == 1)
+      return $req->get_row();
+    else
+      while($row = $req->get_row())
+        $t[] = $row;
 
     return $t;
   }
