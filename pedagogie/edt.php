@@ -337,7 +337,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $path .= " / "." Édition ".$_REQUEST['semestre'];
   $cts = new contents($path);
 
-  $cts->add_paragraph("Bientôt ;)");
+  $cts->add_paragraph("L'édition 'massive' de l'emploi du temps n'est pas
+    encore disponible, cependant vous avez la possibilité de le corriger
+    en vous rendant sur les UV concernées et en réglant les séances auxquelles
+    vous êtes inscrit depuis l'onglet \"Séances et Élèves\".");
 
   $site->add_contents($cts);
   $site->end_page();
