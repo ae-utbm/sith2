@@ -166,7 +166,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
     $freq = ($details['freq'] == 1)?"Toutes les semaines":"Une semaine sur deux";
 
   $cts->add_paragraph("<b>Séance de ".$type." de ".$uv->code." du ".$jour." de ".$debut." à ".$fin." en ".$details['salle']."</b>.");
-  $cts->add_paragraph("Fréquence : ".$freq);
+  $cts->add_paragraph("Fréquence : ".$freq.".");
 
   $sql = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
                                   CONCAT(`prenom_utl`,' ',`nom_utl`) AS `nom_utilisateur`, `semaine`
@@ -181,6 +181,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   $cts->add(new sqltable("seance_utl", "Élèves inscrits ce semestre", $sql, "", 'id_utilisateur',
                          array("nom_utilisateur"=>"Élève", "semaine"=>"Semaine"),
                          array(), array()), true);
+  $cts->puts("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=edit&id=$groupid';\" value=\"Corriger la séance\" style=\"float:right;\"/>");
 }
 
 $site->add_contents($cts);
