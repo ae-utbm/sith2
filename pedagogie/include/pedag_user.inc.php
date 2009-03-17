@@ -119,7 +119,7 @@ class pedag_user extends utilisateur{
 
   public function is_attending_uv_group($id_group){
     $sql = new requete($this->db, "SELECT 1 FROM `pedag_groupe_utl`
-                                    WHERE `id_utilisateur = $this->id
+                                    WHERE `id_utilisateur` = $this->id
                                       AND `id_groupe` = ".intval($id_group));
     if($sql->is_success() && $sql->lines == 1)
       return true;
