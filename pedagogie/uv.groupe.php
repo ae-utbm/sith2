@@ -146,9 +146,27 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
 {
 }
 
-/***********************************************************************
- * Affichage detail groupe
- */
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
+{
+  if(!isset($groupid))
+    $site->redirect("uv.php");
+  /***********************************************************************
+   * Affichage detail groupe
+   */
+  $sql = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
+                                  CONCAT(`prenom_utl`,' ',`nom_utl`) AS `nom_utilisateur`, `semaine`
+                                  FROM `pedag_groupe_utl`
+                                  LEFT JOIN `utilisateurs`
+                                    ON `pedag_groupe_utl`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
+                                  WHERE `id_groupe` = ".intval($groupid));
+  if(!$sql->is_success())
+    $site->redirect("uv.php");
+
+  $cts->add(new sqltable("seance_utl", "Élèves inscrits", $sql, "", 'id_utilisateur',
+                         array("nom_utilisateur"=>"Élève", "semaine"=>"Semaine"),
+                         array(), array()), true);
+}
+
 if(isset($groupid))
 {
   $cts->add_paragraph("groupe ".$groupid);
