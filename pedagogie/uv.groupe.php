@@ -169,7 +169,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   /***********************************************************************
    * Affichage detail groupe
    */
-  $details = $uv->get_groups(null, $semestre, $groupid);
+  $details = $uv->get_groups(null, null, $groupid);
   $details = $details[0]; //une seule ligne dtf
     $type = $_GROUP[ $details['type_num'] ]['long'];
     $jour = get_day($details['jour']);
