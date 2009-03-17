@@ -54,6 +54,12 @@ if(isset($_REQUEST['id_uv'])){
   $uv->load_by_id($_REQUEST['id_uv']);
 }
 
+if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
+  $semestre = $_REQUEST['semestre'];
+else
+  $semestre = SEMESTER_NOW;
+
+
 $user = new pedag_user($site->db, $site->dbrw);
 $user->load_by_id($site->user->id);
 
@@ -110,28 +116,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
         $site->redirect("uv.groupe.php?id=".$id_groupe."&action=view");
     }
   }
-/*
-  $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de ".strftime("%H:%M", strtotime($debut))." à ".strftime("%H:%M", strtotime($fin))." en $salle";
-  $cts->puts("<script type='text/javascript'>
-  function ret(){
-    var o = new Option('$texte', '$id_groupe');
-    o.onclick = function(e){ edt.disp_freq_choice('".$uv->id."_".$type."', $freq, ".$uv->id.", $type); };
-    o.selected = true;
-    window.opener.document.getElementById('".$_REQUEST['calling']."').options.add(o);
-    window.opener.edt.disp_freq_choice('".$uv->id."_".$type."', $freq, $uv->id, $type);
-    self.close();
-  }
-</script>");
-
-  if($r)
-    $cts->add_paragraph("Votre séance de ".$_GROUP[$type]['long']." de ".$uv->code." du ".get_day($jour)." à bien été modifiée.");
-  else
-    $cts->add_paragraph("Erreur lors de la mise à jour.");
-  $cts->add_paragraph("Merci de votre participation.");
-  $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
-                  ."value=\"Continuer\" "
-                  ."onclick=\"ret();\"/>");
-*/
 }
 
 /* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
@@ -185,7 +169,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   /***********************************************************************
    * Affichage detail groupe
    */
-  $details = $uv->get_groups(null, SEMESTER_NOW, $groupid);
+  $details = $uv->get_groups(null, $semestre, $groupid);
   $details = $details[0]; //une seule ligne dtf
     $type = $_GROUP[ $details['type_num'] ]['long'];
     $jour = get_day($details['jour']);

@@ -475,11 +475,14 @@ if(isset($_REQUEST['id']))
     $cts->puts("</div>");
 
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'suivi'){
-    $cts->add_paragraph("En travaux ;)");
+    if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
+      $semestre = $_REQUEST['semestre'];
+    else
+      $semestre = SEMESTER_NOW;
 
     /* remise en forme des éléments que l'on veut afficher */
     $grp = array();
-    foreach($uv->get_groups(null, SEMESTER_NOW) as $g){
+    foreach($uv->get_groups(null, $semestre) as $g){
       $grp[] = array(
                  'id_groupe' => $g['id_groupe'],
                  'type' => $_GROUP[ $g['type_num'] ]['long'],
@@ -492,8 +495,8 @@ if(isset($_REQUEST['id']))
                );
     }
 
-    $cts->add(new sqltable("grouplist", "Séances disponibles ce semestre",
-                            $grp, "uv.groupe.php", "id_groupe",
+    $cts->add(new sqltable("grouplist", "Séances disponibles pour ".$semestre,
+                            $grp, "uv.groupe.php?semestre=".$semestre, "id_groupe",
                             array("type"=>"Type",
                                   "num_groupe"=>"N°",
                                   "jour"=>"Jour",
