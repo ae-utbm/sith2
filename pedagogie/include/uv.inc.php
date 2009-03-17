@@ -90,7 +90,7 @@ class uv extends stdentity
    */
   public function load_by_group_id($id){
     $sql = new requete($this->db, "SELECT `id_uv` FROM `pedag_groupe` WHERE `id_groupe` = ".intval($id));
-    if($sql->is_success()){
+    if($sql->is_success() && $sql->lines == 1){
       $row = $sql->get_row();
       return $this->load_by_id($row['id_uv']);
     }else

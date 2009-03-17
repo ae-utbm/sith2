@@ -40,21 +40,17 @@ $site->add_css("css/pedagogie.css");
 $site->start_page("services", "AE Pédagogie");
 
 $uv = new uv($site->db, $site->dbrw);
-if(isset($_REQUEST['id_groupe']) && !is_null($_REQUEST['id_groupe'])){
-  print("in id_groupe");
+if(isset($_REQUEST['id_groupe']) && !empty($_REQUEST['id_groupe'])){
   $uv->load_by_group_id($_REQUEST['id_groupe']);
   $groupid = $_REQUEST['id_groupe'];
 }else if(isset($_REQUEST['id'])){
-  print("in id");
   $uv->load_by_group_id($_REQUEST['id']);
   $groupid = $_REQUEST['id'];
 }else if(!isset($_REQUEST['action'])){
-  print("in !action");
   $site->redirect("uv.php");
 }
 
 if(isset($_REQUEST['id_uv'])){
-  print("in id_uv");
   $uv->load_by_id($_REQUEST['id_uv']);
 }
 
@@ -78,7 +74,6 @@ $cts = new contents($path);
 /* ajout/modification effectif des actions ajouts/editions */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
-  print("in save");
   $id_groupe = $_REQUEST['id_groupe'];
   $type = $_REQUEST['type'];
   $num = $_REQUEST['num'];
