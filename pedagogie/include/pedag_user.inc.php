@@ -31,14 +31,14 @@ class pedag_user extends utilisateur{
   var $uv_suivies = array();
   /* UV suivies dans le passé */
   var $uv_passe = array();
-  
+
   var $uv_result = null;
-  
-  
+
+
   public function add_uv_result($id_uv, $semestre, $result){
     if(!check_semester_format($semestre))
       throw new Exception("Wrong format \$semestre ".$semestre);
-    $sql = new insert($this->dbrw, "pedag_resultat", array("id_utilisateur" => $this->id, 
+    $sql = new insert($this->dbrw, "pedag_resultat", array("id_utilisateur" => $this->id,
                                                            "id_uv" => $id_uv,
                                                            "semestre" => $semestre,
                                                            "note" => $result));
@@ -58,12 +58,12 @@ class pedag_user extends utilisateur{
   public function set_cancelled_result($id_result, $val=true){
     if($val != 0 && $val != 1)
       return false;
-    $sql = new update($this->dbrw, "pedag_resultat", 
+    $sql = new update($this->dbrw, "pedag_resultat",
                       array("id_utilisateur" => $this->id, "id_resultat" => $id_result),
                       array("cancelled" => $val));
     return $sql->is_success();
   }
-  
+
   public function remove_uv_result($id_result){
     $sql = new delete($this->dbrw, "pedag_resultat", array("id_utilisateur"=>$this->id, "id_resultat"=>$id_result));
     return $sql->is_success();
@@ -76,34 +76,34 @@ class pedag_user extends utilisateur{
     if($id_uv)  $data['id_uv'] = $id_uv;
     if($semestre)  $data['semestre'] = $semestre;
     if($result)  $data['note'] = $result;
-    
+
     $sql = new update($this->dbrw, "pedag_resultat", array("id_resultat" => $id_result), $data);
     if($sql->is_success())
       return $sql->get_id();
-    else 
+    else
       return false;
   }
-  
+
   public function load_uv_result(){
-    $sql = new requete($this->db, "SELECT `id_uv`, `note`+0 as `note_num` 
-                                    FROM `pedag_resultat` 
-                                    WHERE `id_utilisateur` = ".$this->id." 
+    $sql = new requete($this->db, "SELECT `id_uv`, `note`+0 as `note_num`
+                                    FROM `pedag_resultat`
+                                    WHERE `id_utilisateur` = ".$this->id."
                                       AND `cancelled` = 0");
-    
+
     if($sql->is_success())
       while($row = $sql->get_row())
         $this->uv_result[ $row['id_uv'] ][] = $row['note_num'];
-    else 
+    else
       return false;
   }
-  
+
   public function get_uv_result($uvid){
     if(is_null($this->uv_result))
       $this->load_uv_result();
-      
+
     if(empty($this->uv_result) || !isset($this->uv_result[$uvid]))
       return false;
-    else 
+    else
      return min($this->uv_result[$uvid]);
   }
 
@@ -117,11 +117,21 @@ class pedag_user extends utilisateur{
     return $sql->is_success();
   }
 
+  public function is_attending_uv_group($id_group){
+    $sql = new requete($site->db, "SELECT 1 FROM `pedag_groupe_utl`
+                                    WHERE `id_utilisateur = $this->id
+                                      AND `id_groupe` = ".intval($id_group));
+    if($sql->is_success() && $sql->lines == 1)
+      return true;
+    else
+      return false;
+  }
+
   /* desincription d'une UV entiere, donc desinscrition de tous les groupes */
   public function get_out_from_uv($id_uv){
   }
-  
-  
+
+
   /**
    * Affiliation a un cursus (filiere, mineur, ...)
    */
@@ -129,47 +139,47 @@ class pedag_user extends utilisateur{
     $sql = new insert($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus));
     return $sql->is_success();
   }
-  
+
   public function leave_cursus($id_cursus){
     $sql = new delete($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus));
     return $sql->is_success();
   }
-  
+
   /**
    * Verification de la conformité des infos déclarées dans la fiche Matmat
    * avec celles utilisées pour ici (Dpt, filiere)
    */
   public function check_validity(){
   }
-  
+
   /**
    * Gestion/calcul des credits ECTS
    */
-  /* Valeurs issues du marvelouze pdf de resultats de cursus UTBM 
+  /* Valeurs issues du marvelouze pdf de resultats de cursus UTBM
   define('MIN_GLOBAL', 300);
   define('MIN_TC', );
   define('MIN_BRANCHE', 84);
-  
+
   define('MIN_STAGE', 66);
   define('MIN_EC', 20);
   define('MIN_CG', 32);
   */
   public function is_from_tc($ignore_cancelled_result=false){
   }
-  
+
   public function get_credits_tc(){
   }
-  
+
   public function get_nb_uv_result(){
     return;
   }
-  
-  
+
+
   /**
    * Emplois du temps
    */
   public function get_edt_list(){
-    $sql = new requete($this->db, "SELECT DISTINCT `semestre` 
+    $sql = new requete($this->db, "SELECT DISTINCT `semestre`
                                     FROM `pedag_groupe`
                                     NATURAL JOIN `pedag_groupe_utl`
                                     WHERE `pedag_groupe_utl`.`id_utilisateur` = ".$this->id);
@@ -179,7 +189,7 @@ class pedag_user extends utilisateur{
       $t=null;
       while($row = $sql->get_row())
         $t[] = $row['semestre'];
-      
+
       if(count($t) > 1)
         sort_by_semester($t, 'semestre');
       return $t;
@@ -193,7 +203,7 @@ class pedag_user extends utilisateur{
                                     IN (
                                       SELECT DISTINCT `pedag_groupe`.`id_uv`
                                       FROM `pedag_groupe`
-                                      LEFT JOIN `pedag_groupe_utl` 
+                                      LEFT JOIN `pedag_groupe_utl`
                                         ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
                                       WHERE `pedag_groupe`.`semestre` = '$semestre'
                                         AND `pedag_groupe_utl`.`id_utilisateur` = $this->id
@@ -204,15 +214,15 @@ class pedag_user extends utilisateur{
       $t=null;
       while($row = $sql->get_row())
         $t[] = $row;
-        
+
       return $t;
     }
   }
-  
+
   public function delete_edt($semestre){
     $sql = new requete($this->db, "SELECT `pedag_groupe`.`id_groupe`
                                     FROM `pedag_groupe`
-                                    LEFT JOIN `pedag_groupe_utl` 
+                                    LEFT JOIN `pedag_groupe_utl`
                                       ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
                                     WHERE `pedag_groupe`.`semestre` = '$semestre'
                                       AND `pedag_groupe_utl`.`id_utilisateur` = ".$this->id);
@@ -221,21 +231,21 @@ class pedag_user extends utilisateur{
     else
       while($row = $sql->get_row())
         $this->leave_uv_group($row['id_groupe']);
-        
+
     return true;
   }
-  
+
   public function get_groups_detail($semestre=SEMESTER_NOW){
-    $sql = new requete($this->db, "SELECT `pedag_groupe`.*, 
-                                      `pedag_groupe_utl`.*, 
+    $sql = new requete($this->db, "SELECT `pedag_groupe`.*,
+                                      `pedag_groupe_utl`.*,
                                       `pedag_uv`.`id_uv`, `pedag_uv`.`code`, `pedag_uv`.`intitule`
-                                    FROM `pedag_groupe_utl` 
+                                    FROM `pedag_groupe_utl`
                                     RIGHT JOIN `pedag_groupe`
                                       ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
                                     RIGHT JOIN `pedag_uv`
                                       ON `pedag_uv`.`id_uv` = `pedag_groupe`.`id_uv`
                                     WHERE `pedag_groupe_utl`.`id_utilisateur` = ".$this->id."
-                                      AND `pedag_groupe`.`semestre` = '".$semestre."'");  
+                                      AND `pedag_groupe`.`semestre` = '".$semestre."'");
 
     if(!$sql->is_success())
       return false;
@@ -243,7 +253,7 @@ class pedag_user extends utilisateur{
       $t=null;
       while($row = $sql->get_row())
         $t[] = $row;
-        
+
       return $t;
     }
   }
@@ -256,7 +266,7 @@ class pedag_user extends utilisateur{
   /**
    * Cherche si l'utilisateur a des permanences inscrites dans un planning
    * du site de l'AE : foyer, MDE, Bureau AE ...
-   * 
+   *
    * @return true si des perms ont été trouvées, false sinon
    */
   public function get_permanence(){
@@ -266,7 +276,7 @@ class pedag_user extends utilisateur{
    * Cherche si il y a des réunions/activités régulières inscrites dans
    * le planning du site AE pour les clubs auxquels l'utilisateur est
    * inscrit
-   * 
+   *
    * @return true si des activités ont été trouvées, false sinon
    */
   public function get_recurrent_activity(){

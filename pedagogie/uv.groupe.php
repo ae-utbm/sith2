@@ -52,6 +52,9 @@ if(isset($_REQUEST['id_groupe'])){
 }else
   $site->redirect("uv.php");
 
+$user = new pedag_user($site->db, $site->dbrw);
+$user->load_by_id($site->user->id);
+
 /* ouais enfin c'est mieux si l'UV existe */
 if(!$uv->is_valid())
   $site->redirect("uv.php");
@@ -117,8 +120,13 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 */
 }
 
-/* inscription d'un utilisateur a une seance (nom choisi pour l'icone uniquement */
-if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'done')
+/* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
+if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'join' || $_REQUEST['action'] == 'done'))
+{
+}
+
+/* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'leave')
 {
 }
 
@@ -167,6 +175,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 
   $cts->add_paragraph("<b>Séance de ".$type." de ".$uv->code." du ".$jour." de ".$debut." à ".$fin." en ".$details['salle']."</b>.");
   $cts->add_paragraph("Fréquence : ".$freq.".");
+
+  if($user->is_attending_uv_group($groupid)){
+    $cts->add_paragraph("Vous êtes inscrit à cette séance : <input type=\"button\" onclick=\"location.href='uv.groupe.php?action=leave&id=$groupid';\" value=\"Se désinscrire\"/>");
+  }else{
+    $cts->add_paragraph("Vous n'êtes pas inscrit à cette séance : <input type=\"button\" onclick=\"location.href='uv.groupe.php?action=join&id=$groupid';\" value=\"S'inscrire\"/>");
+  }
 
   $sql = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
                                   CONCAT(`prenom_utl`,' ',`nom_utl`) AS `nom_utilisateur`, `semaine`
