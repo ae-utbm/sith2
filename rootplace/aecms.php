@@ -57,7 +57,8 @@ function list_aecms ()
   $list = array();
 
   if ($dh = opendir(AECMS_ACCOUNTS))
-  {    while (($file = readdir($dh)) !== false)
+  {
+    while (($file = readdir($dh)) !== false)
     {
       if ( is_dir(AECMS_ACCOUNTS.$file) && file_exists(AECMS_ACCOUNTS.$file."/specific/aecms.conf.php") )
       {
@@ -67,8 +68,10 @@ function list_aecms ()
           $list[] = array("unixname"=>$file,"id_asso"=>$regs[1], "aecms"=>readlink(AECMS_ACCOUNTS.$file."/aecms") );
         }
       }
-      
-    }    closedir($dh);  }
+
+    }
+    closedir($dh);
+  }
 
   return $list;
 }
@@ -78,11 +81,14 @@ function list_noaecms ()
   $list = array();
 
   if ($dh = opendir(AECMS_ACCOUNTS))
-  {    while (($file = readdir($dh)) !== false)
+  {
+    while (($file = readdir($dh)) !== false)
     {
       if ( $file != "." && $file != ".." && is_dir(AECMS_ACCOUNTS.$file) && !file_exists(AECMS_ACCOUNTS.$file."/specific/aecms.conf.php") )
         $list[$file] = $file;
-    }    closedir($dh);  }
+    }
+    closedir($dh);
+  }
 
   return $list;
 }
@@ -154,12 +160,12 @@ function raz_aecms ( $id_asso )
 if ( $_REQUEST["action"] == "install" )
 {
   if ( ($err = install_aecms ( $_REQUEST["unixname"], $_REQUEST["id_asso"] )) !== true )
-	{
-	  $Message="Erreur lors de l'installation : $err.";
-	  $_REQUEST["page"] = "install";
-	}
-	else
-	  $Message="AECMS installé.";
+    {
+      $Message="Erreur lors de l'installation : $err.";
+      $_REQUEST["page"] = "install";
+    }
+    else
+      $Message="AECMS installé.";
 }
 
 if ( $_REQUEST["page"] == "install" )
