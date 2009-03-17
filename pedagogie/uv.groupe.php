@@ -154,7 +154,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   /***********************************************************************
    * Affichage detail groupe
    */
-  $details = $uv->get_groups(null, null, $groupid);
+  $details = $uv->get_groups(null, SEMESTER_NOW, $groupid);
   $details = $details[0]; //une seule ligne dtf
     $type = $_GROUP[ $details['type_num'] ]['long'];
     $jour = get_day($details['jour']);
@@ -162,7 +162,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
     $fin = strftime("%H:%M", strtotime($details['fin']));
     $freq = ($details['freq'] == 1)?"Toutes les semaines":"Une semaine sur deux";
 
-  $cts->add_paragraph("Séance de ".$type." de ".$uv->code." du ".$jour." de ".$debut." à ".$fin." en ".$details['salle'].".");
+  $cts->add_paragraph("<b>Séance de ".$type." de ".$uv->code." du ".$jour." de ".$debut." à ".$fin." en ".$details['salle']."</b>.");
   $cts->add_paragraph("Fréquence : ".$freq);
 
   $sql = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,

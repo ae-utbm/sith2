@@ -479,7 +479,7 @@ if($_REQUEST['id'])
 
     /* remise en forme des éléments que l'on veut afficher */
     $grp = array();
-    foreach($uv->get_groups() as $g){
+    foreach($uv->get_groups(null, SEMESTER_NOW) as $g){
       $grp[] = array(
                  'id_groupe' => $g['id_groupe'],
                  'type' => $_GROUP[ $g['type_num'] ]['long'],
