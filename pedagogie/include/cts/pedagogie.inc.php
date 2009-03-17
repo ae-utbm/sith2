@@ -188,6 +188,7 @@ class add_seance_box extends stdcontents
 
     $frm = new form("seance_".$iduv, "uv.groupe.php?action=save");
     $frm->allow_only_one_usage();
+    $frm->add_hidden("id_uv", $uv->id);
 
     $frm->add_hidden("id_groupe", $data['id_groupe']);
     if(EDITMODE)
