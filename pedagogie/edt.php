@@ -139,10 +139,26 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 
 /**
  * recuperation de la liste des seances d une UV pour affichage dans la creation des EDT/2
+ *  ** appel ajax **
  */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'get_seances_as_options')
 {
-  echo "<option>bleh</option>";
+  $uv = new uv($site->db, $site->dbrw, $_REQUEST['id_uv']);
+  if(!$uv->is_valid()) exit;
+
+  $type = $_REQUEST['type'];
+  $sem = $_REQUEST['semestre'];
+  $groups = $uv->get_groups($type, $sem);
+
+  $buffer = "      <option value=\"none\">S&eacute;lectionnez votre s&eacute;ance</option>\n";
+  foreach($groups as $group){
+    $buffer .= "      <option value=\"".$group['id_groupe']."\" onclick=\"edt.disp_freq_choice('".$uv->id."_".$type."', ".$group['freq'].", ".$uv->id.", ".$type.");\">"
+                        .$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".strftime("%H:%M", strtotime($group['debut']))." &agrave; ".strftime("%H:%M", strtotime($group['debut']))." en ".$group['salle']
+                        ."</option>\n";
+  }
+  $buffer .= "      <option value=\"add\" style=\"font-weight: bold;\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.", '".$sem."', '".$sel_id."');\">Ajouter une s&eacute;ance manquante...</option>\n";
+
+  echo $buffer;
   exit;
 }
 

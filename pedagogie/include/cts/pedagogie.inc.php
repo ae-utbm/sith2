@@ -76,6 +76,7 @@ class add_uv_edt_box extends form
 
     $this->buffer .= "<p><input type=\"button\" onclick=\"edt.remove('".$uv->code."_row');\" value=\"Annuler l'inscription\" />";
     $this->buffer .= "<input type=\"button\" onclick=\"window.open('uv.php?action=edit&id=$uv->id');\" value=\"Corriger la fiche\" />";
+    $this->buffer .= "<input type=\"button\" onclick=\"window.open('uv.php?view=suivi&id=$uv->id');\" value=\"Corriger les séances\" />";
     $this->buffer .= "<input type=\"button\" style=\"font-weight: bold;\" onclick=\"window.open('uv.php?id=$uv->id');\" value=\"Voir la fiche\" /></p>";
 
   }
