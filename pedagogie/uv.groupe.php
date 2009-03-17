@@ -61,7 +61,7 @@ if(!$uv->is_valid())
 
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 $path .= " / "."<a href=\"./uv.php?id=$uv->id&view=suivi\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
-$path .= " / "."Groupes";
+$path .= " / "."Séances";
 
 $cts = new contents($path);
 
@@ -123,11 +123,17 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 /* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
 if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'join' || $_REQUEST['action'] == 'done'))
 {
+  if(!$user->is_attending_uv_group($groupid))
+    $user->join_uv_group($groupid);
+  $site->redirect("uv.groupe.php?id=$groupid&action=view");
 }
 
 /* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'leave')
 {
+  if($user->is_attending_uv_group($groupid))
+    $user->leave_uv_group($groupid);
+  $site->redirect("uv.groupe.php?id=$groupid&action=view");
 }
 
 /* ajout d'une nouvelle séance */
@@ -176,12 +182,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   $cts->add_paragraph("<b>Séance de ".$type." de ".$uv->code." du ".$jour." de ".$debut." à ".$fin." en ".$details['salle']."</b>.");
   $cts->add_paragraph("Fréquence : ".$freq.".");
 
-  if($user->is_attending_uv_group($groupid)){
-    $cts->add_paragraph("Vous êtes inscrit à cette séance : <input type=\"button\" onclick=\"location.href='uv.groupe.php?action=leave&id=$groupid';\" value=\"Se désinscrire\"/>");
-  }else{
-    $cts->add_paragraph("Vous n'êtes pas inscrit à cette séance : <input type=\"button\" onclick=\"location.href='uv.groupe.php?action=join&id=$groupid';\" value=\"S'inscrire\"/>");
-  }
-
   $sql = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
                                   CONCAT(`prenom_utl`,' ',`nom_utl`) AS `nom_utilisateur`, `semaine`
                                   FROM `pedag_groupe_utl`
@@ -195,6 +195,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   $cts->add(new sqltable("seance_utl", "Élèves inscrits ce semestre", $sql, "", 'id_utilisateur',
                          array("nom_utilisateur"=>"Élève", "semaine"=>"Semaine"),
                          array(), array()), true);
+  if($user->is_attending_uv_group($groupid))
+    $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=leave&id=$groupid';\" value=\"Se désinscrire\"/>");
+  else
+    $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=join&id=$groupid';\" value=\"S'inscrire\"/>");
+
+
   $cts->puts("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=edit&id=$groupid';\" value=\"Corriger la séance\" style=\"float:right;\"/>");
 }
 
