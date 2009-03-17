@@ -46,7 +46,7 @@ if(isset($_REQUEST['id_groupe'])){
 }else if(isset($_REQUEST['id'])){
   $uv->load_by_group_id($_REQUEST['id']);
   $groupid = $_REQUEST['id'];
-}else if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new'){
+}else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'new' || $_REQUEST['action'] == 'save')){
   if(isset($_REQUEST['id_uv']))
     $uv->load_by_id($_REQUEST['id_uv']);
 }else
@@ -72,8 +72,6 @@ $cts = new contents($path);
 /* ajout/modification effectif des actions ajouts/editions */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
-  print_r($_REQUEST);
-  exit;
   $id_groupe = $_REQUEST['id_groupe'];
   $type = $_REQUEST['type'];
   $num = $_REQUEST['num'];
@@ -90,11 +88,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       $site->redirect("uv.groupe.php?id=".$id_groupe);
   }else{
     if($uv->search_group($num, $type, $semestre)){
-      print_r("in searchgroup");
       $cts->add_paragraph("Le groupe de ".$_GROUP[ $type ]['long']." n°".$num." existe déjà pour ".$uv->code." !");
       $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Revenir en arrière\" onclick=\"history.go(-1);\" />");
     }else{
-      print_r("out searchgroup");
       $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
       if($id_groupe > 0)
         $site->redirect("uv.groupe.php?id=".$id_groupe);
