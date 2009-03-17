@@ -212,7 +212,7 @@ class wiki extends basedb
     if ( strlen($this->fullpath) > 512 )
       return false;
 
-    $req = requete($this->db,'SELECT * FROM `wiki` WHERE `fullpath_wiki`=\''.$this->fullpath.'\'');
+    $req = new requete($this->db,'SELECT * FROM `wiki` WHERE `fullpath_wiki`=\''.$this->fullpath.'\'');
     if($req->lines!=0)
       return false;
 
