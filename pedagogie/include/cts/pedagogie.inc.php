@@ -193,6 +193,9 @@ class add_seance_box extends stdcontents
     if(EDITMODE)
       $frm->add_hidden("editmode", "1");
 
+    if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup')
+      $frm->add_hidden("mode", "popup");
+
     /* type de seance C/TD/TP (on vire THE) */
     $avail_type = array();
     foreach($_GROUP as $grp => $desc)
