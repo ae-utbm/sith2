@@ -506,7 +506,7 @@ if($_REQUEST['id'])
                                   "edit"=>"Corriger",
                                   "delete"=>"Supprimer"),
                             array()), true);
-    $cts->puts("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=new';\" value=\"+ Ajouter une séance\" />");
+    $cts->puts("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=new&id_uv=$uv->id';\" value=\"+ Ajouter une séance\" />");
 
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'ressources'){
     $cts->add_paragraph("Bientôt ;)");

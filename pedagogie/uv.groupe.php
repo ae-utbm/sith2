@@ -46,7 +46,10 @@ if(isset($_REQUEST['id_groupe'])){
 }else if(isset($_REQUEST['id'])){
   $uv->load_by_group_id($_REQUEST['id']);
   $groupid = $_REQUEST['id'];
-}else if(!(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new'))
+}else if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new'){
+  if(isset($_REQUEST['id_uv']))
+    $uv->load_by_id($_REQUEST['id_uv']);
+}else
   $site->redirect("uv.php");
 
 /* ouais enfin c'est mieux si l'UV existe */
