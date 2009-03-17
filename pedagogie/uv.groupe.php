@@ -170,8 +170,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                                   FROM `pedag_groupe_utl`
                                   LEFT JOIN `utilisateurs`
                                     ON `pedag_groupe_utl`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
-                                  WHERE `id_groupe` = ".intval($groupid))."
-                                  ORDER BY `utilisateurs`.`nom_utl`";
+                                  WHERE `id_groupe` = ".intval($groupid)."
+                                  ORDER BY `utilisateurs`.`nom_utl`");
   if(!$sql->is_success())
     $site->redirect("uv.php");
 
