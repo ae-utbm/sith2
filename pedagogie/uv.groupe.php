@@ -154,8 +154,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   /***********************************************************************
    * Affichage detail groupe
    */
-  print_r($uv->get_groups(null, null, $idgroup));
-  $details = $uv->get_groups(null, null, $idgroup);
+  print_r($uv->get_groups(null, null, $groupid));
+  $details = $uv->get_groups(null, null, $groupid);
     $type = $_GROUP[ $details['type_num'] ]['long'];
     $jour = get_day($details['jour']);
     $debut = strftime("%H:%M", strtotime($details['debut']));
