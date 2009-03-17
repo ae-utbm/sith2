@@ -40,17 +40,17 @@ $site->add_css("css/pedagogie.css");
 $site->start_page("services", "AE Pédagogie");
 
 $uv = new uv($site->db, $site->dbrw);
-if(isset($_REQUEST['id_groupe'])){
+if(isset($_REQUEST['id_groupe']) && !is_null($_REQUEST['id_groupe'])){
   $uv->load_by_group_id($_REQUEST['id_groupe']);
   $groupid = $_REQUEST['id_groupe'];
 }else if(isset($_REQUEST['id'])){
   $uv->load_by_group_id($_REQUEST['id']);
   $groupid = $_REQUEST['id'];
-}else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'new' || $_REQUEST['action'] == 'save')){
-  if(isset($_REQUEST['id_uv']))
-    $uv->load_by_id($_REQUEST['id_uv']);
-}else
+}else if(!isset($_REQUEST['action']))
   $site->redirect("uv.php");
+
+if(isset($_REQUEST['id_uv']))
+  $uv->load_by_id($_REQUEST['id_uv']);
 
 $user = new pedag_user($site->db, $site->dbrw);
 $user->load_by_id($site->user->id);
@@ -85,7 +85,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   if(isset($_REQUEST['editmode'])){
     $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
     if($r)
-      $site->redirect("uv.groupe.php?id=".$id_groupe);
+      $site->redirect("uv.groupe.php?id=".$id_groupe."&action=view");
   }else{
     if($uv->search_group($num, $type, $semestre)){
       $cts->add_paragraph("Le groupe de ".$_GROUP[ $type ]['long']." n°".$num." existe déjà pour ".$uv->code." !");
