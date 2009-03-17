@@ -54,7 +54,7 @@ if(!$uv->is_valid())
   $site->redirect("uv.php");
 
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
-$path .= " / "."<a href=\"./uv.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
+$path .= " / "."<a href=\"./uv.php?id=$uv->id&view=suivi\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
 $path .= " / "."Groupes";
 
 $cts = new contents($path);
@@ -154,8 +154,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   /***********************************************************************
    * Affichage detail groupe
    */
-  print_r($uv->get_groups(null, null, $groupid));
   $details = $uv->get_groups(null, null, $groupid);
+  $details = $details[0]; //une seule ligne dtf
     $type = $_GROUP[ $details['type_num'] ]['long'];
     $jour = get_day($details['jour']);
     $debut = strftime("%H:%M", strtotime($details['debut']));
@@ -170,7 +170,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                                   FROM `pedag_groupe_utl`
                                   LEFT JOIN `utilisateurs`
                                     ON `pedag_groupe_utl`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
-                                  WHERE `id_groupe` = ".intval($groupid));
+                                  WHERE `id_groupe` = ".intval($groupid))."
+                                  ORDER BY `utilisateurs`.`nom_utl`";
   if(!$sql->is_success())
     $site->redirect("uv.php");
 
