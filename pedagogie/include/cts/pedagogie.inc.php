@@ -92,13 +92,12 @@ class add_uv_edt_box extends form
       $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".$_GROUP[$type]['long']." : </div>\n";
       $buffer .= "  <div class=\"formfield\">\n";
-//      $buffer .= "  <a href=\"#\" onclick=\"edt.refresh_list('".$sel_id."');\"><img src=\"/images/icons/16/reload.png\" class=\"icon\"/></a>\n";
-      $buffer .= "  <a href=\"#\" onclick=\"openInContents('$sel_id', 'edt.php', 'action=get_seances_as_options&id_uv=$uv->id&type=$type&semestre=$sem');\"><img src=\"/images/icons/16/reload.png\" class=\"icon\"/></a>\n";
+      $buffer .= "  <a href=\"#\" title=\"Rafraichir la liste des s&eacute;ances\" onclick=\"openInContents('$sel_id', 'edt.php', 'action=get_seances_as_options&id_uv=$uv->id&type=$type&semestre=$sem');\"><img src=\"/images/icons/16/reload.png\" class=\"icon\"/></a>\n";
       $buffer .= "    <select name=\"$sel_id\" id=\"$sel_id\">\n";
       $buffer .= "      <option value=\"none\">S&eacute;lectionnez votre s&eacute;ance</option>\n";
       foreach($groups as $group){
         $buffer .= "      <option value=\"".$group['id_groupe']."\" onclick=\"edt.disp_freq_choice('".$divid."', ".$group['freq'].", ".$uv->id.", ".$type.");\">"
-                            .$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']
+                            .$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".strftime("%H:%M", strtotime($group['debut']))." &agrave; ".strftime("%H:%M", strtotime($group['fin']))." en ".$group['salle']
                             ."</option>\n";
       }
       $buffer .= "      <option value=\"add\" style=\"font-weight: bold;\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.", '".$sem."', '".$sel_id."');\">Ajouter une s&eacute;ance manquante...</option>\n";

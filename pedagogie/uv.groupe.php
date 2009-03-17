@@ -84,18 +84,30 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
   $salle = strtoupper($_REQUEST['salle']);
 
+  /* edition d'un groupe */
   if(isset($_REQUEST['editmode'])){
     $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
     if($r)
       $site->redirect("uv.groupe.php?id=".$id_groupe."&action=view");
+  /* ajout d'un nouveau groupe */
   }else{
+    /* le groupe en question existe deja banane */
     if($uv->search_group($num, $type, $semestre)){
       $cts->add_paragraph("Le groupe de ".$_GROUP[ $type ]['long']." n°".$num." existe déjà pour ".$uv->code." !");
       $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Revenir en arrière\" onclick=\"history.go(-1);\" />");
+    /* OK on enregistre */
     }else{
       $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
-      if($id_groupe > 0)
-        $site->redirect("uv.groupe.php?id=".$id_groupe);
+      if($id_groupe < 0)
+        $site->redirect("uv.php?id=".$uv->id);
+
+      if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'){
+        $sel_id = "seance_".$uv->id."_".$_GROUP[$type]['short'];
+        $cts->add_paragraph("Votre séance de ".$_GROUP[$type]['long']." de ".$uv->code." du ".get_day($jour)." à bien été modifiée.");
+        $cts->add_paragraph("Merci de votre participation.");
+        $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Continuer\" onclick=\"window.opener.openInContents('$sel_id', 'edt.php', 'action=get_seances_as_options&id_uv=$uv->id&type=$type&semestre$semestre'); self.close();\"/>");
+      }else
+        $site->redirect("uv.groupe.php?id=".$id_groupe."&action=view");
     }
   }
 /*
