@@ -51,5 +51,22 @@ var edt = {
   remove: function(elemid){
     o = document.getElementById(elemid);
     o.parentNode.removeChild(o);
+  },
+  
+  
+  /**
+   * recupere un arbre json pour mettre a jour les seances d'une UV
+   * data = [{
+   *          'id':42,
+   *          'value':'pouet',
+   *          'content':'a afficher',
+   *          'style':'boldmoncul',
+   *          'onclick':'payetachatte()'
+   *         },
+   *         {...}
+   *        ]
+   */
+  refresh_list: function(selectid){
+    
   }
 }
