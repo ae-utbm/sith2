@@ -460,7 +460,7 @@ class uv extends stdentity
     if($type)
       $sql .= "  AND `type` = ".$type;
     if($idgroup)
-      $sql .= "  AND `id` = ".$idgroup;
+      $sql .= "  AND `id_groupe` = ".$idgroup;
 
     $sql .= "  ORDER BY `semestre`, `type`";
 
