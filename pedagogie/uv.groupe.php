@@ -105,7 +105,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
         $sel_id = "seance_".$uv->id."_".$_GROUP[$type]['short'];
         $cts->add_paragraph("Votre séance de ".$_GROUP[$type]['long']." de ".$uv->code." du ".get_day($jour)." à bien été modifiée.");
         $cts->add_paragraph("Merci de votre participation.");
-        $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Continuer\" onclick=\"window.opener.openInContents('$sel_id', 'edt.php', 'action=get_seances_as_options&id_uv=$uv->id&type=$type&semestre$semestre'); self.close();\"/>");
+        $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Continuer\" onclick=\"window.opener.openInContents('$sel_id', 'edt.php', 'action=get_seances_as_options&id_uv=$uv->id&type=$type&semestre=$semestre'); self.close();\"/>");
       }else
         $site->redirect("uv.groupe.php?id=".$id_groupe."&action=view");
     }
