@@ -72,6 +72,8 @@ $cts = new contents($path);
 /* ajout/modification effectif des actions ajouts/editions */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
+  print_r($_REQUEST);
+  exit;
   $id_groupe = $_REQUEST['id_groupe'];
   $type = $_REQUEST['type'];
   $num = $_REQUEST['num'];
@@ -87,7 +89,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     if($r)
       $site->redirect("uv.groupe.php?id=".$id_groupe);
   }else{
-    print_r($_REQUEST);
     if($uv->search_group($num, $type, $semestre)){
       print_r("in searchgroup");
       $cts->add_paragraph("Le groupe de ".$_GROUP[ $type ]['long']." n°".$num." existe déjà pour ".$uv->code." !");
