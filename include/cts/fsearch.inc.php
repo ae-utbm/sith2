@@ -319,7 +319,7 @@ class fsearch extends stdcontents
         if ( $req->lines == 1 )
           $this->redirect = $wwwtopdir."uvs/uvs.php?id_uv=".$row['id_uv'];
 
-        $this->buffer .= "<li><a href=\"".$wwwtopdir."uvs/uvs.php?id_uv=".$row['id_uv']."\">".eregi_replace($pattern,"<b>\\0</b>",$row['code']." : ".$row['intitule'])."</a></li>";
+        $this->buffer .= "<li><a href=\"".$wwwtopdir."pedagogie/uv.php?id=".$row['id_uv']."\">".eregi_replace($pattern,"<b>\\0</b>",$row['code']." : ".$row['intitule'])."</a></li>";
       }
 
       $this->buffer .= "</ul>";
