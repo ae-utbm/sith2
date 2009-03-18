@@ -201,12 +201,15 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   if($user->is_attending_uv_group($groupid))
     $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=leave&id=$groupid';\" value=\"Se désinscrire\"/>");
   else{
-    $buf = "<input type=\"button\" onclick=\"var f = document.getElementById('freq').value; location.href='uv.groupe.php?action=join&id=$groupid&freq='+f;\" value=\"S'inscrire\"/>";
-    if($details['freq'] == 2)
+    if($details['freq'] == 2){
+      $buf = "<input type=\"button\" onclick=\"var f = document.getElementById('freq').value; location.href='uv.groupe.php?action=join&id=$groupid&freq='+f;\" value=\"S'inscrire\"/>";
       $buf .= "<select name=\"freq\" id=\"freq\">
                 <option value=\"A\">Semaine A</option>
                 <option value=\"B\">Semaine B</option>
               </select>";
+    }else{
+      $buf = "<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=join&id=$groupid\" value=\"S'inscrire\"/>";
+    }
     $cts->add_paragraph($buf);
   }
 
