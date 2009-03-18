@@ -208,7 +208,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                 <option value=\"B\">Semaine B</option>
               </select>";
     }else{
-      $buf = "<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=join&id=$groupid\" value=\"S'inscrire\"/>";
+      $buf = "<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=join&id=$groupid';\" value=\"S'inscrire\"/>";
     }
     $cts->add_paragraph($buf);
   }
