@@ -853,6 +853,7 @@ if ( $_REQUEST["view"]=="parrain" )
 elseif ( $_REQUEST["view"]=="pedagogie" )
 {
   require_once($topdir."pedagogie/include/pedag_user.inc.php");
+  require_once($topdir."pedagogie/include/pedagogie.inc.php");
   $p_user = new pedag_user($site->db);
   $p_user->load_by_id($user->id);
 
