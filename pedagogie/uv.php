@@ -496,7 +496,7 @@ if(isset($_REQUEST['id']))
     }
 
     $cts->add(new sqltable("grouplist", "Séances disponibles pour ".$semestre,
-                            $grp, "uv.groupe.php?semestre=".$semestre, "id_groupe",
+                            $grp, "uv_groupe.php?semestre=".$semestre, "id_groupe",
                             array("type"=>"Type",
                                   "num_groupe"=>"N°",
                                   "jour"=>"Jour",
@@ -509,7 +509,7 @@ if(isset($_REQUEST['id']))
                                   "edit"=>"Corriger",
                                   "delete"=>"Supprimer"),
                             array()), true);
-    $cts->puts("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=new&id_uv=$uv->id';\" value=\"+ Ajouter une séance\" />");
+    $cts->puts("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=new&id_uv=$uv->id';\" value=\"+ Ajouter une séance\" />");
 
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'ressources'){
     $cts->add_paragraph("Bientôt ;)");

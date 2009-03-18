@@ -94,7 +94,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   if(isset($_REQUEST['editmode'])){
     $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
     if($r)
-      $site->redirect("uv.groupe.php?id=".$id_groupe."&action=view");
+      $site->redirect("uv_groupe.php?id=".$id_groupe."&action=view");
   /* ajout d'un nouveau groupe */
   }else{
     /* le groupe en question existe deja banane */
@@ -113,7 +113,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
         $cts->add_paragraph("Merci de votre participation.");
         $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Continuer\" onclick=\"window.opener.openInContents('$sel_id', 'edt.php', 'action=get_seances_as_options&id_uv=$uv->id&type=$type&semestre=$semestre'); self.close();\"/>");
       }else
-        $site->redirect("uv.groupe.php?id=".$id_groupe."&action=view");
+        $site->redirect("uv_groupe.php?id=".$id_groupe."&action=view");
     }
   }
 }
@@ -128,7 +128,7 @@ if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'join' || $_REQUEST['ac
 
   if(!$user->is_attending_uv_group($groupid))
     $user->join_uv_group($groupid, $freq);
-  $site->redirect("uv.groupe.php?id=$groupid&action=view");
+  $site->redirect("uv_groupe.php?id=$groupid&action=view");
 }
 
 /* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
@@ -136,7 +136,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'leave')
 {
   if($user->is_attending_uv_group($groupid))
     $user->leave_uv_group($groupid);
-  $site->redirect("uv.groupe.php?id=$groupid&action=view");
+  $site->redirect("uv_groupe.php?id=$groupid&action=view");
 }
 
 /* ajout d'une nouvelle séance */
@@ -199,22 +199,22 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                          array("nom_utilisateur"=>"Élève", "semaine"=>"Semaine"),
                          array(), array()), true);
   if($user->is_attending_uv_group($groupid))
-    $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=leave&id=$groupid';\" value=\"Se désinscrire\"/>");
+    $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=leave&id=$groupid';\" value=\"Se désinscrire\"/>");
   else{
     if($details['freq'] == 2){
-      $buf = "<input type=\"button\" onclick=\"var f = document.getElementById('freq').value; location.href='uv.groupe.php?action=join&id=$groupid&freq='+f;\" value=\"S'inscrire\"/>";
+      $buf = "<input type=\"button\" onclick=\"var f = document.getElementById('freq').value; location.href='uv_groupe.php?action=join&id=$groupid&freq='+f;\" value=\"S'inscrire\"/>";
       $buf .= "<select name=\"freq\" id=\"freq\">
                 <option value=\"A\">Semaine A</option>
                 <option value=\"B\">Semaine B</option>
               </select>";
     }else{
-      $buf = "<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=join&id=$groupid';\" value=\"S'inscrire\"/>";
+      $buf = "<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=join&id=$groupid';\" value=\"S'inscrire\"/>";
     }
     $cts->add_paragraph($buf);
   }
 
 
-  $cts->puts("<input type=\"button\" onclick=\"location.href='uv.groupe.php?action=edit&id=$groupid';\" value=\"Corriger la séance\" style=\"float:right;\"/>");
+  $cts->puts("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=edit&id=$groupid';\" value=\"Corriger la séance\" style=\"float:right;\"/>");
 }
 
 $site->add_contents($cts);

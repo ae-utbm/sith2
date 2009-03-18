@@ -185,7 +185,7 @@ class add_seance_box extends stdcontents
 
     $this->title = "Ajout d'une séance de ".$uv->code;
 
-    $frm = new form("seance_".$iduv, "uv.groupe.php?action=save");
+    $frm = new form("seance_".$iduv, "uv_groupe.php?action=save");
     $frm->allow_only_one_usage();
     $frm->add_hidden("id_uv", $uv->id);
 

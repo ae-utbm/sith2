@@ -314,7 +314,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 
   $uvs = $user->get_edt_detail($semestre);
 
-  $cts->add(new sqltable("edtdetail", "Liste de vos UV pour ".$semestre, $uvs, "uv.groupe.php", 'id_uv',
+  $cts->add(new sqltable("edtdetail", "Liste de vos UV pour ".$semestre, $uvs, "uv_groupe.php", 'id_uv',
                           array("code"=>"Code",
                                 "intitule"=>"Intitulé",
                                 "type"=>"Type",

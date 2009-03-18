@@ -23,7 +23,7 @@
 
 var edt = {
   add_uv_seance: function(id, type, semestre, calling){
-    url = 'uv.groupe.php?action=new&id_uv='+id+'&type='+type+'&semestre='+semestre+'&mode=popup&calling='+calling;
+    url = 'uv_groupe.php?action=new&id_uv='+id+'&type='+type+'&semestre='+semestre+'&mode=popup&calling='+calling;
     win = window.open(url, "add_seance_"+id+"_"+type, "toolbar=no,location=no,menubar=no,width=600,height=350");
   },
 
