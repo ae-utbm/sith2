@@ -852,66 +852,51 @@ if ( $_REQUEST["view"]=="parrain" )
 
 elseif ( $_REQUEST["view"]=="pedagogie" )
 {
+  require_once($topdir."pedagogie/include/pedag_user.inc.php");
+  $p_user = new pedag_user($site->db);
+  $p_user->load_by_id($user->id);
+
   $cts->add_title(2, "Pédagogie : en maintenance");
-  $cts->add_paragraph("La partie pédagogie est partiellement fermée pour une durée indéterminée pour une refonte complète. Pour toutes remarques constructives, merci de contacter <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=1956\">Gliss</a>.");
-
-  $cts->add_title(2, "Liste des emplois du temps");
-
-  $req = new requete($site->db, "SELECT
-                                        `semestre_grp`
-                                        , `edu_uv_groupe_etudiant`.`id_utilisateur`
-                                        , `nom_utl`
-                                        , `prenom_utl`
-                               FROM
-                                        `edu_uv_groupe`
-                               INNER JOIN
-                                        `edu_uv_groupe_etudiant`
-                               USING(`id_uv_groupe`)
-                               INNER JOIN
-                                        `utilisateurs`
-                               USING(`id_utilisateur`)
-                               WHERE
-                                        `id_utilisateur` = ".
-         $user->id."
-                               GROUP BY
-                                        `semestre_grp` ORDER BY `semestre_grp` DESC");
-  if ($req->lines <= 0)
+  $tab = array();
+  $edts = $p_user->get_edt_list();
+  if(!empty($edts))
   {
-    $cts->add_paragraph("<b>Cet utilisateur n'a pas renseigné d'emploi du temps.</b>");
-  }
-  else
+    foreach($edts as $edt)
     {
-      $tab = array();
-
-      while ($rs = $req->get_row())
-        {
-
-          $tab[] = "<a href=\"javascript:edtopen('".
-            $rs['semestre_grp']."', '".
-            $rs['id_utilisateur']."')\">".
-            "Semestre ".$rs['semestre_grp']."</a>" . " | " .
-            "<a href=\"".$topdir."uvs/edt_ical.php?id=".$rs['id_utilisateur'] .
-            "&semestre=" . $rs['semestre_grp']."\">Format iCal</a>";
-        }
-
-
-      $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
-      $cts->add($itemlst);
+      $tab[$edt]['semestre'] = $edt;
+      $tab[$edt]['semestre_bold'] = "<b>".$edt."</b>";
+      $i=0;
+      foreach($user->get_edt_detail($edt) as $uv){
+        $tab[$edt]['code_'.++$i] = $uv['code'];
+        $tab[$edt]['id_uv_'.$i] = $uv['id_uv'];
+      }
     }
+  }
 
-  $cts->add_paragraph("<script language=\"javascript\">
-function edtopen(semestre, id)
-{
-  myImg = document.getElementById('edtrdr');
-  myImg.src = '/uvs/edt.php?render=1&id='+id+'&semestre='+semestre;
+  if(count($tab) > 1)
+    sort_by_semester($tab, 'semestre');
 
-}
-</script>
-              <p>
-                    <center><img id=\"edtrdr\" src=\"\" alt=\"\" /></center>
-              </p>\n");
+  $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, $topdir."pedagogie/edt.php", 'semestre',
+                          array("semestre_bold"=>"Semestre",
+                                "code_1" => "UV 1",
+                                "code_2" => "UV 2",
+                                "code_3" => "UV 3",
+                                "code_4" => "UV 4",
+                                "code_5" => "UV 5",
+                                "code_6" => "UV 6",
+                                "code_7" => "UV 7"),
+                          array("view" => "Voir détails",
+                                "print" => "Format imprimable",
+                                "schedule" => "Format iCal"),
+                          array(), array(), false), true);
+  $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
+                      ."value=\"+ Ajouter un emploi du temps\" "
+                      ."onclick=\"edt.add();\" "
+                      ."name=\"add_edt\" id=\"add_edt\"/>");
+  $site->add_contents($cts);
 
-  /** afichage des uvs suivies */
+
+  /** afichage des uvs suivies
   if ($user->sexe == 2)
     $cts->add_title(2, "Elle suit / a suivi les UVs suivantes :");
   else
@@ -954,6 +939,8 @@ function edtopen(semestre, id)
                          array("code_uv" => "Code de l'UV",
                                "semestre_grp" => "Semestre suivi"),
                          array("view" => "visualiser l'UV"), array()));
+  */
+
   /**
    * Affichage des CV
    */
