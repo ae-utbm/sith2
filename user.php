@@ -867,7 +867,7 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
       $tab[$edt]['semestre'] = $edt;
       $tab[$edt]['semestre_bold'] = "<b>".$edt."</b>";
       $i=0;
-      foreach($user->get_edt_detail($edt) as $uv){
+      foreach($p_user->get_edt_detail($edt) as $uv){
         $tab[$edt]['code_'.++$i] = $uv['code'];
         $tab[$edt]['id_uv_'.$i] = $uv['id_uv'];
       }
