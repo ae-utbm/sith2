@@ -442,7 +442,7 @@ class form extends stdcontents
   }
 
   /** Ajoute un champ de selection d'une entité (stdentity).
-  *
+   *
    * Determine automatiquement la forme la plus appropriée pour la selection,
    * en fonction des capacité de la classe de l'entité et de ses préférences.
    *
