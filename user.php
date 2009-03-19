@@ -857,7 +857,6 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
   $p_user = new pedag_user($site->db);
   $p_user->load_by_id($user->id);
 
-  $cts->add_title(2, "Pédagogie : en maintenance");
   $tab = array();
   $edts = $p_user->get_edt_list();
   if(!empty($edts))
@@ -877,7 +876,7 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
   if(count($tab) > 1)
     sort_by_semester($tab, 'semestre');
 
-  $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, $topdir."pedagogie/edt.php", 'semestre',
+  $cts->add(new sqltable("edtlist", "Liste des emplois du temps", $tab, $topdir."pedagogie/edt.php?id_utilisateur=".$user->id, 'semestre',
                           array("semestre_bold"=>"Semestre",
                                 "code_1" => "UV 1",
                                 "code_2" => "UV 2",
@@ -890,56 +889,6 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
                                 "print" => "Format imprimable",
                                 "schedule" => "Format iCal"),
                           array(), array(), false), true);
-  $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
-                      ."value=\"+ Ajouter un emploi du temps\" "
-                      ."onclick=\"edt.add();\" "
-                      ."name=\"add_edt\" id=\"add_edt\"/>");
-
-
-  /** afichage des uvs suivies
-  if ($user->sexe == 2)
-    $cts->add_title(2, "Elle suit / a suivi les UVs suivantes :");
-  else
-    $cts->add_title(2, "Il suit / a suivi les UVs suivantes :");
-
-  $sql = new requete($site->db, "SELECT
-                                          `edu_uv`.`id_uv`
-                                        , `edu_uv_groupe`.`semestre_grp`
-                                        , `edu_uv`.`code_uv`
-                                 FROM
-                                          `edu_uv_groupe_etudiant`
-                                 INNER JOIN
-                                          `edu_uv_groupe`
-                                 ON
-                                          `edu_uv_groupe`.`id_uv_groupe` = `edu_uv_groupe_etudiant`.`id_uv_groupe`
-
-                                 INNER JOIN
-                                          `edu_uv` USING (`id_uv`)
-                                 WHERE
-                                          `id_utilisateur` = ".$user->id."
-                                 GROUP BY
-                                          `id_uv`
-                                 UNION
-                                 SELECT
-                                          `edu_uv_obtention`.`id_uv`
-                                        , `semestre_obtention` AS `semestre_grp`
-                                        , `edu_uv`.`code_uv`
-                                 FROM
-                                          `edu_uv_obtention`
-                                 INNER JOIN
-                                          `edu_uv`
-                                 ON
-                                          `edu_uv`.`id_uv` = `edu_uv_obtention`.`id_uv`
-                                 WHERE
-                                          `id_utilisateur` = ".$user->id."
-                                 GROUP BY `id_uv`");
-
-
-  $cts->add(new sqltable("uvf", "UVs suivies", $sql, $topdir. "uvs/uvs.php", "id_uv",
-                         array("code_uv" => "Code de l'UV",
-                               "semestre_grp" => "Semestre suivi"),
-                         array("view" => "visualiser l'UV"), array()));
-  */
 
   /**
    * Affichage des CV
@@ -952,15 +901,15 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
                 if($jobuser->load_pdf_cv() &&  $jobuser->public_cv)
                 {
                         $i18n = array("ar" => "Arabe",
-                                                        "cn" => "Chinois",
-                                                        "de" => "Allemand",
-                                                        "en" => "Anglais",
-                                                        "es" => "Espagnol",
-                                                        "fr" => "Français",
-                                                        "it" => "Italien",
-                                                        "kr" => "Coréen",
-                                                        "pt" => "Portugais"
-                                                        );
+                                      "cn" => "Chinois",
+                                      "de" => "Allemand",
+                                      "en" => "Anglais",
+                                      "es" => "Espagnol",
+                                      "fr" => "Français",
+                                      "it" => "Italien",
+                                      "kr" => "Coréen",
+                                      "pt" => "Portugais"
+                                      );
 
                         $lst = new itemlist(sizeof($jobuser->pdf_cvs) . " CV(s) disponible(s)");
                         foreach($jobuser->pdf_cvs as $cv)

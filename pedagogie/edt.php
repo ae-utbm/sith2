@@ -331,6 +331,13 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   exit;
 }
 
+/**
+ * Export de l'emploi du temps au format iCal
+ */
+if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'schedule' || $_REQUEST['action'] == 'ical'))
+{
+}
+
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
 {
