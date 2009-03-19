@@ -552,7 +552,7 @@ class uv extends stdentity
     return $sql->is_success();
   }
 
-  public function remove_from_dept($dpt){
+  public function remove_from_dept($dept){
     if(empty($this->dept))
       $this->load_dept();
     if(!in_array(intval($dept), $this->dept))
