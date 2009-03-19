@@ -54,7 +54,7 @@ class uv extends stdentity
   var $responsable = null;
   var $antecedent = array();
   var $nb_comments = null;
-  var $alias_of = array();
+  var $alias_of = null;
   var $aliases = array();
   var $cursus = array();
 
@@ -176,7 +176,7 @@ class uv extends stdentity
           $this->aliases[] = array("id" => $row['id_uv_source'],
                                    "commentaire" => $row['commentaire']);
         else
-          $this->alias_of[] = array("id" => $row['id_uv_cible'],
+          $this->alias_of = array("id" => $row['id_uv_cible'],
                                     "commentaire" => $row['commentaire']);
 
       }
@@ -302,7 +302,7 @@ class uv extends stdentity
     if(empty($this->alias_of))
       return false;
     else
-      return true;
+      return $this->alias_of["id"];
   }
 
   public function set_alias_of($id_uv, $comment=null){
@@ -310,6 +310,7 @@ class uv extends stdentity
                       array('id_uv_source' => $this->id,
                             'id_uv_cible' => $id_uv,
                             'commentaire' => $comment));
+    $this->load_extra();
     return $sql->is_success();
   }
 

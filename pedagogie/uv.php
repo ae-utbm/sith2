@@ -101,7 +101,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   }
 
   if($_REQUEST['magicform']['name']=='editrelative'){ /* infos relatives */
-
+    print_r($_REQUEST);
   }
 
 }
@@ -216,9 +216,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm = new form("editrelative", "uv.php?action=save", true, "post", "Informations relatives");
   $frm->add_hidden("id", $uv->id);
 
-  $frm->add_entity_smartselect("alias_of", "Alias de", new uv($site->db), true);
-  //$frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
-
   $avail_dept=array();
   $already_dept=array();
   foreach($_DPT as $dept=>$desc){
@@ -231,6 +228,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
 
   //$sql = new requete($site->db, "SELECT `id_cursus`, `intitule` FROM `pedag_cursus` WHERE ");
   //$frm->add(new selectbox("cursus", "Cursus", null, null, null, null, 120));
+
+  if($uv->is_alias() !== false)
+    $alias_val = new uv($site->db, $site->dbrw, $uv->is_alias());
+  else
+    $alias_val = new uv($site->db);
+  $frm->add_entity_smartselect("alias_of", "Alias de", $alias_val, true);
 
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "relative", false, true);
