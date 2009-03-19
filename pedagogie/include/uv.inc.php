@@ -305,13 +305,13 @@ class uv extends stdentity
       return $this->alias_of["id"];
   }
 
-  public function set_alias_of(){
+  public function unset_alias_of(){
     $sql = new delete($this->dbrw, 'pedag_uv_alias', array('id_uv_source' => $this->id));
     $this->load_extra();
     return $sql->is_success();
   }
 
-  public function unset_alias_of($id_uv, $comment=null){
+  public function set_alias_of($id_uv, $comment=null){
     $sql = new insert($this->dbrw, 'pedag_uv_alias',
                       array('id_uv_source' => $this->id,
                             'id_uv_cible' => $id_uv,
