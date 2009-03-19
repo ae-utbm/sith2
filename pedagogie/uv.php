@@ -404,6 +404,27 @@ if(isset($_REQUEST['id']))
 
     $cts->add_title(2, $uv->intitule);
 
+    $right = new contents("");
+    if($uv->tc_available) $right->add_paragraph("Cette UV est ouverte aux élèves de Tronc Commun");
+    if($uv->has_alias()){
+      $tmp = "Cette UV possède ".count($uv->aliases)." alias :";
+      foreach($uv->aliases as $alias)
+        $tmp .= " <a href=\"uv.php?id=".$alias['id']."\"><b>".$alias['code']."</b></a>";
+      $right->add_paragraph($tmp.".");
+    }
+    if($uv->is_alias()){
+      $right->add_paragraph("Cette UV est l'alias de <a href=\"uv.php?id=".$this->alias_of['id']."\"><b>".$this->alias_of['code']."</b></a>. <br />
+                              Les informations de cette page sont celles de l'UV d'origine.");
+    }
+    if($uv->state == 'MODIFIED') $right->add_paragraph("<i>Cette fiche à été modifiée récemment.</i>");
+
+    /* a partir d'ici, si l'UV est un alias, on affiche les infos de l'UV *cible* */
+    unset($alias);
+    if($uv->is_alias()){
+      $alias = $uv;
+      $uv = new uv($site->db, $site->dbrw, $alias->is_alias());
+    }
+
     $left = new contents("");
     if($uv->responsable)  $left->add_paragraph("Responsable : ".$uv->responsable);
     if($uv->credits)      $left->add_paragraph("Crédits ECTS : ".$uv->credits);
@@ -415,16 +436,6 @@ if(isset($_REQUEST['id']))
       if($uv->guide['tp'])  $lst->add($uv->guide['tp']." heures de TP");
       if($uv->guide['the']) $lst->add($uv->guide['the']." heures hors emploi du temps");
     $left->add($lst, false);
-
-    $right = new contents("");
-    if($uv->tc_available) $right->add_paragraph("Cette UV est ouverte aux élèves de Tronc Commun");
-    if($uv->has_alias()){
-      $tmp = "Cette UV possède ".count($uv->aliases)." alias :";
-      foreach($uv->aliases as $alias)
-        $tmp .= " <a href=\"uv.php?id=".$alias['id']."\"><b>".$alias['code']."</b></a>";
-      $right->add_paragraph($tmp.".");
-    }
-    if($uv->state == 'MODIFIED') $right->add_paragraph("<i>Cette fiche à été modifiée récemment.</i>");
 
     $board = new board();
     $board->add($left, false);
@@ -439,6 +450,10 @@ if(isset($_REQUEST['id']))
     $board->add($obj, true);
     $board->add($prog, true);
     $cts->add($board);
+
+    /* si on etait en mode 'alias' on revient normalement */
+    if(isset($alias) && $alias instanceof uv)
+      $uv = $alias;
 
     $cts->puts("<input type=\"button\" onclick=\"location.href='uv.php?action=edit&id=$uv->id';\" value=\"Corriger la fiche\" style=\"float:right;\"/>");
   }
