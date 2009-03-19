@@ -418,6 +418,12 @@ if(isset($_REQUEST['id']))
 
     $right = new contents("");
     if($uv->tc_available) $right->add_paragraph("Cette UV est ouverte aux élèves de Tronc Commun");
+    if($uv->has_alias()){
+      $tmp = "Cette UV possède ".count($uv->aliases)." alias :";
+      foreach($uv->aliases as $alias)
+        $tmp .= " <a href=\"uv.php?id=".$alias['id']."\"><b>".$alias['code']."</b></a>";
+      $right->add_paragraph($tmp.".");
+    }
     if($uv->state == 'MODIFIED') $right->add_paragraph("<i>Cette fiche à été modifiée récemment.</i>");
 
     $board = new board();

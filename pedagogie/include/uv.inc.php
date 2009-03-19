@@ -168,17 +168,24 @@ class uv extends stdentity
                                     "commentaire" => $row['commentaire']);
 
     /* chargement alias */
-    $sql = new requete($this->db, "SELECT * FROM `pedag_uv_alias`
+    $sql = new requete($this->db, "SELECT `pedag_uv_alias`.*, `cible`.`code` as `code_cible`, `source`.`code` as `code_source`
+                                    FROM `pedag_uv_alias`
+                                    LEFT JOIN `pedag_uv` as `cible`
+                                      ON `pedag_uv_alias`.`id_uv_cible` = `cible`.`id_uv`
+                                    LEFT JOIN `pedag_uv` as `source`
+                                      ON `pedag_uv_alias`.`id_uv_source` = `source`.`id_uv`
                                     WHERE `id_uv_source` = ".$this->id."
-                                       OR `id_uv_cible` = ".$this->id);
+                                      OR `id_uv_cible` = ".$this->id);
     if($sql->is_success()){
       while ($row = $sql->get_row()){
         if($row['id_uv_cible'] == $this->id)
           $this->aliases[] = array("id" => $row['id_uv_source'],
+                                   "code" => $row['code_source'],
                                    "commentaire" => $row['commentaire']);
         else
           $this->alias_of = array("id" => $row['id_uv_cible'],
-                                    "commentaire" => $row['commentaire']);
+                                   "code" => $row['code_cible'],
+                                   "commentaire" => $row['commentaire']);
 
       }
     }
