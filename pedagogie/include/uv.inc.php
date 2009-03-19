@@ -555,7 +555,7 @@ class uv extends stdentity
   public function remove_from_dept($dpt){
     if(empty($this->dept))
       $this->load_dept();
-    if(!in_array($dept, $this->dept))
+    if(!in_array(intval($dept), $this->dept))
       throw new Exception($uv->code." non présente dans ".$dept);
 
     $sql = new delete($this->dbrw, "pedag_uv_dept", array("id_uv" => $this->id, "departement" => $dept));
