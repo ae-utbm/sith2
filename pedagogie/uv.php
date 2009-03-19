@@ -413,7 +413,7 @@ if(isset($_REQUEST['id']))
       $right->add_paragraph($tmp.".");
     }
     if($uv->is_alias()){
-      $right->add_paragraph("Cette UV est l'alias de <a href=\"uv.php?id=".$this->alias_of['id']."\"><b>".$this->alias_of['code']."</b></a>. <br />
+      $right->add_paragraph("Cette UV est l'alias de <a href=\"uv.php?id=".$uv->alias_of['id']."\"><b>".$uv->alias_of['code']."</b></a>. <br />
                               Les informations de cette page sont celles de l'UV d'origine.");
     }
     if($uv->state == 'MODIFIED') $right->add_paragraph("<i>Cette fiche à été modifiée récemment.</i>");
