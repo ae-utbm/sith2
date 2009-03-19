@@ -558,7 +558,8 @@ class uv extends stdentity
     if(!in_array(intval($dept), $this->dept))
       throw new Exception($uv->code." non présente dans ".$dept);
 
-    $sql = new delete($this->dbrw, "pedag_uv_dept", array("id_uv" => $this->id, "departement" => intval($dept)), true);
+    /* pas d'utilisation de 'delete' parce que l'enum est pas compatible avec les guillemets mis autour d'une valeur num */
+    $sql = new requete($this->dbrw, "DELETE FROM `pedag_uv_dept` WHERE `id_uv`=".$this->id." AND `departement`=".intval($dept));
     return $sql->is_success();
   }
 
