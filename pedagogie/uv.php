@@ -423,6 +423,7 @@ if(isset($_REQUEST['id']))
     if($uv->is_alias()){
       $alias = $uv;
       $uv = new uv($site->db, $site->dbrw, $alias->is_alias());
+      print_r($alias); print_r($uv);
     }
 
     $left = new contents("");
