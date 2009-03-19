@@ -894,7 +894,7 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
                       ."value=\"+ Ajouter un emploi du temps\" "
                       ."onclick=\"edt.add();\" "
                       ."name=\"add_edt\" id=\"add_edt\"/>");
-  $site->add_contents($cts);
+  //$site->add_contents($cts);
 
 
   /** afichage des uvs suivies
