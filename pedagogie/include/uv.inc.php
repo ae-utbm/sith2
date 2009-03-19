@@ -125,6 +125,7 @@ class uv extends stdentity
   public function _load($row){
     $this->id = $row['id'];
     $this->code = $row['code'];
+    $this->nom = $this->code; /* compatibilite stdentity */
     $this->intitule = $row['intitule'];
     $this->type = $row['type'];
     $this->semestre = $row['semestre'];
