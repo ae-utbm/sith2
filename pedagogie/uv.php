@@ -101,7 +101,17 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   }
 
   if($_REQUEST['magicform']['name']=='editrelative'){ /* infos relatives */
-    print_r($_REQUEST);
+    /* enregistrement departements */
+    $del = array_diff($uv->get_dept_list(), $_REQUEST['dept_to']);
+    $add = array_diff($_REQUEST[''], $uv->get_dept_list());
+    print_r($del); print_r($add);
+    /* enregistrement alias */
+    if($_REQUEST['alias_of'] == 0){ /* pas d'alias */
+      if($uv->alias_of())
+        $uv->unset_alias_of();
+    }else if($_REQUEST['alias_of'] != $uv->alias_of()){ /* maj */
+      $uv->set_alias_of($_REQUEST['alias_of']);
+    }
   }
 
 }
