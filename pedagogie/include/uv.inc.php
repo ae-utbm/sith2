@@ -558,7 +558,7 @@ class uv extends stdentity
     if(!in_array(intval($dept), $this->dept))
       throw new Exception($uv->code." non présente dans ".$dept);
 
-    $sql = new delete($this->dbrw, "pedag_uv_dept", array("id_uv" => $this->id, "departement" => intval($dept)));
+    $sql = new delete($this->dbrw, "pedag_uv_dept", array("id_uv" => $this->id, "departement" => intval($dept)), true);
     return $sql->is_success();
   }
 
