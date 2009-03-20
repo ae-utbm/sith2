@@ -175,13 +175,13 @@ function __semester_comp($row1, $row2){
   preg_match("/^([AP])([0-9]{4})$/", $row2[$id_row_sort], $s2);
 
   /* comparaisons sur les annees, puis si egalite sur les A/P */
-  if($s1[2] < $s2[2])
+  if($s1[2] > $s2[2])
     return -1;
-  else if ($s1[2] > $s2[2])
+  else if ($s1[2] < $s2[2])
     return 1;
   else{
     /* si < : A pour 1 et P pour 2 */
-    if($s1[1] < $s2[1])
+    if($s1[1] > $s2[1])
       return 1;
      else
       return -1;

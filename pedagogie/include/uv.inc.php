@@ -38,7 +38,7 @@ class uv extends stdentity
   var $code;
   var $intitule;
   var $type;
-  var $dept;
+  var $dept = array();
   var $state;
   var $tc_available;
   var $semestre;

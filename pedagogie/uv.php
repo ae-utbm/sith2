@@ -322,7 +322,6 @@ if(isset($_REQUEST['id']))
     require_once("include/uv_comment.inc.php");
 
     if($uv->load_comments()){
-
       foreach($uv->comments as $commentid){
         $comment = new uv_comment($site->db, $site->dbrw, $commentid);
         $author = new pedag_user($site->db);
@@ -330,10 +329,22 @@ if(isset($_REQUEST['id']))
 
         $cts->add(new uv_comment_box($comment, $uv, $site->user, $author));
       }
-
     }else{
       $cts->add_paragraph("Il n'y a pas encore de commentaires associées
         à cette UV, soyez le premier !");
+    }
+
+    /* affichage des commentaires des UV alias */
+    if($uv->is_alias()){
+      $uv_cible = new uv($site->db, $site->dbrw, $uv->is_alias());
+      if($uv_cible->load_comments())
+        foreach($uv_cible->comments as $commentid){
+          $comment = new uv_comment($site->db, $site->dbrw, $commentid);
+          $author = new pedag_user($site->db);
+          $author->load_by_id($comment->id_utilisateur);
+
+          $cts->add(new uv_comment_box($comment, $uv_cible, $site->user, $author));
+        }
     }
 
     /** formulaire d'ajout */
