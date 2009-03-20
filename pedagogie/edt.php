@@ -177,7 +177,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'get_uv_edt_box')
     $sem = SEMESTER_NOW;
 
   $box = new add_uv_edt_box($uv, $sem);
-  echo $box->html_render();
+  $buffer  = "<div class=\"formrow\" name=\"".$uv->code."_row\" id=\"".$uv->code."_row\">\n";
+  $buffer .= "  <div class=\"fullrow\">\n";
+  $buffer .= "    <div class=\"subformlabel\">\n";
+  $buffer .= "      <a href=\"#\" onclick=\"on_off_icon('".$uv->code."','../'); return false;\"><img src=\"../images/fld.png\" alt=\"togle\" class=\"icon\" id=\"".$uv->code."_icon\" /> ".$uv->code." - ".$uv->intitule."</a>";
+  $buffer .= "    </div>\n";
+  $buffer .= "    <div class=\"subform\" id=\"".$uv->code."_contents\">\n";
+  $buffer .= "      ".$box->buffer;
+  $buffer .= "    </div>\n";
+  $buffer .= "  </div>\n";
+  $buffer .= "</div>\n";
+  //echo $box->html_render();
+  echo $buffer;
   exit;
 }
 

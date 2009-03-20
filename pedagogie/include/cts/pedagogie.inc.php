@@ -122,49 +122,6 @@ class add_uv_edt_box extends form
   }
 }
 
-/**
- * plus utilisee
- *
-class add_edt_start_box extends stdcontents
-{
-  public function __construct($semestre=SEMESTER_NOW)
-  {
-    $this->title = "Ajoutez un nouvel emploi du temps   (Étape 1/2)";
-    $this->buffer = "";
-
-    $y = date('Y');
-    $sem = array();
-    for($i = $y-2; $i <= $y; $i++){
-      $sem[] = array('val'=>'P'.$i, 'name'=>'Printemps '.$i);
-      $sem[] = array('val'=>'A'.$i, 'name'=>'Automne '.$i);
-    }
-    sort_by_semester($sem, 'val');
-
-    $this->buffer  = "<div class=\"formrow\">\n";
-    $this->buffer .= "  <div class=\"formlabel\">Semestre concerné : </div>\n";
-    $this->buffer .= "  <div class=\"formfield\">\n";
-    $this->buffer .= "    <select name=\"semestre\">\n";
-    foreach($sem as $s)
-      $this->buffer .= "      <option value=\"".$s['val']."\">".$s['name']."</option>\n";
-    $this->buffer .= "    </select>\n";
-    $this->buffer .= "  </div>\n";
-    $this->buffer .= "</div>\n\n";
-
-    $this->buffer .= "UV disponibles : <br />";
-    $this->build_uv_choice();
-  }
-
-  private function build_uv_choice(){
-    global $site;
-    $tab= array();
-    foreach(uv::get_list($site->db) as $uv)
-      $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
-
-    $this->add(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
-  }
-}
-*/
-
 class add_seance_box extends stdcontents
 {
   public function __construct($iduv, $type=null, $semestre=SEMESTER_NOW,
