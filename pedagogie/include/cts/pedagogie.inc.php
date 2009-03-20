@@ -40,10 +40,10 @@ class add_uv_edt_box extends form
 
     /** UV possedant des alias */
     if($uv->has_alias()){
-      $aliasbuf = "<b>Attention</b>, cette UV possède ".count($uv->aliases).".
+      $aliasbuf = "<b>Attention, cette UV possède ".count($uv->aliases)." alias</b>.
         Peut-être l'UV qui vous correspond en fait partie :";
       foreach($uv->aliases as $alias)
-        $aliasbuf .= "<input type=\"button\" onclick=\"edt.switch_boxes('".$uv->code."_row', ".$alias['code'].", $sem);\" value=\"Échanger avec ".$alias['code']."\" />\n";
+        $aliasbuf .= "<input type=\"button\" onclick=\"edt.switch_boxes('".$uv->code."_row', ".$alias['id'].", '$sem');\" value=\"Échanger avec ".$alias['code']."\" />\n";
     }
     $this->buffer .= $aliasbuf;
 
