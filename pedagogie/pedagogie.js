@@ -31,7 +31,7 @@ var edt = {
     e = document.getElementById(elemid);
     if(!e)  return;
 
-    if(freq != 2) 
+    if(freq != 2)
       e.innerHTML = "";
     else
       e.innerHTML = "<select name=\"freq_"+uvid+"_"+type+"\">  \
@@ -39,21 +39,21 @@ var edt = {
                       <option value=\"B\">Semaine B</option> \
                      </select>";
   },
-  
+
   /* pour l instant juste une redirection */
   add: function(){
     document.location.href="edt.php?action=new" ;
   },
-  
+
   select_uv: function(optionelt){
   },
-  
+
   remove: function(elemid){
     o = document.getElementById(elemid);
     o.parentNode.removeChild(o);
   },
-  
-  
+
+
   /**
    * recupere un arbre json pour mettre a jour les seances d'une UV
    * data = [{
@@ -67,6 +67,13 @@ var edt = {
    *        ]
    */
   refresh_list: function(selectid){
-    //xhr = 
+    //xhr =
+  },
+
+  /**
+   * remplacement d'une boite de seance d'une UV par une autre pour les alias
+   */
+  switch_boxes: function(elemid, uvid, sem){
+    openInContents(elemid, 'edt.php', 'action=get_uv_edt_box&id_uv='+uvid+'&semestre='+sem);
   }
 }

@@ -163,6 +163,24 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'get_seances_as_options'
 }
 
 /**
+ * recuperation d'une boite de seance complete pour appel ajax
+ * @see uv alias
+ */
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'get_uv_edt_box')
+{
+  $uv = new uv($site->db, $site->dbrw, $_REQUEST['id_uv']);
+  if(!$uv->is_valid()) exit;
+
+  if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
+    $sem = $_REQUEST['semestre'];
+  else
+    $sem = SEMESTER_NOW;
+
+  echo new add_uv_edt_box($uv, $sem);
+  exit;
+}
+
+/**
  * enregistrement effectif du nouvel emploi du temps
  */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
@@ -336,6 +354,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
  */
 if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'schedule' || $_REQUEST['action'] == 'ical'))
 {
+  echo "coming soon";
+  exit;
 }
 
 
@@ -389,6 +409,7 @@ $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.ph
                               "code_7" => "UV 7"),
                         array("view" => "Voir détails",
                               "print" => "Format imprimable",
+                              "schedule" => "Export iCal",
                               "edit" => "Éditer",
                               "delete" => "Supprimer"),
                         array(), array(), false), true);

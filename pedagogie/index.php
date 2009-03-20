@@ -50,8 +50,8 @@ $path .= "/" . " Accueil";
 $cts = new contents($path);
 $cts->add_paragraph("Bienvenue sur la partie pédagogie du site de l'AE");
 
-$cts->add_paragraph("<b>Note : </b>Toutes les informations ont été normalement 
-  transférées depuis la précédente version, cependant si vous constatez 
+$cts->add_paragraph("<b>Note : </b>Toutes les informations ont été normalement
+  transférées depuis la précédente version, cependant si vous constatez
   des erreurs, n'hésitez pas à les corriger. De même, certaines informations
   n'existaient pas, telles que le semestre d'ouverture, le nombre d'heures de cours,
   etc... Nous comptons sur vous pour rendre ce bout du site de l'AE aussi
@@ -89,8 +89,9 @@ $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.ph
                               "code_7" => "UV 7"),
                         array("view" => "Voir détails",
                               "print" => "Format imprimable",
-                              "edit" => "Éditer",
-                              "delete" => "Supprimer"),
+                              "schedule" => "Export iCal"
+                              /*"edit" => "Éditer",*/
+                              /*"delete" => "Supprimer"*/),
                         array(), array(), false), true);
 $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."value=\"+ Ajouter un emploi du temps\" "

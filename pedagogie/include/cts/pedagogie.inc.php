@@ -38,6 +38,15 @@ class add_uv_edt_box extends form
     if(!$uv->extra_loaded)
       $uv->load_extra();
 
+    /** UV possedant des alias */
+    if($uv->has_alias()){
+      $aliasbuf = "<b>Attention</b>, cette UV possède ".count($uv->aliases).".
+        Peut-être l'UV qui vous correspond en fait partie :";
+      foreach($uv->aliases as $alias)
+        $aliasbuf .= "<input type=\"button\" onclick=\"edt.switch_boxes('".$uv->code."_row', ".$alias['code'].", $sem);\" value=\"Échanger avec ".$alias['code']."\" />\n";
+    }
+    $this->buffer .= $aliasbuf;
+
     /* si UV sans C/TD/TP, peut etre une TX ou un stage */
     if(empty($uv->guide['c']) && empty($uv->guide['td']) && empty($uv->guide['tp'])){
       /* ou alors c'est une erreur */
