@@ -336,8 +336,8 @@ if(isset($_REQUEST['id']))
 
     /* affichage des commentaires des UV alias */
     if($uv->is_alias()){
-      $cts->add_title(3, "Commentaires sur l'UV ".$uv_cible->code);
       $uv_cible = new uv($site->db, $site->dbrw, $uv->is_alias());
+      $cts->add_title(3, "Commentaires sur l'UV ".$uv_cible->code);
       if($uv_cible->load_comments())
         foreach($uv_cible->comments as $commentid){
           $comment = new uv_comment($site->db, $site->dbrw, $commentid);
