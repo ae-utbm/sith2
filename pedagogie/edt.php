@@ -177,7 +177,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'get_uv_edt_box')
     $sem = SEMESTER_NOW;
 
   $box = new add_uv_edt_box($uv, $sem);
-  echo $box->render_html();
+  echo $box->html_render();
   exit;
 }
 
