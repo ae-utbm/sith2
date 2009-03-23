@@ -69,12 +69,16 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     if(!$cursus->is_valid())
       $site->redirect("cursus.php");
 
+    $cursus->update($_REQUEST['intitule'], $_REQUEST['type'], $_REQUEST['departement'], $_REQUEST['description'], $_REQUEST['responsable']);
+
     $site->redirect("cursus.php?id=".$cursus->id);
   }
   if($_REQUEST['magicform']['name']=='edituvcursus'){
     $cursus->load_by_id(intval($_REQUEST['id']));
     if(!$cursus->is_valid())
       $site->redirect("cursus.php");
+
+    $cursus->update(null, null, null, null, null, $_REQUEST['nb_some_of'], $_REQUEST['nb_all_of']);
 
     $site->redirect("cursus.php?id=".$cursus->id);
   }
@@ -86,8 +90,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 {
   $frm = new form("newcursus", "cursus.php?action=save", true);
-  $frm->add_text_field("intitule", "Intitulé", "", true);
-  $frm->add_text_field("responsable", "Responsable", "", true);
+  $frm->add_text_field("intitule", "Intitulé", "", true, 36);
+  $frm->add_text_field("responsable", "Responsable", "", true, 36);
   $avail_type=array();
   foreach($_CURSUS as $type=>$desc)
     $avail_type[$type] = $desc['long'];
@@ -96,9 +100,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   foreach($_DPT as $dept=>$desc)
     $avail_dept[$dept] = $desc['long'];
   $frm->add_select_field("departement", "Département", $avail_dept);
-  $frm->add_text_area("description", "Description");
-  $frm->add_text_field("nb_all_of", "Nombre d'UV principales", "", false, 2, false, true, "\"à obtenir\" pour les mineurs, double-étoilées nécessaires pour les filières");
-  $frm->add_text_field("nb_some_of", "Nombre d'UV secondaires", "", false, 2, false, true, "\"à choisir parmi\" pour les mineurs, simple-étoilées nécessaires pour les filières");
+  $frm->add_text_area("description", "Description", $cursus->description, 80, 10);
+  $frm->add_text_field("nb_all_of", "Nombre d'UV principales", "", false, 2, false, true, " (\"à obtenir\" pour les mineurs, double-étoilées nécessaires pour les filières)");
+  $frm->add_text_field("nb_some_of", "Nombre d'UV secondaires", "", false, 2, false, true, " (\"à choisir parmi\" pour les mineurs, simple-étoilées nécessaires pour les filières)");
 
   $frm->add_submit("savecursus", "Enregistrer & sélectionner les UV");
   $cts->add($frm);
@@ -121,8 +125,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm = new form("editcursus", "cursus.php?action=save", true, "post", "Informations générales");
   $frm->add_hidden("id", $uv->id);
 
-  $frm->add_text_field("intitule", "Intitulé", $cursus->intitule, true);
-  $frm->add_text_field("responsable", "Responsable", $cursus->responsable, true);
+  $frm->add_text_field("intitule", "Intitulé", $cursus->intitule, true, 36);
+  $frm->add_text_field("responsable", "Responsable", $cursus->responsable, true, 36);
   $avail_type=array();
   foreach($_CURSUS as $type=>$desc)
     $avail_type[$type] = $desc['long'];

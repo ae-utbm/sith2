@@ -23,8 +23,8 @@
  */
 
 $UV_RELATION = array(
-  CURSUS_MINEUR => array("simple étoilée(s)", "double étoilée(s)"),
-  CURSUS_FILIERE => array("à choisir", "à obtenir"),
+  CURSUS_FILIERE => array("simple étoilée(s)", "double étoilée(s)"),
+  CURSUS_MINEUR => array("à choisir", "à obtenir"),
   CURSUS_AUTRE => array("*", "**")
 );
 
@@ -110,11 +110,12 @@ class cursus extends stdentity
     return $sql->is_success();
   }
 
-  public function update($intitule=null, $type=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
+  public function update($intitule=null, $type=null, $departement=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
     if(func_num_args() < 1) return false;
 
     $data = array();
-    if($type) $data["type"] = $type;
+    if(!is_null($type)) $data["type"] = $type;
+    if(!is_null($departement)) $data["departement"] = $departement;
     if($intitule) $data["intitule"] = mysql_real_escape_string($intitule);
     if($description) $data["description"] = mysql_real_escape_string($description);
     if($responsable) $data["responsable"] = mysql_real_escape_string($responsable);
