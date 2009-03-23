@@ -108,6 +108,43 @@ while(list($id,$nom,$stock)=$req->get_row())
 }
 $cts->add(new sqltable('stock','Stock',$lst,'admin.php', 'id_produit',array('nom'=>'Produit','stock'=>'Stock'),array(),array(),true,false));
 
+if(!isset($_REQUEST['date']))
+{
+  $req = new requete($site->db,
+                     'SELECT '.
+                     'IF(mode_paiement=\'UT\', IF(u.type_utl=\'srv\',\'Facture interne\',\'À régler\'), IF(mode_paiement=\'CH\',\'Chèque\',\'Espèce\')) AS mode '.
+                     ', SUM(montant_facture)/100 AS total '.
+                     'WHERE ready=1 '.
+                     'GROUP BY mode_paiement');
+  if($req->lines>0)
+  {
+    $lst=array();
+    while(list($type,$total)=$req->get_row())
+      $lst[]=array('type'=>$type,'total'=>$total);
+    $cts->add(new sqltable('stock','Ventes du '.date("d/m/Y"),$lst,'stock.php', 'type',array('type'=>'Mode de paiement','total'=>'Total'),array(),array(),true,false));
+  }
+}
+else
+{
+  $date = date("Y-m-d",$_REQUEST["date"]);
+  $fdate = date("d/m/Y",$_REQUEST["date"]);
+  $req = new requete($site->db,
+                     'SELECT '.
+                     'IF(mode_paiement=\'UT\', IF(u.type_utl=\'srv\',\'Facture interne\',\'À régler\'), IF(mode_paiement=\'CH\',\'Chèque\',\'Espèce\')) AS mode '.
+                     ', SUM(montant_facture)/100 AS total '.
+                     'WHERE ready=1 '.
+                     'AND date_facture > \''.$date.'\' 00:00:00 '.
+                     'AND date_facture < \''.$date.'\' 23:59:59'.
+                     'GROUP BY mode_paiement');
+  if($req->lines>0)
+  {
+    $lst=array();
+    while(list($type,$total)=$req->get_row())
+      $lst[]=array('type'=>$type,'total'=>$total);
+    $cts->add(new sqltable('stock','Ventes du '.$fdate,$lst,'stock.php', 'type',array('type'=>'Mode de paiement','total'=>'Total'),array(),array(),true,false));
+  }
+}
+
 $site->add_contents($cts);
 $site->end_page();
 
