@@ -217,6 +217,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'leave')
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 {
+  $cursus = new cursus($site->db, $site->dbrw, intval($_REQUEST['id']));
+  if(!$cursus->is_valid())
+    $site->redirect("cursus.php");
+
   $cts->add_title(2, $cursus->intitule);
   $cts->add_paragraph("Responsable : ".$cursus->responsable);
   $cts->add_paragraph("Departement : ".$_DPT[$cursus->departement]['long']);
