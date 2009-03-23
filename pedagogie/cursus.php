@@ -82,12 +82,16 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 }
 
 foreach($_DPT as $dept=>$desc){
-  $cts->add_title(2,"<a id=\"dept_".$dept."\" href=\"./uv.php?dept=$dept\">".$desc['long']."</a>");
-
   $tab = array();
   $cursuslist = cursus::get_list($site->db, $dept);
+  if(empty($cursuslist))
+    continue;
+
+  $cts->add_title(2,"<a id=\"dept_".$dept."\" href=\"./uv.php?dept=$dept\">".$desc['long']."</a>");
+
   foreach($cursuslist as $c)
     $tab[] = array(
+               'id_cursus'=>$c['id_cursus'],
                'type'=>$_CURSUS[ $c['type'] ]['long'],
                'intitule'=>$c['intitule'],
                'responsable'=>$c['responsable'],
