@@ -82,16 +82,26 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     $cursus->update(null, null, null, null, null, $_REQUEST['nb_some_of'], $_REQUEST['nb_all_of']);
 
     /** maj liste des UV all_of */
-    $del = array_diff($cursus->uv_all_of, $_REQUEST['all_of_to']);
-    $add = array_diff($_REQUEST['all_of_to'], $cursus->uv_all_of);
+    if(isset($_REQUEST['all_of_to']) && !empty($_REQUEST['all_of_to'])){
+      $del = array_diff($cursus->uv_all_of, $_REQUEST['all_of_to']);
+      $add = array_diff($_REQUEST['all_of_to'], $cursus->uv_all_of);
+    }else{
+      $del = $cursus->uv_all_of;
+      $add = array();
+    }
     foreach($del as $d)
       $cursus->remove_uv($d);
     foreach($add as $a)
       $cursus->add_uv($a, 'ALL_OF');
 
     /** maj liste des UV some_of */
-    $del = array_diff($cursus->uv_some_of, $_REQUEST['some_of_to']);
-    $add = array_diff($_REQUEST['some_of_to'], $cursus->uv_some_of);
+    if(isset($_REQUEST['some_of_to']) && !empty($_REQUEST['some_of_to'])){
+      $del = array_diff($cursus->uv_some_of, $_REQUEST['some_of_to']);
+      $add = array_diff($_REQUEST['some_of_to'], $cursus->uv_some_of);
+    }else{
+      $del = $cursus->uv_all_of;
+      $add = array();
+    }
     foreach($del as $d)
       $cursus->remove_uv($d);
     foreach($add as $a)
