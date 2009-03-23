@@ -111,8 +111,6 @@ class cursus extends stdentity
   }
 
   public function update($intitule=null, $type=null, $departement=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
-    if(func_num_args() < 1) return false;
-
     $data = array();
     if(!is_null($type)) $data["type"] = $type;
     if(!is_null($departement)) $data["departement"] = $departement;

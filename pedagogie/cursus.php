@@ -65,15 +65,14 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     $site->redirect("cursus.php?id=".$cursus->id."&action=edit#edituvcursus");
   }
   if($_REQUEST['magicform']['name']=='editcursus'){
-    print_r($_REQUEST);
     $cursus->load_by_id(intval($_REQUEST['id_uv']));
     if(!$cursus->is_valid())
       $site->redirect("cursus.php");
 
-    $cursus->update($_REQUEST['intitule'], $_REQUEST['type'], $_REQUEST['departement'], $_REQUEST['description'], $_REQUEST['responsable']);
-    exit;
-
-    $site->redirect("cursus.php?id=".$cursus->id);
+    if($cursus->update($_REQUEST['intitule'], $_REQUEST['type'], $_REQUEST['departement'], $_REQUEST['description'], $_REQUEST['responsable']))
+      $site->redirect("cursus.php?id=".$cursus->id);
+    else
+      print_r($cursus);
   }
   if($_REQUEST['magicform']['name']=='edituvcursus'){
     $cursus->load_by_id(intval($_REQUEST['id_uv']));
