@@ -66,6 +66,25 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'leave')
 /* ajout d'une nouvelle séance */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 {
+  $frm = new form("newcursus", "cursus.php?action=save", true);
+  $frm->add_text_field("intitule", "Intitulé", "", true);
+  $frm->add_text_field("responsable", "Responsable", "", true);
+  $avail_type=array();
+  foreach($_CURSUS as $type=>$desc)
+    $avail_type[$type] = $desc['long'];
+  $frm->add_select_field("type", "Catégorie", $avail_type);
+  $avail_dept=array();
+  foreach($_DPT as $dept=>$desc)
+    $avail_dept[$dept] = $desc['long'];
+  $frm->add_select_field("departement", "Département", $avail_dept);
+  $frm->add_text_area("description", "Description", "", true);
+
+  $frm->add_submit("savecursus", "Enregistrer & sélectionner les UV");
+  $cts->add($frm);
+
+  $site->add_contents($cts);
+  $site->end_page();
+  exit;
 }
 
 /* modification d'une séance existante */
@@ -102,8 +121,6 @@ foreach($_DPT as $dept=>$desc){
                                "intitule"=>"Intitulé",
                                "responsable"=>"Responsable"),
                          array("view"=>"Voir détails"), array()));
-  print_r($cursuslist);
-  print_r($tab);
 }
 
 $site->add_contents($cts);
