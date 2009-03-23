@@ -51,16 +51,35 @@ $cts = new contents($path);
 /* ajout/modification effectif des actions ajouts/editions */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
-}
+  $cursus = new cursus($site->db, $site->dbrw);
 
-/* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
-if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'join' || $_REQUEST['action'] == 'done'))
-{
-}
+  if($_REQUEST['magicform']['name']=='newcursus'){
+    $cursus->add($_REQUEST['intitule'],
+                 $_REQUEST['type'],
+                 $_REQUEST['description'],
+                 $_REQUEST['responsable'],
+                 $_REQUEST['nb_some_of'],
+                 $_REQUEST['nb_all_of'],
+                 $_REQUEST['departement']);
 
-/* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
-if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'leave')
-{
+    $site->redirect("cursus.php?id=".$cursus->id);
+  }
+  if($_REQUEST['magicform']['name']=='editcursus'){
+    $cursus->load_by_id(intval($_REQUEST['id']));
+    if(!$cursus->is_valid())
+      $site->redirect("cursus.php");
+
+    $site->redirect("cursus.php?id=".$cursus->id);
+  }
+  if($_REQUEST['magicform']['name']=='edituvcursus'){
+    $cursus->load_by_id(intval($_REQUEST['id']));
+    if(!$cursus->is_valid())
+      $site->redirect("cursus.php");
+
+    $site->redirect("cursus.php?id=".$cursus->id);
+  }
+
+  $site->redirect("cursus.php");
 }
 
 /* ajout d'une nouvelle séance */
@@ -78,6 +97,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     $avail_dept[$dept] = $desc['long'];
   $frm->add_select_field("departement", "Département", $avail_dept);
   $frm->add_text_area("description", "Description");
+  $frm->add_text_field("nb_all_of", "Nombre d'UV principales", "", false, 2, false, true, "\"à obtenir\" pour les mineurs, double-étoilées nécessaires pour les filières");
+  $frm->add_text_field("nb_some_of", "Nombre d'UV secondaires", "", false, 2, false, true, "\"à choisir parmi\" pour les mineurs, simple-étoilées nécessaires pour les filières");
 
   $frm->add_submit("savecursus", "Enregistrer & sélectionner les UV");
   $cts->add($frm);
@@ -100,18 +121,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm = new form("editcursus", "cursus.php?action=save", true, "post", "Informations générales");
   $frm->add_hidden("id", $uv->id);
 
-  $frm->add_text_field("intitule", "Intitulé", "", true);
-  $frm->add_text_field("responsable", "Responsable", "", true);
+  $frm->add_text_field("intitule", "Intitulé", $cursus->intitule, true);
+  $frm->add_text_field("responsable", "Responsable", $cursus->responsable, true);
   $avail_type=array();
   foreach($_CURSUS as $type=>$desc)
     $avail_type[$type] = $desc['long'];
-  $frm->add_select_field("type", "Catégorie", $avail_type);
+  $frm->add_select_field("type", "Type", $avail_type, $cursus->type);
   $avail_dept=array();
   foreach($_DPT as $dept=>$desc)
     $avail_dept[$dept] = $desc['long'];
-  $frm->add_select_field("departement", "Département", $avail_dept);
-  $frm->add_text_area("description", "Description");
-  $frm->add_checkbox("closed", "Cursus fermé");
+  $frm->add_select_field("departement", "Département", $avail_dept, $cursus->departement);
+  $frm->add_text_area("description", "Description", $cursus->description, 80, 10);
+  $frm->add_checkbox("closed", "Cursus fermé", $cursus->closed);
 
   $frm->add_submit("savecursus", "Enregistrer les modifications");
   $cts->add($frm, true);
@@ -120,24 +141,38 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    * UV comprises dans le cursus
    */
   unset($frm);
-  $frm = new form("editcursus", "cursus.php?action=save", true, "post", "UV faisant partie du cursus");
+  $frm = new form("edituvcursus", "cursus.php?action=save", true, "post", "UV faisant partie du cursus");
   $frm->add_hidden("id", $uv->id);
 
   $tab = array();
   foreach(uv::get_list($site->db, null, $cursus->departement) as $uv)
     $tab[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
 
-  $frm->add_text_field("nb_some_of", "Nombre d'UV ".$UV_RELATION[$cursus->type][0], $cursus->nb_some_of, false, 2);
-  $frm->add(new selectbox('some_of', 'UV '.$UV_RELATION[$cursus->type][0], $tab, '', 'UV'));
-
   $frm->add_text_field("nb_some_of", "Nombre d'UV ".$UV_RELATION[$cursus->type][1], $cursus->nb_all_of, false, 2);
   $frm->add(new selectbox('all_of', 'UV '.$UV_RELATION[$cursus->type][1], $tab, '', 'UV'));
 
+  $frm->add_text_field("nb_some_of", "Nombre d'UV ".$UV_RELATION[$cursus->type][0], $cursus->nb_some_of, false, 2);
+  $frm->add(new selectbox('some_of', 'UV '.$UV_RELATION[$cursus->type][0], $tab, '', 'UV'));
+
   $frm->add_submit("savecursus", "Enregistrer les modifications");
   $cts->add($frm, true);
+
+  $site->add_contents($cts);
+  $site->end_page();
+  exit;
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
+{
+}
+
+/* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
+if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'join' || $_REQUEST['action'] == 'done'))
+{
+}
+
+/* inscription d'un utilisateur a une seance (nom 'done' choisi pour l'icone uniquement */
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'leave')
 {
 }
 

@@ -41,6 +41,8 @@ class cursus extends stdentity
   var $description;
   var $responsable;
   var $departement;
+  var $closed;
+
   var $nb_all_of;
   var $nb_some_of;
   var $uv_all_of=array();
@@ -73,6 +75,7 @@ class cursus extends stdentity
     $this->departement = $row['departement'];
     $this->responsable = $row['responsable'];
     $this->description = $row['description'];
+    $this->closed = $row['closed'];
 
     $this->nb_some_of = $row['nb_some_of'];
     $this->nb_all_of = $row['nb_all_of'];
