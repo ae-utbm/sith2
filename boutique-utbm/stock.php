@@ -123,7 +123,7 @@ if(!isset($_REQUEST['date']))
     $lst=array();
     while(list($type,$total)=$req->get_row())
       $lst[]=array('type'=>$type,'total'=>$total);
-    $cts->add(new sqltable('stock','Ventes du '.date("d/m/Y"),$lst,'stock.php', 'type',array('type'=>'Mode de paiement','total'=>'Total'),array(),array(),true,false));
+    $cts->add(new sqltable('stock','Ventes du '.date("d/m/Y"),$lst,'stock.php', 'type',array('type'=>'Mode de paiement','total'=>'Total'),array(),array(),true,false),true);
   }
 }
 else
@@ -145,7 +145,7 @@ else
     $lst=array();
     while(list($type,$total)=$req->get_row())
       $lst[]=array('type'=>$type,'total'=>$total);
-    $cts->add(new sqltable('stock','Ventes du '.$fdate,$lst,'stock.php', 'type',array('type'=>'Mode de paiement','total'=>'Total'),array(),array(),true,false));
+    $cts->add(new sqltable('stock','Ventes du '.$fdate,$lst,'stock.php', 'type',array('type'=>'Mode de paiement','total'=>'Total'),array(),array(),true,false),true);
   }
 }
 
