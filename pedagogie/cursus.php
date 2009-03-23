@@ -170,7 +170,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   foreach(uv::get_list($site->db, null, $cursus->departement) as $uv){
     if(in_array($uv['id_uv'], $cursus->uv_all_of))
       $all_uv[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
-    else if(in_array($uv['id_uv'], $cursus->uv_somme_of))
+    else if(in_array($uv['id_uv'], $cursus->uv_some_of))
       $some_uv[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
     else
       $avail_uv[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
