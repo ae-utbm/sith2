@@ -42,6 +42,10 @@ $site->start_page("services", "AE Pédagogie");
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 $path .= " / "."Cursus";
 
+/* compatibilite sqltable bleh */
+if(isset($_REQUEST['id_cursus']))
+  $_REQUEST['id'] = $_REQUEST['id_cursus'];
+
 $cts = new contents($path);
 
 /***********************************************************************
@@ -107,7 +111,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     foreach($add as $a)
       $cursus->add_uv($a, 'SOME_OF');
 
-    $site->redirect("cursus.php?id=".$cursus->id);
+    $site->redirect("cursus.php?id=".$cursus->id."&action=view");
   }
 
   $site->redirect("cursus.php");
@@ -230,8 +234,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   if($cursus->closed)
     $cts->add_paragraph("<b>Ce ".$_CURSUS[$cursus->type]['short']." est actuellement fermé.</b>");
 
-  $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_all_of, false, $cursus->uv_all_of));
-  $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_some_of, false, $cursus->uv_some_of));
+  $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_all_of, false, $cursus->uv_all_of), true);
+  $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_some_of, false, $cursus->uv_some_of), true);
 }
 
 foreach($_DPT as $dept=>$desc){
