@@ -84,6 +84,11 @@ class cursus extends stdentity
   }
 
   public function add($intitule, $type, $description, $responsable, $nb_some_of, $nb_all_of, $departement=null){
+    if($nb_some_of)
+      $nb_some_of = null;
+    if($nb_all_of)
+      $nb_all_of = null;
+
     $data = array("type" => $type,
                   "intitule" => mysql_real_escape_string($intitule),
                   "description" => mysql_real_escape_string($description),
