@@ -107,6 +107,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     foreach($add as $a)
       $cursus->add_uv($a, 'SOME_OF');
 
+    print_r($_REQUEST);
+    exit;
     $site->redirect("cursus.php?id=".$cursus->id);
   }
 
