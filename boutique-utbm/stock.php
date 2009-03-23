@@ -114,6 +114,7 @@ if(!isset($_REQUEST['date']))
                      'SELECT '.
                      'IF(mode_paiement=\'UT\', IF(u.type_utl=\'srv\',\'Facture interne\',\'À régler\'), IF(mode_paiement=\'CH\',\'Chèque\',\'Espèce\')) AS mode '.
                      ', SUM(montant_facture)/100 AS total '.
+                     'FROM boutiqueut_debitfacture '.
                      'WHERE ready=1 '.
                      'GROUP BY mode_paiement');
   if($req->lines>0)
@@ -133,6 +134,7 @@ else
                      'IF(mode_paiement=\'UT\', IF(u.type_utl=\'srv\',\'Facture interne\',\'À régler\'), IF(mode_paiement=\'CH\',\'Chèque\',\'Espèce\')) AS mode '.
                      ', SUM(montant_facture)/100 AS total '.
                      'WHERE ready=1 '.
+                     'FROM boutiqueut_debitfacture '.
                      'AND date_facture > \''.$date.'\' 00:00:00 '.
                      'AND date_facture < \''.$date.'\' 23:59:59'.
                      'GROUP BY mode_paiement');
