@@ -80,6 +80,22 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 
     $cursus->update(null, null, null, null, null, $_REQUEST['nb_some_of'], $_REQUEST['nb_all_of']);
 
+    /** maj liste des UV all_of */
+    $del = array_diff($cursus->uv_all_of, $_REQUEST['all_of_to']);
+    $add = array_diff($_REQUEST['all_of_to'], $cursus->uv_all_of);
+    foreach($del as $d)
+      $cursus->remove_uv($d);
+    foreach($add as $a)
+      $cursus->add_uv($a, 'ALL_OF');
+
+    /** maj liste des UV some_of */
+    $del = array_diff($cursus->uv_some_of, $_REQUEST['some_of_to']);
+    $add = array_diff($_REQUEST['some_of_to'], $cursus->uv_some_of);
+    foreach($del as $d)
+      $cursus->remove_uv($d);
+    foreach($add as $a)
+      $cursus->add_uv($a, 'SOME_OF');
+
     $site->redirect("cursus.php?id=".$cursus->id);
   }
 
@@ -148,15 +164,23 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm = new form("edituvcursus", "cursus.php?action=save", true, "post", "UV faisant partie du cursus");
   $frm->add_hidden("id", $cursus->id);
 
-  $tab = array();
-  foreach(uv::get_list($site->db, null, $cursus->departement) as $uv)
-    $tab[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
+  $avail_uv = array();
+  $all_uv = array();
+  $some_uv = array();
+  foreach(uv::get_list($site->db, null, $cursus->departement) as $uv){
+    if(in_array($uv['id_uv'], $cursus->uv_all_of))
+      $all_uv[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
+    else if(in_array($uv['id_uv'], $cursus->uv_somme_of))
+      $some_uv[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
+    else
+      $avail_uv[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
+  }
 
   $frm->add_text_field("nb_some_of", "Nombre d'UV ".$UV_RELATION[$cursus->type][1], $cursus->nb_all_of, false, 2);
-  $frm->add(new selectbox('all_of', 'UV '.$UV_RELATION[$cursus->type][1], $tab, '', 'UV'));
+  $frm->add(new selectbox('all_of', 'UV '.$UV_RELATION[$cursus->type][1], $avail_uv, '', 'UV', $all_uv));
 
   $frm->add_text_field("nb_some_of", "Nombre d'UV ".$UV_RELATION[$cursus->type][0], $cursus->nb_some_of, false, 2);
-  $frm->add(new selectbox('some_of', 'UV '.$UV_RELATION[$cursus->type][0], $tab, '', 'UV'));
+  $frm->add(new selectbox('some_of', 'UV '.$UV_RELATION[$cursus->type][0], $avail_uv, '', 'UV', $some_uv));
 
   $frm->add_submit("savecursus", "Enregistrer les modifications");
   $cts->add($frm, true);

@@ -24,8 +24,8 @@
 
 $UV_RELATION = array(
   CURSUS_FILIERE => array("simple étoilée(s)", "double étoilée(s)"),
-  CURSUS_MINEUR => array("à choisir", "à obtenir"),
-  CURSUS_AUTRE => array("*", "**")
+  CURSUS_MINEUR => array("à choisir parmi...", "à obtenir"),
+  CURSUS_AUTRE => array("secondaires", "principales")
 );
 
 /**
@@ -122,7 +122,7 @@ class cursus extends stdentity
     if($nb_some_of) $data["nb_some_of"] = intval($nb_some_of);
     if($nb_all_of) $data["nb_all_of"] = intval($nb_all_of);
 
-    $sql = new update($this->dbrw, "pedag_resultat", array("id_cursus" => $this->id), $data);
+    $sql = new update($this->dbrw, "pedag_cursus", array("id_cursus" => $this->id), $data);
     return $sql->is_success();
   }
 
