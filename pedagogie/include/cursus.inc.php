@@ -83,7 +83,7 @@ class cursus extends stdentity
     return $this->id;
   }
 
-  public function add($intitule, $type, $description, $responsable, $nb_some_of, $nb_all_of, $departement=null){
+  public function add($intitule, $type, $description, $responsable, $nb_some_of=null, $nb_all_of=null, $departement=null){
     if($nb_some_of)
       $nb_some_of = null;
     if($nb_all_of)
@@ -92,10 +92,10 @@ class cursus extends stdentity
     $data = array("type" => $type,
                   "intitule" => mysql_real_escape_string($intitule),
                   "description" => mysql_real_escape_string($description),
-                  "responsable" => mysql_real_escape_string($responsable),
-                  "nb_some_of" => intval($nb_some_of),
-                  "nb_all_of" => intval($nb_all_of));
-    if($departement) $data["departement"] = $departement;
+                  "responsable" => mysql_real_escape_string($responsable));
+    if(!is_null($nb_some_of))  $data["nb_some_of"] = $nb_some_of;
+    if(!is_null($nb_all_of))   $data["nb_all_of"] = $nb_all_of;
+    if(!is_null($departement)) $data["departement"] = $departement;
 
     $sql = new insert($this->dbrw, "pedag_cursus", $data);
     if($sql->is_success())
@@ -122,8 +122,8 @@ class cursus extends stdentity
     if($intitule) $data["intitule"] = mysql_real_escape_string($intitule);
     if($description) $data["description"] = mysql_real_escape_string($description);
     if($responsable) $data["responsable"] = mysql_real_escape_string($responsable);
-    if($nb_some_of) $data["nb_some_of"] = intval($nb_some_of);
-    if($nb_all_of) $data["nb_all_of"] = intval($nb_all_of);
+    if(!is_null($nb_some_of)) $data["nb_some_of"] = intval($nb_some_of);
+    if(!is_null($nb_all_of)) $data["nb_all_of"] = intval($nb_all_of);
 
     $sql = new update($this->dbrw, "pedag_cursus", array("id_cursus" => $this->id), $data);
     return $sql->is_success();

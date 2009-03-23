@@ -107,8 +107,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     foreach($add as $a)
       $cursus->add_uv($a, 'SOME_OF');
 
-    print_r($_REQUEST);
-    exit;
     $site->redirect("cursus.php?id=".$cursus->id);
   }
 
@@ -130,8 +128,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     $avail_dept[$dept] = $desc['long'];
   $frm->add_select_field("departement", "Département", $avail_dept);
   $frm->add_text_area("description", "Description", $cursus->description, 80, 10);
-  $frm->add_text_field("nb_all_of", "Nombre d'UV principales", "", false, 2, false, true, " (\"à obtenir\" pour les mineurs, double-étoilées nécessaires pour les filières)");
-  $frm->add_text_field("nb_some_of", "Nombre d'UV secondaires", "", false, 2, false, true, " (\"à choisir parmi\" pour les mineurs, simple-étoilées nécessaires pour les filières)");
+  //$frm->add_text_field("nb_all_of", "Nombre d'UV principales", "", false, 2, false, true, " (\"à obtenir\" pour les mineurs, double-étoilées nécessaires pour les filières)");
+  //$frm->add_text_field("nb_some_of", "Nombre d'UV secondaires", "", false, 2, false, true, " (\"à choisir parmi\" pour les mineurs, simple-étoilées nécessaires pour les filières)");
 
   $frm->add_submit("savecursus", "Enregistrer & sélectionner les UV");
   $cts->add($frm);
@@ -219,6 +217,17 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'leave')
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 {
+  $cts->add_title(2, $cursus->intitule);
+  $cts->add_paragraph("Responsable : ".$cursus->responsable);
+  $cts->add_paragraph("Departement : ".$_DPT[$cursus->departement]['long']);
+  $cts->add_paragraph($_CURSUS[$cursus->type]['long']);
+  $cts->add_paragraph($cursus->description);
+
+  if($cursus->closed)
+    $cts->add_paragraph("<b>Ce ".$_CURSUS[$cursus->type]['short']." est actuellement fermé.</b>");
+
+  $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_all_of, false, $cursus->uv_all_of));
+  $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_some_of, false, $cursus->uv_some_of));
 }
 
 foreach($_DPT as $dept=>$desc){
