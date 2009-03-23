@@ -40,7 +40,7 @@ class cursus extends stdentity
   var $nb_some_of;
   var $uv_all_of=array();
   var $uv_some_of=array();
-  
+
   public function load_by_id($id){
     $sql = new requete($this->db, "SELECT * FROM `pedag_cursus` WHERE `id_cursus` = ".$id." LIMIT 1");
     if($sql->is_success())
@@ -48,7 +48,7 @@ class cursus extends stdentity
     else
       return false;
   }
-  
+
   public function _load($row){
     foreach($row as $att => $val)
       if(property_exists($this, $att))
@@ -56,7 +56,7 @@ class cursus extends stdentity
     $this->id = $row['id_cursus'];
     return $this->id;
   }
-  
+
   public function add($intitule, $type, $description, $responsable, $nb_some_of, $nb_all_of, $departement=null){
     $data = array("type" => $type,
                   "intitule" => mysql_real_escape_string($intitule),
@@ -65,25 +65,25 @@ class cursus extends stdentity
                   "nb_some_of" => intval($nb_some_of),
                   "nb_all_of" => intval($nb_all_of));
     if($departement) $data["departement"] = $departement;
-    
+
     $sql = new insert($this->dbrw, "pedag_cursus", $data);
     if($sql->is_success())
       return $sql->get_id();
-    else 
+    else
       return false;
   }
-  
+
   /**
-   * finalement on authorise pas la suppression 
+   * finalement on authorise pas la suppression
    * mais on passe un flag 'closed' a true
    */
   public function set_closed($var=true){
-    $sql = new update($this->dbrw, "pedag_cursus", 
+    $sql = new update($this->dbrw, "pedag_cursus",
                       array("id_cursus" => $this->id),
                       array("closed" => $val));
     return $sql->is_success();
   }
-  
+
   public function update($intitule=null, $type=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
     if(func_num_args() < 1) return false;
 
@@ -94,11 +94,11 @@ class cursus extends stdentity
     if($responsable) $data["responsable"] = mysql_real_escape_string($responsable);
     if($nb_some_of) $data["nb_some_of"] = intval($nb_some_of);
     if($nb_all_of) $data["nb_all_of"] = intval($nb_all_of);
-    
+
     $sql = new update($this->dbrw, "pedag_resultat", array("id_cursus" => $this->id), $data);
     return $sql->is_success();
   }
-  
+
   /**
    * Ajout d'une UV au cursus
    * @param $id_uv UV a ajouter
@@ -109,13 +109,54 @@ class cursus extends stdentity
       $sql = new insert($this->dbrw, "pedag_uv_cursus", array("id_uv" => $id_uv, "id_cursus" => $this->id, "relation" => $relation));
     return $sql->is_success();
   }
-  
+
   public function remove_uv($id_uv){
     $sql = new delete($this->dbrw, "pedag_uv_cursus", array("id_uv" => $id_uv, "id_cursus" => $this->id));
     return $sql->is_success();
   }
 
   public function get_nb_students($ignore_graduated=false){
+  }
+
+  /**
+   * recuperation de la liste des cursus enregistres
+   * @param &$db lien vers la BDD ro
+   * @param $dept filtre sur le departement @see $_DPT
+   * @param $type filtre sur le type de cursus @see $_CURSUS
+   * @param $ignore_closed filtre sur les cursus fermes ou non
+   */
+  public static function get_list(&$db, $dept=null, $type=null, $ignore_closed=false){
+    $req = "SELECT *, `departement`+0 as `departement`, `type`+0 as `type` FROM `pedag_cursus`";
+    $where = false;
+
+    if(!is_null($dept)){
+      $req .= ($where?" AND":" WHERE")." `departement` = ".$dept;
+      $where = true;
+    }
+
+    if(!is_null($type)){
+      $req .= ($where?" AND":" WHERE")." `type` = ".$type;
+      $where = true;
+    }
+
+    if($ignore_closed === false){
+      $req .= ($where?" AND":" WHERE")." `closed` = 0";
+      $where = true;
+    }
+
+    $req .= " ORDER BY `departement`, `type`";
+
+    $sql = new requete($db, $req);
+
+    if(!$sql->is_success())
+      return false;
+    else{
+      $t=array();
+      while($row = $sql->get_row())
+        $t[] = $row;
+
+      return $t;
+    }
   }
 }
 ?>

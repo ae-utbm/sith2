@@ -107,6 +107,11 @@ define("STATE_MODIFIED",3);
 define("CURSUS_FILIERE",1);
 define("CURSUS_MINEUR", 2);
 define("CURSUS_AUTRE",  3);
+$_CURSUS = array(
+  CURSUS_FILIERE => array('short'=>'Filière', 'long'=>"Filière de département"),
+  CURSUS_MINEUR => array('short'=>'Mineur', 'long'=>"Mineur des humanités"),
+  CURSUS_AUTRE => array('short'=>'Autre', 'long'=>"Autre cursus")
+);
 
 /* departements
  * @var _DPT  */
