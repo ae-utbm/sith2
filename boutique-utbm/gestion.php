@@ -297,7 +297,7 @@ elseif( $_REQUEST["page"] == "bilan" )
       $req = new requete($site->db,
           "SELECT  f.id_facture
                  , f.date_facture
-                 , IF(f.id_utilisateur!=-1, CONCAT(u.prenom_utl,' ',u.nom_utl), CONCAT(f.prenom,' ',f.nom)) AS client
+                 , IF(f.id_utilisateur IS NOT NULL, CONCAT(u.prenom_utl,' ',u.nom_utl), CONCAT(f.prenom,' ',f.nom)) AS client
                  , p.nom_prod
                  , v.quantite AS q
                  , v.prix_unit/100 AS pu
