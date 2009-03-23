@@ -216,8 +216,8 @@ elseif( $_REQUEST["page"] == "newcmd" )
           $frm->add_text_field("prod[$id_produit]","<b>$nom_prod</b>",intval($_REQUEST['prod'][$id_produit]),false,false,true,true,$_prix);
           $sum=$sum+($prix*intval($_REQUEST['prod'][$id_produit]));
         }
-	else
-	  $frm->add_text_field("prod[$id_produit]","<b>$nom_prod</b>",0,false,false,true,true,$_prix);
+  else
+    $frm->add_text_field("prod[$id_produit]","<b>$nom_prod</b>",0,false,false,true,true,$_prix);
       }
       $frm->add_info('<b>Total : '.sprintf("%.2f Euros",$sum).'</b>');
       $frm->add_select_field('modepaiement','Paiement par',array('CH'=>'Chèque','LI'=>"Espèce"),$_REQUEST['modepaiement']);
@@ -235,10 +235,10 @@ elseif( $_REQUEST["page"] == "newcmd" )
     }
     elseif($_REQUEST['action']=="validercmd"
            && $_REQUEST['save']=='Valider'
-	   && (!isset($_SESSION['boutiquechecksum'])
-	       ||!isset($_SESSION['boutiquechecksum'][$_REQUEST['checksum']])
-	      )
-	  )
+     && (!isset($_SESSION['boutiquechecksum'])
+         ||!isset($_SESSION['boutiquechecksum'][$_REQUEST['checksum']])
+        )
+    )
     {
       if(!isset($_SESSION['boutiquechecksum']))
         $_SESSION['boutiquechecksum']=array();
@@ -246,7 +246,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
       foreach ($_REQUEST['prod'] as $id=>$nb)
       {
         $vp = new venteproduit ($site->db, $site->dbrw);
-	if($nb>0)
+        if($nb>0)
           if($vp->load_by_id ($id))
             $cpt_cart[] = array($nb, $vp);
       }
@@ -428,9 +428,8 @@ elseif ( $produit->id > 0 )
  $site->start_page("services","Administration");
  $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"admin.php?page=produits\">Produits</a> / ".$typeprod->get_html_link()." / ".$produit->get_html_link());
 
- $cts->add_paragraph("<a href=\"compta.php?id_produit=".$produit->id."\">Comptabilité</a>");
 
- if(is_null($produit->id_produit_parent))
+ if(is_null($produit->id_produit_parent) && $produit->archive==0)
    $cts->add_paragraph("<a href=\"admin.php?page=addproduit&parent=".$produit->id."\">Ajouter un sous-produit</a>");
 
  $frm = new form ("upproduit","admin.php",false,"POST","Editer");
