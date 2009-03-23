@@ -118,8 +118,8 @@ if(!isset($_REQUEST['date']))
                      'FROM boutiqueut_debitfacture '.
                      "LEFT JOIN utilisateurs u USING(id_utilisateur) ".
                      'WHERE ready=1 '.
-                     'AND date_facture > \''.$date.'\' 00:00:00 '.
-                     'AND date_facture < \''.$date.'\' 23:59:59 '.
+                     'AND date_facture > \''.$date.' 00:00:00\' '.
+                     'AND date_facture < \''.$date.' 23:59:59\' '.
                      'GROUP BY mode_paiement');
   if($req->lines>0)
   {
@@ -140,8 +140,8 @@ else
                      'FROM boutiqueut_debitfacture '.
                      "LEFT JOIN utilisateurs u USING(id_utilisateur) ".
                      'WHERE ready=1 '.
-                     'AND date_facture > \''.$date.'\' 00:00:00 '.
-                     'AND date_facture < \''.$date.'\' 23:59:59 '.
+                     'AND date_facture > \''.$date.' 00:00:00\' '.
+                     'AND date_facture < \''.$date.' 23:59:59\' '.
                      'GROUP BY mode_paiement');
   if($req->lines>0)
   {
