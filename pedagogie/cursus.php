@@ -102,7 +102,8 @@ foreach($_DPT as $dept=>$desc){
                                "intitule"=>"Intitulé",
                                "responsable"=>"Responsable"),
                          array("view"=>"Voir détails"), array()));
-
+  print_r($cursuslist);
+  print_r($tab);
 }
 
 $site->add_contents($cts);
