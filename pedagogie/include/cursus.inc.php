@@ -47,13 +47,13 @@ class cursus extends stdentity
   var $uv_some_of=array();
 
   public function load_by_id($id){
-    $sql = new requete($this->db, "SELECT *, `departement`+0 as `departement`, `type`+0 as `type` FROM `pedag_cursus` WHERE `id_cursus` = ".$id." LIMIT 1");
+    $sql = new requete($this->db, "SELECT *, `departement`+0 as `departement`, `type`+0 as `type` FROM `pedag_cursus` WHERE `id_cursus` = ".$id." LIMIT 1", true);
     if(!$sql->is_success())
       return false;
 
     $this->_load($sql->get_row());
 
-    $sql = new requete($this->db, "SELECT * FROM `pedag_uv_cursus` WHERE `id_cursus` = ".$this->id);
+    $sql = new requete($this->db, "SELECT * FROM `pedag_uv_cursus` WHERE `id_cursus` = ".$this->id, true);
     if(!$sql->is_success())
       return false;
 
