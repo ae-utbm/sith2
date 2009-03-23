@@ -65,16 +65,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     $site->redirect("cursus.php?id=".$cursus->id."&action=edit#edituvcursus");
   }
   if($_REQUEST['magicform']['name']=='editcursus'){
-    $cursus->load_by_id(intval($_REQUEST['id']));
+    print_r($_REQUEST);
+    $cursus->load_by_id(intval($_REQUEST['id_uv']));
     if(!$cursus->is_valid())
       $site->redirect("cursus.php");
 
     $cursus->update($_REQUEST['intitule'], $_REQUEST['type'], $_REQUEST['departement'], $_REQUEST['description'], $_REQUEST['responsable']);
+    exit;
 
     $site->redirect("cursus.php?id=".$cursus->id);
   }
   if($_REQUEST['magicform']['name']=='edituvcursus'){
-    $cursus->load_by_id(intval($_REQUEST['id']));
+    $cursus->load_by_id(intval($_REQUEST['id_uv']));
     if(!$cursus->is_valid())
       $site->redirect("cursus.php");
 
@@ -139,7 +141,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    * Informations principales
    */
   $frm = new form("editcursus", "cursus.php?action=save", true, "post", "Informations générales");
-  $frm->add_hidden("id", $cursus->id);
+  $frm->add_hidden("id_uv", $cursus->id);
 
   $frm->add_text_field("intitule", "Intitulé", $cursus->intitule, true, 36);
   $frm->add_text_field("responsable", "Responsable", $cursus->responsable, true, 36);
@@ -154,7 +156,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm->add_text_area("description", "Description", $cursus->description, 80, 10);
   $frm->add_checkbox("closed", "Cursus fermé", $cursus->closed);
 
-  $frm->add_submit("savecursus", "Enregistrer les modifications");
+  $frm->add_submit("saveeditcursus", "Enregistrer les modifications");
   $cts->add($frm, true);
 
   /**
@@ -162,7 +164,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    */
   unset($frm);
   $frm = new form("edituvcursus", "cursus.php?action=save", true, "post", "UV faisant partie du cursus");
-  $frm->add_hidden("id", $cursus->id);
+  $frm->add_hidden("id_uv", $cursus->id);
 
   $avail_uv = array();
   $all_uv = array();
@@ -182,7 +184,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm->add_text_field("nb_some_of", "Nombre d'UV ".$UV_RELATION[$cursus->type][0], $cursus->nb_some_of, false, 2);
   $frm->add(new selectbox('some_of', 'UV '.$UV_RELATION[$cursus->type][0], $avail_uv, '', 'UV', $some_uv));
 
-  $frm->add_submit("savecursus", "Enregistrer les modifications");
+  $frm->add_submit("saveedituvcursus", "Enregistrer les modifications");
   $cts->add($frm, true);
 
   $site->add_contents($cts);
