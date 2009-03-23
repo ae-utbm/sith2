@@ -50,12 +50,13 @@ if( $user->is_valid() && $user->type=='srv')
   {
     $_cts = new contents("Centre de coût");
     if(isset($_REQUEST['nom_centre_cout']) && !empty($_REQUEST['nom_centre_cout']))
-      $req = new insert($site->dbrw,'boutiqueut_centre_cout',array('id_utilisateur'=>$user->id,'centre_cout'=>$_REQUEST['nom_centre_cout']));
+      $req = new insert($site->dbrw,'boutiqueut_centre_cout',array('id_utilisateur'=>$user->id,'centre_cout'=>$_REQUEST['nom_centre_cout'],'contact'=>$_REQUEST['contact']));
 
     $frm = new form('centrecout','admin_utl.php');
     $frm->add_hidden('id_utilisateur',$user->id);
     $frm->add_hidden('action','centrecout');
     $frm->add_text_field('nom_centre_cout','Centre de coût');
+    $frm->add_text_field('contact','Contact');
     $frm->add_submit('submit','Ajouter');
     $_cts->add($frm);
     $req = new requete($site->db,'SELECT * FROM boutiqueut_centre_cout WHERE id_utilisateur='.$user->id);
@@ -64,7 +65,7 @@ if( $user->is_valid() && $user->type=='srv')
           $req,
           "admin_utl.php",
           "id_utilisateur",
-          array("centre_cout"=>"Centre de coût"),
+          array("centre_cout"=>"Centre de coût","contact"=>"Contact"),
           array(),
           array(),
           array(),
@@ -74,7 +75,28 @@ if( $user->is_valid() && $user->type=='srv')
   }
   elseif($_REQUEST['action']=='changemdp')
   {
-    //on change et on mail
+    $centre = "contactez boutique@utbm.fr pour mettre à jour cette information.";
+    $req = new requete($site->db,'SELECT centre_financier FROM boutiqueut_service_utl WHERE id_utilisateur='.$user->id);
+    if($req->lines==1)
+      list($centre)=$req->get_row();
+    if ( $user->email_utbm )
+      $email = $user->email_utbm;
+    else
+      $email = $user->email;
+    $pass = genere_pass(10);
+    $user->change_password($pass);
+    $body = "Bonjour,
+Votre compte a été réinitialisé.
+Centre financier : $centre
+Votre mot de passe: $password
+
+La boutique, en partenariat avec l'AE
+--
+http://boutique.utbm.fr";
+    $ret = mail($email,
+                utf8_decode("[boutique] Réinitilisation"),
+                utf8_decode($body),
+                "From: \"Boutique\" <boutique@utbm.fr>\nReply-To: boutique@utbm.fr");
     $_cts=new contents("Mot de passe réinitialisé.");
   }
   elseif($_REQUEST['action']=='centrefinancier')
@@ -95,7 +117,7 @@ if( $user->is_valid() && $user->type=='srv')
      $req = new requete($site->db,'SELECT centre_financier FROM boutiqueut_service_utl WHERE id_utilisateur='.$user->id);
      if($req->lines==1)
        list($centre)=$req->get_row();
-     $frm->add_text_field('nom_centre_cout','Centre de coût',$centre);
+     $frm->add_text_field('nom_centre_cout','Centre de financier',$centre);
      $frm->add_submit('submit','Ajouter');
      $_cts->add($frm);
   }
