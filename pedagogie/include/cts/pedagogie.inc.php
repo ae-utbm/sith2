@@ -68,18 +68,18 @@ class add_uv_edt_box extends form
 
     /* UV normale */
     }else{
-      $this->buffer .= "<p>Selon nos informations, les enseignements de cette UV
+      $this->buffer .= "<p><i>Selon nos informations, les enseignements de cette UV
         sont composés de "
           .$uv->guide['c']."h de Cours, "
           .$uv->guide['td']."h de TD et "
-          .$uv->guide['tp']."h de TP (*)</p>";
+          .$uv->guide['tp']."h de TP</i></p>";
 
       $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_C);
       $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TD);
       $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TP);
 
       if(!empty($uv->guide['the']))
-        $this->buffer .= "<p>Cette UV comporte également ".$uv->guide['the']." heures hors emploi du temps.</p>";
+        $this->buffer .= "<p><i>Cette UV comporte également ".$uv->guide['the']." heures hors emploi du temps.</i></p>";
 
     }
 

@@ -75,7 +75,7 @@ if(!empty($edts))
   }
 }
 
-if(count($t) > 1)
+if(count($tab) > 1)
   sort_by_semester($tab, 'semestre');
 
 $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre',

@@ -77,7 +77,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   foreach($_DPT as $dept=>$desc)
     $avail_dept[$dept] = $desc['long'];
   $frm->add_select_field("departement", "Département", $avail_dept);
-  $frm->add_text_area("description", "Description", "", true);
+  $frm->add_text_area("description", "Description");
 
   $frm->add_submit("savecursus", "Enregistrer & sélectionner les UV");
   $cts->add($frm);
@@ -90,6 +90,51 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 /* modification d'une séance existante */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
 {
+  $cursus = new cursus($site->db, $site->dbrw, intval($_REQUEST['id']));
+  if(!$cursus->is_valid())
+    $site->redirect("cursus.php");
+
+  /**
+   * Informations principales
+   */
+  $frm = new form("editcursus", "cursus.php?action=save", true, "post", "Informations générales");
+  $frm->add_hidden("id", $uv->id);
+
+  $frm->add_text_field("intitule", "Intitulé", "", true);
+  $frm->add_text_field("responsable", "Responsable", "", true);
+  $avail_type=array();
+  foreach($_CURSUS as $type=>$desc)
+    $avail_type[$type] = $desc['long'];
+  $frm->add_select_field("type", "Catégorie", $avail_type);
+  $avail_dept=array();
+  foreach($_DPT as $dept=>$desc)
+    $avail_dept[$dept] = $desc['long'];
+  $frm->add_select_field("departement", "Département", $avail_dept);
+  $frm->add_text_area("description", "Description");
+  $frm->add_checkbox("closed", "Cursus fermé");
+
+  $frm->add_submit("savecursus", "Enregistrer les modifications");
+  $cts->add($frm, true);
+
+  /**
+   * UV comprises dans le cursus
+   */
+  unset($frm);
+  $frm = new form("editcursus", "cursus.php?action=save", true, "post", "UV faisant partie du cursus");
+  $frm->add_hidden("id", $uv->id);
+
+  $tab = array();
+  foreach(uv::get_list($site->db, null, $cursus->departement) as $uv)
+    $tab[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
+
+  $frm->add_text_field("nb_some_of", "Nombre d'UV ".$UV_RELATION[$cursus->type][0], $cursus->nb_some_of, false, 2);
+  $frm->add(new selectbox('some_of', 'UV '.$UV_RELATION[$cursus->type][0], $tab, '', 'UV'));
+
+  $frm->add_text_field("nb_some_of", "Nombre d'UV ".$UV_RELATION[$cursus->type][1], $cursus->nb_all_of, false, 2);
+  $frm->add(new selectbox('all_of', 'UV '.$UV_RELATION[$cursus->type][1], $tab, '', 'UV'));
+
+  $frm->add_submit("savecursus", "Enregistrer les modifications");
+  $cts->add($frm, true);
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')

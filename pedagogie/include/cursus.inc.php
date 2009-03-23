@@ -22,6 +22,11 @@
  * 02111-1307, USA.
  */
 
+$UV_RELATION = array(
+  CURSUS_MINEUR => array("simple étoilée(s)", "double étoilée(s)"),
+  CURSUS_FILIERE => array("à choisir", "à obtenir"),
+  CURSUS_AUTRE => array("*", "**")
+);
 
 /**
  * Représentation d'un cursus
@@ -42,18 +47,36 @@ class cursus extends stdentity
   var $uv_some_of=array();
 
   public function load_by_id($id){
-    $sql = new requete($this->db, "SELECT * FROM `pedag_cursus` WHERE `id_cursus` = ".$id." LIMIT 1");
-    if($sql->is_success())
-      return $this->_load($sql->get_row());
-    else
+    $sql = new requete($this->db, "SELECT *, `departement`+0 as `departement`, `type`+0 as `type` FROM `pedag_cursus` WHERE `id_cursus` = ".$id." LIMIT 1");
+    if(!$sql->is_success())
       return false;
+
+    $this->_load($sql->get_row());
+
+    $sql = new requete($this->db, "SELECT * FROM `pedag_uv_cursus` WHERE `id_cursus` = ".$this->id);
+    if(!$sql->is_success())
+      return false;
+
+    while($row = $sql->get_row())
+      if($row['relation'] == 'ALL_OF')
+        $this->uv_all_of[] = $row['id_uv'];
+      else
+        $this->uv_some_of[] = $row['id_uv'];
+
+    return $this->id;
   }
 
   public function _load($row){
-    foreach($row as $att => $val)
-      if(property_exists($this, $att))
-        $this->{$att} = $val;
-    $this->id = $row['id_cursus'];
+    $this->id = $row['id'];
+    $this->intitule = $row['intitule'];
+    $this->type = $row['type'];
+    $this->departement = $row['departement'];
+    $this->responsable = $row['responsable'];
+    $this->description = $row['description'];
+
+    $this->nb_some_of = $row['nb_some_of'];
+    $this->nb_all_of = $row['nb_all_of'];
+
     return $this->id;
   }
 
