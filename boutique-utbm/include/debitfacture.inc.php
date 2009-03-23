@@ -127,21 +127,31 @@ etat=1+ready=0 : en préparation
     $this->prenom=$prenom;
     $this->adresse=$adresse;
     $this->mode=$mode;
-    if(!is_null($eotp) && !empty($eotp))
-      $this->eotp=$eotp;
-    if(!is_null($objectif) && !empty($objectif))
-      $this->objectif=$objectif;
-    if(!is_null($centre_cout))
-      $this->centre_cout=$centre_cout;
     $this->montant = $this->calcul_montant($panier,$client);
     if($client->is_valid() && $client->type=='srv')
     {
-      $req = new requete($this->db,'SELECT centre_financier,contact FROM boutiqueut_service_utl WHERE id_utilisateur='.$client->id);
+      $req = new requete($this->db,'SELECT centre_financier FROM boutiqueut_service_utl WHERE id_utilisateur='.$client->id);
       if($req->lines==1)
       {
-        list($cf,$ct)           = $req->get_row();
-        $this->contact          = $ct;
+        list($cf)           = $req->get_row();
         $this->centre_financier = $cf;
+      }
+      if(!is_null($eotp) && !empty($eotp))
+        $this->eotp=$eotp;
+      if(!is_null($objectif) && !empty($objectif))
+        $this->objectif=$objectif;
+      if(!is_null($centre_cout))
+      {
+        $req = new requete($this->db,
+                           'SELECT centre_cout,contact FROM boutiqueut_centre_cout WHERE id_utilisateur='.
+                           $client->id.
+                           ' AND centre_cout=\''.mysql_real_escape_string($centre_cout).'\'');
+        if($req->lines==1)
+        {
+          list($cc,$ct)=$req->get_row();
+          $this->contact     = $ct;
+          $this->centre_cout = $cc;
+        }
       }
     }
 
