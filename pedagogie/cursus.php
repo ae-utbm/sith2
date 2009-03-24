@@ -69,7 +69,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     $site->redirect("cursus.php?id=".$cursus->id."&action=edit#edituvcursus");
   }
   if($_REQUEST['magicform']['name']=='editcursus'){
-    $cursus->load_by_id(intval($_REQUEST['id_uv']));
+    $cursus->load_by_id(intval($_REQUEST['id']));
     if(!$cursus->is_valid())
       $site->redirect("cursus.php");
 
@@ -79,7 +79,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       print_r($cursus);
   }
   if($_REQUEST['magicform']['name']=='edituvcursus'){
-    $cursus->load_by_id(intval($_REQUEST['id_uv']));
+    $cursus->load_by_id(intval($_REQUEST['id']));
     if(!$cursus->is_valid())
       $site->redirect("cursus.php");
 
@@ -154,7 +154,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    * Informations principales
    */
   $frm = new form("editcursus", "cursus.php?action=save", true, "post", "Informations générales");
-  $frm->add_hidden("id_uv", $cursus->id);
+  $frm->add_hidden("id_cursus", $cursus->id);
 
   $frm->add_text_field("intitule", "Intitulé", $cursus->intitule, true, 36);
   $frm->add_text_field("responsable", "Responsable", $cursus->responsable, true, 36);
@@ -177,7 +177,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    */
   unset($frm);
   $frm = new form("edituvcursus", "cursus.php?action=save", true, "post", "UV faisant partie du cursus");
-  $frm->add_hidden("id_uv", $cursus->id);
+  $frm->add_hidden("id_cursus", $cursus->id);
 
   $avail_uv = array();
   $all_uv = array();
