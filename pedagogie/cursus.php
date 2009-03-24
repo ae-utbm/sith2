@@ -40,7 +40,7 @@ $site->add_css("css/pedagogie.css");
 $site->start_page("services", "AE Pédagogie");
 
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
-$path .= " / "."Cursus";
+$path .= " / "."<a href=\"cursus.php\"> Cursus </a>";
 
 /* compatibilite sqltable bleh */
 if(isset($_REQUEST['id_cursus']))
@@ -123,7 +123,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 {
   $frm = new form("newcursus", "cursus.php?action=save", true);
   $frm->add_text_field("intitule", "Intitulé", "", true, 36);
-  $frm->add_text_field("responsable", "Responsable", "", true, 36);
+  $frm->add_text_field("name", "Nom \"court\"", "", false, 10);
+  $frm->add_text_field("responsable", "Responsable", "", false, 36);
   $avail_type=array();
   foreach($_CURSUS as $type=>$desc)
     $avail_type[$type] = $desc['long'];
