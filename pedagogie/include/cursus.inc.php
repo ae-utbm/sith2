@@ -126,6 +126,8 @@ class cursus extends stdentity
     if(!is_null($nb_all_of)) $data["nb_all_of"] = intval($nb_all_of);
 
     $sql = new update($this->dbrw, "pedag_cursus", array("id_cursus" => $this->id), $data);
+    print_r($sql);
+    exit;
     return $sql->is_success();
   }
 

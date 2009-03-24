@@ -74,7 +74,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       $site->redirect("cursus.php");
 
     if($cursus->update($_REQUEST['intitule'], $_REQUEST['type'], $_REQUEST['departement'], $_REQUEST['description'], $_REQUEST['responsable']))
-      $site->redirect("cursus.php?id=".$cursus->id);
+      $site->redirect("cursus.php?id=".$cursus->id."&action=view");
     else
       print_r($cursus);
   }
