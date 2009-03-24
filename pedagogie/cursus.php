@@ -103,7 +103,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       $del = array_diff($cursus->uv_some_of, $_REQUEST['some_of_to']);
       $add = array_diff($_REQUEST['some_of_to'], $cursus->uv_some_of);
     }else{
-      $del = $cursus->uv_all_of;
+      $del = $cursus->uv_some_of;
       $add = array();
     }
     foreach($del as $d)
