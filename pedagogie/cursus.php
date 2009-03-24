@@ -60,6 +60,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   if($_REQUEST['magicform']['name']=='newcursus'){
     $cursus->add($_REQUEST['intitule'],
                  $_REQUEST['type'],
+                 $_REQUEST['name'],
                  $_REQUEST['description'],
                  $_REQUEST['responsable'],
                  $_REQUEST['nb_some_of'],

@@ -37,6 +37,7 @@ class cursus extends stdentity
 {
   var $id;
   var $intitule;
+  var $name;
   var $type;
   var $description;
   var $responsable;
@@ -71,6 +72,7 @@ class cursus extends stdentity
   public function _load($row){
     $this->id = $row['id_cursus'];
     $this->intitule = $row['intitule'];
+    $this->name = $row['name'];
     $this->type = $row['type'];
     $this->departement = $row['departement'];
     $this->responsable = $row['responsable'];
@@ -83,23 +85,23 @@ class cursus extends stdentity
     return $this->id;
   }
 
-  public function add($intitule, $type, $description, $responsable, $nb_some_of=null, $nb_all_of=null, $departement=null){
+  public function add($intitule, $type, $name=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null, $departement=null){
     if($nb_some_of)
       $nb_some_of = null;
     if($nb_all_of)
       $nb_all_of = null;
 
     $data = array("type" => $type,
-                  "intitule" => mysql_real_escape_string($intitule),
-                  "description" => mysql_real_escape_string($description),
-                  "responsable" => mysql_real_escape_string($responsable));
+                  "intitule" => mysql_real_escape_string($intitule));
+    if(!is_null($responsable)) $data["responsable"] = $responsable;
+    if(!is_null($name))        $data["name"] = $name;
     if(!is_null($nb_some_of))  $data["nb_some_of"] = $nb_some_of;
     if(!is_null($nb_all_of))   $data["nb_all_of"] = $nb_all_of;
     if(!is_null($departement)) $data["departement"] = $departement;
 
     $sql = new insert($this->dbrw, "pedag_cursus", $data);
     if($sql->is_success())
-      return $sql->get_id();
+      return $this->load_by_id($sql->get_id());
     else
       return false;
   }
