@@ -117,11 +117,12 @@ class cursus extends stdentity
     return $sql->is_success();
   }
 
-  public function update($intitule=null, $type=null, $departement=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
+  public function update($intitule=null, $name=null, $type=null, $departement=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
     $data = array();
     if(!is_null($type)) $data["type"] = $type;
     if(!is_null($departement)) $data["departement"] = $departement;
     if($intitule) $data["intitule"] = mysql_real_escape_string($intitule);
+    if($name) $data["name"] = mysql_real_escape_string($name);
     if($description) $data["description"] = mysql_real_escape_string($description);
     if($responsable) $data["responsable"] = mysql_real_escape_string($responsable);
     if(!is_null($nb_some_of)) $data["nb_some_of"] = intval($nb_some_of);

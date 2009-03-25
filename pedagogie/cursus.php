@@ -74,7 +74,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     if(!$cursus->is_valid())
       $site->redirect("cursus.php");
 
-    if($cursus->update($_REQUEST['intitule'], $_REQUEST['type'], $_REQUEST['departement'], $_REQUEST['description'], $_REQUEST['responsable']))
+    if($cursus->update($_REQUEST['intitule'], $_REQUEST['name'], $_REQUEST['type'], $_REQUEST['departement'], $_REQUEST['description'], $_REQUEST['responsable']))
       $site->redirect("cursus.php?id=".$cursus->id."&action=view");
     else
       print_r($cursus);
@@ -84,7 +84,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     if(!$cursus->is_valid())
       $site->redirect("cursus.php");
 
-    $cursus->update(null, null, null, null, null, $_REQUEST['nb_some_of'], $_REQUEST['nb_all_of']);
+    $cursus->update(null, null, null, null, null, null, $_REQUEST['nb_some_of'], $_REQUEST['nb_all_of']);
 
     /** maj liste des UV all_of */
     if(isset($_REQUEST['all_of_to']) && !empty($_REQUEST['all_of_to'])){
@@ -121,6 +121,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 /* ajout d'une nouvelle séance */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 {
+  $path .= " / "."Ajouter un cursus";
+  $cts = new contents($path);
+
   $frm = new form("newcursus", "cursus.php?action=save", true);
   $frm->add_text_field("intitule", "Intitulé", "", true, 36);
   $frm->add_text_field("name", "Nom \"court\"", "", false, 10);
@@ -152,6 +155,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   if(!$cursus->is_valid())
     $site->redirect("cursus.php");
 
+  if($cursus->name);
+    $path .= " / "."<a href=\"./cursus.php?id=$cursus->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $cursus->name</a>";
+  $path .= " / "."Éditer";
+  $cts = new contents($path);
+
   /**
    * Informations principales
    */
@@ -159,6 +167,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm->add_hidden("id_cursus", $cursus->id);
 
   $frm->add_text_field("intitule", "Intitulé", $cursus->intitule, true, 36);
+  $frm->add_text_field("name", "Nom \"court\"", $cursus->name, false, 10);
   $frm->add_text_field("responsable", "Responsable", $cursus->responsable, true, 36);
   $avail_type=array();
   foreach($_CURSUS as $type=>$desc)
@@ -227,6 +236,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   if(!$cursus->is_valid())
     $site->redirect("cursus.php");
 
+
+  $path .= " / "."<a href=\"./cursus.php?id=$cursus->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> ($cursus->name)?$cursus->name:$cursus->intitule</a>";
+  $cts = new contents($path);
+
   $cts->add_title(2, $cursus->intitule);
   $cts->add_paragraph("Responsable : ".$cursus->responsable);
   $cts->add_paragraph("Departement : ".$_DPT[$cursus->departement]['long']);
@@ -238,6 +251,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 
   $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_all_of, false, $cursus->uv_all_of), true);
   $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_some_of, false, $cursus->uv_some_of), true);
+
+  $site->add_contents($cts);
+  $site->end_page();
+  exit;
 }
 
 foreach($_DPT as $dept=>$desc){
