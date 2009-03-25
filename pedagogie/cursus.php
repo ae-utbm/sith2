@@ -249,7 +249,20 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
     $cts->add_paragraph("<b>Ce ".$_CURSUS[$cursus->type]['short']." est actuellement fermé.</b>");
 
   $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_all_of, false, $cursus->uv_all_of), true);
+
+  $cts->add(new sqltable("uv_all_of", "", $cursus->get_uv_list('ALL_OF'), "uv.php", 'id_uv',
+                         array("code"=>"UV",
+                               "intitule"=>"Intitulé",
+                               "guide_credits"=>"Crédits"),
+                         array(), array()));
+
   $cts->add(new itemlist("UV niveau 2 : ".$cursus->nb_some_of, false, $cursus->uv_some_of), true);
+
+  $cts->add(new sqltable("uv_all_of", "", $cursus->get_uv_list('SOME_OF'), "uv.php", 'id_uv',
+                         array("code"=>"UV",
+                               "intitule"=>"Intitulé",
+                               "guide_credits"=>"Crédits"),
+                         array(), array()));
 
   $site->add_contents($cts);
   $site->end_page();

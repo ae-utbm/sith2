@@ -148,6 +148,33 @@ class cursus extends stdentity
     return $sql->is_success();
   }
 
+  public function get_uv_list($relation=null){
+    $req = "SELECT pedag_uv_cursus`.* , `pedag_uv`.`code`  , `pedag_uv`.`intitule`, `pedag_uv`.`guide_credits`
+            FROM `pedag_uv_cursus`
+            LEFT JOIN `pedag_uv`
+              ON `pedag_uv`.`id_uv` = `pedag_uv_cursus`.`id_uv`
+            WHERE `id_cursus` = ".$this->id;
+
+    if(!is_null($relation)){
+      $relation = strtoupper($relation);
+      if($relation != 'SOME_OF' && $relation != 'ALL_OF')
+        return;
+      else
+        $req = " AND `relation` = '".$relation."'";
+    }
+
+    $sql = new requete($this->db, $req);
+    if(!$sql->is_success())
+      return false;
+    else{
+      $t=array();
+      while($row = $sql->get_row())
+        $t[] = $row;
+
+      return $t;
+    }
+  }
+
   public function get_nb_students($ignore_graduated=false){
   }
 
