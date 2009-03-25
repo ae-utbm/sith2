@@ -46,8 +46,6 @@ $path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\"
 if(isset($_REQUEST['id_cursus']))
   $_REQUEST['id'] = $_REQUEST['id_cursus'];
 
-$cts = new contents($path);
-
 /***********************************************************************
  * Actions
  */
@@ -237,25 +235,30 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
     $site->redirect("cursus.php");
 
 
-  $path .= " / "."<a href=\"./cursus.php?id=$cursus->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> ".($cursus->name)?$cursus->name:$cursus->intitule."</a>";
+  $path .= " / "."<a href=\"./cursus.php?id=$cursus->id\"> <img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> ";
+  $path .= ($cursus->name)?$cursus->name:$cursus->intitule;
+  $path .= "</a>";
   $cts = new contents($path);
 
   $cts->add_title(2, $cursus->intitule);
   $cts->add_paragraph("Responsable : ".$cursus->responsable);
-  $cts->add_paragraph("Departement : ".$_DPT[$cursus->departement]['long']);
-  $cts->add_paragraph($_CURSUS[$cursus->type]['long']);
+  $cts->add_paragraph($_CURSUS[$cursus->type]['long']." : ".$_DPT[$cursus->departement]['long']);
   $cts->add_paragraph($cursus->description);
 
   if($cursus->closed)
     $cts->add_paragraph("<b>Ce ".$_CURSUS[$cursus->type]['short']." est actuellement fermé.</b>");
 
   $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_all_of, false, $cursus->uv_all_of), true);
-  $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_some_of, false, $cursus->uv_some_of), true);
+  $cts->add(new itemlist("UV niveau 2 : ".$cursus->nb_some_of, false, $cursus->uv_some_of), true);
 
   $site->add_contents($cts);
   $site->end_page();
   exit;
 }
+
+
+$path .= " / "."Liste";
+$cts = new contents($path);
 
 foreach($_DPT as $dept=>$desc){
   $tab = array();
