@@ -92,7 +92,7 @@ class cursus extends stdentity
       $nb_all_of = null;
 
     $data = array("type" => $type,
-                  "intitule" => mysql_real_escape_string($intitule));
+                  "intitule" => ($intitule));
     if(!is_null($responsable)) $data["responsable"] = $responsable;
     if(!is_null($name))        $data["name"] = $name;
     if(!is_null($nb_some_of))  $data["nb_some_of"] = $nb_some_of;
@@ -204,7 +204,7 @@ class cursus extends stdentity
       $where = true;
     }
 
-    $req .= " ORDER BY `departement`, `type`";
+    $req .= " ORDER BY `departement`, `type`, `intitule`";
 
     $sql = new requete($db, $req);
 
