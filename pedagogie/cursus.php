@@ -256,13 +256,13 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                            array("code"=>"UV",
                                  "intitule"=>"Intitulé",
                                  "guide_credits"=>"Crédits"),
-                           array(), array()));
+                           array(), array()), true);
 
     $cts->add(new sqltable("uv_all_of", "UV simplement étoilées", $cursus->get_uv_list('SOME_OF'), "uv.php", 'id_uv',
                            array("code"=>"UV",
                                  "intitule"=>"Intitulé",
                                  "guide_credits"=>"Crédits"),
-                           array(), array()));
+                           array(), array()), true);
 
   }else if($cursus->type == CURSUS_MINEUR){
     $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_all_of, false, $cursus->uv_all_of), true);
