@@ -160,10 +160,10 @@ class cursus extends stdentity
       if($relation != 'SOME_OF' && $relation != 'ALL_OF')
         return;
       else
-        $req = " AND `relation` = '".$relation."'";
+        $req .= " AND `relation` = '".$relation."'";
     }
 
-    $sql = new requete($this->db, $req, true);
+    $sql = new requete($this->db, $req);
     if(!$sql->is_success())
       return false;
     else{

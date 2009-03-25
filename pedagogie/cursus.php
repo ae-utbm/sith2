@@ -264,6 +264,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                                "guide_credits"=>"Crédits"),
                          array(), array()));
 
+  $cts->puts("<input type=\"button\" onclick=\"location.href='cursus.php?action=edit&id=$cursus->id';\" value=\"Corriger la fiche\" style=\"float:right;\"/>");
+
   $site->add_contents($cts);
   $site->end_page();
   exit;
