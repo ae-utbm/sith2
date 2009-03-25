@@ -40,7 +40,7 @@ $site->add_css("css/pedagogie.css");
 $site->start_page("services", "AE Pédagogie");
 
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
-$path .= " / "."<a href=\"cursus.php\"> Cursus </a>";
+$path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /><a href=\"cursus.php\"> Cursus </a>";
 
 /* compatibilite sqltable bleh */
 if(isset($_REQUEST['id_cursus']))
@@ -237,7 +237,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
     $site->redirect("cursus.php");
 
 
-  $path .= " / "."<a href=\"./cursus.php?id=$cursus->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> ($cursus->name)?$cursus->name:$cursus->intitule</a>";
+  $path .= " / "."<a href=\"./cursus.php?id=$cursus->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> ".($cursus->name)?$cursus->name:$cursus->intitule."</a>";
   $cts = new contents($path);
 
   $cts->add_title(2, $cursus->intitule);
@@ -269,12 +269,14 @@ foreach($_DPT as $dept=>$desc){
     $tab[] = array(
                'id_cursus'=>$c['id_cursus'],
                'type'=>$_CURSUS[ $c['type'] ]['long'],
+               'name'=>$c['name'],
                'intitule'=>$c['intitule'],
                'responsable'=>$c['responsable'],
                'closed'=>($c['closed'] == 1)?"Fermé":""
              );
   $cts->add(new sqltable($dept."_cursuslist", "", $tab, "cursus.php", 'id_cursus',
                          array("type"=>"Type",
+                               "name"=>"Nom",
                                "intitule"=>"Intitulé",
                                "responsable"=>"Responsable"),
                          array("view"=>"Voir détails"), array()));
