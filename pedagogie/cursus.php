@@ -248,21 +248,51 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   if($cursus->closed)
     $cts->add_paragraph("<b>Ce ".$_CURSUS[$cursus->type]['short']." est actuellement fermé.</b>");
 
-  $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_all_of, false, $cursus->uv_all_of), true);
+  /**
+   * Separation des affichages mineurs/filieres parce que c'est vachement trop le bordel !
+   */
+  if($cursus->type == CURSUS_FILIERE){
+    $cts->add(new sqltable("uv_all_of", "UV double étoilées", $cursus->get_uv_list('ALL_OF'), "uv.php", 'id_uv',
+                           array("code"=>"UV",
+                                 "intitule"=>"Intitulé",
+                                 "guide_credits"=>"Crédits"),
+                           array(), array()));
 
-  $cts->add(new sqltable("uv_all_of", "", $cursus->get_uv_list('ALL_OF'), "uv.php", 'id_uv',
-                         array("code"=>"UV",
-                               "intitule"=>"Intitulé",
-                               "guide_credits"=>"Crédits"),
-                         array(), array()));
+    $cts->add(new sqltable("uv_all_of", "UV simplement étoilées", $cursus->get_uv_list('SOME_OF'), "uv.php", 'id_uv',
+                           array("code"=>"UV",
+                                 "intitule"=>"Intitulé",
+                                 "guide_credits"=>"Crédits"),
+                           array(), array()));
 
-  $cts->add(new itemlist("UV niveau 2 : ".$cursus->nb_some_of, false, $cursus->uv_some_of), true);
+  }else if($cursus->type == CURSUS_MINEUR){
+    $cts->add(new itemlist("UV niveau 1 : ".$cursus->nb_all_of, false, $cursus->uv_all_of), true);
 
-  $cts->add(new sqltable("uv_all_of", "", $cursus->get_uv_list('SOME_OF'), "uv.php", 'id_uv',
-                         array("code"=>"UV",
-                               "intitule"=>"Intitulé",
-                               "guide_credits"=>"Crédits"),
-                         array(), array()));
+    $cts->add(new sqltable("uv_all_of", "", $cursus->get_uv_list('ALL_OF'), "uv.php", 'id_uv',
+                           array("code"=>"UV",
+                                 "intitule"=>"Intitulé",
+                                 "guide_credits"=>"Crédits"),
+                           array(), array()));
+
+    $cts->add(new itemlist("UV niveau 2 : ".$cursus->nb_some_of, false, $cursus->uv_some_of), true);
+
+    $cts->add(new sqltable("uv_all_of", "", $cursus->get_uv_list('SOME_OF'), "uv.php", 'id_uv',
+                           array("code"=>"UV",
+                                 "intitule"=>"Intitulé",
+                                 "guide_credits"=>"Crédits"),
+                           array(), array()));
+  }else{
+    $cts->add(new sqltable("uv_all_of", "UV principales", $cursus->get_uv_list('ALL_OF'), "uv.php", 'id_uv',
+                           array("code"=>"UV",
+                                 "intitule"=>"Intitulé",
+                                 "guide_credits"=>"Crédits"),
+                           array(), array()), true);
+
+    $cts->add(new sqltable("uv_all_of", "UV secondaires", $cursus->get_uv_list('SOME_OF'), "uv.php", 'id_uv',
+                           array("code"=>"UV",
+                                 "intitule"=>"Intitulé",
+                                 "guide_credits"=>"Crédits"),
+                           array(), array()), true);
+  }
 
   $cts->puts("<input type=\"button\" onclick=\"location.href='cursus.php?action=edit&id=$cursus->id';\" value=\"Corriger la fiche\" style=\"float:right;\"/>");
 

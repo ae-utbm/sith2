@@ -149,7 +149,7 @@ class cursus extends stdentity
   }
 
   public function get_uv_list($relation=null){
-    $req = "SELECT pedag_uv_cursus`.* , `pedag_uv`.`code`  , `pedag_uv`.`intitule`, `pedag_uv`.`guide_credits`
+    $req = "SELECT `pedag_uv_cursus`.* , `pedag_uv`.`code`  , `pedag_uv`.`intitule`, `pedag_uv`.`guide_credits`
             FROM `pedag_uv_cursus`
             LEFT JOIN `pedag_uv`
               ON `pedag_uv`.`id_uv` = `pedag_uv_cursus`.`id_uv`
