@@ -153,8 +153,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     $avail_sem[$sem] = $desc['long'];
   $frm->add_select_field("semestre", "Semestre(s) d'ouverture", $avail_sem, SEMESTER_AP);
 
-  $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
+  //$frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
+  $frm->add_entity_smartselect("alias_of", "Alias de", new uv($site->db), true);
+
   $frm->add_checkbox("tc_avail", "UV ouverte aux TC", true);
+
 
   $frm->add_submit("saveuv", "Enregistrer l'UV & éditer la fiche");
   $cts->add($frm);
