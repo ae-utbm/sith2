@@ -62,7 +62,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       exit; //ouais faudra trouver mieux :)
 
     if(isset($_REQUEST['alias_of']) && !empty($_REQUEST['alias_of']))
-      $uv->set_alias_of($_REQUEST['alias_uv']);
+      $uv->set_alias_of($_REQUEST['alias_of']);
 
     $site->redirect("./uv.php?id=".$uv->id."&action=edit#guide");
   }
