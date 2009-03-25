@@ -121,10 +121,10 @@ class cursus extends stdentity
     $data = array();
     if(!is_null($type)) $data["type"] = $type;
     if(!is_null($departement)) $data["departement"] = $departement;
-    if($intitule) $data["intitule"] = mysql_real_escape_string($intitule);
-    if($name) $data["name"] = mysql_real_escape_string($name);
-    if($description) $data["description"] = mysql_real_escape_string($description);
-    if($responsable) $data["responsable"] = mysql_real_escape_string($responsable);
+    if($intitule) $data["intitule"] = ($intitule);
+    if($name) $data["name"] = ($name);
+    if($description) $data["description"] = ($description);
+    if($responsable) $data["responsable"] = ($responsable);
     if(!is_null($nb_some_of)) $data["nb_some_of"] = intval($nb_some_of);
     if(!is_null($nb_all_of)) $data["nb_all_of"] = intval($nb_all_of);
 

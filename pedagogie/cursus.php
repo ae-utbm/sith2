@@ -243,7 +243,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   $cts->add_title(2, $cursus->intitule);
   $cts->add_paragraph("Responsable : ".$cursus->responsable);
   $cts->add_paragraph($_CURSUS[$cursus->type]['long']." : ".$_DPT[$cursus->departement]['long']);
-  $cts->add_paragraph($cursus->description);
+  $cts->add_paragraph(doku2xhtml($cursus->description));
 
   if($cursus->closed)
     $cts->add_paragraph("<b>Ce ".$_CURSUS[$cursus->type]['short']." est actuellement fermé.</b>");
