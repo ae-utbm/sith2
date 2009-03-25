@@ -163,7 +163,7 @@ class cursus extends stdentity
         $req = " AND `relation` = '".$relation."'";
     }
 
-    $sql = new requete($this->db, $req);
+    $sql = new requete($this->db, $req, true);
     if(!$sql->is_success())
       return false;
     else{
