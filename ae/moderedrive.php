@@ -87,7 +87,7 @@ $req = new requete($site->db,"SELECT d_folder.* " .
         ", `utilisateurs`.`id_utilisateur` ".
         ", CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` ".
         "FROM d_folder " .
-        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
+        "LEFT JOIN `utilisateurs` USING(`id_utilisateur`) ".
         "WHERE " .
         "modere_folder='0'");
 
