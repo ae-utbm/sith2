@@ -236,10 +236,13 @@ class aecms extends site
       {
         if ( $row[0] != CMS_PREFIX."config" )
         {
-	  if($_REQUEST["action"] != "addonglet")
-	    fwrite($f," array(\"".$row[0]."\",\"".$row[1]."\",\"".$row[2]."\"");
+          $grp=null;
+          if(isset($row[3]) && !empty($row[3]))
+            $grp=intval($row[3]);
+          if($_REQUEST["action"] != "addonglet")
+            fwrite($f," array(\"".$row[0]."\",\"".$row[1]."\",\"".$row[2]."\",\"".$row[3]."\"");
           else
-            fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\"");
+            fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\",\"".$row[3]."\"");
           $n++;
           if ( $n == $cnt )
             fwrite($f,"));\n");
@@ -333,11 +336,13 @@ class aecms extends site
 
     foreach ($this->tab_array as $entry)
     {
+      if(isset($entry[3]) && !is_null($entry[3]) && !$this->user->is_in_group_id($entry[3]))
+        continue;
       echo "<span";
       if ($this->section == $entry[0])
       {
         echo " class=\"selected\"";
-        $links=$entry[3];
+        //$links=$entry[3];
       }
       echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
       echo " title=\"" . stripslashes($entry[2]) . "\">".
