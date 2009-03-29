@@ -240,7 +240,7 @@ class aecms extends site
           if(isset($row[3]) && !empty($row[3]))
             $grp=intval($row[3]);
           if($_REQUEST["action"] != "addonglet")
-            fwrite($f," array(\"".$row[0]."\",\"".$row[1]."\",\"".$row[2]."\",\"".$row[3]."\"");
+                   fwrite($f," array(\"".$row[0]."\",\"".$row[1]."\",\"".$row[2]."\",\"".$row[3]."\"");
           else
             fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\",\"".$row[3]."\"");
           $n++;
@@ -336,7 +336,10 @@ class aecms extends site
 
     foreach ($this->tab_array as $entry)
     {
-      if(isset($entry[3]) && !is_null($entry[3]) && !$this->user->is_in_group_id($entry[3]))
+      if(   isset($entry[3])
+         && !is_null($entry[3])
+         && (!$this->user->is_in_group_id($entry[3]) || $this->is_user_admin())
+        )
         continue;
       echo "<span";
       if ($this->section == $entry[0])
