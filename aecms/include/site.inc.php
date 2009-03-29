@@ -206,7 +206,7 @@ class aecms extends site
     }
 
     $this->start_page($section,"Identification requise");
-    $frm = new form("connect2",
+    $frm = new form("connect",
                     "http://ae.utbm.fr".$_SERVER["REQUEST_URI"],
                     true,
                     "POST",

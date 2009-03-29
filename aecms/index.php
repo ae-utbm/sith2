@@ -134,6 +134,8 @@ if ( !$page->is_right($site->user,DROIT_LECTURE) )
 {
   if(!$site->user->is_valid())
     $site->allow_only_logged_users();
+  if(!$site->user->is_valid())
+   exit();
   if($site->user->is_valid() && !$page->is_right($site->user,DROIT_LECTURE))
   {
     $site->start_page ( $section, "Erreur" );
