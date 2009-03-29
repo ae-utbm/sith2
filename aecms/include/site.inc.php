@@ -158,7 +158,7 @@ class aecms extends site
 
   }
 
-  function allow_only_logged_users($section="none",$error=true)
+  function allow_only_logged_users($section="none")
   {
     global $topdir;
 
@@ -206,23 +206,20 @@ class aecms extends site
       }
     }
 
-    if($error)
-    {
-      $this->start_page($section,"Identification requise");
-      $frm = new form("connect",
-                      "http://ae.utbm.fr".$_SERVER["REQUEST_URI"],
-                      true,
-                      "POST",
-                      "Pour accéder à cette section, merci de vous identifier");
-      $frm->add_select_field("domain","Connexion",array("utbm"=>"UTBM","assidu"=>"Assidu","id"=>"ID","autre"=>"Autre","alias"=>"Alias"), "autre");
-      $frm->add_text_field("username","Utilisateur","prenom.nom","",27,true);
-      $frm->add_password_field("password","Mot de passe","","",27);
-      $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
-      $frm->add_submit("connectbtnaecms","Se connecter");
-      $this->add_contents($frm,true);
-      $this->end_page();
-      exit();
-    }
+    $this->start_page($section,"Identification requise");
+    $frm = new form("connect",
+                    "http://ae.utbm.fr".$_SERVER["REQUEST_URI"],
+                    true,
+                    "POST",
+                    "Pour accéder à cette section, merci de vous identifier");
+    $frm->add_select_field("domain","Connexion",array("utbm"=>"UTBM","assidu"=>"Assidu","id"=>"ID","autre"=>"Autre","alias"=>"Alias"), "autre");
+    $frm->add_text_field("username","Utilisateur","prenom.nom","",27,true);
+    $frm->add_password_field("password","Mot de passe","","",27);
+    $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
+    $frm->add_submit("connectbtnaecms","Se connecter");
+    $this->add_contents($frm,true);
+    $this->end_page();
+    exit();
   }
 
   function start_page ( $section, $title,$compact=false )
@@ -405,13 +402,10 @@ class aecms extends site
     {
       if(   isset($entry[3])
          && !is_null($entry[3])
+         && !$this->user->is_in_group_id($entry[3])
+         && !$this->is_user_admin()
         )
-      {
-        $this->allow_only_logged_users("none",false);
-        if( !$this->user->is_in_group_id($entry[3])
-            && !$this->is_user_admin())
-          continue;
-      }
+        continue;
       echo "<span";
       if ($this->section == $entry[0])
       {
