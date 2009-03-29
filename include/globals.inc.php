@@ -2,7 +2,7 @@
 
 /** @file
  *
- * @brief Fonctions diverses et variÃ©es.
+ * @brief Fonctions diverses et variées.
  *
  */
 
@@ -43,17 +43,17 @@ $conf=array(
 );
 
 
-/** Convertit la date en une chaÃ®ne human readable
+/** Convertit la date en une chaîne human readable
  *
- * @param start Date de dÃ©but au format YYYY-MM-DD HH:MM:SS. Si aucune
- * date de fin n'est donnÃ©e, alors une chaÃ®ne du type "Mardi 4 mai Ã 
- * 14h00" sera gÃ©nÃ©rÃ©e.
+ * @param start Date de début au format YYYY-MM-DD HH:MM:SS. Si aucune
+ * date de fin n'est donnée, alors une chaîne du type "Mardi 4 mai à
+ * 14h00" sera générée.
  *
- * @param end Date de fin (optionnelle). Si elle est donnÃ©e, une
- * chaÃ®ne du type "Du mardi 4 mai Ã  14h00 au mardi 5 mai Ã  18h00" sera
- * gÃ©nÃ©rÃ©e.
+ * @param end Date de fin (optionnelle). Si elle est donnée, une
+ * chaîne du type "Du mardi 4 mai à 14h00 au mardi 5 mai à 18h00" sera
+ * générée.
  *
- * @return Une chaÃ®ne de caractÃ¨re humainement lisible de la date ou
+ * @return Une chaîne de caractère humainement lisible de la date ou
  * de l'intervalle de date.
  *
  * @deprecated
@@ -72,7 +72,7 @@ function HumanReadableDate($start, $end="", $time = true, $year = false)
   if(setlocale(LC_TIME, "fr_FR.UTF-8") == false)
     die( "Erreur de configuration des locales");
 
-  /* Est-ce qu'une date de fin est donnÃ©e ? */
+  /* Est-ce qu'une date de fin est donnée ? */
   if($end == "")
     {
     if ($time)
@@ -92,8 +92,8 @@ function HumanReadableDate($start, $end="", $time = true, $year = false)
     }
   else
     {
-      /* Si les dates de dÃ©but et de fin sont le mÃªme jour,
-         on affiche un truc du style "lundi 4 mai de 14h00 Ã  18h00" */
+      /* Si les dates de début et de fin sont le mÃªme jour,
+         on affiche un truc du style "lundi 4 mai de 14h00 à 18h00" */
       if($start[2] == $end[2] && $start[1] == $end[1] && $start[0] == $end[0])
   {
     if ($year)
@@ -101,7 +101,7 @@ function HumanReadableDate($start, $end="", $time = true, $year = false)
     else
       return (strftime("%A %e %B de %Hh%M", $timestamp) . strftime(" &agrave; %Hh%M", $timestampend));
   }
-      /* Sinon, on affiche un truc du style "du lundi 4 mai Ã  14h00 au mardi 5 mai Ã  15h00" */
+      /* Sinon, on affiche un truc du style "du lundi 4 mai à 14h00 au mardi 5 mai à 15h00" */
       else
   {
     if ($year)
@@ -112,12 +112,12 @@ function HumanReadableDate($start, $end="", $time = true, $year = false)
     }
 }
 
-/** GÃ©nÃ¨re une liste de sÃ©lection pour un formulaire
+/** Génère une liste de sélection pour un formulaire
  *
- * @param values Un tableau associatif (clÃ© => valeur) donnant la
- * liste des Ã©lÃ©ments.
+ * @param values Un tableau associatif (clé => valeur) donnant la
+ * liste des éléments.
  *
- * @param current La clÃ© de l'Ã©lement sÃ©lectionnÃ©
+ * @param current La clé de l'élement sélectionné
  *
  * @param name Le nom du champ dans le formulaire
  *
@@ -143,13 +143,13 @@ function GenerateSelectList($values, $current, $name, $size=1)
   return $buffer;
 }
 
-/** GÃ©nÃ©ration de mot de passe
- * Cette fonction va gÃ©nÃ©rer une chaÃ®ne alÃ©atoire de la longueur
- * spÃ©cifiÃ©e. C'est notamment utile pour gÃ©nÃ©rer des mots de passe.
+/** Génération de mot de passe
+ * Cette fonction va générer une chaîne aléatoire de la longueur
+ * spécifiée. C'est notamment utile pour générer des mots de passe.
  *
- * @param nameLength Longueur de la chaÃ®ne
+ * @param nameLength Longueur de la chaîne
  *
- * @return La chaÃ®ne alÃ©atoire
+ * @return La chaîne aléatoire
  */
 function genere_pass ($nameLength=12)
 {
@@ -173,9 +173,9 @@ function genere_pass ($nameLength=12)
 
   return $Name;
 }
-/** VÃ©rification de l'email
+/** Vérification de l'email
  *
- * @param email L'email Ã  vÃ©rifier
+ * @param email L'email à vérifier
  * @param type  0 = email du type "prenom.nom"
  *              1 = email utbm
  *              2 = email assidu
@@ -297,7 +297,7 @@ function convertir_prenom ($string)
 }
 
 
-/* Changement du sÃ©parateur pour &amp */
+/* Changement du séparateur pour &amp */
 ini_set("arg_separator.output", "&amp;");
 
 function utf8_enleve_accents ($text)
