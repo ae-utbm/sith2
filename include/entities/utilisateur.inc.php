@@ -118,7 +118,7 @@ class utilisateur extends stdentity
   var $permis_conduire;
   var $date_permis_conduire;
   var $hab_elect;
-	var $afps;
+  var $afps;
   var $sst;
   var $jabber;
 
@@ -228,15 +228,15 @@ class utilisateur extends stdentity
   {
     $this->vol = false;
 
-	  if ( ereg("^([0-9]+)([a-zA-Z]{1})$", $num, $regs) )
-	  {
-	    $cond = "`ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string($regs[1]) . "' AND ".
-	             "`ae_carte`.`cle_carteae` = '" . strtoupper(mysql_real_escape_string($regs[2])) . "'";
-	  }
-	  elseif ( ereg("^([0-9]+) ([a-zA-Z\\-]{1,6})\\.([a-zA-Z\\-]{1,6})$", $num, $regs) )
-	  {
-	    $cond = "`ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string($regs[1]) . "'";
-	  }
+    if ( ereg("^([0-9]+)([a-zA-Z]{1})$", $num, $regs) )
+    {
+      $cond = "`ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string($regs[1]) . "' AND ".
+              "`ae_carte`.`cle_carteae` = '" . strtoupper(mysql_real_escape_string($regs[2])) . "'";
+    }
+    elseif ( ereg("^([0-9]+) ([a-zA-Z\\-]{1,6})\\.([a-zA-Z\\-]{1,6})$", $num, $regs) )
+    {
+      $cond = "`ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string($regs[1]) . "'";
+    }
     else // voué à disparaitre
     {
       if ( $strict )
@@ -502,12 +502,12 @@ class utilisateur extends stdentity
       {
         $this->utbm = false;
         $req = new update($this->dbrw,
-	                  "utilisateurs",
+                          "utilisateurs",
                           array("utbm_utl"=>$this->utbm),
                           array("id_utilisateur"=>$this->id));
         $req = new delete($this->dbrw,
-	                  "utl_etu_utbm",
-	                  array("id_utilisateur" => $this->id));
+                          "utl_etu_utbm",
+                          array("id_utilisateur" => $this->id));
       }
     }
     $this->hash = md5(genere_pass(20));
@@ -1061,7 +1061,8 @@ class utilisateur extends stdentity
                          $date_naissance,
                          $sexe,
                          $_utbm=false,
-                         $_etudiant=false)
+                         $_etudiant=false,
+                         $send_email=true)
   {
     $this->type = "std";
     $this->nom = convertir_nom($nom);
@@ -1114,8 +1115,11 @@ class utilisateur extends stdentity
       return false;
     }
 
-    $this->invalidate ("email");
-    $this->send_first_email($this->email,$password);
+    if($send_email)
+    {
+      $this->invalidate ("email");
+      $this->send_first_email($this->email,$password);
+    }
 
     return true;
   }
@@ -1950,7 +1954,7 @@ L'équipe info AE";
                     array("parrain","user.php?view=parrain&id_utilisateur=".$this->id, "Parrains"),
                     array("assos","user.php?view=assos&id_utilisateur=".$this->id, "Associations"),
                     array("photos","user/photos.php?id_utilisateur=".$this->id, "Photos"),
-  		              array("pedagogie","user.php?view=pedagogie&id_utilisateur=".$this->id, "Pédagogie") );
+                    array("pedagogie","user.php?view=pedagogie&id_utilisateur=".$this->id, "Pédagogie") );
 
       if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
       {
@@ -2009,24 +2013,24 @@ L'équipe info AE";
   }
 
   static function liste_promos($autre = "Autre", $logo = false)
-	{
+  {
     if ( date("m") >= 9 )
-		  $promo_max = date("y") + 2;
-		else
-		  $promo_max = date("y") + 1;
+      $promo_max = date("y") + 2;
+    else
+      $promo_max = date("y") + 1;
 
-		for ( $i = 1; $i <= $promo_max; $i+=1 )
-		{
-		  if ( $logo == true )
-			  $promos[$i] = "images/promo_".sprintf("%02d",$i).".png";
-			else
-		    $promos[$i] = $i;
-		}
+    for ( $i = 1; $i <= $promo_max; $i+=1 )
+    {
+      if ( $logo == true )
+        $promos[$i] = "images/promo_".sprintf("%02d",$i).".png";
+      else
+        $promos[$i] = $i;
+    }
 
     if ( $logo != true )
-  		$promos[0] = $autre;
+      $promos[0] = $autre;
 
-		return $promos;
+    return $promos;
   }
 
   function send_majprofil_email ( &$site, $email=null )
