@@ -132,13 +132,18 @@ if ( $page->section )
 
 if ( !$page->is_right($site->user,DROIT_LECTURE) )
 {
-  $site->start_page ( $section, "Erreur" );
+  if(!$site->user->is_valid())
+    $site->allow_only_logged_users();
+  if($site->user->is_valid())
+  {
+    $site->start_page ( $section, "Erreur" );
 
-  $err = new error("Accès restreint","Vous n'avez pas le droit d'accéder à cette page.");
-  $site->add_contents($err);
+    $err = new error("Accès restreint","Vous n'avez pas le droit d'accéder à cette page.");
+    $site->add_contents($err);
 
-  $site->end_page();
-  exit();
+    $site->end_page();
+    exit();
+  }
 }
 
 

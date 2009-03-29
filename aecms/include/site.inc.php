@@ -158,6 +158,69 @@ class aecms extends site
 
   }
 
+  function allow_only_logged_users($section="none")
+  {
+    global $topdir;
+
+    if ( $this->user->is_valid() )
+      return;
+    if(isset($_REQUEST['connectbtnaecms']))
+    {
+      switch ($_REQUEST["domain"])
+      {
+        case "utbm" :
+          $this->user->load_by_email($_REQUEST["username"]."@utbm.fr");
+        break;
+        case "assidu" :
+          $this->user->load_by_email($_REQUEST["username"]."@assidu-utbm.fr");
+        break;
+        case "id" :
+          $this->user->load_by_id($_REQUEST["username"]);
+        break;
+        case "autre" :
+          $this->user->load_by_email($_REQUEST["username"]);
+        break;
+        case "alias" :
+          $this->user->load_by_alias($_REQUEST["username"]);
+        break;
+        default :
+          $this->user->load_by_email($_REQUEST["username"]."@utbm.fr");
+        break;
+      }
+      if ( $this->user->is_valid() )
+      {
+        if ( $this->user->hash != "valid" )
+        {
+          header("Location: http://ae.utbm.fr/article.php?name=site:activate");
+          exit();
+        }
+        if($this->user->is_password($_POST["password"]))
+        {
+          $forever=false;
+          if ( isset($_REQUEST["personnal_computer"]) )
+            $forever=true;
+          $this->connect_user($forever);
+          return;
+        }
+      }
+    }
+
+    $this->start_page($section,"Identification requise");
+    $frm = new form("connect2",
+                    "http://ae.utbm.fr".$_SERVER["REQUEST_URI"],
+                    true,
+                    "POST",
+                    "Pour accéder à cette section, merci de vous identifier");
+    $frm->add_select_field("domain","Connexion",array("utbm"=>"UTBM","assidu"=>"Assidu","id"=>"ID","autre"=>"Autre","alias"=>"Alias"), "autre");
+    $frm->add_text_field("username","Utilisateur","prenom.nom","",27,true);
+    $frm->add_password_field("password","Mot de passe","","",27);
+    $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
+    $frm->add_submit("connectbtnaecms","Se connecter");
+    $this->add_contents($frm,true);
+    $this->end_page();
+    exit();
+  }
+
   function start_page ( $section, $title,$compact=false )
   {
     $sections = explode(",",$this->config["boxes.sections"]);
