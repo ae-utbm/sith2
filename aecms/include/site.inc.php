@@ -346,7 +346,7 @@ class aecms extends site
       if ($this->section == $entry[0])
       {
         echo " class=\"selected\"";
-        $links=$entry[3];
+        $links=$entry[4];
       }
       echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
       echo " title=\"" . stripslashes($entry[2]) . "\">".
