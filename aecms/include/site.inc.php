@@ -338,7 +338,8 @@ class aecms extends site
     {
       if(   isset($entry[3])
          && !is_null($entry[3])
-         && (!$this->user->is_in_group_id($entry[3]) || $this->is_user_admin())
+         && !$this->user->is_in_group_id($entry[3])
+         && !$this->is_user_admin()
         )
         continue;
       echo "<span";
