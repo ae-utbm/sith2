@@ -134,7 +134,7 @@ if ( !$page->is_right($site->user,DROIT_LECTURE) )
 {
   if(!$site->user->is_valid())
     $site->allow_only_logged_users();
-  if(!$site->user->is_valid())
+  if(!$page->is_right($site->user,DROIT_LECTURE))
    exit();
   if($site->user->is_valid() && !$page->is_right($site->user,DROIT_LECTURE))
   {
