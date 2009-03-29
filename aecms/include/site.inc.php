@@ -200,6 +200,7 @@ class aecms extends site
           if ( isset($_REQUEST["personnal_computer"]) )
             $forever=true;
           $this->connect_user($forever);
+          $this->user->load_groups();
           return;
         }
       }
