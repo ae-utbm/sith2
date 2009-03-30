@@ -33,7 +33,7 @@ while(list($id)=$req->get_row())
             $to=$emailult;
           else
             $to=$emailutbm;
-          $buffer.='SUBscribe '.$email.' '.$emailult."\n";
+          $buffer.='SUBscribe '.$email.' '.$to."\n";
         }
       }
     }
