@@ -300,13 +300,13 @@ class aecms extends site
       {
         if ( $row[0] != CMS_PREFIX."config" )
         {
-          $grp=null;
-          if(isset($row[3]) && !empty($row[3]))
-            $grp=intval($row[3]);
+          $grp=",null";;
+          if(isset($row[4]) && !empty($row[4]))
+            $grp=",\"".intval($row[4])."\"";
           if($_REQUEST["action"] != "addonglet")
-                   fwrite($f," array(\"".$row[0]."\",\"".$row[1]."\",\"".$row[2]."\",\"".$row[3]."\"");
+            fwrite($f," array(\"".$row[0]."\",\"".$row[1]."\",\"".$row[2]."\",\"".$row[3]."\"".$grp);
           else
-            fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\",\"".$row[3]."\"");
+            fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\",\"".$row[3]."\"".$grp);
           $n++;
           if ( $n == $cnt )
             fwrite($f,"));\n");
@@ -400,9 +400,9 @@ class aecms extends site
 
     foreach ($this->tab_array as $entry)
     {
-      if(   isset($entry[3])
-         && !is_null($entry[3])
-         && !$this->user->is_in_group_id($entry[3])
+      if(   isset($entry[4])
+         && !is_null($entry[4])
+         && !$this->user->is_in_group_id($entry[4])
          && !$this->is_user_admin()
         )
         continue;
@@ -410,7 +410,7 @@ class aecms extends site
       if ($this->section == $entry[0])
       {
         echo " class=\"selected\"";
-        $links=$entry[4];
+        $links=$entry[5];
       }
       echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
       echo " title=\"" . stripslashes($entry[2]) . "\">".
