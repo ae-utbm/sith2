@@ -4,12 +4,12 @@ require_once ($topdir . "include/mysql.inc.php");
 require_once ($topdir . "include/mysqlae.inc.php");
 
 $req = new requete(new mysqlae (),
-   "SELECT id_asso FROM `asso` WHERE id_asso_parent=1",1);// en gros tous les poles
+   "SELECT id_asso FROM `asso` WHERE id_asso_parent=1");// en gros tous les poles
 $buffer='';
 while(list($id)=$req->get_row())
 {
   $req2=new requete(new mysqlae (),
-  "SELECT id_asso, email FROM `asso` WHERE id_asso_parent=".$id,1);//tous les clubs du pole :P
+  "SELECT id_asso, email_asso FROM `asso` WHERE id_asso_parent=".$id);//tous les clubs du pole :P
   while(list($_id,$email)=$req2->get_row())
   {
     if(!empty($email))
