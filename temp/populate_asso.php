@@ -23,7 +23,7 @@ while(list($id)=$req->get_row())
       "AND (role=10 OR role=9 OR role=7) ".
       "AND date_fin IS NULL");
       if($req3->lines==0)
-        $buffer.='SUBscribe '.$email.' ae@utbm.fr'."\n";
+        $buffer.='ADD '.$email.' ae@utbm.fr'."\n";
         // on inscrit ae@utbm.fr
       else
       {
@@ -33,7 +33,7 @@ while(list($id)=$req->get_row())
             $to=$emailult;
           else
             $to=$emailutbm;
-          $buffer.='SUBscribe '.$email.' '.$to."\n";
+          $buffer.='ADD '.$email.' '.$to."\n";
         }
       }
     }
