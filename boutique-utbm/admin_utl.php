@@ -86,15 +86,15 @@ if( $user->is_valid() && $user->type=='srv')
     $pass = genere_pass(10);
     $user->change_password($pass);
     $body = "Bonjour,
-Votre compte a été réinitialisé.
+Vos identifiants sont les suivants :
 Centre financier : $centre
-Votre mot de passe: $password
+Votre mot de passe: $pass
 
 La boutique, en partenariat avec l'AE
 --
 http://boutique.utbm.fr";
     $ret = mail($email,
-                utf8_decode("[boutique] Réinitilisation"),
+                utf8_decode("[boutique] identifiant"),
                 utf8_decode($body),
                 "From: \"Boutique\" <boutique@utbm.fr>\nReply-To: boutique@utbm.fr");
     $_cts=new contents("Mot de passe réinitialisé.");
@@ -118,10 +118,7 @@ http://boutique.utbm.fr";
      if($req->lines==1)
        list($centre)=$req->get_row();
      $frm->add_text_field('nom_centre_cout','Centre de financier',$centre);
-     if($req->lines==1)
-       $frm->add_submit('submit','Modifier');
-     else
-       $frm->add_submit('submit','Ajouter');
+     $frm->add_submit('submit','Modifier');
      $_cts->add($frm);
   }
 
