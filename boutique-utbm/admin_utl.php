@@ -151,7 +151,7 @@ http://boutique.utbm.fr";
        if($req->lines==1)
          $req = new update($site->dbrw,'boutiqueut_service_utl',array('centre_financier'=>$_REQUEST['nom_centre_financier']),array('id_utilisateur'=>$user->id));
        else
-         $req = new insert($site->dbrw,'boutiqueut_service_utl',array('id_utilisateur'=>$user->id,'centre_financier'=>$_REQUEST['nom_centre_financier']),1);
+         $req = new insert($site->dbrw,'boutiqueut_service_utl',array('id_utilisateur'=>$user->id,'centre_financier'=>$_REQUEST['nom_centre_financier']));
      }
      $frm = new form('centrefinan','admin_utl.php');
      $frm->add_hidden('id_utilisateur',$user->id);
@@ -160,7 +160,7 @@ http://boutique.utbm.fr";
      $req = new requete($site->db,'SELECT centre_financier FROM boutiqueut_service_utl WHERE id_utilisateur='.$user->id);
      if($req->lines==1)
        list($centre)=$req->get_row();
-     $frm->add_text_field('nom_centre_cout','Centre de financier',$centre);
+     $frm->add_text_field('nom_centre_fincancier','Centre de financier',$centre);
      $frm->add_submit('submit','Modifier');
      $_cts->add($frm);
   }
