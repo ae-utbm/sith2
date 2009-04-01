@@ -60,6 +60,7 @@ else
   $cts->add_title(2,'Stock au '.date("d/m/Y H:i"));
 while(list($id,$nom,$stock)=$req->get_row())
 {
+  print_r("stock ".$stock."\n");
   if(isset($_REQUEST['date']))
   {
     $lim = date("Y-m-d H:i",$_REQUEST["date"]);
@@ -75,7 +76,9 @@ while(list($id,$nom,$stock)=$req->get_row())
       list($add)=$req2->get_row();
       if(!is_null($add))
         $stock=$stock+$add;
+      print_r($add);
     }
+    print_r("===\n");
     $req2 = new requete($site->db,
                        'SELECT SUM(quantite) as qu '.
                        'FROM boutiqueut_reapro '.
@@ -86,6 +89,7 @@ while(list($id,$nom,$stock)=$req->get_row())
       list($add)=$req2->get_row();
       if(!is_null($add))
         $stock=$stock-$add;
+      print_r($add);
     }
     $lst[]=array('id_produit'=>$id,'nom'=>$nom,'stock'=>$stock);
   }
