@@ -105,7 +105,7 @@ if( $user->is_valid() && $user->type=='srv')
     $_cts->add($frm,true);
     $req = new requete($site->db,'SELECT * FROM boutiqueut_centre_cout WHERE id_utilisateur='.$user->id);
     $_cts->add(new sqltable("ctcouts",
-          null,
+          'Centres de coût existants',
           $req,
           "?id_utilisateur=".$user->id,
           "centre_cout",
@@ -114,8 +114,7 @@ if( $user->is_valid() && $user->type=='srv')
           array(),
           array(),
           true,
-          false));
-    //on ajoute un centre de cout
+          false),true);
   }
   elseif($_REQUEST['action']=='changemdp')
   {
