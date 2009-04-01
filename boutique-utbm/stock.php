@@ -110,6 +110,7 @@ while(list($id,$nom,$stock)=$req->get_row())
     $lst[]=array('id_produit'=>$id,'nom'=>$nom,'stock'=>$stock);
   }
 }
+print_r($lst);
 $cts->add(new sqltable('stock','Stock',$lst,'admin.php', 'id_produit',array('nom'=>'Produit','stock'=>'Stock'),array(),array(),true,false));
 
 if(!isset($_REQUEST['date']))
