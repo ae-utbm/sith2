@@ -46,6 +46,44 @@ if( $user->is_valid() && $user->type=='srv')
   $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"admin_utl.php\">Services</a> / Service");
   $cts->add_title(2,$user->get_display_name());
 
+  if($_REQUEST['action']=='real_edit')
+  {
+    $_REQUEST['action']='centrecout';
+    if(   isset($_REQUEST['contact'])
+       && !empty($_REQUEST['contact'])
+       && isset($_REQUEST['centre_cout'])
+       && !empty($_REQUEST['centre_cout']))
+    {
+     new update($site->dbrw,
+                'boutiqueut_centre_cout',
+                array('contact'=>$_REQUEST['contact']),
+                array('id_utilisateur'=>$user->id,'centre_cout'=>$_REQUEST['centre_cout']));
+    }
+  }
+  if($_REQUEST['action']=='edit' && isset($_REQUEST['centre_cout']) && !empty($_REQUEST['centre_cout']))
+  {
+    $_REQUEST['action']='centrecout';
+    $req=new requete($site->db,
+      'SELECT contact, centre_cout '.
+      'FROM boutiqueut_centre_cout '.
+      'WHERE id_utilisateur='.$usre->id.' '.
+      'AND centre_cout=\''.mysql_real_escape_string($_REQUEST['centre_cout']).'\'');
+    if($req->lines==1)
+    {
+      list($contect,$centre)=$req->get_row();
+      $frm = new form('centrecout',
+                      'admin_utl.php',
+                      false,
+                      'POST',
+                      'Modification du contact pour le centre de coût "'.$centre.'"');
+      $frm->add_hidden('id_utilisateur',$user->id);
+      $frm->add_hidden('action','real_edit');
+      $frm->add_hidden('centre_cout',$centre);
+      $frm->add_text_field('contact','Contact',$contact);
+      $frm->add_submit('submit','Ajouter');
+      $_cts->add($frm,true);
+    }
+  }
   if($_REQUEST['action']=='centrecout')
   {
     $_cts = new contents("Centre de coût");
@@ -63,7 +101,7 @@ if( $user->is_valid() && $user->type=='srv')
     $_cts->add(new sqltable("ctcouts",
           null,
           $req,
-          "?",
+          "?id_utilisateur=".$user->id,
           "centre_cout",
           array("centre_cout"=>"Centre de coût","contact"=>"Contact"),
           array("edit"=>"Éditer"),
