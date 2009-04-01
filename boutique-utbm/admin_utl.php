@@ -118,7 +118,10 @@ http://boutique.utbm.fr";
      if($req->lines==1)
        list($centre)=$req->get_row();
      $frm->add_text_field('nom_centre_cout','Centre de financier',$centre);
-     $frm->add_submit('submit','Ajouter');
+     if($req->lines==1)
+       $frm->add_submit('submit','Modifier');
+     else
+       $frm->add_submit('submit','Ajouter');
      $_cts->add($frm);
   }
 
