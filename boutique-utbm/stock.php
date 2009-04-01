@@ -54,6 +54,8 @@ $req = new requete($site->db,
   'WHERE stock_global_prod!=-1'
 );
 $lst=array();
+if(isset($_REQUEST['date']) && !empty($_REQUEST['date']))
+  print_r("bleh");
 if(isset($_REQUEST['date']))
   $cts->add_title(2,'Stock au '.date("d/m/Y H:i",$_REQUEST["date"]));
 else
