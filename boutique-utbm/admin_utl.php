@@ -70,6 +70,7 @@ if( $user->is_valid() && $user->type=='srv')
       'AND centre_cout=\''.mysql_real_escape_string($_REQUEST['centre_cout']).'\'');
     if($req->lines==1)
     {
+      $_cts = new contents("Centre de coût");
       list($contact,$centre)=$req->get_row();
       $frm = new form('edit_centrecout',
                       'admin_utl.php',
@@ -81,12 +82,13 @@ if( $user->is_valid() && $user->type=='srv')
       $frm->add_hidden('centre_cout',$centre);
       $frm->add_text_field('contact','Contact',$contact);
       $frm->add_submit('submit','Modifier');
-      $site->add_contents($frm);
+      $_cts->add($frm,true);
     }
   }
   if($_REQUEST['action']=='centrecout')
   {
-    $_cts = new contents("Centre de coût");
+    if(!isset($_cts))
+      $_cts = new contents("Centre de coût");
     if(isset($_REQUEST['nom_centre_cout']) && !empty($_REQUEST['nom_centre_cout']))
       $req = new insert($site->dbrw,'boutiqueut_centre_cout',array('id_utilisateur'=>$user->id,'centre_cout'=>$_REQUEST['nom_centre_cout'],'contact'=>$_REQUEST['contact']));
 
