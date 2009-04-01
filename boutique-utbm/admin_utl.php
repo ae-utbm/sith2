@@ -70,7 +70,7 @@ if( $user->is_valid() && $user->type=='srv')
       'AND centre_cout=\''.mysql_real_escape_string($_REQUEST['centre_cout']).'\'');
     if($req->lines==1)
     {
-      list($contect,$centre)=$req->get_row();
+      list($contact,$centre)=$req->get_row();
       $frm = new form('edit_centrecout',
                       'admin_utl.php',
                       false,
