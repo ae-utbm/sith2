@@ -61,7 +61,7 @@ else
 while(list($id,$nom,$stock)=$req->get_row())
 {
   print_r("stock ".$stock."\n");
-  if(isset($_REQUEST['date']))
+  if(isset($_REQUEST['date'])&&!empty($_REQUEST['date']))
   {
     $lim = date("Y-m-d H:i",$_REQUEST["date"]);
     $req2 = new requete($site->db,
