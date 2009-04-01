@@ -92,13 +92,17 @@ if( $user->is_valid() && $user->type=='srv')
     if(isset($_REQUEST['nom_centre_cout']) && !empty($_REQUEST['nom_centre_cout']))
       $req = new insert($site->dbrw,'boutiqueut_centre_cout',array('id_utilisateur'=>$user->id,'centre_cout'=>$_REQUEST['nom_centre_cout'],'contact'=>$_REQUEST['contact']));
 
-    $frm = new form('centrecout','admin_utl.php');
+    $frm = new form('centrecout',
+                    'admin_utl.php',
+                    false,
+                    'POST',
+                    'Ajouter un centre de coût');
     $frm->add_hidden('id_utilisateur',$user->id);
     $frm->add_hidden('action','centrecout');
     $frm->add_text_field('nom_centre_cout','Centre de coût');
     $frm->add_text_field('contact','Contact');
     $frm->add_submit('submit','Ajouter');
-    $_cts->add($frm);
+    $_cts->add($frm,true);
     $req = new requete($site->db,'SELECT * FROM boutiqueut_centre_cout WHERE id_utilisateur='.$user->id);
     $_cts->add(new sqltable("ctcouts",
           null,
