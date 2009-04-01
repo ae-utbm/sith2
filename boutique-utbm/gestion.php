@@ -192,7 +192,13 @@ elseif( $_REQUEST["page"] == "stocks" )
   $site->start_page("services","Administration");
   $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Stocks");
   $req = new requete($site->db,
-    'SELECT id_produit, nom_prod, stock_global_prod, IF(prod_archive=0,\'En vente\',\'Archivé\') as arch FROM boutiqueut_produits ORDER BY id_produit_parent,id_produit');
+    'SELECT id_produit '.
+    ', nom_prod '.
+    ', stock_global_prod '.
+    ', IF(prod_archive=0,\'En vente\',\'Archivé\') as arch '.
+    'FROM boutiqueut_produits '.
+    'WHERE stock_global_prod!=-1 '.
+    'ORDER BY id_produit_parent,id_produit');
 
   $cts->add(new sqltable(
          "stock",
