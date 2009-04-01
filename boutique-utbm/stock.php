@@ -55,16 +55,15 @@ $req = new requete($site->db,
 );
 $lst=array();
 if(isset($_REQUEST['date']) && !empty($_REQUEST['date']))
-  print_r("bleh");
-if(isset($_REQUEST['date']))
   $cts->add_title(2,'Stock au '.date("d/m/Y H:i",$_REQUEST["date"]));
 else
   $cts->add_title(2,'Stock au '.date("d/m/Y H:i"));
 while(list($id,$nom,$stock)=$req->get_row())
 {
   print_r("stock ".$stock."\n");
-  if(isset($_REQUEST['date'])&&!empty($_REQUEST['date']))
+  if(isset($_REQUEST['date']) && !empty($_REQUEST['date']))
   {
+    print_r("bleh".$_REQUEST['date']);
     $lim = date("Y-m-d H:i",$_REQUEST["date"]);
     $req2 = new requete($site->db,
                         'SELECT SUM(quantite) as qu '.
