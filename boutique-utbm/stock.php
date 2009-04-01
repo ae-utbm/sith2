@@ -42,7 +42,7 @@ if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminbo
 $produit = new produit($site->db,$site->dbrw);
 
 $site->start_page('adminbooutique',"Administration");
-$cts = new contents("<a href=\"admin.php\">Administration</a> / Stock");
+$cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> /Stock");
 $frm = new form('stock','stock.php',true);
 $frm->add_datetime_field("date","Date et heure souhaitée");
 $frm->add_submit("valid","Voir");
