@@ -67,7 +67,7 @@ if( $user->is_valid() && $user->type=='srv')
       'SELECT contact, centre_cout '.
       'FROM boutiqueut_centre_cout '.
       'WHERE id_utilisateur=\''.$user->id.'\' '.
-      'AND centre_cout=\''.mysql_real_escape_string($_REQUEST['centre_cout']).'\'',1);
+      'AND centre_cout=\''.mysql_real_escape_string($_REQUEST['centre_cout']).'\'');
     if($req->lines==1)
     {
       list($contect,$centre)=$req->get_row();
@@ -80,8 +80,8 @@ if( $user->is_valid() && $user->type=='srv')
       $frm->add_hidden('action','real_edit');
       $frm->add_hidden('centre_cout',$centre);
       $frm->add_text_field('contact','Contact',$contact);
-      $frm->add_submit('submit','Ajouter');
-      $_cts->add($frm,true);
+      $frm->add_submit('submit','Modifier');
+      $site->add_contents($frm);
     }
   }
   if($_REQUEST['action']=='centrecout')
