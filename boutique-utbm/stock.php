@@ -68,8 +68,8 @@ while(list($id,$nom,$stock)=$req->get_row())
                         'FROM boutiqueut_vendu '.
                         'INNER JOIN boutiqueut_debitfacture USING(id_facture) '.
                         'WHERE id_produit='.$id.' '.
-                        'AND date_facture>\''.$lim.'\' '.
-                        'AND ready=1 AND etat_facture=0 ');
+                        'AND date_facture\''.$lim.'\' '.
+                        'AND (ready=1 AND etat_facture=1) OR (ready=0 AND etat_facture=1) ');
     if($req2->lines==1)
     {
       list($add)=$req2->get_row();
@@ -96,13 +96,13 @@ while(list($id,$nom,$stock)=$req->get_row())
                         'FROM boutiqueut_vendu '.
                         'INNER JOIN boutiqueut_debitfacture USING(id_facture) '.
                         'WHERE id_produit='.$id.' '.
-                        'AND ready=1 AND etat_facture=0 ');
-/*    if($req2->lines==1)
+                        'AND (ready=1 AND etat_facture=1) OR (ready=0 AND etat_facture=1) ');
+    if($req2->lines==1)
     {
       list($add)=$req2->get_row();
       if(!is_null($add))
         $stock=$stock+$add;
-    }*/
+    }
     $lst[]=array('id_produit'=>$id,'nom'=>$nom,'stock'=>$stock);
   }
 }
