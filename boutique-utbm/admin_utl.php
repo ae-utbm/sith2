@@ -66,7 +66,7 @@ if( $user->is_valid() && $user->type=='srv')
     $req=new requete($site->db,
       'SELECT contact, centre_cout '.
       'FROM boutiqueut_centre_cout '.
-      'WHERE id_utilisateur='.$usre->id.' '.
+      'WHERE id_utilisateur=\''.$user->id.'\' '.
       'AND centre_cout=\''.mysql_real_escape_string($_REQUEST['centre_cout']).'\'',1);
     if($req->lines==1)
     {
