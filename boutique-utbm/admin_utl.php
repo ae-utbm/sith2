@@ -67,11 +67,11 @@ if( $user->is_valid() && $user->type=='srv')
       'SELECT contact, centre_cout '.
       'FROM boutiqueut_centre_cout '.
       'WHERE id_utilisateur='.$usre->id.' '.
-      'AND centre_cout=\''.mysql_real_escape_string($_REQUEST['centre_cout']).'\'');
+      'AND centre_cout=\''.mysql_real_escape_string($_REQUEST['centre_cout']).'\'',1);
     if($req->lines==1)
     {
       list($contect,$centre)=$req->get_row();
-      $frm = new form('centrecout',
+      $frm = new form('edit_centrecout',
                       'admin_utl.php',
                       false,
                       'POST',
