@@ -160,7 +160,7 @@ http://boutique.utbm.fr";
      $req = new requete($site->db,'SELECT centre_financier FROM boutiqueut_service_utl WHERE id_utilisateur='.$user->id);
      if($req->lines==1)
        list($centre)=$req->get_row();
-     $frm->add_text_field('nom_centre_fincancier','Centre de financier',$centre);
+     $frm->add_text_field('nom_centre_financier','Centre de financier',$centre);
      $frm->add_submit('submit','Modifier');
      $_cts->add($frm);
   }
