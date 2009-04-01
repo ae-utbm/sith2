@@ -66,7 +66,7 @@ if( $user->is_valid() && $user->type=='srv')
           "admin_utl.php",
           "id_utilisateur",
           array("centre_cout"=>"Centre de coût","contact"=>"Contact"),
-          array(),
+          array("edit"=>"Éditer"),
           array(),
           array(),
           true,
