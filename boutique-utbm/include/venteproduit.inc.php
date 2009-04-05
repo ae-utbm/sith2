@@ -258,7 +258,7 @@ class venteproduit extends stdentity
    */
   function vendu_bloque ( $client, $prix, $qte=1 )
   {
-    $this->_decrement($qte);
+    //$this->_decrement($qte);
     $this->_delta_verrou($client, -$qte);
   }
 
