@@ -161,7 +161,7 @@ else
  */
 
   $intro = "
-  <b>22ème FIMU : les 30, 31 mai et 1er juin 2009</b>
+  <b>23ème FIMU : les 30, 31 mai et 1er juin 2009</b>
 <br />
 <br />
   L'AE vous permet de vous inscrire en ligne pour être bénévole au FIMU 2009. Le formulaire suivant est la copie conforme de la feuille que   vous pourrez trouver dans les points de distribution.
