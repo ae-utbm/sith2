@@ -23,6 +23,8 @@
 $GLOBALS['nosession'] = true;
 
 $topdir="../";
+echo $_SERVER['HTTP_REFERER'];
+exit();
 require_once("include/sas.inc.php");
 $site = new sas();
 
