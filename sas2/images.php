@@ -23,8 +23,6 @@
 $GLOBALS['nosession'] = true;
 
 $topdir="../";
-echo $_SERVER['HTTP_REFERER'];
-exit();
 require_once("include/sas.inc.php");
 $site = new sas();
 
@@ -67,7 +65,7 @@ if ( $id_photo > 0 )
 
   if ( !$photo->is_valid() || !$photo->is_right($site->user,DROIT_LECTURE) )
   {
-    $site->return_simplefile( "pherror", "image/png", $topdir."images/action.delete.png");
+    $site->return_simplefile( "pherror", "image/png", $topdir."images/action/delete.png");
   }
 
   $abs_file = $photo->get_abs_path().$photo->id;
