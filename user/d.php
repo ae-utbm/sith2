@@ -32,6 +32,21 @@ $site = new site ();
 $site->allow_only_logged_users("");
 
 $site->start_page("none","Fichiers empruntés");
+
+if(isset($_REQUEST['action']))
+{
+  require_once($topdir."include/entities/files.inc.php");
+  $file = new dfile($site->db, $site->dbrw);
+  if($_REQUEST['action']=='res' && isset($_REQUEST["id_file"]))
+  {
+    $file->load_by_id($_REQUEST["id_file"]);
+    if ( $file->is_valid() && $file->is_locked($site->user))
+      $file->unlock($site->user);
+  }
+  else
+   print_r($_REQUEST);
+}
+
 $cts = new contents("Fichiers empruntés");
 $req = new requete($site->db, "SELECT `id_file` ".
                               ", `titre_file` ".
