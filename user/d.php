@@ -40,7 +40,6 @@ $req = new requete($site->db, "SELECT `id_file` ".
                               ", ' ' ".
                               ", DATE_FORMAT(`time_file_lock`,GET_FORMAT(TIME,'EUR')) ".
                               ") as datetime ".
-                              "`time_file_lock` ".
                               "FROM `d_file_lock` ".
                               "INNER JOIN `d_file` USING(`id_file`) ".
                               "WHERE `id_utilisateur`='".$site->user->id."'");
