@@ -252,6 +252,13 @@ class interfaceweb
     $this->buffer .= "<body>\n";
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";
+    $important=$this->get_param('box.Important');
+    if(!empty($important))
+    {
+      $this->buffer .= "<div class=\"box\" id=\"important\"><div class=\"body\">\n";
+      $this->buffer .= $important. "\n";
+      $this->buffer .= "</div></div>\n";
+    }
     $this->buffer .= "<div id=\"dropmenudiv\" onMouseover=\"clearhidemenu()\" onMouseout=\"dynamichide(event)\"></div>\n";
     if(!$this->user->is_valid())
     {
@@ -595,16 +602,6 @@ class interfaceweb
       $this->buffer .= "</div>\n";
     }
 
-    $this->buffer .= "<p class=\"text-footer\">";
-    if(!defined('NOTAE'))
-    {
-      $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
-      $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
-      $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
-      $this->buffer .= " - <a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
-      $this->buffer .= "<br/>\n";
-      $this->buffer .= "Icones par <a href=\"http://www.everaldo.com/\">Everaldo.com</a></p>\n";
-    }
     $this->buffer .= "</div>\n"; // /page
     $this->buffer .= "<!-- end of page -->\n\n";
     $this->buffer .= "</div>\n"; // /contents
