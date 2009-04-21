@@ -48,7 +48,7 @@ if($req->lines>0)
   $cts->add(new sqltable( "emprunts_fichiers"
                          ,"Fichiers empruntés"
                          , $req
-                         , $topdir."d.php"
+                         , "d.php"
                          , "id_file"
                          , array( "titre_file"=>"Fichier"
                                  , "datetime"=>"date d'emprunt")
