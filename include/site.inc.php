@@ -542,6 +542,11 @@ class site extends interfaceweb
         $elements[] = "<a href=\"".$topdir."user/photos.php?see=new\"><b>".$nphoto." nouvelle(s) photo(s)</b> dans le SAS</a>";
     }
 
+    $req = new requete($this->db, "SELECT COUNT(*) FROM `d_file_lock` WHERE `id_utilisateur`='".$this->user->id."'");
+    list($nblocks)=$req->get_row();
+    if($nblocks>0)
+       $elements[] = "<a href=\"".$topdir."user/d.php\"><b>".$nblocks." fichiers(s) emprunté(s)</b></a>";
+
     $cotiz = new cotisation($this->db);
     $cotiz->load_lastest_by_user ( $this->user->id );
 
