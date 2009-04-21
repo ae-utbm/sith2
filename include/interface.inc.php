@@ -252,13 +252,6 @@ class interfaceweb
     $this->buffer .= "<body>\n";
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";
-    $important=$this->get_param('box.Important');
-    if(!empty($important))
-    {
-      $this->buffer .= "<div class=\"box\" id=\"important\"><div class=\"body\">\n";
-      $this->buffer .= $important. "\n";
-      $this->buffer .= "</div></div>\n";
-    }
     $this->buffer .= "<div id=\"dropmenudiv\" onMouseover=\"clearhidemenu()\" onMouseout=\"dynamichide(event)\"></div>\n";
     if(!$this->user->is_valid())
     {
@@ -291,7 +284,16 @@ class interfaceweb
 /* header */
     $this->buffer .= "<div id='header'>\n";
     if(!defined('NOTAE'))
+    {
       $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
+      $important=$this->get_param('box.Important');
+      if(!empty($important))
+      {
+        $this->buffer .= "<div class=\"box\" id=\"important\"><div class=\"body\">\n";
+        $this->buffer .= $important. "\n";
+        $this->buffer .= "</div></div>\n";
+      }
+    }
     if(isset($this->logo))
       $this->buffer .= "<div id=\"logo\"><img src=\"" . $wwwtopdir ."images/".$this->logo."\" alt=\"Logo\"/></div>\n";
 
