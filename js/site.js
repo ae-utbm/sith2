@@ -942,12 +942,12 @@ m = function(elem){
 function extend_textarea(id)
 {
    var element = document.getElementById(id);
-   element.rows+=1;
+   element.rows+=10;
 }
  
 function reduce_textarea(id)
 {
    var element = document.getElementById(id);
-   if (element.rows>2)
-      element.rows = element.rows-1;
+   if (element.rows>20)
+      element.rows = element.rows-10;
 }
