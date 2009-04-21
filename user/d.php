@@ -42,8 +42,8 @@ if($req->lines>0)
                          , $topdir."d.php"
                          , "id_file"
                          , array("id_file"=>"id","time_file_lock"=>"date d'emprunt")
-                         , array("delete"=>"Marquer rendu")
-                         , array("delete"=>"Marquer rendu(s)")
+                         , array("delete"=>"Restituer")
+                         , array("delete"=>"Restituer")
                         )
             , true);;
 }
