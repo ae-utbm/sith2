@@ -66,7 +66,7 @@ Veuillez prendre les mesures nécessaire afin de corriger ceci :
 Le site AE
 ";
   $ret = mail("ae.com@utbm.fr",
-              "Violation de propriété intellectuelle",
+              utf8_decode("Violation de propriété intellectuelle"),
               utf8_decode($body),
               "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ".$_POST['email']."\nCC: ae.info@utbm.fr");
   $cts = new contents("Confirmation");
