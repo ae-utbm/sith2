@@ -33,7 +33,17 @@ $site->allow_only_logged_users("");
 
 $site->start_page("none","Fichiers empruntés");
 $cts = new contents("Fichiers empruntés");
-$req = new requete($site->db, "SELECT id_file, time_file_lock FROM `d_file_lock` WHERE `id_utilisateur`='".$site->user->id."'");
+$req = new requete($site->db, "SELECT `id_file` ".
+                              ", `titre_file` ".
+                              ", CONCAT( ".
+                              "DATE_FORMAT(`time_file_lock`,GET_FORMAT(DATE,'EUR')) ".
+                              ", ' ' ".
+                              ", DATE_FORMAT(`time_file_lock`,GET_FORMAT(TIME,'EUR')) ".
+                              ") as datetime ".
+                              "`time_file_lock` ".
+                              "FROM `d_file_lock` ".
+                              "INNER JOIN `d_file` USING(`id_file`) ".
+                              "WHERE `id_utilisateur`='".$site->user->id."'");
 if($req->lines>0)
 {
   $cts->add(new sqltable( "emprunts_fichiers"
@@ -41,7 +51,8 @@ if($req->lines>0)
                          , $req
                          , $topdir."d.php"
                          , "id_file"
-                         , array("id_file"=>"id","time_file_lock"=>"date d'emprunt")
+                         , array( "titre_file"=>"Fichier"
+                                 , "datetime"=>"date d'emprunt")
                          , array("delete"=>"Restituer")
                          , array("delete"=>"Restituer")
                         )
