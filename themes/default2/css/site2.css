@@ -2311,17 +2311,13 @@ div.article div.subtab a
   margin:0;
   border:0;
   text-align:left;
-  font-size: 16px;
   padding-top:15px;
   padding-left:88px;
   padding-right:25px;
   padding-bottom:20px;
   max-height:80px;
 }
-#important div.body a
-{
-  font-size: 16px;
-}
+
 /*
  * Footer : Liens en bas (legals, equipeinfo, everaldo.com)
  */
