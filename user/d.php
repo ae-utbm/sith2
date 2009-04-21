@@ -84,7 +84,7 @@ if($req->lines>0)
 }
 else
 {
-  $cts->add_paragraph("Vous n'avez aucun ficheirs empruntés");
+  $cts->add_paragraph("Vous n'avez aucun fichier emprunté");
 }
 
 $site->add_contents($cts);
