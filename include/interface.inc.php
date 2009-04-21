@@ -286,7 +286,7 @@ class interfaceweb
     if(!defined('NOTAE'))
     {
       $important=$this->get_param('box.Important');
-      if(!empty($important))
+      if(!empty($important) && $important!="")
       {
         $this->buffer .= "<div class=\"box\" id=\"important\"><div class=\"body\">\n";
         $this->buffer .= $important. "\n";
