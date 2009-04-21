@@ -52,8 +52,8 @@ if($req->lines>0)
                          , "id_file"
                          , array( "titre_file"=>"Fichier"
                                  , "datetime"=>"date d'emprunt")
-                         , array("delete"=>"Restituer")
-                         , array("delete"=>"Restituer")
+                         , array("res"=>"Restituer")
+                         , array("mres"=>"Restituer")
                         )
             , true);;
 }
