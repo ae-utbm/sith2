@@ -33,7 +33,7 @@ $site->allow_only_logged_users("");
 
 $site->start_page("none","Fichiers empruntés");
 $cts = new contents("Fichiers empruntés");
-$req = new requete($this->db, "SELECT id_file, time_file_lock FROM `d_file_lock` WHERE `id_utilisateur`='".$site->user->id."'");
+$req = new requete($site->db, "SELECT id_file, time_file_lock FROM `d_file_lock` WHERE `id_utilisateur`='".$site->user->id."'");
 if($req->lines>0)
 {
   $cts->add(new sqltable( "emprunts_fichiers"
