@@ -690,15 +690,13 @@ class dfile extends fs
 
   function is_locked(&$user)
   {
-    $req = new requete($this->dbrw,
+    $req = new requete($this->db,
       "SELECT id_utilisateur FROM d_file_lock ".
       "WHERE `id_file` = '" . mysql_real_escape_string($this->id) . "' ".
-      /*"AND time_file_lock >= '".date("Y-m-d H:i:s",time()-WIKI_LOCKTIME)."' ".*/
       "LIMIT 1");
 
     if ( $req->lines == 0 )
     {
-      //new delete($this->dbrw,"d_file_lock",array("id_file"=>$this->id)); // Nettoyage
       return false;
     }
 
@@ -712,7 +710,7 @@ class dfile extends fs
 
   function get_lock()
   {
-    $req = new requete($this->dbrw,
+    $req = new requete($this->db,
       "SELECT id_utilisateur, time_file_lock FROM d_file_lock ".
       "WHERE `id_file` = '" . mysql_real_escape_string($this->id) . "' ".
       "LIMIT 1");

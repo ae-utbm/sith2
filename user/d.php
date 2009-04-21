@@ -40,7 +40,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='res')
   if(isset($_REQUEST["id_file"]))
   {
     $file->load_by_id($_REQUEST["id_file"]);
-    if ( $file->is_valid() && $file->is_locked($site->user))
+    if ( $file->is_valid() )
       $file->unlock($site->user);
   }
   elseif(isset($_REQUEST["id_files"])
@@ -51,7 +51,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='res')
     foreach($_REQUEST["id_files"] as $id)
     {
       $file->load_by_id($id);
-      if ( $file->is_valid() && $file->is_locked($site->user))
+      if ( $file->is_valid() )
         $file->unlock($site->user);
     }
   }
