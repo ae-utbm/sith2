@@ -811,15 +811,21 @@ class form extends stdcontents
    * @param $height  Hauteur du champs en lignes (3)
    * @param $required  Précise si le champ est obligatoire
    */
-  function add_text_area ( $name, $title, $value="", $width=40, $height=3, $required = false )
+  function add_text_area ( $name, $title, $value="", $width=40, $height=3, $required = false, $allow_extend=false )
   {
     if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
     $this->buffer .= "<div class=\"formfield\"><textarea name=\"$name\" id=\"textarea_".$this->name."_".$name."\" rows=\"$height\" cols=\"$width\">";
 
-    $this->buffer .= htmlentities($value,ENT_NOQUOTES,"UTF-8")."</textarea></div>\n";
-    $this->buffer .= "</div>\n";
+    $this->buffer .= htmlentities($value,ENT_NOQUOTES,"UTF-8")."</textarea>";
+    if($allow_extend)
+    {
+      $this->buffer .= "<br />\n";
+      $this->buffer .= "<input type=\"button\" value=\"+ +\" onclick=\"extend_textarea('textarea_".$this->name."_".$name."')\">\n";
+      $this->buffer .= "<input type=\"button\" value=\"- -\" onclick=\"reduce_textarea('textarea_".$this->name."_".$name."')\">\n";
+    }
+    $this->buffer .= "</div>\n</div>\n";
   }
 
   /** Ajoute un champ date au formulaire

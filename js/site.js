@@ -938,3 +938,16 @@ m = function(elem){
   e = elem.parentNode.parentNode.parentNode.sb;
   e.move(from, to);
 }
+
+function extend_textarea(id)
+{
+   var element = document.getElementById(id);
+   element.rows+=1;
+}
+ 
+function reduce_textarea(id)
+{
+   var element = document.getElementById(id);
+   if (element.rows>2)
+      element.rows = element.rows-1;
+}
