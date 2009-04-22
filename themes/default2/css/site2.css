@@ -2318,6 +2318,13 @@ div.article div.subtab a
   max-height:80px;
 }
 
+#important a.logo
+{
+  width:76px;
+  height:76px;
+  float:left;
+}
+
 /*
  * Footer : Liens en bas (legals, equipeinfo, everaldo.com)
  */
