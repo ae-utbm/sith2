@@ -289,7 +289,7 @@ class interfaceweb
       if(!empty($important) && $important!="<p />")
       {
         $this->buffer .= "<div class=\"box\" id=\"important\">\n";
-        $this->buffer .= "<a style=\"width:40px;\" class=\"logo\" href=\"http://ae.utbm.fr\"><span style=\"display:none;\">Logo</span></a>";
+        $this->buffer .= "<a style=\"width:40px;\" class=\"logo\" href=\"http://ae.utbm.fr\"><span style=\"display:block;\">Logo</span></a>";
         $this->buffer .= "<div class=\"body\">\n";
         $this->buffer .= $important. "\n";
         $this->buffer .= "</div></div>\n";
