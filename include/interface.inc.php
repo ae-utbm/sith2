@@ -288,7 +288,9 @@ class interfaceweb
       $important=$this->get_param('box.Important');
       if(!empty($important) && $important!="<p />")
       {
-        $this->buffer .= "<div class=\"box\" id=\"important\"><div class=\"body\">\n";
+        $this->buffer .= "<div class=\"box\" id=\"important\">\n";
+        $this->buffer .= "<a style=\"width:40px;\" class=\"logo\" href=\"http://ae.utbm.fr\"><span style=\"display:none;\">Logo</span></a>";
+        $this->buffer .= "<div class=\"body\">\n";
         $this->buffer .= $important. "\n";
         $this->buffer .= "</div></div>\n";
       }
