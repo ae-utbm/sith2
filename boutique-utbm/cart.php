@@ -45,9 +45,16 @@ if (isset($_POST['cart_modify']))
     if (!is_int($item_id))
       continue;
     if ($qte == 0)
+    {
+      $vp->debloquer ($this->user,$_SESSION['boutique_cart'][$item_id]);
       unset ($_SESSION['boutique_cart'][$item_id]);
+    }
     if ($qte > 0)
+    {
+      $vp->debloquer ($this->user,$_SESSION['boutique_cart'][$item_id]);
       $_SESSION['boutique_cart'][$item_id] = $qte;
+      $vp->bloquer ($this->user,$_SESSION['boutique_cart'][$item_id]);
+    }
   }
 }
 
