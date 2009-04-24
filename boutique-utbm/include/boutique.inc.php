@@ -129,13 +129,10 @@ class boutique extends site
       // cela permet d'authoriser le remplissage du panier si non connecté
 
       $vp = new venteproduit ($this->db, $this->dbrw);
-      $prev_user = new utilisateur($this->db);
-      $prev_user->load_by_id($_SESSION['boutique_locked']);
-
       foreach ( $this->cart as $prod )
       {
-        $vp->charge($prod,$this->comptoir);
-        $vp->debloquer ($prev_user,$_SESSION['boutique_cart'][$item->id]);
+        $vp->charge($prod);
+        $vp->debloquer ($this->user,$_SESSION['boutique_cart'][$item->id]);
         $vp->bloquer ($this->user,$_SESSION['boutique_cart'][$item->id]);
       }
 
