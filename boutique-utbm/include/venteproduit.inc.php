@@ -196,7 +196,7 @@ class venteproduit extends stdentity
     if ( !$client->is_valid() )
       $id_client = 0;
 
-    $req = new requete($this->dbrw,
+    $req = new requete($this->db,
            "SELECT `quantite` FROM `boutiqueut_verrou` ".
            "WHERE `id_produit` = '".intval($this->produit->id)."' ".
            "AND `id_utilisateur` = '".intval($id_client)."' ");
@@ -212,16 +212,16 @@ class venteproduit extends stdentity
              "WHERE `id_produit` = '".intval($this->produit->id)."' ".
              "AND `id_utilisateur` = '".intval($id_client)."'");
 
-        return -($qte);
+        return abs($qte);
       }
       else
       {
         $req = new requete($this->dbrw,
              "UPDATE `boutiqueut_verrou` SET " .
-             "`quantite` = `quantite` + $delta, `date_res` = NOW() ".
+             "`quantite` = `quantite` + ($delta), `date_res` = NOW() ".
              "WHERE `id_produit` = '".intval($this->produit->id)."' ".
              "AND `id_utilisateur` = '".intval($id_client)."'");
-        return $delta;
+        return abs($delta);
       }
 
     }
@@ -236,7 +236,7 @@ class venteproduit extends stdentity
                       "quantite"=>$delta
                     )
                     );
-      return $delta;
+      return abs($delta);
     }
     return 0;
   }
