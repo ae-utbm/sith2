@@ -40,6 +40,7 @@ $site = new boutique ();
 /* modifications du panier */
 if (isset($_POST['cart_modify']))
 {
+  $vp = new venteproduit ($this->db, $this->dbrw);
   foreach ($_POST as $item_id => $qte)
   {
     if (!is_int($item_id))
