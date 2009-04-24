@@ -47,14 +47,14 @@ if (isset($_POST['cart_modify']))
       continue;
     if ($qte == 0)
     {
-      $vp->debloquer ($this->user,$_SESSION['boutique_cart'][$item_id]);
+      $vp->debloquer ($site->user,$_SESSION['boutique_cart'][$item_id]);
       unset ($_SESSION['boutique_cart'][$item_id]);
     }
     if ($qte > 0)
     {
-      $vp->debloquer ($this->user,$_SESSION['boutique_cart'][$item_id]);
+      $vp->debloquer ($site->user,$_SESSION['boutique_cart'][$item_id]);
       $_SESSION['boutique_cart'][$item_id] = $qte;
-      $vp->bloquer ($this->user,$_SESSION['boutique_cart'][$item_id]);
+      $vp->bloquer ($site->user,$_SESSION['boutique_cart'][$item_id]);
     }
   }
 }
