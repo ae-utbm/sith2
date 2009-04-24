@@ -250,7 +250,7 @@ class venteproduit extends stdentity
     $res = $this->_delta_verrou($client, -$qte);
 
     if ( $res != 0 )
-      $this->_increment(-$res);
+      $this->_increment($res);
   }
 
   /**
