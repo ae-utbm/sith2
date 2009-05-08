@@ -56,13 +56,15 @@ if ( $blog->is_writer($site->user) )
     if($_REQUEST['view']=='admin')
     {
       $user = new utilisateur($site->db);
+      if(isset($_REQUEST['id_utilisateur']) )
+        $user->load_by_id($_REQUEST['id_utilisateur']);
       /* cas simples */
       if ( $_REQUEST["action"] == "delwriter" )
         if(isset($_REQUEST['id_utilisateur']) )
-          $blog->del_writer($user->load_by_id($_REQUEST['id_utilisateur']));
+          $blog->del_writer($user);
       elseif( $_REQUEST["action"] == "addwriter" )
         if(isset($_REQUEST['id_utilisateur']) )
-          $blog->add_writer($user->load_by_id($_REQUEST['id_utilisateur']));
+          $blog->add_writer($user);
       elseif ( $_REQUEST["action"] == "delcat" )
         if(isset($_REQUEST['id_cat']) )
           $blog->del_cat($_REQUEST['id_cat']);
@@ -75,7 +77,10 @@ if ( $blog->is_writer($site->user) )
               && is_array($_REQUEST["id_utilisateurs"])
               && !empty($_REQUEST["id_utilisateurs"]) )
         foreach($_REQUEST["id_utilisateurs"] as $id )
-          $blog->del_writer($user->load_by_id($id));
+        {
+          if($user->load_by_id($id))
+            $blog->del_writer($user);
+        }
       elseif ( $_REQUEST["action"] == "delcats"
               && is_array($_REQUEST["id_cats"])
               && !empty($_REQUEST["id_cats"]) )
