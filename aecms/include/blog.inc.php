@@ -69,10 +69,8 @@ class blog extends basedb
     $req = new requete($this->db,
                        "SELECT * ".
                        "FROM `aecms_blog` ".
-                       "WHERE `id_blog`='".intval($id)."' ".
-                       "AND `id_asso`='".$asso->id."' ".
+                       "WHERE `id_asso`='".$asso->id."' ".
                        "AND `sub_id`='".mysql_real_escape_string($subid)."'",1);
-exit();
     if($req->lines!=1)
       return false;
 
