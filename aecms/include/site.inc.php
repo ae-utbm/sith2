@@ -380,8 +380,8 @@ class aecms extends site
       echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
 
     echo "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
-    echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime($wwwtopdir . "js/site.js")."\"></script>\n";
-    echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime($wwwtopdir . "js/site.js")."\"></script>\n";
+    echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime("/js/site.js")."\"></script>\n";
+    echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime("/js/site.js")."\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime("/js/site.js")."\"></script>\n";
     echo "</head>\n";
 
