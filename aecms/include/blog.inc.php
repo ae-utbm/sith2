@@ -590,7 +590,7 @@ class blog extends basedb
                        "    AS `nom_utilisateur` ".
                        "FROM `aecms_blog_entries` ".
                        "WHERE `id_blog`='".$this->id."' ".
-                       "AND `pub`='n'".
+                       "AND `pub`='n' ".
                        "ORDER BY `titre` ASC");
     $tbl = new sqltable(
           'listwaitingentriesblog',
