@@ -33,7 +33,7 @@ require_once($topdir."include/entities/basedb.inc.php");
  */
 class blog extends basedb
 {
-  protected $id      = null;
+  public    $id      = null;
   protected $id_asso = null;
   private   $sub_id  = null;
   private   $cats    = null;
