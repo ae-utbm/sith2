@@ -604,7 +604,13 @@ class blog extends basedb
     $cache = new cachedcontents("aecmsblog".$this->id.intval($id));
     if ( $cache->is_cached() )
       return $cache->get_cache();
-    $cts = new blogentrycts($row);
+    list($id,$utl,$date,$titre,$intro,$content)=$req->get_row();
+    $user = new utilisateur($this->db);
+    if( !$user->load_by_id($utl) )
+      $auteur = 'Annonyme';
+    else
+      $auteur = $user->get_display_name();
+    $cts = new blogentrycts($id,$auteur,$date,$titre,$intro,$content);
     $cache->set_contents($cts);
     return $cache;
   }
@@ -778,7 +784,7 @@ class blog extends basedb
           $auteur = 'Annonyme';
         else
           $auteur = $user->get_display_name();
-        $cache->set_contents(new blogentry($id,$auteur,$date,$titre,$intro));
+        $cache->set_contents(new blogentrycts($id,$auteur,$date,$titre,$intro));
       }
       $cts->add($cache->get_cache(),true);
     }
