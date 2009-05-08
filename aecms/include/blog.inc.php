@@ -425,7 +425,7 @@ class blog extends basedb
                             'pub'=>$pub,
                             'titre'=>$titre,
                             'intro'=>$intro,
-                            'contenu'=>$contenu));
+                            'contenu'=>$contenu),1);
     if( !$req->is_success() )
       return false;
     return $req->get_id();
