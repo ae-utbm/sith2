@@ -74,7 +74,7 @@ if ( CMS_ID_ASSO != intval(CMS_ID_ASSO) )
 }
 
 // Configuration générale (en BETA)
-$wwwtopdir = "../";
+$wwwtopdir = "./";
 /**
  * Repertoire de stockage des fichiers de configurations des AEMCS
  * @ingroup aecms
