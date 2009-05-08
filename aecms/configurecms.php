@@ -485,7 +485,7 @@ if ( $_REQUEST["view"] == "" )
   if ( !isset($dejafait["blog"]) )
   {
     $sfrm = new form("typepage",null,null,null,"Blog");
-    $frm->add($sfrm,false,true,false,"membres",false,true);
+    $frm->add($sfrm,false,true,false,"blog",false,true);
   }
   $frm->add_submit("save","Ajouter");
   $cts->add ( $frm );
