@@ -59,17 +59,17 @@ if ( $blog->is_writer($site->user) )
       if(isset($_REQUEST['id_utilisateur']) )
         $user->load_by_id($_REQUEST['id_utilisateur']);
       /* cas simples */
-      if ( $_REQUEST["action"] == "delwriter" )
-        if(isset($_REQUEST['id_utilisateur']) )
+      if ( $_REQUEST["action"] == "delwriter"
+           && isset($_REQUEST['id_utilisateur']) )
           $blog->del_writer($user);
-      elseif( $_REQUEST["action"] == "addwriter" )
-        if(isset($_REQUEST['id_utilisateur']) )
+      elseif( $_REQUEST["action"] == "addwriter"
+              && isset($_REQUEST['id_utilisateur']) )
           $blog->add_writer($user);
-      elseif ( $_REQUEST["action"] == "delcat" )
-        if(isset($_REQUEST['id_cat']) )
+      elseif ( $_REQUEST["action"] == "delcat"
+               && isset($_REQUEST['id_cat']) )
           $blog->del_cat($_REQUEST['id_cat']);
-      elseif( $_REQUEST["action"] == "addcat" )
-        if(isset($_REQUEST['cat_name'])
+      elseif( $_REQUEST["action"] == "addcat"
+              && isset($_REQUEST['cat_name'])
            && !empty($_REQUEST['cat_name']))
           $blog->add_cat($_REQUEST['cat_name']);
       /* cas multiples */
