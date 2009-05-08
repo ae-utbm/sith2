@@ -589,10 +589,10 @@ class blog extends basedb
                        "         ,`nom_utl`) ".
                        "    AS `nom_utilisateur` ".
                        "FROM `aecms_blog_entries` ".
-                       "INNER JOIN `utilisateurs` USING(`id_utilisateur` ".
+                       "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `pub`='n' ".
-                       "ORDER BY `titre` ASC",1);
+                       "ORDER BY `titre` ASC");
     $tbl = new sqltable(
           'listwaitingentriesblog',
           'Billets en attente de publication',
