@@ -44,6 +44,7 @@ class blogentrycts extends contents
    */
   function blogentrycts($id,$auteur,$date,$titre,$intro,$content=false)
   {
+    $this->id      = $id;
     $this->title   = $titre;
     $this->date    = $date;
     $this->auteur  = $auteur;
@@ -62,7 +63,7 @@ class blogentrycts extends contents
                     '</div>'."\n";
     $this->buffer.= '<div class="blogentryintro">'.doku2xhtml($this->intro).'</div>'."\n";
     if( !$this->content )
-      $this->buffer.= '<div class="blogentryreadmore"><a href="?id_entry='.$id.'">Lire la suite</a></div>'."\n";
+      $this->buffer.= '<div class="blogentryreadmore"><a href="?id_entry='.$this->id.'">Lire la suite</a></div>'."\n";
     else
       $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->content).'</div>'."\n";
     return $this->buffer;
