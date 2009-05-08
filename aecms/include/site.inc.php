@@ -368,7 +368,7 @@ class aecms extends site
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/".$this->config["css.base"]."\" />\n";
 
     foreach ( $this->extracss as $url )
-      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
+      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities( $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
 
     if ( file_exists($basedir."/specific/custom.css") )
       echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"/specific/custom.css\" />\n";
@@ -377,7 +377,7 @@ class aecms extends site
       echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
 
     foreach ( $this->extrajs as $url )
-      echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
+      echo "<script type=\"text/javascript\" src=\"".htmlentities($url,ENT_QUOTES,"UTF-8")."\"></script>\n";
 
     echo "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
     echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime("/js/site.js")."\"></script>\n";
@@ -413,7 +413,7 @@ class aecms extends site
         echo " class=\"selected\"";
         $links=$entry[4];
       }
-      echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
+      echo "><a id=\"tab_".$entry[0]."\" href=\"" . $entry[1] . "\"";
       echo " title=\"" . stripslashes($entry[2]) . "\">".
         stripslashes($entry[2]) . "</a></span>\n";
     }
@@ -429,7 +429,7 @@ class aecms extends site
         if ( ereg("http://(.*)",$entry[0]) )
           echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
         else
-          echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>\n";
+          echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
       }
 
       echo "</div>\n";
