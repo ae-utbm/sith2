@@ -106,8 +106,12 @@ class sqltable extends stdcontents
       $this->buffer .= "<tr class=\"head\">\n";
       if ( count($batch_actions) )
       {
+        if(is_array($sql))
+          $max=count($sql);
+        else
+          $max=$sql->lines;
         $this->buffer .= "<th>";
-        $this->buffer .= "<input type=\"checkbox\" onclick=\"this.value=setCheckboxesRange('".$formname."', '".$this->id_name."s["."', 0, $sql->lines)\" name=\"".$formname."_all\">";
+        $this->buffer .= "<input type=\"checkbox\" onclick=\"this.value=setCheckboxesRange('".$formname."', '".$this->id_name."s["."', 0, $max)\" name=\"".$formname."_all\">";
         $this->buffer .= "</th>\n";
       }
 
