@@ -605,7 +605,8 @@ class blog extends basedb
                        "FROM `aecms_blog_entries` ".
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `id_entry`='".intval($id)."' ".
-                       $lim);
+                       $lim,1);
+exit();
     if($req->lines==0)
       return new contents('Billet non trouvé');
 
