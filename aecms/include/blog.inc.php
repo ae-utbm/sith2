@@ -62,8 +62,8 @@ class blog extends basedb
    */
   public function load(&$asso,$subid=false)
   {
-    /*if(!$asso->is_valid())
-      return false;*/
+    if(!$asso->is_valid())
+      return false;
     if(!$subid || is_null($subid))
       $subid='';
     $req = new requete($this->db,
@@ -71,7 +71,8 @@ class blog extends basedb
                        "FROM `aecms_blog` ".
                        "WHERE `id_blog`='".intval($id)."' ".
                        "AND `id_asso`='".$asso->id."' ".
-                       "AND `sub_id`='".mysql_real_escape_string($subid)."'");
+                       "AND `sub_id`='".mysql_real_escape_string($subid)."'",1);
+exit();
     if($req->lines!=1)
       return false;
 
