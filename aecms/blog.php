@@ -63,6 +63,8 @@ $page=0;
 if(isset($_REQUEST['id_page']))
   $page=intval($_REQUEST['id_page']);
 $cts=$blog->get_cts($page);
+print_r($cts);
+exit();
 $site->add_contents($cts);
 $site->end_page();
 
