@@ -58,32 +58,60 @@ if ( $blog->is_writer($site->user) )
       /* cas simples */
       if ( $_REQUEST["action"] == "delwriter" )
         if(isset($_REQUEST['id_utilisateur']) )
-          $blog->del_writer(new utilisateur($qite->db,null,$_REQUEST['id_utilisateur']));
+          $blog->del_writer(new utilisateur($site->db,null,$_REQUEST['id_utilisateur']));
       elseif( $_REQUEST["action"] == "addwriter" )
         if(isset($_REQUEST['id_utilisateur']) )
-          $blog->add_writer(new utilisateur($qite->db,null,$_REQUEST['id_utilisateur']));
+          $blog->add_writer(new utilisateur($site->db,null,$_REQUEST['id_utilisateur']));
       elseif ( $_REQUEST["action"] == "delcat" )
         if(isset($_REQUEST['id_cat']) )
           $blog->del_cat($_REQUEST['id_cat']);
       elseif( $_REQUEST["action"] == "addcat" )
-        if(isset($_REQUEST['cat_name']) )
+        if(isset($_REQUEST['cat_name'])
+           && !empty($_REQUEST['cat_name']))
           $blog->add_cat($_REQUEST['cat_name']);
       /* cas multiples */
       elseif ( $_REQUEST["action"] == "delwriters"
               && is_array($_REQUEST["id_utilisateurs"])
               && !empty($_REQUEST["id_utilisateurs"]) )
         foreach($_REQUEST["id_utilisateurs"] as $id )
-          $blog->del_writer(new utilisateur($qite->db,null,$id));
+          $blog->del_writer(new utilisateur($site->db,null,$id));
       elseif ( $_REQUEST["action"] == "delcats"
               && is_array($_REQUEST["id_cats"])
               && !empty($_REQUEST["id_cats"]) )
         foreach($_REQUEST["id_cats"] as $id )
           $blog->del_cat($id);
 
-      $cts->add($blog->get_writers('blog.php?view=admin',
-                                   array("delete"=>"Supprimer"),
-                                   array("deletes"=>"Supprimer")),
+      $cts->add($blog->get_writers_cts('blog.php?view=admin',
+                                       array("delwriter"=>"Supprimer"),
+                                       array("delwriters"=>"Supprimer")),
                 true);
+      $frm = new form('addwriter',
+                      'blog.php',
+                      false,
+                      'POST',
+                      'Ajout d\'un  blogueur');
+      $frm->add_hidden('view','admin');
+      $frm->add_hidden('action','addwriter');
+      $frm->add_user_fieldv2('id_utilisateur','Utilisateur');
+      $frm->add_submit('submit','Ajouter');
+      $cts->add($frm,true);
+
+      $cts->add($blog->get_cats_cts('blog.php?view=admin',
+                                    array("delcat"=>"Supprimer"),
+                                    array("delcats"=>"Supprimer")),
+                true);
+
+      $frm = new form('addcat',
+                      'blog.php',
+                      false,
+                      'POST',
+                      'Ajout d\'une catégorie');
+      $frm->add_hidden('view','admin');
+      $frm->add_hidden('action','addcat');
+      $frm->add_text_field('cat_name','Nom');
+      $frm->add_submit('submit','Ajouter');
+      $cts->add($frm,true);
+
 
       $site->add_contents($cts);
       $site->end_page();

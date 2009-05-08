@@ -189,8 +189,8 @@ class blog extends basedb
   }
 
   /**
-   * Récupère la liste des catégories
-   * @return array
+   * Retourne la liste des catégories
+   * @return array(id=>nom)
    */
   public function get_cats()
   {
@@ -198,6 +198,36 @@ class blog extends basedb
       return array();
     $this->load_cats();
     return $this->cats;
+  }
+
+  /**
+   * Retourne les catégories sous forme de sqltable
+   * @param $page Page qui va être la cible des actions
+   * @param $actions actions sur chaque objet (envoyé à %page%?action=%action%&%id_utilisateur%=[id])
+   * @param $batch_actions actions possibles sur plusieurs objets (envoyé à page, les id sont le tableau %id_utilisateur%s)
+   * @return contents
+   */
+  public function get_cats_cts($page,$actions=array(),$batch_actions=array())
+  {
+    if ( !$this->is_valid() )
+      return new contents("Catégories");
+    $this->load_cats();
+    if( empty($this->cats) )
+      return new contents("Catégories");
+    global $topdir;
+    require_once($topdir. "include/cts/sqltable.inc.php");
+    $cats = array();
+    foreach($this->cats as $id => $cat)
+      $cats[]=array('id_cat'=>$id,'cat'=>$cat);
+    $tbl = new sqltable(
+         'listcatsblog',
+          'Catégories',
+          $cats,
+          $page,
+          'id_cat',
+          array("cat"=>"Catégorie"),
+          $actions,
+          $batch_actions);
   }
 
   /**
@@ -328,7 +358,7 @@ class blog extends basedb
    * @param $batch_actions actions possibles sur plusieurs objets (envoyé à page, les id sont le tableau %id_utilisateur%s)
    * @return contents
    */
-  public function get_writers($page,$actions=array(),$batch_actions=array())
+  public function get_writers_cts($page,$actions=array(),$batch_actions=array())
   {
     global $topdir;
     require_once($topdir. "include/cts/sqltable.inc.php");
@@ -342,7 +372,7 @@ class blog extends basedb
                        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
                        "WHERE `id_blog`='".$this->id."' ");
     $tbl = new sqltable(
-          'listwriters',
+          'listwritersblog',
           'Blogueurs',
           $req,
           $page,
