@@ -39,7 +39,7 @@ if(!$blog->is_valid())
   header("Location: ".$site->pubUrl);
   exit();
 }
-
+$site->start_page ( CMS_PREFIX."blog", "Blog" );
 if ( $blog->is_writer($site->user) )
 {
   $admin = array(0=>CMS_PREFIX."blog",
