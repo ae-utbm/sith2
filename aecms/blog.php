@@ -59,11 +59,11 @@ if(isset($_REQUEST['id_cat']) && $blog->is_cat($_REQUEST['id_cat']))
   $site->add_contents($blog->get_cts_cat($_REQUEST['id_cat'],$page));
   $site->end_page();
 }
-exit();
 $page=0;
 if(isset($_REQUEST['id_page']))
   $page=intval($_REQUEST['id_page']);
-$site->add_contents($blog->get_cts($page));
+$cts=$blog->get_cts($page);
+$site->add_contents($cts);
 $site->end_page();
 
 ?>
