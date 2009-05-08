@@ -322,6 +322,36 @@ class blog extends basedb
   }
 
   /**
+   * Retourne la liste des blogueurs sous forme de sqltable
+   * @param $page Page qui va être la cible des actions
+   * @param $actions actions sur chaque objet (envoyé à %page%?action=%action%&%id_utilisateur%=[id])
+   * @param $batch_actions actions possibles sur plusieurs objets (envoyé à page, les id sont le tableau %id_utilisateur%s)
+   * @return contents
+   */
+  public function get_writers($page,$actions=array(),$batch_actions=array())
+  {
+    $req = new requete($this->db,
+                       "SELECT `aecms_blog_writers`.`id_utilisateur` ".
+                       "CONCAT( `utilisateurs`.`prenom_utl` ".
+                       "       ,' ' ".
+                       "       ,`utilisateurs`.`nom_utl`) ".
+                       "  AS `nom_utilisateur` ".
+                       "FROM `aecms_blog_writers` ".
+                       "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
+                       "WHERE `id_blog`='".$this->id."' ");
+    $tbl = new sqltable(
+          'listwriters',
+          'Blogueurs',
+          $req,
+          $page,
+          'id_utilisateur',
+          array("nom_utilisateur"=>"Utilisateur"),
+          $actions,
+          $batch_actions);
+    return $tbl;
+  }
+
+  /**
    * ajoute un billet
    * @param $user un objet de type utilisateur (le posteur)
    * @param $titre le titre

@@ -80,6 +80,11 @@ if ( $blog->is_writer($site->user) )
         foreach($_REQUEST["id_cats"] as $id )
           $blog->del_cat($id);
 
+      $cts->add($blog->get_writers('blog.php?view=admin',
+                                   array("delete"=>"Supprimer"),
+                                   array("deletes"=>"Supprimer")),
+                true);
+
       $site->add_contents($cts);
       $site->end_page();
       exit();
