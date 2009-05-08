@@ -47,6 +47,7 @@ class blogentrycts extends contents
     $this->id      = $id;
     $this->title   = $titre;
     $this->date    = $date;
+print_r($date);
     $this->auteur  = $auteur;
     $this->intro   = $intro;
     $this->content = $content;
