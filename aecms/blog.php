@@ -47,6 +47,7 @@ if ( $blog->is_writer($site->user) )
                  2=>"Blog",
                  4=>array(array('blog.php?bloguer','Bloguer')));
   $site->tab_array[] = $admin;
+  print_r($site->tab_array);
 }
 
 if(isset($_REQUEST['id_entry']))
