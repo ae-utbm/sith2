@@ -492,7 +492,7 @@ class blog extends basedb
       $cts->add_paragraph("Il n'y a aucun billet dans cette catégorie.");
       return $cts;
     }
-    if( $begin>=$req->lines() )
+    if( $begin>=$req->lines )
     {
       $page=0;
       $begin=0;
@@ -558,7 +558,7 @@ class blog extends basedb
       $cts->add_paragraph("Il n'y a pas encore billet.");
       return $cts;
     }
-    if( $begin>=$req->lines() )
+    if( $begin>=$req->lines )
     {
       $page=0;
       $begin=0;
