@@ -488,7 +488,7 @@ class blog extends basedb
   public function update_entry($id,
                                $titre,
                                $intro,
-                               $content,
+                               $contenu,
                                $pub,
                                $idcat,
                                $date)
@@ -601,11 +601,11 @@ class blog extends basedb
                        ",`date` ".
                        ",`titre` ".
                        ",`intro` ".
-                       ",`content` ".
+                       ",`contenu` ".
                        "FROM `aecms_blog_entries` ".
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `id_entry`='".intval($id)."' ".
-                       $lim,1);
+                       $lim);
 exit();
     if($req->lines==0)
       return new contents('Billet non trouvé');
