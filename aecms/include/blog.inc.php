@@ -70,7 +70,7 @@ class blog extends basedb
                        "SELECT * ".
                        "FROM `aecms_blog` ".
                        "WHERE `id_asso`='".$asso->id."' ".
-                       "AND `sub_id`='".mysql_real_escape_string($subid)."'",1);
+                       "AND `sub_id`='".mysql_real_escape_string($subid)."'");
     if($req->lines!=1)
       return false;
 
