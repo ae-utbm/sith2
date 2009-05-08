@@ -497,7 +497,7 @@ class blog extends basedb
       $page=0;
       $begin=0;
     }
-    $end   = $begin+10;
+    $end = $begin+10;
     if($begin>0)
       $cts->add_paragraph("<div class='blogprevious blognavtop'><a href='?id_cat=".
                           $id."&id_page=".($page-1)."'>Billets précédents</a>");
@@ -532,8 +532,10 @@ class blog extends basedb
     if($begin>0)
       $cts->add_paragraph("<div class='blogprevious blognavbottom'><a href='?id_cat=".
                           $id."&id_page=".($page-1)."'>Billets précédents</a>");
-    $cts->add_paragraph("<div class='blognext blognavbottom'><a href='?id_cat=".
-                        $id."&id_page=".($page+1)."'>Billets suivants</a>");
+    if($end>$req->lines)
+      $cts->add_paragraph("<div class='blognext blognavbottom'><a href='?id_cat=".
+                          $id."&id_page=".($page+1)."'>Billets suivants</a>");
+    return $cts;
   }
 
   /**
@@ -548,7 +550,7 @@ class blog extends basedb
     $this->load_cats();
     if (!isset($this->cats[$id]) )
       return $this->get_cts();
-    $cts = new content("");
+    $cts = new content();
     $req = new requete($this->db,
                        "SELECT COUNT(*) ".
                        "FROM `aecms_blog_entries` ".
@@ -564,7 +566,7 @@ class blog extends basedb
       $page=0;
       $begin=0;
     }
-    $end   = $begin+10;
+    $end = $begin+10;
     if($begin>0)
       $cts->add_paragraph("<div class='blogprevious blognavtop'><a href='?id_cat=".
                           $id."&id_page=".($page-1)."'>Billets précédents</a>");
@@ -598,8 +600,10 @@ class blog extends basedb
     if($begin>0)
       $cts->add_paragraph("<div class='blogprevious blognavbottom'><a href='?id_cat=".
                           $id."&id_page=".($page-1)."'>Billets précédents</a>");
-    $cts->add_paragraph("<div class='blognext blognavbottom'><a href='?id_cat=".
-                        $id."&id_page=".($page+1)."'>Billets suivants</a>");
+    if($end>$req->lines)
+      $cts->add_paragraph("<div class='blognext blognavbottom'><a href='?id_cat=".
+                          $id."&id_page=".($page+1)."'>Billets suivants</a>");
+    return $cts;
   }
 }
 
