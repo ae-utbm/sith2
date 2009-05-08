@@ -325,6 +325,8 @@ class blog extends basedb
       return false;
     if ( !$user->is_valid() )
       return false;
+    if ( $this->is_admin($user) )
+      return true;
     $req = new insert($this->dbrw,
                       "aecms_blog_writers",
                       array('id_blog'=>$this->id,
