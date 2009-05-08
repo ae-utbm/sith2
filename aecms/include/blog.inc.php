@@ -49,23 +49,22 @@ class blogentrycts extends contents
     $this->auteur  = $auteur;
     $this->intro   = $intro;
     $this->content = $content;
-    setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
-    $this->buffer = '<div class="blogentrypubdate">Le '.
-                    strftime("%A %d %B %Y à %Hh%M", strtotime($date)).
-                    '</div>'."\n";
-    $this->buffer = '<div class="blogentrypubdate">Par '.
-                    $this->auteur.
-                    '</div>'."\n";
-    $this->buffer.= '<div class="blogentryintro">'.doku2xhtml($this->intro).'</div>'."\n";
-    if( !$this->contents )
-      $this->buffer = '<div class"blogentryreadmore"><a href="?id_entry='.$id.'>Lire la suite</a></div>'."\n";
-    else
-      $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->contents).'</div>'."\n";
-    print_r($this);
   }
 
   function html_render()
   {
+    setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
+    $this->buffer = '<div class="blogentrypubdate">Le '.
+                    strftime("%A %d %B %Y à %Hh%M", strtotime($date)).
+                    '</div>'."\n";
+    $this->buffer.= '<div class="blogentrypubdate">Par '.
+                    $this->auteur.
+                    '</div>'."\n";
+    $this->buffer.= '<div class="blogentryintro">'.doku2xhtml($this->intro).'</div>'."\n";
+    if( !$this->contents )
+      $this->buffer.= '<div class"blogentryreadmore"><a href="?id_entry='.$id.'>Lire la suite</a></div>'."\n";
+    else
+      $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->contents).'</div>'."\n";
     return $this->buffer;
   }
 }
