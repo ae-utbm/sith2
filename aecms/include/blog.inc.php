@@ -33,6 +33,10 @@ require_once($topdir."include/entities/basedb.inc.php");
 class blogentrycts extends contents
 {
 
+  private $buffer;
+  private $auteur;
+  private $intro;
+  private $content;
   /** Crée un stdcontents d'une entrée de wiki
    * @param $row
    * @param $contents  Texte structuré
@@ -44,10 +48,6 @@ class blogentrycts extends contents
     $this->auteur  = $auteur;
     $this->intro   = $intro;
     $this->content = $content;
-  }
-
-  function html_render()
-  {
     setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
     $this->buffer = '<div class="blogentrypubdate">Le '.
                     strftime("%A %d %B %Y à %Hh%M", strtotime($date)).
@@ -60,7 +60,11 @@ class blogentrycts extends contents
       $this->buffer = '<div class"blogentryreadmore"><a href="?id_entry='.$id.'>Lire la suite</a></div>'."\n";
     else
       $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->contents).'</div>'."\n";
-print_r($this);
+    print_r($this);
+  }
+
+  function html_render()
+  {
     return $this->buffer;
   }
 }
