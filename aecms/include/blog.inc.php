@@ -98,6 +98,8 @@ class blog extends basedb
   {
     if(!$asso->is_valid())
       return false;
+    if( $this->load($asso,$subid) )
+      return true;
     $req = new insert($this->dbrw,
                       'aecms_blog',
                       array('id_asso'=>$asso->id,
