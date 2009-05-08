@@ -62,8 +62,8 @@ class blogentrycts extends contents
       $this->buffer = '<div class"blogentryreadmore"><a href="?id_entry='.$id.'>Lire la suite</a></div>'."\n";
     else
       $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->contents).'</div>'."\n";
+print_r($this->buffer);
     return $this->buffer;
-
   }
 }
 
@@ -169,7 +169,9 @@ class blog extends basedb
     {
       while(list($id)=$req->get_row())
       {
-        $cache = new cachedcontents("aecmsblog".$this->id.intval($id));
+        $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id));
+        $cache->expire();
+        $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id)."_intro");
         $cache->expire();
       }
       //suppression des messages
@@ -517,7 +519,9 @@ class blog extends basedb
                             'contenu'=>$contenu),
                       array('id_blog'=>$this->id,
                             'id_entry'=>intval($id)));
-    $cache = new cachedcontents("aecmsblog".$this->id.intval($id));
+    $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id));
+    $cache->expire();
+    $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id)."_intro");
     $cache->expire();
     return $req->is_success();
   }
@@ -535,7 +539,9 @@ class blog extends basedb
                       "aecms_blog_entries",
                       array('id_blog'=>$this->id,
                             'id_entry'=>intval($id)));
-    $cache = new cachedcontents("aecmsblog".$this->id.intval($id));
+    $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id));
+    $cache->expire();
+    $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id)."_intro");
     $cache->expire();
     return $req->is_success();
   }
@@ -554,7 +560,9 @@ class blog extends basedb
                       array('pub'=>'y'),
                       array('id_blog'=>$this->id,
                             'id_entry'=>intval($id)));
-    $cache = new cachedcontents("aecmsblog".$this->id.intval($id));
+    $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id));
+    $cache->expire();
+    $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id)."_intro");
     $cache->expire();
     return $req->is_success();
   }
@@ -601,7 +609,7 @@ class blog extends basedb
     if($req->lines==0)
       return new contents('Billet non trouvé');
 
-    $cache = new cachedcontents("aecmsblog".$this->id.intval($id));
+    $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id));
     if ( $cache->is_cached() )
       return $cache->get_cache();
     list($id,$utl,$date,$titre,$intro,$content)=$req->get_row();
@@ -708,7 +716,7 @@ class blog extends basedb
     $user = new utilisateur($this->db);
     while(list($id,$utl,$date,$titre,$intro)=$req->get_row())
     {
-      $cache = new cachedcontents("aecmsblog".$this->id.intval($id)."preview");
+      $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id)."_intro");
       if ( !$cache->is_cached() )
       {
         if( !$user->load_by_id($utl) )
@@ -777,7 +785,7 @@ class blog extends basedb
     $user = new utilisateur($this->db);
     while(list($id,$utl,$date,$titre,$intro)=$req->get_row())
     {
-      $cache = new cachedcontents("aecmsblog".$this->id.intval($id)."preview");
+      $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id)."_intro");
       if ( !$cache->is_cached() )
       {
         if( !$user->load_by_id($utl) )
