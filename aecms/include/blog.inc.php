@@ -480,7 +480,7 @@ class blog extends basedb
     $this->load_cats();
     if (!isset($this->cats[$id]) )
       return $this->get_cts();
-    $cts = new contents("Catégorie ".$this->cats[$id]);
+    $cts = new contents("Catégorie ".$this->cats[$id],'<div class="blog">');
     $req = new requete($this->db,
                        "SELECT COUNT(*) ".
                        "FROM `aecms_blog_entries` ".
@@ -490,7 +490,7 @@ class blog extends basedb
     list($total)=$req->get_row();
     if($total==0)
     {
-      $cts->add_paragraph("Il n'y a aucun billet dans cette catégorie.");
+      $cts->add_paragraph("Il n'y a aucun billet dans cette catégorie.","blogempty");
       return $cts;
     }
     if( $begin>=$total )
@@ -500,11 +500,11 @@ class blog extends basedb
     }
     $end = $begin+10;
     if($begin>0)
-      $cts->add_paragraph("<div class='blogprevious blognavtop'><a href='?id_cat=".
-                          $id."&id_page=".($page-1)."'>Billets précédents</a>");
+      $cts->puts("<div class='blogprevious blognavtop'><a href='?id_cat=".
+                 $id."&id_page=".($page-1)."'>Billets précédents</a>");
     if($end<$total)
-      $cts->add_paragraph("<div class='blognext blognavtop'><a href='?id_cat=".$id.
-                          "&id_page=".($page+1)."'>Billets suivants</a>");
+      $cts->puts("<div class='blognext blognavtop'><a href='?id_cat=".$id.
+                 "&id_page=".($page+1)."'>Billets suivants</a>");
     $req = new requete($this->db,
                        "SELECT `id_entry` ".
                        ",`id_utilisateur` ".
@@ -537,6 +537,7 @@ class blog extends basedb
     if($end<$total)
       $cts->add_paragraph("<div class='blognext blognavbottom'><a href='?id_cat=".
                           $id."&id_page=".($page+1)."'>Billets suivants</a>");
+    $cts->puts('</div>');
     return $cts;
   }
 
@@ -549,7 +550,7 @@ class blog extends basedb
   {
     $begin = 10*intval($page);
     $end   = 10+10*intval($page);
-    $cts = new contents();
+    $cts = new contents(false,'<div class="blog">');
     $req = new requete($this->db,
                        "SELECT COUNT(*) ".
                        "FROM `aecms_blog_entries` ".
@@ -558,7 +559,7 @@ class blog extends basedb
     list($total)=$req->get_row();
     if($total==0)
     {
-      $cts->add_paragraph("Il n'y a pas encore billet.");
+      $cts->add_paragraph("Il n'y a pas encore billet.",'blogempty');
       return $cts;
     }
     if( $begin>=$total )
@@ -568,11 +569,11 @@ class blog extends basedb
     }
     $end = $begin+10;
     if($begin>0)
-      $cts->add_paragraph("<div class='blogprevious blognavtop'><a href='?id_cat=".
-                          $id."&id_page=".($page-1)."'>Billets précédents</a>");
+      $cts->puts("<div class='blogprevious blognavtop'><a href='?id_cat=".
+                 $id."&id_page=".($page-1)."'>Billets précédents</a>");
     if($end<$total)
-      $cts->add_paragraph("<div class='blognext blognavtop'><a href='?id_cat=".$id.
-                          "&id_page=".($page+1)."'>Billets suivants</a>");
+      $cts->puts("<div class='blognext blognavtop'><a href='?id_cat=".$id.
+                 "&id_page=".($page+1)."'>Billets suivants</a>");
     $req = new requete($this->db,
                        "SELECT `id_entry` ".
                        ",`id_utilisateur` ".
@@ -599,11 +600,12 @@ class blog extends basedb
       $cts->add($cache->get_cache(),true);
     }
     if($begin>0)
-      $cts->add_paragraph("<div class='blogprevious blognavbottom'><a href='?id_cat=".
-                          $id."&id_page=".($page-1)."'>Billets précédents</a>");
+      $cts->puts("<div class='blogprevious blognavbottom'><a href='?id_cat=".
+                 $id."&id_page=".($page-1)."'>Billets précédents</a>");
     if($end<$total)
-      $cts->add_paragraph("<div class='blognext blognavbottom'><a href='?id_cat=".
-                          $id."&id_page=".($page+1)."'>Billets suivants</a>");
+      $cts->puts("<div class='blognext blognavbottom'><a href='?id_cat=".
+                 $id."&id_page=".($page+1)."'>Billets suivants</a>");
+    $cts->puts('</div>');
     return $cts;
   }
 }
