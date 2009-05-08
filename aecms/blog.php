@@ -58,7 +58,6 @@ if ( $blog->is_writer($site->user) )
       $user = new utilisateur($site->db);
       if(isset($_REQUEST['id_utilisateur']) )
         $user->load_by_id($_REQUEST['id_utilisateur']);
-      print_r($user);
       /* cas simples */
       if ( $_REQUEST["action"] == "delwriter" )
         if(isset($_REQUEST['id_utilisateur']) )

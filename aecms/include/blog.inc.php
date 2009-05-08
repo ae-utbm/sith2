@@ -320,10 +320,13 @@ class blog extends basedb
    */
   public function add_writer(&$user)
   {
+    print_r("bleh");
     if ( !$this->is_valid() )
       return false;
+    print_r("bleh");
     if ( !$user->is_valid() )
       return false;
+    print_r("bleh");
     $req = new insert($this->dbrw,
                       "aecms_blog_writers",
                       array('id_blog'=>$this->id,
