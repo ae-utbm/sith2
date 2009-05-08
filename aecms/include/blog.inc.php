@@ -62,7 +62,7 @@ class blogentrycts extends contents
                     '</div>'."\n";
     $this->buffer.= '<div class="blogentryintro">'.doku2xhtml($this->intro).'</div>'."\n";
     if( !$this->content )
-      $this->buffer.= '<div class"blogentryreadmore"><a href="?id_entry='.$id.'>Lire la suite</a></div>'."\n";
+      $this->buffer.= '<div class="blogentryreadmore"><a href="?id_entry='.$id.'>Lire la suite</a></div>'."\n";
     else
       $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->content).'</div>'."\n";
     return $this->buffer;
@@ -594,7 +594,7 @@ class blog extends basedb
    */
   public function get_cts_entry($id,&$user)
   {
-    $lim = "AND `pub`='y' ";
+    $lim = "AND `pub`='y' AND `date` < NOW()";
     if( $this->is_writer($user) )
       $lim = '';
     $req = new requete($this->db,
@@ -782,6 +782,7 @@ class blog extends basedb
                        "FROM `aecms_blog_entries` ".
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `pub`='y' ".
+                       "AND `date` < NOW() ".
                        "ORDER BY `date` DESC ".
                        "LIMIT ".$begin.",".$end."");
     $user = new utilisateur($this->db);
