@@ -127,7 +127,6 @@ if ( $blog->is_writer($site->user) )
     }
     elseif($_REQUEST['view']=='bloguer')
     {
-      print_r($_REQUEST);
       if($_REQUEST['action'])
       {
         if($_REQUEST['action']=='new')
@@ -271,7 +270,7 @@ if ( $blog->is_writer($site->user) )
         $list = new itemlist("Et maintenant, on fait quoi ?");
         $list->add("<a href=\"blog?view=bloguer&page=new\">Poster un nouveau billet</a>");
         $list->add("<a href=\"blog?view=bloguer&page=waiting\">Billet en attente</a>");
-        $cts->add($sublist,true);
+        $cts->add($list,true);
         $site->add_contents($cts);
         $site->end_page();
         exit();
