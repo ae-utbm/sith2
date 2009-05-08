@@ -1,18 +1,14 @@
-@import url("/themes/default/css/site.css");
-
-
-
 body
 {
-  background:#A0A0A0;  
+  background:#A0A0A0;
   text-align:center;
-  
+
 }
 
 div#site
 {
   width:915px;
-  background:#FF9900;  
+  background:#FF9900;
   margin-left:auto;
   margin-right:auto;
   text-align:left;
@@ -20,12 +16,12 @@ div#site
 
 div#endsite
 {
-  clear:both;  
+  clear:both;
 }
 
 div.contents
 {
-  background:white;  
+  background:white;
   width:750px;
   margin:0;
   border:0;
@@ -64,7 +60,7 @@ div#logo a:hover
 }
 div.tabsv2
 {
-  background:none;  
+  background:none;
   /*width:915px;
   height:44px;*/
   padding:0;
@@ -81,7 +77,7 @@ div.tabsv2
 div.tabsv2 span
 {
   display:block;
-  background:none;  
+  background:none;
   margin-top:8px;
   margin-left:10px;
   height:26px;
@@ -96,11 +92,11 @@ div.tabsv2 span a
 	border:0;
 
   float:none;
-  background:none;  
+  background:none;
   color:white;
   font-size:14px;
 	padding-right:10px;
-	padding-left:10px;   
+	padding-left:10px;
   height:26px;
 	line-height:26px;
 	font-weight:normal;
@@ -109,26 +105,26 @@ div.tabsv2 span a
 
 
 
-div.tabsv2 span.selected 
+div.tabsv2 span.selected
 {
-  background:white;  
+  background:white;
 }
 
 div.tabsv2 span.selected a
 {
-  background:white;  
+  background:white;
   color:black;
   border:0;
 }
 
 div.tabsv2 span:hover
 {
-  background:white;  
+  background:white;
 }
 
 div.tabsv2 span:hover a
 {
-  background:white;  
+  background:white;
   color:black;
   border:0;
 }
@@ -161,7 +157,7 @@ div.emptysectionlinks
 div.article
 {
   border:0;
-  margin-top:1em;  
+  margin-top:1em;
   padding:0;
 }
 
@@ -196,7 +192,7 @@ div.article p
   text-align: justify;
   margin: 0;
   padding: 0;
-  
+
   margin-bottom: 1em;
   margin-top: 1em;
 }
@@ -215,7 +211,7 @@ div.article.anews h1
 p.footer
 {
   margin-top:2em;
-  padding-bottom:2em;  
+  padding-bottom:2em;
   font-size:10px;
   color:#c0c0c0;
   text-align:center;
