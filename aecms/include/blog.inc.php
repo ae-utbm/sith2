@@ -362,13 +362,13 @@ class blog extends basedb
     require_once($topdir. "include/cts/sqltable.inc.php");
     $req = new requete($this->db,
                        "SELECT `aecms_blog_writers`.`id_utilisateur` ".
-                       "CONCAT( `utilisateurs`.`prenom_utl` ".
-                       "       ,' ' ".
-                       "       ,`utilisateurs`.`nom_utl`) ".
-                       "  AS `nom_utilisateur` ".
+                       ", CONCAT( `utilisateurs`.`prenom_utl` ".
+                       "         ,' ' ".
+                       "         ,`utilisateurs`.`nom_utl`) ".
+                       "    AS `nom_utilisateur` ".
                        "FROM `aecms_blog_writers` ".
                        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
-                       "WHERE `id_blog`='".$this->id."'",1);
+                       "WHERE `id_blog`='".$this->id."'");
     $tbl = new sqltable(
           'listwritersblog',
           'Blogueurs',
