@@ -547,9 +547,6 @@ class blog extends basedb
   {
     $begin = 10*intval($page);
     $end   = 10+10*intval($page);
-    $this->load_cats();
-    if (!isset($this->cats[$id]) )
-      return $this->get_cts();
     $cts = new contents();
     $req = new requete($this->db,
                        "SELECT COUNT(*) ".
