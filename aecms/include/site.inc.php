@@ -371,7 +371,7 @@ class aecms extends site
       echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities( $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
 
     if ( file_exists($basedir."/specific/custom.css") )
-      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$basedir."/specific/custom.css\" />\n";
+      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"/specific/custom.css\" />\n";
 
     foreach ( $this->rss as $title => $url )
       echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
