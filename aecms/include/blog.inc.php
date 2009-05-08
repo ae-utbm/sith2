@@ -612,7 +612,7 @@ class blog extends basedb
       $auteur = $user->get_display_name();
     $cts = new blogentrycts($id,$auteur,$date,$titre,$intro,$content);
     $cache->set_contents($cts);
-    return $cache;
+    return $cache->get_cache();
   }
 
   /**
