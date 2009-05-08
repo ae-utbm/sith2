@@ -237,6 +237,7 @@ if ( $blog->is_writer($site->user) )
         $frm->add_hidden('id_entry',$billet['id_entry']);
         $frm->add_hidden('view','bloguer');
         $frm->add_hidden('action','update');
+        $frm->add_hidden('realupdate','realupdate');
         $frm->add_text_field('titre','Titre',$billet['titre'],true,50);
         $frm->add_dokuwiki_toolbar("intro");
         $frm->add_text_area("intro","Introduction",$billet['intro'],80,10,true);
