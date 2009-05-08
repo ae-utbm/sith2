@@ -60,7 +60,7 @@ class blogentrycts extends contents
       $this->buffer = '<div class"blogentryreadmore"><a href="?id_entry='.$id.'>Lire la suite</a></div>'."\n";
     else
       $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->contents).'</div>'."\n";
-print_r("bleh".$this->buffer);
+print_r($this);
     return $this->buffer;
   }
 }
