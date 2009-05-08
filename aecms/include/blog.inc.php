@@ -330,6 +330,8 @@ class blog extends basedb
    */
   public function get_writers($page,$actions=array(),$batch_actions=array())
   {
+    global $topdir;
+    require_once($topdir. "include/cts/sqltable.inc.php");
     $req = new requete($this->db,
                        "SELECT `aecms_blog_writers`.`id_utilisateur` ".
                        "CONCAT( `utilisateurs`.`prenom_utl` ".
