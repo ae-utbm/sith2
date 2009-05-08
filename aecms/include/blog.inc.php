@@ -480,7 +480,7 @@ class blog extends basedb
     $this->load_cats();
     if (!isset($this->cats[$id]) )
       return $this->get_cts();
-    $cts = new content("Catégorie ".$this->cats[$id]);
+    $cts = new contents("Catégorie ".$this->cats[$id]);
     $req = new requete($this->db,
                        "SELECT COUNT(*) ".
                        "FROM `aecms_blog_entries` ".
@@ -550,7 +550,7 @@ class blog extends basedb
     $this->load_cats();
     if (!isset($this->cats[$id]) )
       return $this->get_cts();
-    $cts = new content();
+    $cts = new contents();
     $req = new requete($this->db,
                        "SELECT COUNT(*) ".
                        "FROM `aecms_blog_entries` ".
