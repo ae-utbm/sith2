@@ -491,6 +491,7 @@ class blog extends basedb
     if($total==0)
     {
       $cts->add_paragraph("Il n'y a aucun billet dans cette catégorie.","blogempty");
+      $cts->puts('</div>');
       return $cts;
     }
     if( $begin>=$total )
@@ -560,6 +561,7 @@ class blog extends basedb
     if($total==0)
     {
       $cts->add_paragraph("Il n'y a pas encore billet.",'blogempty');
+      $cts->puts('</div>');
       return $cts;
     }
     if( $begin>=$total )
