@@ -327,7 +327,7 @@ class blog extends basedb
     $req = new insert($this->dbrw,
                       "aecms_blog_writers",
                       array('id_blog'=>$this->id,
-                            'id_utilisateur'=>$user->id),1);
+                            'id_utilisateur'=>$user->id));
     return $req->is_success();
   }
 
@@ -368,7 +368,7 @@ class blog extends basedb
                        "  AS `nom_utilisateur` ".
                        "FROM `aecms_blog_writers` ".
                        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
-                       "WHERE `id_blog`='".$this->id."' ");
+                       "WHERE `id_blog`='".$this->id."'",1);
     $tbl = new sqltable(
           'listwritersblog',
           'Blogueurs',
