@@ -1,17 +1,14 @@
-@import url("/themes/default/css/site.css");
-
-
 body
 {
-  background:black;  
+  background:black;
   text-align:center;
-  
+
 }
 
 div.contents
 {
   border:0;
-  background:white;  
+  background:white;
   width:915px;
   margin:0;
   margin-left:auto;
@@ -67,23 +64,23 @@ div.tabsv2
 div.tabsv2 span
 {
   float:left;
-  background:none;  
+  background:none;
   margin-top:8px;
   margin-left:10px;
   height:26px;
 	padding-left:0px;
-  
+
 }
 
 
 div.tabsv2 span a
 {
   float:none;
-  background:none;  
+  background:none;
   color:black;
   font-size:14px;
 	padding-right:10px;
-	padding-left:10px;   
+	padding-left:10px;
   height:26px;
 	line-height:26px;
 	border:0;
@@ -93,27 +90,27 @@ div.tabsv2 span a
 
 
 
-div.tabsv2 span.selected 
+div.tabsv2 span.selected
 {
-  background:white;  
+  background:white;
 
 }
 
 div.tabsv2 span.selected a
 {
-  background:white;  
+  background:white;
   color:black;
   border:0;
 }
 
 div.tabsv2 span:hover
 {
-  background:white;  
+  background:white;
 }
 
 div.tabsv2 span:hover a
 {
-  background:white;  
+  background:white;
   color:black;
   border:0;
 }
@@ -146,7 +143,7 @@ div.emptysectionlinks
 div.article
 {
   border:0;
-  margin-top:1em;  
+  margin-top:1em;
   padding:0;
 }
 
@@ -181,7 +178,7 @@ div.article p
   text-align: justify;
   margin: 0;
   padding: 0;
-  
+
   margin-bottom: 1em;
   margin-top: 1em;
 }
@@ -200,7 +197,7 @@ div.article.anews h1
 p.footer
 {
   margin-top:2em;
-  padding-bottom:2em;  
+  padding-bottom:2em;
   font-size:10px;
   color:#c0c0c0;
   text-align:center;
