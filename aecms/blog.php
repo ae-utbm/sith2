@@ -93,7 +93,7 @@ if ( $blog->is_writer($site->user) )
       $frm->add_hidden('view','admin');
       $frm->add_hidden('action','addwriter');
       $topdir2=$topdir;
-      $topdir=$topdir."../";
+      $topdir="../";
       $frm->add_user_fieldv2('id_utilisateur','Utilisateur');
       $topdir=$topdir2;
       $frm->add_submit('submit','Ajouter');
