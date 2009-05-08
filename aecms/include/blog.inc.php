@@ -82,7 +82,7 @@ class blog extends basedb
   /**
    * Charge les données du blog
    */
-  private function _load ( $row )
+  public function _load ( $row )
   {
     $this->id      = $row['id_blog'];
     $this->id_asso = $row['id_asso'];
