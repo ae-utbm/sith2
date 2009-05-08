@@ -589,6 +589,7 @@ class blog extends basedb
                        "         ,`nom_utl`) ".
                        "    AS `nom_utilisateur` ".
                        "FROM `aecms_blog_entries` ".
+                       "INNER JOIN `utilisateurs` USING(`id_utilisateur` ".
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `pub`='n' ".
                        "ORDER BY `titre` ASC");
