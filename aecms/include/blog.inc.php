@@ -61,7 +61,7 @@ class blogentrycts extends contents
                     $this->auteur.
                     '</div>'."\n";
     $this->buffer.= '<div class="blogentryintro">'.doku2xhtml($this->intro).'</div>'."\n";
-    if( !$this->contents )
+    if( !$this->content )
       $this->buffer.= '<div class"blogentryreadmore"><a href="?id_entry='.$id.'>Lire la suite</a></div>'."\n";
     else
       $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->contents).'</div>'."\n";
