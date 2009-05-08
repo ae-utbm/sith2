@@ -59,7 +59,7 @@ if ( $blog->is_writer($site->user) )
       if(isset($_REQUEST['id_utilisateur']) )
         $user->load_by_id($_REQUEST['id_utilisateur']);
       /* cas simples */
-      if ( $_REQUEST["action"] == "delwriter"
+      if ( $_REQUEST["action"] == "delete"
            && isset($_REQUEST['id_utilisateur']) )
           $blog->del_writer($user);
       elseif( $_REQUEST["action"] == "addwriter"
@@ -73,7 +73,7 @@ if ( $blog->is_writer($site->user) )
            && !empty($_REQUEST['cat_name']))
           $blog->add_cat($_REQUEST['cat_name']);
       /* cas multiples */
-      elseif ( $_REQUEST["action"] == "delwriters"
+      elseif ( $_REQUEST["action"] == "deletes"
               && is_array($_REQUEST["id_utilisateurs"])
               && !empty($_REQUEST["id_utilisateurs"]) )
         foreach($_REQUEST["id_utilisateurs"] as $id )
@@ -81,15 +81,15 @@ if ( $blog->is_writer($site->user) )
           if($user->load_by_id($id))
             $blog->del_writer($user);
         }
-      elseif ( $_REQUEST["action"] == "delcats"
+      elseif ( $_REQUEST["action"] == "deletes"
               && is_array($_REQUEST["id_cats"])
               && !empty($_REQUEST["id_cats"]) )
         foreach($_REQUEST["id_cats"] as $id )
           $blog->del_cat($id);
 
-      $cts->add($blog->get_writers_cts('blog.php?view=admin',
-                                       array("delwriter"=>"Supprimer"),
-                                       array("delwriters"=>"Supprimer")),
+      $cts->add($blog->get_writers_cts('blog.php?view=admin&type=writer',
+                                       array("delete"=>"Supprimer"),
+                                       array("deletes"=>"Supprimer")),
                 true);
       $frm = new form('addwriter',
                       'blog.php',
@@ -106,8 +106,8 @@ if ( $blog->is_writer($site->user) )
       $cts->add($frm,true);
 
       $cts->add($blog->get_cats_cts('blog.php?view=admin',
-                                    array("delcat"=>"Supprimer"),
-                                    array("delcats"=>"Supprimer")),
+                                    array("delete"=>"Supprimer"),
+                                    array("deletes"=>"Supprimer")),
                 true);
 
       $frm = new form('addcat',
@@ -121,16 +121,158 @@ if ( $blog->is_writer($site->user) )
       $frm->add_submit('submit','Ajouter');
       $cts->add($frm,true);
 
-
       $site->add_contents($cts);
       $site->end_page();
       exit();
     }
     if($_REQUEST['view']=='bloguer')
     {
-      $site->add_contents($cts);
-      $site->end_page();
-      exit();
+      if($_REQUEST['action'])
+      {
+        if($_REQUEST['action']=='new')
+        {
+          if(!$_REQUEST['pub'])
+            $_REQUEST['page']='edit';
+          if(!$id=$blog->add_entry($site->user,
+                                   $_REQUEST['titre'],
+                                   $_REQUEST['intro'],
+                                   $_REQUEST['content'],
+                                   $_REQUEST['pub'],
+                                   $_REQUEST['id_cat'],
+                                   $_REQUEST['date']))
+          {
+            $error = "Une erreur s'est produite l'ors de l'enregistrement";
+            $_REQUEST['page']='new';
+          }
+          $_REQUEST['id_entry']=$id;
+        }
+        elseif($_REQUEST['action']=='update')
+        {
+          $_REQUEST['page']='edit';
+          if(isset($_REQUEST['realupdate']))
+            if(!$blog->update_entry($_REQUEST['id_entry'],
+                                    $_REQUEST['titre'],
+                                    $_REQUEST['intro'],
+                                    $_REQUEST['content'],
+                                    $_REQUEST['pub'],
+                                    $_REQUEST['id_cat'],
+                                    $_REQUEST['date']))
+              $error='Mise à jour impossible';
+        }
+        elseif($_REQUEST['action']=='deletes')
+        {
+          $_REQUEST['page']='waiting';
+          if(is_array($_REQUEST['id_entrys'])
+             && !empty($_REQUEST['id_entrys']))
+            foreach($_REQUEST['id_entrys'] as $id)
+              $blog->delete_entry($id);
+        }
+        elseif($_REQUEST['action']=='delete')
+        {
+          $_REQUEST['page']='waiting';
+          if($_REQUEST['id_entry'])
+            $blog->delete_entry($_REQUEST['id_entry']);
+        }
+        elseif($_REQUEST['action']=='publishs')
+        {
+          $_REQUEST['page']='waiting';
+          if(is_array($_REQUEST['id_entrys'])
+             && !empty($_REQUEST['id_entrys']))
+            foreach($_REQUEST['id_entrys'] as $id)
+              $blog->publish_entry($id);
+        }
+        elseif($_REQUEST['action']=='publish')
+        {
+          $_REQUEST['action']='waiting';
+          if($_REQUEST['id_entry'])
+            $blog->publish_entry($_REQUEST['id_entry']);
+        }
+        elseif($_REQUEST['action']=='view'
+               && isset($_REQUEST['id_entry']))
+        {
+          $cts->add($blog->get_cts_entry($_REQUEST['id_entry'],$site->user));
+          $site->add_contents($cts);
+          $site->end_page();
+          exit();
+        }
+      }
+
+      if($_REQUEST['page']=='new')
+      {
+        if(isset($error))
+          $cts->add(new error('',$error));
+        $frm = new form('updateentry',
+                        'blog.php',
+                        true,
+                        'POST',
+                        'Édition de billet');
+        $frm->add_hidden('view','bloguer');
+        $frm->add_hidden('action','new');
+        $frm->add_text_field('titre');
+        $frm->add_dokuwiki_toolbar("intro");
+        $frm->add_text_area("intro","Introduction",'',20,20,true);
+        $frm->add_dokuwiki_toolbar("content");
+        $frm->add_text_area("contenu","Contenu",'',80,20,true);
+        $frm->add_checkbox("pub","Publier",true);
+        $frm->add_datetime_field('date','Date de publication',time());
+        $frm->add_submit("submit","Poster");
+        $cts->add($frm,true);
+        $site->add_contents($cts);
+        $site->end_page();
+        exit();
+      }
+      elseif( $_REQUEST['page']=='edit'
+              && isset($_REQUEST['id_entry'])
+              && $billet=$blog->get_entry_row($_REQUEST['id_entry']))
+      {
+        if(isset($error))
+          $cts->add(new error('',$error));
+        $frm = new form('updateentry',
+                        'blog.php',
+                        true,
+                        'POST',
+                        'Édition de billet');
+        $frm->add_hidden('id_entry',$billet['id_entry']);
+        $frm->add_hidden('view','bloger');
+        $frm->add_hidden('action','update');
+        $frm->add_text_field('titre',$billet['titre']);
+        $frm->add_dokuwiki_toolbar("intro");
+        $frm->add_text_area("intro","Introduction",$billet['intro'],20,20,true);
+        $frm->add_dokuwiki_toolbar("content");
+        $frm->add_text_area("contenu","Contenu",$billet['contenu'],80,20,true);
+        $frm->add_checkbox("pub","Publier",$billet['pub']=='y');
+        $frm->add_datetime_field('date','Date de publication',datetime_to_timestamp($billet['date']));
+        $frm->add_submit("submit","Modifier");
+        $cts->add($frm,true);
+        $site->add_contents($cts);
+        $site->end_page();
+        exit();
+      }
+      elseif($_REQUEST['page']=='waiting')
+      {
+        $cts->add($blog->get_cts_waiting_entries(
+                      'blog.php?view=admin',
+                      array("edit"=>"Editer",
+                            "publish"=>"Publier",
+                            "view"=>"Voir",
+                            "delete"=>"Supprimer"),
+                      array("publishs"=>"Publier",
+                            "deletes"=>"Supprimer")),
+                  true);
+        $site->add_contents($cts);
+        $site->end_page();
+        exit();
+      }
+      else
+      {
+        $list = new itemlist("Et maintenant, on fait quoi ?");
+        $list->add("<a href=\"blog?view=bloguer&action=new\">Poster un nouveau billet</a>");
+        $list->add("<a href=\"blog?view=bloguer&action=waiting\">Billet en attente</a>");
+        $cts->add($sublist,true);
+        $site->add_contents($cts);
+        $site->end_page();
+        exit();
+      }
     }
   }
 }

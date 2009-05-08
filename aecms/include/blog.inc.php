@@ -494,9 +494,45 @@ class blog extends basedb
                       "aecms_blog_entries",
                       array('id_blog'=>$this->id,
                             'id_entry'=>intval($id)));
-    return $req->is_success();
     $cache = new cachedcontents("aecmsblog".$this->id.intval($id));
     $cache->expire();
+    return $req->is_success();
+  }
+
+  /**
+   * publie un billet
+   * @param $id identifiant du billet
+   * @return boolean success
+   */
+  public function publish_entry($id)
+  {
+    if( !$this->is_valid() )
+      return false;
+    $req = new update($this->dbrw,
+                      "aecms_blog_entries",
+                      array('pub'=>'y'),
+                      array('id_blog'=>$this->id,
+                            'id_entry'=>intval($id)));
+    $cache = new cachedcontents("aecmsblog".$this->id.intval($id));
+    $cache->expire();
+    return $req->is_success();
+  }
+
+  /**
+   * Retourne un contents d'un billet
+   * @param $id identifiant du billet
+   * @return array
+   */
+  public function get_entry_row($id)
+  {
+    $req = new requete($this->db,
+                       "SELECT * ".
+                       "FROM `aecms_blog_entries` ".
+                       "WHERE `id_blog`='".$this->id."' ".
+                       "AND `id_entry`='".intval($id)."'");
+    if($req->lines==0)
+      return false;
+    return $req->get_row();
   }
 
   /**
@@ -519,7 +555,7 @@ class blog extends basedb
                        ",`content` ".
                        "FROM `aecms_blog_entries` ".
                        "WHERE `id_blog`='".$this->id."' ".
-                       "AND `id_cat`='".intval($id)."' ".
+                       "AND `id_entry`='".intval($id)."' ".
                        $lim);
     if($req->lines==0)
       return new contents('Billet non trouvé');
@@ -530,6 +566,42 @@ class blog extends basedb
     $cts = new blogentry($row);
     $cache->set_contents($cts);
     return $cache;
+  }
+
+  /**
+   * Retourne les billets en attente sous forme de sqltable
+   * @param $page Page qui va être la cible des actions
+   * @param $actions actions sur chaque objet (envoyé à %page%?action=%action%&%id_utilisateur%=[id])
+   * @param $batch_actions actions possibles sur plusieurs objets (envoyé à page, les id sont le tableau %id_utilisateur%s)
+   * @return contents
+   */
+  public function get_cts_waiting_entries($page,$actions=array(),$batch_actions=array())
+  {
+    $req = new requete($this->db,
+                       "SELECT `id_entry` ".
+                       ",`id_utilisateur` ".
+                       ",`date` ".
+                       ",`titre` ".
+                       ", CONCAT( `prenom_utl` ".
+                       "         ,' ' ".
+                       "         ,`nom_utl`) ".
+                       "    AS `nom_utilisateur` ".
+                       "FROM `aecms_blog_entries` ".
+                       "WHERE `id_blog`='".$this->id."' ".
+                       "AND `pub`='n'".
+                       "ORDER BY `titre` ASC");
+    $tbl = new sqltable(
+          'listwaitingentriesblog',
+          'Billets en attente de publication',
+          $req,
+          $page,
+          'id_entry',
+          array("titre"=>"Titre",
+                "date"=>"Date",
+                "nom_utilisateur"=>"Blogguer"),
+          $actions,
+          $batch_actions);
+    return $tbl;
   }
 
   /**
