@@ -196,83 +196,82 @@ if ( $blog->is_writer($site->user) )
           exit();
         }
       }
-
-      if($_REQUEST['page']=='new')
-      {
-        if(isset($error))
-          $cts->add(new error('',$error));
-        $frm = new form('updateentry',
-                        'blog.php',
-                        true,
-                        'POST',
-                        'Édition de billet');
-        $frm->add_hidden('view','bloguer');
-        $frm->add_hidden('action','new');
-        $frm->add_text_field('titre');
-        $frm->add_dokuwiki_toolbar("intro");
-        $frm->add_text_area("intro","Introduction",'',20,20,true);
-        $frm->add_dokuwiki_toolbar("content");
-        $frm->add_text_area("contenu","Contenu",'',80,20,true);
-        $frm->add_checkbox("pub","Publier",true);
-        $frm->add_datetime_field('date','Date de publication',time());
-        $frm->add_submit("submit","Poster");
-        $cts->add($frm,true);
-        $site->add_contents($cts);
-        $site->end_page();
-        exit();
-      }
-      elseif( $_REQUEST['page']=='edit'
-              && isset($_REQUEST['id_entry'])
-              && $billet=$blog->get_entry_row($_REQUEST['id_entry']))
-      {
-        if(isset($error))
-          $cts->add(new error('',$error));
-        $frm = new form('updateentry',
-                        'blog.php',
-                        true,
-                        'POST',
-                        'Édition de billet');
-        $frm->add_hidden('id_entry',$billet['id_entry']);
-        $frm->add_hidden('view','bloger');
-        $frm->add_hidden('action','update');
-        $frm->add_text_field('titre',$billet['titre']);
-        $frm->add_dokuwiki_toolbar("intro");
-        $frm->add_text_area("intro","Introduction",$billet['intro'],20,20,true);
-        $frm->add_dokuwiki_toolbar("content");
-        $frm->add_text_area("contenu","Contenu",$billet['contenu'],80,20,true);
-        $frm->add_checkbox("pub","Publier",$billet['pub']=='y');
-        $frm->add_datetime_field('date','Date de publication',datetime_to_timestamp($billet['date']));
-        $frm->add_submit("submit","Modifier");
-        $cts->add($frm,true);
-        $site->add_contents($cts);
-        $site->end_page();
-        exit();
-      }
-      elseif($_REQUEST['page']=='waiting')
-      {
-        $cts->add($blog->get_cts_waiting_entries(
-                      'blog.php?view=admin',
-                      array("edit"=>"Editer",
-                            "publish"=>"Publier",
-                            "view"=>"Voir",
-                            "delete"=>"Supprimer"),
-                      array("publishs"=>"Publier",
-                            "deletes"=>"Supprimer")),
-                  true);
-        $site->add_contents($cts);
-        $site->end_page();
-        exit();
-      }
-      else
-      {
-        $list = new itemlist("Et maintenant, on fait quoi ?");
-        $list->add("<a href=\"blog?view=bloguer&action=new\">Poster un nouveau billet</a>");
-        $list->add("<a href=\"blog?view=bloguer&action=waiting\">Billet en attente</a>");
-        $cts->add($sublist,true);
-        $site->add_contents($cts);
-        $site->end_page();
-        exit();
-      }
+    }
+    if($_REQUEST['page']=='new')
+    {
+      if(isset($error))
+        $cts->add(new error('',$error));
+      $frm = new form('updateentry',
+                      'blog.php',
+                      true,
+                      'POST',
+                      'Édition de billet');
+      $frm->add_hidden('view','bloguer');
+      $frm->add_hidden('action','new');
+      $frm->add_text_field('titre');
+      $frm->add_dokuwiki_toolbar("intro");
+      $frm->add_text_area("intro","Introduction",'',20,20,true);
+      $frm->add_dokuwiki_toolbar("content");
+      $frm->add_text_area("contenu","Contenu",'',80,20,true);
+      $frm->add_checkbox("pub","Publier",true);
+      $frm->add_datetime_field('date','Date de publication',time());
+      $frm->add_submit("submit","Poster");
+      $cts->add($frm,true);
+      $site->add_contents($cts);
+      $site->end_page();
+      exit();
+    }
+    elseif( $_REQUEST['page']=='edit'
+            && isset($_REQUEST['id_entry'])
+            && $billet=$blog->get_entry_row($_REQUEST['id_entry']))
+    {
+      if(isset($error))
+        $cts->add(new error('',$error));
+      $frm = new form('updateentry',
+                      'blog.php',
+                      true,
+                      'POST',
+                      'Édition de billet');
+      $frm->add_hidden('id_entry',$billet['id_entry']);
+      $frm->add_hidden('view','bloger');
+      $frm->add_hidden('action','update');
+      $frm->add_text_field('titre',$billet['titre']);
+      $frm->add_dokuwiki_toolbar("intro");
+      $frm->add_text_area("intro","Introduction",$billet['intro'],20,20,true);
+      $frm->add_dokuwiki_toolbar("content");
+      $frm->add_text_area("contenu","Contenu",$billet['contenu'],80,20,true);
+      $frm->add_checkbox("pub","Publier",$billet['pub']=='y');
+      $frm->add_datetime_field('date','Date de publication',datetime_to_timestamp($billet['date']));
+      $frm->add_submit("submit","Modifier");
+      $cts->add($frm,true);
+      $site->add_contents($cts);
+      $site->end_page();
+      exit();
+    }
+    elseif($_REQUEST['page']=='waiting')
+    {
+      $cts->add($blog->get_cts_waiting_entries(
+                    'blog.php?view=admin',
+                    array("edit"=>"Editer",
+                          "publish"=>"Publier",
+                          "view"=>"Voir",
+                          "delete"=>"Supprimer"),
+                    array("publishs"=>"Publier",
+                          "deletes"=>"Supprimer")),
+                true);
+      $site->add_contents($cts);
+      $site->end_page();
+      exit();
+    }
+    else
+    {
+      $list = new itemlist("Et maintenant, on fait quoi ?");
+      $list->add("<a href=\"blog?view=bloguer&action=new\">Poster un nouveau billet</a>");
+      $list->add("<a href=\"blog?view=bloguer&action=waiting\">Billet en attente</a>");
+      $cts->add($sublist,true);
+      $site->add_contents($cts);
+      $site->end_page();
+      exit();
     }
   }
 }
