@@ -592,7 +592,7 @@ class blog extends basedb
                        "INNER JOIN `utilisateurs` USING(`id_utilisateur` ".
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `pub`='n' ".
-                       "ORDER BY `titre` ASC");
+                       "ORDER BY `titre` ASC",1);
     $tbl = new sqltable(
           'listwaitingentriesblog',
           'Billets en attente de publication',
