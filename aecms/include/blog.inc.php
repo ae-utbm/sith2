@@ -228,6 +228,7 @@ class blog extends basedb
           array("cat"=>"Catégorie"),
           $actions,
           $batch_actions);
+    return $tbl;
   }
 
   /**
