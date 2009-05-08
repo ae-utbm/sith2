@@ -45,7 +45,7 @@ if ( $blog->is_writer($site->user) )
   $admin = array(0=>CMS_PREFIX."blog",
                  1=>"blog.php",
                  2=>"Blog",
-                 4=>array('blog.php?bloguer','Bloguer'));
+                 4=>array(array('blog.php?bloguer','Bloguer')));
   $site->tab_array[] = $admin;
 }
 
