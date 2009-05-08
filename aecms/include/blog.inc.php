@@ -47,7 +47,6 @@ class blogentrycts extends contents
     $this->id      = $id;
     $this->title   = $titre;
     $this->date    = $date;
-print_r($date);
     $this->auteur  = $auteur;
     $this->intro   = $intro;
     $this->content = $content;
@@ -57,7 +56,7 @@ print_r($date);
   {
     setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
     $this->buffer = '<div class="blogentrypubdate">Le '.
-                    strftime("%A %d %B %Y à %Hh%M", datetime_to_timestamp($date)).
+                    strftime("%A %d %B %Y à %Hh%M", datetime_to_timestamp($this->date)).
                     '</div>'."\n";
     $this->buffer.= '<div class="blogentrypubdate">Par '.
                     $this->auteur.
