@@ -193,6 +193,7 @@ if ( $blog->is_writer($site->user) )
                && isset($_REQUEST['id_entry']))
         {
           $cts->add($blog->get_cts_entry($_REQUEST['id_entry'],$site->user));
+          $cts->add($blog->cts_comments($_REQUEST['id_entry'],$site->user),true);
           $site->add_contents($cts);
           $site->end_page();
           exit();
@@ -283,6 +284,7 @@ if ( $blog->is_writer($site->user) )
 if(isset($_REQUEST['id_entry']))
 {
   $cts->add($blog->get_cts_entry($_REQUEST['id_entry'],$site->user));
+  $cts->add($blog->cts_comments($_REQUEST['id_entry'],$site->user),true);
   $site->add_contents($cts);
   $site->end_page();
   exit();

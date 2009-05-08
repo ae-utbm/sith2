@@ -626,6 +626,131 @@ class blog extends basedb
     return $cache->get_cache();
   }
 
+  private function comment($id,$nom,$comment)
+  {
+    if(empty($comment) || empty($nom))
+      return;
+    new insert($this->dbrw,
+               `aecms_blog_entries_comments`,
+               array('id_blog'=>$this->id,
+                     'id_entry'=>intval($id),
+                     'date'=>date("Y-m-d H:i:s",time()),
+                     'nom'=>htmlspecialchars($nom),
+                     'comment'=>htmlspecialchars(preg_replace('#\\\\\\\\(\s)#',
+                                                              "<br />\\1",
+                                                              $comment))));
+  }
+
+  /**
+   * Retourne un content avec les commentaires d'un billet
+   * et le formulaire de commentaire
+   * @param $id identifiant du billet
+   * @param $user un objet de type utilisateur (defaut null)
+   * @return contents
+   */
+  public function cts_comments($id, $user=null)
+  {
+    /**
+     * On enregistre aussi les commentaires valides
+     */
+    if(isset($_REQUEST['action'])
+       && $_REQUEST['action']=='comment'
+       && $GLOBALS["svalid_call"]
+       && !empty($_REQUEST['comment']))
+    {
+      if(isset($_REQUEST['__math_first'])
+         && isset($_REQUEST['__math_second'])
+         && !empty($_REQUEST['nom'])
+         && !empty($_REQUEST['prenom'])
+         )
+      {
+        $name = convertir_prenom($_REQUEST['prenom']).
+                " ".
+                convertir_nom($_REQUEST['nom']);
+        if(($_REQUEST['__math_first']+$_REQUEST['__math_second'])==$_REQUEST['__math_result'])
+          $this->comment($id,$name,$_REQUEST['comment']);
+      }
+      else
+      {
+        $user = new utilisateur($this->db);
+        if($user->load_by_id($_REQUEST['id_utilisateur']))
+          $this->comment($id,
+                         $user->get_display_name(),
+                         $_REQUEST['comment']);
+      }
+    }
+    $math=false;
+    if(is_null($user) || !$user->is_valid())
+    {
+      $first  = (rand()%20);
+      $second = (rand()%20);
+      $math=true;
+    }
+    $cts = new contents("Commentaires","<div class='blogcomments'>");
+    $frm = new form('comment',
+                    'blog.php',
+                    false,
+                    'POST',
+                    'Ajouter un commentaire');
+    $frm->allow_only_one_usage();
+    $frm->add_hidden('id_entry',$billet['id_entry']);
+    $frm->add_hidden('action','comment');
+    if($math)
+    {
+      $frm->add_text_field('nom','Nom','',true);
+      $frm->add_text_field('prenom','Prénom','',true);
+      $frm->add_info('Aucune mise en forme !');
+      $frm->add_text_area("comment","Commentaire",$billet['intro'],40,5,true);
+      $frm->add_hidden('__math_first',$first);
+      $frm->add_hidden('__math_second',$second);
+      $frm->add_info('Filtre anti spam, merci d\'effectuer cette petite opération :');
+      $frm->add_text_field('__math_result',$first.' + '.$second,'',true);
+    }
+    else
+    {
+      $frm->add_hidden('id_utilisateur',$user->id);
+      $frm->add_text_area("comment","Commentaire",$billet['intro'],40,5,true);
+    }
+    $frm->add_submit("submit","Commenter");
+    $cts->add($frm,true);
+
+    $req = new requete($this->db,
+                       'SELECT `id_comment` '.
+                       ', `date` '.
+                       ',`nom` '.
+                       ',`comment` '.
+                       'FROM `aecms_blog_entries_comments` '.
+                       'WHERE `id_blog`=\''.$this->id.'\' '.
+                       'AND `id_entry`=\''.intval($id).'\' '.
+                       'ORDER BY `date` ASC');
+    setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
+    while(list($id,$date,$nom,$comment)=$req->get_row())
+    {
+      $cts->add(new content("Par ".$nom. " le ".
+                            strftime("%A %d %B %Y à %Hh%M",
+                                     datetime_to_timestamp("2009-05-08 23:42:46")),
+                            "<div class='blogcomment'>".$comment."</div>"));
+    }
+    $cts->puts("</div>");
+    return $cts;
+  }
+
+  /**
+   * Retourne le nombre de commentaires d'un billet
+   * @param $id identifiant du billet
+   * @return int le nombre de commentaires
+   */
+  public function num_comment($id)
+  {
+    $req = new requete($this->db,
+                       'SELECT COUNT(*) '.
+                       'FROM `aecms_blog_entries_comments` '.
+                       'WHERE `id_blog`=\''.$this->id.'\' '.
+                       'AND `id_entry`=\''.intval($id).'\'');
+    list($nb)=$req->get_row();
+    return $nb;
+  }
+
   /**
    * Retourne les billets en attente sous forme de sqltable
    * @param $page Page qui va être la cible des actions
