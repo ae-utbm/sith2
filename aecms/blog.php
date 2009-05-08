@@ -92,7 +92,10 @@ if ( $blog->is_writer($site->user) )
                       'Ajout d\'un  blogueur');
       $frm->add_hidden('view','admin');
       $frm->add_hidden('action','addwriter');
+      $topdir2=$topdir;
+      $topdir=$topdir."../";
       $frm->add_user_fieldv2('id_utilisateur','Utilisateur');
+      $topdir=$topdir2;
       $frm->add_submit('submit','Ajouter');
       $cts->add($frm,true);
 
