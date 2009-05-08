@@ -136,7 +136,7 @@ if ( $blog->is_writer($site->user) )
           if(!$id=$blog->add_entry($site->user,
                                    $_REQUEST['titre'],
                                    $_REQUEST['intro'],
-                                   $_REQUEST['content'],
+                                   $_REQUEST['contenu'],
                                    $_REQUEST['pub'],
                                    $_REQUEST['id_cat'],
                                    $_REQUEST['date']))
@@ -154,7 +154,7 @@ if ( $blog->is_writer($site->user) )
             if(!$blog->update_entry($_REQUEST['id_entry'],
                                     $_REQUEST['titre'],
                                     $_REQUEST['intro'],
-                                    $_REQUEST['content'],
+                                    $_REQUEST['contenu'],
                                     $_REQUEST['pub'],
                                     $_REQUEST['id_cat'],
                                     $_REQUEST['date']))
