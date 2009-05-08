@@ -33,7 +33,8 @@ require_once($topdir."include/entities/basedb.inc.php");
 class blogentrycts extends contents
 {
 
-  private $buffer;
+  public  $buffer;
+  private $date;
   private $auteur;
   private $intro;
   private $content;
