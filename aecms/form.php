@@ -2,8 +2,8 @@
 /*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
  *
- * Copyright 2007
- * - Julien Etelain < julien dot etelain at gmail dot com >
+ * Copyright 2008
+ * - Simon lopez < simon dot lopez at ayolo dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr/

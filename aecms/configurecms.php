@@ -114,6 +114,19 @@ if ( $_REQUEST["action"] == "addonglet" )
     $lien = "membres.php";
     $name = "membres";
   }
+  elseif ( $_REQUEST["typepage"] == "blog" )
+  {
+    require_once("include/blog.inc.php");
+    $blog = new blog($site->db,$site->dbrw);
+    $lien = "blog.php";
+    $name = "blog";
+    if(defined('CMS_ALTERNATE'))
+      $blog->create($site->asso,CMS_ALTERNATE);
+    else
+      $blog->create($site->asso);
+    if( !$blog->is_valid() )
+      $name = null;
+  }
   else
     $name = null;
 
@@ -392,6 +405,8 @@ foreach ( $site->tab_array as $row )
       $lien = "Membres";
     elseif ( $row[1] == "contact.php" )
       $lien = "Contact";
+    elseif ( $row[1] == "blog.php" )
+      $lien = "Blog";
     elseif ( $row[1] == "index.php" )
       $lien = "Page: ".$pages["home"];
     else
@@ -465,6 +480,11 @@ if ( $_REQUEST["view"] == "" )
   if ( !isset($dejafait["membres"]) )
   {
     $sfrm = new form("typepage",null,null,null,"Membres");
+    $frm->add($sfrm,false,true,false,"membres",false,true);
+  }
+  if ( !isset($dejafait["blog"]) )
+  {
+    $sfrm = new form("typepage",null,null,null,"Blog");
     $frm->add($sfrm,false,true,false,"membres",false,true);
   }
   $frm->add_submit("save","Ajouter");
