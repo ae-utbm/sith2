@@ -268,8 +268,8 @@ if ( $blog->is_writer($site->user) )
       else
       {
         $list = new itemlist("Et maintenant, on fait quoi ?");
-        $list->add("<a href=\"blog?view=bloguer&page=new\">Poster un nouveau billet</a>");
-        $list->add("<a href=\"blog?view=bloguer&page=waiting\">Billet en attente</a>");
+        $list->add("<a href=\"blog.php?view=bloguer&page=new\">Poster un nouveau billet</a>");
+        $list->add("<a href=\"blog.php?view=bloguer&page=waiting\">Billet en attente</a>");
         $cts->add($list,true);
         $site->add_contents($cts);
         $site->end_page();
