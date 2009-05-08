@@ -214,7 +214,7 @@ if ( $blog->is_writer($site->user) )
         $frm->add_dokuwiki_toolbar("intro");
         $frm->add_text_area("intro","Introduction",'',80,10,true);
         $frm->add_dokuwiki_toolbar("content");
-        $frm->add_text_area("contenu","Contenu",'',80,60,true);
+        $frm->add_text_area("contenu","Contenu",'',80,40,true);
         $frm->add_checkbox("pub","Publier",true);
         $frm->add_datetime_field('date','Date de publication',time());
         $frm->add_submit("submit","Poster");
@@ -241,7 +241,7 @@ if ( $blog->is_writer($site->user) )
         $frm->add_dokuwiki_toolbar("intro");
         $frm->add_text_area("intro","Introduction",$billet['intro'],80,10,true);
         $frm->add_dokuwiki_toolbar("content");
-        $frm->add_text_area("contenu","Contenu",$billet['contenu'],80,60,true);
+        $frm->add_text_area("contenu","Contenu",$billet['contenu'],80,40,true);
         $frm->add_checkbox("pub","Publier",$billet['pub']=='y');
         $frm->add_datetime_field('date','Date de publication',datetime_to_timestamp($billet['date']));
         $frm->add_submit("submit","Modifier");
