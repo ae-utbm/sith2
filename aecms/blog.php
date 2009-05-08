@@ -62,9 +62,7 @@ if(isset($_REQUEST['id_cat']) && $blog->is_cat($_REQUEST['id_cat']))
 $page=0;
 if(isset($_REQUEST['id_page']))
   $page=intval($_REQUEST['id_page']);
-$cts=$blog->get_cts($page);
-exit();
-$site->add_contents($cts);
+$site->add_contents($blog->get_cts($page));
 $site->end_page();
 
 ?>
