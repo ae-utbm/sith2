@@ -27,6 +27,47 @@ require_once($topdir."include/cts/cached.inc.php");
 require_once($topdir."include/entities/basedb.inc.php");
 
 /**
+ * Conteneur de texte structuré
+ * @ingroup display_cts
+ */
+class blogentrycts extends contents
+{
+  var $contents;
+  var $wiki;
+
+  /** Crée un stdcontents d'une entrée de wiki
+   * @param $row
+   * @param $contents  Texte structuré
+   */
+  function blogentrycts($id,$auteur,$date,$titre,$intro,$content=false)
+  {
+    $this->title   = $titre;
+    $this->date    = $date;
+    $this->auteur  = $auteur;
+    $this->intro   = $intro;
+    $this->content = $content;
+  }
+
+  function html_render()
+  {
+    setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
+    $this->buffer = '<div class="blogentrypubdate">Le '.
+                    strftime("%A %d %B %Y à %Hh%M", strtotime($date)).
+                    '</div>'."\n";
+    $this->buffer = '<div class="blogentrypubdate">Par '.
+                    $this->auteur.
+                    '</div>'."\n";
+    $this->buffer.= '<div class="blogentryintro">'.doku2xhtml($this->intro).'</div>'."\n";
+    if( !$this->contents )
+      $this->buffer = '<div class"blogentryreadmore"><a href="?id_entry='.$id.'>Lire la suite</a></div>'."\n";
+    else
+      $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->contents).'</div>'."\n";
+    return $this->buffer;
+
+  }
+}
+
+/**
  * Blog pour les aecms.
  *
  * @author Simon Lopez
@@ -749,46 +790,6 @@ class blog extends basedb
                  $id."&id_page=".($page+1)."'>Billets suivants</a>");
     $cts->puts('</div>');
     return $cts;
-  }
-}
-
-/** Conteneur de texte structuré
- * @ingroup display_cts
- */
-class blogentrycts extends contents
-{
-  var $contents;
-  var $wiki;
-
-  /** Crée un stdcontents d'une entrée de wiki
-   * @param $row
-   * @param $contents  Texte structuré
-   */
-  function blogentrycts($id,$auteur,$date,$titre,$intro,$content=false)
-  {
-    $this->title   = $titre;
-    $this->date    = $date;
-    $this->auteur  = $auteur;
-    $this->intro   = $intro;
-    $this->content = $content;
-  }
-
-  function html_render()
-  {
-    setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
-    $this->buffer = '<div class="blogentrypubdate">Le '.
-                    strftime("%A %d %B %Y à %Hh%M", strtotime($date)).
-                    '</div>'."\n";
-    $this->buffer = '<div class="blogentrypubdate">Par '.
-                    $this->auteur.
-                    '</div>'."\n";
-    $this->buffer.= '<div class="blogentryintro">'.doku2xhtml($this->intro).'</div>'."\n";
-    if( !$this->contents )
-      $this->buffer = '<div class"blogentryreadmore"><a href="?id_entry='.$id.'>Lire la suite</a></div>'."\n";
-    else
-      $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->contents).'</div>'."\n";
-    return $this->buffer;
-
   }
 }
 
