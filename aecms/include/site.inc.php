@@ -364,8 +364,8 @@ class aecms extends site
     echo "<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
     echo "<title>".$this->title." - ".htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."</title>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/doku.css\" />\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/".$this->config["css.base"]."\" />\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/doku.css\" />\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/".$this->config["css.base"]."\" />\n";
 
     foreach ( $this->extracss as $url )
       echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities( $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
@@ -380,9 +380,9 @@ class aecms extends site
       echo "<script type=\"text/javascript\" src=\"".htmlentities($url,ENT_QUOTES,"UTF-8")."\"></script>\n";
 
     echo "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
-    echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime("/js/site.js")."\"></script>\n";
-    echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime("/js/site.js")."\"></script>\n";
-    echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime("/js/site.js")."\"></script>\n";
+    echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime($basedir."/js/site.js")."\"></script>\n";
+    echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime($basedir."/js/site.js")."\"></script>\n";
+    echo "<script type=\"text/javascript\" src=\"/js/site.js?".filemtime($basedir."/js/site.js")."\"></script>\n";
     echo "</head>\n";
 
     echo "<body>\n";
