@@ -47,7 +47,7 @@ if ( $blog->is_writer($site->user) )
 
 if(isset($_REQUEST['id_entry']))
 {
-  $site->add($blog->get_cts_entry($_REQUEST['id_entry'],$site->user));
+  $site->add_contents($blog->get_cts_entry($_REQUEST['id_entry'],$site->user));
   $site->end_page();
 }
 
@@ -56,14 +56,14 @@ if(isset($_REQUEST['id_cat']) && $blog->is_cat($_REQUEST['id_cat']))
   $page=0;
   if(isset($_REQUEST['id_page']))
     $page=intval($_REQUEST['id_page']);
-  $site->add($blog->get_cts_cat($_REQUEST['id_cat'],$page));
+  $site->add_contents($blog->get_cts_cat($_REQUEST['id_cat'],$page));
   $site->end_page();
 }
 
 $page=0;
 if(isset($_REQUEST['id_page']))
   $page=intval($_REQUEST['id_page']);
-$site->add($blog->get_cts($page));
+$site->add_contents($blog->get_cts($page));
 $site->end_page();
 
 ?>
