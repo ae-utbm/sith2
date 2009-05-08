@@ -577,6 +577,8 @@ class blog extends basedb
    */
   public function get_cts_waiting_entries($page,$actions=array(),$batch_actions=array())
   {
+    global $topdir;
+    require_once($topdir. "include/cts/sqltable.inc.php");
     $req = new requete($this->db,
                        "SELECT `id_entry` ".
                        ",`id_utilisateur` ".
