@@ -327,7 +327,7 @@ class blog extends basedb
     $req = new insert($this->dbrw,
                       "aecms_blog_writers",
                       array('id_blog'=>$this->id,
-                            'id_utilisateur'=>$user->id));
+                            'id_utilisateur'=>$user->id),1);
     return $req->is_success();
   }
 
