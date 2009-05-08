@@ -606,7 +606,6 @@ class blog extends basedb
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `id_entry`='".intval($id)."' ".
                        $lim);
-exit();
     if($req->lines==0)
       return new contents('Billet non trouvé');
 
