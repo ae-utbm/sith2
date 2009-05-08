@@ -146,7 +146,7 @@ if ( $blog->is_writer($site->user) )
           }
           $_REQUEST['id_entry']=$id;
         }
-        elseif($_REQUEST['action']=='update')
+        elseif($_REQUEST['action']=='edit')
         {
           $_REQUEST['page']='edit';
           if(isset($_REQUEST['realupdate']))
@@ -203,7 +203,7 @@ if ( $blog->is_writer($site->user) )
       {
         if(isset($error))
           $cts->add(new error('',$error));
-        $frm = new form('updateentry',
+        $frm = new form('addentry',
                         'blog.php',
                         true,
                         'POST',
@@ -236,7 +236,7 @@ if ( $blog->is_writer($site->user) )
                         'Édition de billet');
         $frm->add_hidden('id_entry',$billet['id_entry']);
         $frm->add_hidden('view','bloguer');
-        $frm->add_hidden('action','update');
+        $frm->add_hidden('action','edit');
         $frm->add_hidden('realupdate','realupdate');
         $frm->add_text_field('titre','Titre',$billet['titre'],true,50);
         $frm->add_dokuwiki_toolbar("intro");
