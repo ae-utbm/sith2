@@ -63,7 +63,7 @@ class blog extends basedb
   public function load(&$asso,$subid=false)
   {
     if(!$asso->is_valid())
-      return false;
+      return true;
     if(!$subid || is_null($subid))
       $subid='';
     $req = new requete($this->db,
