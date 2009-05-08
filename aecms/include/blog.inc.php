@@ -487,12 +487,13 @@ class blog extends basedb
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `id_cat`='".intval($id)."' ".
                        "AND `pub`='y' ");
-    if($req->lines==0)
+    list($total)=$req->get_row();
+    if($total==0)
     {
       $cts->add_paragraph("Il n'y a aucun billet dans cette catégorie.");
       return $cts;
     }
-    if( $begin>=$req->lines )
+    if( $begin>=$total )
     {
       $page=0;
       $begin=0;
@@ -501,8 +502,9 @@ class blog extends basedb
     if($begin>0)
       $cts->add_paragraph("<div class='blogprevious blognavtop'><a href='?id_cat=".
                           $id."&id_page=".($page-1)."'>Billets précédents</a>");
-    $cts->add_paragraph("<div class='blognext blognavtop'><a href='?id_cat=".$id.
-                        "&id_page=".($page+1)."'>Billets suivants</a>");
+    if($end<$total)
+      $cts->add_paragraph("<div class='blognext blognavtop'><a href='?id_cat=".$id.
+                          "&id_page=".($page+1)."'>Billets suivants</a>");
     $req = new requete($this->db,
                        "SELECT `id_entry` ".
                        ",`id_utilisateur` ".
@@ -532,7 +534,7 @@ class blog extends basedb
     if($begin>0)
       $cts->add_paragraph("<div class='blogprevious blognavbottom'><a href='?id_cat=".
                           $id."&id_page=".($page-1)."'>Billets précédents</a>");
-    if($end>$req->lines)
+    if($end<$total)
       $cts->add_paragraph("<div class='blognext blognavbottom'><a href='?id_cat=".
                           $id."&id_page=".($page+1)."'>Billets suivants</a>");
     return $cts;
@@ -553,12 +555,13 @@ class blog extends basedb
                        "FROM `aecms_blog_entries` ".
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `pub`='y' ");
-    if($req->lines==0)
+    list($total)=$req->get_row();
+    if($total==0)
     {
       $cts->add_paragraph("Il n'y a pas encore billet.");
       return $cts;
     }
-    if( $begin>=$req->lines )
+    if( $begin>=$total )
     {
       $page=0;
       $begin=0;
@@ -567,8 +570,9 @@ class blog extends basedb
     if($begin>0)
       $cts->add_paragraph("<div class='blogprevious blognavtop'><a href='?id_cat=".
                           $id."&id_page=".($page-1)."'>Billets précédents</a>");
-    $cts->add_paragraph("<div class='blognext blognavtop'><a href='?id_cat=".$id.
-                        "&id_page=".($page+1)."'>Billets suivants</a>");
+    if($end<$total)
+      $cts->add_paragraph("<div class='blognext blognavtop'><a href='?id_cat=".$id.
+                          "&id_page=".($page+1)."'>Billets suivants</a>");
     $req = new requete($this->db,
                        "SELECT `id_entry` ".
                        ",`id_utilisateur` ".
@@ -597,7 +601,7 @@ class blog extends basedb
     if($begin>0)
       $cts->add_paragraph("<div class='blogprevious blognavbottom'><a href='?id_cat=".
                           $id."&id_page=".($page-1)."'>Billets précédents</a>");
-    if($end>$req->lines)
+    if($end<$total)
       $cts->add_paragraph("<div class='blognext blognavbottom'><a href='?id_cat=".
                           $id."&id_page=".($page+1)."'>Billets suivants</a>");
     return $cts;
