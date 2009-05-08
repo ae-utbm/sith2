@@ -46,8 +46,17 @@ if ( $blog->is_writer($site->user) )
                  1=>"blog.php",
                  2=>"Blog",
                  4=>array(array('blog.php?bloguer','Bloguer')));
-  $site->tab_array[] = $admin;
-  print_r($site->tab_array);
+  foreach($site->tab_array as $id=>$tab)
+  {
+    if($tab[0]==CMS_PREFIX."blog")
+    {
+      $site->tab_array[$id]=$admin;
+      unset($admin);
+      break;
+    }
+  }
+  if(isset($admin))
+    $site->tab_array[] = $admin;
 }
 
 if(isset($_REQUEST['id_entry']))
