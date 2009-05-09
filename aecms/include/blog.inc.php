@@ -735,7 +735,7 @@ class blog extends basedb
       $cts->add(new contents("Par ".$nom. " le ".
                              strftime("%A %d %B %Y à %Hh%M",
                                       datetime_to_timestamp("2009-05-08 23:42:46")),
-                             "<div class='blogcomment'>".$comment."</div>"));
+                             "<div class='blogcomment'>".$comment."</div>"),true);
     }
     $cts->puts("</div>");
     return $cts;
