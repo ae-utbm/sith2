@@ -40,7 +40,7 @@ if(!$blog->is_valid())
 }
 
 $site->start_page ( CMS_PREFIX."blog", "Blog" );
-$cts = new contents("un Blog averti en vaut deux...");
+$cts = new contents();
 if ( $blog->is_writer($site->user) )
 {
   $tabs = array(
