@@ -299,9 +299,8 @@ class blog extends basedb
     foreach($this->cats as $id => $cat)
     {
       $selected='';
-      if($id==$curent_id)
+      if($id==$current_id)
         $selected=' blogcatselected';
-      print_r($id.$curent_id.$cat.$selected);
       $list->add('<a href="'.$page.$id.'">'.$cat.'</a>','blogcatlist'.$i.$selected);
       $i=($i+1)%2;
     }
