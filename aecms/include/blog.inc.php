@@ -301,7 +301,7 @@ class blog extends basedb
       $selected='';
       if($id==$curent_id)
         $selected=' blogcatselected';
-      print_r($selected);
+      print_r($id.$curent_id.$selected);
       $list->add('<a href="'.$page.$id.'">'.$cat.'</a>','blogcatlist'.$i.$selected);
       $i=($i+1)%2;
     }
