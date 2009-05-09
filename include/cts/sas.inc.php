@@ -383,7 +383,7 @@ class sasphoto extends contents
       $array[]='6';
     if(!$photo->droits_acquis)
       $array[]='7';
-    $list = new itemlist("Modalités d'utilisation");
+    $list = new itemlist("Modalités d'utilisations");
     foreach($array as $i)
       $list->add("<a href='".
                  $topdir.
