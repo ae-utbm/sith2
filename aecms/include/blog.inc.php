@@ -649,8 +649,6 @@ class blog extends basedb
       return new contents('Billet non trouvé');
     list($id_entry,$utl,$date,$titre,$intro,$content,$id_cat)=$req->get_row();
     $_REQUEST['id_cat']=$id_cat;
-print_r($_REQUEST['id_cat'].'cat');
-
     $cache = new cachedcontents("aecmsblog_".$this->id."_".$id_entry);
     if ( $cache->is_cached() )
       return $cache->get_cache();
