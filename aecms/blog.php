@@ -213,6 +213,12 @@ if ( $blog->is_writer($site->user) )
         $frm->add_hidden('action','new');
         $frm->add_text_field('titre','Titre','',true,50);
         $frm->add_dokuwiki_toolbar("intro");
+        $cats = $blog->get_cats();
+        if(count($cats)>0)
+        {
+          $cats=array_merge(array(null=>'Aucune'),$cats);
+          $frm->add_select_field('id_cat','Catégorie',$cats);
+        }
         $frm->add_text_area("intro","Introduction",'',80,10,true);
         $frm->add_dokuwiki_toolbar("contenu");
         $frm->add_text_area("contenu","Contenu",'',80,20,true);
@@ -240,6 +246,12 @@ if ( $blog->is_writer($site->user) )
         $frm->add_hidden('action','edit');
         $frm->add_hidden('realupdate','realupdate');
         $frm->add_text_field('titre','Titre',$billet['titre'],true,50);
+        $cats = $blog->get_cats();
+        if(count($cats)>0)
+        {
+          $cats=array_merge(array(null=>'Aucune'),$cats);
+          $frm->add_select_field('id_cat','Catégorie',$cats,$billet['id_cat']);
+        }
         $frm->add_dokuwiki_toolbar("intro");
         $frm->add_text_area("intro","Introduction",$billet['intro'],80,10,true);
         $frm->add_dokuwiki_toolbar("contenu");
