@@ -181,6 +181,9 @@ class blog extends basedb
       new delete($this->dbrw,
                  "aecms_blog_entries",
                  array('id_blog'=>$this->id));
+      new delete($this->dbrw,
+                 "aecms_blog_entries_comments",
+                 array('id_blog'=>$this->id));
     }
     //suppression des auteurs
     new delete($this->dbrw,
@@ -542,6 +545,10 @@ class blog extends basedb
                       "aecms_blog_entries",
                       array('id_blog'=>$this->id,
                             'id_entry'=>intval($id)));
+    new delete($this->dbrw,
+                 "aecms_blog_entries_comments",
+                 array('id_blog'=>$this->id,
+                       'id_entry'=>intval($id)));
     $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id));
     $cache->expire();
     $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id)."_intro");
@@ -730,12 +737,14 @@ class blog extends basedb
                        'AND `id_entry`=\''.intval($id).'\' '.
                        'ORDER BY `date` ASC');
     setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
+    $i=0;
     while(list($id,$date,$nom,$comment)=$req->get_row())
     {
       $cts->add(new contents("Par ".$nom. " le ".
                              strftime("%A %d %B %Y à %Hh%M",
                                       datetime_to_timestamp("2009-05-08 23:42:46")),
-                             "<div class='blogcomment'>".$comment."</div>"),true);
+                             "<div class='blogcomment$i'>".$comment."</div>"),true);
+      $i=($i+1)%2;
     }
     $cts->puts("</div>");
     return $cts;
