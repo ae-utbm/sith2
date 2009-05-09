@@ -192,7 +192,11 @@ if ( $blog->is_writer($site->user) )
         elseif($_REQUEST['action']=='view'
                && isset($_REQUEST['id_entry']))
         {
-          $cts->add($blog->get_cts_entry($_REQUEST['id_entry'],$site->user));
+          $toolbox = array("blog.php?view=bloguer&id_entry=".$_REQUEST['id_entry']."&page=edit"=>"Editer",
+                           "blog.php?view=bloguer&id_entry=".$_REQUEST['id_entry']."&action=delete"=>"Supprimer",);
+          $entry = $blog->get_cts_entry($_REQUEST['id_entry'],$site->user);
+          $entry->set_toolbox(new toolbox($toolbox));
+          $cts->add($entry);
           $cts->add($blog->cts_comments($_REQUEST['id_entry'],$site->user),true);
           $site->add_contents($cts);
           $site->end_page();
@@ -296,6 +300,14 @@ if($cats=$blog->get_cats_cts_list('blog.php'))
   $cts->add($cats,true);
 if(isset($_REQUEST['id_entry']))
 {
+  $entry = $blog->get_cts_entry($_REQUEST['id_entry'],$site->user);
+  if($blog->is_writer($site->user))
+  {
+    $toolbox = array("blog.php?view=bloguer&id_entry=".$_REQUEST['id_entry']."&page=edit"=>"Editer",
+                     "blog.php?view=bloguer&id_entry=".$_REQUEST['id_entry']."&action=delete"=>"Supprimer",);
+    $entry->set_toolbox(new toolbox($toolbox));
+  }
+  $cts->add($entry);
   $cts->add($blog->get_cts_entry($_REQUEST['id_entry'],$site->user));
   $cts->add($blog->cts_comments($_REQUEST['id_entry'],$site->user),true);
   $site->add_contents($cts);
