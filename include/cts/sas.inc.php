@@ -389,7 +389,7 @@ class sasphoto extends contents
                  $topdir.
                  "article.php?name=legals:sas#cas".
                  $i.
-                 ">Cas n°".$i."</a>");
+                 "'>Cas n°".$i."</a>");
     $subcts->add($list,true);
 
     $subcts->add_title(2,"Informations");
