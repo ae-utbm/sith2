@@ -297,7 +297,7 @@ if ( $blog->is_writer($site->user) )
   }
 }
 if($cats=$blog->get_cats_cts_list('blog.php',$_REQUEST['id_cat']))
-  $cts->add($cats,true);
+  $cts->add($cats);
 if(isset($_REQUEST['id_entry']))
 {
   $entry = $blog->get_cts_entry($_REQUEST['id_entry'],$site->user);

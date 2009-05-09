@@ -285,6 +285,7 @@ class blog extends basedb
    */
   public function get_cats_cts_list($page,$current_id=null)
   {
+print_r($current_id);
     if ( !$this->is_valid() )
       return false;
     $this->load_cats();
