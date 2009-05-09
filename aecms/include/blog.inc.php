@@ -629,7 +629,6 @@ class blog extends basedb
    */
   public function get_cts_entry($id,&$user)
   {
-    global $_REQUEST;
     $lim = "AND `pub`='y' AND `date` < NOW()";
     if( $this->is_writer($user) )
       $lim = '';
@@ -640,7 +639,7 @@ class blog extends basedb
                        ",`titre` ".
                        ",`intro` ".
                        ",`contenu` ".
-                       ",`id_entry` ".
+                       ",`id_cat` ".
                        "FROM `aecms_blog_entries` ".
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `id_entry`='".intval($id)."' ".
@@ -651,8 +650,8 @@ class blog extends basedb
     $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id));
     if ( $cache->is_cached() )
       return $cache->get_cache();
-    list($id,$utl,$date,$titre,$intro,$content,$id_entry)=$req->get_row();
-    $_REQUEST['id_cat']=$id_entry;
+    list($id,$utl,$date,$titre,$intro,$content,$id_cat)=$req->get_row();
+    $_REQUEST['id_cat']=$id_cat;
     $user = new utilisateur($this->db);
     if( !$user->load_by_id($utl) )
       $auteur = 'Annonyme';
