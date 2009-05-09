@@ -638,7 +638,7 @@ class blog extends basedb
                      'nom'=>htmlspecialchars($nom),
                      'comment'=>htmlspecialchars(preg_replace('#\\\\\\\\(\s)#',
                                                               "<br />\\1",
-                                                              $comment))));
+                                                              $comment))),1);
   }
 
   /**
@@ -672,7 +672,6 @@ class blog extends basedb
       }
       else
       {
-print_r("bleh");
         $user = new utilisateur($this->db);
         if($user->load_by_id($_REQUEST['id_utilisateur']))
           $this->comment($id,
