@@ -58,7 +58,7 @@ class blogentrycts extends contents
     $this->buffer = '<div class="blogentrypubdate">Le '.
                     strftime("%A %d %B %Y à %Hh%M", datetime_to_timestamp($this->date)).
                     '</div>'."\n";
-    $this->buffer.= '<div class="blogentrypubdate">Par '.
+    $this->buffer.= '<div class="blogentryauthor">Par '.
                     $this->auteur.
                     '</div>'."\n";
     $this->buffer.= '<div class="blogentryintro">'.doku2xhtml($this->intro).'</div>'."\n";
