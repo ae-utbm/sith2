@@ -647,18 +647,18 @@ class blog extends basedb
                        $lim);
     if($req->lines==0)
       return new contents('Billet non trouvé');
+    list($id_entry,$utl,$date,$titre,$intro,$content,$id_cat)=$req->get_row();
+    $_REQUEST['id_cat']=$id_cat;
 
-    $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id));
+    $cache = new cachedcontents("aecmsblog_".$this->id."_".$id_entry);
     if ( $cache->is_cached() )
       return $cache->get_cache();
-    list($id,$utl,$date,$titre,$intro,$content,$id_cat)=$req->get_row();
-    $_REQUEST['id_cat']=$id_cat;
     $user = new utilisateur($this->db);
     if( !$user->load_by_id($utl) )
       $auteur = 'Annonyme';
     else
       $auteur = $user->get_display_name();
-    $cts = new blogentrycts($id,$auteur,$date,$titre,$intro,$content);
+    $cts = new blogentrycts($id_entry,$auteur,$date,$titre,$intro,$content);
     $cache->set_contents($cts);
     return $cache->get_cache();
   }
