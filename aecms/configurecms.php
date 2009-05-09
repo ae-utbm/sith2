@@ -348,6 +348,19 @@ elseif( $_REQUEST["action"] == "setcss" )
   $site->save_conf();
   file_put_contents($basedir."/specific/custom.css",$_REQUEST["data"]);
 }
+elseif( $_REQUEST["action"] == "setfooter" && $site->config['footer'])
+{
+  $site->config['footer'] = trim($_REQUEST['footer']);
+  $site->save_conf();
+  require_once($topdir."include/cts/cached.inc.php");
+  $path = CMS_ID_ASSO;
+  if(defined('CMS_ALTERNATE'))
+    $path.="_".CMS_ALTERNATE;
+  $cache = new cachedcontents("aecmsfooter_".$path);
+  if ( !$cache->is_cached() )
+    $cache->set_contents(new content('',doku2xhtml($this->config['footer'])));
+  $cache=$cache->get_cache();
+}
 elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["filename"]) )
 {
   $dir = $basedir."/specific/img/";
@@ -423,8 +436,10 @@ $tabs = array(
         array("boxes","configurecms.php?view=boxes","Boites"),
         array("options","configurecms.php?view=options","Options"),
         array("css","configurecms.php?view=css","Style"),
-  array("news","configurecms.php?view=news","Nouvelles")
+        array("news","configurecms.php?view=news","Nouvelles")
         );
+if($site->config['footer'])
+  $tabs[]=array("footer","configurecms.php?view=footer","Footer");
 
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
@@ -627,9 +642,20 @@ else if ( $_REQUEST["view"] == "css" )
   $frm->add_file_field("file","Fichier",true);
   $frm->add_submit("add","Ajouter");
   $cts->add($frm);
-
-
-
+}
+else if ( $_REQUEST["view"] == "footer" && $site->config['footer'])
+{
+  $cts->add_title(2,"Footer");
+  $frm = new form("setfooter","configurecms.php?view=footer",true,"POST","CSS");
+  $frm->add_hidden("action","setfooter");
+  $frm->add_dokuwiki_toolbar("footer");
+  $frm->add_text_area("footer",
+                      "Footer",
+                      $site->config['footer'],
+                      80,
+                      20);
+  $frm->add_submit("save","Enregistrer");
+  $cts->add($frm);
 }
 else if( $_REQUEST["view"] == "news" )
 {

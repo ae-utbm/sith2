@@ -69,7 +69,7 @@ else
 if ( CMS_ID_ASSO != intval(CMS_ID_ASSO) )
 {
   header("Content-Type: text/html; charset=utf-8");
-  echo "<p>Site actuellement en maintenance. Merci de votre compréhension.</p>";
+  $this->buffer.="<p>Site actuellement en maintenance. Merci de votre compréhension.</p>";
   exit();
 }
 
@@ -358,44 +358,42 @@ class aecms extends site
 
     header("Content-Type: text/html; charset=utf-8");
 
-    //echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
-
-    echo "<html>\n";
-    echo "<head>\n";
-    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-    echo "<title>".$this->title." - ".htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."</title>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/doku.css\" />\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/".$this->config["css.base"]."\" />\n";
+    $this->buffer ="<html>\n";
+    $this->buffer.="<head>\n";
+    $this->buffer.="<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+    $this->buffer.="<title>".$this->title." - ".htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."</title>\n";
+    $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/doku.css\" />\n";
+    $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/".$this->config["css.base"]."\" />\n";
 
     foreach ( $this->extracss as $url )
-      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
+      $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
 
     if ( file_exists($basedir."/specific/custom.css") )
-      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "specific/custom.css\" />\n";
+      $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "specific/custom.css\" />\n";
 
     foreach ( $this->rss as $title => $url )
-      echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
+      $this->buffer.="<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
 
     foreach ( $this->extrajs as $url )
-      echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
+      $this->buffer.="<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
 
-    echo "<script type=\"text/javascript\" src=\"/js/site.js\">var site_topdir='$wwwtopdir';</script>\n";
-    echo "<script type=\"text/javascript\" src=\"/js/ajax.js\"></script>\n";
-    echo "<script type=\"text/javascript\" src=\"/js/dnds.js\"></script>\n";
-    echo "</head>\n";
+    $this->buffer.="<script type=\"text/javascript\" src=\"/js/site.js\">var site_topdir='$wwwtopdir';</script>\n";
+    $this->buffer.="<script type=\"text/javascript\" src=\"/js/ajax.js\"></script>\n";
+    $this->buffer.="<script type=\"text/javascript\" src=\"/js/dnds.js\"></script>\n";
+    $this->buffer.="</head>\n";
 
-    echo "<body>\n";
+    $this->buffer.="<body>\n";
         /* Generate the logo */
-    echo "<div id=\"site\">";
+    $this->buffer.="<div id=\"site\">";
 
     if (!$this->compact )
     {
-      echo "<div id=\"logo\"><a href=\"".htmlentities($this->pubUrl,ENT_QUOTES,"UTF-8")."\">";
-      echo htmlentities($this->asso->nom,ENT_QUOTES,"UTF-8");
-      echo "</a></div>\n";
+      $this->buffer.="<div id=\"logo\"><a href=\"".htmlentities($this->pubUrl,ENT_QUOTES,"UTF-8")."\">";
+      $this->buffer.=htmlentities($this->asso->nom,ENT_QUOTES,"UTF-8");
+      $this->buffer.="</a></div>\n";
     }
 
-    echo "<div class=\"tabsv2\">\n";
+    $this->buffer.="<div class=\"tabsv2\">\n";
     $links=null;
 
     foreach ($this->tab_array as $entry)
@@ -406,37 +404,37 @@ class aecms extends site
          && !$this->is_user_admin()
         )
         continue;
-      echo "<span";
+      $this->buffer.="<span";
       if ($this->section == $entry[0])
       {
-        echo " class=\"selected\"";
+        $this->buffer.=" class=\"selected\"";
         $links=$entry[4];
       }
-      echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
-      echo " title=\"" . stripslashes($entry[2]) . "\">".
+      $this->buffer.="><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
+      $this->buffer.=" title=\"" . stripslashes($entry[2]) . "\">".
         stripslashes($entry[2]) . "</a></span>\n";
     }
 
-    echo "</div>\n"; // /tabs
+    $this->buffer.="</div>\n"; // /tabs
 
     if ( $links )
     {
-      echo "<div class=\"sectionlinks\">\n";
+      $this->buffer.="<div class=\"sectionlinks\">\n";
 
       foreach ( $links as $entry )
       {
         if ( ereg("http://(.*)",$entry[0]) )
-          echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
+          $this->buffer.="<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
         else
-          echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>\n";
+          $this->buffer.="<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>\n";
       }
 
-      echo "</div>\n";
+      $this->buffer.="</div>\n";
     }
     else
-      echo "<div class=\"emptysectionlinks\"></div>\n";
+      $this->buffer.="<div class=\"emptysectionlinks\"></div>\n";
 
-    echo "<div class=\"contents\">\n";
+    $this->buffer.="<div class=\"contents\">\n";
     $idpage = "";
 
     foreach ( $this->sides as $side => $names )
@@ -444,29 +442,29 @@ class aecms extends site
       if ( count($names) )
       {
         $idpage .= substr($side,0,1);
-        echo "<div id=\"$side\">\n";
+        $this->buffer.="<div id=\"$side\">\n";
         foreach ( $names as $name )
         {
           if ( $cts = $this->boxes[$name] )
           {
-            echo "<div class=\"box\" id=\"sbox_$name\">\n";
+            $this->buffer.="<div class=\"box\" id=\"sbox_$name\">\n";
             if ( !empty($cts->title) )
-            echo "<h1>".$cts->title."</h1>\n";
-            echo "<div class=\"body\" id=\"sbox_body_$name\">\n";
-            echo $cts->html_render();
-            echo "</div>\n";
-            echo "</div>\n";
+            $this->buffer.="<h1>".$cts->title."</h1>\n";
+            $this->buffer.="<div class=\"body\" id=\"sbox_body_$name\">\n";
+            $this->buffer.=$cts->html_render();
+            $this->buffer.="</div>\n";
+            $this->buffer.="</div>\n";
           }
 
         }
-        echo "</div>\n";
+        $this->buffer.="</div>\n";
       }
     }
 
     if ( $idpage == "" ) $idpage = "n";
 
-    echo "\n<!-- page -->\n";
-    echo "<div class=\"page\" id=\"$idpage\">\n";
+    $this->buffer.="\n<!-- page -->\n";
+    $this->buffer.="<div class=\"page\" id=\"$idpage\">\n";
 
     foreach ( $this->contents as $cts )
     {
@@ -475,49 +473,62 @@ class aecms extends site
       if ( !is_null($cts->cssclass) )
         $cssclass = $cts->cssclass;
 
-      echo "<div class=\"$cssclass\"";
+      $this->buffer.="<div class=\"$cssclass\"";
       if ( $cts->divid )
-        echo " id=\"".$cts->divid."\"";
-      echo ">\n";
+        $this->buffer.=" id=\"".$cts->divid."\"";
+      $this->buffer.=">\n";
 
       if ( $cts->toolbox )
       {
-        echo "<div class=\"toolbox\">\n";
-        echo $cts->toolbox->html_render()."\n";
-        echo "</div>\n";
+        $this->buffer.="<div class=\"toolbox\">\n";
+        $this->buffer.=$cts->toolbox->html_render()."\n";
+        $this->buffer.="</div>\n";
       }
 
       if ( $cts->title )
-        echo "<h1>".$cts->title."</h1>\n";
+        $this->buffer.="<h1>".$cts->title."</h1>\n";
 
-      echo $cts->html_render();
-      echo "</div>\n";
+      $this->buffer.=$cts->html_render();
+      $this->buffer.="</div>\n";
     }
 
-    echo "</div>\n";
-    echo "<!-- end of page -->\n\n";
+    $this->buffer.="</div>\n";
+    $this->buffer.="<!-- end of page -->\n\n";
 
-    echo "<p class=\"footer\">\n";
+    if($this->config['footer'])
+    {
+      require_once($topdir."include/cts/cached.inc.php");
+      $path = CMS_ID_ASSO;
+      if(defined('CMS_ALTERNATE'))
+        $path.="_".CMS_ALTERNATE;
+      $cache = new cachedcontents("aecmsfooter_".$path);
+      if ( !$cache->is_cached() )
+        $cache->set_contents(new content('',doku2xhtml($this->config['footer'])));
+      $cache=$cache->get_cache();
+      $this->buffer.=$cache->buffer."\n";
+    }
+
+    $this->buffer.="<p class=\"footer\">\n";
 
     if ( !is_null($this->asso->id_parent) )
     {
-      echo "<a href=\"/\">association des etudiants de l'utbm</a>";
-      echo " - <a href=\"index.php?name=:legals\">informations légales</a>";
-      echo " - <a href=\"contact.php\">contact</a>";
+      $this->buffer.="<a href=\"/\">association des etudiants de l'utbm</a>";
+      $this->buffer.=" - <a href=\"index.php?name=:legals\">informations légales</a>";
+      $this->buffer.=" - <a href=\"contact.php\">contact</a>";
     }
     else
     {
-      echo "<a href=\"index.php?name=legals\">informations légales</a>";
-      echo " - <a href=\"contact.php\">contact</a>";
+      $this->buffer.="<a href=\"index.php?name=legals\">informations légales</a>";
+      $this->buffer.=" - <a href=\"contact.php\">contact</a>";
     }
 
-    echo "</p>\n";
+    $this->buffer.="</p>\n";
 
-    echo "</div>\n"; // /contents
-    echo "<div id=\"endsite\"></div></div>\n";
-    echo "</body>\n";
-    echo "</html>\n";
-
+    $this->buffer.="</div>\n"; // /contents
+    $this->buffer.="<div id=\"endsite\"></div></div>\n";
+    $this->buffer.="</body>\n";
+    $this->buffer.="</html>\n";
+    echo $this->buffer;
   }
 
 
