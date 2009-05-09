@@ -50,14 +50,13 @@ class blogentrycts extends contents
     $this->auteur  = $auteur;
     $this->intro   = $intro;
     $this->content = $content;
-    $this->cssclass='blog';
   }
 
   function html_render()
   {
     setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
     $this->buffer = '<div class="blog">'."\n";
-    $this->buffer = '<h1>'.$this->titre.'</h1>'."\n";
+    $this->buffer.= '<h1>'.$this->titre.'</h1>'."\n";
     $this->buffer.= '<div class="blogentrypubdate">Le '.
                     strftime("%A %d %B %Y à %Hh%M", datetime_to_timestamp($this->date)).
                     '</div>'."\n";
