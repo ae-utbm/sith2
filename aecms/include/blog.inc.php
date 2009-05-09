@@ -702,10 +702,9 @@ class blog extends basedb
    * @param $user un objet de type utilisateur (defaut null)
    * @return contents
    */
-  public function cts_comments($id, $user=null)
+  public function cts_comments($id, &$user=null)
   {
     $admin = $this->is_writer($user);
-    print_r($admin);
     /**
      * on supprime les commenataires
      */
@@ -796,6 +795,7 @@ class blog extends basedb
     {
       if($admin)
         $del=' (<a href="blog.php?id_entry='.$id.'&id_comment='.$id_com.'">Supprimer</a>)';
+print_r($del);
       $cts->add(new contents("Par ".$nom. " le ".
                              strftime("%A %d %B %Y à %Hh%M",
                                       datetime_to_timestamp("2009-05-08 23:42:46").
