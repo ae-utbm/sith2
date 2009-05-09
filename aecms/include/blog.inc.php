@@ -676,7 +676,7 @@ class blog extends basedb
         $utl->load_by_id($_REQUEST['id_utilisateur']);
         if($utl->is_valid())
           $this->comment($id,
-                         $user->get_display_name(),
+                         $utl->get_display_name(),
                          $_REQUEST['comment']);
       }
     }
