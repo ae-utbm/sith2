@@ -639,7 +639,7 @@ class blog extends basedb
                      'date'=>date("Y-m-d H:i:s",time()),
                      'nom'=>htmlspecialchars($nom),
                      'comment'=>$comment),1);
-    print_r($this->dbrw);
+    print_r($req);
   }
 
   /**
