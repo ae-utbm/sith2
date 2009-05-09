@@ -760,8 +760,8 @@ class blog extends basedb
       $second = (rand()%20);
       $math=true;
     }
-    $cts = new contents("Commentaires");
-    $cts->cssclass='article blogcomments';
+    $cts = new contents(false,'<div class="article blogcomments">'."\n");
+    $cts->puts('<h1>Commentaires</h1>'."\n");
     $frm = new form('comment',
                     'blog.php',
                     false,
@@ -812,6 +812,7 @@ class blog extends basedb
                              "<div class='blogcomment$i'>".$comment."</div>"),true);
       $i=($i+1)%2;
     }
+    $cts->puts('</div>'."\n");
     return $cts;
   }
 

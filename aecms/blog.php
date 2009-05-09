@@ -198,7 +198,7 @@ if ( $blog->is_writer($site->user) )
           $entry = $blog->get_cts_entry($_REQUEST['id_entry'],$site->user);
           $entry->set_toolbox(new toolbox($toolbox));
           $cts->add($entry);
-          $cts->add($blog->cts_comments($_REQUEST['id_entry'],$site->user),true);
+          $cts->add($blog->cts_comments($_REQUEST['id_entry'],$site->user));
           $site->add_contents($cts);
           $site->end_page();
           exit();
@@ -313,7 +313,7 @@ if(isset($_REQUEST['id_entry']))
     $entry->set_toolbox(new toolbox($toolbox));
   }
   $cts->add($entry);
-  $cts->add($blog->cts_comments($_REQUEST['id_entry'],$site->user),true);
+  $cts->add($blog->cts_comments($_REQUEST['id_entry'],$site->user));
   $site->add_contents($cts);
   $site->end_page();
   exit();
