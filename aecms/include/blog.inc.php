@@ -280,9 +280,10 @@ class blog extends basedb
   /**
    * Retourne les catégories sous forme d'itemlist
    * @param $page Page qui va être la cible des actions
+   * @param $current_id catégorie courante (defaut : null)
    * @return contents
    */
-  public function get_cats_cts_list($page)
+  public function get_cats_cts_list($page,$current_id=null)
   {
     if ( !$this->is_valid() )
       return false;
@@ -297,7 +298,10 @@ class blog extends basedb
     $i=0;
     foreach($this->cats as $id => $cat)
     {
-      $list->add('<a href="'.$page.$id.'">'.$cat.'</a>','blogcatlist'.$i);
+      $selected='';
+      if($id==$curent_id)
+        $selected=' blogcatselected';
+      $list->add('<a href="'.$page.$id.'">'.$cat.'</a>','blogcatlist'.$i.$selected);
       $i=($i+1)%2;
     }
     return $list;
