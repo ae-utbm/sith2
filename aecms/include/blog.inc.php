@@ -639,6 +639,7 @@ class blog extends basedb
                        ",`titre` ".
                        ",`intro` ".
                        ",`contenu` ".
+                       ",`id_entry` ".
                        "FROM `aecms_blog_entries` ".
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `id_entry`='".intval($id)."' ".
@@ -649,7 +650,8 @@ class blog extends basedb
     $cache = new cachedcontents("aecmsblog_".$this->id."_".intval($id));
     if ( $cache->is_cached() )
       return $cache->get_cache();
-    list($id,$utl,$date,$titre,$intro,$content)=$req->get_row();
+    list($id,$utl,$date,$titre,$intro,$content,$id_entry)=$req->get_row();
+    $_REQUEST['id_cat']=$id_entry;
     $user = new utilisateur($this->db);
     if( !$user->load_by_id($utl) )
       $auteur = 'Annonyme';

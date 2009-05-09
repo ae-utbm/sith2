@@ -296,11 +296,11 @@ if ( $blog->is_writer($site->user) )
     }
   }
 }
-if($cats=$blog->get_cats_cts_list('blog.php',$_REQUEST['id_cat']))
-  $cts->add($cats);
 if(isset($_REQUEST['id_entry']))
 {
   $entry = $blog->get_cts_entry($_REQUEST['id_entry'],$site->user);
+  if($cats=$blog->get_cats_cts_list('blog.php',$_REQUEST['id_cat']))
+    $cts->add($cats);
   if($blog->is_writer($site->user))
   {
     $toolbox = array("blog.php?view=bloguer&id_entry=".$_REQUEST['id_entry']."&page=edit"=>"Editer",
@@ -317,6 +317,8 @@ if(isset($_REQUEST['id_entry']))
 
 if(isset($_REQUEST['id_cat']) && $blog->is_cat($_REQUEST['id_cat']))
 {
+  if($cats=$blog->get_cats_cts_list('blog.php',$_REQUEST['id_cat']))
+    $cts->add($cats);
   $page=0;
   if(isset($_REQUEST['id_page']))
     $page=intval($_REQUEST['id_page']);
@@ -325,6 +327,9 @@ if(isset($_REQUEST['id_cat']) && $blog->is_cat($_REQUEST['id_cat']))
   $site->end_page();
   exit();
 }
+
+if($cats=$blog->get_cats_cts_list('blog.php'))
+  $cts->add($cats);
 $page=0;
 if(isset($_REQUEST['id_page']))
   $page=intval($_REQUEST['id_page']);
