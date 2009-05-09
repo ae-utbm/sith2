@@ -55,7 +55,8 @@ class blogentrycts extends contents
   function html_render()
   {
     setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
-    $this->buffer = '<div class="blogentrypubdate">Le '.
+    $this->buffer = '<div class="blogentry">'."\n";
+    $this->buffer.= '<div class="blogentrypubdate">Le '.
                     strftime("%A %d %B %Y à %Hh%M", datetime_to_timestamp($this->date)).
                     '</div>'."\n";
     $this->buffer.= '<div class="blogentryauthor">Par '.
@@ -66,7 +67,7 @@ class blogentrycts extends contents
       $this->buffer.= '<div class="blogentryreadmore"><a href="?id_entry='.$this->id.'">Lire la suite</a></div>'."\n";
     else
       $this->buffer.= '<div class="blogentrycontent">'.doku2xhtml($this->content).'</div>'."\n";
-    return $this->buffer;
+    return $this->buffer."</div>\n";
   }
 }
 
@@ -658,7 +659,6 @@ class blog extends basedb
     else
       $auteur = $user->get_display_name();
     $cts = new blogentrycts($id_entry,$auteur,$date,$titre,$intro,$content);
-    $cts->cssclass='article blogcts';
     $cache->set_contents($cts);
     return $cache->get_cache();
   }
