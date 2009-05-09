@@ -632,14 +632,14 @@ class blog extends basedb
       return;
     $comment = preg_replace('#\\\\\\\\(\s)#',"<br />\\1",$comment);
     $comment = htmlspecialchars($comment);
-print_r($nom.$comment);
-    new insert($this->dbrw,
+    $req = new insert($this->dbrw,
                `aecms_blog_entries_comments`,
                array('id_blog'=>$this->id,
                      'id_entry'=>intval($id),
                      'date'=>date("Y-m-d H:i:s",time()),
                      'nom'=>htmlspecialchars($nom),
-                     'comment'=>$comment));
+                     'comment'=>$comment),1);
+    print_r($req->get_id());
   }
 
   /**
