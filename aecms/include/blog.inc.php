@@ -658,6 +658,7 @@ class blog extends basedb
     else
       $auteur = $user->get_display_name();
     $cts = new blogentrycts($id_entry,$auteur,$date,$titre,$intro,$content);
+    $cts->cssclass='article blogcts';
     $cache->set_contents($cts);
     return $cache->get_cache();
   }
