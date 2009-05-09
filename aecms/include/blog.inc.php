@@ -905,10 +905,10 @@ class blog extends basedb
     $end = $begin+10;
     if($begin>0)
       $cts->puts("<div class='blogprevious blognavtop'><a href='?id_cat=".
-                 $id."&id_page=".($page-1)."'>Billets précédents</a>");
+                 $id."&id_page=".($page-1)."'>Billets précédents</a></div>");
     if($end<$total)
       $cts->puts("<div class='blognext blognavtop'><a href='?id_cat=".$id.
-                 "&id_page=".($page+1)."'>Billets suivants</a>");
+                 "&id_page=".($page+1)."'>Billets suivants</a></div>");
     $req = new requete($this->db,
                        "SELECT `id_entry` ".
                        ",`id_utilisateur` ".
@@ -937,10 +937,10 @@ class blog extends basedb
     }
     if($begin>0)
       $cts->add_paragraph("<div class='blogprevious blognavbottom'><a href='?id_cat=".
-                          $id."&id_page=".($page-1)."'>Billets précédents</a>");
+                          $id."&id_page=".($page-1)."'>Billets précédents</a></div>");
     if($end<$total)
       $cts->add_paragraph("<div class='blognext blognavbottom'><a href='?id_cat=".
-                          $id."&id_page=".($page+1)."'>Billets suivants</a>");
+                          $id."&id_page=".($page+1)."'>Billets suivants</a></div>");
     return $cts;
   }
 
@@ -973,10 +973,10 @@ class blog extends basedb
     $end = $begin+10;
     if($begin>0)
       $cts->puts("<div class='blogprevious blognavtop'><a href='?id_cat=".
-                 $id."&id_page=".($page-1)."'>Billets précédents</a>");
+                 $id."&id_page=".($page-1)."'>Billets précédents</a></div>");
     if($end<$total)
       $cts->puts("<div class='blognext blognavtop'><a href='?id_cat=".$id.
-                 "&id_page=".($page+1)."'>Billets suivants</a>");
+                 "&id_page=".($page+1)."'>Billets suivants</a></div>");
     $req = new requete($this->db,
                        "SELECT `id_entry` ".
                        ",`id_utilisateur` ".
@@ -1005,10 +1005,10 @@ class blog extends basedb
     }
     if($begin>0)
       $cts->puts("<div class='blogprevious blognavbottom'><a href='?id_cat=".
-                 $id."&id_page=".($page-1)."'>Billets précédents</a>");
+                 $id."&id_page=".($page-1)."'>Billets précédents</a></div>");
     if($end<$total)
       $cts->puts("<div class='blognext blognavbottom'><a href='?id_cat=".
-                 $id."&id_page=".($page+1)."'>Billets suivants</a>");
+                 $id."&id_page=".($page+1)."'>Billets suivants</a></div>");
     return $cts;
   }
 }
