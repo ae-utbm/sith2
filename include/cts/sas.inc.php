@@ -368,9 +368,29 @@ class sasphoto extends contents
         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
         "WHERE `sas_personnes_photos`.`id_photo`='".$photo->id."' " .
         "ORDER BY `nom_utilisateur`");
-
+    $droits=array();
     if(!$photo->modere || $photo->incomplet || !$photo->droits_acquis || $req->lines!=0)
-      $subcts->add_paragraph('Il est aussi de votre ressort de vous assurer de l\'accord des personnes reconnaissable conformément au droit à l\'image. Plus d\'informations <a href="http://www.cnil.fr/index.php?id=1790">ici</a>');
+      $array[]='1';
+    if(!$photo->modere || $photo->incomplet || !$photo->droits_acquis)
+      $array[]='2';
+    elseif($req->lines==0)
+      $array[]='3';
+    else
+      $array[]='4';
+    if(!$photo->modere)
+      $array[]='5';
+    if($photo->incomplet)
+      $array[]='6';
+    if(!$photo->droits_acquis)
+      $array[]='7';
+    $list = new itemlist("Modalités d'utilisation");
+    foreach($array as $i)
+      $list->add("<a href='".
+                 $topdir.
+                 "article.php?name=legals:sas#cas".
+                 $i.
+                 ">Cas n°".$i."</a>");
+    $subcts->add($list,true);
 
     $subcts->add_title(2,"Informations");
 
