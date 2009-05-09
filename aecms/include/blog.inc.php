@@ -628,6 +628,7 @@ class blog extends basedb
 
   private function comment($id,$nom,$comment)
   {
+print_r('bleh');
     if(empty($comment) || empty($nom))
       return;
     new insert($this->dbrw,
@@ -653,6 +654,13 @@ class blog extends basedb
     /**
      * On enregistre aussi les commentaires valides
      */
+    $math=false;
+    if(is_null($user) || !$user->is_valid())
+    {
+      $first  = (rand()%20);
+      $second = (rand()%20);
+      $math=true;
+    }
     if(isset($_REQUEST['action'])
        && $_REQUEST['action']=='comment'
        && $GLOBALS["svalid_call"]
@@ -670,13 +678,10 @@ class blog extends basedb
         if(($_REQUEST['__math_first']+$_REQUEST['__math_second'])==$_REQUEST['__math_result'])
           $this->comment($id,$name,$_REQUEST['comment']);
       }
-      else
+      elseif(!$math)
       {
-        $utl = new utilisateur($this->db);
-        $utl->load_by_id($_REQUEST['id_utilisateur']);
-        if($utl->is_valid())
           $this->comment($id,
-                         $utl->get_display_name(),
+                         $user->get_display_name(),
                          $_REQUEST['comment']);
       }
     }
