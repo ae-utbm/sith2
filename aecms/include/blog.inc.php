@@ -656,6 +656,13 @@ class blog extends basedb
     return $cache->get_cache();
   }
 
+  /**
+   * Poste un commentaire
+   * @param $id id du billet
+   * @param $nom nom du posteur
+   * @param $comment texte du commentaire
+   * @return boolean success
+   */
   private function comment($id,$nom,$comment)
   {
     if(empty($comment) || empty($nom))
@@ -673,6 +680,22 @@ class blog extends basedb
   }
 
   /**
+   * Supprime un commentaire
+   * @param id_entry id du billet
+   * @param id_comment id du commentaire
+   * @return boolean success
+   */
+  private function delete_comment($id_entry,$id_comment)
+  {
+    $req = new delete($this->dbrw,
+                 "aecms_blog_entries_comments",
+                 array('id_blog'=>$this->id,
+                       'id_entry'=>intval($id_entry),
+                       'id_comment'=>intval($id_comment)));
+    return $req->is_success();
+  }
+
+  /**
    * Retourne un content avec les commentaires d'un billet
    * et le formulaire de commentaire
    * @param $id identifiant du billet
@@ -681,6 +704,11 @@ class blog extends basedb
    */
   public function cts_comments($id, $user=null)
   {
+    /**
+     * on supprime les commenataires
+     */
+    if(isset($_REQUEST['id_comment']) && $this->is_writer($user))
+      $this->delete_comment($id,$_REQUEST['id_comment']);
     /**
      * On enregistre aussi les commentaires valides
      */
@@ -761,8 +789,11 @@ class blog extends basedb
                        'ORDER BY `date` ASC');
     setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
     $i=0;
-    while(list($id,$date,$nom,$comment)=$req->get_row())
+    $del='';
+    while(list($id_com,$date,$nom,$comment)=$req->get_row())
     {
+      if($this->is_writer($user))
+        $del=' (<a href="blog.php?id_entry='.$id.'&id_comment='.$id_com.'">Supprimer</a>)';
       $cts->add(new contents("Par ".$nom. " le ".
                              strftime("%A %d %B %Y à %Hh%M",
                                       datetime_to_timestamp("2009-05-08 23:42:46")),
