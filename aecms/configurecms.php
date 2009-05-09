@@ -358,7 +358,7 @@ elseif( $_REQUEST["action"] == "setfooter" && isset($site->config['footer']))
     $path.="_".CMS_ALTERNATE;
   $cache = new cachedcontents("aecmsfooter_".$path);
   $cache->expire();
-  $cache->set_contents(new content('',doku2xhtml($this->config['footer'])));
+  $cache->set_contents(new contents('',doku2xhtml($this->config['footer'])));
   $cache=$cache->get_cache();
 }
 elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["filename"]) )
