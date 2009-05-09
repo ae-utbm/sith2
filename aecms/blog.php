@@ -220,8 +220,10 @@ if ( $blog->is_writer($site->user) )
         $cats = $blog->get_cats();
         if(count($cats)>0)
         {
-          $cats=array_merge(array(null=>'Aucune'),$cats);
-          $frm->add_select_field('id_cat','Catégorie',$cats);
+          $_cats=array(''=>'Aucune');
+          foreach($cats as $id_cat=>$cat)
+            $_cats[$id_cat]=$cat;
+          $frm->add_select_field('id_cat','Catégorie',$_cats);
         }
         $frm->add_text_area("intro","Introduction",'',80,10,true);
         $frm->add_dokuwiki_toolbar("contenu");
@@ -253,8 +255,10 @@ if ( $blog->is_writer($site->user) )
         $cats = $blog->get_cats();
         if(count($cats)>0)
         {
-          $cats=array_merge(array(null=>'Aucune'),$cats);
-          $frm->add_select_field('id_cat','Catégorie',$cats,$billet['id_cat']);
+          $_cats=array(''=>'Aucune');
+          foreach($cats as $id_cat=>$cat)
+            $_cats[$id_cat]=$cat;
+          $frm->add_select_field('id_cat','Catégorie',$_cats,$billet['id_cat']);
         }
         $frm->add_dokuwiki_toolbar("intro");
         $frm->add_text_area("intro","Introduction",$billet['intro'],80,10,true);
