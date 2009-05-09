@@ -630,6 +630,8 @@ class blog extends basedb
   {
     if(empty($comment) || empty($nom))
       return;
+    $comment = preg_replace('#\\\\\\\\(\s)#',"<br />\\1",$comment);
+    $comment = htmlspecialchars($comment);
 print_r($nom.$comment);
     new insert($this->dbrw,
                `aecms_blog_entries_comments`,
@@ -637,9 +639,7 @@ print_r($nom.$comment);
                      'id_entry'=>intval($id),
                      'date'=>date("Y-m-d H:i:s",time()),
                      'nom'=>htmlspecialchars($nom),
-                     'comment'=>htmlspecialchars(preg_replace('#\\\\\\\\(\s)#',
-                                                              "<br />\\1",
-                                                              $comment))),1);
+                     'comment'=>$comment));
   }
 
   /**
