@@ -303,6 +303,7 @@ if ( $blog->is_writer($site->user) )
 if(isset($_REQUEST['id_entry']))
 {
   $entry = $blog->get_cts_entry($_REQUEST['id_entry'],$site->user);
+print_r($_REQUEST['id_cat']);
   if($cats=$blog->get_cats_cts_list('blog.php',$_REQUEST['id_cat']))
     $cts->add($cats);
   if($blog->is_writer($site->user))
