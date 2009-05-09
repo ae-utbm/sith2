@@ -628,7 +628,6 @@ class blog extends basedb
 
   private function comment($id,$nom,$comment)
   {
-print_r($bleh);
     if(empty($comment) || empty($nom))
       return;
     new insert($this->dbrw,
@@ -673,8 +672,9 @@ print_r($bleh);
       }
       else
       {
-        $user = new utilisateur($this->db);
-        if($user->load_by_id($_REQUEST['id_utilisateur']))
+        $utl = new utilisateur($this->db);
+        $utl->load_by_id($_REQUEST['id_utilisateur']);
+        if($utl->is_valid())
           $this->comment($id,
                          $user->get_display_name(),
                          $_REQUEST['comment']);
