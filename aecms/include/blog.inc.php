@@ -252,32 +252,27 @@ class blog extends basedb
   /**
    * Retourne les catégories sous forme de sqltable
    * @param $page Page qui va être la cible des actions
-   * @param $actions actions sur chaque objet (envoyé à %page%?action=%action%&%id_utilisateur%=[id])
-   * @param $batch_actions actions possibles sur plusieurs objets (envoyé à page, les id sont le tableau %id_utilisateur%s)
    * @return contents
    */
-  public function get_cats_cts($page,$actions=array(),$batch_actions=array())
+  public function get_cats_cts($page)
   {
     if ( !$this->is_valid() )
       return new contents("Catégories");
     $this->load_cats();
     if( empty($this->cats) )
       return new contents("Catégories");
-    global $topdir;
-    require_once($topdir. "include/cts/sqltable.inc.php");
-    $cats = array();
+    $list = new itemlist('Catégories','blogcatlist');
+    if ( strstr($page,"?"))
+      $page.='&id_cat=';
+    else
+      $page.='?id_cat=';
+    $i=0;
     foreach($this->cats as $id => $cat)
-      $cats[]=array('id_cat'=>$id,'cat'=>$cat);
-    $tbl = new sqltable(
-         'listcatsblog',
-          'Catégories',
-          $cats,
-          $page,
-          'id_cat',
-          array("cat"=>"Catégorie"),
-          $actions,
-          $batch_actions);
-    return $tbl;
+    {
+      $list->add('<a href="'.$page.$id.'>'.$cat.'</a>','blogcatlist'.$i);
+      $i=($i+1)%2;
+    }
+    return $list;
   }
 
   /**
