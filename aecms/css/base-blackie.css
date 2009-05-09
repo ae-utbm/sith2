@@ -265,16 +265,24 @@ div.page#l
 /**
  * Gestion css blog
  */
-div.blogcts, div.blogcomments
+div.blogcts
 {
-  background-color:#fefaf5;
+  padding-bottom:30px;
+}
+div.blog
+{
+  font-size:14px;
+}
+div.blog a
+{
+  font-size:14px;
 }
 ul.blogcatlist
 {
-  margin: 0px auto;
-  padding: 0 30;
+  margin: 0px;
+  padding: 0 5;
   height:35px;
-  width:90%;
+  width:100%;
   background-color:#000000;
 }
 ul.blogcatlist li
@@ -306,97 +314,14 @@ li.blogcatlist0
 li.blogcatlist1
 {
 }
-div.blog
-{
-  display: block;
-  width:90%;
-  margin:auto;
-  padding: 10px 30px;
-  background-color: #F7F1E8;
-  margin-bottom: 10px;
-  position: relative;
-  font-size:14px;
-}
-div.blogcts div.toolbox
-{
-  z-index: 60;
-  margin-right:20px;
-}
-div.blogcts div.toolbox a
-{
-  color:#000000;
-}
-div.blogcomments
-{
-  display: block;
-  width:90%;
-  margin:auto;
-  padding: 10px 30px;
-}
-div.blog h1 {
-  margin-top:10px;
-  padding-top:0px;
-  margin:5px 0 5px 0;
-  font-size: 24px;
-  line-height: 24px;
-  margin-bottom: 18px;
-  color: #59421f;
-  letter-spacing: -0.05em;
-}
-div.blogentryintro h1
-{
-  color: #59421f;
-  font-size: 18px;
-  line-height: 20px;
-  margin-bottom: 18px;
-  border:0;
-}
-div.blog h2, div.blog h2
-{
-  color: #59421f;
-  font-size: 16px;
-  line-height: 18px;
-  margin-bottom: 18px;
-  border:0;
-}
-div.blog h3
-{
-  color: #59421f;
-  font-size: 15px;
-  line-height: 18px;
-  margin-bottom: 1em;
-  font-weight: bold;
-  border:0;
-}
-div.blog h4,div.blog h5,div.blog h6
-{
-  font-size: 11px;
-  line-height: 1.25;
-  margin-bottom: 1.25em;
-  height: 1.25em;
-  color: #59421f;
-  border:0;
-}
-div.blog a
-{
-  font-size:14px;
-}
-div.blogentrypubdate, div.blogentryauthor
-{
-  position:absolute;
-  top:50px;
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-}
 div.blogentrypubdate
 {
-
+  float:left;
 }
 div.blogentryauthor
 {
+  float:right;
 
-  right:30px;
 }
 div.blogentryintro
 {
@@ -407,49 +332,48 @@ div.blogentrycontent
 {
   margin-top:10px;
 }
-
 div.blogentryreadmore
 {
-  margin-top:20px;
+  display:block;
+  width:150px;
+  margin:auto;
+  margin-top:30px;
+  font-size:14px;
+  font-weight:bold;
 }
-div.blogentryreadmore a
+div.blognavbottom
 {
-  background: #32312f;
-  padding: 5px 10px 5px 10px;
-  color: #ffffff;
+  margin:0 20 0 0;
+}
+div.blognavtop
+{
+  margin:0 20 0 0;
+}
+div.blognavtop a, div.blognavbottom a
+{
+  color: #bfa57f;
+  display: block;
+  float: left;
   text-decoration: none;
-  border: 1px solid #32312f;
-  text-transform: uppercase;
-  font-size: 9px;
+  text-transform: lowercase;
+  font-size:17px;
   line-height: 25px;
-}
-div.blogentryreadmore a:hover {
-  background: #CFAB76;
-  border-color: #A88B60;
-  text-decoration: none;
-  color:#32312f;
-}
-
-div.blogprevious
-{
-  float:left;
+  letter-spacing: 0;
+  font-weight: bold;
+  height: 29px;
+  padding: 3px 0px 0px 40px;
 }
 div.blognext
 {
   float:right;
 }
-div.blognavbottom
+div.blogprevious
 {
-  margin-top:30px;
-}
-div.blognavtop
-{
-  margin-top:40px;
+  float:left;
 }
 div.blogcomments
 {
-  display: block;
-  width: 524px;
+  border:1px dotted;
 }
 div.blogcomment0
 {
