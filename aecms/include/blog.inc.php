@@ -705,6 +705,7 @@ class blog extends basedb
   public function cts_comments($id, $user=null)
   {
     $admin = $this->is_writer($user);
+    print_r($admin);
     /**
      * on supprime les commenataires
      */
