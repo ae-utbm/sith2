@@ -348,7 +348,7 @@ elseif( $_REQUEST["action"] == "setcss" )
   $site->save_conf();
   file_put_contents($basedir."/specific/custom.css",$_REQUEST["data"]);
 }
-elseif( $_REQUEST["action"] == "setfooter" && $site->config['footer'])
+elseif( $_REQUEST["action"] == "setfooter" && isset($site->config['footer']))
 {
   $site->config['footer'] = trim($_REQUEST['footer']);
   $site->save_conf();
@@ -438,7 +438,7 @@ $tabs = array(
         array("css","configurecms.php?view=css","Style"),
         array("news","configurecms.php?view=news","Nouvelles")
         );
-if($site->config['footer'])
+if(isset($site->config['footer']))
   $tabs[]=array("footer","configurecms.php?view=footer","Footer");
 
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
@@ -643,7 +643,7 @@ else if ( $_REQUEST["view"] == "css" )
   $frm->add_submit("add","Ajouter");
   $cts->add($frm);
 }
-else if ( $_REQUEST["view"] == "footer" && $site->config['footer'])
+else if ( $_REQUEST["view"] == "footer" && isset($site->config['footer']))
 {
   $cts->add_title(2,"Footer");
   $frm = new form("setfooter","configurecms.php?view=footer",true,"POST","CSS");
