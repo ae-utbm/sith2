@@ -638,7 +638,7 @@ class blog extends basedb
                             'id_entry'=>intval($id),
                             'date'=>date("Y-m-d H:i:s",time()),
                             'nom'=>htmlspecialchars($nom),
-                            'comment'=>$comment),1);
+                            'comment'=>$comment));
     return $req->is_success();
   }
 
@@ -732,10 +732,10 @@ class blog extends basedb
     setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
     while(list($id,$date,$nom,$comment)=$req->get_row())
     {
-      $cts->add(new content("Par ".$nom. " le ".
-                            strftime("%A %d %B %Y à %Hh%M",
-                                     datetime_to_timestamp("2009-05-08 23:42:46")),
-                            "<div class='blogcomment'>".$comment."</div>"));
+      $cts->add(new contents("Par ".$nom. " le ".
+                             strftime("%A %d %B %Y à %Hh%M",
+                                      datetime_to_timestamp("2009-05-08 23:42:46")),
+                             "<div class='blogcomment'>".$comment."</div>"));
     }
     $cts->puts("</div>");
     return $cts;
