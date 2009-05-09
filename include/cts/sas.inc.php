@@ -394,7 +394,7 @@ class sasphoto extends contents
 
     $subcts->add_title(2,"Informations");
     if(!$photo->modere || $photo->incomplet || !$photo->droits_acquis)
-      $subcts->add_paragraph('<b>Cette photo n\'est pas en accès libre, voir les modalités de réutilisations.</b>');
+      $subcts->add_paragraph('<b>Cette photo n\'est pas en accès libre, voir les modalités de réutilisations pour plus d\'information.</b>');
     if ( !is_null($photo->date_prise_vue) && $photo->date_prise_vue > 3600 )
       $subcts->add_paragraph(date("d/m/Y H:i:s",$photo->date_prise_vue));
 
