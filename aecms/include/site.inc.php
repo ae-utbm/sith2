@@ -497,6 +497,7 @@ class aecms extends site
 
     if($this->config['footer'])
     {
+      global $topdir;
       require_once($topdir."include/cts/cached.inc.php");
       $path = CMS_ID_ASSO;
       if(defined('CMS_ALTERNATE'))
