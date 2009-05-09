@@ -504,7 +504,7 @@ class aecms extends site
         $path.="_".CMS_ALTERNATE;
       $cache = new cachedcontents("aecmsfooter_".$path);
       if ( !$cache->is_cached() )
-        $cache->set_contents(new content('',doku2xhtml($this->config['footer'])));
+        $cache->set_contents(new contents('',doku2xhtml($this->config['footer'])));
       $cache=$cache->get_cache();
       $this->buffer.=$cache->buffer."\n";
     }
