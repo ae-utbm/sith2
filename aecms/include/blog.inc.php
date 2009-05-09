@@ -667,8 +667,9 @@ class blog extends basedb
   {
     if(empty($comment) || empty($nom))
       return;
-    $comment = preg_replace('#\\\\\\\\(\s)#',"<br />\\1",$comment);
+//    $comment = preg_replace('#\\\\\\\\(\s)#',"<br />\\1",$comment);
     $comment = htmlspecialchars($comment);
+    $comment = str_replace("\n","<br />",$comment);
     $req = new insert($this->dbrw,
                       'aecms_blog_entries_comments',
                       array('id_blog'=>$this->id,
