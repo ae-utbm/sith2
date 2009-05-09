@@ -629,6 +629,7 @@ class blog extends basedb
    */
   public function get_cts_entry($id,&$user)
   {
+    global $_REQUEST;
     $lim = "AND `pub`='y' AND `date` < NOW()";
     if( $this->is_writer($user) )
       $lim = '';
