@@ -693,7 +693,7 @@ class blog extends basedb
                     'POST',
                     'Ajouter un commentaire');
     $frm->allow_only_one_usage();
-    $frm->add_hidden('id_entry',$billet['id_entry']);
+    $frm->add_hidden('id_entry',$id);
     $frm->add_hidden('action','comment');
     if($math)
     {
