@@ -308,7 +308,6 @@ if(isset($_REQUEST['id_entry']))
     $entry->set_toolbox(new toolbox($toolbox));
   }
   $cts->add($entry);
-  $cts->add($blog->get_cts_entry($_REQUEST['id_entry'],$site->user));
   $cts->add($blog->cts_comments($_REQUEST['id_entry'],$site->user),true);
   $site->add_contents($cts);
   $site->end_page();
