@@ -383,7 +383,7 @@ class sasphoto extends contents
       $array[]='6';
     if(!$photo->droits_acquis)
       $array[]='7';
-    $list = new itemlist("Modalités d'utilisations");
+    $list = new itemlist("Modalités de réutilisations");
     foreach($array as $i)
       $list->add("<a href='".
                  $topdir.
@@ -394,7 +394,7 @@ class sasphoto extends contents
 
     $subcts->add_title(2,"Informations");
     if(!$photo->modere || $photo->incomplet || !$photo->droits_acquis)
-      $subcts->add_paragraph('<b>Cette photo n\'est pas en accès libre, voir les modalités d\'utilisations.</b>');
+      $subcts->add_paragraph('<b>Cette photo n\'est pas en accès libre, voir les modalités de réutilisations.</b>');
     if ( !is_null($photo->date_prise_vue) && $photo->date_prise_vue > 3600 )
       $subcts->add_paragraph(date("d/m/Y H:i:s",$photo->date_prise_vue));
 
