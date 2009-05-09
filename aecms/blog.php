@@ -41,7 +41,7 @@ if(!$blog->is_valid())
 
 $site->start_page ( CMS_PREFIX."blog", "Blog" );
 $cts = new contents();
-$cts->cssclass='blog';
+$cts->cssclass='page blog';
 if ( $blog->is_writer($site->user) )
 {
   $tabs = array(
