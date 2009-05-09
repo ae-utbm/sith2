@@ -628,7 +628,7 @@ class blog extends basedb
 
   private function comment($id,$nom,$comment)
   {
-print_r('bleh');
+print_r($nom.$comment);
     if(empty($comment) || empty($nom))
       return;
     new insert($this->dbrw,
