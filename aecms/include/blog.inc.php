@@ -252,9 +252,37 @@ class blog extends basedb
   /**
    * Retourne les catégories sous forme de sqltable
    * @param $page Page qui va être la cible des actions
+   * @param $actions actions sur chaque objet (envoyé à %page%?action=%action%&%id_utilisateur%=[id])
+   * @param $batch_actions actions possibles sur plusieurs objets (envoyé à page, les id sont le tableau %id_utilisateur%s)
    * @return contents
    */
-  public function get_cats_cts($page)
+  public function get_cats_cts($page,$actions=array(),$batch_actions=array())
+  {
+    if ( !$this->is_valid() )
+      return new contents("Catégories");
+    $this->load_cats();
+    if( empty($this->cats) )
+      return new contents("Catégories");
+    foreach($this->cats as $id => $cat)
+      $cats[]=array('id_cat'=>$id,'cat'=>$cat);
+    $tbl = new sqltable(
+         'listcatsblog',
+          'Catégories',
+          $cats,
+          $page,
+          'id_cat',
+          array("cat"=>"Catégorie"),
+          $actions,
+          $batch_actions);
+    return $tbl;
+  }
+
+  /**
+   * Retourne les catégories sous forme d'itemlist
+   * @param $page Page qui va être la cible des actions
+   * @return contents
+   */
+  public function get_cats_cts_list($page)
   {
     if ( !$this->is_valid() )
       return false;

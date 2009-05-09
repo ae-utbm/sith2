@@ -292,7 +292,7 @@ if ( $blog->is_writer($site->user) )
     }
   }
 }
-if($cats=$blog->get_cats_cts('blog.php'))
+if($cats=$blog->get_cats_cts_list('blog.php'))
   $cts->add($cats,true);
 if(isset($_REQUEST['id_entry']))
 {
