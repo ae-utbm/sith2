@@ -45,17 +45,19 @@ class blogentrycts extends contents
   function blogentrycts($id,$auteur,$date,$titre,$intro,$content=false)
   {
     $this->id      = $id;
-    $this->title   = $titre;
+    $this->titre   = $titre;
     $this->date    = $date;
     $this->auteur  = $auteur;
     $this->intro   = $intro;
     $this->content = $content;
+    $this->cssclass='blog';
   }
 
   function html_render()
   {
     setlocale(LC_TIME, "fr_FR", "fr_FR@euro", "fr", "FR", "fra_fra", "fra");
-    $this->buffer = '<div class="blogentry">'."\n";
+    $this->buffer = '<div class="blog">'."\n";
+    $this->buffer = '<h1>'.$this->titre.'</h1>'."\n";
     $this->buffer.= '<div class="blogentrypubdate">Le '.
                     strftime("%A %d %B %Y à %Hh%M", datetime_to_timestamp($this->date)).
                     '</div>'."\n";
@@ -882,7 +884,7 @@ class blog extends basedb
     $this->load_cats();
     if (!isset($this->cats[$id]) )
       return $this->get_cts();
-    $cts = new contents("Catégorie ".$this->cats[$id],'<div class="blog">');
+    $cts = new contents("Catégorie ".$this->cats[$id]);
     $req = new requete($this->db,
                        "SELECT COUNT(*) ".
                        "FROM `aecms_blog_entries` ".
@@ -893,7 +895,6 @@ class blog extends basedb
     if($total==0)
     {
       $cts->add_paragraph("Il n'y a aucun billet dans cette catégorie.","blogempty");
-      $cts->puts('</div>');
       return $cts;
     }
     if( $begin>=$total )
@@ -940,7 +941,6 @@ class blog extends basedb
     if($end<$total)
       $cts->add_paragraph("<div class='blognext blognavbottom'><a href='?id_cat=".
                           $id."&id_page=".($page+1)."'>Billets suivants</a>");
-    $cts->puts('</div>');
     return $cts;
   }
 
@@ -953,7 +953,7 @@ class blog extends basedb
   {
     $begin = 10*intval($page);
     $end   = 10+10*intval($page);
-    $cts = new contents(false,'<div class="blog">');
+    $cts = new contents();
     $req = new requete($this->db,
                        "SELECT COUNT(*) ".
                        "FROM `aecms_blog_entries` ".
@@ -963,7 +963,6 @@ class blog extends basedb
     if($total==0)
     {
       $cts->add_paragraph("Il n'y a pas encore billet.",'blogempty');
-      $cts->puts('</div>');
       return $cts;
     }
     if( $begin>=$total )
@@ -1010,7 +1009,6 @@ class blog extends basedb
     if($end<$total)
       $cts->puts("<div class='blognext blognavbottom'><a href='?id_cat=".
                  $id."&id_page=".($page+1)."'>Billets suivants</a>");
-    $cts->puts('</div>');
     return $cts;
   }
 }
