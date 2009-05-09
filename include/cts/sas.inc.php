@@ -384,12 +384,12 @@ class sasphoto extends contents
     if(!$photo->droits_acquis)
       $array[]='7';
     $list = new itemlist("Modalités de réutilisations");
-    foreach($array as $i)
+    foreach($array as $i=>$id)
       $list->add("<a href='".
                  $topdir.
                  "article.php?name=legals:sas#cas".
-                 $i.
-                 "'>Cas n°".$i."</a>");
+                 $id.
+                 "'>Restriction n°".($i+1)."</a>");
     $subcts->add($list,true);
 
     $subcts->add_title(2,"Informations");
