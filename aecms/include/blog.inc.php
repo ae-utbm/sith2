@@ -257,10 +257,10 @@ class blog extends basedb
   public function get_cats_cts($page)
   {
     if ( !$this->is_valid() )
-      return new contents("Catégories");
+      return false;
     $this->load_cats();
     if( empty($this->cats) )
-      return new contents("Catégories");
+      return false;
     $list = new itemlist('Catégories','blogcatlist');
     if ( strstr($page,"?"))
       $page.='&id_cat=';

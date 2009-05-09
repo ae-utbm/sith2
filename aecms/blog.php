@@ -292,7 +292,8 @@ if ( $blog->is_writer($site->user) )
     }
   }
 }
-
+if($cats=$blog->get_cats_cts('blog.php'))
+  $cts->add($cats,true);
 if(isset($_REQUEST['id_entry']))
 {
   $cts->add($blog->get_cts_entry($_REQUEST['id_entry'],$site->user));
@@ -312,7 +313,6 @@ if(isset($_REQUEST['id_cat']) && $blog->is_cat($_REQUEST['id_cat']))
   $site->end_page();
   exit();
 }
-$cts->add($blog->get_cats_cts('blog.php'),true);
 $page=0;
 if(isset($_REQUEST['id_page']))
   $page=intval($_REQUEST['id_page']);
