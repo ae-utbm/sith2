@@ -326,8 +326,10 @@ elseif ( $_REQUEST["action"] == "edit" )
     $frm->add_rights_field($page,false,true,"pages");
     $frm->add_text_area("texte","Contenu",$page->texte,80,20,true);
     $frm->add_submit("save","Enregistrer");
-    $site->add_contents($frm);
-    $site->add_contents(new wikihelp());
+    $cts->add($frm,true);
+    $cts->add(new wikihelp());
+//    $site->add_contents($frm);
+//    $site->add_contents(new wikihelp());
 //    $site->end_page();
 //    exit();
   }
