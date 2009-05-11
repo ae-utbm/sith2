@@ -356,7 +356,7 @@ class aecms extends site
   {
     global $wwwtopdir, $basedir ;
 
-    header("Content-Type: text/html; charset=utf-8");
+    //header("Content-Type: text/html; charset=utf-8");
 
     $this->buffer ="<html>\n";
     $this->buffer.="<head>\n";
