@@ -328,7 +328,8 @@ elseif ( $_REQUEST["action"] == "edit" )
     $frm->add_submit("save","Enregistrer");
     $site->add_contents($frm);
     $site->add_contents(new wikihelp());
-    $site->end_page();
+//    $site->end_page();
+//    exit();
   }
 }
 elseif ( $_REQUEST["action"] == "save" )
