@@ -54,6 +54,11 @@ class box_slideshow extends stdcontents
     }
   }
 
+  function is_empty()
+  {
+    return empty($this->slides);
+  }
+
   function html_render ()
   {
     if($this->nb==0)

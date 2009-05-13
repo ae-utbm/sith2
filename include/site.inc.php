@@ -302,13 +302,16 @@ class site extends interfaceweb
 
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
+    $this->add_box("calendrier",new calendar($this->db));
     require_once($topdir . "include/cts/box_slide_show.inc.php");
     $slides = new box_slideshow('L\'info en boucle');
-    $slides->add_slide(new calendar($this->db,null,'calbox','slideshow'.$slides->uid.$slides->nb));
     $slides->add_slide($this->get_weekly_photo_contents());
     $slides->add_slide($this->get_planning_contents());
     $slides->add_slide($this->get_planning_permanences_contents());
-    $this->add_box("info_en_boucle",$slides);
+    if ($this->user->is_valid())
+      $slides->add_slide($this->get_forum_box());
+    if(!$slides->is_empty() && $section == "accueil" )
+      $this->add_box("info_en_boucle",$slides);
 
     if ( $section == "accueil" )
     {
@@ -320,22 +323,21 @@ class site extends interfaceweb
 
       if ($this->user->is_valid())
       {
-        $this->add_box("forum",$this->get_forum_box());
-
         $this->add_box("sondage",$this->get_sondage());
         $this->set_side_boxes("right",
-                              array("info_en_boucle",
-                                    "alerts",
+                              array("alerts",
+                                    "calendrier",
+                                    "info_en_boucle",
                                     "anniv",
                                     "stream",
-                                    "sondage",
-                                    "forum"
+                                    "sondage"
                               ),
                               "accueil_c_right");
       }
       else
         $this->set_side_boxes("right",
-                              array("info_en_boucle",
+                              array("calendrier",
+                                    "info_en_boucle",
                                     "stream"
                               ),
                               "accueil_nc_right");
