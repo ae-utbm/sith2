@@ -382,11 +382,11 @@ class blog extends basedb
       return false;
     if ( $this->is_admin($user) )
       return true;
-    $req = requete($this->db,
-                   "SELECT `id_utilisateur` ".
-                   "FROM `aecms_blog_writers` ".
-                   "WHERE `id_blog`='".$this->id."' ".
-                   "AND `id_utilisateur`='".$user->id."' ");
+    $req = new requete($this->db,
+                       "SELECT `id_utilisateur` ".
+                       "FROM `aecms_blog_writers` ".
+                       "WHERE `id_blog`='".$this->id."' ".
+                       "AND `id_utilisateur`='".$user->id."' ");
     if($req->lines==1)
       return true;
     return false;
