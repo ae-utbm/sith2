@@ -310,11 +310,11 @@ class site extends interfaceweb
     $slides->add_slide($this->get_planning_permanences_contents());
     if ($this->user->is_valid())
       $slides->add_slide($this->get_forum_box());
-    if(!$slides->is_empty() && $section == "accueil" )
-      $this->add_box("info_en_boucle",$slides);
 
     if ( $section == "accueil" )
     {
+      if(!$slides->is_empty())
+         $this->add_box("info_en_boucle",$slides);
       //Nb: alerts est *trés* long à calculer, il ne sera donc que dans accueil
       $this->add_box("alerts",$this->get_alerts());
 
