@@ -248,7 +248,7 @@ class venteproduit extends stdentity
   function debloquer ( $client, $qte=1 )
   {
     $res = $this->_delta_verrou($client, -$qte);
-
+print_r("Debloque : ".$res."\n");
     if ( $res != 0 )
       $this->_increment($res);
   }
