@@ -209,7 +209,7 @@ class venteproduit extends stdentity
         $req = new requete($this->dbrw,
              "DELETE FROM `boutiqueut_verrou` ".
              "WHERE `id_produit` = '".intval($this->produit->id)."' ".
-             "AND `id_utilisateur` = '".intval($id_client)."'",1);
+             "AND `id_utilisateur` = '".intval($id_client)."'");
 
         return abs($qte);
       }
@@ -219,7 +219,7 @@ class venteproduit extends stdentity
              "UPDATE `boutiqueut_verrou` SET " .
              "`quantite` = `quantite` + ($delta), `date_res` = NOW() ".
              "WHERE `id_produit` = '".intval($this->produit->id)."' ".
-             "AND `id_utilisateur` = '".intval($id_client)."'",1);
+             "AND `id_utilisateur` = '".intval($id_client)."'");
         return abs($delta);
       }
 
@@ -233,7 +233,7 @@ class venteproduit extends stdentity
                       "id_utilisateur" => $id_client,
                       "date_res" => date("Y-m-d H:i:s"),
                       "quantite"=>$delta
-                    ),1
+                    )
                     );
       return abs($delta);
     }
