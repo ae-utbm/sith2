@@ -199,12 +199,11 @@ class venteproduit extends stdentity
     $req = new requete($this->db,
            "SELECT `quantite` FROM `boutiqueut_verrou` ".
            "WHERE `id_produit` = '".intval($this->produit->id)."' ".
-           "AND `id_utilisateur` = '".intval($id_client)."' ",1);
+           "AND `id_utilisateur` = '".intval($id_client)."' ");
 
     if ( $req->lines==1 )
     {
       list($qte) = $req->get_row();
-
       if ( $qte+$delta <= 0 )
       {
         $req = new requete($this->dbrw,
@@ -248,7 +247,6 @@ class venteproduit extends stdentity
   function debloquer ( $client, $qte=1 )
   {
     $res = $this->_delta_verrou($client, -$qte);
-print_r("Debloque : ".$res."\n");
     if ( $res != 0 )
       $this->_increment($res);
   }

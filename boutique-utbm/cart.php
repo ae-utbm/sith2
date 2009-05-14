@@ -50,7 +50,6 @@ if (isset($_POST['cart_modify']))
     if(!$prod->is_valid())
       continue;
     $vp->charge($prod);
-    print_r($item_id.' : '.$qte.' ; '.$_SESSION['boutique_cart'][$item_id]."\n");
     if ($qte == 0)
     {
       $vp->debloquer ($site->user,$_SESSION['boutique_cart'][$item_id]);
