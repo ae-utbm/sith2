@@ -41,7 +41,7 @@ $site = new boutique ();
 if (isset($_POST['cart_modify']))
 {
   $vp = new venteproduit ($site->db, $site->dbrw);
-  $prod = new produit ($this->db);
+  $prod = new produit ($site->db);
   foreach ($_POST as $item_id => $qte)
   {
     if (!is_int($item_id))
