@@ -201,7 +201,7 @@ class venteproduit extends stdentity
            "WHERE `id_produit` = '".intval($this->produit->id)."' ".
            "AND `id_utilisateur` = '".intval($id_client)."' ");
 
-    if ( $req->lines )
+    if ( $req->lines==1 )
     {
       list($qte) = $req->get_row();
 

@@ -41,6 +41,9 @@ $site = new boutique ();
 if (isset($_POST['cart_modify']))
 {
   $vp = new venteproduit ($site->db, $site->dbrw);
+  print_r($_POST);
+  print_r($_SESSION['boutique_cart']);
+  /*
   foreach ($_POST as $item_id => $qte)
   {
     if (!is_int($item_id))
@@ -56,7 +59,7 @@ if (isset($_POST['cart_modify']))
       $_SESSION['boutique_cart'][$item_id] = $qte;
       $vp->bloquer ($site->user,$_SESSION['boutique_cart'][$item_id]);
     }
-  }
+  }*/
 }
 
 $site->start_page ("Panier", "Etat du panier");
