@@ -41,10 +41,15 @@ $site = new boutique ();
 if (isset($_POST['cart_modify']))
 {
   $vp = new venteproduit ($site->db, $site->dbrw);
+  $prod = new produit ($this->db);
   foreach ($_POST as $item_id => $qte)
   {
     if (!is_int($item_id))
       continue;
+    $prod->load_by_id ($item_id);
+    if(!$prod->is_valid())
+      continue;
+    $vp->charge($prod);
     print_r($item_id.' : '.$qte.' ; '.$_SESSION['boutique_cart'][$item_id]."\n");
     if ($qte == 0)
     {
