@@ -2508,9 +2508,13 @@ div.comment
   top: 0px;
   left: 0px;
   right: 0px;
-  width:auto;
+//  width:auto;
   padding: 5px;
   background: #ffd;
+  opacity: 0.5;
+  filter:alpha(opacity=50);
+  -moz-opacity:0.5;
+  -khtml-opacity: 0.5;
   border-bottom: 1px solid #777;
   font-size: 11px;
   display: block;
