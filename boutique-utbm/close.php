@@ -48,7 +48,7 @@ if($_REQUEST['action'] && $_REQUEST['action']=='set')
   $site->add_contents($cts);
 }
 
-$frm = new form('close','close.php',false,'post','Paramétrage');
+$frm = new form('closeboutique','close.php',false,'post','Paramétrage');
 $frm->add_hidden('action','set');
 $frm->add_dokuwiki_toolbar('texte',null,null,false,true);
 $frm->add_text_area('texte','Message d\'information');
