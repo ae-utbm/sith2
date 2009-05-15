@@ -680,8 +680,6 @@ class form extends stdcontents
         "<img src=\"".$wwwtopdir."/images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" title=\"".$infos[0]."\" />".
         "</a> \n";
     }
-    if(!$simple)
-    {
       $siteroot = $wwwtopdir;
       if( defined('CMS_ID_ASSO') )
         $siteroot="../".$wwwtopdir;
@@ -694,7 +692,6 @@ class form extends stdcontents
         "<a onclick=\"selectWikiFile('".$siteroot."','".$id."','$context');\" />".
         "<img src=\"".$wwwtopdir."/images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
         "</a> \n";
-    }
     $this->buffer .= " - <a href=\"".$wwwtopdir."article.php?name=docs:syntax\" target=\"_blank\">aide sur la syntaxe</a>";
 
     $this->buffer .= "</div>\n";
