@@ -37,14 +37,15 @@ if(!$site->user->is_in_group("root") && !$site->user->is_in_group("adminboutique
 
 $site->start_page("services","Administration");
 $cts = new contents("<a href=\"admin.php\">Administration</a> / Fermeture boutique");
+$site->add_contents($cts);
 
 if($_REQUEST['action'] && $_REQUEST['action']=='set')
 {
   $site->set_boutique_param('close',$_REQUEST['debut']);
   $site->set_boutique_param('open',$_REQUEST['end']);
   $site->set_boutique_param('close_message',doku2xhtml($_REQUEST['texte']));
-  $cts2 = new contents("Message enregistré",doku2xhtml($_REQUEST['texte']));
-  $cts->add($cts2,true);
+  $cts = new contents("Message enregistré",doku2xhtml($_REQUEST['texte']));
+  $site->add_contents($cts);
 }
 
 $frm = new form('close','close.php',false,'post','Paramétrage');
@@ -54,7 +55,6 @@ $frm->add_text_area('texte','Message d\'information');
 $frm->add_datetime_field('debut','Début de la période',time(),true);
 $frm->add_datetime_field('end','Fin de la période',time()+(3600*24*7),true);
 $frm->add_submit('valid','Enregistrer');
-$cts->add($frm,true);
-$site->add_contents($cts);
+$site->add_contents($frm);
 $site->end_page();
 ?>
