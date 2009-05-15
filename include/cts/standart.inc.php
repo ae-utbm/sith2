@@ -626,7 +626,7 @@ class form extends stdcontents
   /** Ajoute une barre de bouton de syntaxe DokuWiki
    * @param $area_name nom du textarea concerné (attribut 'name' et non pas 'id' !)
    */
-  function add_dokuwiki_toolbar($area_name,$id_asso=null,$folder=null,$forum=false)
+  function add_dokuwiki_toolbar($area_name,$id_asso=null,$folder=null,$forum=false,$simple=false)
   {
     global $wwwtopdir;
 
@@ -680,20 +680,21 @@ class form extends stdcontents
         "<img src=\"".$wwwtopdir."/images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" title=\"".$infos[0]."\" />".
         "</a> \n";
     }
+    if(!$simple)
+    {
+      $siteroot = $wwwtopdir;
+      if( defined('CMS_ID_ASSO') )
+        $siteroot="../".$wwwtopdir;
+      $this->buffer .=
+        "<a onclick=\"selectWikiImage('".$siteroot."','".$id."','$context');\" />".
+        "<img src=\"".$wwwtopdir."/images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
+        "</a> \n";
 
-    $siteroot = $wwwtopdir;
-    if( defined('CMS_ID_ASSO') )
-      $siteroot="../".$wwwtopdir;
-    $this->buffer .=
-      "<a onclick=\"selectWikiImage('".$siteroot."','".$id."','$context');\" />".
-      "<img src=\"".$wwwtopdir."/images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
-      "</a> \n";
-
-    $this->buffer .=
-      "<a onclick=\"selectWikiFile('".$siteroot."','".$id."','$context');\" />".
-      "<img src=\"".$wwwtopdir."/images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
-      "</a> \n";
-
+      $this->buffer .=
+        "<a onclick=\"selectWikiFile('".$siteroot."','".$id."','$context');\" />".
+        "<img src=\"".$wwwtopdir."/images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
+        "</a> \n";
+    }
     $this->buffer .= " - <a href=\"".$wwwtopdir."article.php?name=docs:syntax\" target=\"_blank\">aide sur la syntaxe</a>";
 
     $this->buffer .= "</div>\n";
