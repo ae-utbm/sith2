@@ -2504,7 +2504,7 @@ div.comment
 #topalert
 {
   position:absolute;
-  z-index: 1;
+  z-index: 10000000;
   top: 0px;
   left: 0px;
   right: 0px;
