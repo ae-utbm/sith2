@@ -2566,8 +2566,12 @@ div.slidebox_pause a
   color:#9F111B;
   font-weight:bold;
   font-size:11px;
+  font-family:Fixed, monospace;
 }
-
+div.slidebox_pause a.slidenav
+{
+  font-size:13px;
+}
 div.calbox td.month
 {
   color:#2F3238;
