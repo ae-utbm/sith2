@@ -36,7 +36,7 @@ $GLOBALS["entitiescatalog"]["typeproduit"]   = array ( "id_typeprod", "nom_typep
 $GLOBALS["entitiescatalog"]["produit"]       = array ( "id_produit", "nom_prod", "produit.png", "boutique-utbm/admin.php", "boutiqueut_produits" );
 
 $site = new boutique();
-if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminboutiqueutbm"))
+if(!$site->user->is_in_group("root") && !$site->user->is_in_group("adminboutiqueutbm"))
   $site->error_forbidden();
 
 $produit = new produit($site->db,$site->dbrw);

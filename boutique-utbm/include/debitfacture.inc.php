@@ -200,10 +200,13 @@ Vous vennez d'effectuer une commande sur la boutique utbm.
 Pour suivre l'avancement de votre commande, rendez vous à l'adresse suivante :
 http://boutique.utbm.fr/suivi.php?id_facture=".$this->id."
 
-A chacune des étapes de traitement de votre commande, vous serrez informé par email.
+À chacune des étapes de traitement de votre commande, vous serrez informé par email.
 
 Cordialement,
-La boutique utbm";
+La boutique utbm
+--
+http://boutique.utbm.fr
+Site accéssible uniquement depuis le réseau utbm";
 
     $ret = mail($client->email,
                 "[boutique utbm] confirmation de commande",
@@ -217,7 +220,10 @@ Pour consulter la commande, rendez vous à l'adresse suivante :
 http://boutique.utbm.fr/admin_gen_fact.php?id_facture=".$this->id."
 
 Cordialement,
-La boutique utbm";
+La boutique utbm
+--
+http://boutique.utbm.fr
+Site accéssible uniquement depuis le réseau utbm";
     $ret = mail("boutique@utbm.fr",
 //    $ret = mail("simon.lopez@ayolo.org",
                 "[boutique utbm] nouvelle commande",
@@ -232,11 +238,29 @@ La boutique utbm";
     $body = "Bonjour,
 Votre commande N°".$this->id." sur la boutique utbm est prête.
 
-Pour suivre l'avancement de votre commande, rendez vous à l'adresse suivante :
-http://boutique.utbm.fr/suivi.php?id_facture=".$this->id."
+Vous pouvez venir la retirer à l'accueil de sévenans aux heures
+d'ouvertures suivantes :";
 
+if($client->type=='srv')
+{
+  $body.="
+  - Le matin entre 8h et 12h
+  - l'après-midi entre 14h et 16h
+";
+}
+else
+{
+  $body.="
+  - le jeudi après-midi entre 14h et 16h
+";
+}
+
+$body .="
 Cordialement,
-La boutique utbm";
+La boutique utbm
+--
+http://boutique.utbm.fr
+Site accéssible uniquement depuis le réseau utbm";
 
     $ret = mail($client->email,
                 "[boutique utbm] confirmation de commande",

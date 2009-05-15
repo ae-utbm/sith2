@@ -24,7 +24,7 @@ $topdir="../";
 require_once("include/boutique.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 $site = new boutique();
-if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminboutiqueutbm"))
+if(!$site->user->is_in_group("root") && !$site->user->is_in_group("adminboutiqueutbm"))
   $site->error_forbidden();
 
 $site->start_page("boutique", "Suivi" );

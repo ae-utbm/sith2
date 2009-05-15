@@ -26,7 +26,6 @@ $topdir = "../";
 require_once("include/boutique.inc.php");
 
 $site = new boutique ();
-
 $user = new utilisateur($site->db,$site->dbrw);
 
 

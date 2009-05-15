@@ -25,7 +25,7 @@ require_once("include/boutique.inc.php");
 require_once($topdir."include/graph.inc.php");
 
 $site = new boutique();
-if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminboutiqueutbm"))
+if(!$site->user->is_in_group("root") && !$site->user->is_in_group("adminboutiqueutbm"))
   $site->error_forbidden();
 
 $conds = array();
@@ -86,7 +86,7 @@ while ( list($unit,$qte,$total,$coutant) = $req->get_row() )
 }
 
 $grfx = new graphic ("Resultats",
-        array("c.a.","qte","countant"),
+        array("c.a.","qte","coutant"),
         $coords,false,$tics);
 
 $grfx->png_render();

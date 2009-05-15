@@ -103,6 +103,62 @@ class boutique extends site
     parent::start_page("boutique",'Boutique UTBM');
   }
 
+  function load_boutique_params()
+  {
+    $this->boutique_params = array();
+
+    $req = new requete($this->db, "SELECT `nom_param`,`valeur_param` " .
+        "FROM `boutique_parametres`");
+
+    while ( list($id,$name) = $req->get_row() )
+      $this->boutique_params[$id] = $name;
+  }
+
+  function get_boutique_param ( $name, $default=null )
+  {
+    if ( !$this->boutique_params )
+      $this->load_boutique_params();
+
+    if ( !isset($this->boutique_params[$name]) )
+      return $default;
+
+    return unserialize($this->boutique_params[$name]);
+  }
+  function set_boutique_param ( $name, $value )
+  {
+    if ( !$this->boutique_params )
+      $this->load_boutique_params();
+
+    $value = serialize($value);
+
+    if ( !isset($this->boutique_params[$name]) )
+    {
+      $sql = new insert($this->dbrw,"boutique_parametres",
+        array (
+          "nom_param" => $name,
+          "valeur_param" => $value
+        ));
+      $this->boutique_params[$name]=$value;
+    }
+    elseif ( $this->boutique_params[$name] !== $value )
+    {
+      $sql = new update($this->dbrw,"boutique_parametres",
+        array( "valeur_param" => $value),
+        array( "nom_param" => $name));
+      $this->boutique_params[$name]=$value;
+    }
+  }
+
+  function is_closed()
+  {
+    if(time() > $this->get_boutique_param ('open', 0 ))
+      return false;
+    elseif($this->get_boutique_param ('close', 0 ) !=0
+           && time()<$this->get_boutique_param ('close', 0 ))
+      return false;
+    return true;
+  }
+
   /* chargement du panier de l'utilisateur */
   function load_cart ()
   {

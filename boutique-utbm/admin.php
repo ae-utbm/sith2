@@ -39,7 +39,7 @@ require_once($topdir . "include/cts/taglist.inc.php");
 $GLOBALS["entitiescatalog"]["typeproduit"]   = array ( "id_typeprod", "nom_typeprod", "typeprod.png", "boutique-utbm/admin.php", "boutiqueut_type_produit");
 $GLOBALS["entitiescatalog"]["produit"]       = array ( "id_produit", "nom_prod", "produit.png", "boutique-utbm/admin.php", "boutiqueut_produits" );
 
-function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock = -1 )
+function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock = -1, $enabled=true )
 {
 
  $subfrm=new form ($form_n,false,false,false,$nom);
@@ -48,7 +48,7 @@ function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock
  $subfrm->add($subfrm1,false,true,($stock==-1),"nlim",true);
 
  $subfrm2=new form ($stock_n,false,false,false,"Limité à");
- $subfrm2->add_text_field($stock_value_n,"",($stock==-1)?"":$stock);
+ $subfrm2->add_text_field($stock_value_n,"",($stock==-1)?"":$stock,false,false,false,$enabled);
  $subfrm->add($subfrm2,false,true,($stock!=-1),"lim",true);
 
  return $subfrm;
@@ -56,7 +56,7 @@ function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock
 
 
 $site = new boutique();
-if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminboutiqueutbm"))
+if(!$site->user->is_in_group("root") && !$site->user->is_in_group("adminboutiqueutbm"))
   $site->error_forbidden();
 
 if(!is_dir("/var/www/ae/www/ae2/var/files"))
@@ -124,6 +124,12 @@ elseif ( $_REQUEST["action"] == "addproduit" )
     $produit_parent->id
     ))
   {
+    if($_REQUEST["stock"] == "lim" )
+      new insert($site->dbrw,
+                 "boutiqueut_reapro",
+                 array('id_produit'=>$produit->id,
+                       'date_reapro'=>date('Y-m-d'),
+                       'quantite'=>$stock_global));
   }
 }
 else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod->id > 0) )
@@ -360,66 +366,65 @@ if ( ereg("^settypeprod=([0-9]*)$",$_REQUEST["action"],$regs) )
 if ( $_REQUEST["page"] == "produits" )
 {
 
-
   $batch = array();
 
- $req = new requete($site->db,
-  "SELECT `id_typeprod`,`nom_typeprod` " .
-  "FROM `boutiqueut_type_produit`  " .
-  "ORDER BY `nom_typeprod`");
+  $req = new requete($site->db,
+    "SELECT `id_typeprod`,`nom_typeprod` " .
+    "FROM `boutiqueut_type_produit`  " .
+    "ORDER BY `nom_typeprod`");
 
- while ( $row = $req->get_row() )
-   $batch["settypeprod=".$row['id_typeprod']] = "Modifier le type pour ".$row['nom_typeprod'];
+  while ( $row = $req->get_row() )
+    $batch["settypeprod=".$row['id_typeprod']] = "Modifier le type pour ".$row['nom_typeprod'];
 
 
- $site->start_page("services","Administration");
- $cts = new contents("<a href=\"admin.php\">Administration</a> / Produits");
+  $site->start_page("services","Administration");
+  $cts = new contents("<a href=\"admin.php\">Administration</a> / Produits");
 
- $req = new requete($site->db,
-  "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
-  "`boutiqueut_produits`.stock_global_prod, FORMAT(`boutiqueut_produits`.prix_vente_prod_service/100,2) AS prix_vente_prod_service," .
-  "FORMAT(`boutiqueut_produits`.prix_vente_prod/100,2) AS prix_vente_prod, FORMAT(`boutiqueut_produits`.prix_achat_prod/100,2) AS  prix_achat_prod, " .
-  "`boutiqueut_type_produit`.`id_typeprod`,`boutiqueut_type_produit`.`nom_typeprod` " .
-  "FROM `boutiqueut_produits` " .
-  "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
-  "WHERE prod_archive != 1 " .
-  "ORDER BY `boutiqueut_produits`.`nom_prod`, `boutiqueut_type_produit`.`nom_typeprod`");
+  $req = new requete($site->db,
+    "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
+    "`boutiqueut_produits`.stock_global_prod, FORMAT(`boutiqueut_produits`.prix_vente_prod_service/100,2) AS prix_vente_prod_service," .
+    "FORMAT(`boutiqueut_produits`.prix_vente_prod/100,2) AS prix_vente_prod, FORMAT(`boutiqueut_produits`.prix_achat_prod/100,2) AS  prix_achat_prod, " .
+    "`boutiqueut_type_produit`.`id_typeprod`,`boutiqueut_type_produit`.`nom_typeprod` " .
+    "FROM `boutiqueut_produits` " .
+    "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
+    "WHERE prod_archive != 1 " .
+    "ORDER BY `boutiqueut_produits`.`nom_prod`, `boutiqueut_type_produit`.`nom_typeprod`");
 
- $tbl = new sqltable(
-   "lstproduits",
-   "Produits (hors archivés)", $req, "admin.php",
-   "id_produit",
-   array(
-   "nom_typeprod"=>"Type",
-   "nom_prod"=>"Nom du produit",
-   "prix_vente_prod_service"=>"Prix service",
-   "prix_vente_prod"=>"Prix de vente",
-   "prix_achat_prod"=>"Prix d'achat",
-   "stock_global_prod"=>"Stock global"
-   ),
-   array("edit"=>"Editer"), $batch, array()
+  $tbl = new sqltable(
+     "lstproduits",
+     "Produits (hors archivés)", $req, "admin.php",
+     "id_produit",
+     array(
+     "nom_typeprod"=>"Type",
+     "nom_prod"=>"Nom du produit",
+     "prix_vente_prod_service"=>"Prix service",
+     "prix_vente_prod"=>"Prix de vente",
+     "prix_achat_prod"=>"Prix d'achat",
+     "stock_global_prod"=>"Stock global"
+     ),
+     array("edit"=>"Editer"), $batch, array()
    );
 
- $cts->add($tbl,true);
+  $cts->add($tbl,true);
 
- $req = new requete($site->db,
-  "SELECT `id_typeprod`,`nom_typeprod` " .
-  "FROM `boutiqueut_type_produit`  " .
-  "ORDER BY `nom_typeprod`");
+  $req = new requete($site->db,
+    "SELECT `id_typeprod`,`nom_typeprod` " .
+    "FROM `boutiqueut_type_produit`  " .
+    "ORDER BY `nom_typeprod`");
 
- $tbl = new sqltable(
-   "lsttypeproduits",
-   "Types de produits", $req, "admin.php",
-   "id_typeprod",
-   array(
-   "nom_typeprod"=>"Type"
-   ),
-   array("edit"=>"Editer"), array(), array()
+  $tbl = new sqltable(
+     "lsttypeproduits",
+     "Types de produits", $req, "admin.php",
+     "id_typeprod",
+     array(
+     "nom_typeprod"=>"Type"
+     ),
+     array("edit"=>"Editer"), array(), array()
    );
- $cts->add($tbl,true);
- $site->add_contents($cts);
- $site->end_page();
- exit();
+  $cts->add($tbl,true);
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
 }
 elseif ( $produit->id > 0 )
 {
@@ -431,6 +436,21 @@ elseif ( $produit->id > 0 )
 
  if(is_null($produit->id_produit_parent) && $produit->archive==0)
    $cts->add_paragraph("<a href=\"admin.php?page=addproduit&parent=".$produit->id."\">Ajouter un sous-produit</a>");
+
+  if(isset($_REQUEST['reapro'])
+     && $_REQUEST['reapro']
+     && $GLOBALS["svalid_call"]
+     && is_int($_REQUEST["quantite"])
+     && $_REQUEST["quantite"]>0)
+  {
+    $req = new insert($site->dbrw,
+               "boutiqueut_reapro",
+               array('id_produit'=>$produit->id,
+                     'date_reapro'=>$_REQUEST['date'],
+                     'quantite'=>$_REQUEST['quantite']));
+    if($req->is_success())
+      $produit->stock_global=$produit->stock_global+$_REQUEST['quantite'];
+  }
 
  $frm = new form ("upproduit","admin.php",false,"POST","Editer");
  $frm->add_hidden("action","upproduit");
@@ -457,13 +477,38 @@ elseif ( $produit->id > 0 )
 
  $frm->add_datetime_field("date_fin","Date de fin de mise en vente",$produit->date_fin);
 
- $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",$produit->stock_global),false, false, false,false, true);
+ $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",$produit->stock_global,false),false, false, false,false, true);
  $frm->add_submit("valid","Enregistrer");
  $cts->add($frm,true);
 
- $site->add_contents($cts);
- $site->end_page();
- exit();
+  $req = new requete($site->db,
+                     "SELECT * ".
+                     "FROM `boutiqueut_reapro` ".
+                     "WHERE `id_produit`=".$produit->id." ".
+                     "ORDER BY `date_reapro` DESC ".
+                     "LIMIT 10");
+  $site->add_contents($cts);
+  $cts = new sqltable("reapro",
+                      "Derniers réaprovisionnement de stock",
+                      $req,
+                      "admin.php",
+                      "id_produit",
+                      array("date_reapro"=>"Date","quantite"=>"Quantité"),
+                      array(),
+                      array(),
+                      array(),
+                      true,
+                      false);
+  $site->add_contents($cts);
+  $cts = new form('addstock','admin.php?id_produit='.$produit->id);
+  $cts->add_hidden('reapro',true);
+  $cts->add_date_field('date','Date',time());
+  $cts->add_text_field('quantite','Quantité');
+  $cts->allow_only_one_usage();
+  $cts->add_submit('reapro_sub','Valider');
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
 }
 elseif ( $typeprod->id > 0 )
 {
@@ -542,6 +587,7 @@ $site->add_css("css/d.css");
 $site->start_page('adminbooutique',"Administration");
 $cts = new contents("Administration");
 $lst = new itemlist("Gestion des produits");
+$lst->add("<a href=\"close.php\">Fermeture Boutique</a>");
 $lst->add("<a href=\"admin_utl.php\">Gérer les services</a>");
 $lst->add("<a href=\"admin.php?page=addproduit\">Ajouter un produit</a>");
 $lst->add("<a href=\"admin.php?page=addtype\">Ajouter un type de produit</a>");

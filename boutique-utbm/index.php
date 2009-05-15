@@ -37,6 +37,21 @@ require_once($topdir . "include/cts/gallery.inc.php");
 
 
 $site = new boutique();
+if($site->is_closed())
+{
+  $site->start_page ("Accueil boutique utbm", "boutiqueutbm");
+  $cts = new contents("Boutique utbm",
+        "Bienvenue dans la boutique UTBM, la boutique en ligne ".
+        "de l'UTBM.<br />".
+        "Cette boutique est réalisée en partenariat avec l'association des étudiants de l'utbm."
+        );
+  $cts2 = new contents("Boutique fermée jusqu'au ".$site->get_boutique_param('open'),
+                       $site->get_boutique_param('close_message','La boutique est actuellement fermée'));
+  $cts->add($cts2,true);
+  $site->add_contents ($cts);
+  $site->end_page ();
+  exit();
+}
 $produit = new produit($site->db);
 $typeproduit = new typeproduit($site->db);
 if ( isset($_REQUEST["id_produit"]) )
@@ -141,20 +156,7 @@ if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
   }
 }
 
-
 $site->start_page ("Accueil boutique utbm", "boutiqueutbm");
-if($site->user->type!='srv')
-{
-  $accueil = new contents("Boutique utbm",
-        "Bienvenue dans la boutique UTBM, la boutique en ligne ".
-        "de l'UTBM.<br />".
-        "Cette boutique est réalisée en partenariat avec l'association des étudiants de l'utbm."
-        );
-
-  $site->add_contents ($accueil);
-  $site->end_page ();
-  exit();
-}
 
 $site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("panier","boutique-utbm/cart.php","Panier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"boutique"));
 /* ajout panier ? */
@@ -180,6 +182,13 @@ elseif ( !$typeproduit->is_valid() )
         "Cette boutique est réalisée en partenariat avec l'association des étudiants de l'utbm."
         );
 
+  if($site->user->type!='srv')
+  {
+    $accueil->add_paragraph("Toutes les commandes sont à retirer à l'accueil de l'UTBM à sévenans le jeudi après-midi. ".
+                            "<br />Le paiement s'effectue exclusivlement par chèque lors du retrait de la ".
+                            "commande.<br />Pour plus d'informations contactez boutique@utbm.fr.");
+  }
+
   $site->add_contents ($accueil);
 
   $items = new requete($site->db,"SELECT `boutiqueut_produits`.* , `boutiqueut_type_produit`.`nom_typeprod` ".
@@ -199,9 +208,6 @@ elseif ( !$typeproduit->is_valid() )
 
   /* ajout liste des articles au site */
   $site->add_contents ($items_lst);
-
-
-
 
   /* recuperation des categories */
   $cat = $site->get_cat ();

@@ -36,7 +36,21 @@ require_once($topdir . "include/cts/gallery.inc.php");
 require_once($topdir . "include/cts/vignette.inc.php");
 
 $site = new boutique ();
-
+if($site->is_closed())
+{
+  $site->start_page ("Accueil boutique utbm", "boutiqueutbm");
+  $cts = new contents("Boutique utbm",
+        "Bienvenue dans la boutique UTBM, la boutique en ligne ".
+        "de l'UTBM.<br />".
+        "Cette boutique est réalisée en partenariat avec l'association des étudiants de l'utbm."
+        );
+  $cts2 = new contents("Boutique fermée jusqu'au ".$site->get_boutique_param('open'),
+                       $site->get_boutique_param('close_message','La boutique est actuellement fermée'));
+  $cts->add($cts2,true);
+  $site->add_contents ($cts);
+  $site->end_page ();
+  exit();
+}
 /* modifications du panier */
 if (isset($_POST['cart_modify']))
 {
@@ -121,6 +135,8 @@ else
   if (!isset($_POST['cart_submit']))
   {
     $cart_t->buffer .= ("<h2>Actions</h2>\n");
+    $cart_t->buffer .=("Merci de vérifier l'exactitude des quantités et des tailles <b>avant</b> ".
+                   "de valider votre commande. Aucun changement ne sera possible une fois la commande validée.");
     $cart_t->buffer .= ("<table><tr><td><input type=\"submit\"".
                         " name=\"cart_modify\" " .
                         "value=\"Accepter les modifications\" />\n");
@@ -143,8 +159,13 @@ else
     /* a ce stade le panier ne peut pas etre vide */
 
     $accueil->add_title(1,"Paiement sur facture");
-
-    $accueil->add_paragraph ("Cliquez sur le lien pour valider la commande : <a href=\"./paiement.php\">Paiement sur facture</a>");
+    if($site->user->type=='srv')
+      $accueil->add_paragraph ("Cliquez sur le lien pour valider la commande : <a href=\"./paiement.php\">Paiement sur facture</a>");
+    else
+    {
+      $accueil->add_paragraph ("Le paiement s'effectue lors du retrait de la commande à l'accueil de sevenans, uniquement par chèque.");
+      $accueil->add_paragraph ("Cliquez sur le lien pour valider la commande : <a href=\"./paiement.php\">Valider</a>");
+    }
 
   } // fin si panier poste et demande paiement effective
 } // fin panier non vide

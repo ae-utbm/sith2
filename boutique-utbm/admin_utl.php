@@ -33,7 +33,7 @@ require_once("include/boutique.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 
 $site = new boutique();
-if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminboutiqueutbm"))
+if(!$site->user->is_in_group("root") && !$site->user->is_in_group("adminboutiqueutbm"))
   $site->error_forbidden();
 
 
@@ -129,13 +129,21 @@ if( $user->is_valid() && $user->type=='srv')
     $pass = genere_pass(10);
     $user->change_password($pass);
     $body = "Bonjour,
-Vos identifiants sont les suivants :
-Centre financier : $centre
-Votre mot de passe: $pass
+Afin de pouvoir accéder à la boutique utbm, nous vous communicons vos
+identifiants :
 
-La boutique, en partenariat avec l'AE
+  centre fincanier : $centre
+  mot de passe : $pass
+
+Vous trouverez une documentation complète de l'utilisation et du
+fonctionnment de la boutique à l'adresse suivante :
+http://boutique.utbm.fr/doc_service.pdf
+
+Cordialement,
+La boutique utbm
 --
-http://boutique.utbm.fr";
+http://boutique.utbm.fr
+Site accéssible uniquement depuis le réseau utbm";
     $ret = mail($email,
                 utf8_decode("[boutique] identifiant"),
                 utf8_decode($body),
@@ -172,12 +180,56 @@ http://boutique.utbm.fr";
   $lst->add("<a href=\"admin_utl.php?id_utilisateur=".$user->id."&action=centrecout\">Centres de coûts</a>");
   $lst->add("<a href=\"admin_utl.php?id_utilisateur=".$user->id."&action=changemdp\">Changer le mot de passe</a>");
   $lst->add("<a href=\"admin_utl.php?id_utilisateur=".$user->id."&action=centrefinancier\">Centre financier</a>");
+  $lst->add("<a href=\"admin_new_fact.php?id_utilisateur=".$user->id."\">Enregistrer une facture</a>");
   $cts->add($lst,true);
   $site->add_contents($cts);
   $site->end_page();
   exit();
 }
 $cts = new contents("<a href=\"admin.php\">Administration</a> / Services");
+
+if($_REQUEST['action']=='resetall')
+{
+  $req = new requete($site->db,'SELECT id_utilisateur FROM utilisateurs WHERE type_utl=\'srv\'');
+  $user = new utilisateur($site->db,$site->dbrw);
+  while(list($id)=$req->gate_row())
+  {
+    $user->load_by_id($id);
+    if(!$user->is_valid())
+      continue;
+    $centre = "contactez boutique@utbm.fr pour mettre à jour cette information.";
+    $req = new requete($site->db,'SELECT centre_financier FROM boutiqueut_service_utl WHERE id_utilisateur='.$user->id);
+    if($req->lines==1)
+      list($centre)=$req->get_row();
+    if ( $user->email_utbm )
+      $email = $user->email_utbm;
+    else
+      $email = $user->email;
+    $pass = genere_pass(10);
+    $user->change_password($pass);
+    $body = "Bonjour,
+Afin de pouvoir accéder à la boutique utbm, nous vous communicons vos
+identifiants :
+
+centre fincanier : $centre
+mot de passe : $pass
+
+Vous trouverez une documentation complète de l'utilisation et du
+fonctionnment de la boutique à l'adresse suivante :
+http://boutique.utbm.fr/doc_service.pdf
+
+Cordialement,
+La boutique utbm
+--
+http://boutique.utbm.fr
+Site accéssible uniquement depuis le réseau utbm";
+    $ret = mail($email,
+                utf8_decode("[boutique] identifiant"),
+                utf8_decode($body),
+                "From: \"Boutique\" <boutique@utbm.fr>\nReply-To: boutique@utbm.fr");
+  }
+  $cts->add_paragraph("mots de passe réinitialiés");
+}
 
 $req=new requete($site->db,'SELECT id_utilisateur, CONCAT(`prenom_utl`,\' \',`nom_utl`) AS srv FROM utilisateurs WHERE type_utl=\'srv\'');
 $cts->add(new sqltable("utls",
@@ -191,6 +243,7 @@ $cts->add(new sqltable("utls",
           array(),
           true,
           false));
+$cts->add_paragraph('<a href="admin_utl.php?action=resetall">Réinitialiser tous les mots de passe.</a>');
 $site->add_contents($cts);
 $site->end_page();
 

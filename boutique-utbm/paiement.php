@@ -34,6 +34,21 @@ require_once($topdir . "include/cts/gallery.inc.php");
 require_once($topdir . "include/cts/vignette.inc.php");
 
 $site = new boutique();
+if($site->is_closed())
+{
+  $site->start_page ("Accueil boutique utbm", "boutiqueutbm");
+  $cts = new contents("Boutique utbm",
+        "Bienvenue dans la boutique UTBM, la boutique en ligne ".
+        "de l'UTBM.<br />".
+        "Cette boutique est réalisée en partenariat avec l'association des étudiants de l'utbm."
+        );
+  $cts2 = new contents("Boutique fermée jusqu'au ".$site->get_boutique_param('open'),
+                       $site->get_boutique_param('close_message','La boutique est actuellement fermée'));
+  $cts->add($cts2,true);
+  $site->add_contents ($cts);
+  $site->end_page ();
+  exit();
+}
 /* modifications du panier */
 if (isset($_POST['cart_modify']))
 {
@@ -119,6 +134,7 @@ else
       if($req->lines==1)
       {
         list($cc)=$req->get_row();
+        $frm->add_info('Centre de coût : '.$cc);
         $frm->add_hidden('centre_cout',$cc);
       }
       else
@@ -129,6 +145,8 @@ else
         $frm->add_select_field('centre_cout','Centre de coût',$ccs,false,'',true);
       }
     }
+    $frm->add_info("Merci de vérifier l'exactitude des quantités et des tailles <b>avant</b> ".
+                   "de valider votre commande. Aucun changement ne sera possible par la suite.");
     $frm->add_submit("payment_boutique_proceed",
                      "OUI");
     $frm->add_submit("payment_boutique_cancel",

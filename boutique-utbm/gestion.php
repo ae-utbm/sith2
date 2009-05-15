@@ -53,7 +53,7 @@ function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock
 }
 
 $site = new boutique();
-if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminboutiqueutbm"))
+if(!$site->user->is_in_group("root") && !$site->user->is_in_group("adminboutiqueutbm"))
   $site->error_forbidden();
 
 $file = new dfile($site->db, $site->dbrw);
@@ -115,7 +115,7 @@ if ( $_REQUEST["page"] == "statistiques" )
       $cts->add_title(2,"Sommes");
       $cts->add_paragraph("Quantité : $qte unités<br/>" .
           "Chiffre d'affaire: ".sprintf('%.2f',($sum/100))." Euros<br/>" .
-          "Prix countant total estimé* : ".sprintf('%.2f',($sumcoutant/100))." Euros");
+          "Prix coutant total estimé* : ".sprintf('%.2f',($sumcoutant/100))." Euros");
       $cts->add_paragraph("* ATTENTION: Prix coutant basé sur le prix actuel.");
     }
   }
