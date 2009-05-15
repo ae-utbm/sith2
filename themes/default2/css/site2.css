@@ -2511,10 +2511,10 @@ div.comment
 //  width:auto;
   padding: 5px;
   background: #ffd;
-  opacity: 0.5;
-  filter:alpha(opacity=50);
-  -moz-opacity:0.5;
-  -khtml-opacity: 0.5;
+  opacity: 0.7;
+  filter:alpha(opacity=70);
+  -moz-opacity:0.7;
+  -khtml-opacity: 0.7;
   border-bottom: 1px solid #777;
   font-size: 11px;
   display: block;
