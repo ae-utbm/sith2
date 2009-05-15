@@ -47,14 +47,14 @@ if($_REQUEST['action'] && $_REQUEST['action']=='set')
   $cts->add($cts2,true);
 }
 
-$frm = new form('close','close.php');
+$frm = new form('close','close.php',false,'post','Paramétrage');
 $frm->add_hidden('action','set');
 $frm->add_dokuwiki_toolbar('texte',null,null,false,true);
 $frm->add_text_area('texte','Message d\'information');
 $frm->add_datetime_field('debut','Début de la période',time(),true);
 $frm->add_datetime_field('end','Fin de la période',time()+(3600*24*7),true);
 $frm->add_submit('valid','Enregistrer');
-$cts->add($frm);
+$cts->add($frm,true);
 $site->add_contents($cts);
 $site->end_page();
 ?>
