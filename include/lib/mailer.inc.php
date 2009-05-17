@@ -41,7 +41,7 @@ class mailer
   {
     $boundary = "-----=".md5(uniqid(rand()));
     $header   = "MIME-Version: 1.0\n";
-    $header  .= "Content-Type: multipart/Alternative;\nboundary=\"$boundary\"\n";
+    $header  .= "Content-Type: multipart/Alternative; boundary=\"$boundary\"\n";
     $header  .= "\n";
     $msg      = "Ceci est un message au format MIME 1.0 multipart/mixed.\n";
     $msg     .= "--$boundary\n";
@@ -64,8 +64,8 @@ class mailer
           $this->htmltext = str_replace($img,"cid:".$uid,$this->htmltext);
           $attach        .= "--$boundary\n";
           $mime           = mime_content_type($img);
-          $attach        .= "Content-Type: ".$mime."; name=\"".basename($img)."\"\n";
-//          $attach        .= "Content-Type: application/octet-stream; name=\"".basename($img)."\"\\n";
+//          $attach        .= "Content-Type: ".$mime."; name=\"".basename($img)."\"\n";
+          $attach        .= "Content-Type: application/octet-stream; name=\"".basename($img)."\"\\n";
           $attach        .= "Content-Transfer-Encoding: base64\n";
           $attach        .= "Content-ID: <".$uid.">\n\n";
           $attach        .= chunk_split(base64_encode($attachment))."\n\n\n";
