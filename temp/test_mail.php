@@ -1,5 +1,6 @@
 <?
 require_once('../include/lib/mailer.inc.php');
+require_once("../include/globals.inc.php");
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                      '[WEEKMAIL] de test');
 $mailer->add_dest(array('simon.lopez@utbm.fr',
