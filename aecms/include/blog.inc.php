@@ -855,7 +855,7 @@ class blog extends basedb
                        "FROM `aecms_blog_entries` ".
                        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
                        "WHERE `id_blog`='".$this->id."' ".
-                       "AND `pub`='n' ".
+                       "AND (`pub`='n' OR `date`>NOW()) ".
                        "ORDER BY `titre` ASC");
     $tbl = new sqltable(
           'listwaitingentriesblog',
