@@ -8,9 +8,9 @@ $mailer->add_dest(array('simon.lopez@utbm.fr',
 $mailer->add_dest('m.simon.lopez@gmail.com');
 $mailer->add_img('../themes/default2/images/important.png');
 $mailer->set_plain('vive le html ?');
-$html = '<table width="200px">
-<tr><td><img src="../themes/default2/images/important.png" /></td></tr>
-</table>';
+$html = '<html><body><table width="200px">
+<tr><td>bleh : <img src="../themes/default2/images/important.png" /></td></tr>
+</table></body></html>';
 $mailer->set_html($html);
 $mailer->send();
 
