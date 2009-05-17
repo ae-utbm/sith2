@@ -408,7 +408,9 @@ class form extends stdcontents
   function add_user_fieldv2 ( $name, $title, $value = "", $required = false )
   {
     global $topdir;
-
+    $siteroot=$topdir;
+    if( defined('CMS_ID_ASSO') )
+      $siteroot="../".$topdir;
     if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];
 
     $this->buffer .= "<div class=\"formrow\">\n";
@@ -418,7 +420,7 @@ class form extends stdcontents
     $this->buffer .= "<div id=\"$name\" class=\"userfield\">" .
         "<input type=\"hidden\" name=\"".$name."\" id=\"".$name."_id\" value=\"0\" />" .
         "<div id=\"".$name."_fieldbox\" class=\"fieldbox\" style=\"display:none;\">" .
-        "<input type=\"text\" id=\"".$name."_field\" onkeyup=\"userselect_keyup(event,'".$name."','".$topdir."');\" />" .
+        "<input type=\"text\" id=\"".$name."_field\" onkeyup=\"userselect_keyup(event,'".$name."','".$sitetopdir."');\" />" .
         "</div>" .
         "<div id=\"".$name."_static\" class=\"staticbox\" onclick=\"userselect_toggle('".$name."');\">" .
         "(personne)" .
@@ -629,7 +631,9 @@ class form extends stdcontents
   function add_dokuwiki_toolbar($area_name,$id_asso=null,$folder=null,$forum=false,$simple=false)
   {
     global $wwwtopdir;
-
+    $siteroot = $wwwtopdir;
+    if( defined('CMS_ID_ASSO') )
+      $siteroot="../".$wwwtopdir;
     $context="";
 
     if ( !is_null($id_asso) )
@@ -677,24 +681,21 @@ class form extends stdcontents
     {
       $this->buffer .=
         "<a onclick=\"insert_tags2('".$id."','".$infos[1]."','".$infos[2]."','".$infos[3]."');\" />".
-        "<img src=\"".$wwwtopdir."/images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" title=\"".$infos[0]."\" />".
+        "<img src=\"".$siteroot."/images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" title=\"".$infos[0]."\" />".
         "</a> \n";
     }
     if(!$simple)
     {
-      $siteroot = $wwwtopdir;
-      if( defined('CMS_ID_ASSO') )
-        $siteroot="../".$wwwtopdir;
       $this->buffer .=
         "<a onclick=\"selectWikiImage('".$siteroot."','".$id."','$context');\" />".
-        "<img src=\"".$wwwtopdir."/images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
+        "<img src=\"".$siteroot."/images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
         "</a> \n";
 
       $this->buffer .=
         "<a onclick=\"selectWikiFile('".$siteroot."','".$id."','$context');\" />".
-        "<img src=\"".$wwwtopdir."/images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
+        "<img src=\"".$siteroot."/images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
         "</a> \n";
-      $this->buffer .= " - <a href=\"".$wwwtopdir."article.php?name=docs:syntax\" target=\"_blank\">aide sur la syntaxe</a>\n";
+      $this->buffer .= " - <a href=\"".$siteroot."article.php?name=docs:syntax\" target=\"_blank\">aide sur la syntaxe</a>\n";
     }
     $this->buffer .= "</div>\n";
     $this->buffer .= "</div>\n";
