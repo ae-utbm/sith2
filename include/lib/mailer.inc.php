@@ -58,7 +58,7 @@ class mailer
       {
         if($fp = fopen($img, "rb"))
         {
-          $attachment     = fread($img, filesize($img));
+          $attachment     = fread($fp, filesize($img));
           fclose($fp);
           $uid            = gen_uid();
           $this->htmltext = str_replace($img,"cid:".$uid,$this->htmltext);
