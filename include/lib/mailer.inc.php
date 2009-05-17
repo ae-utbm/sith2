@@ -19,7 +19,7 @@ class mailer
       foreach($to as $dest)
         $this->to[]=$dest;
     else
-      $this->to[]=$dest;
+      $this->to[]=$to;
   }
 
   public function add_img($img)
