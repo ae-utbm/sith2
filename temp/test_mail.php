@@ -1,11 +1,14 @@
 <?
-require_once('../include/lib/mailer.inc.php');
-require_once("../include/globals.inc.php");
+$topdir = '../';
+require_once($topdir. "include/site.inc.php");
+require_once($topdir.'include/lib/mailer.inc.php');
+$site = new site();
+
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                      '[WEEKMAIL] de test');
 $mailer->add_dest(array('simon.lopez@ayolo.org'));
 $mailer->add_dest('m.simon.lopez@gmail.com');
-$mailer->add_img('../themes/default2/images/important.png');
+$mailer->add_img('http://ae.utbm.fr/d.php?id_file=3957&action=download');
 $plain = 'Salut les UTbohémiens,
 
 Cette semaine vous avez rendez-vous avec le Festival du Film d\'Un
@@ -168,7 +171,7 @@ $mailer->set_plain($plain);
 $html = '<html>
 <body bgcolor="#333333">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td><img src="http://declic.utbm.fr/uploads/template/header.png"></td></tr>
+<tr><td><img src="http://ae.utbm.fr/d.php?id_file=3957&action=download"></td></tr>
 <tr bgcolor="#000000" color="#ffffff"><td><font size="14px">Introduction</font></td></tr>
 <tr><td>Salut les UTbohémiens,<br />
 <br />
