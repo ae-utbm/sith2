@@ -40,17 +40,17 @@ class mailer
   public function send()
   {
     $boundary = "-----=".md5(uniqid(rand()));
-    $header   = "MIME-Version: 1.0\r\n";
-    $header  .= "Content-Type: multipart/Alternative;\r\nboundary=\"$boundary\"\r\n";
-    $header  .= "\r\n";
-    $msg      = "Ceci est un message au format MIME 1.0 multipart/mixed.\r\n";
+    $header   = "MIME-Version: 1.0\n";
+    $header  .= "Content-Type: multipart/Alternative;\nboundary=\"$boundary\"\n";
+    $header  .= "\n";
+    $msg      = "Ceci est un message au format MIME 1.0 multipart/mixed.\n";
     $msg     .= "--$boundary\n";
-    $msg     .= "Content-Type: Text/Plain;\n  charset=\"UTF-8\"\r\n";
-    $msg     .= "Content-Transfer-Encoding: quoted-printable\r\n\r\n";
-    $msg     .= eregi_replace("\\\'","'",$this->plaintxt)."\r\n";
-    $msg     .= "--$boundary\r\n";
-    $msg     .= "Content-Type: Text/HTML;\n  charset=\"UTF-8\"\r\n";
-    $msg     .= "Content-Transfer-Encoding: quoted-printable\r\n";
+    $msg     .= "Content-Type: Text/Plain;\n  charset=\"UTF-8\"\n";
+    $msg     .= "Content-Transfer-Encoding: quoted-printable\n\n";
+    $msg     .= eregi_replace("\\\'","'",$this->plaintxt)."\n";
+    $msg     .= "--$boundary\n";
+    $msg     .= "Content-Type: Text/HTML;\n  charset=\"UTF-8\"\n";
+    $msg     .= "Content-Transfer-Encoding: quoted-printable\n";
     if(!empty($this->img))
     {
       $attach = '';
@@ -62,25 +62,25 @@ class mailer
           fclose($fp);
           $uid            = gen_uid();
           $this->htmltext = str_replace($img,"cid:".$uid,$this->htmltext);
-          $attach        .= "--$boundary\r\n";
+          $attach        .= "--$boundary\n";
           $mime           = mime_content_type($img);
-          $attach        .= "Content-Type: ".$mime."; name=\"".$image."\"\r\n";
-          $attach        .= "Content-Transfer-Encoding: base64\r\n";
-          $attach        .= "Content-ID: <".$uid.">\r\n\r\n";
-          $attach        .= chunk_split(base64_encode($attachment))."\r\n\r\n\r\n";
+          $attach        .= "Content-Type: ".$mime."; name=\"".$image."\"\n";
+          $attach        .= "Content-Transfer-Encoding: base64\n";
+          $attach        .= "Content-ID: <".$uid.">\n\n";
+          $attach        .= chunk_split(base64_encode($attachment))."\n\n\n";
         }
       }
-      $msg   .= eregi_replace("\\\'","'",str_replace('=','=3D', $this->htmltext))."\r\n";
+      $msg   .= eregi_replace("\\\'","'",str_replace('=','=3D', $this->htmltext))."\n";
       $msg   .= $attach;
       unset($attach);
     }
     else
-      $msg   .= eregi_replace("\\\'","'",str_replace('=','=3D', $this->htmltext))."\r\n";
-    $msg     .= "--$boundary--\r\n";
+      $msg   .= eregi_replace("\\\'","'",str_replace('=','=3D', $this->htmltext))."\n";
+    $msg     .= "--$boundary--\n";
     mail(implode(', ',$this->to),
          $this->subject,
          $msg,
-         "Reply-to: ".$this->from."\r\nFrom: ".$this->from."\r\n".$header);
+         "Reply-to: ".$this->from."\nFrom: ".$this->from."\n".$header);
     unset($msg);
   }
 }
