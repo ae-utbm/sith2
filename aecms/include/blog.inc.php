@@ -855,7 +855,7 @@ class blog extends basedb
                        "FROM `aecms_blog_entries` ".
                        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
                        "WHERE `id_blog`='".$this->id."' ".
-                       "AND (`pub`='n' OR `date`>NOW()) ".
+                       "AND (`pub`='n' OR `date` > NOW()) ".
                        "ORDER BY `titre` ASC");
     $tbl = new sqltable(
           'listwaitingentriesblog',
@@ -890,7 +890,8 @@ class blog extends basedb
                        "FROM `aecms_blog_entries` ".
                        "WHERE `id_blog`='".$this->id."' ".
                        "AND `id_cat`='".intval($id)."' ".
-                       "AND `pub`='y' ");
+                       "AND `pub`='y' ".
+                       "AND `date` < NOW()");
     list($total)=$req->get_row();
     if($total==0)
     {
