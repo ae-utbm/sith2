@@ -64,7 +64,8 @@ class mailer
           $this->htmltext = str_replace($img,"cid:".$uid,$this->htmltext);
           $attach        .= "--$boundary\n";
           $mime           = mime_content_type($img);
-          $attach        .= "Content-Type: ".$mime."; name=\"".$image."\"\n";
+          $attach        .= "Content-Type: ".$mime."; name=\"".basename($img)."\"\n";
+//          $attach        .= "Content-Type: application/octet-stream; name=\"".basename($img)."\"\\n";
           $attach        .= "Content-Transfer-Encoding: base64\n";
           $attach        .= "Content-ID: <".$uid.">\n\n";
           $attach        .= chunk_split(base64_encode($attachment))."\n\n\n";
