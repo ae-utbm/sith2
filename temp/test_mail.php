@@ -10,6 +10,7 @@ $mailer->add_img('../themes/default2/images/important.png');
 $mailer->set_plain('vive le html ?');
 $html = '<html><body><table width="200px">
 <tr><td>bleh : <img src="../themes/default2/images/important.png" /></td></tr>
+<tr><td>bleh : <img src="http://ae.utbm.fr/themes/default2/images/important.png" /></td></tr>
 </table></body></html>';
 $mailer->set_html($html);
 $mailer->send();
