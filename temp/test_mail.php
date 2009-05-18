@@ -175,7 +175,7 @@ $mailer->set_plain($plain);
 $html = '<html>
 <body bgcolor="#333333">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td><img src="dfile://3957"></td></tr>
+<tr><td width="600" height="157" background="http://ae.utbm.fr/d.php?id_file=3957&action=download"><img src="dfile://3957"></td></tr>
 <tr bgcolor="#000000"><td><font color="#ffffff">Introduction</font></td></tr>
 <tr><td>Salut les UTbohémiens,<br />
 <br />
