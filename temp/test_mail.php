@@ -196,7 +196,7 @@ Donc pensez-y, SAMEDI C\'EST FF1J !!</td></tr>
 <li>Promo07 - Père 500</li>
 </ul>
 </td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Troll penché - Murder</font></td></tr>
+<tr bgcolor="#00BBFF"><td><font color="#ffffff">Troll penché - Murder</font></td></tr>
 <tr><td>Yop!<br />
 <br />
 Eh oui je viens encore vous embêter pour vous rappeler de vous
@@ -215,7 +215,7 @@ troll à Sevenans ce jeudi pour cause de long weekend. Mais bien sûr
 elles reprendront dès la semaine d\'après.<br />
 <br />
 Garroj, scribe Troll</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Le Seven\'Art présente Fast & Furious 4</font></td></tr>
+<tr bgcolor="#00BBFF"><td><font color="#ffffff">Le Seven\'Art présente Fast & Furious 4</font></td></tr>
 <tr><td>Bonjour,<br />
 <br />
 Cette semaine le Seven\'Art propose Fast & Furious 4 le mercredi 20 mai
@@ -241,7 +241,7 @@ Entrée par le parking du bas.<br />
 <br />
 Cinéphilement,<br />
 L\'Equipe Seven\'Art</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Mat\'Matronch</font></td></tr>
+<tr bgcolor="#00BBFF"><td><font color="#ffffff">Mat\'Matronch</font></td></tr>
 <tr><td>Mais qui est-il, mais de qui parlez-vous, comment puis-je le contacter ???<br />
 Heureusement, Monsieur Mat\'Matronch est là pour éviter au maximum ces  <br />
 situations?<br />
@@ -273,7 +273,7 @@ matmatronch@utbm.fr<br />
 A bientôt<br />
 <br />
 Gon pour le Mat\'matronch</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Club astro : observation mercredi soir</font></td></tr>
+<tr bgcolor="#00BBFF"><td><font color="#ffffff">Club astro : observation mercredi soir</font></td></tr>
 <tr><td>La météo pour mercredi soir s\'annonce plutôt bien. Nous vous proposons
 donc une soirée d\'observation mercredi puisque ensuite nous seront
 tous en weekend.<br />
@@ -283,7 +283,7 @@ Rendez-vous 20h30 à la salle d\'activité.<br />
 <li>Lieu : salle d\'activité (Jolly Jumper) à la ME (Belfort)</li>
 <li>Contact : club.astro@utbm.fr</li>
 </ul></td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Promo07 - Père 500</font></td></tr>
+<tr bgcolor="#00BBFF"><td><font color="#ffffff">Promo07 - Père 500</font></td></tr>
 <tr><td>Bonjour à tous,<br />
 <br />
 La Promo 07 paye son apéro lors du traditionnel Père 500 qui aura lieu
