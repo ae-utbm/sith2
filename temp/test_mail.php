@@ -176,7 +176,7 @@ $html = '<html>
 <body bgcolor="#333333">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
 <tr><td><img src="dfile://3957"></td></tr>
-<tr bgcolor="#000000" color="#ffffff"><td><font size="14px">Introduction</font></td></tr>
+<tr bgcolor="#000000" color="#ffffff"><td><font color="#ffffff">Introduction</font></td></tr>
 <tr><td>Salut les UTbohémiens,<br />
 <br />
 Cette semaine vous avez rendez-vous avec le Festival du Film d\'Un Jour.
@@ -188,7 +188,7 @@ diffusion sera bien entendu GRATUITE et sera suivie par une cérémonie de
 remise des prix.<br />
 <br />
 Donc pensez-y, SAMEDI C\'EST FF1J !!</td></tr>
-<tr bgcolor="#000000" color="#ffffff"><td><font size="14px">Sommaire</font></td></tr>
+<tr bgcolor="#000000" color="#ffffff"><td><font color="#ffffff">Sommaire</font></td></tr>
 <tr><td><ul><li>Troll penché - Murder</li>
 <li>Le Seven\'Art présente Fast & Furious 4</li>
 <li>Mat\'Matronch</li>
@@ -196,7 +196,7 @@ Donc pensez-y, SAMEDI C\'EST FF1J !!</td></tr>
 <li>Promo07 - Père 500</li>
 </ul>
 </td></tr>
-<tr bgcolor="#00BBFF" color="#ffffff"><td><font size="14px">Troll penché - Murder</font></td></tr>
+<tr bgcolor="#00BBFF" color="#ffffff"><td><font color="#ffffff">Troll penché - Murder</font></td></tr>
 <tr><td>Yop!<br />
 <br />
 Eh oui je viens encore vous embêter pour vous rappeler de vous
@@ -215,7 +215,7 @@ troll à Sevenans ce jeudi pour cause de long weekend. Mais bien sûr
 elles reprendront dès la semaine d\'après.<br />
 <br />
 Garroj, scribe Troll</td></tr>
-<tr bgcolor="#00BBFF" color="#ffffff"><td><font size="14px">Le Seven\'Art présente Fast & Furious 4</font></td></tr>
+<tr bgcolor="#00BBFF" color="#ffffff"><td><font color="#ffffff">Le Seven\'Art présente Fast & Furious 4</font></td></tr>
 <tr><td>Bonjour,<br />
 <br />
 Cette semaine le Seven\'Art propose Fast & Furious 4 le mercredi 20 mai
@@ -241,7 +241,7 @@ Entrée par le parking du bas.<br />
 <br />
 Cinéphilement,<br />
 L\'Equipe Seven\'Art</td></tr>
-<tr bgcolor="#00BBFF" color="#ffffff"><td><font size="14px">Mat\'Matronch</font></td></tr>
+<tr bgcolor="#00BBFF" color="#ffffff"><td><font color="#ffffff">Mat\'Matronch</font></td></tr>
 <tr><td>Mais qui est-il, mais de qui parlez-vous, comment puis-je le contacter ???<br />
 Heureusement, Monsieur Mat\'Matronch est là pour éviter au maximum ces  <br />
 situations?<br />
@@ -273,7 +273,7 @@ matmatronch@utbm.fr<br />
 A bientôt<br />
 <br />
 Gon pour le Mat\'matronch</td></tr>
-<tr bgcolor="#00BBFF" color="#ffffff"><td><font size="14px">Club astro : observation mercredi soir</font></td></tr>
+<tr bgcolor="#00BBFF" color="#ffffff"><td><font color="#ffffff">Club astro : observation mercredi soir</font></td></tr>
 <tr><td>La météo pour mercredi soir s\'annonce plutôt bien. Nous vous proposons
 donc une soirée d\'observation mercredi puisque ensuite nous seront
 tous en weekend.<br />
@@ -283,7 +283,7 @@ Rendez-vous 20h30 à la salle d\'activité.<br />
 <li>Lieu : salle d\'activité (Jolly Jumper) à la ME (Belfort)</li>
 <li>Contact : club.astro@utbm.fr</li>
 </ul></td></tr>
-<tr bgcolor="#00BBFF" color="#ffffff"><td><font size="14px">Promo07 - Père 500</font></td></tr>
+<tr bgcolor="#00BBFF" color="#ffffff"><td><font color="#ffffff">Promo07 - Père 500</font></td></tr>
 <tr><td>Bonjour à tous,<br />
 <br />
 La Promo 07 paye son apéro lors du traditionnel Père 500 qui aura lieu
@@ -297,7 +297,7 @@ venez prouver l\'efficacité de votre descente de Kro!<br />
 Nous vous attendons nombreux!<br />
 <br />
 La Promo 07</td></tr>
-<tr bgcolor="#00000" color="#ffffff"><td><font size="14px">La blague, offerte et assumée par Foif !</font></td></tr>
+<tr bgcolor="#00000" color="#ffffff"><td><font color="#ffffff">La blague, offerte et assumée par Foif !</font></td></tr>
 <tr><td>Le père Noël arrive en Somalie sur son joli traîneau en compagnie de
 son meilleur lutin (celui qui fait les plus gros cadeaux ^^).<br />
 En voyant les petits Somaliens jouer dehors, il s\'exclame :<br />
@@ -305,7 +305,7 @@ En voyant les petits Somaliens jouer dehors, il s\'exclame :<br />
 Alors au lutin de répondre :<br />
 - Mais parce qu\'ils ne mangent pas...<br />
 - QUOI ? Ils ne mangent pas ? Eh bien pas de cadeaux !!</td></tr>
-<tr bgcolor="#00000" color="#ffffff"><td><font size="14px">Le mot de la fin</font></td></tr>
+<tr bgcolor="#00000" color="#ffffff"><td><font color="#ffffff">Le mot de la fin</font></td></tr>
 <tr><td>à la semaine prochaine !<br />
 A6<br />
 <br />
