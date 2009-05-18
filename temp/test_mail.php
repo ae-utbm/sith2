@@ -1,6 +1,8 @@
 <?
 $topdir = '../';
 require_once($topdir. "include/site.inc.php");
+require_once($topdir."include/entities/files.inc.php");
+require_once($topdir."include/entities/folder.inc.php");
 require_once($topdir.'include/lib/mailer.inc.php');
 $site = new site();
 
@@ -8,6 +10,8 @@ $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                      '[WEEKMAIL] de test');
 $mailer->add_dest(array('simon.lopez@ayolo.org'));
 $mailer->add_dest('m.simon.lopez@gmail.com');
+$file = new dfile($site->db);
+$file->load_by_id(3957);
 $mailer->add_img('http://ae.utbm.fr/d.php?id_file=3957&action=download');
 $plain = 'Salut les UTbohémiens,
 
@@ -171,7 +175,7 @@ $mailer->set_plain($plain);
 $html = '<html>
 <body bgcolor="#333333">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td><img src="http://ae.utbm.fr/d.php?id_file=3957&action=download"></td></tr>
+<tr><td><img src="dfile://3957"></td></tr>
 <tr bgcolor="#000000" color="#ffffff"><td><font size="14px">Introduction</font></td></tr>
 <tr><td>Salut les UTbohémiens,<br />
 <br />
