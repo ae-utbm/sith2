@@ -56,7 +56,26 @@ class mailer
       $attach = '';
       foreach($this->img as $img)
       {
-        if($fp = fopen($img, "rb"))
+        if(is_object($img))
+        {
+          if( is_a($img,'dfile')  || is_subclass_of($img,'dfile'))
+          {
+            $filename = $file->get_thumb_filename();
+            if ( file_exists($filename) && $fp = fopen($filename, "rb"))
+            {
+              $attachment     = fread($fp, filesize($filename));
+              fclose($fp);
+              $uid            = gen_uid();
+              $this->htmltext = str_replace('dfile://'.$file->id,"cid:".$uid,$this->htmltext);
+              $attach        .= "--$boundary\n";
+              $attach        .= "Content-Type: ".$file->mime_type."; name=\"".$file->nom_fichier."\"\n";
+              $attach        .= "Content-Transfer-Encoding: base64\n";
+              $attach        .= "Content-ID: <".$uid.">\n\n";
+              $attach        .= chunk_split(base64_encode($attachment))."\n\n\n";
+            }
+          }
+        }
+        elseif($fp = fopen($img, "rb"))
         {
           $attachment     = fread($fp, filesize($img));
           fclose($fp);
