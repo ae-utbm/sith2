@@ -13,9 +13,9 @@ $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                         'iatoss@utbm.fr',
                         'aude.petit@utbm.fr'));*/
 $mailer->add_dest('simon.lopez@utbm.fr, m.simon.lopez@gmail.com');
-/*$file = new dfile($site->db);
+$file = new dfile($site->db);
 $file->load_by_id(3957);
-$mailer->add_img($file);*/
+$mailer->add_img($file);
 $plain = 'Salut les UTbohémiens,
 
 Cette semaine vous avez rendez-vous avec le Festival du Film d\'Un
