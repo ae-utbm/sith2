@@ -12,7 +12,7 @@ $mailer->add_dest(array('simon.lopez@ayolo.org'));
 $mailer->add_dest('m.simon.lopez@gmail.com');
 $file = new dfile($site->db);
 $file->load_by_id(3957);
-$mailer->add_img('http://ae.utbm.fr/d.php?id_file=3957&action=download');
+$mailer->add_img($file);
 $plain = 'Salut les UTbohémiens,
 
 Cette semaine vous avez rendez-vous avec le Festival du Film d\'Un
