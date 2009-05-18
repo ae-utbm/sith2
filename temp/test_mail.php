@@ -8,13 +8,14 @@ $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                      'Weekmail du 18 au 24 Mai 2009');
-$mailer->add_dest(array('etudiants@utbm.fr',
+/*$mailer->add_dest(array('etudiants@utbm.fr',
                         'enseignants@utbm.fr',
                         'iatoss@utbm.fr',
-                        'aude.petit@utbm.fr'));
-$file = new dfile($site->db);
+                        'aude.petit@utbm.fr'));*/
+$mailer->add_dest('simon.lopez@utbm.fr, m.simon.lopez@gmail.com');
+/*$file = new dfile($site->db);
 $file->load_by_id(3957);
-$mailer->add_img($file);
+$mailer->add_img($file);*/
 $plain = 'Salut les UTbohémiens,
 
 Cette semaine vous avez rendez-vous avec le Festival du Film d\'Un
@@ -179,7 +180,7 @@ $html = '<html>
 <table bgcolor="#333333" width="700px">
 <tr><td align="center">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td width="600" height="157" background="http://ae.utbm.fr/d.php?id_file=3957&action=download"><img src="dfile://3957"></td></tr>
+<tr><td width="600" height="157" background="http://ae.utbm.fr/d.php?id_file=3957&action=download">&nbsp;</td></tr>
 <tr bgcolor="#000000"><td><font color="#ffffff">Introduction</font></td></tr>
 <tr><td>Salut les UTbohémiens,<br />
 <br />
