@@ -8,8 +8,10 @@ $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                      'Weekmail du 18 au 24 Mai 2009');
-$mailer->add_dest(array('simon.lopez@utbm.fr'));
-$mailer->add_dest('m.simon.lopez@gmail.com');
+$mailer->add_dest(array('etudiants@utbm.fr',
+                        'enseignants@utbm.fr',
+                        'iatoss@utbm.fr',
+                        'aude.petit@utbm.fr'));
 $file = new dfile($site->db);
 $file->load_by_id(3957);
 $mailer->add_img($file);
@@ -99,12 +101,12 @@ Heureusement, Monsieur Mat\'Matronch est là pour éviter au maximum ces
 situations?
 
 Hé oui, le Mat\'Matronch est la seule, l\'unique bible indispensable de
-tout étudiant consciencieux, en tant qu?annuaire des étudiants de
-l?école.
+tout étudiant consciencieux, en tant qu\'annuaire des étudiants de
+l\'école.
 
 Toute la population de l\'UTBM est recensée, le Mat\'Matronch donne
 enfin un nom à un visage, le numéro de téléphone du binôme
-introuvable, l?adresse de cette personne que l\'on recherche tant
+introuvable, l\'adresse de cette personne que l\'on recherche tant
 depuis cette fameuse soirée et tout autre renseignement aussi sérieux
 administrativement parlant que fantaisiste.
 
@@ -148,9 +150,9 @@ Bonjour à tous,
 La Promo 07 paye son apéro lors du traditionnel Père 500 qui aura lieu
 le Mercredi 20 Mai 2009 à partir de 20h au Foyer! Alors avant de
 rentrer chez papa-maman, venez en force pour en profiter !
-A 23h sera lancée l?Edition 2009 du très attendu concours
-?Inter-picole?! Alors montez votre équipe de promo (5 personnes) et
-venez prouver l?efficacité de votre descente de Kro!
+A 23h sera lancée l\'Édition 2009 du très attendu concours
+\'Inter-picole\'! Alors montez votre équipe de promo (5 personnes) et
+venez prouver l\'efficacité de votre descente de Kro!
 
 Nous vous attendons nombreux!
 
@@ -248,8 +250,8 @@ L\'Equipe Seven\'Art <br />&nbsp;</td></tr>
 Heureusement, Monsieur Mat\'Matronch est là pour éviter au maximum ces  <br />
 situations?<br />
 <br />
-Hé oui, le Mat\'Matronch est la seule, l?unique bible indispensable de
-tout étudiant consciencieux, en tant qu?annuaire des étudiants de
+Hé oui, le Mat\'Matronch est la seule, l\'unique bible indispensable de
+tout étudiant consciencieux, en tant qu\'annuaire des étudiants de
 l\'école.<br />
 <br />
 Toute la population de l\'UTBM est recensée, le Mat\'Matronch donne
