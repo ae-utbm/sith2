@@ -189,7 +189,7 @@ productions ce Samedi 23 Mai, à 20h30 au Mégarama d\'Audincourt. Cette
 diffusion sera bien entendu GRATUITE et sera suivie par une cérémonie de
 remise des prix.<br />
 <br />
-Donc pensez-y, SAMEDI C\'EST FF1J !!<br /></td></tr>
+Donc pensez-y, SAMEDI C\'EST FF1J !!<br /> </td></tr>
 <tr bgcolor="#000000"><td><font color="#ffffff">Sommaire</font></td></tr>
 <tr><td><ul><li>Troll penché - Murder</li>
 <li>Le Seven\'Art présente Fast & Furious 4</li>
@@ -216,7 +216,7 @@ Par ailleurs, j\'en profite pour signaler qu\'il n\'y aura pas de séance
 troll à Sevenans ce jeudi pour cause de long weekend. Mais bien sûr
 elles reprendront dès la semaine d\'après.<br />
 <br />
-Garroj, scribe Troll<br /></td></tr>
+Garroj, scribe Troll<br /> </td></tr>
 <tr bgcolor="#00BBFF"><td><font color="#ffffff">Le Seven\'Art présente Fast & Furious 4</font></td></tr>
 <tr><td>Bonjour,<br />
 <br />
@@ -242,7 +242,7 @@ par carte AE)<br />
 Entrée par le parking du bas.<br />
 <br />
 Cinéphilement,<br />
-L\'Equipe Seven\'Art<br /></td></tr>
+L\'Equipe Seven\'Art <br /> </td></tr>
 <tr bgcolor="#00BBFF"><td><font color="#ffffff">Mat\'Matronch</font></td></tr>
 <tr><td>Mais qui est-il, mais de qui parlez-vous, comment puis-je le contacter ???<br />
 Heureusement, Monsieur Mat\'Matronch est là pour éviter au maximum ces  <br />
@@ -274,7 +274,7 @@ matmatronch@utbm.fr<br />
 <br />
 A bientôt<br />
 <br />
-Gon pour le Mat\'matronch<br /></td></tr>
+Gon pour le Mat\'matronch<br /> </td></tr>
 <tr bgcolor="#00BBFF"><td><font color="#ffffff">Club astro : observation mercredi soir</font></td></tr>
 <tr><td>La météo pour mercredi soir s\'annonce plutôt bien. Nous vous proposons
 donc une soirée d\'observation mercredi puisque ensuite nous seront
@@ -284,7 +284,7 @@ Rendez-vous 20h30 à la salle d\'activité.<br />
 <li>Date et heure : mercredi 20 mai à 20 heures 30</li>
 <li>Lieu : salle d\'activité (Jolly Jumper) à la ME (Belfort)</li>
 <li>Contact : club.astro@utbm.fr</li>
-</ul><br /></td></tr>
+</ul><br /> </td></tr>
 <tr bgcolor="#00BBFF"><td><font color="#ffffff">Promo07 - Père 500</font></td></tr>
 <tr><td>Bonjour à tous,<br />
 <br />
@@ -298,7 +298,7 @@ venez prouver l\'efficacité de votre descente de Kro!<br />
 <br />
 Nous vous attendons nombreux!<br />
 <br />
-La Promo 07<br /></td></tr>
+La Promo 07<br /> </td></tr>
 <tr bgcolor="#000000"><td><font color="#ffffff">La blague, offerte et assumée par Foif !</font></td></tr>
 <tr><td>Le père Noël arrive en Somalie sur son joli traîneau en compagnie de
 son meilleur lutin (celui qui fait les plus gros cadeaux ^^).<br />
@@ -306,7 +306,7 @@ En voyant les petits Somaliens jouer dehors, il s\'exclame :<br />
 - Oh, mais pourquoi ces enfants sont-ils si maigres ?<br />
 Alors au lutin de répondre :<br />
 - Mais parce qu\'ils ne mangent pas...<br />
-- QUOI ? Ils ne mangent pas ? Eh bien pas de cadeaux !!<br /></td></tr>
+- QUOI ? Ils ne mangent pas ? Eh bien pas de cadeaux !!<br /> </td></tr>
 <tr bgcolor="#000000"><td><font color="#ffffff">Le mot de la fin</font></td></tr>
 <tr><td>à la semaine prochaine !<br />
 A6<br />
