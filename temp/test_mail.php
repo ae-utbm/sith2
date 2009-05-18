@@ -7,7 +7,7 @@ require_once($topdir.'include/lib/mailer.inc.php');
 $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
-                     '[WEEKMAIL] de test');
+                     'Weekmail du 18 au 24 Mai 2009');
 $mailer->add_dest(array('simon.lopez@utbm.fr'));
 $mailer->add_dest('m.simon.lopez@gmail.com');
 $file = new dfile($site->db);
@@ -299,7 +299,7 @@ venez prouver l\'efficacité de votre descente de Kro!<br />
 Nous vous attendons nombreux!<br />
 <br />
 La Promo 07</td></tr>
-<tr bgcolor="#00000" color="#ffffff"><td><font color="#ffffff">La blague, offerte et assumée par Foif !</font></td></tr>
+<tr bgcolor="#000000"><td><font color="#ffffff">La blague, offerte et assumée par Foif !</font></td></tr>
 <tr><td>Le père Noël arrive en Somalie sur son joli traîneau en compagnie de
 son meilleur lutin (celui qui fait les plus gros cadeaux ^^).<br />
 En voyant les petits Somaliens jouer dehors, il s\'exclame :<br />
@@ -307,7 +307,7 @@ En voyant les petits Somaliens jouer dehors, il s\'exclame :<br />
 Alors au lutin de répondre :<br />
 - Mais parce qu\'ils ne mangent pas...<br />
 - QUOI ? Ils ne mangent pas ? Eh bien pas de cadeaux !!</td></tr>
-<tr bgcolor="#00000" color="#ffffff"><td><font color="#ffffff">Le mot de la fin</font></td></tr>
+<tr bgcolor="#000000"><td><font color="#ffffff">Le mot de la fin</font></td></tr>
 <tr><td>à la semaine prochaine !<br />
 A6<br />
 <br />
