@@ -173,7 +173,7 @@ Alors au lutin de répondre :
 A6';
 $mailer->set_plain($plain);
 $html = '<html>
-<body bgcolor="#333333">
+<body bgcolor="#333333" width="700px">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
 <tr><td width="600" height="157" background="http://ae.utbm.fr/d.php?id_file=3957&action=download"><img src="dfile://3957"></td></tr>
 <tr bgcolor="#000000"><td><font color="#ffffff">Introduction</font></td></tr>
