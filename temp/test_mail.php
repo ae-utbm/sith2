@@ -12,7 +12,7 @@ $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                         'enseignants@utbm.fr',
                         'iatoss@utbm.fr',
                         'aude.petit@utbm.fr'));*/
-$mailer->add_dest('ae.info@utbm.fr, m.simon.lopez@gmail.com');
+$mailer->add_dest('ae.info@utbm.fr');
 $file = new dfile($site->db);
 $file->load_by_id(3957);
 $mailer->add_img($file);
