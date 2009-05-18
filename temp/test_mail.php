@@ -8,7 +8,7 @@ $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                      '[WEEKMAIL] de test');
-$mailer->add_dest(array('simon.lopez@ayolo.org'));
+$mailer->add_dest(array('simon.lopez@utbm.fr'));
 $mailer->add_dest('m.simon.lopez@gmail.com');
 $file = new dfile($site->db);
 $file->load_by_id(3957);
