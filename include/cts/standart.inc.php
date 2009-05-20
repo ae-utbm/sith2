@@ -420,7 +420,7 @@ class form extends stdcontents
     $this->buffer .= "<div id=\"$name\" class=\"userfield\">" .
         "<input type=\"hidden\" name=\"".$name."\" id=\"".$name."_id\" value=\"0\" />" .
         "<div id=\"".$name."_fieldbox\" class=\"fieldbox\" style=\"display:none;\">" .
-        "<input type=\"text\" id=\"".$name."_field\" onkeyup=\"userselect_keyup(event,'".$name."','".$sitetopdir."');\" />" .
+        "<input type=\"text\" id=\"".$name."_field\" onkeyup=\"userselect_keyup(event,'".$name."','".$siteroot."');\" />" .
         "</div>" .
         "<div id=\"".$name."_static\" class=\"staticbox\" onclick=\"userselect_toggle('".$name."');\">" .
         "(personne)" .
