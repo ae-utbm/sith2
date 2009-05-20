@@ -368,7 +368,10 @@ class blog extends basedb
     if ( !$this->is_valid() )
       return false;
     global $site;
-    return $site->is_user_admin();
+    if(!$site->asso->is_member_role($user->id,ROLEASSO_MEMBREBUREAU)
+       && !$user->is_in_group("root") )
+      return false;
+    return true;
   }
 
   /**
@@ -399,13 +402,10 @@ class blog extends basedb
    */
   public function add_writer(&$user)
   {
-print_r('bleh');
     if ( !$this->is_valid() )
       return false;
-print_r('bleh');
     if ( !$user->is_valid() )
       return false;
-print_r('bleh');
     if ( $this->is_admin($user) )
       return true;
 print_r('bleh');
