@@ -409,6 +409,8 @@ class blog extends basedb
                       "aecms_blog_writers",
                       array('id_blog'=>$this->id,
                             'id_utilisateur'=>$user->id));
+    print_r($req->is_success());
+    exit();
     return $req->is_success();
   }
 
