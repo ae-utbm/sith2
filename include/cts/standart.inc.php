@@ -410,7 +410,7 @@ class form extends stdcontents
     global $topdir;
     $siteroot=$topdir;
     if( defined('CMS_ID_ASSO') )
-      $siteroot="../".$topdir;
+      $siteroot="../";
     if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];
 
     $this->buffer .= "<div class=\"formrow\">\n";
