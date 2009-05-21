@@ -124,6 +124,8 @@ if ( $id_photo > 0 )
 
   if ( ($catpr->id != $rootcat->id) && ($site->asso->id != $photo->meta_id_asso)  )
   {
+    print_r($catpr->id. ' '.$rootcat->id."\n");
+    print_r($site->asso->id. ' '.$photo->meta_id_asso."\n");
     exit();
     renvoyer_image($topdir."images/actions/delete.png");
     exit();
