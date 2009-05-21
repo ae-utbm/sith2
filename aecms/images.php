@@ -79,7 +79,7 @@ if ( $id_photo > 0 )
       }
     }
 
-    if ( isset($_SERVER['HTTP_IF_NONE_MATCH']) )    {      if ( $etag == str_replace('"', '',stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])) )
+    if ( isset($_SERVER['HTTP_IF_NONE_MATCH']) )    {      if ( $etag == str_replace('"', '',stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])) )
       {
         header("HTTP/1.0 304 Not Modified");
         header('ETag: "'.$etag.'"');
@@ -87,7 +87,7 @@ if ( $id_photo > 0 )
       }
     }
 
-    header("Cache-Control: must-revalidate");    header("Pragma: cache");
+    header("Cache-Control: must-revalidate");    header("Pragma: cache");
     header("Last-Modified: ".$lastModified);
     header("Cache-Control: public");
     header("Content-type: image/jpeg");
@@ -102,7 +102,7 @@ if ( $id_photo > 0 )
 
   if ( !$photo->is_valid() || !$photo->is_right($site->user,DROIT_LECTURE) )
   {
-    renvoyer_image($topdir."images/action.delete.png");
+    renvoyer_image($topdir."images/action/delete.png");
     exit();
   }
 
