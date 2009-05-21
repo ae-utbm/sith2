@@ -810,7 +810,7 @@ class blog extends basedb
         $del=' (<a href="blog.php?id_entry='.$id.'&id_comment='.$id_com.'">Supprimer</a>)';
       $cts->add(new contents("Par ".$nom. " le ".
                              strftime("%A %d %B %Y à %Hh%M",
-                                      datetime_to_timestamp("2009-05-08 23:42:46")).
+                                      datetime_to_timestamp($date)).
                              $del,
                              "<div class='blogcomment$i'>".$comment."</div>"),true);
       $i=($i+1)%2;
