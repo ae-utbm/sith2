@@ -113,7 +113,6 @@ if ( $id_photo > 0 )
 
   if ( !$rootcat->is_valid() )
   {
-    exit();
     renvoyer_image($topdir."images/actions/delete.png");
     exit();
   }
@@ -125,6 +124,7 @@ if ( $id_photo > 0 )
 
   if ( ($catpr->id != $rootcat->id) && ($site->asso->id != $photo->meta_id_asso)  )
   {
+    exit();
     renvoyer_image($topdir."images/actions/delete.png");
     exit();
   }
