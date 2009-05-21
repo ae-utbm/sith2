@@ -50,6 +50,11 @@ else if ( ereg("^(.*)/([0-9]*).flv$",$_SERVER["argv"][0],$regs) )
   $id_photo = intval($regs[2]);
   $mode = "flv";
 }
+else if ( ereg("^(.*)/([0-9]*)$",$_SERVER["argv"][0],$regs) )
+{
+  $id_photo = intval($regs[2]);
+  $mode = "diapo";
+}
 else if ( ereg("^/(.*)$",$_SERVER["argv"][0]) )
 {
   $path = $_SERVER["argv"][0];
