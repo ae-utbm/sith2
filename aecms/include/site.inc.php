@@ -244,6 +244,8 @@ class aecms extends site
 
   function _stat($admin=false)
   {
+    if($this->is_user_admin())
+      return;
     $alt = '';
     if(defined('CMS_ALTERNATE'))
       $alt = CMS_ALTERNATE;
