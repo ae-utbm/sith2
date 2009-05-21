@@ -47,13 +47,15 @@ if ( $blog->is_writer($site->user) )
   $tabs = array(
           array("","blog.php","Le blog"),
           array("bloguer","blog.php?view=bloguer", "Espace blogueur"));
-  if( $site->is_user_admin() )
+  if( $blog->is_user_admin($site->user) )
     $tabs[]=array("admin","blog.php?view=admin","Administration");
   $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 
   if( isset($_REQUEST['view']) )
   {
+    if(!defined('ADMIN_SECTION'))
+      define('ADMIN_SECTION',true);
     if($_REQUEST['view']=='admin')
     {
       $user = new utilisateur($site->db);

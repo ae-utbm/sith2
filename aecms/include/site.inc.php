@@ -224,8 +224,6 @@ class aecms extends site
 
   function start_page ( $section, $title,$compact=false )
   {
-    if(isset($this->config['stats']))
-      $this->_stat(defined('ADMIN_SECTION'));
     $sections = explode(",",$this->config["boxes.sections"]);
     if ( in_array($section,$sections) )
     {
@@ -386,8 +384,8 @@ class aecms extends site
     if ( !$this->asso->is_member_role($this->user->id,ROLEASSO_MEMBREBUREAU)
          && !$this->user->is_in_group("root") )
       return false;
-
-    define('ADMIN_SECTION',true);
+    if(!defined('ADMIN_SECTION'))
+      define('ADMIN_SECTION',true);
     return true;
   }
 
@@ -412,7 +410,8 @@ class aecms extends site
     global $wwwtopdir, $basedir ;
 
     header("Content-Type: text/html; charset=utf-8");
-
+    if(isset($this->config['stats']))
+      $this->_stat(defined('ADMIN_SECTION'));
     $this->buffer ="<html>\n";
     $this->buffer.="<head>\n";
     $this->buffer.="<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
