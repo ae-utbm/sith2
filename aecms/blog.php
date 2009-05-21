@@ -47,7 +47,7 @@ if ( $blog->is_writer($site->user) )
   $tabs = array(
           array("","blog.php","Le blog"),
           array("bloguer","blog.php?view=bloguer", "Espace blogueur"));
-  if( $blog->is_user_admin($site->user) )
+  if( $blog->is_admin($site->user) )
     $tabs[]=array("admin","blog.php?view=admin","Administration");
   $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
