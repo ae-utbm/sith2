@@ -82,11 +82,11 @@ elseif ( $_REQUEST["act"] == "FetchContexts" )
     $m = date("m",$t);
 
     if ( $m >= 2 && $m < 9)
-    	return "P".$y;
+      return "P".$y;
     else if ( $m >= 9 )
-    	return "A".$y;
+      return "A".$y;
     else
-    	return "A".($y-1);
+      return "A".($y-1);
   }
   //
   $grps = $site->user->get_groups_csv();
@@ -182,7 +182,7 @@ elseif ( $_REQUEST["act"] == "UploadImage" )
                         "",
                         $site->user->id,
                         false,
-                        NULL,
+                        $cat->meta_id_asso,
                         NULL,
                         NULL,
                         $licence);
