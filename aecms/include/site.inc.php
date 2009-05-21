@@ -224,6 +224,8 @@ class aecms extends site
 
   function start_page ( $section, $title,$compact=false )
   {
+    if(isset($this->config['stats']))
+      $this->_stat(defined('ADMIN_SECTION'));
     $sections = explode(",",$this->config["boxes.sections"]);
     if ( in_array($section,$sections) )
     {
@@ -240,6 +242,58 @@ class aecms extends site
     }
 
     interfaceweb::start_page($section,$title,$compact);
+  }
+
+  function _stat($admin=false)
+  {
+    $alt = '';
+    if(defined('CMS_ALTERNATE'))
+      $alt = CMS_ALTERNATE;
+    $h = (int)date('H');
+    $d = (int)date('w');
+    $w = (int)date('W');
+    $y = (int)date('Y');
+    $req = new requete($this->db,
+                       'SELECT `hour` '.
+                       'FROM `aecms_stats` '.
+                       'WHERE `id_asso` = \''.$this->asso->id.'\' '.
+                       'AND `sub_id`=\''.mysql_real_escape_string($alt).'\' '.
+                       'AND `day`=\''.$d.'\' '.
+                       'AND `week`=\''.$w.'\' '.
+                       'AND `year`=\''.$y.'\'');
+    if($req->lines!='24')
+    {
+      for($i=0;$i<24;$i++)
+      {
+        $hits=0;
+        if(!$damin && $i==$h)
+          $hits=1;
+        new insert($this->dbrw,
+                   'aecms_stats',
+                   array('id_asso'=>$this->asso->id,
+                         'sub_id'=>$alt,
+                         'hour'=>$i,
+                         'day'=>$d,
+                         'week'=>$w,
+                         'year'=>$y,
+                         'hits'=>$hits));
+      }
+      new requete($this->dbrw,
+                  'DELETE FROM `aecms_stats` '.
+                  'WHERE `id_asso` = \''.$this->asso->id.'\' '.
+                  'AND `sub_id`=\''.mysql_real_escape_string($alt).'\' '.
+                  'AND `year`<\''.($y-3).'\'');
+    }
+    else
+      new requete($this->dbrw,
+                 'UPDATE `aecms_stats` '.
+                 'SET `hits` = `hits`+1 '.
+                 'WHERE `id_asso` = \''.$this->asso->id.'\' '.
+                 'AND `sub_id`=\''.mysql_real_escape_string($alt).'\' '.
+                 'AND `day`=\''.$d.'\' '.
+                 'AND `week`=\''.$w.'\' '.
+                 'AND `year`=\''.$y.'\' '.
+                 'AND `hour`=\''.$h.'\'');
   }
 
   /**
@@ -333,6 +387,7 @@ class aecms extends site
          && !$this->user->is_in_group("root") )
       return false;
 
+    define('ADMIN_SECTION',true);
     return true;
   }
 
