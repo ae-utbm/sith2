@@ -445,7 +445,7 @@ class dokusyntax
         //les wiki://
         $link = preg_replace("/wiki:\/\//i",'http://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link);
         if( defined('CMS_ID_ASSO') )
-          $link = preg_replace("/sas:\/\//i",$topdir."images.php?/",$link);
+          $link = preg_replace("/sas:\/\//i","images.php?/",$link);
         else
           $link = preg_replace("/sas:\/\//i","http://ae.utbm.fr/sas2/images.php?/",$link);
       }
@@ -1001,7 +1001,7 @@ class dokusyntax
     $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i","http://ae.utbm.fr/d.php?action=download&download=thumb&id_file=$1",$img);
     $img = preg_replace("/dfile:\/\//i","http://ae.utbm.fr/d.php?action=download&id_file=",$img);
     if( defined('CMS_ID_ASSO') )
-      $img = preg_replace("/sas:\/\//i",$topdir."images.php?/",$img);
+      $img = preg_replace("/sas:\/\//i","images.php?/",$img);
     else
       $img = preg_replace("/sas:\/\//i","http://ae.utbm.fr/sas2/images.php?/",$img);
 
