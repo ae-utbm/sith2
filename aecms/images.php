@@ -102,6 +102,7 @@ if ( $id_photo > 0 )
 
   if ( !$photo->is_valid() || !$photo->is_right($site->user,DROIT_LECTURE) )
   {
+    exit();
     renvoyer_image($topdir."images/action/delete.png");
     exit();
   }
