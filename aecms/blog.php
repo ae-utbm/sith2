@@ -44,6 +44,9 @@ $cts = new contents();
 $cts->cssclass='article blogcts';
 if ( $blog->is_writer($site->user) )
 {
+  if(!defined('ADMIN_SECTION'))
+    define('ADMIN_SECTION',true);
+
   $tabs = array(
           array("","blog.php","Le blog"),
           array("bloguer","blog.php?view=bloguer", "Espace blogueur"));
@@ -54,8 +57,6 @@ if ( $blog->is_writer($site->user) )
 
   if( isset($_REQUEST['view']) )
   {
-    if(!defined('ADMIN_SECTION'))
-      define('ADMIN_SECTION',true);
     if($_REQUEST['view']=='admin')
     {
       $user = new utilisateur($site->db);
