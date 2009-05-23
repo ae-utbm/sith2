@@ -24,6 +24,7 @@
  */
 require_once($topdir."include/entities/basedb.inc.php");
 require_once($topdir.'/sas2/include/licence.inc.php');
+require_once($topdir.'/sas2/include/cat.inc.php');
 /**
  * @file
  */
@@ -353,9 +354,16 @@ class photo extends basedb
     $dest_dip = $this->get_abs_path().$this->id.".diapo.jpg";
     $dest_vgt = $this->get_abs_path().$this->id.".vignette.jpg";
 
+    list($w,$h) = getimagesize($tmp_filename);
     exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 140x105 -quality 95 $dest_vgt");
-    exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 680x510 -quality 80 $dest_dip");
-    exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 2400x2400 -quality 80 $dest_hd");
+    if($w < 680 && $h < 510)
+      exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail ".$w."x".$h." -quality 80 $dest_dip");
+    else
+      exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 680x510 -quality 80 $dest_dip");
+    if($w < 2400 && $h < 2400)
+      exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail ".$w."x".$h." -quality 80 $dest_hd");
+    else
+      exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 2400x2400 -quality 80 $dest_hd");
 
     //rotation automatique
     if(isset($IFDO['Orientation']))
