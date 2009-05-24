@@ -5,7 +5,7 @@ class mailer
   private $img      = array();
   private $from     = 'ae@utbm.fr';
   private $subject  = '';
-  private $plaintxt = "Ceci est un message au format MIME 1.0 multipart/mixed.\n";
+  private $plaintxt = null;
   private $htmltext = '';
   public function mailer($from,$subject)
   {
@@ -44,10 +44,13 @@ class mailer
     $header  .= "Content-Type: multipart/Alternative; boundary=\"$boundary\"\n";
     $header  .= "\n";
     $msg      = "Ceci est un message au format MIME 1.0 multipart/mixed.\n";
-    $msg     .= "--$boundary\n";
-    $msg     .= "Content-Type: Text/Plain;\n  charset=\"UTF-8\"\n";
-    $msg     .= "Content-Transfer-Encoding: quoted-printable\n\n";
-    $msg     .= eregi_replace("\\\'","'",$this->plaintxt)."\n";
+    if(!is_null($this->plaintxt))
+    {
+      $msg     .= "--$boundary\n";
+      $msg     .= "Content-Type: Text/Plain;\n  charset=\"UTF-8\"\n";
+      $msg     .= "Content-Transfer-Encoding: quoted-printable\n\n";
+      $msg     .= eregi_replace("\\\'","'",$this->plaintxt)."\n";
+    }
     $msg     .= "--$boundary\n";
     $msg     .= "Content-Type: Text/HTML;\n  charset=\"UTF-8\"\n";
     $msg     .= "Content-Transfer-Encoding: quoted-printable\n";
