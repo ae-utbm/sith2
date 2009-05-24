@@ -269,7 +269,7 @@ La grande fête approche ! Le soleil brille, les oiseaux chantent et le
 groupes répètent, le FIMU c\'est ce week-end !! N\'hésitez pas à venir
 profiter de ce grand festival 100% gratuit offert par la ville de
 Belfort et les étudiants de l\'aire urbaine. Pour plus d\'informations :
-<a href="http://fimu.com" target="_blank">http://www.fimu.com</a>
+<a href="http://www.fimu.com" target="_blank">http://www.fimu.com</a>
 <br />&nbsp;</td></tr>
 <tr bgcolor="#000000"><td><font color="#ffffff">Sommaire</font></td></tr>
 <tr><td><ul><li>Le FIMU, c\'est ce week-end !!</li>
