@@ -9,11 +9,11 @@ $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                      'Weekmail du 25 au 31 Mai 2009');
-//$mailer->add_dest(array('etudiants@utbm.fr',
-//                        'enseignants@utbm.fr',
-//                        'iatoss@utbm.fr',
-//                        'aude.petit@utbm.fr'));
-$mailer->add_dest("simon.lopez@utbm.fr");
+$mailer->add_dest(array('etudiants@utbm.fr',
+                        'enseignants@utbm.fr',
+                        'iatoss@utbm.fr',
+                        'aude.petit@utbm.fr'));
+//$mailer->add_dest("simon.lopez@utbm.fr");
 $file = new dfile($site->db);
 $file->load_by_id(3957);
 $mailer->add_img($file);
