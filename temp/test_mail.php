@@ -255,7 +255,7 @@ du Mondial de l\'Automobile ?
 --
 à la semaine prochaine !
 A6';
-$mailer->set_plain($plain);
+//$mailer->set_plain($plain);
 $html = '<html>
 <body bgcolor="#333333" width="700px">
 <table bgcolor="#333333" width="700px">
