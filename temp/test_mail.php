@@ -14,9 +14,9 @@ $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
 //                        'iatoss@utbm.fr',
 //                        'aude.petit@utbm.fr'));
 $mailer->add_dest("simon.lopez@utbm.fr");
-$file = new dfile($site->db);
-$file->load_by_id(3957);
-$mailer->add_img($file);
+//$file = new dfile($site->db);
+//$file->load_by_id(3957);
+//$mailer->add_img($file);
 $plain = 'Salut les UTbohémiens,
 
 La grande fête approche ! Le soleil brille, les oiseaux chantent et le
