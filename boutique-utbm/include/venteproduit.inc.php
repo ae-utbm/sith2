@@ -170,7 +170,7 @@ class venteproduit extends stdentity
    */
   function bloquer ( $client, $qte=1 )
   {
-print_r($qte." : ".$produit->stock_global);
+print_r($qte." : ".$produit->id);
     if ($produit->stock_global < $qte && $produit->stock_global != -1)
       return false;
 print_r("bleh");
