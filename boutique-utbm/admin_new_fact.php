@@ -68,14 +68,14 @@ $req = new requete($site->db,
     "ORDER BY `boutiqueut_produits`.`nom_prod`, `boutiqueut_type_produit`.`nom_typeprod`");
 if(isset($_REQUEST['action']))
 {
-  if(($_REQUEST['action']=="newcmd" && trim($_REQUEST['nom'])!='' && trim($_REQUEST['prenom'])!='')
+  if(($_REQUEST['action']=="newcmd")
     || ($_REQUEST['action']=="validercmd" && $_REQUEST['save']=='Modifier')
   )
   {
     $site->start_page("services","Administration");
     $cts = new contents("<a href=\"admin.php\">Administration</a> / Enregistrer une commande");
     $cts->add_paragraph("Service concerné : ".$user->nom." ".$user->prenom);
-    $frm = new form ("genfact","admin_new_fact.php",false,"POST","Enregistrer une commande (PAS POUR LES SERVICES!)");
+    $frm = new form ("genfact","admin_new_fact.php",false,"POST","Enregistrer une commande");
     $frm->allow_only_one_usage();
     $frm->add_hidden("page","newcmd");
     $frm->add_hidden("checksum", gen_uid());
