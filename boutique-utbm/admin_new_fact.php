@@ -60,7 +60,7 @@ if(!$user->is_valid() || $user->type !='srv')
 $req = new requete($site->db,
     "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
     "`boutiqueut_produits`.stock_global_prod, " .
-    "FORMAT(`boutiqueut_produits`.prix_vente_prod/100,2) AS prix_vente_prod " .
+    "FORMAT(`boutiqueut_produits`.prix_vente_prod_service/100,2) AS prix_vente_prod " .
     "FROM `boutiqueut_produits` " .
     "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
     "WHERE prod_archive != 1 " .
