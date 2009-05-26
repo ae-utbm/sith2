@@ -73,13 +73,14 @@ if(isset($_REQUEST['action']))
   )
   {
     $site->start_page("services","Administration");
-    $cts = new contents("<a href=\"admin_new_fact.php\">Administration</a> / Enregistrer une commande");
+    $cts = new contents("<a href=\"admin.php\">Administration</a> / Enregistrer une commande");
     $cts->add_paragraph("Service concerné : ".$user->nom." ".$user->prenom);
     $frm = new form ("genfact","admin_new_fact.php",false,"POST","Enregistrer une commande (PAS POUR LES SERVICES!)");
     $frm->allow_only_one_usage();
     $frm->add_hidden("page","newcmd");
     $frm->add_hidden("checksum", gen_uid());
     $frm->add_hidden("action","validercmd");
+    $frm->add_hidden("id_utilisateur",$user->id);
     $sum=0;
     while(list($nom_prod,$id_produit,$stock_global_prod,$prix)=$req->get_row())
     {
