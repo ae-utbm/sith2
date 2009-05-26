@@ -86,12 +86,11 @@ class venteproduit extends stdentity
     if ( !$this->_charge(&$produit) )
       return false;
 
-    if ($produit->action == ACTION_VSTOCKLIM )
-      if ($produit->stock_global == 0)
-      {
-        unset($this->produit);
-        return false;
-      }
+    if ($produit->stock_global == 0)
+    {
+      unset($this->produit);
+      return false;
+    }
 
     return true;
   }
@@ -172,10 +171,8 @@ class venteproduit extends stdentity
   function bloquer ( $client, $qte=1 )
   {
 
-    if ($produit->action == ACTION_VSTOCKLIM)
-      if ($produit->stock_global < $qte && $produit->stock_global != -1)
-        return false;
-
+    if ($produit->stock_global < $qte && $produit->stock_global != -1)
+      return false;
 
     if ($this->_decrement($qte))
       $this->_delta_verrou($client, $qte);

@@ -229,7 +229,7 @@ class boutique extends site
       return false;
 
     if ( !$vp->produit->can_be_sold($this->user) )
-      return;
+      return false;
 
     $_SESSION['boutique_locked'] = $site->user->id;
 
