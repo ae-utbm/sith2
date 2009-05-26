@@ -170,10 +170,9 @@ class venteproduit extends stdentity
    */
   function bloquer ( $client, $qte=1 )
   {
-print_r($qte." : ".$produit->id);
-    if ($produit->stock_global < $qte && $produit->stock_global != -1)
+    if ($this->produit->stock_global < $qte
+        && $this->produit->stock_global != -1)
       return false;
-print_r("bleh");
     if ($this->_decrement($qte))
       $this->_delta_verrou($client, $qte);
 
