@@ -195,7 +195,7 @@ etat=1+ready=0 : en préparation
     if(!$client->is_valid())
       return;
     $body = "Bonjour,
-Vous vennez d'effectuer une commande sur la boutique utbm.
+Vous venez d'effectuer une commande sur la boutique utbm.
 
 Pour suivre l'avancement de votre commande, rendez vous à l'adresse suivante :
 http://boutique.utbm.fr/suivi.php?id_facture=".$this->id."
@@ -206,7 +206,7 @@ Cordialement,
 La boutique utbm
 --
 http://boutique.utbm.fr
-Site accéssible uniquement depuis le réseau utbm";
+Site accessible uniquement depuis le réseau utbm";
 
     $ret = mail($client->email,
                 "[boutique utbm] confirmation de commande",
@@ -223,7 +223,7 @@ Cordialement,
 La boutique utbm
 --
 http://boutique.utbm.fr
-Site accéssible uniquement depuis le réseau utbm";
+Site accessible uniquement depuis le réseau utbm";
     $ret = mail("boutique@utbm.fr",
 //    $ret = mail("simon.lopez@ayolo.org",
                 "[boutique utbm] nouvelle commande",
@@ -238,7 +238,7 @@ Site accéssible uniquement depuis le réseau utbm";
     $body = "Bonjour,
 Votre commande N°".$this->id." sur la boutique utbm est prête.
 
-Vous pouvez venir la retirer à l'accueil de sévenans aux heures
+Vous pouvez venir la retirer à l'accueil de Sevenans aux heures
 d'ouvertures suivantes :";
 
 if($client->type=='srv')
@@ -260,10 +260,10 @@ Cordialement,
 La boutique utbm
 --
 http://boutique.utbm.fr
-Site accéssible uniquement depuis le réseau utbm";
+Site accessible uniquement depuis le réseau utbm";
 
     $ret = mail($client->email,
-                "[boutique utbm] confirmation de commande",
+                "[boutique utbm] Commande prete",
                 utf8_decode($body),
                 "From: \"La boutique utbm\" <boutique@utbm.fr>\nReply-To: boutique@utbm.fr");
   }
