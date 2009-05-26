@@ -261,12 +261,8 @@ $req1 = new requete($site->db,
         "SELECT " .
         "`boutiqueut_debitfacture`.`id_facture`, " .
         "`boutiqueut_debitfacture`.`date_facture`, " .
-        "FORMAT(`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`/100,2) AS `total` " .
-        "FROM `boutiqueut_vendu` " .
-        "INNER JOIN `boutiqueut_produits` ON ".
-        "`boutiqueut_produits`.`id_produit` =`boutiqueut_vendu`.`id_produit` " .
-        "INNER JOIN `boutiqueut_debitfacture` ON ".
-        "`boutiqueut_debitfacture`.`id_facture` =`boutiqueut_vendu`.`id_facture` " .
+        "FORMAT(`montant_facture`/100,2) AS `total` " .
+        "FROM `boutiqueut_debitfacture` " .
         "WHERE " .
         "`boutiqueut_debitfacture`.`id_utilisateur` = '".mysql_real_escape_string($site->user->id) ."' ".
         "GROUP BY `boutiqueut_debitfacture`.`id_facture` ".
