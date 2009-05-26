@@ -173,7 +173,7 @@ class venteproduit extends stdentity
 
     if ($produit->stock_global < $qte && $produit->stock_global != -1)
       return false;
-
+print_r("bleh");
     if ($this->_decrement($qte))
       $this->_delta_verrou($client, $qte);
 
