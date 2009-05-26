@@ -107,9 +107,6 @@ else
 
   foreach ($site->cart as $item)
   {
-    for ($i=0 ; $i < $_SESSION['boutique_cart'][$item->id] + 1 ; $i++)
-      $tmp[$i] = $i;
-
     $cart_t->buffer .= ("<tr>\n".
                     "<td>" . $item->nom . "</td>".
                     "<td style=\"text-align: center;\">");
@@ -117,8 +114,13 @@ else
     if (isset($_POST['cart_submit']))
       $cart_t->buffer .= $_SESSION['boutique_cart'][$item->id];
     else
+    {
+      $tmp=array();
+      for ($i=0 ; $i < $_SESSION['boutique_cart'][$item->id] + 1 ; $i++)
+        $tmp[$i] = $i;
       $cart_t->buffer .=
                 GenerateSelectList($tmp, $_SESSION['boutique_cart'][$item->id] , $item->id);
+    }
 
     $cart_t->buffer .= (" </td>\n".
                         " <td style=\"text-align: right;\">".
