@@ -161,6 +161,7 @@ $frm = new form ("addtype","admin_new_fact.php",false,"POST","Enregistrer une co
 $frm->allow_only_one_usage();
 $frm->add_hidden("page","newcmd");
 $frm->add_hidden("action","newcmd");
+$frm->add_hidden("id_utilisateur",$user->id);
 while(list($nom_prod,$id_produit,$stock_global_prod,$prix)=$req->get_row())
 {
   $prix=sprintf("%.2f Euros",$prix);
