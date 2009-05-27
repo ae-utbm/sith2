@@ -129,23 +129,38 @@ if( $user->is_valid() && $user->type=='srv')
     $pass = genere_pass(10);
     $user->change_password($pass);
     $body = "Bonjour,
-Afin de pouvoir accéder à la boutique utbm, nous vous communicons vos
-identifiants :
 
-  centre fincanier : $centre
-  mot de passe : $pass
+Vous souhaitez proposer des produits UTBM à vos partenaires et invités ?
+Vous organisez un congrès ou une conférence et vous avez besoin
+d'objets publicitaires UTBM ?
+Le service communication vient d'ouvrir une boutique en ligne et vous
+propose de passer directement vos commandes à l'adresse :
+
+boutique.utbm.fr (accessible uniquement depuis l'UTBM).
+
+délai de mise à disposition des produits : 48 h
+à retirer à l'accueil du site de Sevenans
+
+Afin de pouvoir accèder à  la boutique utbm,
+nous vous communiquons vos identifiants :
+
+centre fincanier : $centre
+mot de passe : $pass
+
+La Boutique sera ouverte dès le mois de juin aux particuliers
+le jeudi après-midi sur le site de Sevenans.
+
+Contact : Chrystelle Phelpin - chargée d'accueil - site de Sevenans
+chrystelle.phelpin@utbm.fr - tél : 30 00
+
+
 
 Vous trouverez une documentation complète de l'utilisation et du
-fonctionnment de la boutique à l'adresse suivante :
-http://boutique.utbm.fr/doc_service.pdf
-
-Cordialement,
-La boutique utbm
---
-http://boutique.utbm.fr
-Site accéssible uniquement depuis le réseau utbm";
+fonctionnement de la boutique à  l'adresse suivante :
+http://www.utbm.fr/upload/gestionFichiers/doc-boutique-utbm.pdf
+";
     $ret = mail($email,
-                utf8_decode("[boutique] identifiant"),
+                utf8_decode("Boutique UTBM - Vos identifiants de connection"),
                 utf8_decode($body),
                 "From: \"Boutique\" <boutique@utbm.fr>\nReply-To: boutique@utbm.fr");
     $_cts=new contents("Mot de passe réinitialisé.");
@@ -208,23 +223,38 @@ if($_REQUEST['action']=='resetall')
     $pass = genere_pass(10);
     $user->change_password($pass);
     $body = "Bonjour,
-Afin de pouvoir accéder à la boutique utbm, nous vous communicons vos
-identifiants :
+
+Vous souhaitez proposer des produits UTBM à vos partenaires et invités ?
+Vous organisez un congrès ou une conférence et vous avez besoin
+d'objets publicitaires UTBM ?
+Le service communication vient d'ouvrir une boutique en ligne et vous
+propose de passer directement vos commandes à l'adresse :
+
+boutique.utbm.fr (accessible uniquement depuis l'UTBM).
+
+délai de mise à disposition des produits : 48 h
+à retirer à l'accueil du site de Sevenans
+
+Afin de pouvoir accèder à  la boutique utbm,
+nous vous communiquons vos identifiants :
 
 centre fincanier : $centre
 mot de passe : $pass
 
-Vous trouverez une documentation complète de l'utilisation et du
-fonctionnment de la boutique à l'adresse suivante :
-http://boutique.utbm.fr/doc_service.pdf
+La Boutique sera ouverte dès le mois de juin aux particuliers
+le jeudi après-midi sur le site de Sevenans.
 
-Cordialement,
-La boutique utbm
---
-http://boutique.utbm.fr
-Site accéssible uniquement depuis le réseau utbm";
+Contact : Chrystelle Phelpin - chargée d'accueil - site de Sevenans
+chrystelle.phelpin@utbm.fr - tél : 30 00
+
+
+
+Vous trouverez une documentation complète de l'utilisation et du
+fonctionnement de la boutique à  l'adresse suivante :
+http://www.utbm.fr/upload/gestionFichiers/doc-boutique-utbm.pdf
+";
     $ret = mail($email,
-                utf8_decode("[boutique] identifiant"),
+                utf8_decode("Boutique UTBM - Vos identifiants de connection"),
                 utf8_decode($body),
                 "From: \"Boutique\" <boutique@utbm.fr>\nReply-To: boutique@utbm.fr");
   }
