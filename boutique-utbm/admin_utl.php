@@ -207,7 +207,7 @@ if($_REQUEST['action']=='resetall')
 {
   $req = new requete($site->db,'SELECT id_utilisateur FROM utilisateurs WHERE type_utl=\'srv\'');
   $user = new utilisateur($site->db,$site->dbrw);
-  while(list($id)=$req->gate_row())
+  while(list($id)=$req->get_row())
   {
     $user->load_by_id($id);
     if(!$user->is_valid())
