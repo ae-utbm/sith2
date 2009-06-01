@@ -64,20 +64,23 @@ class box_slideshow extends stdcontents
     if($this->nb==0)
       return "";
     $uid=$this->uid;
-    $this->buffer.="<script type=\"text/javascript\">\n";
-    if($this->pause && $this->nb>1)
+    if($this->nb > 1)
     {
-      $this->buffer.="start_slideshow('slideshow$uid', 0, ".(count($this->slides)-1).", ".$this->delay.",1);\n";
-       $this->buffer.="</script>\n";
-      $this->buffer.="<div class='slidebox_pause' id='slideshowonoff$uid'>";
-      $this->buffer.="<a href='#' class='slidenav' onclick=\"forceslideshow('slideshow$uid', 'slideshowonoff$uid', 0, ".(count($this->slides)-1).",'-1'); return false;\">&laquo;</a> ";
-      $this->buffer.="<a href='#' onclick=\"slideshow_onoff('slideshow$uid','slideshowonoff$uid'); return false;\">pause</a> ";
-      $this->buffer.="<a href='#' class='slidenav' onclick=\"forceslideshow('slideshow$uid', 'slideshowonoff$uid', 0, ".(count($this->slides)-1).",'1'); return false;\">&raquo;</a></div>";
-    }
-    elseif($this->nb>1)
-    {
-      $this->buffer.="start_slideshow('slideshow$uid', 0, ".(count($this->slides)-1).", ".$this->delay.",0);\n";
-      $this->buffer.="</script>\n";
+      $this->buffer.="<script type=\"text/javascript\">\n";
+      if($this->pause && $this->nb>1)
+      {
+        $this->buffer.="start_slideshow('slideshow$uid', 0, ".(count($this->slides)-1).", ".$this->delay.",1);\n";
+        $this->buffer.="</script>\n";
+        $this->buffer.="<div class='slidebox_pause' id='slideshowonoff$uid'>";
+        $this->buffer.="<a href='#' class='slidenav' onclick=\"forceslideshow('slideshow$uid', 'slideshowonoff$uid', 0, ".(count($this->slides)-1).",'-1'); return false;\">&laquo;</a> ";
+        $this->buffer.="<a href='#' onclick=\"slideshow_onoff('slideshow$uid','slideshowonoff$uid'); return false;\">pause</a> ";
+        $this->buffer.="<a href='#' class='slidenav' onclick=\"forceslideshow('slideshow$uid', 'slideshowonoff$uid', 0, ".(count($this->slides)-1).",'1'); return false;\">&raquo;</a></div>";
+      }
+      else
+      {
+        $this->buffer.="start_slideshow('slideshow$uid', 0, ".(count($this->slides)-1).", ".$this->delay.",0);\n";
+        $this->buffer.="</script>\n";
+      }
     }
 
     for($i=0;$i<$this->nb;$i++)
