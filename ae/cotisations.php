@@ -45,6 +45,8 @@ if (date("m-d") < "02-15")
 {
   $date1 = date("Y") . "-02-15";
   $date2 = date("Y") . "-08-15";
+  $date3 = date("Y") + 2 . "-08-15";
+  $date4 = date("Y") + 3 . "-08-15";
 }
 else
 {
@@ -52,11 +54,15 @@ else
   {
     $date1 = date("Y") . "-08-15";
     $date2 = date("Y") + 1 . "-02-15";
+    $date3 = date("Y") + 2 . "-02-15";
+    $date4 = date("Y") + 3 . "-02-15";
   }
   else
   {
     $date1 = date("Y") + 1 . "-02-15";
     $date2 = date("Y") + 1 . "-08-15";
+    $date3 = date("Y") + 2 . "-08-15";
+    $date4 = date("Y") + 3 . "-08-15";
   }
 }
 
@@ -109,7 +115,7 @@ function add_new_form($id = null)
   $frm->add_info("&nbsp;");
 
   $sub_frm_cotiz = new form("cotisation",null,null,null,"Cotisation");
-  $sub_frm_cotiz->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, jusqu'au $date1", 1=>"2 Semestres, 28 Euros, jusqu'au $date2" ),1);
+  $sub_frm_cotiz->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, jusqu'au $date1", 1=>"2 Semestres, 28 Euros, jusqu'au $date2", 2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3", 3 => "Cursus Branche, 45 €, jusqu'au $date4"),1);
   $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
   $sub_frm_cotiz->add_info("&nbsp;");
 
@@ -250,9 +256,15 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     if ( $_REQUEST["cotiz"] == 0 ) {
       $date_fin = strtotime($date1);
       $prix_paye = 1500;
-    } else {
+    } elseif ( $_REQUEST["cotiz"] == 1 ) {
       $date_fin = strtotime($date2);
       $prix_paye = 2800;
+    } elseif ( $_REQUEST["cotiz"] == 2 ) {
+      $date_fin = strtotime($date3);
+      $prix_paye = 4500;
+    } else {
+      $date_fin = strtotime($date4);
+      $prix_paye = 4500;
     }
 
     $cotisation->load_lastest_by_user ( $user->id );
@@ -429,7 +441,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
       $frm = new form("newcotiz","cotisations.php?id_utilisateur=".$user->id,true,"POST","Nouvelle cotisation");
       $frm->add_hidden("action","newcotiz");
-      $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2" ),1);
+      $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2", 2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3", 3 => "Cursus Branche, 45 €, jusqu'au $date4"),1);
       $frm->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
       $frm->add_checkbox("a_pris_cadeau","Cadeau distribué",false);
