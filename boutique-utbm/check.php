@@ -35,6 +35,8 @@ $req = new requete($site->db,
 
 while(list($id,$q)=$req->get_row())
 {
+  if($id==23)
+    continue;
   if($q!=-1 && $q != ($reapro[$id]-$vendu[$id]))
   {
     echo "$id - erreur de stock<br>";
