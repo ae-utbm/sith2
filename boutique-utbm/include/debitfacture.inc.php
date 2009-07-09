@@ -352,7 +352,7 @@ Site accessible uniquement depuis le réseau utbm";
                "a_retirer_vente" => $a_retirer
              ));
 
-      $vp->vendu_bloque($client,$prix,$quantite);
+      $vp->vendu_bloque($client,$quantite);
     }
   }
 

@@ -250,10 +250,10 @@ class venteproduit extends stdentity
   /**
    * Procéde aux actions suite à la vente effective d'un produit qui a été bloqué avec bloquer()
    */
-  function vendu_bloque ( $client, $prix, $qte=1 )
+  function vendu_bloque ( $client, $qte=1 )
   {
-    //$this->_decrement($qte);
-    $this->_delta_verrou($client, -$qte);
+    $this->debloquer($client,$qte);
+    $this->_decrement($qte);
   }
 
 }
