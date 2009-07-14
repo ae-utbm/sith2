@@ -671,7 +671,8 @@ class asso extends stdentity
     if ( !$email )
       return;
     //echo "SUBSCRIBE $ml $email<br/>";
-    new insert($db,"ml_todo",array("action_todo"=>"SUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
+    //new insert($db,"ml_todo",array("action_todo"=>"SUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
+    exec("echo \"".$email."\"|/usr/sbin/add_members  -r - -a y -w y ".$ml);
   }
 
   static function _ml_unsubscribe ( $db, $ml, $email )
@@ -679,7 +680,8 @@ class asso extends stdentity
     if ( !$email )
       return;
     //echo "UNSUBSCRIBE $ml $email<br/>";
-    new insert($db,"ml_todo",array("action_todo"=>"UNSUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
+    //new insert($db,"ml_todo",array("action_todo"=>"UNSUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
+    exec("/usr/sbin/remove_members ".$ml." ".$email);
   }
 
   static function _ml_create ( $db, $ml, $owner="" )
@@ -687,7 +689,8 @@ class asso extends stdentity
     if ( empty($owner) )
       $owner = "ae@utbm.fr";
     //echo "CREATE $ml $owner<br/>";
-    new insert($db,"ml_todo",array("action_todo"=>"CREATE","ml_todo"=>strtolower($ml),"email_todo"=>$owner));
+    //new insert($db,"ml_todo",array("action_todo"=>"CREATE","ml_todo"=>strtolower($ml),"email_todo"=>$owner));
+    exec("/usr/sbin/newlist -q --language=fr ".strtolower($ml)." ".$owner." ".genere_pass(8));
   }
 
   static function _ml_rename ( $db, $old, $new )
