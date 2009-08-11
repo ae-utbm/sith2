@@ -29,6 +29,7 @@ $req = new requete($site->db,
 'SELECT `id_utilisateur`, `nom_utl`, `prenom_utl`, `alias_utl` FROM `utilisateurs`');
 
 $alias = array();
+echo "<pre>";
 while(list($id,$nom,$prenom,$alias)=$req->get_row())
 {
   $a=strtolower($prenom{0}.$nom);
@@ -39,8 +40,12 @@ while(list($id,$nom,$prenom,$alias)=$req->get_row())
     $alias[$a]++;
     $a.=$alias[$a];
   }
+echo $nom." ".$prenom." : ".$a."\n";
+/*
   new update($site->dbrw,
              array('alias_utl'=>$a),
              array('id_utilisateur'=>$id));
+*/
 }
+echo "</pre>";
 ?>
