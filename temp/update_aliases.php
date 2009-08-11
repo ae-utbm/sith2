@@ -40,12 +40,10 @@ while(list($id,$nom,$prenom,$alias)=$req->get_row())
     $alias[$a]=(int)$alias[$a]+1;
     $a.=$alias[$a];
   }
-echo $nom." ".$prenom." : ".$a."\n";
-/*
+//echo $nom." ".$prenom." : ".$a."\n";
   new update($site->dbrw,
              array('alias_utl'=>$a),
              array('id_utilisateur'=>$id));
-*/
 }
 echo "</pre>";
 ?>
