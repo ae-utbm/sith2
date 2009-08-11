@@ -32,7 +32,7 @@ $alias = array();
 echo "<pre>";
 while(list($id,$nom,$prenom,$alias)=$req->get_row())
 {
-  $a=strtolower($prenom{0}.$nom);
+  $a=strtolower($prenom{0}.str_replace(' ','',$nom));
   if($alias[$a])
     $alias[$a]=(int)0;
   else
