@@ -124,14 +124,30 @@ else if ( isset($_REQUEST["id_asso"]) )
       if ( is_uploaded_file($_FILES['logofile']['tmp_name']) )
       {
         $src = $_FILES['logofile']['tmp_name'];
+        $output = array ();
 
         $dest_small ="/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".small.png";
         $dest_icon = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".icon.png";
         $dest_full = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg";
 
-        exec("/usr/share/php5/exec/convert $src -thumbnail 80x80 $dest_small");
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 48x48 -bordercolor white  -border 24 -background white -gravity center -crop 48x48+0+0 +repage $dest_icon"));
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -background white $dest_full"));
+        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 80x80 $dest_small"), $output);
+        foreach ($output as $line) {
+          echo $line;
+        }
+        echo '\n';
+        unset($output);
+        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 48x48 -bordercolor white  -border 24 -background white -gravity center -crop 48x48+0+0 +repage $dest_icon"), $output);
+        foreach ($output as $line) {
+          echo $line;
+        }
+        echo '\n';
+        unset($output);
+        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -background white $dest_full"), $output);
+        foreach ($output as $line) {
+          echo $line;
+        }
+        echo '\n';
+        unset($output);
       }
       else
         $ErreurLogo = "Erreur lors de l'upload";
