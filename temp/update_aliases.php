@@ -26,7 +26,7 @@ require_once($topdir. "include/site.inc.php");
 $site = new site ();
 
 $req = new requete($site->db,
-'SELECT `id_utilisateur`, `nom_utl`, `prenom_utl`, `alias_utl` FROM `utilisateurs`');
+'SELECT `id_utilisateur`, `nom_utl`, `prenom_utl`, `alias_utl` FROM `utilisateurs` ORDER by `id_utilisateur`');
 
 $alias = array();
 echo "<pre>";
