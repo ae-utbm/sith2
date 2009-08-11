@@ -33,7 +33,7 @@ echo "<pre>";
 while(list($id,$nom,$prenom,$alias)=$req->get_row())
 {
   $a=strtolower($prenom{0}.$nom);
-  if(!isset($alias[$a]))
+  if($alias[$a])
     $alias[$a]=(int)0;
   else
   {
