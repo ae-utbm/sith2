@@ -189,6 +189,7 @@ else if ( isset($_REQUEST["id_asso"]) )
     if ( file_exists($topdir."var/img/logos/".$asso->nom_unix.".small.png") )
       $frm->add_info("<img src=\"".$topdir."var/img/logos/".$asso->nom_unix.".small.png\" />");
     $frm->add_info("Le logo doit être de grande taille, avec un fond transparent et au format PNG");
+    $frm->add_info("Il peut être nécessaire de régénérer le cache de votre navigateur après l'envoi pour visualiser le changement");
     $frm->add_file_field("logofile","Fichier PNG");
     $frm->add_submit("valid","Enregistrer");
     $cts->add($frm,true);
