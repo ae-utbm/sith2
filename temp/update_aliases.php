@@ -42,6 +42,7 @@ while(list($id,$nom,$prenom,$alias)=$req->get_row())
   }
 //echo $nom." ".$prenom." : ".$a."\n";
   new update($site->dbrw,
+             'utilisateurs',
              array('alias_utl'=>$a),
              array('id_utilisateur'=>$id));
 }
