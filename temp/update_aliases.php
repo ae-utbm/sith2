@@ -34,10 +34,10 @@ while(list($id,$nom,$prenom,$alias)=$req->get_row())
 {
   $a=strtolower($prenom{0}.$nom);
   if(!isset($alias[$a]))
-    $alias[$a]=0;
+    $alias[$a]=(int)0;
   else
   {
-    $alias[$a]++;
+    $alias[$a]=(int)$alias[$a]+1;
     $a.=$alias[$a];
   }
 echo $nom." ".$prenom." : ".$a."\n";
