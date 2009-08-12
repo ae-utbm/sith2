@@ -622,7 +622,7 @@ elseif ($_REQUEST["action"] == "newstudent")
   $user->new_utbm_user($_REQUEST['nom'],
                        $_REQUEST['prenom'],
                        $_REQUEST['emailutbm'], $_REQUEST['emailutbm'],
-                       null,null,null,null,null,
+                       null,null,null,null,
                        $etudiant,
                        $_REQUEST['droit_image']==true,
                        $nom_ecole);
