@@ -1054,7 +1054,6 @@ class utilisateur extends stdentity
 
   function create_user ( $nom,
                          $prenom,
-                         $alias,
                          $email,
                          $password,
                          $droit_image,
@@ -1140,7 +1139,6 @@ class utilisateur extends stdentity
 
   function create_etudiant_user ( $nom,
                                   $prenom,
-                                  $alias,
                                   $email,
                                   $password,
                                   $droit_image,
@@ -1152,7 +1150,6 @@ class utilisateur extends stdentity
 
     if ( !$this->create_user ( $nom,
                                $prenom,
-                               $alias,
                                $email,
                                $password,
                                $droit_image,
@@ -1176,7 +1173,6 @@ class utilisateur extends stdentity
 
   function create_utbm_user ( $nom,
                               $prenom,
-                              $alias,
                               $emailutbm,
                               $password,
                               $droit_image,
@@ -1189,7 +1185,6 @@ class utilisateur extends stdentity
     {
       if ( !$this->create_etudiant_user ( $nom,
                                           $prenom,
-                                          $alias,
                                           $emailutbm,
                                           $password,
                                           $droit_image,
@@ -1230,7 +1225,7 @@ class utilisateur extends stdentity
    * @todo Fonction à revoir complètement (aussi bien usage dans le site que implémentation)
    * @deprecated
    */
-  function new_utbm_user ( $nom, $prenom, $email, $emailutbm, $alias, $password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1)
+  function new_utbm_user ( $nom, $prenom, $email, $emailutbm, $password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1)
   {
     $this->type="std";
 
@@ -1244,10 +1239,24 @@ class utilisateur extends stdentity
 
     $this->email = $email;
 
-    if ( empty($alias) )
-      $this->alias = null;
-    else
-      $this->alias = $alias;
+    $alias=strtolower($this->prenom{0}.str_replace(' ','',str_replace('-','',$this->nom)));
+    if(strlen($alias)>8)
+      $alias = substr($alias,0,8);
+    $req = new requete($this->db,
+                       'SELECT `alias_utl` '.
+                       'FROM `utilisateurs` '.
+                       'WHERE LOWER(`alias_utl`) LIKE \''.mysql_real_escape_string($alias).'%\' '.
+                       'ORDER BY `alias_utl` DESC '.
+                       'LIMIT 1');
+    if($req->lines==1)
+    {
+      list($_alias)=$req->get_row();
+      if(strlen($_alias)>8)
+        $alias.=((int)substr($_alias,-1)+1);
+      else
+        $alias.=1;
+    }
+    $this->alias = $alias;
 
     if (!$password)
       $password = genere_pass(7);
