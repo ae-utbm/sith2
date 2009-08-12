@@ -27,20 +27,27 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/mysql.inc.php");
 require_once($topdir. "include/mysqlae.inc.php");
 
-function error($apikey)
+function error($apikey,$insc=false)
 {
   if(!$GLOBALS["is_using_ssl"])
     return "httpsRequired";
 
-  $db = new mysqlae ("rw");
+  $db = new mysqlae ("ro");
 
   if(!$db->dbh)
     return "DatabaseUnavailable";
 
-  $valid = new requete($db,
+  if($insc)
+    $valid = new requete($db,
     "SELECT `key` ".
     "FROM `sso_api_keys` ".
-    "WHERE `key` = '".mysql_real_escape_string($apikey)."'");
+    "WHERE `key` = '".mysql_real_escape_string($apikey)."' ".
+    "AND `allow_inscription`='1'");
+  else
+    $valid = new requete($db,
+      "SELECT `key` ".
+      "FROM `sso_api_keys` ".
+      "WHERE `key` = '".mysql_real_escape_string($apikey)."'");
 
   if($valid->lines != 1)
     return "KeyNotValid";
@@ -103,7 +110,9 @@ function testAssoRole($message)
     $site = new site();
     $site->user->load_by_id($uid);
 
-    if($site->user->is_asso_role($asso, $role))
+    if(!$site->user->is_valid())
+      $return=-1;
+    elseif($site->user->is_asso_role($asso, $role))
       $return = 1;
     else
       $return = 0;
@@ -120,27 +129,89 @@ XML;
   return $response;
 }
 
-/* Ils utilisent pas l'inscription via site AE donc on commente */
-/*function inscription($message)
+function getUserInfo($message)
 {
   $simplexml = new SimpleXMLElement($message->str);
   $apikey = $simplexml->apikey[0];
-  $utbm = $simplexml->utbm[0];
-  $nom = $simplexml->nom[0];
-  $prenom = $simplexml->prenom[0];
-  $email = $simplexml->email[0];
-  $password = $simplexml->password[0];
-  $naissance = $simplexml->naissance[0];
-  $droitimage = $simplexml->droitimage[0];
-  $alias = $simplexml->alias[0];
-  $sexe = $simplexml->sexe[0];
-
+  $uid = $simplexml->uid[0];
   $error = error($apikey);
+  if($error == "ok")
+  {
+    $site = new site();
+    $site->user->load_by_id($uid);
+    if(!$site->user->is_valid())
+    {
+      $error = 1;
+      $return = '<errorDetail>UID not found</errorDetail>';
+    }
+    else
+    {
+      $user = &$site->user;
+      $error = 0;
+      $return = '<nom>'.$user->nom.'</nom>';
+      $return.= '<prenom>'.$user->prenom.'</prenom>';
+      $return.= '<email>'.$user->email.'</email>';
+      $return.= '<date_maj>'.$user->date_maj.'</date_maj>';
+    }
+  }
+  else
+    $return = $error;
+
+  $response = <<<XML
+<testAssoRoleResponse>
+  <error>$error</error>
+  $return
+</testAssoRoleResponse>
+XML;
+
+  return $response;
+}
+
+function getUpdate($message)
+{
+  $simplexml = new SimpleXMLElement($message->str);
+  $apikey = $simplexml->apikey[0];
+  $uid = $simplexml->uid[0];
+  $maj=-1;
+  if($error == "ok")
+  {
+    $error = 0;
+    $site = new site();
+    $site->user->load_by_id($uid);
+    if(!$site->user->is_valid())
+      $error = -1;
+    else
+      $maj = $site->user->date_maj;
+  }
+  $response = <<<XML
+<testAssoRoleResponse>
+  <error>$error</error>
+  <maj>$maj</maj>
+</testAssoRoleResponse>
+XML;
+
+  return $response;
+}
+
+/* Ils utilisent pas l'inscription via site AE donc on commente */
+function inscription($message)
+{
+  $simplexml = new SimpleXMLElement($message->str);
+  $apikey = $simplexml->apikey[0];
+
+  $error = error($apikey,true);
 
   if($error == "ok")
   {
     $site = new site();
     $user = new utilisateur($site->db,$site->dbrw);
+
+    $utbm = false;
+    $nom = $simplexml->nom[0];
+    $prenom = $simplexml->prenom[0];
+    $email = $simplexml->email[0];
+    $naissance = $simplexml->naissance[0];
+    $sexe = $simplexml->sexe[0];
 
     if(!$email)
       $return = "MailMissing";
@@ -152,19 +223,17 @@ XML;
       $return = "NameMissing";
     elseif(!$prenom)
       $return = "LastnameMissing";
-    elseif($utbm == 1 && !ereg("^([a-zA-Z0-9\.\-]+)@(utbm\.fr|assidu-utbm\.fr)$",$mail))
-      $return = "NotUtbmMail";
+    elseif(ereg("^([a-zA-Z0-9\.\-]+)@(utbm\.fr|assidu-utbm\.fr)$",$mail))
+      $utbm = true;
     elseif(!$password)
       $return = "PasswordMissing";
     elseif($sexe != 1 && $sexe != 2)
       $return = "InvalidSex";
-    elseif($alias && !preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$alias))
-      $return = "InvalidAlias";
-    elseif($alias && !$user->is_alias_avaible($alias))
-      $return = "AliasExists";
     else
     {
-      $user->create_user($nom, $prenom, $alias, $email, $password, $droitimage, $naissance, $sexe);
+      $password = genere_pass(7);
+      $password = crypt($password, "ae");
+      $user->create_user($nom, $prenom, $email, $password, false, $naissance, $sexe, $utbm);
       $user->load_by_email($email);
       $return = $user->id;
     }
@@ -181,10 +250,13 @@ XML;
 XML;
 
   return $response;
-}*/
+}
 
-/*$service = new WSService(array("operations" => array("testLogin", "inscription")));*/
-$service = new WSService(array("operations" => array("testLogin", "testAssoRole")));
+$service = new WSService(array("operations" => array('testLogin',
+                                                     'testAssoRole',
+                                                     'getUpdate',
+                                                     'getUserInfo',
+                                                     'inscription')));
 $service->reply();
 
 ?>
