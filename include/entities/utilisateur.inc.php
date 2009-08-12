@@ -1068,10 +1068,24 @@ class utilisateur extends stdentity
     $this->nom = convertir_nom($nom);
     $this->prenom = convertir_prenom($prenom);
     $this->email = $email;
-    if ( empty($alias) )
-      $this->alias = null;
-    else
-      $this->alias = $alias;
+    $alias=strtolower($this->prenom{0}.str_replace(' ','',str_replace('-','',$this->nom)));
+    if(strlen($alias)>8)
+      $alias = substr($alias,0,8);
+    $req = new requete($this->db,
+                       'SELECT `alias_utl` '.
+                       'FROM `utilisateurs` '.
+                       'WHERE LOWER(`alias_utl`) LIKE \''.mysql_real_escape_string($alias).'%\' '.
+                       'ORDER BY `alias_utl` DESC '.
+                       'LIMIT 1');
+    if($req->lines==1)
+    {
+      list($_alias)=$req->get_row();
+      if(strlen($_alias)>8)
+        $alias.=((int)substr($_alias,-1)+1);
+      else
+        $alias.=1;
+    }
+    $this->alias = $alias;
     $this->pass = crypt($password, "ae");
     $this->sexe = $sexe;
     $this->date_naissance = $date_naissance;
