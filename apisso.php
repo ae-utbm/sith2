@@ -2,6 +2,8 @@
 
 /* Copyright 2007
  * - Benjamin Collet - bcollet <at> oxynux <dot> org
+ * Copyright 2009
+ * - Simon Lopez < simon dot lopez at ayolo dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -63,6 +65,7 @@ function testLogin($message)
   $password = $simplexml->password[0];
 
   $error = error($apikey);
+  $update = -1;
 
   if($error == "ok")
   {
@@ -72,23 +75,23 @@ function testLogin($message)
     if($site->user->is_valid())
     {
       if($site->user->is_password($password))
+      {
         $return = $site->user->id;
+        $update = $site->user->date_maj;
+      }
       else
         $return = 0;
     }
     else
-    {
       $return = 0;
-    }
   }
   else
-  {
     $return = $error;
-  }
 
   $response = <<<XML
 <testLoginResponse>
   <result>$return</result>
+  <lastUpdate>$update</lastUpdate>
 </testLoginResponse>
 XML;
 
