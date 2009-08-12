@@ -34,7 +34,7 @@ while(list($id,$nom,$prenom,$alias)=$req->get_row())
 {
   $a=strtolower($prenom{0}.str_replace(' ','',$nom));
   $a = substr($a,0,8);
-  if($alias[$a])
+  if(!$alias[$a])
     $alias[$a]=(int)0;
   else
   {
