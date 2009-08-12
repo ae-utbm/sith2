@@ -34,11 +34,11 @@ while(list($id,$nom,$prenom)=$req->get_row())
 {
   $a=strtolower($prenom{0}.str_replace(' ','',$nom));
   $a = substr($a,0,8);
-  if(!$alias[$a])
-    $alias[$a]=(int)0;
+  if(!isset($alias[$a]))
+    $alias[$a]=0;
   else
   {
-    $alias[$a]=(int)$alias[$a]+1;
+    $alias[$a]++;
     $a.=$alias[$a];
   }
 //echo $nom." ".$prenom." : ".$a."\n";
