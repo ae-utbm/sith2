@@ -60,19 +60,15 @@ if ( isset($_REQUEST["mode"]) )
         $Erreur = "Veuillez préciser un mot de passe";
       elseif ( $_REQUEST["password"] != $_REQUEST["password_repeat"] )
         $Erreur = "Les deux saisies du mot de passe ne dont pas identiques";
-      elseif ( $_REQUEST["alias"] && !preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$_REQUEST["alias"]) )
-        $Erreur = "L'alias choisi comporte des caractères non autorisés";
-      elseif ( $_REQUEST["alias"] && !$user->is_alias_avaible ($_REQUEST["alias"]) )
-        $Erreur = "L'alias que vous avez choisi est déjà utilisé, veuillez en choisir un autre";
       else
       {
         /** @todo créer le compte avec les informations élémentaires */
         if ( $mode == "utbm" )
-          $user->create_utbm_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["alias"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"], $_REQUEST["role"], $_REQUEST["dep"] );
+          $user->create_utbm_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"], $_REQUEST["role"], $_REQUEST["dep"] );
         elseif ( $mode == "etu" )
-          $user->create_etudiant_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["alias"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"], $_REQUEST["ecole"] );
+          $user->create_etudiant_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"], $_REQUEST["ecole"] );
         else
-          $user->create_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["alias"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"] );
+          $user->create_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"] );
 
         $site->start_page("services","Inscription");
         $cts = new contents("Inscription : Etape 3/3");
@@ -116,7 +112,6 @@ if ( isset($_REQUEST["mode"]) )
     else
       $frm->add_text_field("email","Votre adresse email (pas utbm.fr)",$_REQUEST["email"],true);
 
-    $frm->add_text_field("alias","Alias (affiché dans le forum)");
     $frm->add_password_field("password","Mot de passe","",true);
     $frm->add_password_field("password_repeat","Mot de passe (pour vérification)","",true);
 
