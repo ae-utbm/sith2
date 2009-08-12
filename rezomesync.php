@@ -104,7 +104,6 @@ XML;
   $password = $simplexml->password[0];
   $naissance = $simplexml->naissance[0];
   $droitimage = $simplexml->droitimage[0];
-  $alias = $simplexml->alias[0];
   $sexe = $simplexml->sexe[0];
 
   $error = error($apikey);
@@ -130,13 +129,9 @@ XML;
       $return = "PasswordMissing";
     elseif($sexe != 1 && $sexe != 2)
       $return = "InvalidSex";
-    elseif($alias && !preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$alias))
-      $return = "InvalidAlias";
-    elseif($alias && !$user->is_alias_avaible($alias))
-      $return = "AliasExists";
     else
     {
-      $user->create_user($nom, $prenom, $alias, $email, $password, $droitimage, $naissance, $sexe);
+      $user->create_user($nom, $prenom, $email, $password, $droitimage, $naissance, $sexe);
       $user->load_by_email($email);
       $return = $user->id;
     }
