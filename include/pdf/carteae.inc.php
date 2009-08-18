@@ -67,7 +67,7 @@ class pdfcarteae extends FPDF
 
     $this->pos = array (
       "photo" => array ("x"=>4.1,"y"=>7.8,"w"=>26,8,"h"=>36,8),
-      "cbar" => array ("x"=>10.6,"y"=>3.8,"w"=>67,"h"=>25),
+      "cbar" => array ("x"=>5,"y"=>3.8,"w"=>67,"h"=>25),
       "front" =>
         array (
           "nom" => array ("x"=>51,"y"=>21,"w"=>27,"h"=>4.5),
