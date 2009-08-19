@@ -31,15 +31,15 @@ while(list($id,$q)=$req->get_row())
 }
 
 $req = new requete($site->db,
-"SELECT id_produit, stock_global_prod FROM boutiqueut_produits");
+"SELECT id_produit, stock_global_prod, nom_prod FROM boutiqueut_produits");
 
-while(list($id,$q)=$req->get_row())
+while(list($id,$q,$nom)=$req->get_row())
 {
   if($id==23)
     continue;
   if($q!=-1 && $q != ($reapro[$id]-$vendu[$id]))
   {
-    echo "$id - erreur de stock<br>";
+    echo "$nom - $id - erreur de stock<br>";
     echo " >> $q != ".$reapro[$id]."-".$vendu[$id]."(".($reapro[$id]-$vendu[$id]).")<br>";
   }
 }
