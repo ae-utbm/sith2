@@ -43,7 +43,7 @@ while(list($id,$q,$nom)=$req->get_row())
     echo "$nom - ($id) <br>";
     echo " >> $q != ".$reapro[$id]."-".$vendu[$id]."($fix)<br>";
     echo " >> stock fixé à : $fix<br>";
-    new update($site->db,
+    new update($site->dbrw,
                'boutiqueut_produits',
                array('stock_global_prod'=>$fix),
                array('id_produit'=>$id));
