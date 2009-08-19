@@ -39,8 +39,14 @@ while(list($id,$q,$nom)=$req->get_row())
     continue;
   if($q!=-1 && $q != ($reapro[$id]-$vendu[$id]))
   {
-    echo "$nom - $id - erreur de stock<br>";
-    echo " >> $q != ".$reapro[$id]."-".$vendu[$id]."(".($reapro[$id]-$vendu[$id]).")<br>";
+    $fix=$reapro[$id]-$vendu[$id];
+    echo "$nom - ($id) <br>";
+    echo " >> $q != ".$reapro[$id]."-".$vendu[$id]."($fix)<br>";
+    echo " >> stock fixé à : $fix<br>";
+    new update($site->db,
+               'boutiqueut_produits',
+               array('stock_global_prod'=>$fix),
+               array('id_produit'=>$id));
   }
 }
 
