@@ -71,11 +71,11 @@ class facture_pdf extends FPDF
             $bought)
   {
     /* affectation des variables */
-    $this->facturing_infos  = $facturing_infos;
-    $this->factured_infos   = $factured_infos;
+    $this->facturing_infos  = utf8_decode($facturing_infos);
+    $this->factured_infos   = utf8_decode($factured_infos);
     $this->date_facturation = $date_facturation;
     $this->fact_ref_num     = $fact_ref_num;
-    $this->fact_titre       = $fact_titre;
+    $this->fact_titre       = utf8_decode($fact_titre);
     $this->bought           = $bought;
     $this->pagination=true;
 
