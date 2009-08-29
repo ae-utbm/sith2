@@ -64,11 +64,11 @@ class facture_pdf extends FPDF
   /* @brief constructeur de la classe
    */
   function facture_pdf ($facturing_infos,
-			$factured_infos,
-			$date_facturation,
-			$fact_titre,
-			$fact_ref_num,
-			$bought)
+            $factured_infos,
+            $date_facturation,
+            $fact_titre,
+            $fact_ref_num,
+            $bought)
   {
     /* affectation des variables */
     $this->facturing_infos  = $facturing_infos;
@@ -86,18 +86,18 @@ class facture_pdf extends FPDF
   /* @brief constructeur de la classe
    */
   function set_infos ($facturing_infos,
-			$factured_infos,
-			$date_facturation,
-			$fact_titre,
-			$fact_ref_num,
-			$bought)
+            $factured_infos,
+            $date_facturation,
+            $fact_titre,
+            $fact_ref_num,
+            $bought)
   {
     /* affectation des variables */
-    $this->facturing_infos  = $facturing_infos;
-    $this->factured_infos   = $factured_infos;
+    $this->facturing_infos  = utf8_decode($facturing_infos);
+    $this->factured_infos   = utf8_decode($factured_infos);
     $this->date_facturation = $date_facturation;
     $this->fact_ref_num     = $fact_ref_num;
-    $this->fact_titre       = $fact_titre;
+    $this->fact_titre       = utf8_decode($fact_titre);
     $this->bought           = $bought;
     $this->total            = 0;
     //TODO: RAZ numéro de page
@@ -115,19 +115,19 @@ class facture_pdf extends FPDF
     /* Logo facturant */
     if ($this->facturing_infos['logo'])
     {
-		$x = 10;
-		$y = 8;
-		list($width, $height, $type, $attr) = getimagesize($this->facturing_infos['logo']);
-		$w = 80;
-		$h = 80*$height/$width;
-		if ( $h > 20 )
-		{
-			$h = 20;
-			$w = 20*$width/$height;
-		}
-		$y += (20-$h)/2;
-		$this->Image($this->facturing_infos['logo'],$x,+$y,$w,$h);
-	}
+        $x = 10;
+        $y = 8;
+        list($width, $height, $type, $attr) = getimagesize($this->facturing_infos['logo']);
+        $w = 80;
+        $h = 80*$height/$width;
+        if ( $h > 20 )
+        {
+            $h = 20;
+            $w = 20*$width/$height;
+        }
+        $y += (20-$h)/2;
+        $this->Image($this->facturing_infos['logo'],$x,+$y,$w,$h);
+    }
 
     $this->SetXY(10, 30);
 
@@ -203,19 +203,19 @@ class facture_pdf extends FPDF
 
     for ($i = 0; $i < count($this->bought); $i++)
       {
-	/* si taille du nom est trop grande, on tronque */
-	if (strlen($this->bought[$i]['nom']) > 50)
-	  $this->bought[$i]['nom'] = substr($this->bought[$i]['nom'],0,47) . "...";
-	/* calcul du sous total */
-	$this->bought[$i]['sous_total'] = $this->bought[$i]['prix'] *
-	  $this->bought[$i]['quantite'];
-	/* incr�mentation du total */
-	$this->total += $this->bought[$i]['sous_total'];
-	/* Affichage dans le corps du pdf */
-	$this->print_line($this->bought[$i]['nom'],
-			  $this->bought[$i]['prix'],
-			  $this->bought[$i]['quantite'],
-			  $this->bought[$i]['sous_total']);
+    /* si taille du nom est trop grande, on tronque */
+    if (strlen($this->bought[$i]['nom']) > 50)
+      $this->bought[$i]['nom'] = substr($this->bought[$i]['nom'],0,47) . "...";
+    /* calcul du sous total */
+    $this->bought[$i]['sous_total'] = $this->bought[$i]['prix'] *
+      $this->bought[$i]['quantite'];
+    /* incr�mentation du total */
+    $this->total += $this->bought[$i]['sous_total'];
+    /* Affichage dans le corps du pdf */
+    $this->print_line($this->bought[$i]['nom'],
+              $this->bought[$i]['prix'],
+              $this->bought[$i]['quantite'],
+              $this->bought[$i]['sous_total']);
       }
     $this->print_total();
     $this->print_mentions_legales();
