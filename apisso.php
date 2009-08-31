@@ -31,6 +31,7 @@ require_once($topdir. "include/mysqlae.inc.php");
 
 function error($apikey,$insc=false)
 {
+return $_SERVER['REMOTE_ADDR'];
 /*  if(!$GLOBALS["is_using_ssl"])
     return "httpsRequired";
 */
