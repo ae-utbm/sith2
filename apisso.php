@@ -31,8 +31,6 @@ require_once($topdir. "include/mysqlae.inc.php");
 
 function error($apikey,$insc=false)
 {
-return $_SERVER['REMOTE_ADDR'];
-
   $db = new mysqlae ("ro");
 
   if(!$db->dbh)
