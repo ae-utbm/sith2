@@ -47,7 +47,8 @@ function error($apikey,$insc=false)
       "SELECT `https` ".
       "FROM `sso_api_keys` ".
       "WHERE `key` = '".mysql_real_escape_string($apikey)."'");
-  list($https)=$req->get_row();
+
+  list($https)=$valid->get_row();
   if($https == 1 && !$GLOBALS["is_using_ssl"])
     return "httpsRequired";
 
