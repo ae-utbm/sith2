@@ -162,10 +162,10 @@ function getUserInfo($message)
     $return = $error;
 
   $response = <<<XML
-<testAssoRoleResponse>
+<getUserInfo>
   <error>$error</error>
   $return
-</testAssoRoleResponse>
+</getUserInfo>
 XML;
 
   return $response;
