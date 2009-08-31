@@ -32,9 +32,7 @@ require_once($topdir. "include/mysqlae.inc.php");
 function error($apikey,$insc=false)
 {
 return $_SERVER['REMOTE_ADDR'];
-/*  if(!$GLOBALS["is_using_ssl"])
-    return "httpsRequired";
-*/
+
   $db = new mysqlae ("ro");
 
   if(!$db->dbh)
@@ -42,15 +40,18 @@ return $_SERVER['REMOTE_ADDR'];
 
   if($insc)
     $valid = new requete($db,
-    "SELECT `key` ".
+    "SELECT `https` ".
     "FROM `sso_api_keys` ".
     "WHERE `key` = '".mysql_real_escape_string($apikey)."' ".
     "AND `allow_inscription`='1'");
   else
     $valid = new requete($db,
-      "SELECT `key` ".
+      "SELECT `https` ".
       "FROM `sso_api_keys` ".
       "WHERE `key` = '".mysql_real_escape_string($apikey)."'");
+  list($https)=$req->get_row();
+  if($https == 1 && !$GLOBALS["is_using_ssl"])
+    return "httpsRequired";
 
   if($valid->lines != 1)
     return "KeyNotValid";
