@@ -145,13 +145,19 @@ class utilisateur extends stdentity
    */
   function load_by_id ( $id )
   {
-    $req = new requete($this->db, "SELECT * FROM `utilisateurs`
-                                   WHERE `id_utilisateur` = '" . mysql_real_escape_string($id) . "'
-                                   LIMIT 1");
+    $req = new requete($this->db,
+                       "SELECT * ".
+                       "FROM utilisateurs ".
+                       "LEFT JOIN `utl_etu` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
+                       "LEFT JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur`) ".
+                       "LEFT JOIN `utl_extra` ON (`utilisateurs`.`id_utilisateur`=`utl_extra`.`id_utilisateur`) ".
+                       "WHERE ".
+                       "`utilisateurs`.`id_utilisateur` = '" . mysql_real_escape_string($this->id). "' ".
+                       "LIMIT 1");
 
     if ( $req->lines == 1 )
     {
-      $this->_load($req->get_row());
+      $this->_load_all($req->get_row());
       return true;
     }
 
