@@ -29,6 +29,7 @@ define("GRP_BLACKLIST", 29);
 define("CPT_MACHINES", 8);
 define("JET_LAVAGE", 224);
 define("JET_SECHAGE", 225);
+define("MAX_JET_PAR_USER", 4);
 
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
@@ -59,11 +60,11 @@ if ( !isset($_REQUEST["id_salle"]) )
   $site->start_page("services","Laverie");
   $cts = new contents("<a href=\"index.php\">Laverie</a> / <a href=\"admin.php\">Administration</a>");
 
-	$lst = new itemlist("Veuillez choisir la laverie à administrer");
+    $lst = new itemlist("Veuillez choisir la laverie à administrer");
 
-	foreach ( $salles as $id => $nom )
-		$lst->add("<a href=\"admin.php?id_salle=$id\">$nom</a>");
-	$cts->add($lst,true);
+    foreach ( $salles as $id => $nom )
+        $lst->add("<a href=\"admin.php?id_salle=$id\">$nom</a>");
+    $cts->add($lst,true);
 
   $site->add_contents($cts);
   $site->end_page();
@@ -78,11 +79,11 @@ $cts = new contents("<a href=\"index.php\">Laverie</a> / <a href=\"admin.php\">A
 $cts->add(new tabshead(
       array(
       array("","laverie/admin.php?id_salle=$id_salle", "Vente"),
-			array("jt","laverie/admin.php?id_salle=$id_salle&view=jt", "Jetons"),
-			array("pl","laverie/admin.php?id_salle=$id_salle&view=pl", "Plannings"),
-			array("bc","laverie/admin.php?id_salle=$id_salle&view=bc", "Mauvais clients"),
-			array("mc","laverie/admin.php?id_salle=$id_salle&view=mc", "Machines")
-			),$_REQUEST["view"]));
+            array("jt","laverie/admin.php?id_salle=$id_salle&view=jt", "Jetons"),
+            array("pl","laverie/admin.php?id_salle=$id_salle&view=pl", "Plannings"),
+            array("bc","laverie/admin.php?id_salle=$id_salle&view=bc", "Mauvais clients"),
+            array("mc","laverie/admin.php?id_salle=$id_salle&view=mc", "Machines")
+            ),$_REQUEST["view"]));
 
 $user = new utilisateur($site->db,$site->dbrw);
 $machine = new machine($site->db,$site->dbrw);
@@ -553,6 +554,13 @@ else // Vente
       $Erreur = "Cet utilisateur n'est pas autorisé à emprunter de jeton !";
     elseif( !$user->ae )
       $Erreur = "Cotisation non renouvelée.";
+    // Check if the user don't already have too much tokens
+    else {
+      $check_req =
+        new requete ($site->db, "SELECT * FROM `mc_jeton_utilisateur` WHERE `id_utilisateur` = '".$user->id."' AND `retour_jeton` IS NULL");
+      if ($check_req->lines >= MAX_JET_PAR_USER)
+        $Erreur = 'Trop de jeton déjà pris (la limite est de '.MAX_JET_PAR_USER.' jeton(s) par cotisant)';
+    }
     if ( $Erreur )
       $user->id = null;
   }
