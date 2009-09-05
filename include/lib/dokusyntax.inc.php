@@ -497,7 +497,7 @@ class dokusyntax
 
     $text = preg_replace('#&lt;del&gt;(.*?)&lt;/del&gt;#is','<s>\1</s>',$text); //del
     $text = preg_replace('/__([^_]+?)__/s','<u>\1</u>',$text);  //underline
-    $text = preg_replace('/\/\/([^_]+?)\/\//s','<em>\1</em>',$text);  //emphasize
+    $text = preg_replace('/\/\/(.*?)\/\//s','<em>\1</em>',$text);  //emphasize
     $text = preg_replace('/\*\*([^*]+?)\*\*/s','<strong>\1</strong>',$text);  //bold
     $text = preg_replace('/\'\'([^\']+?)\'\'/s','<code>\1</code>',$text);  //code
     $text = preg_replace('/^(\s)*----+(\s*)$/m','<hr noshade="noshade" size="1" />',$text); //hr
