@@ -212,7 +212,10 @@ elseif ( $_REQUEST['module']=="entinfo" )
       $std = new $class($site->db);
   }
 
-  $std->load_by_id($_REQUEST['id']);
+  if ($class=="utilisateur")
+    $std->load_all_by_id($_REQUEST['id']);
+  else
+    $std->load_by_id($_REQUEST['id']);
 
   if ( !$std->is_valid() )
   {
