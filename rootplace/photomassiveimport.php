@@ -39,25 +39,43 @@ if(isset($_POST['action'])
    && is_dir("/var/www/ae/www/ae2/var/img")
    && is_uploaded_file($_FILES['zipeuh']['tmp_name']) )
 {
-  mkdir("/var/www/ae/www/taiste/temp/matmat");
-  if(is_dir("/var/www/ae/www/taiste/temp/matmat"))
+  mkdir("/var/www/ae/www/var/tmp/matmat");
+  if(is_dir("/var/www/ae/www/var/tmp/matmat"))
   {
     $user = new utilisateur($site->db);
-    exec('unzip "'.$_FILES['zipeuh']['tmp_name'].'" -j -d "/var/www/ae/www/taiste/temp/matmat/"');
-    $h = opendir('/var/www/ae/www/taiste/temp/matmat/');
+    exec('unzip "'.$_FILES['zipeuh']['tmp_name'].'" -j -d "/var/www/ae/www/var/tmp/matmat/"');
+    $h = opendir('/var/www/ae/www/var/tmp/matmat/');
     while ($f=readdir($h))
     {
       if ($file == "." && $file == "..")
         continue;
       if(substr($f,-3)=='JPG' || substr($f,-3)=='jpg')
       {
-        $id=substr($f,0,-4);
-        $user->load_by_id($id);
+        $avatar = false;
+        if(substr($f,-5,2)=='_A' || substr($f,-5,2)=='_a'){
+          $num = substr($f,0,-6);
+          $avatar = true;
+        }
+        else
+          $num = substr($f,0,-4);
+
+        if (isset($_REQUEST["carteae"]))
+          $user->load_by_carteae($num, false);
+        else
+          $user->load_by_id($num);
+
         if ( $user->is_valid() )
-          exec("/usr/share/php5/exec/convert /var/www/ae/www/taiste/temp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
+        {
+          $id = $user->id;
+
+          if ($avatar)
+            exec("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
+          else
+            exec("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
+        }
       }
     }
-    exec("rm -Rf /var/www/ae/www/taiste/temp/matmat/");
+    exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
   }
 }
 
@@ -65,6 +83,7 @@ $cts = new contents("Administration/Import massif de photos matmatronch");
 $frm = new form("photos","?",true,"POST","Et paf les photos");
 $frm->add_hidden("action","bloubiboulga");
 $frm->add_file_field ( "zipeuh", "Zipeuh !!!" );
+$frm->add_checkbox ( "carteae", "Les boulets qui ont fait les photos ont utilisé les numéros de carte AE" );
 $frm->add_submit("paff","Et paf!");
 $cts->add($frm,true);
 

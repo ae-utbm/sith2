@@ -66,7 +66,7 @@ abstract class stdentity
     $this->dbrw = &$dbrw;
     $this->id = null;
     $this->_tags = null;
-    
+
     if(!is_null($id) && method_exists($this, 'load_by_id'))
       try{
         $this->load_by_id($id);
