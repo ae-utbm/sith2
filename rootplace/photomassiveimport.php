@@ -82,7 +82,7 @@ if(isset($_POST['action'])
         }
       }
       // Delete temp img
-      unlink($f);
+      unlink(OUTPUT_DIR.$f);
     }
     rmdir (OUTPUT_DIR);
     //exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
