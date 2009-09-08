@@ -43,7 +43,7 @@ if(isset($_POST['action'])
   if(is_dir("/var/www/ae/www/var/tmp/matmat"))
   {
     $user = new utilisateur($site->db);
-    exec('unzip "'.$_FILES['zipeuh']['tmp_name'].'" -j -d "/var/www/ae/www/var/tmp/matmat/"');
+    exec('unzip -j "'.$_FILES['zipeuh']['tmp_name'].'" -d "/var/www/ae/www/var/tmp/matmat/"');
     $h = opendir('/var/www/ae/www/var/tmp/matmat/');
     while ($f=readdir($h))
     {
@@ -75,7 +75,7 @@ if(isset($_POST['action'])
         }
       }
     }
-    //exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
+    exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
   }
 }
 
