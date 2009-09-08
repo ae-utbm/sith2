@@ -52,8 +52,8 @@ if(isset($_POST['action'])
       if(substr($f,-3)=='JPG' || substr($f,-3)=='jpg')
       {
         $id=substr($f,0,-4);
-        $user->load_by_id($_REQUEST["id_utilisateur"]);
-        if ( !$user->is_valid() )
+        $user->load_by_id($id);
+        if ( $user->is_valid() )
           exec("/usr/share/php5/exec/convert /var/www/ae/www/taiste/temp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
       }
     }
