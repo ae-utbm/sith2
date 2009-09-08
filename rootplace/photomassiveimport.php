@@ -56,7 +56,7 @@ if(isset($_POST['action'])
     $h = opendir(OUTPUT_DIR);
     while ($f=readdir($h))
     {
-      if ($file == "." && $file == "..")
+      if ($f == "." && $f == "..")
         continue;
       if(strtolower(substr($f,-3)) == 'jpg') {
         $avatar = false;
@@ -82,7 +82,7 @@ if(isset($_POST['action'])
         }
       }
       // Delete temp img
-      unlink($file);
+      unlink($f);
     }
     rmdir (OUTPUT_DIR);
     //exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
