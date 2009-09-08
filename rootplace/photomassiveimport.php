@@ -27,6 +27,9 @@ $topdir="../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir . "include/cts/user.inc.php");
 
+// Ne pas oublier le dernier '/'
+define('OUTPUT_DIR', '/var/www/ae/www/var/tmp/matmat/');
+
 $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
@@ -39,31 +42,28 @@ if(isset($_POST['action'])
    && is_dir("/var/www/ae/www/ae2/var/img")
    && is_uploaded_file($_FILES['zipeuh']['tmp_name']) )
 {
-  mkdir("/var/www/ae/www/var/tmp/matmat");
-  if(is_dir("/var/www/ae/www/var/tmp/matmat"))
+  mkdir(OUTPUT_DIR);
+  if(is_dir(OUTPUT_DIR))
   {
     $user = new utilisateur($site->db);
     $zip = new ZipArchive;
     if (!$zip->open ($_FILES['zipeuh']['tmp_name']))
       die ('Impossible d\'ouvrir le fichier zip à : '.$_FILES['zipeuh']['tmp_name']);
-    if (!$zip->extractTo ('/var/www/ae/www/var/tmp/matmat/'))
+    if (!$zip->extractTo (OUTPUT_DIR))
       die ('Impossible d\'extraire l\'archive à '.$_FILES['zipeuh']['tmp_name']);
     $zip->close ();
-    //exec('unzip -j "'.$_FILES['zipeuh']['tmp_name'].'" -d "/var/www/ae/www/var/tmp/matmat/"');
 
-    $h = opendir('/var/www/ae/www/var/tmp/matmat/');
+    $h = opendir(OUTPUT_DIR);
     while ($f=readdir($h))
     {
       if ($file == "." && $file == "..")
         continue;
-      if(substr($f,-3)=='JPG' || substr($f,-3)=='jpg')
-      {
+      if(strtolower(substr($f,-3)) == 'jpg') {
         $avatar = false;
-        if(substr($f,-6,2)=='_A' || substr($f,-6,2)=='_a'){
+        if(strtolower(substr($f,-6,2)) == '_a') {
           $num = substr($f,0,-6);
           $avatar = true;
-        }
-        else
+        } else
           $num = substr($f,0,-4);
 
         if (isset($_REQUEST["carteae"]))
@@ -76,13 +76,15 @@ if(isset($_POST['action'])
           $id = $user->id;
 
           if ($avatar)
-            exec("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
+            exec("/usr/share/php5/exec/convert ".OUTPUT_DIR.$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
           else
-            exec("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
+            exec("/usr/share/php5/exec/convert ".OUTPUT_DIR.$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
         }
       }
+      // Delete temp img
+      unlink($file);
     }
-
+    rmdir (OUTPUT_DIR);
     //exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
   }
 }
