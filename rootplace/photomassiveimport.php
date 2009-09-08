@@ -52,7 +52,7 @@ if(isset($_POST['action'])
       if(substr($f,-3)=='JPG' || substr($f,-3)=='jpg')
       {
         $avatar = false;
-        if(substr($f,-5,2)=='_A' || substr($f,-5,2)=='_a'){
+        if(substr($f,-6,2)=='_A' || substr($f,-6,2)=='_a'){
           $num = substr($f,0,-6);
           $avatar = true;
         }
