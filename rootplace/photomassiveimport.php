@@ -43,7 +43,7 @@ if(isset($_POST['action'])
   if(is_dir("/var/www/ae/www/var/tmp/matmat"))
   {
     $user = new utilisateur($site->db);
-    exec('unzip "'.$_FILES['zipeuh']['tmp_name'].'" -j -d "/var/www/ae/www/var/tmp/matmat/"');
+    //exec('unzip "'.$_FILES['zipeuh']['tmp_name'].'" -j -d "/var/www/ae/www/var/tmp/matmat/"');
     $h = opendir('/var/www/ae/www/var/tmp/matmat/');
     while ($f=readdir($h))
     {
@@ -69,9 +69,9 @@ if(isset($_POST['action'])
           $id = $user->id;
 
           if ($avatar)
-            exec("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
+            die("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
           else
-            exec("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
+            die("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
         }
       }
     }
