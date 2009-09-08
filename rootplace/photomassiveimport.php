@@ -69,13 +69,13 @@ if(isset($_POST['action'])
           $id = $user->id;
 
           if ($avatar)
-            exec("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
+            echo("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
           else
-            exec("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
+            echo("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
         }
       }
     }
-    exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
+    //exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
   }
 }
 
