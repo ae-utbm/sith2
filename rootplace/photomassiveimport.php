@@ -56,7 +56,7 @@ if(isset($_POST['action'])
     $h = opendir(OUTPUT_DIR);
     while ($f=readdir($h))
     {
-      if ($f == "." && $f == "..")
+      if ($f == "." || $f == "..")
         continue;
       if(strtolower(substr($f,-3)) == 'jpg') {
         $avatar = false;
