@@ -43,7 +43,14 @@ if(isset($_POST['action'])
   if(is_dir("/var/www/ae/www/var/tmp/matmat"))
   {
     $user = new utilisateur($site->db);
-    exec('unzip -j "'.$_FILES['zipeuh']['tmp_name'].'" -d "/var/www/ae/www/var/tmp/matmat/"');
+    $zip = new ZipArchive;
+    if (!$zip->open ($_FILES['zipeuh']['tmp_name']))
+      die ('Impossible d\'ouvrir le fichier zip à : '.$_FILES['zipeuh']['tmp_name']);
+    if (!$zip->extractTo ('/var/www/ae/www/var/tmp/matmat/'))
+      die ('Impossible d\'extraire l\'archive à '.$_FILES['zipeuh']['tmp_name']);
+    $zip->close ();
+    //exec('unzip -j "'.$_FILES['zipeuh']['tmp_name'].'" -d "/var/www/ae/www/var/tmp/matmat/"');
+
     $h = opendir('/var/www/ae/www/var/tmp/matmat/');
     while ($f=readdir($h))
     {
@@ -75,8 +82,8 @@ if(isset($_POST['action'])
         }
       }
     }
-    die();
-    exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
+
+    //exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
   }
 }
 
