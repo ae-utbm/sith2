@@ -69,9 +69,9 @@ if(isset($_POST['action'])
           $id = $user->id;
 
           if ($avatar)
-            echo("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
+            exec("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
           else
-            echo("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
+            exec("/usr/share/php5/exec/convert /var/www/ae/www/var/tmp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
         }
       }
     }
