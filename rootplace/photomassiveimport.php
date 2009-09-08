@@ -85,7 +85,6 @@ if(isset($_POST['action'])
       unlink(OUTPUT_DIR.$f);
     }
     rmdir (OUTPUT_DIR);
-    //exec("rm -Rf /var/www/ae/www/var/tmp/matmat/");
   }
 }
 
