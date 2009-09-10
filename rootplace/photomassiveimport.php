@@ -41,14 +41,14 @@ $site->start_page("none","Administration");
 if(isset($_POST['action'])
    && $_POST['action']=='bloubiboulga'
    && is_dir("/var/www/ae/www/ae2/var/img")
-   && file_exists (OUTPUT_DIR.$_POST['zipeuh']))
+   && file_exists (SAVE_DIR.$_POST['zipeuh']))
 {
   mkdir(OUTPUT_DIR);
   if(is_dir(OUTPUT_DIR))
   {
     $user = new utilisateur($site->db);
     $zip = new ZipArchive;
-    if (!$zip->open (OUTPUT_DIR.$_POST['zipeuh']))
+    if (!$zip->open (SAVE_DIR.$_POST['zipeuh']))
       die ('Impossible d\'ouvrir le fichier zip à : '.$_FILES['zipeuh']['tmp_name']);
     if (!$zip->extractTo (OUTPUT_DIR))
       die ('Impossible d\'extraire l\'archive à '.$_FILES['zipeuh']['tmp_name']);
