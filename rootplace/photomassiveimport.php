@@ -28,6 +28,7 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir . "include/cts/user.inc.php");
 
 // Ne pas oublier le dernier '/'
+define('SAVE_DIR', '/var/www/ae/www/var/tmp/');
 define('OUTPUT_DIR', '/var/www/ae/www/var/tmp/matmat/');
 
 $site = new site ();
@@ -40,14 +41,14 @@ $site->start_page("none","Administration");
 if(isset($_POST['action'])
    && $_POST['action']=='bloubiboulga'
    && is_dir("/var/www/ae/www/ae2/var/img")
-   && is_uploaded_file($_FILES['zipeuh']['tmp_name']) )
+   && file_exists (OUTPUT_DIR.$_POST['zipeuh']))
 {
   mkdir(OUTPUT_DIR);
   if(is_dir(OUTPUT_DIR))
   {
     $user = new utilisateur($site->db);
     $zip = new ZipArchive;
-    if (!$zip->open ($_FILES['zipeuh']['tmp_name']))
+    if (!$zip->open (OUTPUT_DIR.$_POST['zipeuh']))
       die ('Impossible d\'ouvrir le fichier zip à : '.$_FILES['zipeuh']['tmp_name']);
     if (!$zip->extractTo (OUTPUT_DIR))
       die ('Impossible d\'extraire l\'archive à '.$_FILES['zipeuh']['tmp_name']);
@@ -91,7 +92,7 @@ if(isset($_POST['action'])
 $cts = new contents("Administration/Import massif de photos matmatronch");
 $frm = new form("photos","?",true,"POST","Et paf les photos");
 $frm->add_hidden("action","bloubiboulga");
-$frm->add_file_field ( "zipeuh", "Zipeuh !!!" );
+$frm->add_field ( "zipeuh", 'Nom du fichier (à balancer dans /var/www/ae/www/var/tmp/)');
 $frm->add_checkbox ( "carteae", "Les boulets qui ont fait les photos ont utilisé les numéros de carte AE" );
 $frm->add_submit("paff","Et paf!");
 $cts->add($frm,true);

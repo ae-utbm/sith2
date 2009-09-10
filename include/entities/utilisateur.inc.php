@@ -245,7 +245,7 @@ class utilisateur extends stdentity
    * En cas d'erreur, l'id est défini à null
    * @param $num numéro de carte
    */
-  function load_by_carteae ( $num, $strict=false )
+  function load_by_carteae ( $num, $strict=true )
   {
     $this->vol = false;
 
