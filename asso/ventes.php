@@ -112,7 +112,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
                                 "INNER JOIN `utilisateurs` AS `client` ON `cpt_debitfacture`.`id_utilisateur_client` =`client`.`id_utilisateur` " .
                                 "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
                                 "WHERE " .implode(" AND ",$conds).
-                                "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+                                "ORDER BY `client`.`nom_utl`, `client`.`prenom_utl`");
 
   while ($res = $req_->get_row())
   {
@@ -251,12 +251,12 @@ if ( count($conds) >= 1 )
 
   $frm = new form ("cptacptpdf","ventes.php?id_asso=".$asso->id,true,"POST","PDF");
   $frm->add_hidden("action","pdf");
-	$i=0;
+  $i=0;
   foreach($conds as $value)
-	{
-	  $frm->add_hidden("conds[".$i."]",$value);
-	  $i++;
-	}
+  {
+    $frm->add_hidden("conds[".$i."]",$value);
+    $i++;
+  }
   $frm->add_submit("valid","Générer le PDF");
   $cts->add($frm,true);
 
