@@ -92,7 +92,7 @@ if(isset($_POST['action'])
 $cts = new contents("Administration/Import massif de photos matmatronch");
 $frm = new form("photos","?",true,"POST","Et paf les photos");
 $frm->add_hidden("action","bloubiboulga");
-$frm->add_field ( "zipeuh", 'Nom du fichier (à balancer dans /var/www/ae/www/var/tmp/)');
+$frm->add_text_field ( "zipeuh", 'Nom du fichier (à balancer dans /var/www/ae/www/var/tmp/)', '', true);
 $frm->add_checkbox ( "carteae", "Les boulets qui ont fait les photos ont utilisé les numéros de carte AE" );
 $frm->add_submit("paff","Et paf!");
 $cts->add($frm,true);
