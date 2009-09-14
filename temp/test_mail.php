@@ -15,242 +15,122 @@ $mailer->add_dest(array('etudiants@utbm.fr',
                         'aude.petit@utbm.fr'));
 //$mailer->add_dest("simon.lopez@utbm.fr");
 $file = new dfile($site->db);
-$file->load_by_id(3957);
+$file->load_by_id(4328);
 $mailer->add_img($file);
 $plain = 'Salut les UTbohémiens,
+Premier Weekmail de l\'année ! Quelque peu vide, certes ! Mais bel et bien le
+premier. L\'intégration suis son cours, les cours commencent à être suivis,
+et la grippe A attends sagement l\'heure du week end d\'intégration pour tous
+nous zigouiller :)
 
-La grande fête approche ! Le soleil brille, les oiseaux chantent et le
-groupes répètent, le FIMU c\'est ce week-end !! N\'hésitez pas à venir
-profiter de ce grand festival 100% gratuit offert par la ville de
-Belfort et les étudiants de l\'aire urbaine. Pour plus d\'informations :
-http://www.fimu.com
+Les clubs de l\'AE vont reprendre petit à petit leurs activités, ce mail que
+vous recevrez chaque semaine (en principe le lundi en début de journée) vous
+permettra de vous y retrouver dans toutes les activités et événement de
+notre chère association. Surveillez donc le bien, lisez le régulièrement
+pour être au courant de tout ce que votre association a à vous proposer !
 
+Petite information supplémentaire pour les clubs, afin de ne pas spammer les
+boites mail de l\'ensemble des étudiants, vous êtes priés de nous transmettre
+vos informations avant chaque dimanche soir 20h dernier délai, sur la boite
+ae : ae@utbm.fr avec pour objet [Weekmail].
 
 Sommaire :
 
-  * Le FIMU, c\'est ce week-end !!
-  * Reflex - Formation photo
-  * Club Welcome: Soirée ASIE Mercredi 27 à 20h au Foyer de Belfort !
-  * Semaine des Arts
-  * La Bohème
-  * Le Seven\'Art présente Dans la brume électrique
-  * Le Bigband de l\'UTBM au FIMU 2009 !!
-  * Club astro : observation/photo de la Lune ou traitement d\'images
-
+ * AE - Commissions de pôle
+ * Seven\'Art : Là-haut (16/09/2009)
+ * Club Welcome - Welcome need U !
 
 ----------------------------------------------------
-Le FIMU, c\'est ce week-end !!
-----------------------------------------------------
-
-Chaque année depuis 23 ans, durant le week-end de la Pentecôte, la
-ville de Belfort et les étudiants de l\'aire urbaine organisent le
-Festival International de Musique Universitaire.
-Participez au FIMU en tant que bénévoles.
-
-Le FIMU concentre sur trois jours les aspirations de près de 2 500
-musiciens et choristes amateurs à se produire et à faire connaître
-leur pratique. Ils sont représentants de leur école ou bande de
-copains, "fous de musique" qui se retrouvent dans le festival pour
-leur plaisir, en véhiculant l\'esprit de fête et d\'indépendance propre
-au monde étudiant.
-
-133 formations ou orchestres issus d\'universités ou de conservatoires
-venant de 37 pays ont été sélectionnés pour l\'édition 2009.
-
-Le FIMU, c\'est l\'occasion de la rencontre entre les formations et le
-public toujours plus nombreux. En 2008, celui-ci était évalué à 80 000
-visiteurs.
-La Vieille Ville de Belfort sert de cadre privilégié à ce
-rassemblement, à travers quatorze scènes, en salle ou en plein air.
-
-L\'accès à l\'ensemble des concerts est totalement gratuit, cela permet
-à un public familial, mélomane ou curieux, de découvrir et d\'apprécier
-dans la convivialité un programme de musique "à la carte". Accessibilité
-
-Le Festival est ouvert à toute formation musicale française ou
-étrangère composée majoritairement d\'étudiants ou d\'élèves des
-conservatoires et écoles de musique, ainsi qu\'aux groupes musicaux
-divers pratiquant la musique en amateurs. Le Festival accueille tous
-les genres musicaux: musique classique, musiques nouvelles, jazz,
-musiques actuelles, musique du monde, chanson...
-
-Pour plus d\'informations, rendez-vous sur : http://www.fimu.com
-
-----------------------------------------------------
-Reflex - Formation photo
+AE - Commissions de pôle
 ----------------------------------------------------
 
 Bonjour à tous,
 
-Reflex, votre club photo préféré vous propose ce jeudi 28 mai, de 18h
-à 20h, non pas une mais deux formations à la photographie. La première
-reprendra les bases techniques de la photographie, pour ceux qui sont
-intéressés par le pourquoi du comment, ceux qui possèdent un appareil
-photo depuis peu et veulent apprendre à mieux le maitriser, ou encore,
-ceux qui en ont un depuis longtemps et à qui la mémoire fait défaut...
-La seconde couvrira les techniques de cadrage et composition, comment
-rendre vos images plus intéressantes, dans la théorie du moins.
+Avec la fin de l\'intégration, arrive la reprise des clubs de l\'AE, si tu te
+sens l\'âme \'un responsable de club, si tu souhaites créer une nouvelle activité,
+ou en réactiver un, le moment est venu de te faire connaître ! En effet, la
+semaine prochaine auront lieu les commissions de pôles, où seront discutés
+les projets du semestre ainsi que les budgets.
 
-La formation aura lieu à Belfort (bâtiment A, salle à confirmer, voir
-sur le site de l\'AE très bientôt), de 18h à 20h
+Si l\'aventure de responsable de club te tente, rendez-vous :
 
-à jeudi donc
+- Lundi 21/09/09 à 20 heures: Pôle Technique
+- Lundi 21/09/09 à 21 heures: Pôle Culturel
+- Mardi 22/09/09 à 20 heures: Grandes Activités
+- Mercredi 23/09/09 à 20 heures: Pôle Entraide et Humanitaire
+- Mercredi 24/09/09 à 21 heures: Pôle Artistique
 
-Zaps et Senic pour le club Reflex
+Si vous êtes intéressés par l\'aventure, pensez à un budget prévisionnel, et
+si vous avez des questions, rendez vous sur le forum de l\'AE
 
-contact : reflex@utbm.fr ou loic.geslin@utbm.fr
+à bientôt
 
-----------------------------------------------------
-Club Welcome: Soirée ASIE Mercredi 27 à 20h au Foyer de Belfort !
-----------------------------------------------------
-
-Et oui le semestre se termine...
-Notre dernière grosse soirée mettra à l\'honneur l\'Asie et ses cultures.
-Dégustations, boissons, Karaoké, DDR et musique seront au rendez-vous,
-ainsi que VOUS TOUS !
-
-Venez nombreux mercredi soir dès 20h au Foyer de la Maison des
-Étudiants de Belfort. Entrée gratuite !
-
-Bien entendu nous avons toujours besoin de monde pour préparer la
-soirée donc n\'hésitez pas si ça vous intéresse !
-
-Nous recherchons d\'ailleurs toujours des étudiants motivés pour
-reprendre le flambeau à l\'automne prochain... Plus on est de fou plus
-on rit et moins il y a de travail par personne!
-
-une question, un doute, une envie? -> welcome@utbm.fr
-
-Pour le Club Welcome
+L\'équipe AE
 
 ----------------------------------------------------
-Semaine des Arts
+Seven\'Art : Là-haut (16/09/2009)
 ----------------------------------------------------
 
-La Semaine des Arts s\'est achevée il y a une petite semaine déjà, ce
-fût un réel plaisir pour toute l\'équipe de vous offrir ce programme
-artistique et culturel fourni en découverte. C\'est aussi un réel
-succès au vue de la fréquentation des différents événements que nous
-vous proposions.
-Merci à vous tous d\'avoir participé à cette Réédition de la Semaine
-des Arts. Nous vous donnons rendez-vous l\'année prochaine pour une
-nouvelle édition.
-
-Pour continuer sur notre lancée et encore apporter découverte et
-expériences originales aux étudiants nous avons besoin de former une
-équipe conséquente, alors n\'hésitez plus, faites-vous connaître auprès
-de nous ;) On attend toutes vos idées et suggestions.
-
-Enfin je rappelle que les magnifiques t-shirts de la Semaine des Arts
-sont en vente. c\'est par ici : http://ae.utbm.fr/forum2/?id_sujet=9188
-
-Artistiquement votre,
-Vid au nom de l\'équipe SdA
-
-----------------------------------------------------
-La Bohème
-----------------------------------------------------
-
-Elle vous manque votre BiMeBo, dites-le qu\'elle vous manque, c\'est
-normal avec tout ce qui s\'est enchaîne (Semaine des Arts, FF1J et
-bientôt FIMU) l\'équipe n\'avait pas vraiment le temps de vous sortir
-quelque chose. Mais le mal va être réparé :)
-Nous vous donnons rendez-vous jeudi 4 juin prochain pour lire la
-prochaine BiMeBo. Cela veut aussi dire que les articles, jeux,
-blagues, citations sont à rendre pour le lundi 1er juin dans la soirée.
-Cela serait bien d\'y retrouver des retours de les 3 événements passés
-(SdA, FF1J, FIMU). Et évidemment des articles sur l\'actualité, le
-cinéma, et tout plein d\'autres choses.
-Je vous fais confiance
-
-Bohèmement votre,
-Vid
-
-----------------------------------------------------
-Le Seven\'Art présente Dans la brume électrique
-----------------------------------------------------
-
-Bonjour,
-
-Cette semaine le Seven\'Art propose Dans la brume électrique le
-mercredi 27 mai en P108 à 20h30. Un film de Bertrand Tavernier avec
-Tommy Lee Jones, John Goodman, Peter Sarsgaard
+Le Seven\'Art vous propose comme chaque mercredi soir, à Sévenans une
+projection à prix sympa dans un amphi P108 transformé ! Cette semaine, le
+club vous propose là-Haut, dernière production des studios Pixar à ne rater
+sous aucun prétexte !
 
 Synopsis :
-New Iberia, Louisiane. Le détective Dave Robicheaux est sur les traces
-d\'un tueur en série qui s\'attaque à de très jeunes femmes. De retour
-chez lui après une investigation sur la scène d\'un nouveau crime
-infâme, Dave fait la rencontre d\'Elrod Sykes. La grande star
-hollywoodienne est venue en Louisiane tourner un film, produit avec le
-soutien de la fine fleur du crime local, Baby Feet Balboni. Elrod
-raconte à Dave qu\'il a vu, gisant dans un marais, le corps décomposé
-d\'un homme noir enchaîné. Cette découverte fait rapidement resurgir
-des souvenirs du passé de Dave. Mais à mesure que Dave se rapproche du
-meurtrier, le meurtrier se rapproche de la famille de Dave?
 
+Quand Carl, un grincheux de 78 ans, décide de réaliser le rêve de sa vie en
+attachant des milliers de ballons à sa maison pour s’envoler vers l’Amérique
+du Sud, il ne s’attendait pas à embarquer avec lui Russell, un jeune
+explorateur de 9 ans, toujours très enthousiaste et assez envahissant… Ce
+duo totalement imprévisible et improbable va vivre une aventure délirante
+qui les plongera dans un voyage dépassant l’imagination.
 
-Deux affiches du film seront à gagner par tirage au sort durant la séance.
-
-Cotisants AE : 2,50 euros | Autres : 3,50 euros (Possibilité de payer
+Entrée : 2,50€ (cotisants AE) / 3,50€ (non cotisants) (Possibilité de payer
 par carte AE)
 
-Entrée par le parking du bas.
-
-
-Cinéphilement,
-L\'Equipe Seven\'Art
-
 ----------------------------------------------------
-Le Bigband de l\'UTBM au FIMU 2009 !!
+Club Welcome - Welcome need U !
 ----------------------------------------------------
 
-Le Bigband de l\'UTBM est ravi de vous apprendre qu\'il participera au
-FIMU 2009 !!
+Bonjour à tous,
 
-*Date*
-dimanche 31 Mai à 14h
+Une expérience à l\'international vous tente ? Par simple curiosité ou ayant
+déjà un projet de mobilité bien défini, le club Welcome propose à vous,
+étudiants de l\'UTBM, de nouer des liens dans un environnement interculturel
+et convivial ! Venez à la rencontre des étudiants étrangers provenant des
+quatre coins du monde pour étudier à l\'UTBM et découvrir la culture
+Française !
 
-*Lieu*
-Scène du Lion !
+La richesse des échanges interculturels, ayant aussi bien lieu à Belfort
+qu\'à l\'étranger, est souvent insoupçonnée! L\'enrichissement personnel est
+indéniable; par ailleurs créer des liens avec des étudiants désireux de
+franchir le pont culturel peut vous ouvrir de nouveaux horizons, créer de
+nouvelles opportunités.
 
-*Programme*
-Une set-list spéciale a été préparée !!!
-Du jazz, du funk, du rock, du boogie, de la bossa...
-Des reprises de grands standards, des compositions
-A ne rater sous aucun prétexte
+Au moment de l\'intégration et de la reprise des cours, le club Welcome fait
+également sa rentrée, et vous convie à une réunion d\'information pour vous
+faire découvrir les activités qui vont se dérouler tout au long de ce
+semestre ! Tout le monde peut participer, Ancien comme Nouveau, Tronc commun
+autant que Branche !
 
-A dimanche !
-Gaël pour le Bigband
+Alors n\'hésitez plus, et venez nous rencontrer le jeudi 17 septembre à 16h
+en salle Rantanplan (bâtiment des Dalton de la Maison des Eleves à Belfort).
+
+D\'ici là, nous vous donnons rendez-vous sur le site web du club Welcome:
+http://ae.utbm.fr/welcome/
+
+A très bientôt !!
+
+L\'équipe du club Welcome
 
 ----------------------------------------------------
-Club astro : observation/photo de la Lune ou traitement d\'images
+La blague !
 ----------------------------------------------------
 
-En fonction de l\'humeur des participants et de la météo on pourra,
-soit faire l\'observation/photographie de la Lune, soit faire le
-traitement des images faites durant le semestre.
-
-* Date et heure : jeudi 28 mai à 20h30
-* Lieu : salle activités (Jolly Jumper) à la ME (Belfort)
-* Contact : club.astro@utbm.fr
-
-----------------------------------------------------
-La blague, offerte et assumée par notre éléphantesque Mage !
-----------------------------------------------------
-
-Salon de l\'auto : Comment reconnaître les nationalités des visiteurs
-du Mondial de l\'Automobile ?
-
-- L\'Allemand examine le moteur
-- L\'Anglais examine les cuirs
-- Le Grec examine l\'échappement
-- L\'Italien examine le Klaxon
-- Le Portugais examine la peinture
-- L\'Americain examine la taille
-- Le Suisse examine le coffre
-- Le Chinois examine tout
-- Le Belge examine rien
-- Le Français examine la vendeuse
+Deux militaires discutent :
+- "Pourquoi t\'es dans l\'armée toi ?"
+- "Parce que je suis célibataire et que j\'aime la guerre, et toi ?"
+- "Parce que je suis marié et que je voulais la paix !"
 
 --
 à la semaine prochaine !
@@ -261,209 +141,109 @@ $html = '<html>
 <table bgcolor="#333333" width="700px">
 <tr><td align="center">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td width="600" height="241"><img src="http://ae.utbm.fr/d.php?id_file=3970&action=download" /></td></tr>
+<tr><td width="600" height="241"><img src="http://ae.utbm.fr/d.php?id_file=4328&action=download" /></td></tr>
 <tr bgcolor="#000000"><td><font color="#ffffff">Introduction</font></td></tr>
 <tr><td>Salut les UTbohémiens,<br />
 <br />
-La grande fête approche ! Le soleil brille, les oiseaux chantent et le
-groupes répètent, le FIMU c\'est ce week-end !! N\'hésitez pas à venir
-profiter de ce grand festival 100% gratuit offert par la ville de
-Belfort et les étudiants de l\'aire urbaine. Pour plus d\'informations :
-<a href="http://www.fimu.com" target="_blank">http://www.fimu.com</a>
+Premier Weekmail de l\'année ! Quelque peu vide, certes ! Mais bel et bien le
+premier. L\'intégration suis son cours, les cours commencent à être suivis,
+et la grippe A attends sagement l\'heure du week end d\'intégration pour tous
+nous zigouiller :)<br /></br />
+Les clubs de l\'AE vont reprendre petit à petit leurs activités, ce mail que
+vous recevrez chaque semaine (en principe le lundi en début de journée) vous
+permettra de vous y retrouver dans toutes les activités et événement de
+notre chère association. Surveillez donc le bien, lisez le régulièrement
+pour être au courant de tout ce que votre association a à vous proposer !
+<br /></br />
+Petite information supplémentaire pour les clubs, afin de ne pas spammer les
+boites mail de l\'ensemble des étudiants, vous êtes priés de nous transmettre
+vos informations avant chaque dimanche soir 20h dernier délai, sur la boite
+ae : ae@utbm.fr avec pour objet [Weekmail].
 <br />&nbsp;</td></tr>
 <tr bgcolor="#000000"><td><font color="#ffffff">Sommaire</font></td></tr>
-<tr><td><ul><li>Le FIMU, c\'est ce week-end !!</li>
-<li>Reflex - Formation photo</li>
-<li>Club Welcome: Soirée ASIE Mercredi 27 à 20h au Foyer de Belfort !</li>
-<li>Semaine des Arts</li>
-<li>La Bohème</li>
-<li>Le Seven\'Art présente Dans la brume électrique</li>
-<li>Le Bigband de l\'UTBM au FIMU 2009 !!</li>
-<li>Club astro : observation/photo de la Lune ou traitement d\'images</li>
+<tr><td><ul><li>AE - Commissions de pôle</li>
+<li>Seven\'Art : Là-haut (16/09/2009)</li>
+<li>Club Welcome - Welcome need U !</li>
 </ul>
 </td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">Le FIMU, c\'est ce week-end !!</font></td></tr>
-<tr><td>Chaque année depuis 23 ans, durant le week-end de la Pentecôte, la
-ville de Belfort et les étudiants de l\'aire urbaine organisent le
-Festival International de Musique Universitaire.
-Participez au FIMU en tant que bénévoles.<br />
-<br />
-Le FIMU concentre sur trois jours les aspirations de près de 2 500
-musiciens et choristes amateurs à se produire et à faire connaître
-leur pratique. Ils sont représentants de leur école ou bande de
-copains, "fous de musique" qui se retrouvent dans le festival pour
-leur plaisir, en véhiculant l\'esprit de fête et d\'indépendance propre
-au monde étudiant.<br />
-<br />
-133 formations ou orchestres issus d\'universités ou de conservatoires
-venant de 37 pays ont été sélectionnés pour l\'édition 2009.<br />
-<br />
-Le FIMU, c\'est l\'occasion de la rencontre entre les formations et le
-public toujours plus nombreux. En 2008, celui-ci était évalué à 80 000
-visiteurs.<br />
-La Vieille Ville de Belfort sert de cadre privilégié à ce
-rassemblement, à travers quatorze scènes, en salle ou en plein air.<br />
-<br />
-L\'accès à l\'ensemble des concerts est totalement gratuit, cela permet
-à un public familial, mélomane ou curieux, de découvrir et d\'apprécier
-dans la convivialité un programme de musique "à la carte".<br />
-<br />
-Le Festival est ouvert à toute formation musicale française ou
-étrangère composée majoritairement d\'étudiants ou d\'élèves des
-conservatoires et écoles de musique, ainsi qu\'aux groupes musicaux
-divers pratiquant la musique en amateurs. Le Festival accueille tous
-les genres musicaux: musique classique, musiques nouvelles, jazz,
-musiques actuelles, musique du monde, chanson...<br />
-<br />
-Pour plus d\'informations, rendez-vous sur :
-<a href="http://www.fimu.com" target="_blank">http://www.fimu.com</a>
-<br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">Reflex - Formation photo</font></td></tr>
+<tr bgcolor="#00BBFF"><td><font color="#ffffff">AE - Commissions de pôle</font></td></tr>
 <tr><td>Bonjour à tous,<br />
 <br />
-Reflex, votre club photo préféré vous propose ce jeudi 28 mai, de 18h
-à 20h, non pas une mais deux formations à la photographie. La première
-reprendra les bases techniques de la photographie, pour ceux qui sont
-intéressés par le pourquoi du comment, ceux qui possèdent un appareil
-photo depuis peu et veulent apprendre à mieux le maitriser, ou encore,
-ceux qui en ont un depuis longtemps et à qui la mémoire fait défaut...
-La seconde couvrira les techniques de cadrage et composition, comment
-rendre vos images plus intéressantes, dans la théorie du moins.<br />
+Avec la fin de l\'intégration, arrive la reprise des clubs de l\'AE, si tu te
+sens l\'âme \'un responsable de club, si tu souhaites créer une nouvelle activité,
+ou en réactiver un, le moment est venu de te faire connaître ! En effet, la
+semaine prochaine auront lieu les commissions de pôles, où seront discutés
+les projets du semestre ainsi que les budgets.<br />
 <br />
-La formation aura lieu à Belfort (bâtiment A, salle à confirmer, voir
-sur le site de l\'AE très bientôt), de 18h à 20h<br />
+Si l\'aventure de responsable de club te tente, rendez-vous :
+<ul>
+<li>Lundi 21/09/09 à 20 heures: Pôle Technique</li>
+<li>Lundi 21/09/09 à 21 heures: Pôle Culturel</li>
+<li>Mardi 22/09/09 à 20 heures: Grandes Activités</li>
+<li>Mercredi 23/09/09 à 20 heures: Pôle Entraide et Humanitaire</li>
+<li>Mercredi 24/09/09 à 21 heures: Pôle Artistique</li>
+</ul>
+Si vous êtes intéressés par l\'aventure, pensez à un budget prévisionnel, et
+si vous avez des questions, rendez vous sur le forum de l\'AE<br />
 <br />
-à jeudi donc<br />
-<br />
-Zaps et Senic pour le club Reflex<br />
-<br />
-contact : reflex@utbm.fr ou loic.geslin@utbm.fr
+à bientôt<br />
+L\'équipe AE
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">Club Welcome: Soirée ASIE Mercredi 27 à 20h au Foyer de Belfort !</font></td></tr>
-<tr><td>Et oui le semestre se termine...<br />
-Notre dernière grosse soirée mettra à l\'honneur l\'Asie et ses cultures.
-Dégustations, boissons, Karaoké, DDR et musique seront au rendez-vous,
-ainsi que VOUS TOUS !<br />
-<br />
-Venez nombreux mercredi soir dès 20h au Foyer de la Maison des
-Étudiants de Belfort. Entrée gratuite !<br />
-<br />
-Bien entendu nous avons toujours besoin de monde pour préparer la
-soirée donc n\'hésitez pas si ça vous intéresse !<br />
-<br />
-Nous recherchons d\'ailleurs toujours des étudiants motivés pour
-reprendre le flambeau à l\'automne prochain... Plus on est de fou plus
-on rit et moins il y a de travail par personne!<br />
-<br />
-une question, un doute, une envie? -> welcome@utbm.fr<br />
-<br />
-Pour le Club Welcome
-<br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">Semaine des Arts</font></td></tr>
-<tr><td>La Semaine des Arts s\'est achevée il y a une petite semaine déjà, ce
-fût un réel plaisir pour toute l\'équipe de vous offrir ce programme
-artistique et culturel fourni en découverte. C\'est aussi un réel
-succès au vue de la fréquentation des différents événements que nous
-vous proposions.<br />
-Merci à vous tous d\'avoir participé à cette Réédition de la Semaine
-des Arts. Nous vous donnons rendez-vous l\'année prochaine pour une
-nouvelle édition.<br />
-<br />
-Pour continuer sur notre lancée et encore apporter découverte et
-expériences originales aux étudiants nous avons besoin de former une
-équipe conséquente, alors n\'hésitez plus, faites-vous connaître auprès
-de nous ;) On attend toutes vos idées et suggestions.<br />
-<br />
-Enfin je rappelle que les magnifiques t-shirts de la Semaine des Arts
-sont en vente. c\'est par
-<a href="http://ae.utbm.fr/forum2/?id_sujet=9188" target="_blank">ici</a><br />
-<br />
-Artistiquement votre,<br />
-Vid au nom de l\'équipe SdA
-<br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">La Bohème</font></td></tr>
-<tr><td>Elle vous manque votre BiMeBo, dites-le qu\'elle vous manque, c\'est
-normal avec tout ce qui s\'est enchaîne (Semaine des Arts, FF1J et
-bientôt FIMU) l\'équipe n\'avait pas vraiment le temps de vous sortir
-quelque chose. Mais le mal va être réparé :)<br />
-Nous vous donnons rendez-vous jeudi 4 juin prochain pour lire la
-prochaine BiMeBo. Cela veut aussi dire que les articles, jeux,
-blagues, citations sont à rendre pour le lundi 1er juin dans la soirée.
-Cela serait bien d\'y retrouver des retours de les 3 événements passés
-(SdA, FF1J, FIMU). Et évidemment des articles sur l\'actualité, le
-cinéma, et tout plein d\'autres choses.<br />
-Je vous fais confiance<br />
-<br />
-Bohèmement votre,<br />
-Vid
-<br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">Le Seven\'Art présente Dans la brume électrique</font></td></tr>
-<tr><td>Bonjour,<br /<
-<br />
-Cette semaine le Seven\'Art propose Dans la brume électrique le
-mercredi 27 mai en P108 à 20h30. Un film de Bertrand Tavernier avec
-Tommy Lee Jones, John Goodman, Peter Sarsgaard<br />
+<tr bgcolor="#00BBFF"><td><font color="#ffffff">Seven\'Art : Là-haut (16/09/2009)</font></td></tr>
+<tr><td>Le Seven\'Art vous propose comme chaque mercredi soir, à Sévenans une
+projection à prix sympa dans un amphi P108 transformé ! Cette semaine, le
+club vous propose là-Haut, dernière production des studios Pixar à ne rater
+sous aucun prétexte !<br />
 <br />
 Synopsis :<br />
-New Iberia, Louisiane. Le détective Dave Robicheaux est sur les traces
-d\'un tueur en série qui s\'attaque à de très jeunes femmes. De retour
-chez lui après une investigation sur la scène d\'un nouveau crime
-infâme, Dave fait la rencontre d\'Elrod Sykes. La grande star
-hollywoodienne est venue en Louisiane tourner un film, produit avec le
-soutien de la fine fleur du crime local, Baby Feet Balboni. Elrod
-raconte à Dave qu\'il a vu, gisant dans un marais, le corps décomposé
-d\'un homme noir enchaîné. Cette découverte fait rapidement resurgir
-des souvenirs du passé de Dave. Mais à mesure que Dave se rapproche du
-meurtrier, le meurtrier se rapproche de la famille de Dave?<br />
+Quand Carl, un grincheux de 78 ans, décide de réaliser le rêve de sa vie en
+attachant des milliers de ballons à sa maison pour s’envoler vers l’Amérique
+du Sud, il ne s’attendait pas à embarquer avec lui Russell, un jeune
+explorateur de 9 ans, toujours très enthousiaste et assez envahissant… Ce
+duo totalement imprévisible et improbable va vivre une aventure délirante
+qui les plongera dans un voyage dépassant l’imagination.<br />
 <br />
-Deux affiches du film seront à gagner par tirage au sort durant la séance.<br />
-<br />
-Cotisants AE : 2,50 euros | Autres : 3,50 euros (Possibilité de payer
-par carte AE)<br />
-<br />
-Entrée par le parking du bas.<br />
-<br />
-Cinéphilement,<br /
-L\'Equipe Seven\'Art
+Entrée : 2,50€ (cotisants AE) / 3,50€ (non cotisants) (Possibilité de payer
+par carte AE)
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">Le Bigband de l\'UTBM au FIMU 2009 !!</font></td></tr>
-<tr><td>Le Bigband de l\'UTBM est ravi de vous apprendre qu\'il participera au
-FIMU 2009 !!<br />
-<br />
-<b>Date</b> : dimanche 31 Mai à 14h<br />
-<b>Lieu</b> : Scène du Lion !<br />
-<b>Programme</b> :<br />
-Une set-list spéciale a été préparée !!!<br />
-Du jazz, du funk, du rock, du boogie, de la bossa...<br />
-Des reprises de grands standards, des compositions<br />
-A ne rater sous aucun prétexte<br />
-<br />
-A dimanche !<br />
-Gaël pour le Bigband
+<tr bgcolor="#00BBFF"><td><font color="#ffffff">Club Welcome - Welcome need U !</font></td></tr>
+<tr><td>
+Bonjour à tous,
+<br /></br />
+Une expérience à l\'international vous tente ? Par simple curiosité ou ayant
+déjà un projet de mobilité bien défini, le club Welcome propose à vous,
+étudiants de l\'UTBM, de nouer des liens dans un environnement interculturel
+et convivial ! Venez à la rencontre des étudiants étrangers provenant des
+quatre coins du monde pour étudier à l\'UTBM et découvrir la culture
+Française !
+<br /></br />
+La richesse des échanges interculturels, ayant aussi bien lieu à Belfort
+qu\'à l\'étranger, est souvent insoupçonnée! L\'enrichissement personnel est
+indéniable; par ailleurs créer des liens avec des étudiants désireux de
+franchir le pont culturel peut vous ouvrir de nouveaux horizons, créer de
+nouvelles opportunités.
+<br /></br />
+Au moment de l\'intégration et de la reprise des cours, le club Welcome fait
+également sa rentrée, et vous convie à une réunion d\'information pour vous
+faire découvrir les activités qui vont se dérouler tout au long de ce
+semestre ! Tout le monde peut participer, Ancien comme Nouveau, Tronc commun
+autant que Branche !
+<br /></br />
+Alors n\'hésitez plus, et venez nous rencontrer le jeudi 17 septembre à 16h
+en salle Rantanplan (bâtiment des Dalton de la Maison des Eleves à Belfort).
+<br /></br />
+D\'ici là, nous vous donnons rendez-vous sur le site web du club Welcome:
+http://ae.utbm.fr/welcome/
+<br /></br />
+A très bientôt !!
+<br /></br />
+L\'équipe du club Welcome
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">Club astro : observation/photo de la Lune ou traitement d\'images</font></td></tr>
-<tr><td>En fonction de l\'humeur des participants et de la météo on pourra,
-soit faire l\'observation/photographie de la Lune, soit faire le
-traitement des images faites durant le semestre.<br />
-<br />
-<ul><li>Date et heure : jeudi 28 mai à 20h30</li>
-<li>Lieu : salle activités (Jolly Jumper) à la ME (Belfort)</li>
-<li>Contact : club.astro@utbm.fr</li></ul>
-<br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">La blague, offerte et assumée par notre éléphantesque Mage !</font></td></tr>
-<tr><td>Salon de l\'auto : Comment reconnaître les nationalités des visiteurs
-du Mondial de l\'Automobile ?<br />
-<br />
-- L\'Allemand examine le moteur<br />
-- L\'Anglais examine les cuirs<br />
-- Le Grec examine l\'échappement<br />
-- L\'Italien examine le Klaxon<br />
-- Le Portugais examine la peinture<br />
-- L\'Americain examine la taille<br />
-- Le Suisse examine le coffre<br />
-- Le Chinois examine tout<br />
-- Le Belge examine rien<br />
-- Le Français examine la vendeuse<br />
+<tr bgcolor="#000000"><td><font color="#ffffff">La blague !</font></td></tr>
+<tr><td>Deux militaires discutent :
+- "Pourquoi t\'es dans l\'armée toi ?"
+- "Parce que je suis célibataire et que j\'aime la guerre, et toi ?"
+- "Parce que je suis marié et que je voulais la paix !"
 <br />&nbsp;</td></tr>
 <tr bgcolor="#000000"><td><font color="#ffffff">Le mot de la fin</font></td></tr>
 <tr><td>à la semaine prochaine !<br />
