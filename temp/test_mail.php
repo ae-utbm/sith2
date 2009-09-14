@@ -1,5 +1,4 @@
 <?
-exit();
 $topdir = '../';
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/entities/files.inc.php");
@@ -8,7 +7,7 @@ require_once($topdir.'include/lib/mailer.inc.php');
 $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
-                     'Weekmail du 25 au 31 Mai 2009');
+                     'Weekmail du 14 au 20 septembre 2009 (oups)');
 $mailer->add_dest(array('etudiants@utbm.fr',
                         'enseignants@utbm.fr',
                         'iatoss@utbm.fr',
