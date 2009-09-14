@@ -39,7 +39,7 @@ $site->allow_only_logged_users();
 
 $site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db, $site->dbrw);
-$user->load_by_id($site->user->id);
+$user->load_by_id($_REQUEST['id_utilisateur']);
 
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 $path .= " / "."<a href=\"./edt.php\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> Emploi du temps </a>";
