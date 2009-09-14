@@ -186,7 +186,7 @@ class pedag_user extends utilisateur{
     if(!$sql->is_success())
       return array();
     else{
-      $t=null;
+      $t=array();
       while($row = $sql->get_row())
         $t[] = $row['semestre'];
 
