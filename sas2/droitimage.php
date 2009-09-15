@@ -34,11 +34,11 @@ $photo = new photo($site->db,$site->dbrw);
 
 if ( $_REQUEST["action"] == "setaccordphoto" )
 {
-	$photo->load_by_id($_REQUEST["id_photo"]);
+    $photo->load_by_id($_REQUEST["id_photo"]);
   if ( $photo->id > 0 && $photo->is_on_photo($site->user->id))
-	{
+    {
     if ( $_REQUEST["mesure"] == "ok" )
-		{
+        {
       $photo->donne_accord($site->user->id);
       $photo->set_seen_photo ($site->user->id);
     }
@@ -75,6 +75,7 @@ if ( $_REQUEST["page"] == "process" )
   "INNER JOIN sas_photos ON (sas_photos.id_photo=sas_personnes_photos.id_photo) " .
   "WHERE sas_personnes_photos.id_utilisateur=".$site->user->id." " .
   "AND sas_personnes_photos.accord_phutl='0' " .
+  "AND sas_personnes_photos.modere_phutl='1' " .
   "AND (droits_acces_ph & 0x100) " .
   "ORDER BY sas_photos.id_photo " .
   "LIMIT 1");
@@ -182,6 +183,7 @@ $sql = new requete($site->db,
   "INNER JOIN sas_photos ON (sas_photos.id_photo=sas_personnes_photos.id_photo) " .
   "WHERE sas_personnes_photos.id_utilisateur=".$site->user->id." " .
   "AND sas_personnes_photos.accord_phutl='0' " .
+  "AND sas_personnes_photos.modere_phutl='1' " .
   "AND (droits_acces_ph & 0x100) " .
   "ORDER BY sas_photos.id_photo");
 list($count) = $sql->get_row();

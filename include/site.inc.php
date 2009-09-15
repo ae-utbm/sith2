@@ -538,7 +538,7 @@ class site extends interfaceweb
 
     if( !$this->get_param("closed.sas",false) && is_dir("/var/www/ae/accounts/sas"))
     {
-      $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `id_utilisateur`='".$this->user->id."' AND `vu_phutl`='0'");
+      $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `id_utilisateur`='".$this->user->id."' AND `vu_phutl`='0' AND `modere_phutl`='1'");
       list($nphoto) = $req->get_row();
       if ( $nphoto > 0 )
         $elements[] = "<a href=\"".$topdir."user/photos.php?see=new\"><b>".$nphoto." nouvelle(s) photo(s)</b> dans le SAS</a>";
@@ -565,6 +565,7 @@ class site extends interfaceweb
         "INNER JOIN sas_photos ON (sas_photos.id_photo=sas_personnes_photos.id_photo) " .
         "WHERE sas_personnes_photos.id_utilisateur=".$this->user->id." " .
         "AND sas_personnes_photos.accord_phutl='0' " .
+        "AND sas_personnes_photos.modere_phutl='1' " .
         "AND (droits_acces_ph & 0x100)");
       list($count) = $sql->get_row();
 

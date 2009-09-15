@@ -97,7 +97,7 @@ if ( $_REQUEST["action"] == "modere" )
       $req = new requete($site->db,"SELECT `id_utilisateur`,`modere_phutl` FROM `sas_personnes_photos` WHERE `id_photo`='".$photo->id."'");
       while ( list($id,$modere) = $req->get_row() )
       {
-        if ( !isset($_REQUEST["yet"][$id]) )
+        if ( !isset($_REQUEST["yet|$id"]) )
           $photo->remove_personne($id);
         elseif ( $modere == 0 )
           $photo->modere_personne($id);
@@ -257,7 +257,7 @@ if ( $req->lines == 1 )
 
   $sfrm = new form("valid",null,null,null,"Validation");
   $sfrm->add_submit("modere","Accepter");
-	$frm->add($sfrm);
+    $frm->add($sfrm);
 
 
   $sfrm = new form("people",null,null,null,"Personnes sur la photo");
@@ -266,22 +266,22 @@ if ( $req->lines == 1 )
   for ($i=0;$i<7;$i++)
     $sfrm->add_user_fieldv2("id_utilisateur[$i]","");
   $sfrm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
-	$frm->add($sfrm);
+    $frm->add($sfrm);
 
   $sfrm = new form("meta",null,null,null,"Meta-informations");
   $sfrm->add_text_field("titre","Titre",$photo->titre);
   $sfrm->add_text_field("tags","Tags (séparteur: virgule)",$photo->get_tags());
   $sfrm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);
   $sfrm->add_entity_select("id_asso_photographe", "Photographe", $site->db, "asso",$photo->id_asso_photographe,true);
-	$frm->add($sfrm);
+    $frm->add($sfrm);
 
   $sfrm = new form("access",null,null,null,"Droits d'accés");
   $ssfrm = new form("restrict",null,null,null,"Accès non restreint");
-	$sfrm->add($ssfrm,false,true,($photo->droits_acces & 1),"none",false,true);
+    $sfrm->add($ssfrm,false,true,($photo->droits_acces & 1),"none",false,true);
   $ssfrm = new form("restrict",null,null,null,"Limiter l'accés au groupe");
-	$ssfrm->add_entity_select( "id_group", "Groupe", $site->db, "group", $photo->id_groupe );
-	$sfrm->add($ssfrm,false,true,!($photo->droits_acces & 1),"limittogroup",false,true);
-	$frm->add($sfrm);
+    $ssfrm->add_entity_select( "id_group", "Groupe", $site->db, "group", $photo->id_groupe );
+    $sfrm->add($ssfrm,false,true,!($photo->droits_acces & 1),"limittogroup",false,true);
+    $frm->add($sfrm);
 
   $subcts->add($frm,true);
 
