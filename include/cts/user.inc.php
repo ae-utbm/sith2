@@ -187,7 +187,7 @@ class userinfo extends stdcontents
         if ( $solde )
           {
             $this->buffer .= "<p>";
-            $this->buffer .= "Solde: ".($user->montant_compte/100)." €\n";
+            $this->buffer .= "Solde: ".round($user->montant_compte/100, 2)." €\n";
             $this->buffer .= "</p>";
           }
 
@@ -564,7 +564,7 @@ class userinfov2 extends stdcontents
     if ( $user->promo_utbm > 0 )
     {
       $this->buffer .= "<p class=\"promo\"><a href=\"".$topdir."trombi/index.php?id_utilisateur=".
-	$user->id."\">Promo ".sprintf("%02d",$user->promo_utbm) . "</a>";
+    $user->id."\">Promo ".sprintf("%02d",$user->promo_utbm) . "</a>";
       if ( $display == "full" && file_exists($topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png") )
         $this->buffer .= "<img src=\"".$topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png\" alt=\"Promo ".sprintf("%02d",$user->promo_utbm)."\" />\n";
       $this->buffer .= "</p>\n";
