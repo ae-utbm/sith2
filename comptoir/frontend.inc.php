@@ -399,13 +399,13 @@ else
   elseif ( $rapport )
   {
     $recu = new itemlist("Recu","recu");
-    $recu->add("Client : ".$client->nom." ".$client->prenom.", Nouveau solde ".($client->montant_compte/100)." Euros");
+    $recu->add("Client : ".$client->nom." ".$client->prenom.", Nouveau solde ".number_format($client->montant_compte/100, 2)." Euros");
     $cts->add($recu,true);
   }
   elseif ( $rapportrecharge )
   {
     $recu = new itemlist("Recu","recu");
-    $recu->add("Client : ".$client->nom." ".$client->prenom.", Nouveau solde ".($client->montant_compte/100)." Euros");
+    $recu->add("Client : ".$client->nom." ".$client->prenom.", Nouveau solde ".number_format($client->montant_compte/100, 2)." Euros");
     $cts->add($recu,true);
   }
 
