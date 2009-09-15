@@ -187,7 +187,7 @@ class userinfo extends stdcontents
         if ( $solde )
           {
             $this->buffer .= "<p>";
-            $this->buffer .= "Solde: ".round($user->montant_compte/100, 2)." €\n";
+            $this->buffer .= "Solde: ".number_format($user->montant_compte/100, 2)." €\n";
             $this->buffer .= "</p>";
           }
 
