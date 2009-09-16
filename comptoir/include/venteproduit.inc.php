@@ -124,13 +124,8 @@ class venteproduit extends stdentity
     if ( !$this->comptoir->is_valid() )
       return false;
 
-    if ( $req->lines == 1 ){
-
-      $row  = $req->get_row();
-      print_r($row);
-      list($this->stock_local) = $row;
-      echo "loc2".$this->stock_local;
-    }
+    if ( $req->lines == 1 )
+      list($this->stock_local) = $req->get_row();
     else
       $this->stock_local = -1;
 
