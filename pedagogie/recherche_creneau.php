@@ -113,6 +113,7 @@ foreach($oqp as $jour => $_horraires)
   $lastB = false;
   foreach($_horraires as $horraire => $_oqp)
   {
+    print_r($_oqp);
     if($_oqp['A']==0)
     {
       $lastA=$horraire;
