@@ -127,7 +127,7 @@ foreach($oqp as $jour => $_horraires)
     }
     elseif((int)$_oqp['B']>0)
     {
-      if($startB && $startB!=$lastB)
+      if($startB && $lastB && $startB!=$lastB)
       {
         $free[] = array("semaine_seance" =>'B',
                         "hr_deb_seance"  => $startB,
@@ -143,7 +143,7 @@ foreach($oqp as $jour => $_horraires)
     }
     elseif((int)$_oqp['A']>0)
     {
-      if($startA && $startA!=$lastA)
+      if($startA && $lastA && $startA!=$lastA)
       {
         $free[] = array("semaine_seance" =>'A',
                         "hr_deb_seance"  => $startA,
@@ -158,7 +158,7 @@ foreach($oqp as $jour => $_horraires)
       $lastA = false;
     }
   }
-  if($startB && $startB!=$lastB)
+  if($startB && $lastB && $startB!=$lastB)
   {
     $free[] = array("semaine_seance" =>'B',
                     "hr_deb_seance"  => $startB,
@@ -169,7 +169,7 @@ foreach($oqp as $jour => $_horraires)
                     "nom_uv"         => '',
                     "salle_seance"   => '');
   }
-  if($startA && $startA!=$lastA)
+  if($startA && $lastA && $startA!=$lastA)
   {
     $free[] = array("semaine_seance" =>'A',
                     "hr_deb_seance"  => $startA,
@@ -181,6 +181,8 @@ foreach($oqp as $jour => $_horraires)
                     "salle_seance"   => '');
   }
 }
+print_r($free);
+exit();
 $edt = new edt_img('Créneaux disponibles', $free);
 $edt->generate(false);
 exit;
