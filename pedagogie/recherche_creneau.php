@@ -81,11 +81,9 @@ foreach($id_utls as $id_utl)
           $add   = 0;
           foreach($horraires as $horraire)
           {
-            print_r($horraire.' '.$debut."\n");
             if($horraire==$debut)
             {
               $add = 1;
-              print_r('bleh');
             }
             if(is_null($sem))
             {
@@ -100,8 +98,6 @@ foreach($id_utls as $id_utl)
               break;
             }
           }
-print_r($oqp[$jour]);
-exit();
         }
       }
     }
@@ -195,7 +191,6 @@ foreach($oqp as $jour => $_horraires)
     }
   }
 }
-print_r($oqp);
 print_r($free);
 exit();
 $edt = new edt_img('Créneaux disponibles', $free);
