@@ -118,7 +118,6 @@ foreach($oqp as $jour => $_horraires)
       $lastA=$horraire;
       if(!$startA)
         $startA=$horraire;
-      echo "bleh\n";
     }
     elseif($_oqp['B']==0)
     {
@@ -144,6 +143,7 @@ foreach($oqp as $jour => $_horraires)
     }
     elseif($_oqp['A']!=0)
     {
+      print_r($startA." : ".$lastA."\n");
       if($startA && $startA!=$lastA)
       {
         $free[] = array("semaine_seance" =>'A',
