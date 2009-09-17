@@ -39,27 +39,27 @@ $user = new pedag_user($site->db);
 $id_utls = array(1827);//,2536,4040,3458);
 
 $lines = array();
-$horaires = array('08h00',
-                  '09h00',
-                  '10h00',
-                  '10h15',
-                  '11h15',
-                  '12h15',
-                  '13h00',
-                  '14h00',
-                  '15h00',
-                  '16h00',
-                  '16h15',
-                  '17h15',
-                  '18h15',
-                  '19h15',
-                  '20h15');
+$horraires = array('08h00',
+                   '09h00',
+                   '10h00',
+                   '10h15',
+                   '11h15',
+                   '12h15',
+                   '13h00',
+                   '14h00',
+                   '15h00',
+                   '16h00',
+                   '16h15',
+                   '17h15',
+                   '18h15',
+                   '19h15',
+                   '20h15');
 $jours = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');
 $oqp = array();
 foreach($jours as $jour)
 {
   $oqp[$jour]=array();
-  foreach($horaires as $horraire)
+  foreach($horraires as $horraire)
     $oqp[$jour][$horraire]=array('A'=>0,'B'=>0);
 }
 foreach($id_utls as $id_utl)
@@ -109,14 +109,13 @@ exit();
 }
 
 $free = array();
-$oqp[$jour][$horraire]=array('A'=>0,'B'=>0);
-foreach($oqp as $jour => $horraires)
+foreach($oqp as $jour => $_horraires)
 {
   $startA = false;
   $startB = false;
   $lastA = false;
   $lastB = false;
-  foreach($horraires as $horraire => $_oqp)
+  foreach($_horraires as $horraire => $_oqp)
   {
     if($_oqp['A']==0 && $_oqp['B']==0)
     {
