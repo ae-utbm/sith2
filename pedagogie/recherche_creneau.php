@@ -72,6 +72,8 @@ foreach($id_utls as $id_utl)
       $groups = $user->get_groups_detail(SEMESTER_NOW);
       if(!empty($groups))
       {
+print_r($groups);
+exit();
         foreach($groups as $group)
         {
           $jour  = get_day($group['jour']);
