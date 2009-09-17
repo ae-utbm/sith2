@@ -74,11 +74,15 @@ foreach($id_utls as $id_utl)
       {
         foreach($groups as $group)
         {
+print_r($group);
+print_r(get_day($group['jour']));
           $jour  = get_day($group['jour']);
           $debut = substr($group['debut'], 0,5);
           $fin   = substr($group['fin'], 0, 5);
           $sem   = $group['semaine'];
           $add   = 0;
+print_r($oqp[$jour]);
+exit();
           foreach($oqp[$jour] as $horraire => $_oqp)
           {
             if($horraire==$debut)
