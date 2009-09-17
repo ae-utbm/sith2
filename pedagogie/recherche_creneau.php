@@ -194,7 +194,7 @@ foreach($oqp as $jour => $_horraires)
     }
   }
 }
-print_r($oqp);
+print_r($free);
 exit();
 $edt = new edt_img('Créneaux disponibles', $free);
 $edt->generate(false);
