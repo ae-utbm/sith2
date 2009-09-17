@@ -119,17 +119,14 @@ foreach($oqp as $jour => $_horraires)
       if(!$startA)
         $startA=$horraire;
     }
-    if($_oqp['B']==0)
+    elseif($_oqp['B']==0)
     {
       $lastB=$horraire;
       if(!$startB)
         $startA=$horraire;
     }
-    if($_oqp['A']==0 && $_oqp['B']!=0)
+    elseif($_oqp['B']!=0)
     {
-      $lastA=$horraire;
-      if(!$startA)
-        $startA=$horraire;
       if($startB && $startB!=$lastB)
       {
         $free[] = array("semaine_seance" =>'B',
@@ -140,30 +137,11 @@ foreach($oqp as $jour => $_horraires)
                         "grp_seance"     => 0,
                         "nom_uv"         => '',
                         "salle_seance"   => '');
-        $startB = false;
-        $lastB = false;
       }
+      $startB = false;
+      $lastB = false;
     }
-    elseif($_oqp['A']!=0 && $_oqp['B']==0)
-    {
-      $lastB=$horraire;
-      if(!$startB)
-        $startB=$horraire;
-      if($startA && $startA!=$lastA)
-      {
-        $free[] = array("semaine_seance" =>'A',
-                        "hr_deb_seance"  => $startA,
-                        "hr_fin_seance"  => $lastA,
-                        "jour_seance"    => $jour,
-                        "type_seance"    => '',
-                        "grp_seance"     => 0,
-                        "nom_uv"         => '',
-                        "salle_seance"   => '');
-        $startA = false;
-        $lastA = false;
-      }
-    }
-    else
+    elseif($_oqp['A']!=0)
     {
       if($startA && $startA!=$lastA)
       {
@@ -175,22 +153,9 @@ foreach($oqp as $jour => $_horraires)
                         "grp_seance"     => 0,
                         "nom_uv"         => '',
                         "salle_seance"   => '');
-        $startA = false;
-        $lastA = false;
       }
-      if($startB && $startB!=$lastB)
-      {
-        $free[] = array("semaine_seance" =>'B',
-                        "hr_deb_seance"  => $startB,
-                        "hr_fin_seance"  => $lastB,
-                        "jour_seance"    => $jour,
-                        "type_seance"    => '',
-                        "grp_seance"     => 0,
-                        "nom_uv"         => '',
-                        "salle_seance"   => '');
-        $startB = false;
-        $lastB = false;
-      }
+      $startA = false;
+      $lastA = false;
     }
   }
 }
