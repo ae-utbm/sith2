@@ -114,20 +114,23 @@ foreach($oqp as $jour => $_horraires)
   foreach($_horraires as $horraire => $_oqp)
   {
     print_r($_oqp);
-    if($_oqp['A']==0)
+    if((int)$_oqp['A']==0)
     {
+      print_r('A : '.$startA." : ".$lastA."\n");
       $lastA=$horraire;
       if(!$startA)
         $startA=$horraire;
     }
-    elseif($_oqp['B']==0)
+    elseif((int)$_oqp['B']==0)
     {
+      print_r('A : '.$startB." : ".$lastB."\n");
       $lastB=$horraire;
       if(!$startB)
         $startB=$horraire;
     }
-    elseif($_oqp['B']>0)
+    elseif((int)$_oqp['B']>0)
     {
+      print_r('B : '.$startB." : ".$lastB."\n");
       if($startB && $startB!=$lastB)
       {
         $free[] = array("semaine_seance" =>'B',
@@ -142,9 +145,9 @@ foreach($oqp as $jour => $_horraires)
       $startB = false;
       $lastB = false;
     }
-    elseif($_oqp['A']>0)
+    elseif((int)$_oqp['A']>0)
     {
-      print_r($startA." : ".$lastA."\n");
+      print_r('A : '.$startA." : ".$lastA."\n");
       if($startA && $startA!=$lastA)
       {
         $free[] = array("semaine_seance" =>'A',
@@ -159,6 +162,28 @@ foreach($oqp as $jour => $_horraires)
       $startA = false;
       $lastA = false;
     }
+  }
+  if($startB && $startB!=$lastB)
+  {
+    $free[] = array("semaine_seance" =>'B',
+                    "hr_deb_seance"  => $startB,
+                    "hr_fin_seance"  => $lastB,
+                    "jour_seance"    => $jour,
+                    "type_seance"    => '',
+                    "grp_seance"     => 0,
+                    "nom_uv"         => '',
+                    "salle_seance"   => '');
+  }
+  if($startA && $startA!=$lastA)
+  {
+    $free[] = array("semaine_seance" =>'B',
+                    "hr_deb_seance"  => $startA,
+                    "hr_fin_seance"  => $lastA,
+                    "jour_seance"    => $jour,
+                    "type_seance"    => '',
+                    "grp_seance"     => 0,
+                    "nom_uv"         => '',
+                    "salle_seance"   => '');
   }
 }
 print_r($free);
