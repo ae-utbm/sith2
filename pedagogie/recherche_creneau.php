@@ -62,6 +62,13 @@ foreach($jours as $jour)
   foreach($horaires as $horraire)
     $oqp[$jour][$horraire]=array('A'=>0,'B'=>0);
 }
+$dc = array();
+foreach($jours as $jour)
+{
+  $dc[$jour]=array();
+  foreach($horaires as $horraire)
+    $dc[$jour][]=$horraire;
+}
 foreach($id_utls as $id_utl)
 {
   $user->load_by_id($id_utl);
@@ -74,25 +81,27 @@ foreach($id_utls as $id_utl)
       {
         foreach($groups as $group)
         {
-print_r($group);
-print_r(get_day($group['jour']));
           $jour  = get_day($group['jour']);
           $debut = substr($group['debut'], 0,5);
           $fin   = substr($group['fin'], 0, 5);
           $sem   = $group['semaine'];
           $add   = 0;
-          foreach($oqp[$jour] as $horraire => $_oqp)
+print_r($debut);
+print_r($fin);
+          foreach($dc[$jour] as $horraire)
           {
             if($horraire==$debut)
+            {
               $add = 1;
+              print_r('bleh');
+            }
             if(is_null($sem))
             {
-              $_oqp['A']+=$add;
-              $_oqp['B']+=$add;
+              $oqp[$jour][$horraire]['A']+=$add;
+              $oqp[$jour][$horraire]['B']+=$add;
             }
             else
-              $_oqp[$sem]+=$add;
-            $oqp[$jour][$horraire]=$_oqp;
+              $oqp[$jour][$horraire][$sem]+=$add;
             if($horraire==$fin)
             {
               $add = 0;
