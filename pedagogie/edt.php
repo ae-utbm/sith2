@@ -41,7 +41,8 @@ $site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db, $site->dbrw);
 if(isset($_REQUEST['id_utilisateur']))
 {
-  if(!$user->load_by_id($_REQUEST['id_utilisateur']))
+  $user->load_by_id($_REQUEST['id_utilisateur']);
+  if(!$user->is_valid())
     $user->load_by_id($site->user->id);
 }
 else
