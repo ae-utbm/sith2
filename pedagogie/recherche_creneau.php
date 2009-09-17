@@ -118,6 +118,7 @@ foreach($oqp as $jour => $_horraires)
       $lastA=$horraire;
       if(!$startA)
         $startA=$horraire;
+      echo "bleh\n";
     }
     elseif($_oqp['B']==0)
     {
