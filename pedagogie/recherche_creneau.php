@@ -39,21 +39,21 @@ $user = new pedag_user($site->db);
 $id_utls = array(1827);//,2536,4040,3458);
 
 $lines = array();
-$horraires = array('08h00',
-                   '09h00',
-                   '10h00',
-                   '10h15',
-                   '11h15',
-                   '12h15',
-                   '13h00',
-                   '14h00',
-                   '15h00',
-                   '16h00',
-                   '16h15',
-                   '17h15',
-                   '18h15',
-                   '19h15',
-                   '20h15');
+$horraires = array('08:00',
+                   '09:00',
+                   '10:00',
+                   '10:15',
+                   '11:15',
+                   '12:15',
+                   '13:00',
+                   '14:00',
+                   '15:00',
+                   '16:00',
+                   '16:15',
+                   '17:15',
+                   '18:15',
+                   '19:15',
+                   '20:15');
 $jours = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');
 $oqp = array();
 foreach($jours as $jour)
