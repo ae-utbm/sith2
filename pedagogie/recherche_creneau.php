@@ -36,11 +36,11 @@ $site->allow_only_logged_users();
 
 $site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db);
-$id_utls = array(1827,2536,4040,3458);
+$id_utls = array(1827);//,2536,4040,3458);
 
 $lines = array();
-$horaires = array('8h00',
-                  '9h00',
+$horaires = array('08h00',
+                  '09h00',
                   '10h00',
                   '10h15',
                   '11h15',
@@ -72,8 +72,6 @@ foreach($id_utls as $id_utl)
       $groups = $user->get_groups_detail(SEMESTER_NOW);
       if(!empty($groups))
       {
-print_r($groups);
-exit();
         foreach($groups as $group)
         {
           $jour  = get_day($group['jour']);
