@@ -126,7 +126,7 @@ foreach($oqp as $jour => $_horraires)
       if(!$startB)
         $startB=$horraire;
     }
-    elseif($_oqp['B']!=0)
+    elseif($_oqp['B']>0)
     {
       if($startB && $startB!=$lastB)
       {
@@ -142,7 +142,7 @@ foreach($oqp as $jour => $_horraires)
       $startB = false;
       $lastB = false;
     }
-    elseif($_oqp['A']!=0)
+    elseif($_oqp['A']>0)
     {
       print_r($startA." : ".$lastA."\n");
       if($startA && $startA!=$lastA)
