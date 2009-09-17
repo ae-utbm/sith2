@@ -103,8 +103,6 @@ foreach($id_utls as $id_utl)
     }
   }
 }
-print_r($oqp);
-exit();
 $free = array();
 foreach($oqp as $jour => $_horraires)
 {
@@ -120,13 +118,13 @@ foreach($oqp as $jour => $_horraires)
       if(!$startA)
         $startA=$horraire;
     }
-    elseif((int)$_oqp['B']==0)
+    if((int)$_oqp['B']==0)
     {
       $lastB=$horraire;
       if(!$startB)
         $startB=$horraire;
     }
-    elseif((int)$_oqp['B']>0)
+    if((int)$_oqp['B']>0)
     {
       if($startB && $lastB && $startB!=$lastB)
       {
@@ -142,7 +140,7 @@ foreach($oqp as $jour => $_horraires)
       $startB = false;
       $lastB = false;
     }
-    elseif((int)$_oqp['A']>0)
+    if((int)$_oqp['A']>0)
     {
       if($startA && $lastA && $startA!=$lastA)
       {
@@ -182,8 +180,6 @@ foreach($oqp as $jour => $_horraires)
                     "salle_seance"   => '');
   }
 }
-print_r($free);
-exit();
 $edt = new edt_img('Créneaux disponibles', $free);
 $edt->generate(false);
 exit;
