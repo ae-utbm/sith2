@@ -86,10 +86,10 @@ class edt_img
   var $fillcolor;
 
   /* constructeur */
-  function edt_img($name, $lines, $logo = false)
+  function edt_img($name, $lines, $logo = false, $printsem=true)
   {
     global $topdir;
-
+    $this->printsem = ($printsem!=false);
     $this->name = $name . " - UTBM";
     $this->credits = "";
 
@@ -111,24 +111,24 @@ class edt_img
     $this->dim['dh'] = 480;
     /* horaires */
     $this->horaires = array(array("8","00"),
-			    array("9","00"),
-			    array("10","00"),
-			    array("10","15"),
-			    array("11","15"),
-			    array("12","15"),
-			    array("13","00"),
-			    array("14","00"),
-			    array("15","00"),
-			    array("16","00"),
-			    array("16","15"),
-			    array("17","15"),
-			    array("18","15"),
-			    array("19","15"),
-			    array("20","15"));
+                            array("9","00"),
+                            array("10","00"),
+                            array("10","15"),
+                            array("11","15"),
+                            array("12","15"),
+                            array("13","00"),
+                            array("14","00"),
+                            array("15","00"),
+                            array("16","00"),
+                            array("16","15"),
+                            array("17","15"),
+                            array("18","15"),
+                            array("19","15"),
+                            array("20","15"));
     /* logo ? */
     if (file_exists($logo))
       {
-	$this->logo = imagecreatefrompng($logo);
+        $this->logo = imagecreatefrompng($logo);
       }
     else
       $this->logo = false;
@@ -139,7 +139,7 @@ class edt_img
 
     /* creation de l'image GD */
     $this->img = imagecreatetruecolor ($this->dim['width'],
-				       $this->dim['height']);
+                                       $this->dim['height']);
 
 
     /* definition des couleurs */
@@ -154,7 +154,7 @@ class edt_img
     $this->colors['beige_mat']       = imagecolorallocate ($this->img,224,197,166);
     $this->colors['rose_pale_mat']   = imagecolorallocate ($this->img,222,194,194);
     $this->colors['jaune']           = imagecolorallocate ($this->img,226,225,122);
-    $this->colors['vert']	     = imagecolorallocate ($this->img,179,212,126);
+    $this->colors['vert']             = imagecolorallocate ($this->img,179,212,126);
     $this->colors['gris']            = imagecolorallocate ($this->img,192,192,192);
     $this->colors['orange_mat']      = imagecolorallocate ($this->img,216,119,84);
     $this->colors['sable_mat']       = imagecolorallocate ($this->img,235,217,141);
@@ -174,160 +174,160 @@ class edt_img
     // Trame de fond hachurée
 
     for($i = $this->dim['mg'] + 1, $j = $this->dim['entete'] + 1;
-	$i < $this->dim['width'] * 2, $j < $this->dim['height'] * 2;
-	$i+=10, $j+=10)
+        $i < $this->dim['width'] * 2, $j < $this->dim['height'] * 2;
+        $i+=10, $j+=10)
       imageline($this->img,
-		$i,
-		$this->dim['entete'] + 1,
-		$this->dim['mg'] + 1,
-		$j,
-		$this->colors['gris']);
+                $i,
+                $this->dim['entete'] + 1,
+                $this->dim['mg'] + 1,
+                $j,
+                $this->colors['gris']);
 
     imagefilledrectangle($this->img,
-			 0,
-			 $this->dim['height'] - 15,
-			 $this->dim['width'] - 2,
-			 $this->dim['height'] - 2,
-			 $this->colors['blanc']);
+                         0,
+                         $this->dim['height'] - 15,
+                         $this->dim['width'] - 2,
+                         $this->dim['height'] - 2,
+                         $this->colors['blanc']);
 
     imagefilledrectangle($this->img,
-			 $this->dim['width'] - 5,
-			 $this->dim['mg'],
-			 $this->dim['width'] - 2,
-			 $this->dim['height'] - 2,
-			 $this->colors['blanc']);
+                         $this->dim['width'] - 5,
+                         $this->dim['mg'],
+                         $this->dim['width'] - 2,
+                         $this->dim['height'] - 2,
+                         $this->colors['blanc']);
     // Cadre de la semaine avec bordure doublï¿½e
 
 
     imagerectangle ($this->img,
-		    $this->dim['mg'],
-		    $this->dim['entete'] - 1,
-		    $this->dim['width'] - 5,
-		    $this->dim['height'] - 16,
-		    $this->colors['noir']);
+                    $this->dim['mg'],
+                    $this->dim['entete'] - 1,
+                    $this->dim['width'] - 5,
+                    $this->dim['height'] - 16,
+                    $this->colors['noir']);
 
     imagerectangle ($this->img,
-		    $this->dim['mg'] + 1,
-		    $this->dim['entete'],
-		    $this->dim['width'] - 6,
-		    $this->dim['height'] - 17,
-		    $this->colors['noir']);
+                    $this->dim['mg'] + 1,
+                    $this->dim['entete'],
+                    $this->dim['width'] - 6,
+                    $this->dim['height'] - 17,
+                    $this->colors['noir']);
 
     // Colonnes des jours et leur ï¿½paisseur doublï¿½e
     // Mardi
     imagerectangle ($this->img,
-		    $this->dim['mg'] + $this->dim['lj'],
-		    $this->dim['entete'],
-		    $this->dim['mg'] + $this->dim['lj'] * 2,
-		    $this->dim['height'] - 16,
-		    $this->colors['noir']);
+                    $this->dim['mg'] + $this->dim['lj'],
+                    $this->dim['entete'],
+                    $this->dim['mg'] + $this->dim['lj'] * 2,
+                    $this->dim['height'] - 16,
+                    $this->colors['noir']);
 
     imagerectangle ($this->img,
-		    $this->dim['mg'] + $this->dim['lj'] + 1,
-		    $this->dim['entete'],
-		    $this->dim['mg'] + $this->dim['lj'] * 2 + 1,
-		    $this->dim['height'] - 16,
-		    $this->colors['noir']);
+                    $this->dim['mg'] + $this->dim['lj'] + 1,
+                    $this->dim['entete'],
+                    $this->dim['mg'] + $this->dim['lj'] * 2 + 1,
+                    $this->dim['height'] - 16,
+                    $this->colors['noir']);
     // Jeudi
     imagerectangle ($this->img,
-		    $this->dim['mg'] + $this->dim['lj'] * 3,
-		    $this->dim['entete'],
-		    $this->dim['mg'] + $this->dim['lj'] * 4,
-		    $this->dim['height'] - 16,
-		    $this->colors['noir']);
+                    $this->dim['mg'] + $this->dim['lj'] * 3,
+                    $this->dim['entete'],
+                    $this->dim['mg'] + $this->dim['lj'] * 4,
+                    $this->dim['height'] - 16,
+                    $this->colors['noir']);
 
     imagerectangle ($this->img,
-		    $this->dim['mg'] + $this->dim['lj'] * 3 + 1,
-		    $this->dim['entete'],
-		    $this->dim['mg'] + $this->dim['lj'] * 4 + 1,
-		    $this->dim['height'] - 16,
-		    $this->colors['noir']);
+                    $this->dim['mg'] + $this->dim['lj'] * 3 + 1,
+                    $this->dim['entete'],
+                    $this->dim['mg'] + $this->dim['lj'] * 4 + 1,
+                    $this->dim['height'] - 16,
+                    $this->colors['noir']);
     // Samedi
     imagerectangle ($this->img,
-		    $this->dim['mg'] + $this->dim['lj'] * 5,
-		    $this->dim['entete'],
-		    $this->dim['mg'] + $this->dim['lj'] * 6,
-		    $this->dim['height'] - 16,
-		    $this->colors['noir']);
+                    $this->dim['mg'] + $this->dim['lj'] * 5,
+                    $this->dim['entete'],
+                    $this->dim['mg'] + $this->dim['lj'] * 6,
+                    $this->dim['height'] - 16,
+                    $this->colors['noir']);
 
     imagerectangle ($this->img,
-		    $this->dim['mg'] + $this->dim['lj'] * 5 + 1,
-		    $this->dim['entete'],
-		    $this->dim['mg'] + $this->dim['lj'] * 6,
-		    $this->dim['height'] - 16,
-		    $this->colors['noir']);
+                    $this->dim['mg'] + $this->dim['lj'] * 5 + 1,
+                    $this->dim['entete'],
+                    $this->dim['mg'] + $this->dim['lj'] * 6,
+                    $this->dim['height'] - 16,
+                    $this->colors['noir']);
 
     // Affichage des jours
     $jour = array("Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi");
     imagettftext($this->img,10,0,90,63,
-		 $this->colors['noir'],$this->font,$jour[0]);
+                 $this->colors['noir'],$this->font,$jour[0]);
     imagettftext($this->img,10,0,220,63,
-		 $this->colors['noir'],$this->font,$jour[1]);
+                 $this->colors['noir'],$this->font,$jour[1]);
     imagettftext($this->img,10,0,330,63,
-		 $this->colors['noir'],$this->font,$jour[2]);
+                 $this->colors['noir'],$this->font,$jour[2]);
     imagettftext($this->img,10,0,465,63,
-		 $this->colors['noir'],$this->font,$jour[3]);
+                 $this->colors['noir'],$this->font,$jour[3]);
     imagettftext($this->img,10,0,580,63,
-		 $this->colors['noir'],$this->font,$jour[4]);
+                 $this->colors['noir'],$this->font,$jour[4]);
     imagettftext($this->img,10,0,710,63,
-		 $this->colors['noir'],$this->font,$jour[5]);
+                 $this->colors['noir'],$this->font,$jour[5]);
     // Affichage des horaires classiques
     $hstd = $this->horaires;
     for($i = 0;$i < count($this->horaires);$i++)
       {
-	imageline($this->img,
-		  $this->dim['mg'] - 4,
-		  $hstd[$i][0] * 60 + $hstd[$i][1] - $this->dim['dh'] + $this->dim['entete'],
-		  $this->dim['mg'] + 4,
-		  $hstd[$i][0] * 60 + $hstd[$i][1] - $this->dim['dh'] + $this->dim['entete'],
-		  $this->colors['noir']);
+        imageline($this->img,
+                  $this->dim['mg'] - 4,
+                  $hstd[$i][0] * 60 + $hstd[$i][1] - $this->dim['dh'] + $this->dim['entete'],
+                  $this->dim['mg'] + 4,
+                  $hstd[$i][0] * 60 + $hstd[$i][1] - $this->dim['dh'] + $this->dim['entete'],
+                  $this->colors['noir']);
 
-	$ecart = $hstd[$i][0] * 60 + $hstd[$i][1] - ($hstd[$i+1][0]*60+$hstd[$i+1][1]);
+        $ecart = $hstd[$i][0] * 60 + $hstd[$i][1] - ($hstd[$i+1][0]*60+$hstd[$i+1][1]);
 
-	// Si les heures sont rapprochées, on décale celle du dessus
-	if(($ecart > -5) && ($ecart < 0))
-	  $j=7;
-	else $j=0;
+        // Si les heures sont rapprochées, on décale celle du dessus
+        if(($ecart > -5) && ($ecart < 0))
+          $j=7;
+        else $j=0;
 
-	imagettftext($this->img,
-		     7,
-		     0,
-		     7,
-		     $hstd[$i][0] * 60 + $hstd[$i][1] - $this->dim['dh'] +
-		     $this->dim['entete'] + 3 - $j,
-		     $this->colors['noir'],
-		     $this->font,
-		     $hstd[$i][0] ."h". $hstd[$i][1]);
+        imagettftext($this->img,
+                     7,
+                     0,
+                     7,
+                     $hstd[$i][0] * 60 + $hstd[$i][1] - $this->dim['dh'] +
+                     $this->dim['entete'] + 3 - $j,
+                     $this->colors['noir'],
+                     $this->font,
+                     $hstd[$i][0] ."h". $hstd[$i][1]);
       }
     // Zone du temps de midi
     imagefilledrectangle($this->img,
-			 $this->dim['mg'] + 1,
-			 12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'],
-			 $this->dim['mg'] + $this->dim['lj'] * 6 - 1,
-			 13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'],
-			 $this->colors['bleu_clair']);
+                         $this->dim['mg'] + 1,
+                         12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'],
+                         $this->dim['mg'] + $this->dim['lj'] * 6 - 1,
+                         13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'],
+                         $this->colors['bleu_clair']);
 
     imagerectangle($this->img,
-		   $this->dim['mg'] + 1,
-		   12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'],
-		   45 + $this->dim['lj'] * 6 - 1,
-		   13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'],
-		   $this->colors['noir']);
+                   $this->dim['mg'] + 1,
+                   12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'],
+                   45 + $this->dim['lj'] * 6 - 1,
+                   13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'],
+                   $this->colors['noir']);
 
     imagerectangle($this->img,
-		   $this->dim['mg'] + 1,
-		   12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'] + 1,
-		   45 + $this->dim['lj'] * 6 - 1,
-		   13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'] - 1,
-		   $this->colors['noir']);
+                   $this->dim['mg'] + 1,
+                   12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'] + 1,
+                   45 + $this->dim['lj'] * 6 - 1,
+                   13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'] - 1,
+                   $this->colors['noir']);
 
     // Zone du samedi aprem
     imagefilledrectangle($this->img,
-			 $this->dim['mg'] + $this->dim['lj'] * 5 + 2,
-			 13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'] + 1,
-			 $this->dim['mg'] + $this->dim['lj'] * 6 - 2,
-			 $this->dim['height'] - 18,
-			 $this->colors['bleu_clair']);
+                         $this->dim['mg'] + $this->dim['lj'] * 5 + 2,
+                         13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'] + 1,
+                         $this->dim['mg'] + $this->dim['lj'] * 6 - 2,
+                         $this->dim['height'] - 18,
+                         $this->colors['bleu_clair']);
 
     // Affichage de l'établissement
     //imagettftext($this->img,10,0,$this->dim['mg'],42,$noir,$police,$NomEtab);
@@ -337,23 +337,23 @@ class edt_img
     $date=date("d-m-Y");
     $heure=date("G\hi");
     imagettftext($this->img,
-		 7,
-		 0,
-		 $this->dim['mg'],
-		 $this->dim['height'] - 5,
-		 $this->colors['noir'],
-		 $this->font, "AE UTBM - http://ae.utbm.fr/");
+                 7,
+                 0,
+                 $this->dim['mg'],
+                 $this->dim['height'] - 5,
+                 $this->colors['noir'],
+                 $this->font, "AE UTBM - http://ae.utbm.fr/");
 
     // Signature / credits
 
     imagettftext($this->img,
-		 7,
-		 0,
-		 578,
-		 $this->dim['height'] - 5,
-		 $this->colors['noir'],
-		 $this->font,
-		 $this->credits);
+                 7,
+                 0,
+                 578,
+                 $this->dim['height'] - 5,
+                 $this->colors['noir'],
+                 $this->font,
+                 $this->credits);
 
     // Placement du logo
     if ( $this->logo )
@@ -362,24 +362,24 @@ class edt_img
 
     /* titrage */
     imagettftext($this->img,
-		 12,
-		 0,
-		 $this->dim['mg'],
-		 23,
-		 $this->colors['rouge'],
-		 $this->font,
-		 $this->name);
+                 12,
+                 0,
+                 $this->dim['mg'],
+                 23,
+                 $this->colors['rouge'],
+                 $this->font,
+                 $this->name);
 
     /* couleur actuelle */
     $this->curr_color = 5;
 
     // Cadre principal de l'image
     imagerectangle ($this->img,
-		    0,
-		    0,
-		    $this->dim['width'] - 1,
-		    $this->dim['height'] - 1,
-		    $this->colors['noir']);
+                    0,
+                    0,
+                    $this->dim['width'] - 1,
+                    $this->dim['height'] - 1,
+                    $this->colors['noir']);
 
     /* affectation de couleurs */
     $this->fillcolor = array();
@@ -408,14 +408,14 @@ class edt_img
 
     if (!empty($line['couleur_seance']))
       {
-	//Conversion des composantes
-	$r=hexdec (substr($line['couleur_seance'],1,2));
-	$g=hexdec (substr($line['couleur_seance'],3,2));
-	$b=hexdec (substr($line['couleur_seance'],5,2));
-	$this->fillcolor[$line[$ColorSwitch]]= imagecolorallocate ($this->img,
-							     $r,
-							     $g,
-							     $b);
+        //Conversion des composantes
+        $r=hexdec (substr($line['couleur_seance'],1,2));
+        $g=hexdec (substr($line['couleur_seance'],3,2));
+        $b=hexdec (substr($line['couleur_seance'],5,2));
+        $this->fillcolor[$line[$ColorSwitch]]= imagecolorallocate ($this->img,
+                                                             $r,
+                                                             $g,
+                                                             $b);
       }
 
     // Remise à zéro de la couleur
@@ -440,23 +440,23 @@ class edt_img
     switch($line['jour_seance'])
       {
       case "Lundi":
-	$deca_jour = $this->dim['mg'];
-	break;
+        $deca_jour = $this->dim['mg'];
+        break;
       case "Mardi":
-	$deca_jour = $this->dim['mg'] + $this->dim['lj'];
-	break;
+        $deca_jour = $this->dim['mg'] + $this->dim['lj'];
+        break;
       case "Mercredi":
-	$deca_jour=$this->dim['mg'] + $this->dim['lj'] * 2;
-	break;
+        $deca_jour=$this->dim['mg'] + $this->dim['lj'] * 2;
+        break;
       case "Jeudi":
-	$deca_jour=$this->dim['mg'] + $this->dim['lj'] * 3;
-	break;
+        $deca_jour=$this->dim['mg'] + $this->dim['lj'] * 3;
+        break;
       case "Vendredi":
-	$deca_jour=$this->dim['mg'] + $this->dim['lj'] * 4;
-	break;
+        $deca_jour=$this->dim['mg'] + $this->dim['lj'] * 4;
+        break;
       case "Samedi":
-	$deca_jour=$this->dim['mg'] + $this->dim['lj'] * 5;
-	break;
+        $deca_jour=$this->dim['mg'] + $this->dim['lj'] * 5;
+        break;
       }
 
     // On dessine la cellule du cours : Remplissage de la case, trait
@@ -466,64 +466,64 @@ class edt_img
     /* semaine A */
     if($line['semaine_seance']=="A")
       {
-	imagerectangle ($this->img,
-			$deca_jour + 1,
-			$HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] + $this->dim['entete'],
-			$deca_jour + $this->dim['lj'] / 2,
-			$HrFin1 * 60 + $HrFin2 - $this->dim['dh'] + $this->dim['entete'],
-			$this->colors['noir']);
+        imagerectangle ($this->img,
+                        $deca_jour + 1,
+                        $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] + $this->dim['entete'],
+                        $deca_jour + $this->dim['lj'] / 2,
+                        $HrFin1 * 60 + $HrFin2 - $this->dim['dh'] + $this->dim['entete'],
+                        $this->colors['noir']);
 
-	imagefilledrectangle ($this->img,
-			      $deca_jour + 2,
-			      $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh']
-			      + $this->dim['entete'] + 1,
-			      $deca_jour + $this->dim['lj'] / 2 - 1,
-			      $HrFin1 * 60 + $HrFin2 - $this->dim['dh']
-			      + $this->dim['entete'] - 1,
-			      $this->fillcolor[$line[$ColorSwitch]]);
+        imagefilledrectangle ($this->img,
+                              $deca_jour + 2,
+                              $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh']
+                              + $this->dim['entete'] + 1,
+                              $deca_jour + $this->dim['lj'] / 2 - 1,
+                              $HrFin1 * 60 + $HrFin2 - $this->dim['dh']
+                              + $this->dim['entete'] - 1,
+                              $this->fillcolor[$line[$ColorSwitch]]);
       }
 
     /* semaine B */
     else if($line['semaine_seance']=="B")
       {
-	imagerectangle ($this->img,
-			$deca_jour+ $this->dim['lj'] / 2,
-			$HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] + $this->dim['entete'],
-			$deca_jour + $this->dim['lj'],
-			$HrFin1 * 60 + $HrFin2 - $this->dim['dh'] + $this->dim['entete'],
-			$this->colors['noir']);
+        imagerectangle ($this->img,
+                        $deca_jour+ $this->dim['lj'] / 2,
+                        $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] + $this->dim['entete'],
+                        $deca_jour + $this->dim['lj'],
+                        $HrFin1 * 60 + $HrFin2 - $this->dim['dh'] + $this->dim['entete'],
+                        $this->colors['noir']);
 
-	imagefilledrectangle ($this->img,
-			      $deca_jour + 1 + $this->dim['lj'] /2,
-			      $HrDebut1 * 60 + $HrDebut2- $this->dim['dh']
-			      + $this->dim['entete'] + 1,
-			      $deca_jour + $this->dim['lj'] - 1,
-			      $HrFin1 * 60 + $HrFin2 - $this->dim['dh'] +
-			      $this->dim['entete'] - 1,
-			      $this->fillcolor[$line[$ColorSwitch]]);
+        imagefilledrectangle ($this->img,
+                              $deca_jour + 1 + $this->dim['lj'] /2,
+                              $HrDebut1 * 60 + $HrDebut2- $this->dim['dh']
+                              + $this->dim['entete'] + 1,
+                              $deca_jour + $this->dim['lj'] - 1,
+                              $HrFin1 * 60 + $HrFin2 - $this->dim['dh'] +
+                              $this->dim['entete'] - 1,
+                              $this->fillcolor[$line[$ColorSwitch]]);
 
-	// On décale les informations sur la droite
-	$decal_groupe_h=60;
+        // On décale les informations sur la droite
+        $decal_groupe_h=60;
       }
     /* cours normal */
     else
       {
-	imagerectangle ($this->img,
-			$deca_jour + 1,
-			$HrDebut1 * 60 + $HrDebut2
-			- $this->dim['dh'] + $this->dim['entete'],
-			$deca_jour + $this->dim['lj'],
-			$HrFin1 * 60 + $HrFin2 - $this->dim['dh'] + $this->dim['entete'],
-			$this->colors['noir']);
+        imagerectangle ($this->img,
+                        $deca_jour + 1,
+                        $HrDebut1 * 60 + $HrDebut2
+                        - $this->dim['dh'] + $this->dim['entete'],
+                        $deca_jour + $this->dim['lj'],
+                        $HrFin1 * 60 + $HrFin2 - $this->dim['dh'] + $this->dim['entete'],
+                        $this->colors['noir']);
 
-	imagefilledrectangle ($this->img,
-			      $deca_jour + 2,
-			      $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] +
-			      $this->dim['entete'] + 1,
-			      $deca_jour + $this->dim['lj'] - 1,
-			      $HrFin1 * 60 + $HrFin2 - $this->dim['dh'] +
-			      $this->dim['entete'] - 1,
-			      $this->fillcolor[$line[$ColorSwitch]]);
+        imagefilledrectangle ($this->img,
+                              $deca_jour + 2,
+                              $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] +
+                              $this->dim['entete'] + 1,
+                              $deca_jour + $this->dim['lj'] - 1,
+                              $HrFin1 * 60 + $HrFin2 - $this->dim['dh'] +
+                              $this->dim['entete'] - 1,
+                              $this->fillcolor[$line[$ColorSwitch]]);
       }
 
     /* affichage du type de seance */
@@ -533,44 +533,44 @@ class edt_img
       $grps = $line['grp_seance'];
 
     imagettftext($this->img,
-		 10,
-		 0,
-		 $deca_jour + 8 + $decal_groupe_h,
-		 $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] + $this->dim['entete'] + $DVNum,
-		 $groupe_color,
-		 $this->font,
-		 $line['type_seance'] .' '. $grps);
+                 10,
+                 0,
+                 $deca_jour + 8 + $decal_groupe_h,
+                 $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] + $this->dim['entete'] + $DVNum,
+                 $groupe_color,
+                 $this->font,
+                 $line['type_seance'] .' '. $grps);
 
     // Affichage du groupe
-    if(!(empty($line['semaine_seance'])  || $line['semaine_seance'] == null))
+    if(!(empty($line['semaine_seance'])  || $line['semaine_seance'] == null) && $this->printsem)
       imagettftext($this->img,
-		   8,
-		   0,
-		   $deca_jour + 8 + $decal_groupe_h,
-		   $HrDebut1 * 60 + $HrDebut2- $this->dim['dh']+ $this->dim['entete'] + $DVGroupe,
-		   $groupe_color,
-		   $this->font,
-		   "Sem. " . $line['semaine_seance']);
+                   8,
+                   0,
+                   $deca_jour + 8 + $decal_groupe_h,
+                   $HrDebut1 * 60 + $HrDebut2- $this->dim['dh']+ $this->dim['entete'] + $DVGroupe,
+                   $groupe_color,
+                   $this->font,
+                   "Sem. " . $line['semaine_seance']);
 
     // Ecriture du libellé de la matière
     imagettftext($this->img,
-		 12,
-		 0,
-		 $deca_jour + 8 + $decal_groupe_h,
-		 $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh']+ $this->dim['entete'] + $DVMatiere,
-		 $groupe_color,
-		 $this->font,
-		 $line['nom_uv']);
+                 12,
+                 0,
+                 $deca_jour + 8 + $decal_groupe_h,
+                 $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh']+ $this->dim['entete'] + $DVMatiere,
+                 $groupe_color,
+                 $this->font,
+                 $line['nom_uv']);
 
     // Affichage de la salle
     imagettftext($this->img,
-		 10,
-		 0,
-		 $deca_jour + 8 + $decal_groupe_h,
-		 $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] + $this->dim['entete'] + $DVSalle,
-		 $groupe_color,
-		 $this->font,
-		 $line['salle_seance']);
+                 10,
+                 0,
+                 $deca_jour + 8 + $decal_groupe_h,
+                 $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] + $this->dim['entete'] + $DVSalle,
+                 $groupe_color,
+                 $this->font,
+                 $line['salle_seance']);
 
     $decal_groupe_h = 0;
   }
@@ -584,10 +584,10 @@ class edt_img
     header("Content-Type: image/png");
     if ($wm)
       {
-	$wm_img = new img_watermark ($this->img);
-	imagepng ($wm_img->img);
-	$wm_img->destroy ();
-	return;
+        $wm_img = new img_watermark ($this->img);
+        imagepng ($wm_img->img);
+        $wm_img->destroy ();
+        return;
       }
     imagepng($this->img);
     $this->destroy ();
@@ -599,7 +599,7 @@ class edt_img
     if (count($this->lines) > 0)
     {
       foreach ($this->lines as $line)
-	$this->draw_course ($line);
+        $this->draw_course ($line);
     }
     $this->show_edt ($wm);
   }
