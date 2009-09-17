@@ -54,7 +54,8 @@ $horraires = array('08:00',
                    '17:15',
                    '18:15',
                    '19:15',
-                   '20:15');
+                   '20:15',
+                   '21:00');
 $jours = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');
 $oqp = array();
 foreach($jours as $jour)
@@ -104,8 +105,6 @@ foreach($id_utls as $id_utl)
     }
   }
 }
-print_r($oqp);
-exit();
 $free = array();
 foreach($oqp as $jour => $_horraires)
 {
