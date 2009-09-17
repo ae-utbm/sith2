@@ -182,7 +182,7 @@ class pedag_user extends utilisateur{
     $sql = new requete($this->db, "SELECT DISTINCT `semestre`
                                     FROM `pedag_groupe`
                                     NATURAL JOIN `pedag_groupe_utl`
-                                    WHERE `pedag_groupe_utl`.`id_utilisateur` = ".$this->id);
+                                    WHERE `pedag_groupe_utl`.`id_utilisateur` = '".$this->id."'");
     if(!$sql->is_success())
       return array();
     else{
@@ -206,7 +206,7 @@ class pedag_user extends utilisateur{
                                       LEFT JOIN `pedag_groupe_utl`
                                         ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
                                       WHERE `pedag_groupe`.`semestre` = '$semestre'
-                                        AND `pedag_groupe_utl`.`id_utilisateur` = $this->id
+                                        AND `pedag_groupe_utl`.`id_utilisateur` = '$this->id'
                                     )");
     if(!$sql->is_success())
       return false;
@@ -225,7 +225,7 @@ class pedag_user extends utilisateur{
                                     LEFT JOIN `pedag_groupe_utl`
                                       ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
                                     WHERE `pedag_groupe`.`semestre` = '$semestre'
-                                      AND `pedag_groupe_utl`.`id_utilisateur` = ".$this->id);
+                                      AND `pedag_groupe_utl`.`id_utilisateur` = '".$this->id."'");
     if(!$sql->is_success())
       return false;
     else
@@ -244,7 +244,7 @@ class pedag_user extends utilisateur{
                                       ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
                                     RIGHT JOIN `pedag_uv`
                                       ON `pedag_uv`.`id_uv` = `pedag_groupe`.`id_uv`
-                                    WHERE `pedag_groupe_utl`.`id_utilisateur` = ".$this->id."
+                                    WHERE `pedag_groupe_utl`.`id_utilisateur` = '".$this->id."'
                                       AND `pedag_groupe`.`semestre` = '".$semestre."'");
 
     if(!$sql->is_success())

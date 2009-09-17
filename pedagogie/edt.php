@@ -39,7 +39,13 @@ $site->allow_only_logged_users();
 
 $site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db, $site->dbrw);
-$user->load_by_id($_REQUEST['id_utilisateur']);
+if(isset($_REQUEST['id_utilisateur']))
+{
+  if(!$user->load_by_id($_REQUEST['id_utilisateur']))
+    $user->load_by_id($site->user->id);
+}
+else
+  $user->load_by_id($site->user->id);
 
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 $path .= " / "."<a href=\"./edt.php\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> Emploi du temps </a>";
@@ -355,7 +361,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   $cts->add_paragraph("<center><img src=\"edt.php?semestre=$semestre&action=print\" alt=\"Emploi du temps ".$semestre."\" /></center>");
   $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."value=\"Version graphique seule\" "
-                    ."onclick=\"location.href='edt.php?semestre=$semestre&action=print';\" />");
+                    ."onclick=\"location.href='edt.php?semestre=$semestre&action=print&id_utilisateur=".$user->id."';\" />");
   $site->add_contents($cts);
   $site->end_page();
   exit;
