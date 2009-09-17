@@ -29,7 +29,6 @@ define("GRP_BLACKLIST", 29);
 define("CPT_MACHINES", 8);
 define("JET_LAVAGE", 224);
 define("JET_SECHAGE", 225);
-define("MAX_JET_PAR_USER", 4);
 
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
@@ -301,6 +300,10 @@ elseif( $_REQUEST['action'] == "genplanning" )
     $machine->create_all_creneaux_between($_REQUEST['date_debut'],$_REQUEST['date_fin'],3600);
   }
 }
+elseif($_REQUEST['action'] == 'chgjetlimit') {
+  $site->set_param('nb_max_jetons', $_REQUEST['nombre']);
+}
+
 // Contenu des onglets
 if ( $_REQUEST["view"] == "mc" ) // Liste des machines
 {
@@ -511,6 +514,18 @@ elseif ( $_REQUEST["view"] == "jt" ) // Jetons
   $frm->add_submit("valid","Valider");
   $cts->add($frm,true);
 
+  $frm = new form("limitjetons", "admin.php?id_salle=$id_salle&view=jt",false,"POST","Limiter les jetons par personne");
+  $frm->add_hidden('action', 'chgjetlimit');
+  $frm->add_select_field('nombre', 'Nombre de jeton', array(0 => 'Illimité',
+                                                            1 => '1 jeton',
+                                                            2 => '2 jetons',
+                                                            3 => '3 jetons',
+                                                            4 => '4 jetons',
+                                                            5 => '5 jetons',
+                                                            6 => '6 jetons'), $site->get_param ('nb_max_jetons', 0));
+  $frm->add_submit('valid', 'Valider');
+  $cts->add($frm, true);
+
   $req = new requete($site->db,"SELECT
     mc_jeton.id_jeton,
     mc_jeton.type_jeton,
@@ -558,8 +573,10 @@ else // Vente
     else {
       $check_req =
         new requete ($site->db, "SELECT * FROM `mc_jeton_utilisateur` WHERE `id_utilisateur` = '".$user->id."' AND `retour_jeton` IS NULL");
-      if ($check_req->lines >= MAX_JET_PAR_USER)
-        $Erreur = 'Trop de jeton déjà pris (la limite est de '.MAX_JET_PAR_USER.' jeton(s) par cotisant)';
+
+      $max_jet_par_utl = $site->get_param('nb_max_jetons', 0);
+      if ($max_jet_par_utl > 0 && $check_req->lines >= $max_jet_par_utl)
+        $Erreur = 'Trop de jeton déjà pris (la limite est de '.$max_jet_par_utl.' jeton(s) par cotisant)';
     }
     if ( $Erreur )
       $user->id = null;
