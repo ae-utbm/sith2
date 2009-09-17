@@ -301,7 +301,7 @@ elseif( $_REQUEST['action'] == "genplanning" )
   }
 }
 elseif($_REQUEST['action'] == 'chgjetlimit') {
-  $site->set_param('nb_max_jetons', $_REQUEST['nombre']);
+  $site->set_param("nb_max_jetons_$id_salle", $_REQUEST['nombre']);
 }
 
 // Contenu des onglets
@@ -522,7 +522,7 @@ elseif ( $_REQUEST["view"] == "jt" ) // Jetons
                                                             3 => '3 jetons',
                                                             4 => '4 jetons',
                                                             5 => '5 jetons',
-                                                            6 => '6 jetons'), $site->get_param ('nb_max_jetons', 0));
+                                                            6 => '6 jetons'), $site->get_param ("nb_max_jetons_$id_salle", 0));
   $frm->add_submit('valid', 'Valider');
   $cts->add($frm, true);
 
@@ -574,7 +574,7 @@ else // Vente
       $check_req =
         new requete ($site->db, "SELECT * FROM `mc_jeton_utilisateur` WHERE `id_utilisateur` = '".$user->id."' AND `retour_jeton` IS NULL");
 
-      $max_jet_par_utl = $site->get_param('nb_max_jetons', 0);
+      $max_jet_par_utl = $site->get_param("nb_max_jetons_$id_salle", 0);
       if ($max_jet_par_utl > 0 && $check_req->lines >= $max_jet_par_utl)
         $Erreur = 'Trop de jeton déjà pris (la limite est de '.$max_jet_par_utl.' jeton(s) par cotisant)';
     }
