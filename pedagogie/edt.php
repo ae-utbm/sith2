@@ -70,7 +70,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     /* on a dit un seul emploi du temps par semestre */
     if(in_array($sem, $user->get_edt_list())){
       $cts->add_paragraph("Attention, vous avez déjà un emploi du temps
-        d'enregistré pour le semestre <a href=\"edt.php?semestre=$sem&action=view\">$sem</a>.
+        d'enregistré pour le semestre <a href=\"edt.php?semestre=$sem&action=view&id_utilisateur=".$user->id."\">$sem</a>.
         Il n'est possible de n'en faire qu'un seul par semestre.");
       $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" onclick=\"history.go(-1);\" value=\"Promis je ferai attention\" />");
       $site->add_contents($cts);
@@ -263,7 +263,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     }
   }
 
-  $site->redirect("edt.php?semestre=".$semestre."&action=view");
+  $site->redirect("edt.php?semestre=".$semestre."&action=view&id_utilisateur=".$user->id);
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
