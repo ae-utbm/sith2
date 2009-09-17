@@ -171,7 +171,7 @@ foreach($oqp as $jour => $_horraires)
   }
   if($startA && $startA!=$lastA)
   {
-    $free[] = array("semaine_seance" =>'B',
+    $free[] = array("semaine_seance" =>'A',
                     "hr_deb_seance"  => $startA,
                     "hr_fin_seance"  => $lastA,
                     "jour_seance"    => $jour,
