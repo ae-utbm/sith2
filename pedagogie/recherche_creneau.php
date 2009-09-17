@@ -81,8 +81,6 @@ print_r(get_day($group['jour']));
           $fin   = substr($group['fin'], 0, 5);
           $sem   = $group['semaine'];
           $add   = 0;
-print_r($oqp[$jour]);
-exit();
           foreach($oqp[$jour] as $horraire => $_oqp)
           {
             if($horraire==$debut)
@@ -101,6 +99,8 @@ exit();
               break;
             }
           }
+print_r($oqp[$jour]);
+exit();
         }
       }
     }
