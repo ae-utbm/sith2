@@ -328,10 +328,9 @@ A6
 EOF;
 
 
-//$mailer->add_dest("simon.lopez@utbm.fr");
-$file = new dfile($site->db);
+/*$file = new dfile($site->db);
 $file->load_by_id(4328);
-$mailer->add_img($file);
+$mailer->add_img($file);*/
 $mailer->set_plain($content);
 $html = <<<EOF
 <html>
