@@ -1,5 +1,5 @@
 <?
-//exit();
+exit();
 $topdir = '../';
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/entities/files.inc.php");
