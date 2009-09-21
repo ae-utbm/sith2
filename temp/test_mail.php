@@ -1,5 +1,5 @@
 <?
-//exit();
+exit();
 $topdir = '../';
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/entities/files.inc.php");
@@ -9,12 +9,13 @@ $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                      'Weekmail du 21 au 27 septembre 2009');
-$mailer->add_dest('simon.lopez@utbm.fr');
-/*$mailer->add_dest(array('etudiants@utbm.fr',
+//$mailer->add_dest('simon.lopez@utbm.fr');
+///*
+$mailer->add_dest(array('etudiants@utbm.fr',
                         'enseignants@utbm.fr',
                         'iatoss@utbm.fr',
                         'aude.petit@utbm.fr'));
-*/
+//*/
 $content=<<<EOF
 Salut les UTbohémiens,
 
@@ -28,6 +29,7 @@ Sommaire :
 
  * AE - Commissions de pôle
  * Club Welcome - Welcome need U !
+ * UTBM Productions fait sa rentrée
  * Club Mix & MAO - Réunions de rentrée
  * La Bohème fait sa rentrée
  * [ART] is Back !
@@ -103,6 +105,24 @@ http://ae.utbm.fr/welcome/
 A très bientôt !!
 
 L'équipe du club Welcome
+
+----------------------------------------------------
+UTBM Productions fait sa rentrée
+----------------------------------------------------
+
+UTBM Productions est le club vidéo de l’UTBM, que ce soit pour couvrir des
+petits évènements ou de grandes manifestations, le club a besoin de monde pour
+renforcer ses rangs.
+
+Venez découvrir le club lors de la réunion de rentrée, c’est sans engagement !
+
+Durant le semestre des formations seront organisées pour apprendre à utiliser le
+matériel dont dispose le club et aussi tout le matériel mis à disposition par
+l'UTBM. Il n’y a donc aucunes connaissances nécessaires !
+
+A Mardi !
+
+Gautier pour UTPROD.
 
 ----------------------------------------------------
 Club Mix & MAO - Réunions de rentrée
@@ -414,6 +434,21 @@ http://ae.utbm.fr/welcome/
 A très bientôt !!
 
 L'équipe du club Welcome
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td><font color="#ffffff">UTBM Productions fait sa rentrée</font></td></tr>
+<tr><td>
+UTBM Productions est le club vidéo de l’UTBM, que ce soit pour couvrir des
+petits évènements ou de grandes manifestations, le club a besoin de monde pour
+renforcer ses rangs.
+<br /><br />
+Venez découvrir le club lors de la réunion de rentrée, c’est sans engagement !
+<br /><br />
+Durant le semestre des formations seront organisées pour apprendre à utiliser le
+matériel dont dispose le club et aussi tout le matériel mis à disposition par
+l'UTBM. Il n’y a donc aucunes connaissances nécessaires !
+<br /><br />
+A Mardi !<br />
+Gautier pour UTPROD.
 <br />&nbsp;</td></tr>
 <tr bgcolor="#00BBFF"><td><font color="#ffffff">Club Mix & MAO - Réunions de rentrée</font></td></tr>
 <tr><td>
