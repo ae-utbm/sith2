@@ -590,18 +590,21 @@ class site extends interfaceweb
     {
       require_once($topdir. "include/entities/asso.inc.php");
 
-      foreach ($assoces as $key => $assoce)
+      if ( !$this->get_param("backup_server",true) )
       {
-        $asso = new asso($this->db);
-        $asso->load_by_id($key);
-        $pm = $asso->get_pending_unmod_mail();
-        if ($pm == 1)
+        foreach ($assoces as $key => $assoce)
         {
-          $elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mail en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
-        }
-        else if ($pm > 1)
-        {
-          $elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
+            $asso = new asso($this->db);
+            $asso->load_by_id($key);
+            $pm = $asso->get_pending_unmod_mail();
+            if ($pm == 1)
+            {
+                $elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mail en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
+            }
+            else if ($pm > 1)
+            {
+                $elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
+            }
         }
       }
     }
