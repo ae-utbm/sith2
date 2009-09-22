@@ -25,6 +25,9 @@ require_once("include/sas.inc.php");
 require_once("include/mosaic.inc.php");
 
 $site = new sas();
+if ( !$site->user->is_in_group("sas_admin") )
+  $site->error_forbidden("none","group","sas_admin");
+
 $site->allow_only_logged_users("sas");
 
 $site->start_page("sas","Stock à Souvenirs");
