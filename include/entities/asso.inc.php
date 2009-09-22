@@ -720,9 +720,8 @@ class asso extends stdentity
   {
     if (strlen($this->nom_unix) <= 0)
       return 0;
-    if(file_exists("/tmp/vachedown"))
-      return 0;
-    $pendings = file_get_contents("http://barty.me.aeinfo.net/list_heldmsgs.php");
+
+/*    $pendings = file_get_contents("http://barty.me.aeinfo.net/list_heldmsgs.php");
     $pendings = explode("\n", $pendings);
 
     foreach ($pendings as $asso_pending)
@@ -731,7 +730,7 @@ class asso extends stdentity
 
       if ($asso_pending[0] == ($this->nom_unix . ".membres"))
         return $asso_pending[1];
-    }
+    }*/
     return 0;
   }
 }
