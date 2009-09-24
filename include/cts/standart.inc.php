@@ -746,7 +746,7 @@ class form extends stdcontents
         /* ATTENTION, toute modification du code HTML doit être faite aussi dans site.js */
 
         $this->buffer .= "<div class=\"slsitem\" id=\"_files_".$name."_".$file->id."\">";
-        $this->buffer .= "<a href=\"".$wwwtopdir."/dfile.php?id_file=".$file->id."\"><img src=\"".$wwwtopdir."images/icons/16/file.png\" /> ".htmlentities($file->titre,ENT_NOQUOTES,"UTF-8")."</a> ";
+        $this->buffer .= "<a href=\"".$wwwtopdir."/d.php?id_file=".$file->id."\"><img src=\"".$wwwtopdir."images/icons/16/file.png\" /> ".htmlentities($file->titre,ENT_NOQUOTES,"UTF-8")."</a> ";
 
         $this->buffer .= "<a href=\"\" onclick=\"removeListFile('$wwwtopdir','$name',".$file->id."); return false;\"><img src=\"".$wwwtopdir."images/actions/delete.png\" alt=\"Enlever\" /></a>";
         $this->buffer .= "</div>\n";

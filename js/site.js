@@ -37,7 +37,7 @@ function setPointer(theClass, currentNum, theAction, basename, the_form)
 {
   var color;
   var obj = document.getElementById('ln['+currentNum+']');
-  
+
   /* traitement out */
   if (theClass == 'ln0' && theAction == 'out')
     color = '#eff7ff';
@@ -112,8 +112,8 @@ function setCheckboxesRange(the_form, basename, min, max)
 
 function switchSelConnection(obj)
 {
-    var sel = obj.options[obj.selectedIndex].innerHTML; 
-    
+    var sel = obj.options[obj.selectedIndex].innerHTML;
+
     if (sel == "Alias")
   {
       obj.parentNode.parentNode.parentNode.childNodes[2].childNodes[2].childNodes[0].value = "alias";
@@ -207,7 +207,7 @@ function openMatmatronch(topdir, id, width, height) {
     height = 390;
 
     path = topdir + "matmatronch/show_img.php?id=" + id;
-    
+
 
     window.open(path,
                 "Photo Mat'Matronch",
@@ -229,7 +229,7 @@ function opencal(topdir, __target, type)
       elem.id = __target + '_calendar';
       elem.className = 'tinycal_box';
       document.body.appendChild(elem);
-    
+
       elem.style.display = 'block';
       elem.style.zIndex = '99';
       elem.style.left = pos[0] + 150;
@@ -260,7 +260,7 @@ function return_val(target_id, value)
   closecal(target_id);
   return true;
 }
- 
+
 function errorMsg()
 {
 alert("Netscape 6 or Mozilla is needed to install a sherlock plugin");
@@ -286,25 +286,25 @@ errorMsg();
 
 function show_obj_top(obj)
 {
-  
+
   var content = document.getElementById(obj);
-  
+
   content.style.display = 'block';
   content.style.zIndex = 10000000;
-  
+
   if ( document.all )  // replacons l'élément histoire d'éviter un bug d'IE6
   {
     var target = document.getElementById("left");
     var parent = content.parentNode;
     parent.removeChild(content);
     target.insertBefore(content, document.getElementById("sbox_calendrier").nextSibling);
-  }  
+  }
 }
 
 function hide_obj(obj)
 {
   var content = document.getElementById(obj);
-  content.style.display = 'none';  
+  content.style.display = 'none';
 }
 
 function ho(obj)
@@ -334,17 +334,17 @@ function toggle(id_tglnum,id)
 
       toHide = document.getElementById("tgl"+id_tglnum+"_"+id);
       imgToChange = document.getElementById("tgl"+id_tglnum+"_img"+id);
- 
+
       toHidezeClass = toHide.getAttribute('class');
       imgToChangezeClass = imgToChange.getAttribute('class');
-     
+
       if (toHide == null)
       {
         alert("objects to hide not found !");
         return null;
       }
       if (imgToChange == null)
-      {  
+      {
         alert("image to change not found !");
         return null;
       }
@@ -366,18 +366,18 @@ function toggle(id_tglnum,id)
          //toHide.class = "tgloff";
         toHide.style.display = "none";
   imgToChange.src = "/images/fll.png";
-         
+
       }
       else
       {
   toHide.setAttribute('class', 'tglon');
-   //toHide.class = "tglon";       
+   //toHide.class = "tglon";
         toHide.style.display = "inline";
         imgToChange.src = "/images/fld.png";
       }
 }
 
-function insert_tags(txtarea, lft, rgt, sample_text) 
+function insert_tags(txtarea, lft, rgt, sample_text)
 {
   sample_text = typeof(sample_text) != 'undefined' ? sample_text : 'votre tAExte'; /* pas de passage d'arguments par défaut en JS alors on fait autrement */
 
@@ -404,18 +404,18 @@ function insert_tags(txtarea, lft, rgt, sample_text)
       document.selection.createRange().text = lft + _selection + rgt;
     }
   else if (document.getElementById) /* Firefox... */
-    {    
+    {
       var _length = txtarea.textLength;
       var _start = txtarea.selectionStart;
       var _end = txtarea.selectionEnd;
-      if (_end==1 || _end==2) 
+      if (_end==1 || _end==2)
   _end = _length;
       var s1 = (txtarea.value).substring(0,_start);
       var s2 = (txtarea.value).substring(_start, _end)
       var s3 = (txtarea.value).substring(_end, _length);
-     
+
       if(s2 == "")
-        s2 = sample_text;   
+        s2 = sample_text;
 
       txtarea.value = s1 + lft + s2 + rgt + s3;
 
@@ -436,7 +436,7 @@ function setSelectionRange(input, selectionStart, selectionEnd)
   {
     input.focus();
     input.setSelectionRange(selectionStart, selectionEnd);
-  } 
+  }
   else
   {
     input.selectionStart = selectionStart;
@@ -444,18 +444,18 @@ function setSelectionRange(input, selectionStart, selectionEnd)
   }
 }
 
-function insert_tags2(objid, lft, rgt, deftext) 
+function insert_tags2(objid, lft, rgt, deftext)
 {
   var obj = document.getElementById(objid);
-  
+
   if ( !obj )
     return;
-  
+
   if ( document.selection )
   {
     oldlen = obj.value.length;
-    
-    
+
+
     obj.focus();
     range = document.selection.createRange();
     if ( range.text == "")
@@ -469,32 +469,32 @@ function insert_tags2(objid, lft, rgt, deftext)
       range.text = lft + range.text + rgt;
     }
     range.select();
-    
+
     range = document.selection.createRange();
     if ( window.opera && rgt.substring(rgt.length-1) == "\n" )
     {
       range.moveStart('character', -rgt.length-len+1);
-      range.moveEnd('character', -rgt.length+1);      
+      range.moveEnd('character', -rgt.length+1);
     }
     else
     {
       range.moveStart('character', -rgt.length-len);
-      range.moveEnd('character', -rgt.length);      
+      range.moveEnd('character', -rgt.length);
     }
     range.select();
   }
   else if ( obj.selectionStart != null )
-  {    
+  {
     obj.focus();
     var start = obj.selectionStart;
     var end = obj.selectionEnd;
-    
+
     var s1 = obj.value.substring(0,start);
     var s2 = obj.value.substring(start, end)
     var s3 = obj.value.substring(end);
-     
+
     if(s2 == "")
-      s2 = deftext;   
+      s2 = deftext;
 
     obj.value = s1 + lft + s2 + rgt + s3;
 
@@ -504,9 +504,9 @@ function insert_tags2(objid, lft, rgt, deftext)
 
 
 function popUpStream(topdir)
-{  
+{
   window.open(topdir+"stream.php?get=popup", "stream", "width=300,height=350,status=no,scrollbars=yes,resizable=yes");
-  return false;  
+  return false;
 }
 
 var onSelectedFile;
@@ -548,19 +548,19 @@ function onSelectedListFile ( id, titre )
 {
   var contener = document.getElementById("_files_"+listFileField+"_items");
   var values = document.getElementById("_files_"+listFileField+"_ids");
-  
+
   //Visuel
-  
+
   var elem = document.createElement("div");
   var buffer = "";
-  
+
   elem.setAttribute("id","_files_"+listFileField+"_"+id);
   elem.setAttribute("class","slsitem");
-  
-  elem.innerHTML= "<a href=\""+listFileTopDir+"/dfile.php?id_file="+id+"\"><img src=\""+listFileTopDir+"images/icons/16/file.png\" /> "+titre+"</a> <a href=\"\" onclick=\"removeListFile('"+listFileTopDir+"','"+listFileField+"',"+id+"); return false;\"><img src=\""+listFileTopDir+"images/actions/delete.png\" alt=\"Enlever\" /></a>";
-  
+
+  elem.innerHTML= "<a href=\""+listFileTopDir+"/d.php?id_file="+id+"\"><img src=\""+listFileTopDir+"images/icons/16/file.png\" /> "+titre+"</a> <a href=\"\" onclick=\"removeListFile('"+listFileTopDir+"','"+listFileField+"',"+id+"); return false;\"><img src=\""+listFileTopDir+"images/actions/delete.png\" alt=\"Enlever\" /></a>";
+
   contener.insertBefore(elem,null);
-  
+
   // Données
   if ( values.value == "" )
     values.value = id;
@@ -572,11 +572,11 @@ function removeListFile(topdir,field,id)
 {
   var element = document.getElementById("_files_"+field+"_"+id);
   var values = document.getElementById("_files_"+field+"_ids");
-  
+
   // Visuel
   var contener = element.parentNode;
   contener.removeChild(element);
-  
+
   // Données
   var ids = values.value.split(",");
   var nouv = "";
@@ -747,13 +747,13 @@ document.onclick=hidemenu;
 
 
 /* connexion topmoumoute */
-function resize(){ 
-var htmlheight = document.body.parentNode.clientHeight; 
-var windowheight = window.screen.height; 
-var frame = document.getElementById("frame1"); 
-if ( htmlheight < windowheight ) 
- { frame.style.height = windowheight + "px"; } 
-} 
+function resize(){
+var htmlheight = document.body.parentNode.clientHeight;
+var windowheight = window.screen.height;
+var frame = document.getElementById("frame1");
+if ( htmlheight < windowheight )
+ { frame.style.height = windowheight + "px"; }
+}
 function showConnexionBox()
 {
   var e=document.getElementById('overlay');
@@ -800,7 +800,7 @@ function center(name)
     my_width  = document.documentElement.clientWidth;
     my_height = document.documentElement.clientHeight;
   }
-  else if ( document.body && 
+  else if ( document.body &&
             ( document.body.clientWidth || document.body.clientHeight )
           )
   {
@@ -884,29 +884,29 @@ select_box.prototype = {
   from: null,
   to: null,
   self: null,
-  
+
   init: function(from, to){
     this.from = from;
     this.to = to;
   },
-  
+
   add_to: function(elem, content, value, otherone){
     var o = new Option(content, value);
     o.ondblclick = function(e){m(this);};
     elem.options[elem.length] = o;
   },
 
-  remove_from: function(elem, index){ 
+  remove_from: function(elem, index){
     if(elem.length > 0){
       elem.options[index] = null;
     }
   },
 
-  move: function(from, to){    
+  move: function(from, to){
     var contents = new Array();
     var values = new Array();
     var count = 0;
-    
+
     for(var i = from.length-1; i >= 0; i--){
       if(from.options[i].selected){
         content[count] = from.options[i].text;
@@ -944,7 +944,7 @@ function extend_textarea(id)
    var element = document.getElementById(id);
    element.rows+=10;
 }
- 
+
 function reduce_textarea(id)
 {
    var element = document.getElementById(id);
