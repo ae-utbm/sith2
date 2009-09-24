@@ -207,11 +207,11 @@ function info_inscription($message)
   if($error == "ok")
     $return = '<error>0</error>'.
               '<datas>'.
-              '<text>nom</text>'.
-              '<text>prenom</text>'.
-              '<text>email</text>'.
-              '<timestamp>naissance</timestamp>'.
-              '<boolean>homme</boolean>'.
+              '<textfield translate="Nom">nom</text>'.
+              '<textfield translate="Prénom">prenom</text>'.
+              '<textfield translate="E-mail">email</text>'.
+              '<timestamp translate="Date de naissance">naissance</timestamp>'.
+              '<select translate="Sexe" values_data="0,1" values_text="Femme,Homme">sexe</select>'.
               '</datas>'.
               '<infos>'.
               '<boolean>0=false,1=true</boolean>'.
@@ -221,7 +221,7 @@ function info_inscription($message)
 
   $response = <<<XML
 <inscriptionResponse>
-<result>$return</result>
+$return
 </inscriptionResponse>
 XML;
   return $response;
