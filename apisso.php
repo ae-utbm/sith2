@@ -102,12 +102,12 @@ XML;
 function testAssoRole($message)
 {
   $simplexml = new SimpleXMLElement($message->str);
-  $apikey = $simplexml->apikey[0];
-  $uid = $simplexml->uid[0];
-  $asso = $simplexml->aid[0];
-  $role = $simplexml->role[0];
+  $apikey    = $simplexml->apikey[0];
+  $uid       = $simplexml->uid[0];
+  $asso      = $simplexml->aid[0];
+  $role      = $simplexml->role[0];
 
-  $error = error($apikey);
+  $error     = error($apikey);
 
   if($error == "ok")
   {
@@ -197,7 +197,36 @@ XML;
   return $response;
 }
 
-/* Ils utilisent pas l'inscription via site AE donc on commente */
+/* info inscription */
+function info_inscription($message)
+{
+  $simplexml = new SimpleXMLElement($message->str);
+  $apikey = $simplexml->apikey[0];
+
+  $error = error($apikey,true);
+  if($error == "ok")
+    $return = '<error>0</error>'.
+              '<datas>'.
+              '<text>nom</text>'.
+              '<text>prenom</text>'.
+              '<text>email</text>'.
+              '<timestamp>naissance</timestamp>'.
+              '<boolean>homme</boolean>'.
+              '</datas>'.
+              '<infos>'.
+              '<boolean>0=false,1=true</boolean>'.
+              '</infos>';
+  else
+    $return = '<error>'.$error.'</error>';
+
+  $response = <<<XML
+<inscriptionResponse>
+<result>$return</result>
+</inscriptionResponse>
+XML;
+  return $response;
+}
+/* inscription */
 function inscription($message)
 {
   $simplexml = new SimpleXMLElement($message->str);
@@ -260,7 +289,8 @@ $service = new WSService(array("operations" => array('testLogin',
                                                      'testAssoRole',
                                                      'getUpdate',
                                                      'getUserInfo',
-                                                     'inscription')));
+                                                     'inscription',
+                                                     'info_inscription')));
 $service->reply();
 
 ?>
