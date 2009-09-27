@@ -1047,6 +1047,38 @@ class site extends interfaceweb
 
     $cts->add($sublist, true, true, "bureau_ae_sevenans", "boxlist", true, true);
 
+        $sublist = new itemlist("Bureau AE - Montbéliard");
+
+    $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour,
+                                  IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE()),true,false) as next
+                                  FROM pl_gap
+                                  INNER JOIN pl_gap_user USING(id_gap)
+                                  WHERE  id_planning='165' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
+                                    OR (DAYOFWEEK(start_gap)=DAYOFWEEK(CURDATE()) AND HOUR(start_gap)>=HOUR(CURTIME())))
+                                    AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0)
+                                    OR (DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE())
+                                    AND (((WEEKOFYEAR(CURDATE())+1)-WEEKOFYEAR(start_gap))%2)=0))
+                                  GROUP BY id_gap
+                                  ORDER BY IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE()),1,0), DAYOFWEEK(start_gap), HOUR(start_gap) LIMIT 3");
+
+    if($req->lines < 1)
+    {
+      $sublist->add("Aucune permanence à venir pour cette semaine");
+    }
+    else
+    {
+      while(list($day,$hour,$next) = $req->get_row() )
+      {
+        if($next)
+          $sublist->add(ucfirst($day) . " prochain à " . $hour . "h");
+        else
+          $sublist->add(ucfirst($day) . " à " . $hour . "h");
+      }
+    }
+
+    $cts->add($sublist, true, true, "bureau_ae_montbeliard", "boxlist", true, true);
+
+
     return $cts;
   }
 
