@@ -24,6 +24,7 @@
  */
 
 define("BUREAU_AE_BELFORT", 164);
+define("BUREAU_AE_MONTBELIARD", 165);
 define("BUREAU_AE_SEVENANS", 166);
 define("BUREAU_BDF_BELFORT", 167);
 define("BUREAU_BDF_SEVENANS", 168);
@@ -39,7 +40,7 @@ require_once($topdir. "include/cts/planning.inc.php");
 
 $site = new site ();
 
-$lieux = array(164=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 167=>"Foyer", 168=>"KFet", 169=>"Bureau BDS Belfort", 170=>"Bureau BDS Sevenans"/*, 191=>"Test"*/);
+$lieux = array(164=>"Bureau AE Belfort", 165 => "Bureau AE Montbéliard", 166=>"Bureau AE Sevenans", 167=>"Foyer", 168=>"KFet", 169=>"Bureau BDS Belfort", 170=>"Bureau BDS Sevenans"/*, 191=>"Test"*/);
 
 
 if ( $_REQUEST["action"] == "searchpl" )
