@@ -222,6 +222,7 @@ class sitecompta extends site
         $cts->add($sublist);
       }
     $this->add_box("compta",$cts);
+    $this->set_side_boxes("right", array("compta",));
   }
 }
 
