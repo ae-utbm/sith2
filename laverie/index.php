@@ -250,7 +250,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
        COALESCE(CONCAT(prenom_utl, ' ', nom_utl), 'Choisir') AS texte
        FROM mc_creneaux
        INNER JOIN mc_machines ON ( mc_creneaux.id_machine = mc_machines.id  )
-       INNER JOIN utilisateurs ON ( mc_creneaux.id_utilisateur = utilisateurs.id_utilisateur )
+       LEFT JOIN utilisateurs ON ( mc_creneaux.id_utilisateur = utilisateurs.id_utilisateur )
        WHERE mc_machines.type='".mysql_real_escape_string($type)."'
        AND mc_machines.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
        AND debut_creneau > NOW()";
