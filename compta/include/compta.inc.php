@@ -192,8 +192,7 @@ class sitecompta extends site
 
       $cts = new contents("Comptabilité");
 
-      $sublist = new itemlist(false,"boxlist");
-      $sublist->add("Comptabilité","title");
+      $sublist = new itemlist("Comptabilité","boxlist");
       $sublist->add("<a href=\"".$topdir."compta/\">Comptes et classeurs</a>");
       $sublist->add("<a href=\"".$topdir."entreprise.php\">Entreprises</a>");
 
@@ -215,8 +214,7 @@ class sitecompta extends site
 
       if ( $this->user->is_in_group("compta_admin") )
       {
-        $sublist = new itemlist(false,"boxlist");
-        $sublist->add("Administration","title");
+        $sublist = new itemlist("Administration","boxlist");
         $sublist->add("<a href=\"".$topdir."compta/admin.php\">Comptes</a>");
         $sublist->add("<a href=\"".$topdir."compta/typeop.php\">Natures (types) d'opérations</a>");
         $cts->add($sublist);
