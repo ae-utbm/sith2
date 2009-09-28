@@ -9,14 +9,14 @@ $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                      'Weekmail du 28 septembre au 04 octobre 2009');
-$mailer->add_dest('simon.lopez@utbm.fr');
-/*
+//$mailer->add_dest('simon.lopez@utbm.fr');
+///*
 $mailer->add_dest(array('etudiants@utbm.fr',
                         'enseignants@utbm.fr',
                         'iatoss@utbm.fr',
                         'aude.petit@utbm.fr',
                         'info@ml.aeinfo.net'));
-*/
+//*/
 $content=<<<EOF
 Salut les UTbohémiens,
 
