@@ -187,6 +187,9 @@ class sitecompta extends site
   function start_page ( $section, $title )
   {
     global $topdir;
+
+    parent::start_page("services",$title);
+
       $cts = new contents("Comptabilité");
 
       $sublist = new itemlist(false,"boxlist");
@@ -212,7 +215,6 @@ class sitecompta extends site
 
       if ( $this->user->is_in_group("compta_admin") )
       {
-        die("Miaou ?");
         $sublist = new itemlist(false,"boxlist");
         $sublist->add("Administration","title");
         $sublist->add("<a href=\"".$topdir."compta/admin.php\">Comptes</a>");
@@ -220,9 +222,6 @@ class sitecompta extends site
         $cts->add($sublist);
       }
     $this->add_box("compta",$cts);
-
-
-    parent::start_page("services",$title);
   }
 }
 
