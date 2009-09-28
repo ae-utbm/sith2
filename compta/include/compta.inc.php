@@ -210,14 +210,14 @@ class sitecompta extends site
       else
             $sublist->add("<a href=\"".$topdir."compta/classeur.php?id_classeur=".$this->id_classeur."\">Retour classeur ".$this->nom_classeur." ".$this->nom_asso."</a>");
       }
-      $cts->add($sublist);
+      $cts->add($sublist, true, true);
 
       if ( $this->user->is_in_group("compta_admin") )
       {
         $sublist = new itemlist("Administration","boxlist");
         $sublist->add("<a href=\"".$topdir."compta/admin.php\">Comptes</a>");
         $sublist->add("<a href=\"".$topdir."compta/typeop.php\">Natures (types) d'opérations</a>");
-        $cts->add($sublist);
+        $cts->add($sublist, true, true);
       }
     $this->add_box("compta",$cts);
     $this->set_side_boxes("right", array("compta",));
