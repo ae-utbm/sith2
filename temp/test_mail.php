@@ -428,7 +428,7 @@ $html = <<<EOF
 <table bgcolor="#333333" width="700px">
 <tr><td align="center">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td width="601" height="241"><img src="http://ae.utbm.fr/d.php?id_file=4523&action=download" /></td></tr>
+<tr><td width="601"><img src="http://ae.utbm.fr/d.php?id_file=4523&action=download" /></td></tr>
 <tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Introduction</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px">Salut les UTbohémiens,<br />
 <br />
