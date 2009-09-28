@@ -1,5 +1,5 @@
 <?
-exit();
+//exit();
 $topdir = '../';
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/entities/files.inc.php");
@@ -8,349 +8,419 @@ require_once($topdir.'include/lib/mailer.inc.php');
 $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
-                     'Weekmail du 21 au 27 septembre 2009');
-//$mailer->add_dest('simon.lopez@utbm.fr');
-///*
+                     'Weekmail du 28 septembre au 04 octobre 2009');
+$mailer->add_dest('simon.lopez@utbm.fr');
+/*
 $mailer->add_dest(array('etudiants@utbm.fr',
                         'enseignants@utbm.fr',
                         'iatoss@utbm.fr',
-                        'aude.petit@utbm.fr'));
-//*/
+                        'aude.petit@utbm.fr',
+                        'info@ml.aeinfo.net'));
+*/
 $content=<<<EOF
 Salut les UTbohémiens,
 
-L'intégration s'achève en beauté, mais le semestre débute tout juste comme
-vous allez le voir dans ce deuxième weekmail remplis de réunions de
-présentation de clubs de notre chère association !
+Nouvelle semaine, nouveau weekmail ! Il est grand temps d'attaquer le vif du
+sujet. Les clubs ont presque tous repris du service, et le congrès se
+profile à l'horizon. Voici les news de la semaine.
 
 
 
 Sommaire :
 
- * AE - Commissions de pôle
- * Club Welcome - Welcome need U !
- * UTBM Productions fait sa rentrée
- * Club Mix & MAO - Réunions de rentrée
- * La Bohème fait sa rentrée
- * [ART] is Back !
- * Le club Astro fait sa rentrée
- * Club Zik - réouverture des crenaux de repetitions
- * Club Zenith - Réunion de rentré
- * Club danse moderne jazz a besoin de vous !
- * Le club de modélisme fait sa rentré !
- * UTtoons, ça repars
+ * Assemblées Générales de l’AE, du BDF, du BDS et du CETU
+ * Troll Penché - Killer
+ * Matmatronch' - L'édition papier du Mat'matronch revient!
+ * Prom'Art - Concert unique : 8bit electro à La Poudrière
+ * Semaine De Mars 2010 – Première réunion
+ * Le Congrès Industriel arrive à grand pas !
+ * Le 4L Trophy fait sa rentrée!
+ * Club Kart - Réunion de rentrée
+ * le club magie UT est de retour
+ * UNITEC - Réunion de rentrée du club de Robotique Mercredi a 20H en A200
+ * UTtoons - Séances de la semaine
+ * Prix Universitaire du Logiciel Libre - Réunion de Lancement
+ * Relance du Petit Géni !
+ * Le club-zik paye son boeuf
+ * Club Cuisine - C'est reparti
+
 
 ----------------------------------------------------
-AE - Commissions de pôle
+Assemblées Générales de l’AE, du BDF, du BDS et du CETU
+----------------------------------------------------
+
+Le mardi 29 septembre à 13 heures à la MDE - Kfet (en-dessous du Restaurant
+Universitaire) de Sevenans et à 20 heures au Foyer de la Maison des Élèves
+de Belfort, les quatre associations étudiantes de l’UTBM t’invitent à venir
+à leurs Assemblées Générales de début de semestre. Il s’agit d’une
+présentation rapide des associations, de leurs budgets et de leurs projets
+pour le semestre. Donc si toi aussi tu veux apprendre à connaitre tes
+associations et leurs fonctionnements, viens le mardi 29 septembre à 13
+heures à la MDE - Kfet de Sevenans ou à 20 heures au  Foyer à Belfort. De
+plus, après la session à Belfort au Foyer, tu pourras te restaurer pour une
+petite somme avec un barbecue organisé par les quatre associations.
+
+A mardi !
+Les équipes AE, BDF, BDS et CETU
+
+----------------------------------------------------
+Troll Penché - Killer
+----------------------------------------------------
+
+Wanted : dead or... dead
+
+Hey Gringo, tu en as marre de chasser le coyote ? Tu rêves d’une vie
+de Cowboy, galopant dans la grande plaine à la poursuite de dangereux
+bandits. Mais fais bien attention à ton scalp, les peaux rouges ne
+sont pas tendres avec les voyageurs solitaires.
+
+Le Killer Western est un jeu d’équipe où les joueurs vont s’affronter
+dans toute l’UTBM pendant dix jours. Cet événement se déroulera bien
+entendu sur les 3 sites de l’UTBM, pendant 10 jours, et est ouvert à
+tous les UTBohéMiens. L’accomplissement de missions et les morts que
+vous ferez détermineront quelle équipe sera la meilleure.
+
+N’hésitez pas à prendre part à cette énorme partie de rigolade, qui
+vous permettra de vous détendre après (ou avant) les cours.
+
+Pour s’inscrire, direction le site du Killer Western :
+http://killer.troll.penche.free.fr
+
+Pour toutes questions, contactez-nous via le forum
+(http://ae.utbm.fr/forum2/?id_sujet=9569) ou directement par mail à
+killer.troll.penche@gmail.com.
+
+----------------------------------------------------
+Matmatronch' - L'édition papier du Mat'matronch revient!
+----------------------------------------------------
+
+Mais qui est-il, mais de qui parlez-vous, comment puis-je le contacter ???
+Heureusement, Monsieur Mat’Matronch est là pour éviter au maximum ces
+situations…
+
+Hé oui, le Mat’Matronch est la seule, l’unique bible indispensable de tout
+étudiant consciencieux, en tant qu’annuaire des étudiants de l’école.
+
+Toute la population de l’UTBM est recensée, le Mat’ Matronch donne enfin un
+nom à un visage, le numéro de téléphone du binôme introuvable, l’adresse de
+cette personne que l’on recherche tant depuis cette fameuse soirée et tout
+autre renseignement aussi sérieux administrativement parlant que
+fantaisiste.
+
+Mais voila pour que celui ci prenne vie, on a besoin de vous!
+
+En effet, pour que l'annuaire soit "parfait":
+1°) il faut que vos fiches Mat'matronch soit complétées et à jour, pour
+cela, une seule adresse : http://ae.utbm.fr
+2°) et encore plus important il nous faut "des bras", c'est pour cela que
+j'invite les curieux à nous rejoindre!
+
+Ensuite pour vous le procurer en pré-vente, rendez vous sur l'E-boutic à
+cette adresse: http://ae.utbm.fr/e-boutic/?id_produit=566
+
+Celui ci est en vente pour la modique somme de 4€ et paraîtra courant
+Janvier, le thème vous sera alors dévoiler à ce moment!
+
+Pour plus d'info, n'hésitez pas à vous rendre à cette adresse
+http://ae.utbm.fr/asso.php?id_asso=27 ou alors à nous contacter à
+matmatronch@utbm.fr
+
+A bientôt
+
+Gon pour le Mat'matronch
+
+----------------------------------------------------
+Prom'Art - Concert unique : 8bit electro à La Poudrière
+----------------------------------------------------
+
+Samedi 3 octobre prochain, ne ratez un concert unique en son genre, du 8-bit
+electro chipmusic par des as du genre, Dumbmood et DeDlAy_GaMeBoY_aDDiCt.
+Ces musiciens allient les sonorités de nos vieilles gameboys et autres Atari
+pour faire un son aux rythmes endiablés. Laissez vous emporter par cette
+programmation exceptionnelle à La Poudrière de Belfort.
+
+Infos : http://ae.utbm.fr/news.php?id_nouvelle=1686
+Prix : 5e (Préventes ou Eboutic)
+Lieu : La Poudrière, Belfort, 22h
+
+Vid pour Prom'Art
+
+----------------------------------------------------
+Semaine De Mars 2010 – Première réunion
 ----------------------------------------------------
 
 Bonjour à tous,
 
-Avec la fin de l'intégration, arrive la reprise des clubs de l'AE, si tu te
-sens
-l'âme 'un responsable de club, si tu souhaites créer une nouvelle activité,
-ou
-en réactiver un, le moment est venu de te faire connaître ! En effet, la
-semaine prochaine auront lieu les comissions de pôles, où seront discutés
-les
-projets du semestre ainsi que les budgets.
+Après un long inter-semestre passé loin de Belfort et de l'UTBM, la semaine
+de mars te permet de retrouver tes amis qui t'ont tellement manqué.
 
-Si l'aventure de responsable de club te tente, rendez-vous :
+Mais avant ces festivités, il faut penser à son organisation. Et qui dit
+organisation, dit recherche de bénévole. Toi aussi, tu as envie de
+t'investir dans la vie associative, la semaine de mars est là pour toi.
+Viens nous aider à organiser activités et soirées, et partager une
+expérience hors du commun pour le plus grand plaisir de chacun.
 
-- Lundi 21/09/09 à 20 heures: Pôle Technique
-- Lundi 21/09/09 à 21 heures: Pôle Culturel
-- Mardi 22/09/09 à 20 heures 30: Grandes Activités
-- Mercredi 23/09/09 à 20 heures: Pôle Entraide et Humanitaire
-- Mercredi 24/09/09 à 21 heures: Pôle Artistique
+Si tu es intéressé par l'organisation de la Semaine de Mars 2010, participe
+à la première réunion qui aura lieu le jeudi 01 octobre à 18 heures en salle
+A209 (site de Belfort)
 
-Si vous êtes intéressés par l'aventure, pensez à un budget prévisionnel, et
-si
-vous avez des questions, rendez vous sur le forum de l'AE
+A jeudi.
 
-à bientôt
-
-L'équipe AE
+Couscous' et Iss',
+Responsables SDM10
 
 ----------------------------------------------------
-Club Welcome - Welcome need U !
+Le Congrès Industriel arrive à grand pas !
 ----------------------------------------------------
 
-Bonjour à tous,
+Les 7 et 8 octobre prochain sur le site de Sevenans :
 
-Une expérience à l'international vous tente ? Par simple curiosité ou ayant
-déjà un projet de mobilité bien défini, le club Welcome propose à vous,
-étudiants de l'UTBM, de nouer des liens dans un environnement interculturel
-et convivial ! Venez à la rencontre des étudiants étrangers provenant des
-quatre coins du monde pour étudier à l'UTBM et découvrir la culture
-Française !
+  - 10 conférences sur le thème de la communication
+  - 22 entreprises présentes au Forum à votre disposition pour les offres de
+stage ST10, ST40, ST50 et des offres d’emploi
+  - des simulations d’entretiens d’embauche animés par des professionnels
+  - des ateliers premier emploi proposés par l’APE
 
-La richesse des échanges interculturels, ayant aussi bien lieu à Belfort
-qu'à l'étranger, est souvent insoupçonnée! L'enrichissement personnel est
-indéniable; par ailleurs créer des liens avec des étudiants désireux de
-franchir le pont culturel peut vous ouvrir de nouveaux horizons, créer de
-nouvelles opportunités.
+Que demander de mieux pour votre insertion dans la vie professionnelle !
+Préparez-vous, venez retrouver toutes les informations sur notre site
+internet :
+http://ae.utbm.fr/congres
 
-Au moment de l'intégration et de la reprise des cours, le club Welcome fait
-également sa rentrée, et vous convie à une réunion d'information pour vous
-faire découvrir les activités qui vont se dérouler tout au long de ce
-semestre ! Tout le monde peut participer, Ancien comme Nouveau, Tronc commun
-autant que Branche !
+Nous vous attendons nombreux !
 
-Alors n'hésitez plus, et venez nous rencontrer le jeudi 17 septembre à 16h
-en salle Rantanplan (bâtiment des Dalton de la Maison des Eleves à Belfort).
-
-D'ici là, nous vous donnons rendez-vous sur le site web du club Welcome:
-http://ae.utbm.fr/welcome/
-
-A très bientôt !!
-
-L'équipe du club Welcome
+L’équipe Congrès Industriel 2009
 
 ----------------------------------------------------
-UTBM Productions fait sa rentrée
+Le 4L Trophy fait sa rentrée!
 ----------------------------------------------------
 
-UTBM Productions est le club vidéo de l’UTBM, que ce soit pour couvrir des
-petits évènements ou de grandes manifestations, le club a besoin de monde pour
-renforcer ses rangs.
+Amies baroudeuses, amis baroudeurs
 
-Venez découvrir le club lors de la réunion de rentrée, c’est sans engagement !
+Vous avez l'âme d'un aventurier, un grand coeur de bisounours!!! Le 4L
+trophy est fait pour vous! Le 4L Trophy est un raid à la fois humanitaire et
+sportif. Le challenge à relever est d’acheminer des fournitures scolaires
+aux enfants marocains en Renault 4L et cela en traversant l’Europe pour
+rejoindre le désert marocain soit environ 7000km!
+Cette expérience est unique sur tous les plans et les participants en
+gardent des souvenirs impérissables. Lors de l’édition 2009, 3 véhicules
+UTBM ont vécu cette épopée mêlant galères et joie, paysages enneigés et
+sableux, solidarité et échanges culturels… Maintenant, si l’aventure vous
+tente, rejoignez nous lors de notre réunion de rentrée le jeudi 01 Octobre
+2009 à 18h en salle rantanplan!
 
-Durant le semestre des formations seront organisées pour apprendre à utiliser le
-matériel dont dispose le club et aussi tout le matériel mis à disposition par
-l'UTBM. Il n’y a donc aucunes connaissances nécessaires !
+Pour nous contacter, une seule adresse: 4l.trophy@utbm.fr ou suivez les
+4L....
 
-A Mardi !
-
-Gautier pour UTPROD.
+Gon pour le 4L trophy
 
 ----------------------------------------------------
-Club Mix & MAO - Réunions de rentrée
+Club Kart - Réunion de rentrée
+----------------------------------------------------
+
+Bonjour à tous !
+
+Fan de sport automobile, envie de se faire plaisir sur un karting 2 temps.
+Le club Kart est la pour toi et te défouler après les cours. Le club a
+besoin de toi pour continuer à vivre !
+
+Viens découvrir le club en assistant à la réunion de rentrée qui se tiendra
+à la salle Jolly Jumper ce mercredi 30/09 à 19h30.
+
+A bientôt,
+
+Dagrume pour le club Kart.
+
+----------------------------------------------------
+le club magie UT est de retour
 ----------------------------------------------------
 
 Salut à tous,
 
-Le club Mix et le club MAO (Musique Assistée par Ordinateur) reprennent
-enfin du service !
+le club magie fait sa rentrée,
 
-Passionné de mix, avide de découvrir, besoin de matériel pour perfectionner
-sa pratique ? Rejoignez nous lors de notre réunion de présentation afin de
-mettre en place l'organisation du club pour le semestre.
+Alors toi qui veux percer le secret et l'art de la magie,
+je t'invite à la réunion de magie UT ce mercredi à 20h00 pour la réunion de
+rentrée.
+Et surtout n'es pas peur, tous les niveaux sont acceptés.
 
-Néophytes ou expérimentés sont les bienvenus, venez discuter avec nous ce
-Jeudi 24 Septembre à 14h à la MDE de Sévenans.
+Le but de cette réunion est de comprendre comment vont dérouler les séances.
+C'est aussi location de me dire quels sont tes attentes.
+Tu aime plutôt les carte, changer l'eau en bière, la lecture des cerveaux
+pour trouver les bonnes réponses lors des médians...
 
-On vous espère nombreux !
+@+ les magicos
 
-A6 & Spinnou pour le CX et la MAO !
-
-----------------------------------------------------
-La Bohème fait sa rentrée
-----------------------------------------------------
-
-La Bohème fait sa rentrée
-Le journal que vous avez eu l'occasion de lire depuis votre rentrée en début
-du mois est rédigé par des étudiants. Ils mettent le plus régulièrement
-possible tout en oeuvre pour vous fournir du contenu de qualité à travers
-différents types d'articles.
-Afin de poursuivre cet effort d'informations et de détente, vous êtes tous
-invité à venir intégrer l'équipe de rédaction pour des  articles de temps en
-temps quand cela vous dit.
-On en recherche sur tous les sujets ;)
-
-Réunion mercredi 23 septembre à 18h en salle rantanplan
-contact : laboheme@utbm.fr
-site : ae.utbm.fr/boheme
+Dézande
+responsable de Magie UT
 
 ----------------------------------------------------
-[ART] is Back !
+UNITEC - Réunion de rentrée du club de Robotique Mercredi a 20H en A200
 ----------------------------------------------------
 
-La Semaine des Arts et le club Prom'Art reviennent pour faire découvrir les
-arts et la culture au plus grand nombre !
-Pendant une Semaine et tout au long du semestre nous organisons des sorties,
-événements et visites à l'UTBM ou dans les lieux culturels des environs.
-Si toi aussi tu t'intéresse de près ou de loin au domaine culturel nous
-sommes à la recherche de bonne volonté pour monter la seconde édition de la
-SdA.
-Postes recherchés : trésoriers, responsable sponsors, responsable...
+Bonjour a tous et a toutes,
 
-Réunion jeudi 24 septembre à 16h en salle rantanplan Belfort
-contact : promart@utbm.fr
-site : ae.utbm.fr/sda
+Le club Unitec participe tout les ans à la coupe de France de Robotique
+(anciennement appelée coupe E=m6).
+Nous effectuons une réunion de rentrée le mercredi 30 septembre 2009 à 20h
+dans
+l'amphi A200 du Bâtiment A de l'UTBM de Belfort pour y présenter le club et
+le
+thème de la coupe 2010 nommé « Feed The World ».
 
+Le club est ouvert à tous les départements de l'UTBM (GESC, GM, GI, IMAP,
+EDIM).
+Nous recrutons notamment pour faire de la communication (particulièrement
+pour
+démarcher des sponsors ou des partenariats), de la logistique et régie et
+bien
+sûr de la conception et réalisation.
+
+Le club est ouvert à TOUS : curieux, débutant, ou confirmé, il y a de la
+place pour tout le
+monde, n'hésitez pas a venir découvrir le club.
+
+On vous attend nombreux mercredi !
+
+
+Marc et Daouid, pour Unitec
 ----------------------------------------------------
-Le club Astro fait sa rentrée
-----------------------------------------------------
-
-C'est l'occasion de venir découvrir le Club de l'UTBM et de voir le
-déroulement des séances que nous vous proposons.
-En cette année mondiale de l'astronomie, il serait dommage de rater
-l'initiation que nous proposons !
-
-Le Club Astro dispose de moyen pour l'observation ainsi que des
-documentaires pour apprendre l'astronomie.
-Je rappelle que ce club est ouvert à tous les niveaux.
-
-N'hésiter pas à me contacter pour plus de renseignements :
-tristan.lebeaume@utbm.fr
-Venez nombreux jeudi 24 septembre à 20 heures, devant la salle Jolly Jumper
-sous la ME(Maison des Élèves) de Belfort.
-
-----------------------------------------------------
-Club Zik - réouverture des crenaux de repetitions
+UTtoons - Séances de la semaine
 ----------------------------------------------------
 
-Bonjour à toi Musicien(e)s de l'UTBM en manque de lieux pour répéter ?
+Bonjour à toutes et à tous,
+En ce début de semaine, nous vous invitons à venir découvrir ce lundi 28
+20h dans l'amphi A200, les films Coraline et Fourmiz.
 
-La salle de répétition de Sévenans est désormais ouverte et il est tant de
-réserver vos créneaux de répète, l'idéal est d?en prendre un de deux heures
-au semestre pour laissez exprimer votre art.
+Coraline
 
-Petit rappel, la salle comporte une batterie (baguettes non fournies), des
-amplis guitares, un ampli basse, un piano, et tout se qu'il faut pour vos
-vocalises. Pour finir, il vous faut obligatoirement être cotisant à l'AE
-pour utiliser ce matériel.
+Coraline Jones est une fillette intrépide et douée d'une curiosité sans
+limites. Ses parents, qui ont tout juste emménagé avec elle dans une étrange
+maison, n'ont guère de temps à lui consacrer. Pour tromper son ennui,
+Coraline décide donc de jouer les exploratrices. Ouvrant une porte
+condamnée, elle pénètre dans un appartement identique au sien... mais où
+tout est différent. Dans cet Autre Monde, chaque chose lui paraît plus
+belle, plus colorée et plus attrayante.
 
-Pour réserver un créneau c'est simple, renvoyer un mail à
-Club.Zik@utbm.fr avec vos coordonnées et votre choix de réservation.
-Certains créneaux étant
-assez convoités, nous emploierons la technique du 1er servis.
+Fourmiz
 
-Toute fois un créneau n'est pas disponible, il s'agit du jeudi soir de 20 à
-22h, occupé par le Big Band de l'UTBM. La salle reste disponible du lundi au
-samedi de 08h à 23h.
+Z-4195, fourmi ouvrière, est amoureuse de la belle princesse Bala. Simple
+numéro parmi les milliards composant sa colonie il n'a aucune chance
+d'attirer le regard de la belle. Pourtant il demande l'aide de son meilleur
+ami, la fourmi soldat Weaver, afin d'approcher l'élue de son coeur. C'est
+ainsi que par un caprice du hasard, il parasite involontairement le plan
+machiavélique de l'ambitieux général Mandibule qui veut tout bonnement
+liquider la colonie afin de la recréer a son image. Z se retrouve bientôt a
+la tète d'une révolution.
 
-Musciquement vôtre
-Flex pour le club zik
+En attendant de vous voir, bonne semaine à tous.
 
-----------------------------------------------------
-Club Zenith - Réunion de rentré
-----------------------------------------------------
-
-Zénith fait sa rentrée ! Le club de l'AE qui participe au Shell Eco
-Marathon, ou comment faire le plus de kilomètre possible avec un litre
-d'essence.
-
-C'est donc de vivre une compétition automobile dont il est question, mais
-toutes les branches de notre université sont nécessaires pour faire avancer
-ce prototype !
-
-Au cours de cette réunion de découverte nous verrons une présentation du
-club et son historique, les objectifs à venir pour cette saison et la
-voiture! Bien entendu l'équipe sera la pour faire connaissance avec toi.
-
-La réunion aura lieu Mardi 22 septembre sur le site de Belfort dans le
-bâtiment A salle A210 à 19h30.
-
-Carbonman pour le club Zenith
+Ticho et Otine
 
 ----------------------------------------------------
-Club danse moderne jazz a besoin de vous !
+Prix Universitaire du Logiciel Libre - Réunion de Lancement
 ----------------------------------------------------
 
-Bonjour à tous,
+Le Prix Universitaire du Logiciel Libre est un projet visant à récompenser
+l’investissement des étudiants, enseignants, chercheurs, dans des projets de
+logiciels libre, et à leur permettre de continuer à donner de leur temps
+pour de tels projets. Il s'agit d'une toute nouvelle activité, lancée ce
+semestre par l'AE.
 
-le club danse refait son entrée pour cette année. Venez nous rejoindre pour
-danser lors de séances sympathiques entre nous. Envie de participer au gala,
-nous faisons une représentation lors de cette soirée inoubliable. Le but est
-tout d'abord de passer des moments agréables donc si vous êtes danseuse et
-danseur professionnel(le) ou amateur, vous êtes les bienvenu(e)s...
-Nécessitez pas à venir voir comment cela se passe lors des séances le mardi
-et le jeudi...
-Pour plus d'informations, rendez vous sur le site de l'AE :
-http://ae.utbm.fr/
-A très bientôt
-Le club Danse Moderne Jazz
+Cette première réunion aura pour but de constituer une équipe, qui
+s’occupera à la fois du travail en amont, mais aussi de l’organisation de la
+cérémonie de remise des prix. Rejoignez-nous en Salle activité, ce lundi à
+19h30, si vous souhaitez-participer à ce nouveau projet !
 
-----------------------------------------------------
-Le club de modélisme fait sa rentré !
-----------------------------------------------------
+contacts : kiri : jeremie.laval@utbm.fr ou zaps : loic.geslin@utbm.fr
 
-Le club de modélisme fait sa rentré !
-
-Alors si tu as toujours rêvé d'être aux commandes d'un hélicoptère ou d'un
-avion mais que tu n'en as jamais eu l'occasion, viens découvrir le club
-aéro'UT qui met à ta disposition tout le matériel nécessaire . Bien entendu,
-les modélistes expérimentés sont eux aussi invités afin de venir partager
-connaissances et savoir faire.
-
-Cette réunion de rentré est l'occasion de présenter l'univers du modélisme
-mais surtout de découvrir le fonctionnement du club ainsi que les
-hélicoptères et avion mis à votre disposition.
-
-Rendez vous à 18h en salle Rantanplan ce jeudi 24 septembre !
-
-
-Merci,
-ZAVA pour le club modélisme
+A Bientôt et souvenez vous, we are all PULL lovers !
 
 ----------------------------------------------------
-UTtoons, ça repars
+Relance du Petit Géni !
 ----------------------------------------------------
 
-Oyez, oyez,
+Petit rappel pour tous ceux qui sont arrivés cette année : le Petit Géni est
+un guide (gratuit!) qui répertorie toutes les adresses utiles de l'aire
+urbaine Belfort-Montbéliard. Il est entièrement réalisé par les étudiants de
+l'UTBM et tiré à 10 000 exemplaires. Il s'adresse aussi bien aux étudiants
+qu'aux habitants de l'aire urbaine.
 
-UTtoons recommence à égayer vos soirées du lundi de la meilleure manière
-possible : Une petite dose régulière d'anciens ou nouveaux dessins animés,
-Disney/Pixar ou même japonais,  vous refera plonger en enfance.
+Seulement pour fonctionner, il faut une équipe... c'est là que vous entrez
+en jeu !
+La première étape consistera à préparer le site Internet et à remettre à
+jour toutes les données.
 
-Pour bien débuter ce semestre, venez apprécier Princesse Mononoke et Volt
-star, ce lundi 21 Septembre à 20h en A200.
+On recherche, en plus de membres actifs :
+-un trésorier
+-un responsable informatique
+-un secrétaire  / responsable com'
 
-Princesse Mononoke
+Si vous souhaiter participer ou pour toute question, envoyez un mail à
+petit.geni@utbm.fr
 
-Au XVe siècle, durant l'ère Muromachi, la forêt japonaise, jadis protégée
-par des animaux géants, se dépeuple à cause de l'homme. Un sanglier
-transformé en démon dévastateur en sort et attaque le village d'Ashitaka,
-futur chef du clan Emishi. Touché par le sanglier qu'il a tué, celui-ci est
-forcé de partir à la recherche du dieu Cerf pour lever la malédiction qui
-lui gangrène le bras.
+Eboul' pour le club Petit Géni
 
-Volt star
+----------------------------------------------------
+Le club-zik paye son boeuf
+----------------------------------------------------
 
-Pour le chien Volt, star d'une série télévisée à succès, chaque journée est
-riche d'aventure, de danger et de mystère - du moins devant les caméras. Ce
-n'est plus le cas lorsqu'il se retrouve par erreur loin des studios de
-Hollywood, à New York... Il va alors entamer la plus grande et la plus
-périlleuse de ses aventures - dans le monde réel, cette fois.
+Bonjour a tous
 
-En espérant vous voir nombreux,
+Le club zik paye son bœuf pour la rentrée… que tu sois simple amateur ou
+envie d’exprimer ton talent devant un public
+ou encore trouver des comparses de répétitions. Alors le bœuf de rentrée est
+fait pour toi.
+Nous te donnons donc rendez-vous au foyer ce jeudi 1er octobre à partir de
+20h.
+Apporte tes instrus, de la viole de gambe au kazou en passant par la guitare
+et la contre bassine.
+Si tu a une voix et que tu veux en faire profiter, tu es le bienvenue….
+Nous vous attendons nombreux. Le bar sera bien sûr ouvert.
 
-Otine & Ticho
+Flex pour le club-zik
+
+----------------------------------------------------
+Club Cuisine - C'est reparti
+----------------------------------------------------
+
+Bonjours tout le monde,
+
+Le club cuisine est de retour. Petit rappel du club : L’objectif du club est
+de se faire des repas bien cossu entre nous. On se fait tous notre
+tambouille, ensuite on la mange. Les repas se font par groupe (groupe
+entrée, groupe plat, groupe dessert), chaque groupe s’organise pour choisir
+ce qu’il va faire, et pour se financer (entre 2 et 4 € par personnes, maxi).
+Comme on est un petit nombre, on peut se faire un très bon repas pour pas
+cher.
+
+Après une petite réunion un peu privée, la date et le thème du premier repas
+ont été trouvés. Cela sera le dimanche 4 Octobre à 20 heures au foyer, avec
+comme thème « agrume ». Merci de prévenir avant vendredi si vous êtes
+intéressé pour le repas, en m’envoyant un mail (julien.mottez@utbm.fr). On
+peut fournir les ustensiles pour cuisiner, le foyer est réservé avant donc,
+vous pourrez faire la cuisine dedans.
+
+J’espère que vous viendrez nombreux. Si vous n’avez des questions ou des
+remarques, n’hésitez pas à me le dire.
+
+Zévou pour le club cuisine.
+
+PS : Pour toutes les personnes intéressées par le club, n’hésitez pas à vous
+inscrire sur le site AE : http://ae.utbm.fr/asso.php?id_asso=79
 
 ----------------------------------------------------
 La blague !
 ----------------------------------------------------
 
-Un vieil Arabe vit depuis plus de 40 ans à Chicago. Il aimerait bien planter
-des pommes de terre dans son jardin mais il est tout seul, vieux et trop
-faible. Il envoie alors un e-mail à son fils qui étudie à Paris pour lui
-faire part de son problème.
--"Cher Ahmed, je suis très triste car je ne peux pas planter des pommes de
-terre dans mon jardin. Je suis sûr que si tu étais ici avec moi tu aurais pu
-m'aider à retourner la terre. Je t'aime, ton Père"
-Le lendemain, le vieil homme reçoit un e-mail :
--"Cher Père, s'il te plaît, ne touche surtout pas au jardin ! J'y ai caché
-la "chose". Moi aussi je t'aime. Ahmed"
-A 4heures du matin arrivent chez le vieillard l'US Army, les Marines, le
-FBI,la CIA et même une unité d'élite des Rangers. Ils fouillent tout le
-jardin, millimètre par millimètre et repartent déçus car ils n'ont rien
-trouvé. Le lendemain, le vieil homme reçoit un nouvel e-mail de la part de
-son fils :
-- "Cher Père, je suis certain que la terre de tout le jardin est désormais
-retournée et que tu peux planter tes pommes de terre.Je ne pouvais pas faire
-mieux. Je t'aime, Ahmed"
+Dans le gruyère, il y a des trous.
+Plus il y a de gruyère, plus il y a de trous.
+Mais plus il y a de trous, moins il y a de gruyère.
+Donc plus il y a de gruyère, moins il y a de gruyère.
 
 --
 à la semaine prochaine !
 A6
 EOF;
-
-
-/*$file = new dfile($site->db);
-$file->load_by_id(4328);
-$mailer->add_img($file);*/
 $mailer->set_plain($content);
 $html = <<<EOF
 <html>
@@ -358,288 +428,334 @@ $html = <<<EOF
 <table bgcolor="#333333" width="700px">
 <tr><td align="center">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td width="600" height="241"><img src="http://ae.utbm.fr/d.php?id_file=4328&action=download" /></td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Introduction</font></td></tr>
-<tr><td>Salut les UTbohémiens,<br />
+<tr><td width="601" height="241"><img src="http://ae.utbm.fr/d.php?id_file=4523&action=download" /></td></tr>
+<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Introduction</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Salut les UTbohémiens,<br />
 <br />
-L'intégration s'achève en beauté, mais le semestre débute tout juste comme
-vous allez le voir dans ce deuxième weekmail remplis de réunions de
-présentation de clubs de notre chère association !
+Nouvelle semaine, nouveau weekmail ! Il est grand temps d'attaquer le vif du
+sujet. Les clubs ont presque tous repris du service, et le congrès se
+profile à l'horizon. Voici les news de la semaine.
 <br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Sommaire</font></td></tr>
-<tr><td><ul><li>AE - Commissions de pôle</li>
-<li>Club Welcome - Welcome need U !</li>
-<li>Club Mix & MAO - Réunions de rentrée</li>
-<li>La Bohème fait sa rentrée</li>
-<li>[ART] is Back !</li>
-<li>Le club Astro fait sa rentrée</li>
-<li>Club Zik - réouverture des crenaux de repetitions</li>
-<li>Club Zenith - Réunion de rentré</li>
-<li>Club danse moderne jazz a besoin de vous !</li>
-<li>Le club de modélisme fait sa rentré !</li>
-<li>UTtoons, ça repars</li>
+<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Sommaire</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px"><ul>
+<li>Assemblées Générales de l’AE, du BDF, du BDS et du CETU</li>
+<li>Troll Penché - Killer</li>
+<li>Matmatronch' - L'édition papier du Mat'matronch revient!</li>
+<li>Prom'Art - Concert unique : 8bit electro à La Poudrière</li>
+<li>Semaine De Mars 2010 – Première réunion</li>
+<li>Le Congrès Industriel arrive à grand pas !</li>
+<li>Le 4L Trophy fait sa rentrée!</li>
+<li>Club Kart - Réunion de rentrée</li>
+<li>le club magie UT est de retour</li>
+<li>UNITEC - Réunion de rentrée du club de Robotique Mercredi a 20H en A200</li>
+<li>UTtoons - Séances de la semaine</li>
+<li>Prix Universitaire du Logiciel Libre - Réunion de Lancement</li>
+<li>Relance du Petit Géni !</li>
+<li>Le club-zik paye son boeuf</li>
+<li>Club Cuisine - C'est reparti</li>
 </ul>
 </td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">AE - Commissions de pôle</font></td></tr>
-<tr><td>Bonjour à tous,<br />
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Assemblées Générales de l’AE, du BDF, du BDS et du CETU</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Le mardi 29 septembre à 13 heures à la MDE - Kfet (en-dessous du Restauranti Universitaire) de Sevenans et à 20 heures au Foyer de la Maison des Élèves de Belfort, les quatre associations étudiantes de l’UTBM t’invitent à venir à leurs Assemblées Générales de début de semestre. Il s’agit d’une présentation rapide des associations, de leurs budgets et de leurs projets pour le semestre. Donc si toi aussi tu veux apprendre à connaitre tes associations et leurs fonctionnements, viens le mardi 29 septembre à 13 heures à la MDE - Kfet de Sevenans ou à 20 heures au  Foyer à Belfort. De plus, après la session à Belfort au Foyer, tu pourras te restaurer pour une petite somme avec un barbecue organisé par les quatre associations.
+<br /><br />
+A mardi !<br />
+Les équipes AE, BDF, BDS et CETU
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Troll Penché - Killer</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Wanted : dead or... dead
+<br /><br />
+Hey Gringo, tu en as marre de chasser le coyote ? Tu rêves d’une vie de Cowboy, galopant dans la grande plaine à la poursuite de dangereux
+bandits. Mais fais bien attention à ton scalp, les peaux rouges ne sont pas tendres avec les voyageurs solitaires.<br /><br />
+
+Le Killer Western est un jeu d’équipe où les joueurs vont s’affronter dans toute l’UTBM pendant dix jours. Cet événement se déroulera bien entendu sur les 3 sites de l’UTBM, pendant 10 jours, et est ouvert à tous les UTBohéMiens. L’accomplissement de missions et les morts que vous ferez détermineront quelle équipe sera la meilleure.
+<br /><br />
+N’hésitez pas à prendre part à cette énorme partie de rigolade, qui vous permettra de vous détendre après (ou avant) les cours.
+<br /><br />
+Pour s’inscrire, direction le site du Killer Western :<br />
+<a href="http://killer.troll.penche.free.fr">ici</a>
+<br /><br />
+Pour toutes questions, contactez-nous via le <a href="http://ae.utbm.fr/forum2/?id_sujet=9569">forum</a> ou directement par <a href="mailto:killer.troll.penche@gmail.com">mail</a>
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Matmatronch' - L'édition papier du Mat'matronch revient!</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Mais qui est-il, mais de qui parlez-vous, comment puis-je le contacter ???
+Heureusement, Monsieur Mat’Matronch est là pour éviter au maximum ces
+situations…
+<br /><br />
+Hé oui, le Mat’Matronch est la seule, l’unique bible indispensable de tout
+étudiant consciencieux, en tant qu’annuaire des étudiants de l’école.
+<br /><br />
+Toute la population de l’UTBM est recensée, le Mat’ Matronch donne enfin un
+nom à un visage, le numéro de téléphone du binôme introuvable, l’adresse de
+cette personne que l’on recherche tant depuis cette fameuse soirée et tout
+autre renseignement aussi sérieux administrativement parlant que
+fantaisiste.
+<br /><br />
+Mais voila pour que celui ci prenne vie, on a besoin de vous!
 <br />
-Avec la fin de l'intégration, arrive la reprise des clubs de l'AE, si tu te
-sens l'âme 'un responsable de club, si tu souhaites créer une nouvelle activité,
-ou en réactiver un, le moment est venu de te faire connaître ! En effet, la
-semaine prochaine auront lieu les comissions de pôles, où seront discutés
-les projets du semestre ainsi que les budgets.<br />
+En effet, pour que l'annuaire soit "parfait":<br />
+1°) il faut que vos fiches Mat'matronch soit complétées et à jour, pour
+cela, une seule adresse : <a href="http://ae.utbm.fr">http://ae.utbm.fr</a><br />
+2°) et encore plus important il nous faut "des bras", c'est pour cela que
+j'invite les curieux à nous rejoindre!
+<br /><br />
+Ensuite pour vous le procurer en pré-vente, rendez vous sur l'E-boutic à
+cette adresse: http://ae.utbm.fr/e-boutic/?id_produit=566
+<br /><br />
+Celui ci est en vente pour la modique somme de 4€ et paraîtra courant
+Janvier, le thème vous sera alors dévoiler à ce moment!
+<br /><br />
+Pour plus d'info, n'hésitez pas à vous rendre à cette adresse
+http://ae.utbm.fr/asso.php?id_asso=27 ou alors à nous contacter à
+matmatronch@utbm.fr
+<br /><br />
+A bientôt
 <br />
-Si l'aventure de responsable de club te tente, rendez-vous :
+Gon pour le Mat'matronch
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Prom'Art - Concert unique : 8bit electro à La Poudrière</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Samedi 3 octobre prochain, ne ratez un concert unique en son genre, du 8-bit
+electro chipmusic par des as du genre, Dumbmood et DeDlAy_GaMeBoY_aDDiCt.
+Ces musiciens allient les sonorités de nos vieilles gameboys et autres Atari
+pour faire un son aux rythmes endiablés. Laissez vous emporter par cette
+programmation exceptionnelle à La Poudrière de Belfort.
+<br /><br />
+Infos : <a href="http://ae.utbm.fr/news.php?id_nouvelle=1686">ici</a><br />
+Prix : 5e (Préventes ou Eboutic)<br />
+Lieu : La Poudrière, Belfort, 22h<br />
+<br /><br />
+Vid pour Prom'Art
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Semaine De Mars 2010 – Première réunion</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Bonjour à tous,
+<br /><br />
+Après un long inter-semestre passé loin de Belfort et de l'UTBM, la semaine
+de mars te permet de retrouver tes amis qui t'ont tellement manqué.
+<br /><br />
+Mais avant ces festivités, il faut penser à son organisation. Et qui dit
+organisation, dit recherche de bénévole. Toi aussi, tu as envie de
+t'investir dans la vie associative, la semaine de mars est là pour toi.
+Viens nous aider à organiser activités et soirées, et partager une
+expérience hors du commun pour le plus grand plaisir de chacun.
+<br /><br />
+Si tu es intéressé par l'organisation de la Semaine de Mars 2010, participe
+à la première réunion qui aura lieu le jeudi 01 octobre à 18 heures en salle
+A209 (site de Belfort)
+<br /><br />
+A jeudi.
+<br /><br />
+Couscous' et Iss',<br />
+Responsables SDM10
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le Congrès Industriel arrive à grand pas !</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+Les 7 et 8 octobre prochain sur le site de Sevenans :
 <ul>
-<li>Lundi 21/09/09 à 20 heures: Pôle Technique</li>
-<li>Lundi 21/09/09 à 21 heures: Pôle Culturel</li>
-<li>Mardi 22/09/09 à 20 heures 30: Grandes Activités</li>
-<li>Mercredi 23/09/09 à 20 heures: Pôle Entraide et Humanitaire</li>
-<li>Mercredi 24/09/09 à 21 heures: Pôle Artistique</li>
+<li>10 conférences sur le thème de la communication</li>
+<li>22 entreprises présentes au Forum à votre disposition pour les offres de stage ST10, ST40, ST50 et des offres d’emploi</li>
+<li>des simulations d’entretiens d’embauche animés par des professionnels</li>
+<li>des ateliers premier emploi proposés par l’APE</li>
 </ul>
-Si vous êtes intéressés par l'aventure, pensez à un budget prévisionnel, et
-si vous avez des questions, rendez vous sur le forum de l'AE<br />
+Que demander de mieux pour votre insertion dans la vie professionnelle !<br />
+Préparez-vous, venez retrouver toutes les informations sur notre site
+internet : <a href="http://ae.utbm.fr/congres">http://ae.utbm.fr/congres</a>
+<br /><br />
+Nous vous attendons nombreux !
+<br /><br />
+L’équipe Congrès Industriel 2009
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le 4L Trophy fait sa rentrée!</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Amies baroudeuses, amis baroudeurs
+<br /><br />
+Vous avez l'âme d'un aventurier, un grand coeur de bisounours!!! Le 4L
+trophy est fait pour vous! Le 4L Trophy est un raid à la fois humanitaire et
+sportif. Le challenge à relever est d’acheminer des fournitures scolaires
+aux enfants marocains en Renault 4L et cela en traversant l’Europe pour
+rejoindre le désert marocain soit environ 7000km!<br />
+Cette expérience est unique sur tous les plans et les participants en
+gardent des souvenirs impérissables. Lors de l’édition 2009, 3 véhicules
+UTBM ont vécu cette épopée mêlant galères et joie, paysages enneigés et
+sableux, solidarité et échanges culturels… Maintenant, si l’aventure vous
+tente, rejoignez nous lors de notre réunion de rentrée le jeudi 01 Octobre
+2009 à 18h en salle rantanplan!
+<br /><br />
+Pour nous contacter, une seule adresse: 4l.trophy@utbm.fr ou suivez les
+4L....
+<br /><br />
+Gon pour le 4L trophy
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Club Kart - Réunion de rentrée</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Bonjour à tous !
+<br /><br />
+Fan de sport automobile, envie de se faire plaisir sur un karting 2 temps.
+Le club Kart est la pour toi et te défouler après les cours. Le club a
+besoin de toi pour continuer à vivre !
+<br /><br />
+Viens découvrir le club en assistant à la réunion de rentrée qui se tiendra
+à la salle Jolly Jumper ce mercredi 30/09 à 19h30.
+<br /><br />
+A bientôt,
 <br />
-à bientôt<br />
-L\'équipe AE
+Dagrume pour le club Kart.
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">Club Welcome - Welcome need U !</font></td></tr>
-<tr><td>Bonjour à tous,
-
-Une expérience à l'international vous tente ? Par simple curiosité ou ayant
-déjà un projet de mobilité bien défini, le club Welcome propose à vous,
-étudiants de l'UTBM, de nouer des liens dans un environnement interculturel
-et convivial ! Venez à la rencontre des étudiants étrangers provenant des
-quatre coins du monde pour étudier à l'UTBM et découvrir la culture
-Française !
-
-La richesse des échanges interculturels, ayant aussi bien lieu à Belfort
-qu'à l'étranger, est souvent insoupçonnée! L'enrichissement personnel est
-indéniable; par ailleurs créer des liens avec des étudiants désireux de
-franchir le pont culturel peut vous ouvrir de nouveaux horizons, créer de
-nouvelles opportunités.<br />
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">le club magie UT est de retour</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Salut à tous,
+<br /><br />
+le club magie fait sa rentrée,
+<br /><br />
+Alors toi qui veux percer le secret et l'art de la magie,
+je t'invite à la réunion de magie UT ce mercredi à 20h00 pour la réunion de
+rentrée.<br />
+Et surtout n'es pas peur, tous les niveaux sont acceptés.
+<br /><br />
+Le but de cette réunion est de comprendre comment vont dérouler les séances.
+C'est aussi location de me dire quels sont tes attentes.
+Tu aime plutôt les carte, changer l'eau en bière, la lecture des cerveaux
+pour trouver les bonnes réponses lors des médians...
+<br /><br />
+@+ les magicos<br />
+Dézande, responsable de Magie UT
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">UNITEC - Réunion de rentrée du club de Robotique Mercredi a 20H en A200</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Bonjour a tous et a toutes,
+<br /><br />
+Le club Unitec participe tout les ans à la coupe de France de Robotique
+(anciennement appelée coupe E=m6).<br />
+Nous effectuons une réunion de rentrée le mercredi 30 septembre 2009 à 20h
+danis l'amphi A200 du Bâtiment A de l'UTBM de Belfort pour y présenter le club et
+le thème de la coupe 2010 nommé « Feed The World ».
+<br /><br />
+Le club est ouvert à tous les départements de l'UTBM (GESC, GM, GI, IMAP,
+EDIM).<br />
+Nous recrutons notamment pour faire de la communication (particulièrement
+pour démarcher des sponsors ou des partenariats), de la logistique et régie et
+bien sûr de la conception et réalisation.
+<br /><br />
+Le club est ouvert à TOUS : curieux, débutant, ou confirmé, il y a de la
+place pour tout le monde, n'hésitez pas a venir découvrir le club.
+<br /><br />
+On vous attend nombreux mercredi !
+<br /><br />
+Marc et Daouid, pour Unitec
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">UTtoons - Séances de la semaine</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Bonjour à toutes et à tous,
+<br /><br />
+En ce début de semaine, nous vous invitons à venir découvrir ce lundi 28
+20h dans l'amphi A200, les films Coraline et Fourmiz.
+<br /><br />
+Coraline :<br />
+Coraline Jones est une fillette intrépide et douée d'une curiosité sans
+limites. Ses parents, qui ont tout juste emménagé avec elle dans une étrange
+maison, n'ont guère de temps à lui consacrer. Pour tromper son ennui,
+Coraline décide donc de jouer les exploratrices. Ouvrant une porte
+condamnée, elle pénètre dans un appartement identique au sien... mais où
+tout est différent. Dans cet Autre Monde, chaque chose lui paraît plus
+belle, plus colorée et plus attrayante.
+<br /><br />
+Fourmiz :<br />
+Z-4195, fourmi ouvrière, est amoureuse de la belle princesse Bala. Simple
+numéro parmi les milliards composant sa colonie il n'a aucune chance
+d'attirer le regard de la belle. Pourtant il demande l'aide de son meilleur
+ami, la fourmi soldat Weaver, afin d'approcher l'élue de son coeur. C'est
+ainsi que par un caprice du hasard, il parasite involontairement le plan
+machiavélique de l'ambitieux général Mandibule qui veut tout bonnement
+liquider la colonie afin de la recréer a son image. Z se retrouve bientôt a
+la tète d'une révolution.
+<br /><br />
+En attendant de vous voir, bonne semaine à tous.
 <br />
-Au moment de l'intégration et de la reprise des cours, le club Welcome fait
-également sa rentrée, et vous convie à une réunion d'information pour vous
-faire découvrir les activités qui vont se dérouler tout au long de ce
-semestre ! Tout le monde peut participer, Ancien comme Nouveau, Tronc commun
-autant que Branche !
-
-Alors n'hésitez plus, et venez nous rencontrer le jeudi 17 septembre à 16h
-en salle Rantanplan (bâtiment des Dalton de la Maison des Eleves à Belfort).
-
-D'ici là, nous vous donnons rendez-vous sur le site web du club Welcome:
-http://ae.utbm.fr/welcome/
-
-A très bientôt !!
-
-L'équipe du club Welcome
+Ticho et Otine
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">UTBM Productions fait sa rentrée</font></td></tr>
-<tr><td>
-UTBM Productions est le club vidéo de l’UTBM, que ce soit pour couvrir des
-petits évènements ou de grandes manifestations, le club a besoin de monde pour
-renforcer ses rangs.
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Prix Universitaire du Logiciel Libre - Réunion de Lancement</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Le Prix Universitaire du Logiciel Libre est un projet visant à récompenser
+l’investissement des étudiants, enseignants, chercheurs, dans des projets de
+logiciels libre, et à leur permettre de continuer à donner de leur temps
+pour de tels projets. Il s'agit d'une toute nouvelle activité, lancée ce
+semestre par l'AE.
 <br /><br />
-Venez découvrir le club lors de la réunion de rentrée, c’est sans engagement !
+Cette première réunion aura pour but de constituer une équipe, qui
+s’occupera à la fois du travail en amont, mais aussi de l’organisation de la
+cérémonie de remise des prix. Rejoignez-nous en Salle activité, ce lundi à
+19h30, si vous souhaitez-participer à ce nouveau projet !
 <br /><br />
-Durant le semestre des formations seront organisées pour apprendre à utiliser le
-matériel dont dispose le club et aussi tout le matériel mis à disposition par
-l'UTBM. Il n’y a donc aucunes connaissances nécessaires !
+contacts : <a href="mailto:jeremie.laval@utbm.fr">kiri</a> ou <a href="mailto:loic.geslin@utbm.fr">zaps</a>
 <br /><br />
-A Mardi !<br />
-Gautier pour UTPROD.
+A Bientôt et souvenez vous, we are all PULL lovers !
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td><font color="#ffffff">Club Mix & MAO - Réunions de rentrée</font></td></tr>
-<tr><td>
-Salut à tous,
-<br /></br />
-Le club Mix et le club MAO (Musique Assistée par Ordinateur) reprennent
-enfin du service !
-<br /></br />
-Passionné de mix, avide de découvrir, besoin de matériel pour perfectionner sa pratique ? Rejoignez nous lors de notre réunion de présentation afin de
-mettre en place l'organisation du club pour le semestre.
-<br /></br />
-Néophytes ou expérimentés sont les bienvenus, venez discuter avec nous ce
-Jeudi 24 Septembre à 14h à la MDE de Sévenans.
-<br /></br />
-On vous espère nombreux !
-<br /></br />
-A6 & Spinnou pour le CX et la MAO !
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Relance du Petit Géni !</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Petit rappel pour tous ceux qui sont arrivés cette année : le Petit Géni est
+un guide (gratuit!) qui répertorie toutes les adresses utiles de l'aire
+urbaine Belfort-Montbéliard. Il est entièrement réalisé par les étudiants de
+l'UTBM et tiré à 10 000 exemplaires. Il s'adresse aussi bien aux étudiants
+qu'aux habitants de l'aire urbaine.
+<br /><br />
+Seulement pour fonctionner, il faut une équipe... c'est là que vous entrez
+en jeu !<br />
+La première étape consistera à préparer le site Internet et à remettre à
+jour toutes les données.
+<br /><br />
+On recherche, en plus de membres actifs :
+<ul>
+<li>un trésorier</li>
+<li>un responsable informatique</li>
+<li>un secrétaire  / responsable com'</li>
+</ul>
+Si vous souhaiter participer ou pour toute question, envoyez un mail à
+<a href="mailto:petit.geni@utbm.fr">petit.geni@utbm.fr</a>
+<br /><br />
+Eboul' pour le club Petit Géni
 <br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">La Bohème fait sa rentrée</font></td></tr>
-<tr><td>
-La Bohème fait sa rentrée<br /></br />
-Le journal que vous avez eu l'occasion de lire depuis votre rentrée en début
-du mois est rédigé par des étudiants. Ils mettent le plus régulièrement
-possible tout en oeuvre pour vous fournir du contenu de qualité à travers
-différents types d'articles.<br />
-Afin de poursuivre cet effort d'informations et de détente, vous êtes tous
-invité à venir intégrer l'équipe de rédaction pour des  articles de temps en
-temps quand cela vous dit.<br />
-On en recherche sur tous les sujets ;)<br /></br />
-Réunion mercredi 23 septembre à 18h en salle rantanplan<br />
-contact : laboheme@utbm.fr<br />
-site : <a href="http://ae.utbm.fr/boheme">ici</a><br />
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le club-zik paye son boeuf</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Bonjour a tous
+<br /><br />
+Le club zik paye son bœuf pour la rentrée… que tu sois simple amateur ou
+envie d’exprimer ton talent devant un public
+ou encore trouver des comparses de répétitions. Alors le bœuf de rentrée est
+fait pour toi.<br /><br />
+Nous te donnons donc rendez-vous au foyer ce jeudi 1er octobre à partir de
+20h.<br /><br />
+Apporte tes instrus, de la viole de gambe au kazou en passant par la guitare
+et la contre bassine.<br />
+Si tu a une voix et que tu veux en faire profiter, tu es le bienvenue….
+Nous vous attendons nombreux. Le bar sera bien sûr ouvert.
+<br /><br />
+Flex pour le club-zik
 <br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">[ART] is Back !</font></td></tr>
-<tr><td>
-La Semaine des Arts et le club Prom'Art reviennent pour faire découvrir les
-arts et la culture au plus grand nombre !<br /><br />
-Pendant une Semaine et tout au long du semestre nous organisons des sorties,
-événements et visites à l'UTBM ou dans les lieux culturels des environs.
-Si toi aussi tu t'intéresse de près ou de loin au domaine culturel nous
-sommes à la recherche de bonne volonté pour monter la seconde édition de la
-SdA.<br /><br/>
-Postes recherchés : trésoriers, responsable sponsors, responsable...
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Club Cuisine - C'est reparti</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Bonjours tout le monde,
 <br /><br />
-Réunion jeudi 24 septembre à 16h en salle rantanplan Belfort<br />
-contact : promart@utbm.fr<br />
-site : <a href="http://ae.utbm.fr/sda">ici</a><br />
+Le club cuisine est de retour. Petit rappel du club : L’objectif du club est
+de se faire des repas bien cossu entre nous. On se fait tous notre
+tambouille, ensuite on la mange. Les repas se font par groupe (groupe
+entrée, groupe plat, groupe dessert), chaque groupe s’organise pour choisir
+ce qu’il va faire, et pour se financer (entre 2 et 4 € par personnes, maxi).
+Comme on est un petit nombre, on peut se faire un très bon repas pour pas
+cher.
+<br /><br />
+Après une petite réunion un peu privée, la date et le thème du premier repas
+ont été trouvés. Cela sera le dimanche 4 Octobre à 20 heures au foyer, avec
+comme thème « agrume ». Merci de prévenir avant vendredi si vous êtes
+intéressé pour le repas, en m’envoyant un mail (julien.mottez@utbm.fr). On
+peut fournir les ustensiles pour cuisiner, le foyer est réservé avant donc,
+vous pourrez faire la cuisine dedans.
+<br /><br />
+J’espère que vous viendrez nombreux. Si vous n’avez des questions ou des
+remarques, n’hésitez pas à me le dire.
+<br /><br />
+Zévou pour le club cuisine.
+<br /><br />
+PS : Pour toutes les personnes intéressées par le club, n’hésitez pas à vous
+inscrire sur le <a href="http://ae.utbm.fr/asso.php?id_asso=79">site AE</a>
 <br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Le club Astro fait sa rentrée</font></td></tr><tr><td>
-C'est l'occasion de venir découvrir le Club de l'UTBM et de voir le
-déroulement des séances que nous vous proposons.<br />
-En cette année mondiale de l'astronomie, il serait dommage de rater
-l'initiation que nous proposons !<br /><br />
-Le Club Astro dispose de moyen pour l'observation ainsi que des
-documentaires pour apprendre l'astronomie.</br ><br />
-Je rappelle que ce club est ouvert à tous les niveaux.<br /><br />
-N'hésiter pas à me contacter pour plus de renseignements :<br />
-tristan.lebeaume@utbm.fr<br /><br />
-Venez nombreux jeudi 24 septembre à 20 heures, devant la salle Jolly Jumper
-sous la ME(Maison des Élèves) de Belfort.
+<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">La blague !</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+Dans le gruyère, il y a des trous.<br />
+Plus il y a de gruyère, plus il y a de trous.<br />
+Mais plus il y a de trous, moins il y a de gruyère.<br />
+Donc plus il y a de gruyère, moins il y a de gruyère.
 <br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Club Zik - réouverture des crenaux de repetitions</font></td></tr>
-<tr><td>
-Bonjour à toi Musicien(e)s de l'UTBM en manque de lieux pour répéter ?
-<br /><br />
-La salle de répétition de Sévenans est désormais ouverte et il est tant de
-réserver vos créneaux de répète, l'idéal est d?en prendre un de deux heures
-au semestre pour laissez exprimer votre art.
-<br /><br />
-Petit rappel, la salle comporte une batterie (baguettes non fournies), des amplis guitares, un ampli basse, un piano, et tout se qu'il faut pour vos
-vocalises. Pour finir, il vous faut obligatoirement être cotisant à l'AE
-pour utiliser ce matériel.
-<br /><br />
-Pour réserver un créneau c'est simple, renvoyer un mail à
-Club.Zik@utbm.fr avec vos coordonnées et votre choix de réservation.
-Certains créneaux étant assez convoités, nous emploierons la technique du 1er servis.
-<br /><br />
-Toute fois un créneau n'est pas disponible, il s'agit du jeudi soir de 20 à
-22h, occupé par le Big Band de l'UTBM. La salle reste disponible du lundi au
-samedi de 08h à 23h.
-<br /><br />
-Musciquement vôtre<br />
-Flex pour le club zik
-<br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Club Zenith - Réunion de rentré</font></td></tr>
-<tr><td>
-Zénith fait sa rentrée ! Le club de l'AE qui participe au Shell Eco
-Marathon, ou comment faire le plus de kilomètre possible avec un litre
-d'essence.
-<br /><br />
-C'est donc de vivre une compétition automobile dont il est question, mais toutes les branches de notre université sont nécessaires pour faire avancer ce prototype !
-<br /><br />
-Au cours de cette réunion de découverte nous verrons une présentation du
-club et son historique, les objectifs à venir pour cette saison et la
-voiture! Bien entendu l'équipe sera la pour faire connaissance avec toi.
-<br /><br />
-La réunion aura lieu Mardi 22 septembre sur le site de Belfort dans le
-bâtiment A salle A210 à 19h30.
-<br /><br />
-Carbonman pour le club Zenith
-<br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Club danse moderne jazz a besoin de vous !</font></td></tr>
-<tr><td>
-Bonjour à tous,
-<br /><br />
-le club danse refait son entrée pour cette année. Venez nous rejoindre pour
-danser lors de séances sympathiques entre nous. Envie de participer au gala,
-nous faisons une représentation lors de cette soirée inoubliable. Le but est
-tout d'abord de passer des moments agréables donc si vous êtes danseuse et
-danseur professionnel(le) ou amateur, vous êtes les bienvenu(e)s...
-<br /><br />
-Nécessitez pas à venir voir comment cela se passe lors des séances le mardi
-et le jeudi...
-<br /><br />
-Pour plus d'informations, rendez vous sur le site de l'AE :<br />
-<a href="http://ae.utbm.fr/">ae.utbm.fr</a><br /><br />
-A très bientôt<br />
-Le club Danse Moderne Jazz
-<br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Le club de modélisme fait sa rentré !</font></td></tr>
-<tr><td>
-Le club de modélisme fait sa rentré !
-<br /><br />
-Alors si tu as toujours rêvé d'être aux commandes d'un hélicoptère ou d'un
-avion mais que tu n'en as jamais eu l'occasion, viens découvrir le club
-aéro'UT qui met à ta disposition tout le matériel nécessaire . Bien entendu,
-les modélistes expérimentés sont eux aussi invités afin de venir partager
-connaissances et savoir faire.
-<br /><br />
-Cette réunion de rentré est l'occasion de présenter l'univers du modélisme
-mais surtout de découvrir le fonctionnement du club ainsi que les
-hélicoptères et avion mis à votre disposition.
-<br /><br />
-Rendez vous à 18h en salle Rantanplan ce jeudi 24 septembre !
-<br /><br />
-Merci,<br />
-ZAVA pour le club modélisme
-<br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">UTtoons, ça repart</font></td></tr>
-<tr><td>Oyez, oyez,
-<br /><br />
-UTtoons recommence à égayer vos soirées du lundi de la meilleure manière
-possible : Une petite dose régulière d'anciens ou nouveaux dessins animés,
-Disney/Pixar ou même japonais,  vous refera plonger en enfance.
-<br /><br />
-Pour bien débuter ce semestre, venez apprécier Princesse Mononoke et Volt
-star, ce lundi 21 Septembre à 20h en A200.
-<br /><br />
-Princesse Mononoke :
-<br />
-Au XVe siècle, durant l'ère Muromachi, la forêt japonaise, jadis protégée
-par des animaux géants, se dépeuple à cause de l'homme. Un sanglier
-transformé en démon dévastateur en sort et attaque le village d'Ashitaka,
-futur chef du clan Emishi. Touché par le sanglier qu'il a tué, celui-ci est
-forcé de partir à la recherche du dieu Cerf pour lever la malédiction qui
-lui gangrène le bras.
-<br /><br />
-Volt star :<br />
-Pour le chien Volt, star d'une série télévisée à succès, chaque journée est
-riche d'aventure, de danger et de mystère - du moins devant les caméras. Ce
-n'est plus le cas lorsqu'il se retrouve par erreur loin des studios de
-Hollywood, à New York... Il va alors entamer la plus grande et la plus
-périlleuse de ses aventures - dans le monde réel, cette fois.
-<br /><br />
-En espérant vous voir nombreux,
-<br />
-Otine & Ticho
-<br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">La blague !</font></td></tr>
-<tr><td>
-Un vieil Arabe vit depuis plus de 40 ans à Chicago. Il aimerait bien planter
-des pommes de terre dans son jardin mais il est tout seul, vieux et trop
-faible. Il envoie alors un e-mail à son fils qui étudie à Paris pour lui
-faire part de son problème.<br />
--"Cher Ahmed, je suis très triste car je ne peux pas planter des pommes de
-terre dans mon jardin. Je suis sûr que si tu étais ici avec moi tu aurais pu
-m'aider à retourner la terre. Je t'aime, ton Père".<br />
-Le lendemain, le vieil homme reçoit un e-mail :<br />
--"Cher Père, s'il te plaît, ne touche surtout pas au jardin ! J'y ai caché
-la "chose". Moi aussi je t'aime. Ahmed"<br />
-A 4 heures du matin arrivent chez le vieillard l'US Army, les Marines, le
-FBI,la CIA et même une unité d'élite des Rangers. Ils fouillent tout le
-jardin, millimètre par millimètre et repartent déçus car ils n'ont rien
-trouvé. Le lendemain, le vieil homme reçoit un nouvel e-mail de la part de
-son fils :<br />
-- "Cher Père, je suis certain que la terre de tout le jardin est désormais
-retournée et que tu peux planter tes pommes de terre.Je ne pouvais pas faire
-mieux. Je t'aime, Ahmed"
-<br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td><font color="#ffffff">Le mot de la fin</font></td></tr>
-<tr><td>à la semaine prochaine !<br />
+<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le mot de la fin</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">à la semaine prochaine !<br />
 A6<br />
 <br />
 Pour toute réclamation sur le weekmail HTML => ayolo</td></tr>
