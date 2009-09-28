@@ -213,10 +213,9 @@ elseif ( $_REQUEST["action"] == "searchmc" )
       INNER JOIN mc_machines AS ml ON ( cl.id_machine = ml.id AND ml.type='laver' )
       INNER JOIN mc_creneaux AS cs ON ( cs.debut_creneau = cl.fin_creneau )
       INNER JOIN mc_machines AS ms ON ( cs.id_machine = ms.id AND ms.type='secher' )
-      INNER JOIN utilisateurs ON ( cs.id_utilisateur = utilisateurs.id_utilisateur )
+      LEFT JOIN utilisateurs ON ( cs.id_utilisateur = utilisateurs.id_utilisateur )
       WHERE ml.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
       AND ms.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
-      AND cl.id_utilisateur IS NULL
       AND cl.debut_creneau > NOW()";
     else
       $sql =
