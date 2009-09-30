@@ -405,10 +405,9 @@ elseif ( $_REQUEST["view"] == "forum" )
       {
         if ($plouf['surnom_utbm'] != null)
           $nom = $plouf['surnom_utbm'];
-        else{
+        else
           $nom = explode(' ', $plouf['alias_utl']);
-          $nom = $nom[0];
-        }
+        $nom = $nom[0];
 
         $datas[utf8_decode($nom)] = $plouf['totmesg'];
       }
