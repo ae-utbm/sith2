@@ -148,7 +148,8 @@ class galaxy
    */
   function init ( )
   {
-    new requete($this->dbrw,"TRUNCATE `galaxy_link`");    new requete($this->dbrw,"TRUNCATE `galaxy_star`");
+    new requete($this->dbrw,"TRUNCATE `galaxy_link`");
+    new requete($this->dbrw,"TRUNCATE `galaxy_star`");
 
     $liens = $this->scores();
 
@@ -521,9 +522,10 @@ class galaxy
     }
 
     $req = new requete($this->db, "SELECT ".
-    "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+    "rx_star, ry_star, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
     "FROM  galaxy_star ".
-    "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star)");
+    "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star)".
+    "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)");
 
     while ( $row = $req->get_row() )
     {
@@ -579,9 +581,10 @@ class galaxy
         imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, $this->star_color($img,$row['sum_tense_star']) );
 
       $req = new requete($this->db, "SELECT ".
-      "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+      "rx_star, ry_star, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
       "FROM  galaxy_star ".
       "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
+      "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)".
       "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );
 
       while ( $row = $req->get_row() )
@@ -615,9 +618,10 @@ class galaxy
         imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, $this->star_color($img,$row['sum_tense_star']) );
 
       $req = new requete($this->db, "SELECT ".
-      "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+      "rx_star, ry_star, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
       "FROM  galaxy_star ".
       "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
+      "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)".
       "WHERE id_star NOT IN ($ids) AND rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );
 
       while ( $row = $req->get_row() )
@@ -634,9 +638,10 @@ class galaxy
         imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, $this->star_color($img,$row['sum_tense_star']) );
 
       $req = new requete($this->db, "SELECT ".
-      "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+      "rx_star, ry_star, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
       "FROM  galaxy_star ".
       "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
+      "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)".
       "WHERE id_star IN ($ids) AND rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );
 
       while ( $row = $req->get_row() )
