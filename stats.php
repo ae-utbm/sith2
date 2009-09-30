@@ -44,7 +44,7 @@ if(!$site->user->is_in_group ("gestion_ae"))
                 );
   if($site->user->is_asso_role (27,2))
     $tabs[]=array("matmatronch","stats.php?view=matmatronch", "Matmatronch");
-  if($site->user->is_asso_role ( 2, 9 ))
+  if($site->user->is_asso_role ( 2, 2 ))
     $tabs[]=array("comptoirs","stats.php?view=comptoirs", "Comptoirs");
 }
 else
@@ -495,7 +495,7 @@ elseif ( $_REQUEST["view"] == "forum" )
 
 }
 
-elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role ( 2, 9 )) && $_REQUEST["view"] == "comptoirs" )
+elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role ( 2, 2 )) && $_REQUEST["view"] == "comptoirs" )
 {
   $site->add_css("css/comptoirs.css");
 
