@@ -404,7 +404,7 @@ elseif ( $_REQUEST["view"] == "forum" )
       while ($plouf = $rs->get_row())
       {
         if ($plouf['surnom_utbm'] != null)
-          $nom = $plouf['surnom_utbm'];
+          $nom = explode(' ', $plouf['surnom_utbm']);
         else
           $nom = explode(' ', $plouf['alias_utl']);
         $nom = $nom[0];
