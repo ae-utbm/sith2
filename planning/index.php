@@ -269,7 +269,7 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 
  // FIN TEST
 
-  if((($_REQUEST['id_salle']==BUREAU_AE_BELFORT || $_REQUEST['id_salle']==BUREAU_AE_SEVENANS) && $site->user->is_in_group("gestion_ae"))
+  if((($_REQUEST['id_salle']==BUREAU_AE_BELFORT || $_REQUEST['id_salle']==BUREAU_AE_SEVENANS || $_REQUEST['id_salle']==BUREAU_AE_MONTBELIARD) && $site->user->is_in_group("gestion_ae"))
  || ($_REQUEST['id_salle']==BUREAU_BDF_BELFORT && $site->user->is_in_group("foyer_barman")) || ($_REQUEST['id_salle']==BUREAU_BDF_SEVENANS && $site->user->is_in_group("kfet_barman"))
  || (($_REQUEST['id_salle']==BUREAU_BDS_BELFORT || $_REQUEST['id_salle']==BUREAU_BDS_SEVENANS) && $site->user->is_in_group("bds-bureau")))
   {
@@ -353,7 +353,7 @@ else if( $_REQUEST['action'] == "affich" )
   WHERE pl_gap_user.id_planning='".$_REQUEST['id_salle']."'
   AND pl_gap_user.id_utilisateur IS NOT NULL";
 
-  if((($_REQUEST['id_salle']==BUREAU_AE_BELFORT || $_REQUEST['id_salle']==BUREAU_AE_SEVENANS) && $site->user->is_in_group("gestion_ae"))
+  if((($_REQUEST['id_salle']==BUREAU_AE_BELFORT || $_REQUEST['id_salle']==BUREAU_AE_SEVENANS || $_REQUEST['id_salle']==BUREAU_AE_MONTBELIARD) && $site->user->is_in_group("gestion_ae"))
  || ($_REQUEST['id_salle']==BUREAU_BDF_BELFORT && $site->user->is_in_group("foyer_barman")) || ($_REQUEST['id_salle']==BUREAU_BDF_SEVENANS && $site->user->is_in_group("kfet_barman"))
  || (($_REQUEST['id_salle']==BUREAU_BDS_BELFORT || $_REQUEST['id_salle']==BUREAU_BDS_SEVENANS) && $site->user->is_in_group("bds-bureau")))
   {
