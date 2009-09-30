@@ -398,12 +398,14 @@ elseif ( $_REQUEST["view"] == "forum" )
 
 
       while ($plouf = $rs->get_row())
-  {
-    $plouf['alias_utl'] = explode(' ', $plouf['alias_utl']);
-    $plouf['alias_utl'] = $plouf['alias_utl'][0];
+      {
+        if ($plouf['surnom_utbm'] != null)
+          $nom = explode(' ', $plouf['surnom_utbm']);
+        else
+          $nom = explode(' ', $plouf['alias_utl']);
 
-    $datas[utf8_decode($plouf['alias_utl'])] = $plouf['totmesg'];
-  }
+        $datas[utf8_decode($nom)] = $plouf['totmesg'];
+      }
 
 
       $hist = new histogram($datas, "Top 10");
