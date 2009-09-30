@@ -71,14 +71,17 @@ if ( $_REQUEST["action"] == "area_image" || $_REQUEST["action"] == "area_html"  
     }
   }
 
-  if ( isset($_SERVER['HTTP_IF_NONE_MATCH']) )  {    if ( $etag == str_replace('"', '',stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])) )
+  if ( isset($_SERVER['HTTP_IF_NONE_MATCH']) )
+  {
+    if ( $etag == str_replace('"', '',stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])) )
     {
       header("HTTP/1.0 304 Not Modified");
       header('ETag: "'.$etag.'"');
       exit();
     }
   }
-  header("Cache-Control: must-revalidate");  header("Pragma: cache");
+  header("Cache-Control: must-revalidate");
+  header("Pragma: cache");
   header("Last-Modified: ".$lastModified);
   header("Cache-Control: public");
   header('ETag: "'.$etag.'"');
@@ -98,9 +101,9 @@ if ( $_REQUEST["action"] == "area_image" )
 
 if ( $_REQUEST["action"] == "area_html" )
 {
-	header("Content-Type: text/html; charset=utf-8");
-	$tx = intval($_REQUEST['x']);
-	$ty = intval($_REQUEST['y']);
+    header("Content-Type: text/html; charset=utf-8");
+    $tx = intval($_REQUEST['x']);
+    $ty = intval($_REQUEST['y']);
 
   if ( isset($_REQUEST["highlight"]) )
   echo "<div style=\"position:relative;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty&amp;highlight=".$_REQUEST["highlight"]."\" style=\"position:absolute;top:0px;left:0px;\" />";
@@ -135,8 +138,8 @@ if ( $_REQUEST["action"] == "info" )
   $user_b = new utilisateur($site->db);
   $user_b->load_by_id($_REQUEST["id_utilisateur"]);
 
-	if ( !$user_a->is_valid() || !$user_b->is_valid() )
-		$site->error_not_found("rd");
+    if ( !$user_a->is_valid() || !$user_b->is_valid() )
+        $site->error_not_found("rd");
 
   $site->start_page("rd","galaxy");
   $cts = new contents("<a href=\"galaxy.php\">Galaxy</a> : Score ".
@@ -208,8 +211,8 @@ elseif ( isset($_REQUEST["id_utilisateur"]) )
   $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
 
-	if ( !$user->is_valid() )
-		$site->error_not_found("rd");
+    if ( !$user->is_valid() )
+        $site->error_not_found("rd");
 
   $site->start_page("rd","galaxy");
   $cts = new contents("<a href=\"galaxy.php\">Galaxy</a> : ".
@@ -270,17 +273,19 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 
     $req = new requete($site->db,
     "SELECT length_link, ideal_length_link,
-    tense_link, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
-    id_utilisateur
+    tense_link, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
+    utilisateurs.id_utilisateur
     FROM galaxy_link
     INNER JOIN utilisateurs ON ( id_star_a=id_utilisateur)
+    INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)
     WHERE id_star_b='".mysql_real_escape_string($user->id)."'
     UNION
     SELECT length_link, ideal_length_link,
-    tense_link, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
-    id_utilisateur
+    tense_link, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
+    utilisateurs.id_utilisateur
     FROM galaxy_link
     INNER JOIN utilisateurs ON ( id_star_b=id_utilisateur)
+    INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)
     WHERE id_star_a='".mysql_real_escape_string($user->id)."'
     ORDER BY 1");
 
@@ -297,9 +302,10 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 
     $req = new requete($site->db,
     "SELECT SQRT(POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2)) AS dist,
-    COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
-    id_utilisateur
+    COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
+    utilisateurs.id_utilisateur
     FROM galaxy_star AS a, galaxy_star AS b, utilisateurs
+    INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)
     WHERE a.id_star='".mysql_real_escape_string($user->id)."'
     AND a.id_star!=b.id_star
     AND b.id_star=id_utilisateur
