@@ -381,10 +381,14 @@ elseif ( $_REQUEST["view"] == "forum" )
       $req = "SELECT
                 COUNT(`id_message`) as totmesg
               , `utilisateurs`.`alias_utl`
+              , `utl_etu_utbm`.`surnom_utbm`
           FROM
                 `frm_message`
           INNER JOIN
                 `utilisateurs`
+          USING (`id_utilisateur`)
+          INNER JOIN
+                `utl_etu_utbm`
           USING (`id_utilisateur`)
           GROUP BY
                  `id_utilisateur`
@@ -400,9 +404,11 @@ elseif ( $_REQUEST["view"] == "forum" )
       while ($plouf = $rs->get_row())
       {
         if ($plouf['surnom_utbm'] != null)
-          $nom = explode(' ', $plouf['surnom_utbm']);
-        else
+          $nom = $plouf['surnom_utbm'];
+        else{
           $nom = explode(' ', $plouf['alias_utl']);
+          $nom = $nom[0];
+        }
 
         $datas[utf8_decode($nom)] = $plouf['totmesg'];
       }
