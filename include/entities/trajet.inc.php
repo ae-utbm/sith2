@@ -596,10 +596,10 @@ class trajet extends stdentity
     if (! $this->dbrw)
       return false;
 
-    $req = new delete($site->dbrw,
+    $req = new delete($this->dbrw,
               "cv_trajet_date",
               array("id_trajet" => $this->id,
-                "trajet_date" => $date), 1);
+                "trajet_date" => $date));
 
     return ($req->lines == 1);
   }
