@@ -599,7 +599,7 @@ class trajet extends stdentity
     $req = new delete($site->dbrw,
               "cv_trajet_date",
               array("id_trajet" => $this->id,
-                "trajet_date" => $date));
+                "trajet_date" => $date), 1);
 
     die("$date\n".$this->id);
 
