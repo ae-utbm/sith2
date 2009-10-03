@@ -39,10 +39,10 @@ $site = new site();
 
 $pgsql = new pgsqlae();
 
-$trajet = new trajet($site->db, $site->dbrw, $pgsql);
+$trajet = new trajet($site->db, $site->dbrw);
 
 $site->start_page("services",
-		  "Covoiturage - proposition d'un trajet");
+          "Covoiturage - proposition d'un trajet");
 
 
 if ($site->user->id <= 0)
@@ -54,10 +54,10 @@ if ($site->user->id <= 0)
 if (isset($_REQUEST['finalizetrip']))
 {
   $cts = new contents("Proposition de trajet",
-		      "Merci d'avoir utilisé le système de covoiturage ! votre trajet a bien été ".
-		      "enregistré. Il est dorénavant proposé aux autres utilisateurs du site. ".
-		      "Vous aurez évidemment la possibilité de rajouter des dates si l'occation ".
-		      "se présentait.<br/><a href=\"./\">Retour à la page d'accueil du covoiturage</a>");
+              "Merci d'avoir utilisé le système de covoiturage ! votre trajet a bien été ".
+              "enregistré. Il est dorénavant proposé aux autres utilisateurs du site. ".
+              "Vous aurez évidemment la possibilité de rajouter des dates si l'occation ".
+              "se présentait.<br/><a href=\"./\">Retour à la page d'accueil du covoiturage</a>");
 
   $site->add_contents($cts);
   $site->end_page();
@@ -110,28 +110,28 @@ if (isset($_REQUEST['step2']))
       /* tentative d'ajout de dates pour le trajet de retour */
       $ret = false;
       if ($site->user->id == $trajet_ret->id_utilisateur)
-	{
-	  $ret = $trajet_ret->add_date($_REQUEST['date_ret']);
-	}
+    {
+      $ret = $trajet_ret->add_date($_REQUEST['date_ret']);
+    }
 
       if (!$ret)
-	{
-	  $cts = new contents("Ajout de dates sur trajet retour",
-			      "<b>Echec lors de l'ajout de date sur le trajet de retour.</b>");
-	}
+    {
+      $cts = new contents("Ajout de dates sur trajet retour",
+                  "<b>Echec lors de l'ajout de date sur le trajet de retour.</b>");
+    }
 
       else
-	{
-	  $cts = new contents("Ajout de dates sur trajet retour",
-			      "Date sur trajet de retour ajoutée avec succès !");
-	  $trajet_ret->load_dates();
-	}
+    {
+      $cts = new contents("Ajout de dates sur trajet retour",
+                  "Date sur trajet de retour ajoutée avec succès !");
+      $trajet_ret->load_dates();
+    }
 
       if (count($trajet_ret->dates))
-	{
-	  $itmlst = new itemlist("Dates proposées pour le trajet de retour :",false, $trajet_ret->dates);
-	  $cts->add($itmlst);
-	}
+    {
+      $itmlst = new itemlist("Dates proposées pour le trajet de retour :",false, $trajet_ret->dates);
+      $cts->add($itmlst);
+    }
       $site->add_contents($cts);
     } // fin trajet retour
 
@@ -176,8 +176,8 @@ if (isset($_REQUEST['step1']))
 
 
   $cts = new contents("Proposition de trajet",
-		      "Vous proposez un trajet ".
-		      $vdep->nom ." / " . $varr->nom.".");
+              "Vous proposez un trajet ".
+              $vdep->nom ." / " . $varr->nom.".");
 
   $comments = $_REQUEST['comments'];
 
@@ -186,14 +186,14 @@ if (isset($_REQUEST['step1']))
   if (strlen($_REQUEST['comments']))
     {
       $cts->add_paragraph("Vous avez laissé les observations suivantes sur ce trajet : <div class=\"comment\">".
-			  doku2xhtml($comments)."</div>");
+              doku2xhtml($comments)."</div>");
     }
   else
     {
       $cts->add_paragraph("Vous n'avez pas laissé d'observations sur le trajet. ".
-			  "Pensez à préciser des informations sur l'effectif, ".
-			  "les bagages, le coût estimé par personnes, etc ... ".
-			  "lors de la prise de contacts avec vos voyageurs !");
+              "Pensez à préciser des informations sur l'effectif, ".
+              "les bagages, le coût estimé par personnes, etc ... ".
+              "lors de la prise de contacts avec vos voyageurs !");
     }
 
   $ret = $trajet->create($site->user->id, $vdep->id, $varr->id, $comments, $type, $ident);
@@ -201,22 +201,22 @@ if (isset($_REQUEST['step1']))
   if ($ret)
     {
       if ($type == TRJ_PCT)
-	{
-	  $frm = new form('trip_step2', "propose.php", true);
-	  $frm->add_hidden('id_trajet', $trajet->id);
-	  $frm->add_date_field('date', 'Date de voyage proposée');
+    {
+      $frm = new form('trip_step2', "propose.php", true);
+      $frm->add_hidden('id_trajet', $trajet->id);
+      $frm->add_date_field('date', 'Date de voyage proposée');
 
-	  if (!isset($_REQUEST['retour']))
-	    {
-	      $frm->add_submit('step2', 'Ajouter des dates de trajet');
-	      $cts->add($frm);
-	    }
-	}
+      if (!isset($_REQUEST['retour']))
+        {
+          $frm->add_submit('step2', 'Ajouter des dates de trajet');
+          $cts->add($frm);
+        }
+    }
 
       else
-	{
-	  $site->add(new contents("Ajout d'un trajet", "Votre trajet a été ajouté avec succès."));
-	}
+    {
+      $site->add(new contents("Ajout d'un trajet", "Votre trajet a été ajouté avec succès."));
+    }
 
     }
   else
@@ -231,25 +231,25 @@ if (isset($_REQUEST['step1']))
   if (isset($_REQUEST['retour']))
     {
       $ret = $trajet->create($site->user->id, $varr->id, $vdep->id, "Trajet de retour, ".
-			     "voir trajet aller pour de plus amples informations", $type, $ident);
+                 "voir trajet aller pour de plus amples informations", $type, $ident);
 
       if ($ret)
-	{
-	  if ($type == TRJ_PCT)
-	    {
-	      $frm->add("<h3>Dates pour le trajet de retour</h3>");
-	      $frm->add_hidden('id_trajet_ret', $trajet->id);
-	      $frm->add_date_field('date_ret', 'Date de voyage retour');
-	      $frm->add_submit('step2', 'Ajouter des dates de trajet');
+    {
+      if ($type == TRJ_PCT)
+        {
+          $frm->add("<h3>Dates pour le trajet de retour</h3>");
+          $frm->add_hidden('id_trajet_ret', $trajet->id);
+          $frm->add_date_field('date_ret', 'Date de voyage retour');
+          $frm->add_submit('step2', 'Ajouter des dates de trajet');
 
-	      $cts->add($frm);
-	    }
+          $cts->add($frm);
+        }
 
-	}
+    }
       else
-	{
-	  $cts->add_paragraph("<b>Une erreur est survenue lors de l'ajout du trajet de retour.</b>");
-	}
+    {
+      $cts->add_paragraph("<b>Une erreur est survenue lors de l'ajout du trajet de retour.</b>");
+    }
     }
   $site->end_page ();
   exit();
@@ -258,15 +258,15 @@ if (isset($_REQUEST['step1']))
 
 
 $cts = new contents("Proposition d'un trajet",
-		    "A l'aide de cette page, vous allez pouvoir proposer ".
-		    "un trajet aux autres utilisateurs du site. ".
-		    "Veuillez remplir le formulaire ci-dessous :<br/><br/>");
+            "A l'aide de cette page, vous allez pouvoir proposer ".
+            "un trajet aux autres utilisateurs du site. ".
+            "Veuillez remplir le formulaire ci-dessous :<br/><br/>");
 
 $cts->add_paragraph("<b>Attention : Cette page est destinée aux utilisateurs.".
-		    " prévoyant de réaliser un trajet avec leur voiture, et ".
-		    "souhaitant proposer ce trajet. Pour rechercher un ".
-		    "trajet, merci de vous rendre sur la <a href=\".".
-		    "/search.php\">page prévue à cet effet.</a></b>");
+            " prévoyant de réaliser un trajet avec leur voiture, et ".
+            "souhaitant proposer ce trajet. Pour rechercher un ".
+            "trajet, merci de vous rendre sur la <a href=\".".
+            "/search.php\">page prévue à cet effet.</a></b>");
 
 $frm = new form("trip_step1", "propose.php", true);
 
@@ -280,8 +280,8 @@ $frm->add_entity_smartselect("stop", "Ville d'arrivée", $ville);
 
 $frm->add_dokuwiki_toolbar('comments');
 $frm->add_text_area("comments",
-		    "Commentaires (facultatif - format DokuWiki)",
-		    null, 80, 20);
+            "Commentaires (facultatif - format DokuWiki)",
+            null, 80, 20);
 
 $frm->add_checkbox("retour", "Prévoir un trajet inverse (retour)");
 
