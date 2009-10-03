@@ -601,7 +601,7 @@ class trajet extends stdentity
               array("id_trajet" => $this->id,
                 "trajet_date" => $date));
 
-    die($req);
+    die("$date\n".$this->id);
 
     return ($req->lines == 1);
   }
