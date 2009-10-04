@@ -246,6 +246,7 @@ class fsearch extends stdcontents
                      "USING (`id_typeprod`) ".
                      "WHERE `cpt_mise_en_vente`.`id_comptoir` = 3 ".
                      "AND `cpt_produits`.`prod_archive` = 0 AND " .
+                     "AND datediff(curdate(), `date_fin_produit`) <= 0 ".
                      "(`nom_prod` REGEXP '".$sqlpattern."' OR " .
                      "`nom_typeprod` REGEXP '".$sqlpattern."') " .
                      "ORDER BY `nom_typeprod`, `nom_prod` " .
