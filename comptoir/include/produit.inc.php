@@ -507,7 +507,9 @@ class produit extends stdentity
         AND `id_produit`='".intval($this->id)."'");
 
       $row = $req->get_row();
-      return $this->limite_utilisateur - $row["nb_achetes"];
+
+      // Le nombre renvoyé doit être >= 0 !
+      return max(0, $this->limite_utilisateur - $row["nb_achetes"]);
     }
 
     return -1;
