@@ -501,7 +501,7 @@ class produit extends stdentity
     if ($this->limite_utilisateur >= 0)
     {
       $req = new requete($this->db,
-        "SELECT SUM(quantite) nb FROM `cpt_debitfacture`
+        "SELECT SUM(quantite) nb_achetes FROM `cpt_debitfacture`
         INNER JOIN `cpt_vendu` USING(`id_facture`)
         WHERE `id_utilisateur_client`='".intval($user->id)."'
         AND `id_produit`='".intval($produit->id)."'");
