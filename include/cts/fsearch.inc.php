@@ -245,9 +245,9 @@ class fsearch extends stdcontents
                      "INNER JOIN `cpt_type_produit` ".
                      "USING (`id_typeprod`) ".
                      "WHERE `cpt_mise_en_vente`.`id_comptoir` = 3 ".
-                     "AND `cpt_produits`.`prod_archive` = 0 AND " .
+                     "AND `cpt_produits`.`prod_archive` = 0 " .
                      "AND datediff(curdate(), `date_fin_produit`) <= 0 ".
-                     "(`nom_prod` REGEXP '".$sqlpattern."' OR " .
+                     "AND (`nom_prod` REGEXP '".$sqlpattern."' OR " .
                      "`nom_typeprod` REGEXP '".$sqlpattern."') " .
                      "ORDER BY `nom_typeprod`, `nom_prod` " .
                      "LIMIT 3");
