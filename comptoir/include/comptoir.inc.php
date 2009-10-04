@@ -553,9 +553,12 @@ class comptoir extends stdentity
 
     $max = $prod->can_be_sold($this->client);
     if ($max >= 0){
-      foreach($_SESSION["Comptoirs"][$this->id]["panier"] as $id)
-        if ($id == $prod->id)
-            $max --;
+      if (isset($_SESSION["Comptoirs"][$this->id]["panier"]))
+      {
+          foreach($_SESSION["Comptoirs"][$this->id]["panier"] as $id)
+            if ($id == $prod->id)
+                $max --;
+      }
       if ( $max <= 0 )
         return;
     }
