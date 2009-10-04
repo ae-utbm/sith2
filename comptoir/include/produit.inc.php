@@ -504,7 +504,7 @@ class produit extends stdentity
         "SELECT SUM(quantite) nb_achetes FROM `cpt_debitfacture`
         INNER JOIN `cpt_vendu` USING(`id_facture`)
         WHERE `id_utilisateur_client`='".intval($user->id)."'
-        AND `id_produit`='".intval($produit->id)."'");
+        AND `id_produit`='".intval($this->id)."'");
 
       $row = $req->get_row();
       return $this->limite_utilisateur - $row["nb_achetes"];
