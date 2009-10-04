@@ -86,6 +86,16 @@ else
 
   foreach ($site->cart as $item)
   {
+    /*
+    * On vérifie que le nombre d'occurences d'un même article est bien
+    * inférieur à la limite pour utilisateur
+    * (celle-ci a pu changer si l'utilisateur a commandé à un comptoir
+    * depuis qu'il a ajouté le produit au panier)
+    */
+    $max = $item->can_be_sold($site->user);
+    if ($max >= 0)
+      $_SESSION['eboutic_cart'][$item->id] = min($max, $_SESSION['eboutic_cart'][$item->id]);
+
     for ($i=0 ; $i < $_SESSION['eboutic_cart'][$item->id] + 1 ; $i++)
       $tmp[$i] = $i;
 
@@ -149,18 +159,9 @@ else
       *
       * Si plusieurs articles, ces articles doivent apparaitre
       * autant de fois que de quantite (d'ou la boucle for)
-      *
-      * On vérifie au passage que le nombre d'occurences d'un même article
-      * est bien inférieur à la limite pour utilisateur
-      * (celle-ci a pu changer si l'utilisateur a commandé à un comptoir
-      * depuis qu'il a ajouté le produit au panier)
       */
     foreach ($site->cart as $item)
     {
-      $max = $item->can_be_sold($site->user);
-      if ($max >= 0)
-        $_SESSION['eboutic_cart'][$item->id] = min($max, $_SESSION['eboutic_cart'][$item->id]);
-
       for ($i = 0; $i < $_SESSION['eboutic_cart'][$item->id]; $i++)
         $cart_contents[] = $item->id;
     }
