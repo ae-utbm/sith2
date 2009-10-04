@@ -81,6 +81,8 @@ class produit extends stdentity
   var $frais_port;
   /** etat d'un produit hors commerce, gardé pour archive */
   var $archive;
+  /** limite du nombre d'achats par personne */
+  var $limite_utilisateur;
 
   /** le produit peut il être vendu à un mineur */
   /* 0  => tout le monde
@@ -170,7 +172,8 @@ class produit extends stdentity
       $id_groupe=null,
       $date_fin=null,
       $id_produit_parent=null,
-      $mineur=0 )
+      $mineur=0,
+      $limite_utilisateur=-1 )
   {
 
     $this->id_type = $id_typeprod;
@@ -196,6 +199,7 @@ class produit extends stdentity
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
     $this->mineur=$mineur;
+    $this->limite_utilisateur = $limite_utilisateur;
 
     $req = new insert ($this->dbrw,
            "cpt_produits",
@@ -221,7 +225,8 @@ class produit extends stdentity
            'id_groupe'=>$this->id_groupe,
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
            'id_produit_parent'=> $this->id_produit_parent,
-           'mineur'=>$this->mineur
+           'mineur'=>$this->mineur,
+           'limite_utilisateur'=>$this->limite_utilisateur
 
 
             ));
@@ -261,7 +266,8 @@ class produit extends stdentity
          $id_groupe=null,
          $date_fin=null,
          $id_produit_parent=null,
-         $mineur=0
+         $mineur=0,
+         $limite_utilisateur=-1
          )
   {
 
@@ -287,6 +293,7 @@ class produit extends stdentity
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
     $this->mineur = $mineur;
+    $this->limite_utilisateur = $limite_utilisateur;
 
     $req = new update ($this->dbrw,
            "cpt_produits",
@@ -311,7 +318,8 @@ class produit extends stdentity
            'id_groupe'=>$this->id_groupe,
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
            'id_produit_parent'=> $this->id_produit_parent,
-           'mineur'=>$this->mineur
+           'mineur'=>$this->mineur,
+           'limite_utilisateur'=>$this->limite_utilisateur
             ),
          array("id_produit" => $this->id));
 
@@ -445,6 +453,7 @@ class produit extends stdentity
     $this->date_fin = is_null($row['date_fin_produit'])?null:strtotime($row['date_fin_produit']);
     $this->id_produit_parent = $row['id_produit_parent'];
     $this->mineur = $row['mineur'];
+    $this->limite_utilisateur = $row['limite_utilisateur'];
   }
 
   /**
@@ -489,7 +498,19 @@ class produit extends stdentity
         return false;
     }
 
-    return true;
+    if ($this->limite_utilisateur >= 0)
+    {
+      $req = new requete($site->db,
+        "SELECT SUM(quantite) nb FROM `cpt_debitfacture`
+        INNER JOIN `cpt_vendu` USING(`id_facture`)
+        WHERE `id_utilisateur_client`='".intval($user->id)."'
+        AND `id_produit`='".intval($produit->id)."'");
+
+      $row = $req->get_row();
+      return $this->limite_utilisateur - $row["nb_achetes"];
+    }
+
+    return -1;
   }
 
   /**
@@ -519,7 +540,8 @@ class produit extends stdentity
    * - get_info() renvoie les informations complémentaires sur le produit
    * - get_once_sold_cts($user) renvoie un stdcontents lorsque le produit a été
    *   vendu à $user
-   * - can_be_sold($user) determine si le produit peut être vendu à $user
+   * - can_be_sold($user) determine le nombre d'occurences du produit qui
+   *   peuvent être vendues à $user
    * - is_compatible($cl) determine si le produit peut être vendu en même temps
    *   qu'un produit dont $cl est une instance de la classe associée
    * Exemple:  cotisationae (comptoir/include/class/cotisationae.inc.php)

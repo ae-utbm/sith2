@@ -132,12 +132,16 @@ else if ( $_REQUEST["action"] == "addasso" && $site->user->is_in_group("gestion_
 else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocpt->id > 0) )
 {
     $stock_global = -1;
+    $limite_utilisateur = -1;
 
   $file->load_by_id($_REQUEST["id_file"]);
   $produit_parent->load_by_id($_REQUEST["id_produit_parent"]);
 
  if ( $_REQUEST["stock"] == "lim" )
   $stock_global = $_REQUEST["stock_value"];
+
+ if ( $_REQUEST["limite_util"] == "lim" )
+  $limite_utilisateur = $_REQUEST["limite_util_value"];
 
     if ( $produit->ajout ($typeprod->id,
     $assocpt->id,
@@ -161,7 +165,8 @@ else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocp
     $_REQUEST["date_fin"],
 
     $produit_parent->id,
-    $_REQUEST["mineur"]
+    $_REQUEST["mineur"],
+    $limite_utilisateur
     ) )
     {
       $asso = new asso($site->db);
@@ -234,6 +239,7 @@ else if ( $_REQUEST["action"] == "addnvcpt" && $produit->id > 0 )
 else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod->id > 0) )
 {
   $stock_global = -1;
+  $limite_utilisateur = -1;
 
   $file->load_by_id($_REQUEST["id_file"]);
 
@@ -241,6 +247,8 @@ else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod
 
   if ( $_REQUEST["stock"] == "lim" )
     $stock_global = $_REQUEST["stock_value"];
+  if ( $_REQUEST["limite_util"] == "lim" )
+    $limite_utilisateur = $_REQUEST["limite_util_value"];
 
   $produit->modifier ($typeprod->id,
     $_REQUEST['nom'],
@@ -261,7 +269,8 @@ else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod
     $_REQUEST["id_groupe"],
     $_REQUEST["date_fin"],
     $produit_parent->id,
-    $_REQUEST["mineur"]
+    $_REQUEST["mineur"],
+    $limite_utilisateur
       );
 }
 else if ( $_REQUEST["action"] == "uptype" && ($typeprod->id > 0) && ($assocpt->id > 0)  )
@@ -442,6 +451,7 @@ elseif ( $_REQUEST["page"] == "addproduit" )
 
 
  $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",-1),false, false, false,false, true);
+ $frm->add(generate_subform_stock("Limite par personnes","limite","limite_util","limite_util_value",-1),false, false, false,false, true);
 
  foreach ( $site->admin_comptoirs as $id => $nom )
  {
@@ -611,6 +621,7 @@ elseif ( $produit->id > 0 )
  $frm->add_datetime_field("date_fin","Date de fin de mise en vente",$produit->date_fin);
 
  $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",$produit->stock_global),false, false, false,false, true);
+ $frm->add(generate_subform_stock("Limite par personnes","limite","limite_util","limite_util_value",$produit->limite_utilisateur),false, false, false,false, true);
  $frm->add_submit("valid","Enregistrer");
  $cts->add($frm,true);
 

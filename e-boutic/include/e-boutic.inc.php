@@ -193,8 +193,7 @@ class eboutic extends site
     if ($ret == false)
       return false;
 
-    if ( !$vp->produit->can_be_sold($this->user) )
-      return;
+    $max = $vp->produit->can_be_sold($this->user);
 
     if ( $cl = $vp->produit->get_prodclass($this->user) )
     {
@@ -211,6 +210,9 @@ class eboutic extends site
         }
       }
     }
+
+    if (($max >= 0) && ($_SESSION['eboutic_cart'][$item] >= $max))
+      return false;
 
     $_SESSION['eboutic_locked'] = $site->user->id;
 

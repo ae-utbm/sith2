@@ -551,8 +551,14 @@ class comptoir extends stdentity
       return true;
     }
 
-    if ( !$prod->can_be_sold($this->client) )
-      return;
+    $max = $prod->can_be_sold($this->client);
+    if ($max >= 0){
+      foreach($_SESSION["Comptoirs"][$this->id]["panier"] as $id)
+        if ($id == $prod->id)
+            $max --;
+      if ( $max <= 0 )
+        return;
+    }
 
     if (!$this->client->credit_suffisant($this->calcule_somme () + $prod->obtenir_prix ($this->prix_barman,$this->client)))
       return false;
