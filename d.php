@@ -140,7 +140,7 @@ if ( !$folder->is_valid() )
     $folder->load_by_id(1);
 }
 
-if ( $folder->is_valid() && !$folder->is_right($site->user,DROIT_LECTURE) )
+if ( !$folder->is_right($site->user,DROIT_LECTURE) )
   $site->error_forbidden($section,"group",$folder->id_groupe);
 
 
