@@ -219,7 +219,7 @@ if ( $_REQUEST["view"] == "trombino" || $limited )
 
   $site->add_css("css/sas.css");
 
-  if ( !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
+  if ( !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) && !$asso->hidden )
     $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"../asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
 
   $req = new requete($site->db,
