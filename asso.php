@@ -105,9 +105,9 @@ else if ( isset($_REQUEST["id_asso"]) )
           $asso_parent->load_by_id($_REQUEST['asso_parent']);
 
           if ( $GLOBALS["is_using_ssl"] )
-            $asso->update_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']));
+            $asso->update_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']), isset($_REQUEST['hidden']));
           else
-            $asso->update_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],null,null,isset($_REQUEST['distinct_benevole']));
+            $asso->update_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],null,null,isset($_REQUEST['distinct_benevole']), isset($_REQUEST['hidden']));
         }
         elseif ( $GLOBALS["is_using_ssl"] )
           $asso->update_asso($asso->nom,$asso->nom_unix,$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']));
@@ -171,6 +171,9 @@ else if ( isset($_REQUEST["id_asso"]) )
 
     $frm->add_checkbox("distinct_benevole","Activer la mailing liste bénévoles",$asso->distinct_benevole);
 
+    if ( $site->user->is_in_group("root") )
+        $frm->add_checkbox("hidden","Masquer le club (club fermé)",$asso->hidden);
+
     if ( $GLOBALS["is_using_ssl"] )
     {
       $frm->add_text_field("login_email","Login mail utbm",$asso->login_email);
@@ -232,6 +235,15 @@ else if ( isset($_REQUEST["id_asso"]) )
 
   $page = new page($site->db);
   $page->load_by_pagename("activites:".$asso->nom_unix);
+
+  if ($asso->hidden)
+  {
+    $cts->add(new error("Club supprimé"));
+    if (!$site->user->is_in_group("root"))
+      $site->add_contents($cts);
+      $site->end_page();
+      exit();
+  }
   if ( $page->id > 0 )
   {
     $cts->add_title(2,"Pr&eacute;sentation");
@@ -244,6 +256,7 @@ else if ( isset($_REQUEST["id_asso"]) )
   $req = new requete($site->db,
     "SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .
     "FROM `asso` WHERE `id_asso_parent`='".$asso->id."' " .
+    "AND `hidden`='0' ".
     "ORDER BY `nom_asso`");
   if ( $req->lines > 0 )
   {

@@ -217,7 +217,7 @@ class fsearch extends stdcontents
     }
 
     // Clubs et associations
-    $req = new requete($site->db,"SELECT * FROM `asso` WHERE nom_asso REGEXP '".$sqlpattern."' LIMIT 3");
+    $req = new requete($site->db,"SELECT * FROM `asso` WHERE nom_asso REGEXP '".$sqlpattern."' AND `hidden`=0 LIMIT 3");
 
     if ( $req->lines )
     {

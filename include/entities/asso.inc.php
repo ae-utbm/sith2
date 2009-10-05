@@ -94,6 +94,8 @@ class asso extends stdentity
    * que le stockage ne se fasse pas en clair...
    */
 
+  var $hidden;
+
   public $distinct_benevole=false;
 
 
@@ -147,6 +149,8 @@ class asso extends stdentity
     $this->passwd_email = $row['passwd_email'];
 
     $this->distinct_benevole = $row['distinct_benevole_asso'];
+
+    $this->hidden = $row['hidden_asso'];
   }
 
   /** Crée une nouvelle association
@@ -154,7 +158,7 @@ class asso extends stdentity
    * @param $nom_unix    Nom UNIX de l'association
    * @param $id_parent  ID de l'association parent, false si non applicable
    */
-  function add_asso ( $nom, $nom_unix, $id_parent = null, $adresse_postale="", $email="", $siteweb="", $login_email="", $passwd_email="", $distinct_benevole=false  )
+  function add_asso ( $nom, $nom_unix, $id_parent = null, $adresse_postale="", $email="", $siteweb="", $login_email="", $passwd_email="", $distinct_benevole=false, $hidden=0  )
   {
     if ( is_null($this->dbrw) ) return; // "Read Only" mode
 
@@ -167,6 +171,7 @@ class asso extends stdentity
     $this->siteweb = $siteweb;
     $this->login_email = $login_email;
     $this->passwd_email = $passwd_email;
+    $this->hidden = $hidden;
 
     $sql = new insert ($this->dbrw,
       "asso",
@@ -181,7 +186,9 @@ class asso extends stdentity
         "login_email"=>$this->login_email,
         "passwd_email"=>$this->passwd_email,
 
-        "distinct_benevole_asso" => $this->distinct_benevole
+        "distinct_benevole_asso" => $this->distinct_benevole,
+
+        "hidden"=>$this->hidden,
 
         )
       );
@@ -208,7 +215,7 @@ class asso extends stdentity
    * @param $nom_unix    Nom UNIX de l'association
    * @param $id_parent  ID de l'association parent, false si non applicable
    */
-  function update_asso ( $nom, $nom_unix, $id_parent = null, $adresse_postale="", $email=null, $siteweb=null, $login_email=null, $passwd_email=null, $distinct_benevole=false )
+  function update_asso ( $nom, $nom_unix, $id_parent = null, $adresse_postale="", $email=null, $siteweb=null, $login_email=null, $passwd_email=null, $distinct_benevole=false, $hidden=0 )
   {
     if ( is_null($this->dbrw) ) return; // "Read Only" mode
 
@@ -258,6 +265,7 @@ class asso extends stdentity
       $this->passwd_email = $passwd_email;
 
     $this->distinct_benevole = $distinct_benevole;
+    $this->hidden = $hidden;
 
     $sql = new update ($this->dbrw,
       "asso",
@@ -270,7 +278,8 @@ class asso extends stdentity
         "siteweb_asso"=>$this->siteweb,
         "login_email"=>$this->login_email,
         "passwd_email"=>$this->passwd_email,
-        "distinct_benevole_asso" => $this->distinct_benevole
+        "distinct_benevole_asso" => $this->distinct_benevole,
+        "hidden_asso" => $this->hidden,
         ),
       array ( "id_asso" => $this->id )
 
