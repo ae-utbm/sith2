@@ -304,13 +304,14 @@ class comptoir extends stdentity
       $this->mode = $_SESSION["Comptoirs"][$this->id]["mode"];
 
       if ( $this->mode == "book" )
-        foreach($_SESSION["Comptoirs"][$this->id]["panier"] as $pid)
-        {
-          $bk = new livre($this->db);
-          $bk->load_by_id($pid);
-          if ( $bk->is_valid() && $bk->id_salle == $this->id_salle )
-            $this->panier[] = $bk;
-        }
+        if ( count($_SESSION["Comptoirs"][$this->id]["panier"]) > 0 )
+          foreach($_SESSION["Comptoirs"][$this->id]["panier"] as $pid)
+          {
+            $bk = new livre($this->db);
+            $bk->load_by_id($pid);
+            if ( $bk->is_valid() && $bk->id_salle == $this->id_salle )
+              $this->panier[] = $bk;
+          }
 
       return true;
     }
