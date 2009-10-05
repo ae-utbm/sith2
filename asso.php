@@ -238,7 +238,7 @@ else if ( isset($_REQUEST["id_asso"]) )
 
   if ($asso->hidden)
   {
-    $cts->add(new error("Club supprimé"));
+    $cts->add_paragraph("Club supprimé");
     if (!$site->user->is_in_group("root"))
       $site->add_contents($cts);
       $site->end_page();
