@@ -9,14 +9,14 @@ $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                      'Weekmail du 05 au 11 octobre 2009');
-$mailer->add_dest('simon.lopez@utbm.fr');
-/*
+//$mailer->add_dest('simon.lopez@utbm.fr');
+///*
 $mailer->add_dest(array('etudiants@utbm.fr',
                         'enseignants@utbm.fr',
                         'iatoss@utbm.fr',
                         'aude.petit@utbm.fr',
                         'info@ml.aeinfo.net'));
-*/
+//*/
 $content=<<<EOF
 Salut les UTbohémiens,
 
@@ -403,20 +403,20 @@ Jvémla pour Com'Et
 <br />&nbsp;</td></tr>
 <tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">La blague offerte et assumée par Gautier !</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px">LA BONNE DU CURE.
-
-Une bonne dit au Curé : « Mr le Curé, notre vin de messe est arrivé ! »
+<br /><br />
+Une bonne dit au Curé : « Mr le Curé, notre vin de messe est arrivé ! »<br />
 Le Curé répond : « Marie, ce n'est pas NOTRE vin de messe puisque tu n'as
 pas le droit d'en boire, tu dois donc dire VOTRE vin de messe. » « Compris ?
-»
+»<br />
 Le lendemain Marie dit au Curé : « Mr le Curé votre bois de chauffage est
-arrivé ! »
+arrivé ! »<br />
 Le Curé dit :« Marie, tu dois dire NOTRE bois de chauffage puisque nous nous
-en servons tous les 2 ! » « As-tu compris cette fois ? »
-« Oui», dit Marie.
-« Est-ce tout pour aujourd'hui Marie ? »
+en servons tous les 2 ! » « As-tu compris cette fois ? »<br />
+« Oui», dit Marie.<br />
+« Est-ce tout pour aujourd'hui Marie ? »<br />
 « Non », répond la Bonne,« Mr le Curé, VOTRE braguette est ouverte, et NOTRE
-pénis est sorti !»
-
+pénis est sorti !»<br />
+<br />
 <b>Vous pouvez vous aussi fustiger <a href="mailto:gautier.risch@utbm.fr">Gautier</a></b>
 <br />&nbsp;</td></tr>
 <tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le mot de la fin</font></td></tr>
