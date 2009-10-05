@@ -133,7 +133,7 @@ if ( !$folder->is_valid() )
         $folder->add_folder ( $section, null, null, $asso_folder->id );
       }
     }
-    else
+    elseif( !$asso->hidden )
       $folder->load_by_id(1);
   }
   else
