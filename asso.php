@@ -254,11 +254,17 @@ else if ( isset($_REQUEST["id_asso"]) )
   elseif ( $site->user->is_in_group("moderateur_site") )
     $cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites:".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
 
-  $req = new requete($site->db,
-    "SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .
-    "FROM `asso` WHERE `id_asso_parent`='".$asso->id."' " .
-    "AND `hidden`='0' ".
-    "ORDER BY `nom_asso`");
+  if ( $site->user->is_in_group("root") )
+    $req = new requete($site->db,
+      "SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .
+      "FROM `asso` WHERE `id_asso_parent`='".$asso->id."' " .
+      "ORDER BY `nom_asso`");
+  else
+    $req = new requete($site->db,
+      "SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .
+      "FROM `asso` WHERE `id_asso_parent`='".$asso->id."' " .
+      "AND `hidden`='0' ".
+      "ORDER BY `nom_asso`");
   if ( $req->lines > 0 )
   {
     require_once($topdir."include/cts/gallery.inc.php");
@@ -344,13 +350,23 @@ require_once($topdir. "include/cts/tree.inc.php");
 
 $site->start_page("presentation","Associations");
 
-$req = new requete($site->db,
-    "SELECT " .
-    "`asso1`.*, " .
-    "`asso2`.`id_asso` as `id_asso_parent` " .
-    "FROM `asso` AS `asso1`" .
-    "LEFT JOIN `asso` AS `asso2` ON `asso1`.`id_asso_parent`=`asso2`.`id_asso`" .
-    "ORDER BY `asso2`.`id_asso`,`asso1`.`nom_asso` ");
+if ( $site->user->is_in_group("root") )
+    $req = new requete($site->db,
+        "SELECT " .
+        "`asso1`.*, " .
+        "`asso2`.`id_asso` as `id_asso_parent` " .
+        "FROM `asso` AS `asso1`" .
+        "LEFT JOIN `asso` AS `asso2` ON `asso1`.`id_asso_parent`=`asso2`.`id_asso`" .
+        "ORDER BY `asso2`.`id_asso`,`asso1`.`nom_asso` ");
+else
+    $req = new requete($site->db,
+        "SELECT " .
+        "`asso1`.*, " .
+        "`asso2`.`id_asso` as `id_asso_parent` " .
+        "FROM `asso` AS `asso1`" .
+        "LEFT JOIN `asso` AS `asso2` ON `asso1`.`id_asso_parent`=`asso2`.`id_asso`" .
+        "AND `hidden`='0' ".
+        "ORDER BY `asso2`.`id_asso`,`asso1`.`nom_asso` ");
 
 $site->add_contents(new treects ( "Associations", $req, 0, "id_asso", "id_asso_parent", "nom_asso" ));
 
