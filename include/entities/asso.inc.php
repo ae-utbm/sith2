@@ -150,7 +150,7 @@ class asso extends stdentity
 
     $this->distinct_benevole = $row['distinct_benevole_asso'];
 
-    $this->hidden = $row['hidden_asso'];
+    $this->hidden = $row['hidden'];
   }
 
   /** Crée une nouvelle association
@@ -279,7 +279,7 @@ class asso extends stdentity
         "login_email"=>$this->login_email,
         "passwd_email"=>$this->passwd_email,
         "distinct_benevole_asso" => $this->distinct_benevole,
-        "hidden_asso" => $this->hidden,
+        "hidden" => $this->hidden,
         ),
       array ( "id_asso" => $this->id )
 
