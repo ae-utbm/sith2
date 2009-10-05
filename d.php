@@ -121,7 +121,7 @@ if ( !$folder->is_valid() )
     $asso = new asso($site->db);
     $asso->load_by_id($_REQUEST["id_asso"]);
     $asso_folder->load_by_id($_REQUEST["id_asso"]);
-    if ( $asso_folder->is_valid() && !$asso->hidden ) // L'association existe, chouette
+    if ( $asso_folder->is_valid() && (!$asso->hidden||$site->user->is_in_group("root")) ) // L'association existe, chouette
     {
       $folder->load_root_by_asso($asso_folder->id);
       if ( !$folder->is_valid() ) // Le dossier racine n'existe pas... on va le creer :)
@@ -133,7 +133,7 @@ if ( !$folder->is_valid() )
         $folder->add_folder ( $section, null, null, $asso_folder->id );
       }
     }
-    elseif( !$asso->hidden )
+    elseif( !$asso->hidden||$site->user->is_in_group("root") )
       $folder->load_by_id(1);
   }
   else
