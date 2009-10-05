@@ -237,109 +237,106 @@ else if ( isset($_REQUEST["id_asso"]) )
   $page->load_by_pagename("activites:".$asso->nom_unix);
 
   if ($asso->hidden)
-  {
     $cts->add_paragraph("Club supprimé", "error");
-    if (!$site->user->is_in_group("root")){
-      $site->add_contents($cts);
-      $site->end_page();
-      exit();
-    }
-  }
-  if ( $page->id > 0 )
+
+  if (!$asso->hidden || $site->user->is_in_group("root"))
   {
-    $cts->add_title(2,"Pr&eacute;sentation");
-    $cts->add($page->get_contents());
-
-  }
-  elseif ( $site->user->is_in_group("moderateur_site") )
-    $cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites:".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
-
-  if ( $site->user->is_in_group("root") )
-    $req = new requete($site->db,
-      "SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .
-      "FROM `asso` WHERE `id_asso_parent`='".$asso->id."' " .
-      "ORDER BY `nom_asso`");
-  else
-    $req = new requete($site->db,
-      "SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .
-      "FROM `asso` WHERE `id_asso_parent`='".$asso->id."' " .
-      "AND `hidden`='0' ".
-      "ORDER BY `nom_asso`");
-  if ( $req->lines > 0 )
-  {
-    require_once($topdir."include/cts/gallery.inc.php");
-
-    $site->add_css("css/asso.css");
-
-    $vocable = "Activités";
-    if ( $asso->id == 1 )
-      $vocable = "Pôles";
-
-    $gal = new gallery($vocable,"clubsgal");
-    while ( $row = $req->get_row() )
+    if ( $page->id > 0 )
     {
-      $img = "/var/img/logos/".$row['nom_unix_asso'].".small.png";
+      $cts->add_title(2,"Pr&eacute;sentation");
+      $cts->add($page->get_contents());
 
-      if ( !file_exists("/var/www/ae/www/ae2".$img) )
-      {
-        $gal->add_item(
-          "<a href=\"asso.php?id_asso=".$row['id_asso']."\">&nbsp;<img src=\"images/icons/128/asso.png\" alt=\"\" class=\"nope\" />&nbsp;</a>",
-          "<a href=\"asso.php?id_asso=".$row['id_asso']."\">".$row['nom_asso']."</a>" );
-      }
-      else
-        $gal->add_item(
-          "<a href=\"asso.php?id_asso=".$row['id_asso']."\">&nbsp;<img src=\"$img\" alt=\"\" />&nbsp;</a>",
-          "<a href=\"asso.php?id_asso=".$row['id_asso']."\">".$row['nom_asso']."</a>" );
     }
-    $cts->add($gal,true);
+    elseif ( $site->user->is_in_group("moderateur_site") )
+      $cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites:".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
 
-  }
-
-  $links = array();
-
-  if ( $asso->email )
-    $links[] = "<b>Contact</b> : <a href=\"mailto:".$asso->email."\">".$asso->email."</a>";
-
-  if ( $asso->siteweb )
-    $links[] = "<b>Site web</b> : <a href=\"".$asso->siteweb."\">".$asso->siteweb."</a>";
-
-  if ( is_null($asso->id_parent) )
-    $extracond .= "`asso_membre`.`role` > '".ROLEASSO_MEMBREACTIF."' ";
-  else
-    $extracond .= "`asso_membre`.`role` > '".ROLEASSO_TRESORIER."' ";
-
-  $req = new requete($site->db,
-    "SELECT COUNT(*) " .
-    "FROM `asso_membre` " .
-    "WHERE `asso_membre`.`date_fin` IS NULL " .
-    "AND `asso_membre`.`id_asso`='".$asso->id."' " .
-    "AND ".$extracond);
-
-  list($respcnt) = $req->get_row();
-
-  if ( $respcnt > 0 )
-  {
-    if ( is_null($asso->id_parent) )
-      $links[] = "<b>Bureau</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir les membres du bureau</a>";
+    if ( $site->user->is_in_group("root") )
+      $req = new requete($site->db,
+        "SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .
+        "FROM `asso` WHERE `id_asso_parent`='".$asso->id."' " .
+        "ORDER BY `nom_asso`");
     else
-      $links[] = "<b>Responsable</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir le(s) responsable(s)</a>";
+      $req = new requete($site->db,
+        "SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .
+        "FROM `asso` WHERE `id_asso_parent`='".$asso->id."' " .
+        "AND `hidden`='0' ".
+        "ORDER BY `nom_asso`");
+    if ( $req->lines > 0 )
+    {
+      require_once($topdir."include/cts/gallery.inc.php");
+
+      $site->add_css("css/asso.css");
+
+      $vocable = "Activités";
+      if ( $asso->id == 1 )
+        $vocable = "Pôles";
+
+      $gal = new gallery($vocable,"clubsgal");
+      while ( $row = $req->get_row() )
+      {
+        $img = "/var/img/logos/".$row['nom_unix_asso'].".small.png";
+
+        if ( !file_exists("/var/www/ae/www/ae2".$img) )
+        {
+          $gal->add_item(
+            "<a href=\"asso.php?id_asso=".$row['id_asso']."\">&nbsp;<img src=\"images/icons/128/asso.png\" alt=\"\" class=\"nope\" />&nbsp;</a>",
+            "<a href=\"asso.php?id_asso=".$row['id_asso']."\">".$row['nom_asso']."</a>" );
+        }
+        else
+          $gal->add_item(
+            "<a href=\"asso.php?id_asso=".$row['id_asso']."\">&nbsp;<img src=\"$img\" alt=\"\" />&nbsp;</a>",
+            "<a href=\"asso.php?id_asso=".$row['id_asso']."\">".$row['nom_asso']."</a>" );
+      }
+      $cts->add($gal,true);
+
+    }
+
+    $links = array();
+
+    if ( $asso->email )
+      $links[] = "<b>Contact</b> : <a href=\"mailto:".$asso->email."\">".$asso->email."</a>";
+
+    if ( $asso->siteweb )
+      $links[] = "<b>Site web</b> : <a href=\"".$asso->siteweb."\">".$asso->siteweb."</a>";
+
+    if ( is_null($asso->id_parent) )
+      $extracond .= "`asso_membre`.`role` > '".ROLEASSO_MEMBREACTIF."' ";
+    else
+      $extracond .= "`asso_membre`.`role` > '".ROLEASSO_TRESORIER."' ";
+
+    $req = new requete($site->db,
+      "SELECT COUNT(*) " .
+      "FROM `asso_membre` " .
+      "WHERE `asso_membre`.`date_fin` IS NULL " .
+      "AND `asso_membre`.`id_asso`='".$asso->id."' " .
+      "AND ".$extracond);
+
+    list($respcnt) = $req->get_row();
+
+    if ( $respcnt > 0 )
+    {
+      if ( is_null($asso->id_parent) )
+        $links[] = "<b>Bureau</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir les membres du bureau</a>";
+      else
+        $links[] = "<b>Responsable</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir le(s) responsable(s)</a>";
+    }
+
+    $links[] = "<b>Historique</b> : <a href=\"asso/history.php?id_asso=".$asso->id."\">Voir résumé</a>";
+
+    if ( count($links) > 0)
+      $cts->add(new itemlist("",false,$links),true);
+
+    $cts->puts("<div class=\"clearboth\"></div>");
+
+    if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
+    {
+      $cts->add_title(2,"Inscrivez vous pour en savoir plus");
+
+      $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
+    }
+
+    $cts->add(new taglist($asso),true);
   }
-
-  $links[] = "<b>Historique</b> : <a href=\"asso/history.php?id_asso=".$asso->id."\">Voir résumé</a>";
-
-  if ( count($links) > 0)
-    $cts->add(new itemlist("",false,$links),true);
-
-  $cts->puts("<div class=\"clearboth\"></div>");
-
-  if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
-  {
-    $cts->add_title(2,"Inscrivez vous pour en savoir plus");
-
-    $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
-  }
-
-  $cts->add(new taglist($asso),true);
 
   $site->add_contents($cts);
   $site->end_page();
