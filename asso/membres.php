@@ -330,7 +330,7 @@ elseif ( $_REQUEST["view"] == "anciens" )
 else
 {
 
-  if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
+  if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) && !$asso->hidden )
     $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"../asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
   elseif ($asso->is_mailing_allowed() && !is_null($asso->id_parent) && (!$site->user->is_valid() || $asso->is_member($site->user->id)) )
     $cts->add_paragraph("Vous êtes inscrits à la mailing-list de ".$asso->nom);
