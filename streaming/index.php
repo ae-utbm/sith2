@@ -65,6 +65,7 @@ $ff1j=array("title"=>"Festival du film d'un jour",
 $congres=array("title"=>"Congrès industriel 2009",
                 "intro"=>"
 Mercredi 7 octobre er jeudi 8 octobre se déroule le Congrès industriel à Sevenans. Durant ces deux jours, venez rencontrer les <a href='http://ae.utbm.fr/d.php?action=download&id_file=4524'>entreprises</a> et assister aux <a href='http://ae.utbm.fr/d.php?action=download&id_file=4522'>conférences</a>.",
+                "nodate"=>true,
                 "date"=>"mercredi 7 octobre",
                 "h-debut"=>"10h",
                 "h-fin"=>"jeudi 8 octobre 17h",
@@ -96,7 +97,8 @@ if(isset($event["bandeau"]))
   $cts->add_paragraph(" ");
 }
 $cts->add_paragraph($event["intro"]);
-$cts->add_paragraph("<b>".$event["type"]." a lieu le ".$event["date"]." de ".$event["h-debut"]." à ".$event["h-fin"]." ".$event["lieu"]."</b>.");
+if(!isset($event["nodate"]))
+  $cts->add_paragraph("<b>".$event["type"]." a lieu le ".$event["date"]." de ".$event["h-debut"]." à ".$event["h-fin"]." ".$event["lieu"]."</b>.");
 $site->add_contents($cts);
 
 $cts = new contents("Suivre en direct");
