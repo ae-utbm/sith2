@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright 2007-2008
+/* Copyright 2007-2009
  * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -50,7 +50,7 @@ $ff1j=array("title"=>"Festival du film d'un jour",
            "type"=>"La cérémonie"
           );
 
-$congres=array("title"=>"Congres 2008",
+/*$congres=array("title"=>"Congres 2008",
               "intro"=>"Cette année, pour la première fois, vivez le congres en direct sur internet grâce &agrave; l'ae et &agrave; ses bénévoles",
               "date"=>"mercredi 1er octobre",
               "h-debut"=>"8h",
@@ -61,20 +61,20 @@ $congres=array("title"=>"Congres 2008",
               "photo"=>"photo_congres.png",
               "type"=>"La retransmission"
           );
-
-$stallman=array("title"=>"Le mouvement du Logiciel Libre",
+*/
+$congres=array("title"=>"Congrès industriel 2009",
                 "intro"=>"Vendredi 28 novembre 2008 à 18h30, dans le cadre des conférences des jeudis des Humanités, Richard Stallman, programmeur et activiste du logiciel libre, fondateur de la Free Software Fondation, parlera des buts et de la philosophie du mouvement du Logiciel Libre ainsi que de l’histoire du système d’exploitation en combinaison avec le noyau Linux, est aujourd’hui utilisé par plus de 10 millions d’utilisateurs dans le monde.",
-                "date"=>"vendredi 28 Novembre",
-                "h-debut"=>"18h",
-                "h-fin"=>"20h",
-                "lieu"=>"à l'UTBM Belfort (amphi A200)",
+                "date"=>"mercredi 7 octobre",
+                "h-debut"=>"10h",
+                "h-fin"=>"jeudi 8 octobre 17h",
+                "lieu"=>"à l'UTBM Sevenans",
                 "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la conférence, nous vous offrons en direct les images montées afin de profiter, chez vous, de la conférence. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.",
-                "bandeau"=>"bandeau_stallman.png",
-                "photo"=>"photo_stallman.png",
+                "bandeau"=>"http://ae.utbm.fr/d.php?id_file=4523&action=download",
+               // "photo"=>"http://ae.utbm.fr/sas2/images.php?/77951.diapo.jpg",
                 "type"=>"La retransmission"
             );
-          
-$event=$stallman;
+
+$event=$congres;
 
 $site = new site ();
 
