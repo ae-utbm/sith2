@@ -63,7 +63,8 @@ $ff1j=array("title"=>"Festival du film d'un jour",
           );
 */
 $congres=array("title"=>"Congrès industriel 2009",
-                "intro"=>"Vendredi 28 novembre 2008 à 18h30, dans le cadre des conférences des jeudis des Humanités, Richard Stallman, programmeur et activiste du logiciel libre, fondateur de la Free Software Fondation, parlera des buts et de la philosophie du mouvement du Logiciel Libre ainsi que de l’histoire du système d’exploitation en combinaison avec le noyau Linux, est aujourd’hui utilisé par plus de 10 millions d’utilisateurs dans le monde.",
+                "intro"=>"
+Mercredi 7 octobre er jeudi 8 octobre se déroule le Congrès industriel à Sevenans. Durant ces deux jours, venez rencontrer les <a href='http://ae.utbm.fr/d.php?action=download&id_file=4524'>entreprises</a> et assister aux <a href='http://ae.utbm.fr/d.php?action=download&id_file=4522'>conférences</a>.",
                 "date"=>"mercredi 7 octobre",
                 "h-debut"=>"10h",
                 "h-fin"=>"jeudi 8 octobre 17h",
