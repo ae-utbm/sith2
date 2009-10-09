@@ -1178,8 +1178,8 @@ else
 
     if ( !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg"))
       $cts->add_paragraph("<img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION</b>: " .
-                          "<a href=\"user.php?page=edit&amp;id_utilisateur=".$user->id.
-                          "&amp;open=photo#setphotos\">Photo d'identit&eacute; non pr&eacute;sente !</a>");
+                          "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id.
+                          "\">Photo d'identit&eacute; non pr&eacute;sente !</a>");
 
     $req = new requete($site->db, "SELECT `date_fin_cotis` FROM `ae_cotisations`
                                       WHERE `id_utilisateur`='".$user->id."'
