@@ -53,7 +53,8 @@ $req = new requete ($site->db,
 
             WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
             AND `closed_time` IS NULL
-            AND id_comptoir='".mysql_real_escape_string($comptoir->id)."'");
+            AND id_comptoir='".mysql_real_escape_string($comptoir->id)."'
+            GROUP BY `utilisateurs`.`id_utilisateur`");
 $led = "red";
 $descled = "fermé (ou pas d'activité depuis plus de ".(intval(ini_get("session.gc_maxlifetime"))/60)." minutes)";
 
