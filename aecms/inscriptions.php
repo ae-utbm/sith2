@@ -59,7 +59,7 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
     $Erreur = "Le champ 'Site web' est vide";
   if (empty($_REQUEST['contribution_depot']))
     $Erreur = "Le champ 'Dépôt' est vide";
-  if (empty($_REQUEST['contribution_parent']))
+  if (empty($_REQUEST['contribution_description']))
     $Erreur = "Le champ 'Description' est vide";
 
   $part->contribution_siteweb= $_REQUEST['contribution_siteweb'];
