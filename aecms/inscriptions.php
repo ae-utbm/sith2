@@ -31,7 +31,7 @@ if ($site->asso->id != 110) {
 
 $Erreur = null;
 
-$site->start_page (CMS_PREFIX."inscriptions_pull", "Inscriptions au Prix Universitaire du Logiciel Libre");
+$site->start_page (CMS_PREFIX."inscriptions", "Inscriptions au Prix Universitaire du Logiciel Libre");
 $cts = new contents();
 
 if ( $_REQUEST["action"] == 'addparticipation' ) {
@@ -74,7 +74,7 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
   }
 }
 
-$frm = new form('addparticipation', 'inscriptions_pull.php', false, 'POST', 'Formulaire d\'inscription');
+$frm = new form('addparticipation', 'inscriptions.php', false, 'POST', 'Formulaire d\'inscription');
 $frm->allow_only_one_usage ();
 if ($Erreur)
   $frm->error($Erreur);

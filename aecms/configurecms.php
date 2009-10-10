@@ -128,7 +128,7 @@ if ( $_REQUEST["action"] == "addonglet" )
       $name = null;
   }
   elseif ( $_REQUEST["typepage"] == "pull" && $site->asso->id == 110) {
-    $lien = "inscriptions_pull.php";
+    $lien = "inscriptions.php";
     $name = "inscriptions";
   }
   else
