@@ -29,7 +29,7 @@ if ($site->asso->id != 110) {
   exit (0);
 }
 
-$Erreur = null;
+$Erreur = false;
 
 $site->start_page (CMS_PREFIX."inscriptions", "Inscriptions au Prix Universitaire du Logiciel Libre");
 $cts = new contents();
