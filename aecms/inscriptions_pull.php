@@ -109,6 +109,6 @@ Elles font l’objet d’un traitement informatique et sont destinées au secré
 
 Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser à : <a href=\"mailto:pull@utbm.fr\">pull@utbm.fr</a>.");
 
-
+$site->add_contents($cts);
 $site->end_page ();
 ?>
