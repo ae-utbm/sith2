@@ -41,8 +41,8 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
     $Erreur = 'L\'email fourni est invalide';
 
   if (!$Erreur) {
-    $req = new $requete($part->db,
-                        "SELECT * WHERE `email`='".mysql_real_escape_string($_REQUEST['email'])."'");
+    $req = new requete($part->db,
+                       "SELECT * WHERE `email`='".mysql_real_escape_string($_REQUEST['email'])."'");
 
     if ($req->lines > 0)
       $Erreur = "Une participation est déjà enregistré avec votre email";
