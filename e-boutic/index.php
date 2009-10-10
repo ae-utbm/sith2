@@ -169,7 +169,7 @@ elseif ( !$typeproduit->is_valid() )
             "AND (`cpt_produits`.date_fin_produit > NOW() OR `cpt_produits`.date_fin_produit IS NULL) ".
             "AND id_produit_parent IS NULL ".
             "ORDER BY date_mise_en_vente DESC ".
-            "LIMIT 3");
+            "LIMIT 4");
 
   $items_lst = new gallery ("Derniers produits mis en vente");
 
