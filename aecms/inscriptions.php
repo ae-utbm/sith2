@@ -98,7 +98,8 @@ $frm->add_text_field('contribution_nom', 'Titre de la contribution', '', true, 5
 $frm->add_text_field('contribution_parent', 'Projet parent', '', false, 50);
 $frm->add_text_field('contribution_siteweb', 'Site web du projet', '', true, 50);
 $frm->add_text_field('contribution_depot', 'Adresse du dépot (SVN, Git, ...) contenant la contribution', '', true, 50);
-$frm->add_text_area('contribution_description', 'Description de la contribution<br />(but, fonctionalitées, ...)', '', 40, 10, true);
+$frm->add_text_area('contribution_description', 'Description de la contribution', '', 40, 10, true);
+$frm->add_submit('submit', 'Valider');
 
 $cts->add ($frm);
 
