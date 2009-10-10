@@ -79,7 +79,7 @@ $frm->allow_only_one_usage ();
 if ($Erreur)
   $frm->error($Erreur);
 
-$frm->add_info ('Informations personelles');
+$frm->add_info ('<h3>Informations personelles</h3>');
 $frm->add_text_field('prenom', 'Prénom', '', true, 50);
 $frm->add_text_field('nom', 'Nom', '', true, 50);
 $frm->add_date_field('date_de_naissance', 'Date de naissance', -1, true);
@@ -91,7 +91,7 @@ $frm->add_text_field('adresse_additional', 'Adresse(bis)', '', false, 50);
 $frm->add_text_field('adresse_ville', 'Ville', '', true, 50);
 $frm->add_text_field('adresse_codepostal', 'Code postal', '', true, 10);
 
-$frm->add_info ('Informations sur la contribution');
+$frm->add_info ('<h3>Informations sur la contribution</h3>');
 $frm->add_text_field('contribution_nom', 'Titre de la contribution', '', true, 50);
 $frm->add_text_field('contribution_parent', 'Projet pour qui a été fait la contribution', '', false, 50);
 $frm->add_text_field('contribution_siteweb', 'Site web du projet', '', true, 50);
@@ -100,14 +100,14 @@ $frm->add_text_area('contribution_description', 'Description de la contribution 
 
 $cts->add ($frm);
 
-$cts->add_paragraph('Si vous avez des questions sur ce formulaire ou une si vous voulez déposer une candidature particulière qui ne rentrerait pas dans le cadre du formulaire précédent, contactez-nous sur contact <at> etoiles-du-libre <dot> org');
+$cts->add_paragraph('Si vous avez des questions sur ce formulaire ou une si vous voulez déposer une candidature particulière qui ne rentrerait pas dans le cadre du formulaire précédent, contactez-nous sur contact &lt;at&gt; etoiles-du-libre &lt;dot&gt; org');
 
 $cts->add_title(2,"Mentions légales");
 $cts->add_paragraph ("Les informations recueillies sont nécessaires pour valider votre participation.
 
 Elles font l’objet d’un traitement informatique et sont destinées au secrétariat de l’association uniquement. En application des articles 39 et suivants de la loi du 6 janvier 1978 modifiée, vous bénéficiez d’un droit d’accès et de rectification aux informations qui vous concernent.
 
-Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser à : <a href=\"mailto:pull@utbm.fr\">pull@utbm.fr</a>.");
+Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser à : <a href=\"mailto:pull@utbm.fr\">contact@etoiles-du-libre.org</a>.");
 
 $site->add_contents($cts);
 $site->end_page ();
