@@ -35,7 +35,7 @@ $site->start_page (CMS_PREFIX."inscriptions", "Inscriptions au Prix Universitair
 $cts = new contents();
 
 if ( $_REQUEST["action"] == 'addparticipation' ) {
-  $part = new participation ();
+  $part = new participation ($site->db, $site->dbrw);
 
   if (CheckEmail($_REQUEST['email'], 3) == -1)
     $Erreur = 'L\'email fourni est invalide';
