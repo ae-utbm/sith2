@@ -67,7 +67,7 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
   $part->contribution_description= $_REQUEST['contribution_description'];
 
   if (!$Erreur)
-    if (CheckEmail($_REQUEST['email'], 3) == -1)
+    if (!CheckEmail($_REQUEST['email'], 3))
       $Erreur = 'L\'email fourni est invalide';
 
   if (!$Erreur) {
