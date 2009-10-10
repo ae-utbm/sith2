@@ -37,8 +37,38 @@ $cts = new contents();
 if ( $_REQUEST["action"] == 'addparticipation' ) {
   $part = new participation ($site->db, $site->dbrw);
 
-  if (CheckEmail($_REQUEST['email'], 3) == -1)
-    $Erreur = 'L\'email fourni est invalide';
+  if (empty($_REQUEST['nom']))
+    $Erreur = "Le champ 'Nom' est vide";
+  if (empty($_REQUEST['prenom']))
+    $Erreur = "Le champ 'Prénom' est vide";
+  if (empty($_REQUEST['date_de_naissance']))
+    $Erreur = "Le champ 'Date de naissance' est vide";
+  if (empty($_REQUEST['email']))
+    $Erreur = "Le champ 'Email' est vide";
+  if (empty($_REQUEST['telephone']))
+    $Erreur = "Le champ 'Téléphone' est vide";
+  if (empty($_REQUEST['adresse_rue']))
+    $Erreur = "Le champ 'Adresse' est vide";
+  if (empty($_REQUEST['adresse_ville']))
+    $Erreur = "Le champ 'Ville' est vide";
+  if (empty($_REQUEST['adresse_codepostal']))
+    $Erreur = "Le champ 'Code postal' est vide";
+  if (empty($_REQUEST['contribution_nom']))
+    $Erreur = "Le champ 'Contribution' est vide";
+  if (empty($_REQUEST['contribution_siteweb']))
+    $Erreur = "Le champ 'Site web' est vide";
+  if (empty($_REQUEST['contribution_depot']))
+    $Erreur = "Le champ 'Dépôt' est vide";
+  if (empty($_REQUEST['contribution_parent']))
+    $Erreur = "Le champ 'Description' est vide";
+
+  $part->contribution_siteweb= $_REQUEST['contribution_siteweb'];
+  $part->contribution_depot= $_REQUEST['contribution_depot'];
+  $part->contribution_description= $_REQUEST['contribution_description'];
+
+  if (!$Erreur)
+    if (CheckEmail($_REQUEST['email'], 3) == -1)
+      $Erreur = 'L\'email fourni est invalide';
 
   if (!$Erreur) {
     $req = new requete($part->db,
@@ -64,7 +94,8 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
     $part->contribution_depot= $_REQUEST['contribution_depot'];
     $part->contribution_description= $_REQUEST['contribution_description'];
 
-    $Erreur = $part->add_participation ();
+    if (!$part->add_participation ())
+      $Erreur = "Erreur lors de l'ajout de la participation, veuillez réessayer";
   }
 
   if (!$Erreur) {
@@ -99,7 +130,7 @@ $frm->add_info ('<h3>Informations sur la contribution</h3>');
 $frm->add_text_field('contribution_nom', 'Titre de la contribution', '', true, 50);
 $frm->add_text_field('contribution_parent', 'Projet parent', '', false, 50);
 $frm->add_text_field('contribution_siteweb', 'Site web du projet', '', true, 50);
-$frm->add_text_field('contribution_depot', 'Adresse du dépot (SVN, Git, ...) contenant la contribution', '', true, 50);
+$frm->add_text_field('contribution_depot', 'Adresse du dépôt (SVN, Git, ...) contenant la contribution', '', true, 50);
 $frm->add_text_area('contribution_description', 'Description de la contribution', '', 40, 10, true);
 $frm->add_submit('submit', 'Valider');
 
