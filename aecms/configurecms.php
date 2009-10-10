@@ -127,6 +127,10 @@ if ( $_REQUEST["action"] == "addonglet" )
     if( !$blog->is_valid() )
       $name = null;
   }
+  elseif ( $_REQUEST["typepage"] == "pull" && $site->asso->id == 110) {
+    $lien = "inscriptions_pull.php";
+    $name = "inscriptions";
+  }
   else
     $name = null;
 
