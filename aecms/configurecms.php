@@ -127,7 +127,7 @@ if ( $_REQUEST["action"] == "addonglet" )
     if( !$blog->is_valid() )
       $name = null;
   }
-  elseif ( $_REQUEST["typepage"] == "pull" && $site->asso->id == 110) {
+  elseif ( $_REQUEST["typepage"] == "pull" && $site->asso->id == 1) {
     $lien = "inscriptions_pull.php";
     $name = "inscriptions";
   }
@@ -506,6 +506,11 @@ if ( $_REQUEST["view"] == "" )
   {
     $sfrm = new form("typepage",null,null,null,"Blog");
     $frm->add($sfrm,false,true,false,"blog",false,true);
+  }
+  if ( !isset($dejafait["inscriptions"]) && $site->asso->id == 1)
+  {
+    $sfrm = new form("typepage",null,null,null,"Inscriptions PULL");
+    $frm->add($sfrm,false,true,false,"pull",false,true);
   }
   $frm->add_submit("save","Ajouter");
   $cts->add ( $frm );
