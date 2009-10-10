@@ -58,7 +58,7 @@ class participation extends basedb
                             'contribution_parent' => $contribution_parent,
                             'contribution_siteweb' => $contribution_siteweb,
                             'contribution_depot' => $contribution_depot,
-                            'contribution_description' => $contribution_description));
+                            'contribution_description' => $contribution_description), 1);
 
     if (!$req->is_success())
       return false;
