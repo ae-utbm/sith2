@@ -74,6 +74,8 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
   }
 }
 
+$cts->add_title('Formulaire d\'inscription');
+
 $frm = new form('addparticipation', 'inscriptions.php', false, 'POST', 'Formulaire d\'inscription');
 $frm->allow_only_one_usage ();
 if ($Erreur)
@@ -107,7 +109,7 @@ $cts->add_paragraph ("Les informations recueillies sont nécessaires pour valide
 
 Elles font l’objet d’un traitement informatique et sont destinées au secrétariat de l’association uniquement. En application des articles 39 et suivants de la loi du 6 janvier 1978 modifiée, vous bénéficiez d’un droit d’accès et de rectification aux informations qui vous concernent.
 
-Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser à : <a href=\"mailto:pull@utbm.fr\">contact@etoiles-du-libre.org</a>.");
+Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser à : contact &lt;at&gt; etoiles-du-libre &lt;dot&gt; org.");
 
 $site->add_contents($cts);
 $site->end_page ();
