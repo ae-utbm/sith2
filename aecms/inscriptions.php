@@ -69,7 +69,8 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
 
   if (!$Erreur) {
     $cts->add_paragraph ('Votre participation a bien été enregistré, merci');
-    $cts->end_page();
+    $site->add_contents($cts);
+    $site->end_page();
     exit(0);
   }
 }
@@ -81,6 +82,7 @@ $frm->allow_only_one_usage ();
 if ($Erreur)
   $frm->error($Erreur);
 
+$frm->add_hidden('action', 'add_participation');
 $frm->add_info ('<h3>Informations personelles</h3>');
 $frm->add_text_field('prenom', 'Prénom', '', true, 50);
 $frm->add_text_field('nom', 'Nom', '', true, 50);
