@@ -45,20 +45,20 @@ class participation extends basedb
   public function add_participation ()
   {
     $req = new insert($this->dbrw, 'pull_participations',
-                      array('nom' => $nom,
-                            'prenom' => $prenom,
-                            'date_de_naissance' => $date_de_naissance,
-                            'email' => $email,
-                            'telephone' => $telephone,
-                            'adresse_rue' => $adresse_rue,
-                            'adresse_additional' => $adresse_additional,
-                            'adresse_ville' => $adresse_ville,
-                            'adresse_codepostal' => $adresse_codepostal,
-                            'contribution_nom' => $contribution_nom,
-                            'contribution_parent' => $contribution_parent,
-                            'contribution_siteweb' => $contribution_siteweb,
-                            'contribution_depot' => $contribution_depot,
-                            'contribution_description' => $contribution_description), 1);
+                      array('nom' => $this->nom,
+                            'prenom' => $this->prenom,
+                            'date_de_naissance' => $this->date_de_naissance,
+                            'email' => $this->email,
+                            'telephone' => $this->telephone,
+                            'adresse_rue' => $this->adresse_rue,
+                            'adresse_additional' => $this->adresse_additional,
+                            'adresse_ville' => $this->adresse_ville,
+                            'adresse_codepostal' => $this->adresse_codepostal,
+                            'contribution_nom' => $this->contribution_nom,
+                            'contribution_parent' => $this->contribution_parent,
+                            'contribution_siteweb' => $this->contribution_siteweb,
+                            'contribution_depot' => $this->contribution_depot,
+                            'contribution_description' => $this->contribution_description), 1);
 
     if (!$req->is_success())
       return false;
