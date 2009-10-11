@@ -25,22 +25,22 @@ class participation extends basedb
   public $id;
 
   // Infos personelles
-  public $nom;
-  public $prenom;
-  public $date_de_naissance;
-  public $email;
-  public $telephone;
+  var $nom;
+  var $prenom;
+  var $date_de_naissance;
+  var $email;
+  var $telephone;
 
-  public $adresse_rue;
-  public $adresse_additional;
-  public $adresse_ville;
-  public $adresse_codepostal;
+  var $adresse_rue;
+  var $adresse_additional;
+  var $adresse_ville;
+  var $adresse_codepostal;
 
-  public $contribution_nom;
-  public $contribution_parent;
-  public $contribution_siteweb;
-  public $contribution_depot;
-  public $contribution_description;
+  var $contribution_nom;
+  var $contribution_parent;
+  var $contribution_siteweb;
+  var $contribution_depot;
+  var $contribution_description;
 
   public function add_participation ()
   {
