@@ -148,10 +148,6 @@ if ( $_REQUEST["view"] == "cotisants" )
   list($nbutil) = $req->get_row();
   $cts->add_paragraph("".round($nbutil*100/$cotisants,1)."% ont consomé à la kfet ce semestre");
 
-  $req = new requete($site->db,"SELECT COUNT(DISTINCT ae_cotisations.id_utilisateur) FROM `ae_cotisations` INNER JOIN cpt_debitfacture ON(ae_cotisations.`id_utilisateur`=cpt_debitfacture.`id_utilisateur_client`) WHERE `id_comptoir`='7' AND `date_fin_cotis` > NOW() AND `date_facture`>'$debut_semestre'");
-  list($nbutil) = $req->get_row();
-  $cts->add_paragraph("".round($nbutil*100/$cotisants,1)."% ont consomé à la MDE ce semestre");
-
   $req = new requete($site->db,"SELECT COUNT(DISTINCT ae_cotisations.id_utilisateur) FROM `ae_cotisations` INNER JOIN cpt_debitfacture ON(ae_cotisations.`id_utilisateur`=cpt_debitfacture.`id_utilisateur_client`) WHERE `id_comptoir`='2' AND `date_fin_cotis` > NOW() AND `date_facture`>'$debut_semestre'");
   list($nbutil) = $req->get_row();
   $cts->add_paragraph("".round($nbutil*100/$cotisants,1)."% ont consomé au foyer ce semestre");
