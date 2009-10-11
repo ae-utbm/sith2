@@ -62,7 +62,7 @@ $req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet`," .
     "`sl_batiment`.`id_batiment`,`sl_batiment`.`nom_bat`," .
     "`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`,  " .
     "`inv_type_objets`.`id_objtype`,`inv_type_objets`.`nom_objtype`  " .
-    ($show_all ? "if(`inv_objet`.`archive_objet` = 1, 'Oui', 'Non') archive_objet " : "").
+    ($show_all ? ", if(`inv_objet`.`archive_objet` = 1, 'Oui', 'Non') archive_objet " : "").
     "FROM `inv_objet` " .
     "INNER JOIN `asso` AS `asso_gest` ON `inv_objet`.`id_asso`=`asso_gest`.`id_asso` " .
     "INNER JOIN `asso` AS `asso_prop` ON `inv_objet`.`id_asso_prop`=`asso_prop`.`id_asso` " .
