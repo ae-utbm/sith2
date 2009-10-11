@@ -200,9 +200,9 @@ if ( $salle->is_valid() )
     else if ( !$resa->est_disponible($salle->id,$_REQUEST['debut'],$_REQUEST['fin']) )
     {
       if ( $resa->est_disponible_hors_non_accord($salle->id,$_REQUEST['debut'],$_REQUEST['fin']) )
-        $ErreurResa = "L'horraire a déjà été demandé, mais la reservation n'a pas été validée. Il n'est pas possible d'ajouter votre demande pour l'instant. Veuillez contacter le VPI.";
+        $ErreurResa = "L'horaire a déjà été demandé, mais la reservation n'a pas été validée. Il n'est pas possible d'ajouter votre demande pour l'instant. Veuillez contacter le VPI.";
       else
-        $ErreurResa = "Horraire non disponible";
+        $ErreurResa = "Horaire non disponible";
       $_REQUEST["action"] = "reservation";
     }
     else
