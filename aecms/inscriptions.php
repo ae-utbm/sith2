@@ -72,7 +72,7 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
 
   if (!$Erreur) {
     $req = new requete($part->db,
-                       "SELECT * WHERE `email`='".mysql_real_escape_string($_REQUEST['email'])."'");
+                       "SELECT * FROM `pull_participations` WHERE `email`='".mysql_real_escape_string($_REQUEST['email'])."'");
 
     if ($req->lines > 0)
       $Erreur = "Une participation est déjà enregistré avec votre email";
