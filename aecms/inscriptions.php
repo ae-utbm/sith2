@@ -106,7 +106,7 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
   }
 }
 
-$cts->add_title('Formulaire d\'inscription');
+$cts->add_title(2, 'Formulaire d\'inscription');
 
 $frm = new form('addparticipation', 'inscriptions.php', false, 'POST', 'Formulaire d\'inscription');
 $frm->allow_only_one_usage ();
