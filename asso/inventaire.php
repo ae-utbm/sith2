@@ -43,7 +43,7 @@ $cts = new contents($asso->get_html_path());
 $cts->add(new tabshead($asso->get_tabs($site->user),"inv"));
 
 $show_all = false;
-if (isset($_REQUEST['show_all']))
+if (isset($_REQUEST['showall']))
   $show_all = true;
 
 
