@@ -913,7 +913,7 @@ elseif ( $nb )
     $acts=array();
     if ( $photo->is_right($site->user,DROIT_ECRITURE) )
       $acts = array("delete","edit","cut");
-    if ( $can_sethome && $photo->droits_acquis && ($photo->droits_acces & 1))
+    if ( $can_sethome && $photo->droits_acquis)
       $acts[]="sethome";
 
     if ( $row['type_media_ph'] == 1 )
