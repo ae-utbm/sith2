@@ -180,7 +180,7 @@ elseif ( $_REQUEST["action"] == "delete" && $photo->is_valid() && !$_REQUEST["id
 elseif ( $_REQUEST["action"] == "sethome" && $photo->is_valid() && $cat->is_valid() )
 {
   if ( $cat->is_right($site->user,DROIT_ECRITURE) )
-    if ( $photo->droits_acquis && ($photo->droits_acces & 1))
+    if ( $photo->droits_acquis )
     {
       $sqlph = $cat->get_photos ( $cat->id, $site->user, $grps, "sas_photos.id_photo");
       $count=0;
