@@ -1,5 +1,5 @@
 <?
-exit();
+//exit();
 $topdir = '../';
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/entities/files.inc.php");
@@ -8,7 +8,7 @@ require_once($topdir.'include/lib/mailer.inc.php');
 $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
-                     'Weekmail du 05 au 11 octobre 2009');
+                     'Weekmail du 12 au 18 octobre 2009');
 //$mailer->add_dest('simon.lopez@utbm.fr');
 ///*
 $mailer->add_dest(array('etudiants@utbm.fr',
@@ -20,27 +20,29 @@ $mailer->add_dest(array('etudiants@utbm.fr',
 $content=<<<EOF
 Salut les UTbohémiens,
 
-Avec l'AE les semaines passent mais ne se ressemblent pas ! Juste une petite
-question comme ça, vos CV sont-ils prêts ? Non ? Alors au boulot ! Cette
-semaine c'est le congrès : deux jours de conférences, deux jours autour de
-votre future profession, à ne manquer sous aucun prétexte.
-
-Vous pourrez assister aux conférences sur le site de Sévenans ce mercredi 7
-et 8 octobre, vous pourrez aussi rencontrer les 22 entreprises présentes et
-participer à des simulations d'entretien.
-
-Vous avez compris le mot d'ordre, cette semaine, ne loupez pas le congrès !
+Suite à la panne de Webmail de ce week-end, votre weekmail arrive avec un
+peu de retard, mais il arrive !
+Comme vous le savez peut-être, cette semaine est une semaine très importante
+dans notre vie associative. En effet, notre chère association fêtes ses 10
+ans d'existence !! Pour fêter dignement cette grande étape, l'AE convie tous
+ses cotisants à une grande soirée, ce jeudi à partir de 20h au foyer de
+Belfort pour un cocktail, qui se poursuivra à 22h par une soirée Electro
+gratuite.
+Entrée sur invitation, n'oubliez pas de récupérer la votre. A Sévenans, au
+bureau AE ou bien à Belfort, au bureau AE ou au foyer. On compte sur vous !
+Passons aux news...
 
 
 Sommaire :
 
  * AE - Le Grand Cocktail des 10ans !!!
  * AE - Decade Party
- * Le club babyfoot fait sa rentrée !!!
- * Club Welcome - Soirée Bowling
- * UTtoons - Projections de la semaine
- * Troll Penché - Repas Western
- * Com'ET - Nuit de la Cabine
+ * Soirée "supersize me" au foyer mardi soir à 19h30
+ * Le bigband de l'UTBM compte sur vous
+ * AG promo 8
+ * Solidar'UT - Réunion pour l'organisation du téléthon
+ * Séance du Club Astro
+ * Jardin'UT - Nouveau Club !
 
 
 ----------------------------------------------------
@@ -78,154 +80,160 @@ Entrée Gratuite et réservée aux cotisants AE
 L'équipe AE
 
 ----------------------------------------------------
-Le club babyfoot fait sa rentrée !!!
+Soirée "supersize me" au foyer mardi soir à 19h30
 ----------------------------------------------------
 
-Salut à tous, le club babyfoot reprend du service autour des deux tables de
-babyfoot présentes au foyer !
-4 choses à savoir :
+Bonjour à tous !
 
-lieu : foyer
-date : tous les mercredis soirs
-horaire : de 20h à 22h
-pour qui ? : tout cotisant AE ayant envie de jouer au babyfoot. tous les
-niveaux sont acceptés.
 
-Venez nombreux, que l'on puisse tourner et ne pas s'ennuyer à jouer tout le
-temps contre les mêmes !
 
-telect pour le baby
+L'été est maintenant loin, le froid arrive, il est temps de remplir les
+reserves pour avoir chaud pendant les longues nuits d'hiver!
 
-----------------------------------------------------
-Club Welcome - Soirée Bowling
-----------------------------------------------------
+Alors arrête de cacher tes formes et apporte tes kilos, içi on malbouffe, et
+on en est fier !
 
-Le Club Welcome organise une soirée bowling le mardi 6 Octobre, au bowling
-des 4 AS (Belfort). Une partie coûte 3 euros (location des chaussures
-comprise) : vous pouvez cotiser auprès des responsables du Club mais aussi
-sur e-boutic.
+Si comme moi tu aimes la grosse bouffe, viens partager des bons hot dog et
+hamburgers, "homemade" bien entendu devant de la bonne bière du foyer !
 
-Pour tous ceux qui ne sauraient pas où se trouve le bowling, départ prévu à
-la ME à :
-                  ** 19h30 devant le foyer **
+Rendez vous mardi 13 au foyer à 19h30 pour une "grasse" ripaille entre amis!
 
-Pour les autres, rendez-vous à :
+je compte sur toi!
 
-                  ** 20h00 au bowling **
-
-Attention à ne pas arriver en retard!!!
-
-A mardi,
-
-Yruana pour Welcome
+La promo 07
 
 ----------------------------------------------------
-UTtoons - Projections de la semaine
+Le bigband de l'UTBM compte sur vous
 ----------------------------------------------------
 
-Bonjour à vous,
+Ami UTBohéMien bonjour!
+Le Bigband de l'UTBM est une formation de 15 à 20 musiciens (parmi lesquels
+Saxophonistes, Trompettistes, Trombonistes, Clarinettistes, Guitaristes,
+Bassistes, Pianistes, Batteurs, etc.) qui reprend tout type de style (du
+jazz, mais aussi du funk, de la bossa, du shuffle, du boogie, du
+rock'n'roll, et tant d'autres) et qui, pour la deuxième année, dispose d'un
+compositeur attitré !
 
-Nous vous proposons cette semaine de vous divertir avec Monstres contre
-Aliens ainsi que Monstres et Compagnie. Rendez-vous-même heure, même lieu :
-20h dans l'amphi A200.
+- Si tu es un musicien intéressé : Nos répétitions se déroulent le jeudi
+soir de 20h à 22h à la MDE Sévenans, c'est ouvert à tous, nouveau, ancien,
+bon niveau, débutant. L'important est de savoir lire une partition et de
+disposer d'un instrument.
 
-Monstres contre Aliens
+- Si tu es intéressé par le club : Nous cherchons activement un responsable
+communication et un photographe/caméraman afin d'immortaliser nos moments
+musicaux
 
-Le jour de son mariage, la jeune Susan Murphy reçoit sur la tête... une
-météorite qui la transforme en un monstre de plus de 20 mètres. L'armée
-entre promptement en action, neutralise la géante et l'incarcère dans une
-prison top secrète. Rebaptisée Génormica, Susan fait connaissance avec ses
-compagnons d'infortune : le brillant Dr Cafard, à tête d'insecte, l'hybride
-macho de singe et de poisson appelé Maillon Manquant, l'indestructible et
-gélatineux BOB et le gigantesque Insectosaure.
+- Si tu es intéressé par la musique, en tant que public : Nous te donnons
+rendez-vous lors de nos concerts :
+* Le 21 Novembre 2009, lors du Gala de l'UTBM, à 22h dans la salle P302 (à
+côté de la salle des colonnes)
+* Le 28 Novembre 2009, lors du TribUT organisé à l'UTT, et en partenariat
+avec les Bigbands de l'UTT et de l'UTC!
 
-Monstres et Compagnie
+De plus, toutes nos répétitions sont publiques, il t'est donc possible de
+venir nous voir le jeudi soir à 20h à la MDE !
 
-Monstropolis est une petite ville peuplée de monstres dont la principale
-source d'énergie provient des cris des enfants. Monstres & Cie est la plus
-grande usine de traitement de cris de la ville. Grâce au nombre
-impressionnant de portes de placards dont dispose l'usine, une équipe de
-monstres d'élite pénètre dans le monde des humains pour terrifier durant la
-nuit les enfants et récolter leurs hurlements.
+Pour nous contacter, une seule adresse : bigband@utbm.fr
+N'hésite surtout pas à nous passer un petit coucou !
 
-
-Bonne semaine à tous et sans doute à bientôt.
-
-Ticho et Otine
-
-----------------------------------------------------
-Troll Penché - Repas Western
-----------------------------------------------------
-
-Salut à tous, citoyennes et citoyens des environs d’After Eight !
-
-Un grand repas va être organisé par le bien (ou pas) aimé maire de notre
-belle commune : John White.
-Il aura lieu au Saloon d’After Eight et toutes et tous pourront y prendre
-part pour seulement 4$ !
-
-Comme vous l’aurez sans doute deviné, il s’agit là d’un repas clôturant le
-Killer Western et se déroulant au Foyer.
-Il n’est pas réservé aux participants donc tous les cotisants AE peuvent
-venir.
-
-Pour la modique somme de 4€ (payable sur e-boutic), vous vous régalerez avec
-un magnifique (bon d’accord, je pousse un peu ) chili con carne arrosé d’une
-sangria.
-
-N’hésitez pas à venir déguisé et ramenez ceux qui trainent près de vous.
-
-Lien e-boutic : http://ae.utbm.fr/e-boutic/?id_produit=574
-
-El Gringo
+A très bientôt,
+Gawel pour le Bigband
 
 ----------------------------------------------------
-Com'ET - Nuit de la Cabine
+AG promo 8
 ----------------------------------------------------
 
-La Nuit de la Cabine est la soirée de ce début de semestre à ne surtout pas
-rater!! C'est une occasion pour tous les étudiants de l'UTBM de rencontrer
-les autres étudiants de l'Aire Urbaine de Belfort-Montbéliard et découvrir
-une autre ambiance de soirée!
+L'AG de la promo ce déroulera le jeudi 15 octobre dans la salle Rantanplan à
+partir de 18h30 jusqu'à 20h..
 
-Rendez vous le 8 octobre de 21 à 4h au parc Airexpos d’Andelnans.
+Seront discutés pendant l'AG :
 
-Cette année le chanteur SINGUILA sera présent ainsi que N.J et le groupe
-Ventolin. Avec également des danseuses « J.A.C alliance » et DJ ONE, et
-surtout pleins animations et de surprises!!
+1) Le thème du repas de Promo (le repas étant programmé pour le 5
+novembre)
+   Quelques thèmes proposés
+      o Prêtres et petits nenfants
+      o Modules déambulateurs
+      o Glands
+      o Frenchy : berret, tshirt rayé noir et blanc, foulard rouge, fromage qui
+        put et vin rouge
+      o sportif
+      o cannibale
+      o dictateur
+      o Série TV
 
-Des navettes seront mises en place.
+2) On discutera aussi la nécessité d'un objet de Promo.
 
-La place en pré-vente est à 7 euros et vous pouvez l'acheter au Foyer à
-Belfort, à la MDE de Sevenans (mercredi et jeudi au bureau AE pour cause de
-congrès) ou au bureau AE de Montbéliard.
 
-Pour plus d'informations,
-http://ae.utbm.fr/forum2/?id_message=2156708#msg2156708 ou envoyez un mail à
-ae@utbm.fr
+Toute la promo compte sur toi !
 
-Jvémla pour Com'Et
+Le bureau de la 8.
 
 ----------------------------------------------------
-La blague offerte et assumée par Gautier !
+Solidar'UT - Réunion pour l'organisation du téléthon
 ----------------------------------------------------
 
-LA BONNE DU CURE.
+Salut! Tu connais le téléthon? Non? Visite ce site alors:
+http://www.afm-telethon.fr/
+Ca te tente de participer à cet événement national pour la recherche contre
+les maladies génétiques? Dans ce cas là viens à la réunion, jeudi 15 à 14h
+en salle Rantanplan.
+On y définira les activités à faire (théâtre, lan, vente de peluches, stand
+dans la rue piétonne de Belfort avec Barbes à Papa, vin chaud, etc...) et on
+définira qui fait quoi.
+N'ai pas peur de te lancer dans l'aventure: c'est extrêmement intéressant et
+enrichissant et on sera là pour t'aider.
 
-Une bonne dit au Curé : « Mr le Curé, notre vin de messe est arrivé ! »
-Le Curé répond : « Marie, ce n'est pas NOTRE vin de messe puisque tu n'as
-pas le droit d'en boire, tu dois donc dire VOTRE vin de messe. » « Compris ?
-»
-Le lendemain Marie dit au Curé : « Mr le Curé votre bois de chauffage est
-arrivé ! »
-Le Curé dit :« Marie, tu dois dire NOTRE bois de chauffage puisque nous nous
-en servons tous les 2 ! » « As-tu compris cette fois ? »
-« Oui», dit Marie.
-« Est-ce tout pour aujourd'hui Marie ? »
-« Non », répond la Bonne,« Mr le Curé, VOTRE braguette est ouverte, et NOTRE
-pénis est sorti !»
+@ jeudi Prochain
 
-* Vous pouvez vous aussi fustiger Gautier sur : gautier.risch@utbm.fr *
+Périeu pour Solidar'UT
+
+----------------------------------------------------
+Séance du Club Astro
+----------------------------------------------------
+
+Jeudi 15 octobre à partir de 20 heures dans la salle d'activité.
+Cette semaine, le météo devrait être bonne, donc petite observation hors de
+Belfort. Au programme, Jupiter à la webcam, et ciel profond.
+Prévoir une tenue chaude !
+Au cas ou, il y aura une projection de documentaire.
+A jeudi
+
+----------------------------------------------------
+Jardin'UT - Nouveau Club !
+----------------------------------------------------
+
+Salut à tous !
+
+Vous en avez peut-être entendu parler, un club de jardinage a été ouvert. Le
+but dans un premier temps est d’entretenir la partie de la ME vers le
+barbecue.Par entretenir, on veut dire, ramasser les fruits pourris, nettoyer
+le barbecue et éventuellement débroussailler un peu là où c’est
+nécessaire.Alors si vous vous sentez l’âme verte ou si vous avez juste envie
+de vous bouger un peu pour quelque chose d’utile, n’hésitez plus, inscrivez
+vous au club jardin’UT.
+
+La première session aura lieu ce samedi 17 octobre. On se donne rendez vous
+devant le Foyer vers 14h. Pensez à prendre des vêtements qui ne craignent
+pas la boue, le reste du matériel qui pourra être nécessaire sera fourni.
+
+Bonne semaine à tous et en espérant vous voire nombreux samedi.
+
+2trèfle, secrétaire jardin’UT
+
+
+
+P.S : un peu de pluie n’a jamais tué personne, donc si il y a quelques
+averses, prenez un imper et ça sera bon ;)
+
+----------------------------------------------------
+La blague
+----------------------------------------------------
+
+Un homme est dans un bar en train de boire son café quand soudain lui prend
+une envie pressante, ne sachant que faire, il met un post-it à côté du café
+avec écrit : "J'ai craché dedans.". Il revient après s'être soulagé quelques
+minutes après et trouve un autre post-it à côté du café où il est écrit :
+"Moi aussi :)"
 
 --
 à la semaine prochaine !
@@ -238,30 +246,32 @@ $html = <<<EOF
 <table bgcolor="#333333" width="700px">
 <tr><td align="center">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td width="601"><img src="http://ae.utbm.fr/d.php?id_file=4523&action=download" /></td></tr>
+<tr><td width="601"><img src="http://ae.utbm.fr/d.php?id_file=4652&action=download" /></td></tr>
 <tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Introduction</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px">Salut les UTbohémiens,<br />
 <br />
-Avec l'AE les semaines passent mais ne se ressemblent pas ! Juste une petite
-question comme ça, vos CV sont-ils prêts ? Non ? Alors au boulot ! Cette
-semaine c'est le congrès : deux jours de conférences, deux jours autour de
-votre future profession, à ne manquer sous aucun prétexte.
-<br /><br />
-Vous pourrez assister aux conférences sur le site de Sévenans ce mercredi 7
-et 8 octobre, vous pourrez aussi rencontrer les 22 entreprises présentes et
-participer à des simulations d'entretien.
-<br /><br />
-Vous avez compris le mot d'ordre, cette semaine, ne loupez pas le congrès !
+Suite à la panne de Webmail de ce week-end, votre weekmail arrive avec un
+peu de retard, mais il arrive !<br />
+Comme vous le savez peut-être, cette semaine est une semaine très importante
+dans notre vie associative. En effet, notre chère association fêtes ses 10
+ans d'existence !! Pour fêter dignement cette grande étape, l'AE convie tous
+ses cotisants à une grande soirée, ce jeudi à partir de 20h au foyer de
+Belfort pour un cocktail, qui se poursuivra à 22h par une soirée Electro
+gratuite.<br />
+Entrée sur invitation, n'oubliez pas de récupérer la votre. A Sévenans, au
+bureau AE ou bien à Belfort, au bureau AE ou au foyer. On compte sur vous !
+Passons aux news...
 <br />&nbsp;</td></tr>
 <tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Sommaire</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px"><ul>
 <li>AE - Le Grand Cocktail des 10ans !!!</li>
 <li>AE - Decade Party</li>
-<li>Le club babyfoot fait sa rentrée !!!</li>
-<li>Club Welcome - Soirée Bowling</li>
-<li>UTtoons - Projections de la semaine</li>
-<li>Troll Penché - Repas Western</li>
-<li>Com'ET - Nuit de la Cabine</li>
+<li>Soirée "supersize me" au foyer mardi soir à 19h30</li>
+<li>Le bigband de l'UTBM compte sur vous</li>
+<li>AG promo 8</li>
+<li>Solidar'UT - Réunion pour l'organisation du téléthon</li>
+<li>Séance du Club Astro</li>
+<li>Jardin'UT - Nouveau Club !</li>
 </ul>
 </td></tr>
 <tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">AE - Le Grand Cocktail des 10ans !!!</font></td></tr>
@@ -292,132 +302,140 @@ Entrée Gratuite et réservée aux cotisants AE
 <br /><br />
 L'équipe AE
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le club babyfoot fait sa rentrée !!!</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Salut à tous, le club babyfoot reprend du service autour des deux tables de
-babyfoot présentes au foyer !
-4 choses à savoir :
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Soirée "supersize me" au foyer mardi soir à 19h30</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Bonjour à tous !
 <br /><br />
-lieu : foyer<br />
-date : tous les mercredis soirs<br />
-horaire : de 20h à 22h<br />
-pour qui ? : tout cotisant AE ayant envie de jouer au babyfoot. tous les
-niveaux sont acceptés.
+L'été est maintenant loin, le froid arrive, il est temps de remplir les
+reserves pour avoir chaud pendant les longues nuits d'hiver!
 <br /><br />
-Venez nombreux, que l'on puisse tourner et ne pas s'ennuyer à jouer tout le
-temps contre les mêmes !
+Alors arrête de cacher tes formes et apporte tes kilos, içi on malbouffe, et
+on en est fier !
 <br /><br />
-telect pour le baby
+Si comme moi tu aimes la grosse bouffe, viens partager des bons hot dog et
+hamburgers, "homemade" bien entendu devant de la bonne bière du foyer !
+<br /><br />
+Rendez vous mardi 13 au foyer à 19h30 pour une "grasse" ripaille entre amis!
+<br /><br />
+je compte sur toi!
+<br />
+La promo 07
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Club Welcome - Soirée Bowling</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Le Club Welcome organise une soirée bowling le mardi 6 Octobre, au bowling
-des 4 AS (Belfort). Une partie coûte 3 euros (location des chaussures
-comprise) : vous pouvez cotiser auprès des responsables du Club mais aussi
-sur e-boutic.
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le bigband de l'UTBM compte sur vous</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Ami UTBohéMien bonjour!
 <br /><br />
-Pour tous ceux qui ne sauraient pas où se trouve le bowling, départ prévu à
-la ME à :
-<p align="center"><b>19h30 devant le foyer</b></p>
-Pour les autres, rendez-vous à :
-<p align="center"><b>120h00 au bowling</b></p>
-
-Attention à ne pas arriver en retard!!!
+Le Bigband de l'UTBM est une formation de 15 à 20 musiciens (parmi lesquels
+Saxophonistes, Trompettistes, Trombonistes, Clarinettistes, Guitaristes,
+Bassistes, Pianistes, Batteurs, etc.) qui reprend tout type de style (du
+jazz, mais aussi du funk, de la bossa, du shuffle, du boogie, du
+rock'n'roll, et tant d'autres) et qui, pour la deuxième année, dispose d'un
+compositeur attitré !<li>
+<ul>
+<li>Si tu es un musicien intéressé : Nos répétitions se déroulent le jeudi
+soir de 20h à 22h à la MDE Sévenans, c'est ouvert à tous, nouveau, ancien,
+bon niveau, débutant. L'important est de savoir lire une partition et de
+disposer d'un instrument.</li>
+<li>Si tu es intéressé par le club : Nous cherchons activement un responsable
+communication et un photographe/caméraman afin d'immortaliser nos moments
+musicaux</li>
+<li>Si tu es intéressé par la musique, en tant que public : Nous te donnons
+rendez-vous lors de nos concerts :
+<ul>
+<li>Le 21 Novembre 2009, lors du Gala de l'UTBM, à 22h dans la salle P302 (à
+côté de la salle des colonnes)</li>
+<li>Le 28 Novembre 2009, lors du TribUT organisé à l'UTT, et en partenariat
+avec les Bigbands de l'UTT et de l'UTC!</li>
+</ul>
+</ul>
 <br /><br />
-A mardi,<br />
-Yruana pour Welcome
+De plus, toutes nos répétitions sont publiques, il t'est donc possible de
+venir nous voir le jeudi soir à 20h à la MDE !
+<br /><br />
+Pour nous contacter, une seule adresse : bigband@utbm.fr<br />
+N'hésite surtout pas à nous passer un petit coucou !
+<br /><br />
+A très bientôt,<br />
+Gawel pour le Bigband
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">UTtoons - Projections de la semaine</font></td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">AG promo 8</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px">Bonjour à vous,
 <br /><br />
-Nous vous proposons cette semaine de vous divertir avec Monstres contre
-Aliens ainsi que Monstres et Compagnie. Rendez-vous-même heure, même lieu :
-20h dans l'amphi A200.
+L'AG de la promo ce déroulera le jeudi 15 octobre dans la salle Rantanplan à
+partir de 18h30 jusqu'à 20h..
 <br /><br />
-Monstres contre Aliens :
-<br />
-Le jour de son mariage, la jeune Susan Murphy reçoit sur la tête... une
-météorite qui la transforme en un monstre de plus de 20 mètres. L'armée
-entre promptement en action, neutralise la géante et l'incarcère dans une
-prison top secrète. Rebaptisée Génormica, Susan fait connaissance avec ses
-compagnons d'infortune : le brillant Dr Cafard, à tête d'insecte, l'hybride
-macho de singe et de poisson appelé Maillon Manquant, l'indestructible et
-gélatineux BOB et le gigantesque Insectosaure.
+Seront discutés pendant l'AG :
+
+<ul>
+<li>Le thème du repas de Promo (le repas étant programmé pour le 5 novembre)<br />
+Quelques thèmes proposés :</li>
+<ul>
+<li>Prêtres et petits nenfants</li>
+<li>Modules déambulateurs</li>
+<li>Glands</li>
+<li>Frenchy : berret, tshirt rayé noir et blanc, foulard rouge, fromage qui put et vin rouge</li>
+<li>sportif</li>
+<li>cannibale</li>
+<li>dictateur</li>
+<li>Série TV</li>
+</ul>
+<li>On discutera aussi la nécessité d'un objet de Promo.</li>
+</ul>
+Toute la promo compte sur toi !
 <br /><br />
-Monstres et Compagnie :
-<br />
-Monstropolis est une petite ville peuplée de monstres dont la principale
-source d'énergie provient des cris des enfants. Monstres & Cie est la plus
-grande usine de traitement de cris de la ville. Grâce au nombre
-impressionnant de portes de placards dont dispose l'usine, une équipe de
-monstres d'élite pénètre dans le monde des humains pour terrifier durant la
-nuit les enfants et récolter leurs hurlements.
-<br /><br />
-Bonne semaine à tous et sans doute à bientôt.
-<br /><br />
-Ticho et Otine
+Le bureau de la 8.
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Troll Penché - Repas Western</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Salut à tous, citoyennes et citoyens des environs d’After Eight !
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Solidar'UT - Réunion pour l'organisation du téléthon</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Salut!<br />
+Tu connais le téléthon? Non? Visite ce <a href="http://www.afm-telethon.fr/">site</a>.
 <br /><br />
-Un grand repas va être organisé par le bien (ou pas) aimé maire de notre
-belle commune : John White.<br />
-Il aura lieu au Saloon d’After Eight et toutes et tous pourront y prendre
-part pour seulement 4$ !
+Ca te tente de participer à cet événement national pour la recherche contre
+les maladies génétiques? Dans ce cas là viens à la réunion, jeudi 15 à 14h
+en salle Rantanplan.<br />
+On y définira les activités à faire (théâtre, lan, vente de peluches, stand
+dans la rue piétonne de Belfort avec Barbes à Papa, vin chaud, etc...) et on
+définira qui fait quoi.<br />
+N'ai pas peur de te lancer dans l'aventure: c'est extrêmement intéressant et
+enrichissant et on sera là pour t'aider.
 <br /><br />
-Comme vous l’aurez sans doute deviné, il s’agit là d’un repas clôturant le
-Killer Western et se déroulant au Foyer.
-Il n’est pas réservé aux participants donc tous les cotisants AE peuvent
-venir.
+@ jeudi Prochain
 <br /><br />
-Pour la modique somme de 4€ (payable sur e-boutic), vous vous régalerez avec
-un magnifique (bon d’accord, je pousse un peu ) chili con carne arrosé d’une
-sangria.
-<br /><br />
-N’hésitez pas à venir déguisé et ramenez ceux qui trainent près de vous.
-<br /><br />
-Lien e-boutic : http://ae.utbm.fr/e-boutic/?id_produit=574
-<br /><br />
-El Gringo
+Périeu pour Solidar'UT
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Com'ET - Nuit de la Cabine</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">La Nuit de la Cabine est la soirée de ce début de semestre à ne surtout pas
-rater!! C'est une occasion pour tous les étudiants de l'UTBM de rencontrer
-les autres étudiants de l'Aire Urbaine de Belfort-Montbéliard et découvrir
-une autre ambiance de soirée!
-<br /><br />
-Rendez vous le 8 octobre de 21 à 4h au parc Airexpos d’Andelnans.
-<br /><br />
-Cette année le chanteur SINGUILA sera présent ainsi que N.J et le groupe
-Ventolin. Avec également des danseuses « J.A.C alliance » et DJ ONE, et
-surtout pleins animations et de surprises!!
-<br /><br />
-Des navettes seront mises en place.
-<br /><br />
-La place en pré-vente est à 7 euros et vous pouvez l'acheter au Foyer à
-Belfort, à la MDE de Sevenans (mercredi et jeudi au bureau AE pour cause de
-congrès) ou au bureau AE de Montbéliard.
-<br /><br />
-Plus d'informations <a href="http://ae.utbm.fr/forum2/?id_message=2156708#msg2156708">ici</a>
-ou envoyez un mail à <a href="mailto:ae@utbm.fr">ae@utbm.fr</a>
-<br /><br />
-Jvémla pour Com'Et
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Séance du Club Astro</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Jeudi 15 octobre à partir de 20 heures dans la salle d'activité.<br />
+Cette semaine, le météo devrait être bonne, donc petite observation hors de
+Belfort. Au programme, Jupiter à la webcam, et ciel profond.<br />
+Prévoir une tenue chaude !<br />
+Au cas ou, il y aura une projection de documentaire.<br />
+A jeudi
 <br />&nbsp;</td></tr>
-<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">La blague offerte et assumée par Gautier !</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">LA BONNE DU CURE.
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Jardin'UT - Nouveau Club !</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Salut à tous !
 <br /><br />
-Une bonne dit au Curé : « Mr le Curé, notre vin de messe est arrivé ! »<br />
-Le Curé répond : « Marie, ce n'est pas NOTRE vin de messe puisque tu n'as
-pas le droit d'en boire, tu dois donc dire VOTRE vin de messe. » « Compris ?
-»<br />
-Le lendemain Marie dit au Curé : « Mr le Curé votre bois de chauffage est
-arrivé ! »<br />
-Le Curé dit :« Marie, tu dois dire NOTRE bois de chauffage puisque nous nous
-en servons tous les 2 ! » « As-tu compris cette fois ? »<br />
-« Oui», dit Marie.<br />
-« Est-ce tout pour aujourd'hui Marie ? »<br />
-« Non », répond la Bonne,« Mr le Curé, VOTRE braguette est ouverte, et NOTRE
-pénis est sorti !»<br />
-<br />
-<b>Vous pouvez vous aussi fustiger <a href="mailto:gautier.risch@utbm.fr">Gautier</a></b>
+Vous en avez peut-être entendu parler, un club de jardinage a été ouvert. Le
+but dans un premier temps est d’entretenir la partie de la ME vers le
+barbecue.Par entretenir, on veut dire, ramasser les fruits pourris, nettoyer
+le barbecue et éventuellement débroussailler un peu là où c’est
+nécessaire.Alors si vous vous sentez l’âme verte ou si vous avez juste envie
+de vous bouger un peu pour quelque chose d’utile, n’hésitez plus, inscrivez
+vous au club jardin’UT.
+<br /><br />
+La première session aura lieu ce samedi 17 octobre. On se donne rendez vous
+devant le Foyer vers 14h. Pensez à prendre des vêtements qui ne craignent
+pas la boue, le reste du matériel qui pourra être nécessaire sera fourni.
+<br /><br />
+Bonne semaine à tous et en espérant vous voire nombreux samedi.
+<br /><br />
+2trèfle, secrétaire jardin’UT
+<br /><br />
+P.S : un peu de pluie n’a jamais tué personne, donc si il y a quelques
+averses, prenez un imper et ça sera bon ;)
+<br />&nbsp;</td></tr>
+<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">La blague !</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">Un homme est dans un bar en train de boire son café quand soudain lui prend
+une envie pressante, ne sachant que faire, il met un post-it à côté du café
+avec écrit : "J'ai craché dedans.". Il revient après s'être soulagé quelques
+minutes après et trouve un autre post-it à côté du café où il est écrit :
+"Moi aussi :)"
 <br />&nbsp;</td></tr>
 <tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le mot de la fin</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px">à la semaine prochaine !<br />
