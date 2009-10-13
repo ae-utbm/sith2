@@ -421,6 +421,7 @@ if ( $photo->is_valid() )
         $licence=$site->user->id_licence_default_sas;
       $frm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',$licence,false,array(),'\'id_licence\' ASC');
     }
+
     $frm->add_rights_field($photo,false,$photo->is_admin($site->user));
     $frm->add_submit("valid","Enregistrer");
 
@@ -549,9 +550,21 @@ elseif ( $_REQUEST["action"] == "editcat" && $cat->is_right($site->user,DROIT_EC
       $_REQUEST["fin"] = null;
     }
 
+    $cat->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],true);
+    if ($cat->is_admin($site->user) && $site->user->is_in_group('gestion_ae') && isset($_REQUEST['recurvise'])) {
+      if ($_REQUEST['recursive']) {
+        $pht = null;
+        $req = $cat->get_photos ($cat->id, $site->user, null);
+
+        while ($pht = $req->get_row ()) {
+          $photo->_load ($pht);
+          $photo->set_rights($site->user, $_REQUEST['rights'], $_REQUEST['rights_id_group'], $_REQUEST['rights_id_group_admin']);
+        }
+      }
+    }
+
     $photo->load_by_id($_REQUEST["id_photo_index"]);
 
-    $cat->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],true);
     $cat->update_catphoto($site->user,$cat->id_catph_parent,$_REQUEST["nom"],$_REQUEST["debut"],$_REQUEST["fin"],$_REQUEST["id_asso"],$_REQUEST["mode"],$_REQUEST["id_lieu"]);
 
     $cat->set_photo($photo->id);
@@ -585,6 +598,8 @@ if ( ( $_REQUEST["page"] == "edit" || $_REQUEST["action"] == "edit") && $cat->is
   $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$cat->meta_id_asso,true);
   $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$cat->id_lieu,true);
   $frm->add_select_field("mode","Mode",$GLOBALS['catph_modes'],$cat->meta_mode);
+  if ($cat->is_admin($site->user) && $site->user->is_in_group('gestion_ae'))
+    $frm->add_checkbox("recursive", "Appliquer récursivement les droits", false);
   $frm->add_rights_field($cat,true,$cat->is_admin($site->user));
   $frm->add_submit("valid","Enregistrer");
 
