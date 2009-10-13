@@ -559,6 +559,7 @@ elseif ( $_REQUEST["action"] == "editcat" && $cat->is_right($site->user,DROIT_EC
         while ($pht = $req->get_row ()) {
           $photo->_load ($pht);
           $photo->set_rights($site->user, $_REQUEST['rights'], $_REQUEST['rights_id_group'], $_REQUEST['rights_id_group_admin']);
+          $photo->save_rights();
         }
       }
     }
