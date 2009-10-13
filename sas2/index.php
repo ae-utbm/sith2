@@ -551,8 +551,9 @@ elseif ( $_REQUEST["action"] == "editcat" && $cat->is_right($site->user,DROIT_EC
     }
 
     $cat->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],true);
-    if ($cat->is_admin($site->user) && $site->user->is_in_group('gestion_ae') && isset($_REQUEST['recurvise'])) {
+    if ($cat->is_admin($site->user) && $site->user->is_in_group('gestion_ae')) {
       if ($_REQUEST['recursive']) {
+        echo 'foo';
         $pht = null;
         $req = $cat->get_photos ($cat->id, $site->user, null);
 
