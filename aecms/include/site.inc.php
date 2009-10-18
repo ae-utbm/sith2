@@ -430,6 +430,8 @@ class aecms extends site
     foreach ( $this->rss as $title => $url )
       $this->buffer.="<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
 
+    if ( file_exists($basedir."favicon.ico") )
+      $this->buffer .= "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
     foreach ( $this->extrajs as $url )
       $this->buffer.="<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
 
