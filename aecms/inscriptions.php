@@ -136,7 +136,7 @@ $frm->add_date_field('date_de_naissance', 'Date de naissance', -1, true);
 $frm->add_text_field('email', 'Email', '', true, 50);
 $frm->add_text_field('telephone', 'Téléphone', '', true, 50);
 $frm->add_text_field('univ', 'Nom de l\'école/université', '', true, 100);
-$frm->add_select_field('role_univ', 'Position dans l\'école', 'etudiant', '', true);
+$frm->add_select_field('role_univ', 'Position dans l\'école', $roles, 'etudiant', '', true);
 
 $frm->add_text_field('adresse_rue', 'Adresse', '', true, 50);
 $frm->add_text_field('adresse_additional', ' ', '', false, 50);
