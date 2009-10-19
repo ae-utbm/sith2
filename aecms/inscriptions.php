@@ -139,13 +139,13 @@ $frm->add_text_field('univ', 'Nom de l\'école/université', '', true, 100);
 $frm->add_select_field('role_univ', 'Position dans l\'école', 'etudiant', '', true);
 
 $frm->add_text_field('adresse_rue', 'Adresse', '', true, 50);
-$frm->add_text_field('adresse_additional', 'Adresse(bis)', '', false, 50);
+$frm->add_text_field('adresse_additional', ' ', '', false, 50);
 $frm->add_text_field('adresse_ville', 'Ville', '', true, 50);
 $frm->add_text_field('adresse_codepostal', 'Code postal', '', true, 10);
 
 $frm->add_info ('<h3>Informations sur la contribution</h3>');
-$frm->add_text_field('contribution_nom', 'Titre de la contribution', '', true, 50);
-$frm->add_text_field('contribution_parent', 'Projet parent', '', false, 50);
+$frm->add_text_field('contribution_nom', 'Titre de la contribution (ex: effets 3D dans Impress)', '', true, 50);
+$frm->add_text_field('contribution_parent', 'Projet parent (ex: OpenOffice.org)', '', false, 50);
 $frm->add_text_field('contribution_siteweb', 'Site web du projet', '', true, 50);
 $frm->add_text_field('contribution_depot', 'Adresse du dépôt (SVN, Git, ...) contenant la contribution', '', true, 50);
 $frm->add_text_area('contribution_description', 'Description de la contribution', '', 40, 10, true);
