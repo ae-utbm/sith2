@@ -30,6 +30,8 @@ class participation extends basedb
   var $date_de_naissance;
   var $email;
   var $telephone;
+  var $universite;
+  var $position;
 
   var $adresse_rue;
   var $adresse_additional;
@@ -58,7 +60,9 @@ class participation extends basedb
                             'contribution_parent' => $this->contribution_parent,
                             'contribution_siteweb' => $this->contribution_siteweb,
                             'contribution_depot' => $this->contribution_depot,
-                            'contribution_description' => $this->contribution_description));
+                            'contribution_description' => $this->contribution_description,
+                            'univ' => $this->universite,
+                            'role_univ' => $this->position));
 
     if (!$req->is_success())
       return false;
@@ -83,21 +87,23 @@ class participation extends basedb
 
   public function _load ($row)
   {
-    $id = $row['id_participation'];
-    $nom = $row['nom'];
-    $prenom = $row['prenom'];
-    $date_de_naissance = $row['date_de_naissance'];
-    $email = $row['email'];
-    $telephone = $row['telephone'];
-    $adresse_rue = $row['adresse_rue'];
-    $adresse_additional = $row['adresse_additional'];
-    $adresse_ville = $row['adresse_ville'];
-    $adresse_codepostal = $row['adresse_codepostal'];
-    $contribution_nom = $row['contribution_nom'];
-    $contribution_parent = $row['contribution_parent'];
-    $contribution_siteweb = $row['contribution_siteweb'];
-    $contribution_depot = $row['contribution_depot'];
-    $contribution_description = $row['contribution_description'];
+    $this->id = $row['id_participation'];
+    $this->nom = $row['nom'];
+    $this->prenom = $row['prenom'];
+    $this->date_de_naissance = $row['date_de_naissance'];
+    $this->email = $row['email'];
+    $this->telephone = $row['telephone'];
+    $this->adresse_rue = $row['adresse_rue'];
+    $this->adresse_additional = $row['adresse_additional'];
+    $this->adresse_ville = $row['adresse_ville'];
+    $this->adresse_codepostal = $row['adresse_codepostal'];
+    $this->contribution_nom = $row['contribution_nom'];
+    $this->contribution_parent = $row['contribution_parent'];
+    $this->contribution_siteweb = $row['contribution_siteweb'];
+    $this->contribution_depot = $row['contribution_depot'];
+    $this->contribution_description = $row['contribution_description'];
+    $this->universite = $row['univ'];
+    $this->position = $row['role_univ'];
   }
 
 }

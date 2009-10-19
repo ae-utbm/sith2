@@ -29,6 +29,12 @@ if ($site->asso->id != 110) {
   exit (0);
 }
 
+$roles = array ('etudiant' => "Étudiant",
+                'doct' => "Doctorant",
+                'prof' => "Professeur",
+                'enseig-cherch' => "Enseignant-chercheur",
+                'personnel' => "Personnel");
+
 $Erreur = false;
 
 $site->start_page (CMS_PREFIX."inscriptions", "Inscriptions au Prix Universitaire du Logiciel Libre");
@@ -49,6 +55,10 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
     $Erreur = "Le champ 'Téléphone' est vide";
   if (empty($_REQUEST['adresse_rue']))
     $Erreur = "Le champ 'Adresse' est vide";
+  if (empty($_REQUEST['univ']))
+    $Erreur = "Le champ 'École' est vide";
+  if (empty($_REQUEST['role_univ']))
+    $Erreur = "Le champ 'Position dans l'école' est vide";
   if (empty($_REQUEST['adresse_ville']))
     $Erreur = "Le champ 'Ville' est vide";
   if (empty($_REQUEST['adresse_codepostal']))
@@ -61,10 +71,6 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
     $Erreur = "Le champ 'Dépôt' est vide";
   if (empty($_REQUEST['contribution_description']))
     $Erreur = "Le champ 'Description' est vide";
-
-  $part->contribution_siteweb= $_REQUEST['contribution_siteweb'];
-  $part->contribution_depot= $_REQUEST['contribution_depot'];
-  $part->contribution_description= $_REQUEST['contribution_description'];
 
   if (!$Erreur)
     if (!CheckEmail($_REQUEST['email'], 3))
@@ -93,13 +99,22 @@ if ( $_REQUEST["action"] == 'addparticipation' ) {
     $part->contribution_siteweb= $_REQUEST['contribution_siteweb'];
     $part->contribution_depot= $_REQUEST['contribution_depot'];
     $part->contribution_description= $_REQUEST['contribution_description'];
+    $part->universite = $_REQUEST['univ'];
+    $part->position = $_REQUEST['role_univ'];
 
     if (!$part->add_participation ())
       $Erreur = "Erreur lors de l'ajout de la participation, veuillez réessayer";
   }
 
   if (!$Erreur) {
-    $cts->add_paragraph ('Votre participation a bien été enregistré, merci');
+    $cts->add_paragraph ('Votre participation a bien été enregistrée, merci. <br />');
+    $cts->add_title(2,"Mentions légales");
+    $cts->add_paragraph ("Les informations recueillies sont nécessaires pour valider votre participation.
+
+Elles font l’objet d’un traitement informatique et sont destinées au secrétariat de l’association uniquement. En application des articles 39 et suivants de la loi du 6 janvier 1978 modifiée, vous bénéficiez d’un droit d’accès et de rectification aux informations qui vous concernent.
+
+Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser à : contact &lt;at&gt; etoiles-du-libre &lt;dot&gt; org.");
+
     $site->add_contents($cts);
     $site->end_page();
     exit(0);
@@ -120,6 +135,8 @@ $frm->add_text_field('nom', 'Nom', '', true, 50);
 $frm->add_date_field('date_de_naissance', 'Date de naissance', -1, true);
 $frm->add_text_field('email', 'Email', '', true, 50);
 $frm->add_text_field('telephone', 'Téléphone', '', true, 50);
+$frm->add_text_field('univ', 'Nom de l\'école/université', '', true, 100);
+$frm->add_select_field('role_univ', 'Position dans l\'école', 'etudiant', '', true);
 
 $frm->add_text_field('adresse_rue', 'Adresse', '', true, 50);
 $frm->add_text_field('adresse_additional', 'Adresse(bis)', '', false, 50);
