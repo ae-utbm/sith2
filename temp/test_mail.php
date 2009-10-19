@@ -1,5 +1,5 @@
 <?
-exit();
+//exit();
 $topdir = '../';
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/entities/files.inc.php");
@@ -8,7 +8,7 @@ require_once($topdir.'include/lib/mailer.inc.php');
 $site = new site();
 
 $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
-                     'Weekmail du 12 au 18 octobre 2009');
+                     'Weekmail du 19 au 25 octobre 2009');
 //$mailer->add_dest('simon.lopez@utbm.fr');
 ///*
 $mailer->add_dest(array('etudiants@utbm.fr',
@@ -20,220 +20,244 @@ $mailer->add_dest(array('etudiants@utbm.fr',
 $content=<<<EOF
 Salut les UTbohémiens,
 
-Suite à la panne de Webmail de ce week-end, votre weekmail arrive avec un
-peu de retard, mais il arrive !
-Comme vous le savez peut-être, cette semaine est une semaine très importante
-dans notre vie associative. En effet, notre chère association fêtes ses 10
-ans d'existence !! Pour fêter dignement cette grande étape, l'AE convie tous
-ses cotisants à une grande soirée, ce jeudi à partir de 20h au foyer de
-Belfort pour un cocktail, qui se poursuivra à 22h par une soirée Electro
-gratuite.
-Entrée sur invitation, n'oubliez pas de récupérer la votre. A Sévenans, au
-bureau AE ou bien à Belfort, au bureau AE ou au foyer. On compte sur vous !
-Passons aux news...
+On attaque la dernière semaine avant les vacances ! Petite pensée pour tous
+les TC qui passent leurs médians cette semaine. Les activités continuent,
+tenez vous au chaud, l'hiver belfortain arrive à grands pas !
 
+Note pour les responsables de clubs :
+Le weekmail évolue, pour proposer des articles dans le weekmail, il faudra
+désormais passer par la section outils de vos clubs accessible directement
+depuis le menu "Gestion assos/clubs" sur le site AE. Le lien sera activé
+dès mercredi soir.
 
 Sommaire :
 
- * AE - Le Grand Cocktail des 10ans !!!
- * AE - Decade Party
- * Soirée "supersize me" au foyer mardi soir à 19h30
- * Le bigband de l'UTBM compte sur vous
- * AG promo 8
- * Solidar'UT - Réunion pour l'organisation du téléthon
- * Séance du Club Astro
- * Jardin'UT - Nouveau Club !
+ * L'AE évolue!
+ * Soirée étudiante gratuite à Montbéliard
+ * Electrochoc - à vous les platines !
+ * AE - Formation Com'
+ * Le Seven'Art présente Un Prophète
+ * UTtoons - programme de la semaine
+ * Club Astro - Pas de séance
+ * L'Arrêt Dessin participe à l'exposition "alliages"
+ * Troll Penché - séances de jeu d'échecs
 
 
 ----------------------------------------------------
-AE - Le Grand Cocktail des 10ans !!!
+L'AE évolue!
 ----------------------------------------------------
 
-L'Association des Etudiants de l'UTBM est heureuse de vous inviter au
-Cocktail organisé pour célébrer les 10 ans de l'association. Ce cocktail
-aura lieu Jeudi 15 octobre à 20h au Foyer de la Maison des Elèves sur le
-site de l'UTBM à Belfort (6 Boulevard Anatole France - 90000 BELFORT).
+A toi cher cotisant AE,
 
-Ce cocktail sera l'occasion de partager un moment convivial avec les
-différents partenaires de l'AE, l'administration de l'UTBM ainsi que les
-cotisants de l'association.
+La rentrée de septembre a été une nouvelle étape dans ma vie en tant
+qu'Association Etudiante de l'UTBM, plus connue sous le nom d'AE!
+Tout d'abord, bon nombre de nouveaux étudiants sont venus me rejoindre et
+sont donc devenus COTISANT AE!!!
+Ensuite, fin septembre, les clubs ont présenté leur projet et budget lors
+des Commissions de pôle (http://ae.utbm.fr/d.php?id_folder=1540) et ils ont
+été voté lors du Conseil d'administration (
+http://ae.utbm.fr/d.php?id_file=4625&action=download). De plus, j'ai eu
+droit à une mise à jour de mes statuts (
+http://ae.utbm.fr/d.php?id_file=2343&action=download) et de mon règlement
+intérieur (http://ae.utbm.fr/d.php?id_file=2344&action=download)!
+Puis, j'ai eu droit à ma fête d'anniversaire la semaine dernière où beaucoup
+d'entre vous sont venus!! Merci!!
+Enfin, je rappelle que toutes les semaines, l'équipe qui s'active autour de
+moi ce réunit pour parler de mon fonctionnement et qu'on peut retrouver le
+compte-rendu (sérieux ou pas) de cette réunion sur :
+http://ae.utbm.fr/forum2/?id_sujet=3585&spage=11 !
 
-Tenue correcte exigée
-Entrée sur présentation de l'invitation
+L'AE qui t'aime!
 
 ----------------------------------------------------
-AE - Decade Party
+Soirée étudiante gratuite à Montbéliard
 ----------------------------------------------------
 
-Voilà 10 ans que l'AE existe, 10 ans de dur labeur, mais surtout 10 ans
-d'activités, de joie et de souvenirs inoubliables. L'AE a participé à la
-formation des ingénieurs que nous sommes et serons, mais aussi à la
-rencontre de nos amis. Donc un seul mot à dire : Venez faire la fête le 15
-octobre à 22h avec vos amis au Foyer de Belfort !
+En l'honneur des étudiants, la Communauté d'Agglomération du Pays de
+Montbéliard organise une nocturne le 22 octobre 09 à Montbéliard! L'occasion
+de se rencontrer autour de jeux vidéos, musées, et d'une soirée!
 
-La Decade party est là pour fêter les 10 ans d'aniv de l'AE dans un décor
-clubber.
+Programme:
 
-Tenue correcte exigée
-Entrée Gratuite et réservée aux cotisants AE
+- Le tournoi de jeux vidéos aura lieu aux établissements publics numériques,
+ce sont des jeux vidéos sur console Wii tels que Guitar Heroe. Des lots
+seront à gagner (chèques cadeaux).
+
+- L'accueil des étudiants se fera à 20h00 à la Roselière de Montbéliard, le
+bracelet pass leur sera remis sur présentation de leur carte étudiante. De
+20 heures à 23 heures, ils pourront visiter gratuitement les musées de
+Montbéliard.
+- La soirée festive commencera à partir de 23H00, uniquement les personnes
+porteuses du bracelet pass pourront y assister. L'AE et le BDF gère les
+boissons, la lumière et le son.
+
+- Une tombola sera organisée, plusieurs lots seront mis en jeu : 2 places
+pour le concert de TRYO à l'Axone, des places de concerts pour la Mals,
+L'Allan, les 4 saisons du Palot, des chèques cadeaux, des places de foot,
+des cartes avantages jeunes...
+
+Venez nombreux!
 
 L'équipe AE
 
 ----------------------------------------------------
-Soirée "supersize me" au foyer mardi soir à 19h30
-----------------------------------------------------
-
-Bonjour à tous !
-
-
-
-L'été est maintenant loin, le froid arrive, il est temps de remplir les
-reserves pour avoir chaud pendant les longues nuits d'hiver!
-
-Alors arrête de cacher tes formes et apporte tes kilos, içi on malbouffe, et
-on en est fier !
-
-Si comme moi tu aimes la grosse bouffe, viens partager des bons hot dog et
-hamburgers, "homemade" bien entendu devant de la bonne bière du foyer !
-
-Rendez vous mardi 13 au foyer à 19h30 pour une "grasse" ripaille entre amis!
-
-je compte sur toi!
-
-La promo 07
-
-----------------------------------------------------
-Le bigband de l'UTBM compte sur vous
-----------------------------------------------------
-
-Ami UTBohéMien bonjour!
-Le Bigband de l'UTBM est une formation de 15 à 20 musiciens (parmi lesquels
-Saxophonistes, Trompettistes, Trombonistes, Clarinettistes, Guitaristes,
-Bassistes, Pianistes, Batteurs, etc.) qui reprend tout type de style (du
-jazz, mais aussi du funk, de la bossa, du shuffle, du boogie, du
-rock'n'roll, et tant d'autres) et qui, pour la deuxième année, dispose d'un
-compositeur attitré !
-
-- Si tu es un musicien intéressé : Nos répétitions se déroulent le jeudi
-soir de 20h à 22h à la MDE Sévenans, c'est ouvert à tous, nouveau, ancien,
-bon niveau, débutant. L'important est de savoir lire une partition et de
-disposer d'un instrument.
-
-- Si tu es intéressé par le club : Nous cherchons activement un responsable
-communication et un photographe/caméraman afin d'immortaliser nos moments
-musicaux
-
-- Si tu es intéressé par la musique, en tant que public : Nous te donnons
-rendez-vous lors de nos concerts :
-* Le 21 Novembre 2009, lors du Gala de l'UTBM, à 22h dans la salle P302 (à
-côté de la salle des colonnes)
-* Le 28 Novembre 2009, lors du TribUT organisé à l'UTT, et en partenariat
-avec les Bigbands de l'UTT et de l'UTC!
-
-De plus, toutes nos répétitions sont publiques, il t'est donc possible de
-venir nous voir le jeudi soir à 20h à la MDE !
-
-Pour nous contacter, une seule adresse : bigband@utbm.fr
-N'hésite surtout pas à nous passer un petit coucou !
-
-A très bientôt,
-Gawel pour le Bigband
-
-----------------------------------------------------
-AG promo 8
-----------------------------------------------------
-
-L'AG de la promo ce déroulera le jeudi 15 octobre dans la salle Rantanplan à
-partir de 18h30 jusqu'à 20h..
-
-Seront discutés pendant l'AG :
-
-1) Le thème du repas de Promo (le repas étant programmé pour le 5
-novembre)
-   Quelques thèmes proposés
-      o Prêtres et petits nenfants
-      o Modules déambulateurs
-      o Glands
-      o Frenchy : berret, tshirt rayé noir et blanc, foulard rouge, fromage qui
-        put et vin rouge
-      o sportif
-      o cannibale
-      o dictateur
-      o Série TV
-
-2) On discutera aussi la nécessité d'un objet de Promo.
-
-
-Toute la promo compte sur toi !
-
-Le bureau de la 8.
-
-----------------------------------------------------
-Solidar'UT - Réunion pour l'organisation du téléthon
-----------------------------------------------------
-
-Salut! Tu connais le téléthon? Non? Visite ce site alors:
-http://www.afm-telethon.fr/
-Ca te tente de participer à cet événement national pour la recherche contre
-les maladies génétiques? Dans ce cas là viens à la réunion, jeudi 15 à 14h
-en salle Rantanplan.
-On y définira les activités à faire (théâtre, lan, vente de peluches, stand
-dans la rue piétonne de Belfort avec Barbes à Papa, vin chaud, etc...) et on
-définira qui fait quoi.
-N'ai pas peur de te lancer dans l'aventure: c'est extrêmement intéressant et
-enrichissant et on sera là pour t'aider.
-
-@ jeudi Prochain
-
-Périeu pour Solidar'UT
-
-----------------------------------------------------
-Séance du Club Astro
-----------------------------------------------------
-
-Jeudi 15 octobre à partir de 20 heures dans la salle d'activité.
-Cette semaine, le météo devrait être bonne, donc petite observation hors de
-Belfort. Au programme, Jupiter à la webcam, et ciel profond.
-Prévoir une tenue chaude !
-Au cas ou, il y aura une projection de documentaire.
-A jeudi
-
-----------------------------------------------------
-Jardin'UT - Nouveau Club !
+Electrochoc - à vous les platines !
 ----------------------------------------------------
 
 Salut à tous !
 
-Vous en avez peut-être entendu parler, un club de jardinage a été ouvert. Le
-but dans un premier temps est d’entretenir la partie de la ME vers le
-barbecue.Par entretenir, on veut dire, ramasser les fruits pourris, nettoyer
-le barbecue et éventuellement débroussailler un peu là où c’est
-nécessaire.Alors si vous vous sentez l’âme verte ou si vous avez juste envie
-de vous bouger un peu pour quelque chose d’utile, n’hésitez plus, inscrivez
-vous au club jardin’UT.
+Comme vous l'avez peut-être entendu au détour d'une conversation, la soirée
+Electrochoc, grande soirée autour des musiques électroniques fait son grand
+retour ce semestre au début du mois de décembre.
 
-La première session aura lieu ce samedi 17 octobre. On se donne rendez vous
-devant le Foyer vers 14h. Pensez à prendre des vêtements qui ne craignent
-pas la boue, le reste du matériel qui pourra être nécessaire sera fourni.
+Petite nouveauté, ce semestre, l'équipe d'organisation vous propose de mixer
+sur un créneau de 30 minutes durant la soirée.
 
-Bonne semaine à tous et en espérant vous voire nombreux samedi.
+Si tu es donc DJ averti, membre ou pas du club mix, libre à toi de nous
+transmettre une maquette mixée par tes soins d'une durée maximale de 30
+minutes. Attention cependant, cette maquette devra avoir été mixée sur
+platines CDs et transmise à club.mix@utbm.fr avant le 08 novembre 2009.
 
-2trèfle, secrétaire jardin’UT
-
-
-
-P.S : un peu de pluie n’a jamais tué personne, donc si il y a quelques
-averses, prenez un imper et ça sera bon ;)
+A vous de jouer !
+A6, pour Electrochoc
 
 ----------------------------------------------------
-La blague
+AE - Formation Com'
 ----------------------------------------------------
 
-Un homme est dans un bar en train de boire son café quand soudain lui prend
-une envie pressante, ne sachant que faire, il met un post-it à côté du café
-avec écrit : "J'ai craché dedans.". Il revient après s'être soulagé quelques
-minutes après et trouve un autre post-it à côté du café où il est écrit :
-"Moi aussi :)"
+En temps que responsable com' de l'AE je propose aux cotisants de l'AE une
+formation Com'/PAO, le Jeudi 22 octobre à 15h. Cette formation portera sur
+plusieurs sujet, tel que les méthodes de com' et le respect de la charte
+AE-UTBM ainsi qu'une initiation ou formation à la PAO pour vous donner des
+astuces pour vos support de communications.
+Merci de m'envoyer un mail si vous voulez y participer (
+guillaume.nys@utbm.fr). Envoyez moi aussi vos attentes ainsi je pourrais
+alors orienter cette formation dans les domaines qui vous intéressent le
+plus.
+
+mage
+
+Responsable Communication Association des Etudiants de l'Université de
+Technologie de Belfort-Montbéliard
+
+----------------------------------------------------
+Le Seven'Art présente Un Prophète
+----------------------------------------------------
+
+Bonjour,
+
+Cette semaine le Seven'Art propose Un Prophète le mercredi 21 octobre en
+P108 à 20h30. Un film de Jacques Audiard avec Tahar Rahim, Niels Arestrup,
+Adel Bencherif.
+
+Synopsis :
+Condamné à six ans de prison, Malik El Djebena ne sait ni lire, ni écrire. A
+son arrivée en Centrale, seul au monde, il paraît plus jeune, plus fragile
+que les autres détenus. Il a 19 ans.
+D'emblée, il tombe sous la coupe d'un groupe de prisonniers corses qui fait
+régner sa loi dans la prison. Le jeune homme apprend vite. Au fil des "
+missions ", il s'endurcit et gagne la confiance des Corses.
+Mais, très vite, Malik utilise toute son intelligence pour développer
+discrètement son propre réseau...
+
+
+Deux affiches du film seront à gagner par tirage au sort durant la séance.
+
+Cotisants AE : 2,50 euros | Autres : 3,50 euros (Possibilité de payer par
+carte AE)
+
+Entrée par le parking du bas.
+
+Cinéphilement,
+L'Equipe Seven'Art
+
+----------------------------------------------------
+UTtoons - programme de la semaine
+----------------------------------------------------
+
+Bonjour à tous,
+
+Cette semaine, c'est avec plaisir que nous allons vous présenter et peut
+être faire découvrir Lilo et Stitch et ensuite Origine. Rendez-vous lundi 19
+à 20h dans l'amphi A200.
+
+
+Lilo et stitch
+
+A l'autre bout de l'univers, un savant quelque peu dérangé a donné naissance
+à Stitch, la créature la plus intelligente et la plus destructrice qui ait
+jamais existé. Conscientes de son exceptionnel potentiel dévastateur, les
+autorités de sa planète s'apprêtent à l'arrêter, mais le petit monstre prend
+la poudre d'escampette à bord de son vaisseau spatial.
+Stitch échoue sur Terre, en plein Pacifique, sur l'île d'Hawaii.
+
+Origine
+
+300 ans après notre ère, la Terre vit meurtrie des blessures causées par
+l'inconscience de l?homme. Le monde est désormais dominé par la toute
+puissance des esprits de la forêt qui infligent à l'humanité leur colère
+pour les souffrances passées. Dans ce nouveau monde, co-existent deux cités
+: Ragna, qui oeuvre pour le retour de la civilisation, et la Cité Neutre,
+qui prône l'harmonie avec la forêt. Mais le destin s'en mêle lorsque le
+jeune Agito réveille par hasard Toola, une jeune fille du temps passé,
+conservée mystérieusement dans un sanctuaire interdit.
+
+En espérant vous voir nombreux,
+Ticho & Otine
+
+----------------------------------------------------
+Club Astro - Pas de séance
+----------------------------------------------------
+
+Pas de séance prévue pour cette semaine en raison des vacances.
+A la rentrée.
+
+----------------------------------------------------
+L'Arrêt Dessin participe à l'exposition "alliages"
+----------------------------------------------------
+
+Bonjour à tous!
+
+Vous avez tous pu le lire sur le site de l'AE, ou de l'UTBM ainsi que dans
+vos mails, le club Arrêt Dessin doit participer à l'exposition "alliages" à
+l'UTBM.
+
+Pour l'occasion, une artiste nous propose de faire des dessins, le mardi et
+le mercredi de cette semaine à Sévenans. Je ne suis pas encore dans la
+possibilité de vous donner les horaires exactes des séances de dessin. Si
+vous êtes intéressés par rencontrer une artiste et faire un peu de croquis
+et de dessin, contactez-moi!
+
+Je vous invite tous au vernissage le Jeudi 22 Octobre à Sévenans de 18h à
+20h. J'espère vous voir malgré la soirée à Montbéliard et les médians de TC.
+
+Soir
+
+----------------------------------------------------
+Troll Penché - séances de jeu d'échecs
+----------------------------------------------------
+
+Salutations !
+
+Tu aimes le jeu d'échecs ou tu aimerais apprendre à y jouer ?
+Le troll penché organise chaque jeudi à partir de 14h au foyer de Belfort,
+des séances de jeu d'échecs.
+
+Si tu veux t'initier, te perfectionner ou simplement jouer quelques parties,
+que tu sois débutant ou maitre, tu es le bienvenu =)
+
+Trusion, responsable des séances échecs
+
+----------------------------------------------------
+La blague offerte et assumée par Dahu !
+----------------------------------------------------
+
+C'est une blonde qui retrouve une de ses copines, blonde aussi.
+Holalalalalala, j'ai encore raté le permis...
+Qu'est ce qui s'est passé ?
+Je suis arrivée près d'un rond-point et là comme l'indique le panneau 30,
+j'ai fait 30 fois le tour du rond-point.
+Et tu t'es trompée de combien de tours ?
 
 --
 à la semaine prochaine !
@@ -246,196 +270,221 @@ $html = <<<EOF
 <table bgcolor="#333333" width="700px">
 <tr><td align="center">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td width="601"><img src="http://ae.utbm.fr/d.php?id_file=4652&action=download" /></td></tr>
+<tr><td width="601"><img src="http://ae.utbm.fr/d.php?id_file=4693&action=download" /></td></tr>
 <tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Introduction</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px">Salut les UTbohémiens,<br />
 <br />
-Suite à la panne de Webmail de ce week-end, votre weekmail arrive avec un
-peu de retard, mais il arrive !<br />
-Comme vous le savez peut-être, cette semaine est une semaine très importante
-dans notre vie associative. En effet, notre chère association fêtes ses 10
-ans d'existence !! Pour fêter dignement cette grande étape, l'AE convie tous
-ses cotisants à une grande soirée, ce jeudi à partir de 20h au foyer de
-Belfort pour un cocktail, qui se poursuivra à 22h par une soirée Electro
-gratuite.<br />
-Entrée sur invitation, n'oubliez pas de récupérer la votre. A Sévenans, au
-bureau AE ou bien à Belfort, au bureau AE ou au foyer. On compte sur vous !
-Passons aux news...
+On attaque la dernière semaine avant les vacances ! Petite pensée pour tous
+les TC qui passent leurs médians cette semaine. Les activités continuent,
+tenez vous au chaud, l'hiver belfortain arrive à grands pas !
+<br /><br />
+Note pour les responsables de clubs :<br />
+Le weekmail évolue, pour proposer des articles dans le weekmail, il faudra
+désormais passer par la section outils de vos clubs accessible directement
+depuis le menu "Gestion assos/clubs" sur le site AE. Le lien sera activé dès mercredi soir.
 <br />&nbsp;</td></tr>
 <tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Sommaire</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px"><ul>
-<li>AE - Le Grand Cocktail des 10ans !!!</li>
-<li>AE - Decade Party</li>
-<li>Soirée "supersize me" au foyer mardi soir à 19h30</li>
-<li>Le bigband de l'UTBM compte sur vous</li>
-<li>AG promo 8</li>
-<li>Solidar'UT - Réunion pour l'organisation du téléthon</li>
-<li>Séance du Club Astro</li>
-<li>Jardin'UT - Nouveau Club !</li>
+<li>L'AE évolue !</li>
+<li>Soirée étudiante gratuite à Montbéliard</li>
+<li>Electrochoc - à vous les platines !</li>
+<li>AE - Formation Com'</li>
+<li>Le Seven'Art présente Un Prophète</li>
+<li>UTtoons - programme de la semaine</li>
+<li>Club Astro - Pas de séance</li>
+<li>L'Arrêt Dessin participe à l'exposition "alliages"</li>
+<li>Troll Penché - séances de jeu d'échecs</li>
 </ul>
 </td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">AE - Le Grand Cocktail des 10ans !!!</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">L'Association des Etudiants de l'UTBM est heureuse de vous inviter au
-Cocktail organisé pour célébrer les 10 ans de l'association. Ce cocktail
-aura lieu Jeudi 15 octobre à 20h au Foyer de la Maison des Elèves sur le
-site de l'UTBM à Belfort (6 Boulevard Anatole France - 90000 BELFORT).
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">L'AE évolue !</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+A toi cher cotisant AE,
 <br /><br />
-Ce cocktail sera l'occasion de partager un moment convivial avec les
-différents partenaires de l'AE, l'administration de l'UTBM ainsi que les
-cotisants de l'association.
+La rentrée de septembre a été une nouvelle étape dans ma vie en tant
+qu'Association Etudiante de l'UTBM, plus connue sous le nom d'AE!
+Tout d'abord, bon nombre de nouveaux étudiants sont venus me rejoindre et
+sont donc devenus COTISANT AE!!!
 <br /><br />
-Tenue correcte exigée<br />
-Entrée sur présentation de l'invitation
+Ensuite, fin septembre, les clubs ont présenté leur projet et budget lors
+des Commissions de pôle (<a href="http://ae.utbm.fr/d.php?id_folder=1540">plus d'infos</a>) et ils ont
+été voté lors du Conseil d'administration (
+<a href="http://ae.utbm.fr/d.php?id_file=4625&action=download">Compte rendu</a>). De plus, j'ai eu
+droit à une mise à jour de mes <a href="http://ae.utbm.fr/d.php?id_file=2343&action=download">statuts</a>) et de mon
+<a href="http://ae.utbm.fr/d.php?id_file=2344&action=download">règlement intérieur</a>!
+Puis, j'ai eu droit à ma fête d'anniversaire la semaine dernière où beaucoup
+d'entre vous sont venus!! Merci!!
+<br /><br />
+Enfin, je rappelle que toutes les semaines, l'équipe qui s'active autour de
+moi ce réunit pour parler de mon fonctionnement et qu'on peut retrouver le
+compte-rendu (sérieux ou pas) de cette réunion sur :
+<a href="http://ae.utbm.fr/forum2/?id_sujet=3585&spage=11">ici</a> !
+<br /><br />
+L'AE qui t'aime!
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">AE - Decade Party</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Voilà 10 ans que l'AE existe, 10 ans de dur labeur, mais surtout 10 ans
-d'activités, de joie et de souvenirs inoubliables. L'AE a participé à la
-formation des ingénieurs que nous sommes et serons, mais aussi à la
-rencontre de nos amis. Donc un seul mot à dire : Venez faire la fête le 15
-octobre à 22h avec vos amis au Foyer de Belfort !
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Soirée étudiante gratuite à Montbéliard</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+En l'honneur des étudiants, la Communauté d'Agglomération du Pays de
+Montbéliard organise une nocturne le 22 octobre 09 à Montbéliard! L'occasion
+de se rencontrer autour de jeux vidéos, musées, et d'une soirée!
 <br /><br />
-La Decade party est là pour fêter les 10 ans d'aniv de l'AE dans un décor
-clubber.
+Programme:
+<ul>
+<li>Le tournoi de jeux vidéos aura lieu aux établissements publics numériques,
+ce sont des jeux vidéos sur console Wii tels que Guitar Heroe. Des lots
+seront à gagner (chèques cadeaux).</li>
+<li>L'accueil des étudiants se fera à 20h00 à la Roselière de Montbéliard, le
+bracelet pass leur sera remis sur présentation de leur carte étudiante. De
+20 heures à 23 heures, ils pourront visiter gratuitement les musées de
+Montbéliard</li>
+<li>La soirée festive commencera à partir de 23H00, uniquement les personnes
+porteuses du bracelet pass pourront y assister. L'AE et le BDF gère les
+boissons, la lumière et le son</li>
+<li>Une tombola sera organisée, plusieurs lots seront mis en jeu : 2 places
+pour le concert de TRYO à l'Axone, des places de concerts pour la Mals,
+L'Allan, les 4 saisons du Palot, des chèques cadeaux, des places de foot,
+des cartes avantages jeunes...</li>
 <br /><br />
-Tenue correcte exigée<br />
-Entrée Gratuite et réservée aux cotisants AE
+Venez nombreux!
 <br /><br />
 L'équipe AE
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Soirée "supersize me" au foyer mardi soir à 19h30</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Bonjour à tous !
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Electrochoc - à vous les platines !</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+Salut à tous !
 <br /><br />
-L'été est maintenant loin, le froid arrive, il est temps de remplir les
-reserves pour avoir chaud pendant les longues nuits d'hiver!
+Comme vous l'avez peut-être entendu au détour d'une conversation, la soirée
+Electrochoc, grande soirée autour des musiques électroniques fait son grand
+retour ce semestre au début du mois de décembre.
 <br /><br />
-Alors arrête de cacher tes formes et apporte tes kilos, içi on malbouffe, et
-on en est fier !
+Petite nouveauté, ce semestre, l'équipe d'organisation vous propose de mixer
+sur un créneau de 30 minutes durant la soirée.
 <br /><br />
-Si comme moi tu aimes la grosse bouffe, viens partager des bons hot dog et
-hamburgers, "homemade" bien entendu devant de la bonne bière du foyer !
+Si tu es donc DJ averti, membre ou pas du club mix, libre à toi de nous
+transmettre une maquette mixée par tes soins d'une durée maximale de 30
+minutes. Attention cependant, cette maquette devra avoir été mixée sur
+platines CDs et transmise à club.mix@utbm.fr avant le 08 novembre 2009.
 <br /><br />
-Rendez vous mardi 13 au foyer à 19h30 pour une "grasse" ripaille entre amis!
-<br /><br />
-je compte sur toi!
-<br />
-La promo 07
+A vous de jouer !
+A6, pour Electrochoc
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le bigband de l'UTBM compte sur vous</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Ami UTBohéMien bonjour!
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">AE - Formation Com'</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+En temps que responsable com' de l'AE je propose aux cotisants de l'AE une
+formation Com'/PAO, le Jeudi 22 octobre à 15h. Cette formation portera sur
+plusieurs sujet, tel que les méthodes de com' et le respect de la charte
+AE-UTBM ainsi qu'une initiation ou formation à la PAO pour vous donner des
+astuces pour vos support de communications.<br />
+Merci de m'envoyer un mail si vous voulez y participer (<a href="mailto:guillaume.nys@utbm.fr">guillaume.nys@utbm.fr</a>).
+Envoyez moi aussi vos attentes ainsi je pourrais alors orienter cette
+formation dans les domaines qui vous intéressent le plus.
 <br /><br />
-Le Bigband de l'UTBM est une formation de 15 à 20 musiciens (parmi lesquels
-Saxophonistes, Trompettistes, Trombonistes, Clarinettistes, Guitaristes,
-Bassistes, Pianistes, Batteurs, etc.) qui reprend tout type de style (du
-jazz, mais aussi du funk, de la bossa, du shuffle, du boogie, du
-rock'n'roll, et tant d'autres) et qui, pour la deuxième année, dispose d'un
-compositeur attitré !<li>
-<ul>
-<li>Si tu es un musicien intéressé : Nos répétitions se déroulent le jeudi
-soir de 20h à 22h à la MDE Sévenans, c'est ouvert à tous, nouveau, ancien,
-bon niveau, débutant. L'important est de savoir lire une partition et de
-disposer d'un instrument.</li>
-<li>Si tu es intéressé par le club : Nous cherchons activement un responsable
-communication et un photographe/caméraman afin d'immortaliser nos moments
-musicaux</li>
-<li>Si tu es intéressé par la musique, en tant que public : Nous te donnons
-rendez-vous lors de nos concerts :
-<ul>
-<li>Le 21 Novembre 2009, lors du Gala de l'UTBM, à 22h dans la salle P302 (à
-côté de la salle des colonnes)</li>
-<li>Le 28 Novembre 2009, lors du TribUT organisé à l'UTT, et en partenariat
-avec les Bigbands de l'UTT et de l'UTC!</li>
-</ul>
-</ul>
+mage
 <br /><br />
-De plus, toutes nos répétitions sont publiques, il t'est donc possible de
-venir nous voir le jeudi soir à 20h à la MDE !
-<br /><br />
-Pour nous contacter, une seule adresse : bigband@utbm.fr<br />
-N'hésite surtout pas à nous passer un petit coucou !
-<br /><br />
-A très bientôt,<br />
-Gawel pour le Bigband
+Responsable Communication Association des Etudiants de l'Université de
+Technologie de Belfort-Montbéliard
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">AG promo 8</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Bonjour à vous,
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le Seven'Art présente Un Prophète</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+Bonjour,
 <br /><br />
-L'AG de la promo ce déroulera le jeudi 15 octobre dans la salle Rantanplan à
-partir de 18h30 jusqu'à 20h..
+Cette semaine le Seven'Art propose Un Prophète le mercredi 21 octobre en
+P108 à 20h30. Un film de Jacques Audiard avec Tahar Rahim, Niels Arestrup,
+Adel Bencherif.
 <br /><br />
-Seront discutés pendant l'AG :
-
-<ul>
-<li>Le thème du repas de Promo (le repas étant programmé pour le 5 novembre)<br />
-Quelques thèmes proposés :</li>
-<ul>
-<li>Prêtres et petits nenfants</li>
-<li>Modules déambulateurs</li>
-<li>Glands</li>
-<li>Frenchy : berret, tshirt rayé noir et blanc, foulard rouge, fromage qui put et vin rouge</li>
-<li>sportif</li>
-<li>cannibale</li>
-<li>dictateur</li>
-<li>Série TV</li>
-</ul>
-<li>On discutera aussi la nécessité d'un objet de Promo.</li>
-</ul>
-Toute la promo compte sur toi !
+Synopsis :<br />
+Condamné à six ans de prison, Malik El Djebena ne sait ni lire, ni écrire. A
+son arrivée en Centrale, seul au monde, il paraît plus jeune, plus fragile
+que les autres détenus. Il a 19 ans.<br />
+D'emblée, il tombe sous la coupe d'un groupe de prisonniers corses qui fait
+régner sa loi dans la prison. Le jeune homme apprend vite. Au fil des "
+missions ", il s'endurcit et gagne la confiance des Corses.<br />
+Mais, très vite, Malik utilise toute son intelligence pour développer
+discrètement son propre réseau...
 <br /><br />
-Le bureau de la 8.
+Deux affiches du film seront à gagner par tirage au sort durant la séance.
+<br /><br />
+Cotisants AE : 2,50 euros | Autres : 3,50 euros (Possibilité de payer par
+carte AE)
+<br /><br />
+Entrée par le parking du bas.
+<br /><br />
+Cinéphilement,<br />
+L'Equipe Seven'Art
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Solidar'UT - Réunion pour l'organisation du téléthon</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Salut!<br />
-Tu connais le téléthon? Non? Visite ce <a href="http://www.afm-telethon.fr/">site</a>.
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">UTtoons - programme de la semaine</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+Bonjour à tous,
 <br /><br />
-Ca te tente de participer à cet événement national pour la recherche contre
-les maladies génétiques? Dans ce cas là viens à la réunion, jeudi 15 à 14h
-en salle Rantanplan.<br />
-On y définira les activités à faire (théâtre, lan, vente de peluches, stand
-dans la rue piétonne de Belfort avec Barbes à Papa, vin chaud, etc...) et on
-définira qui fait quoi.<br />
-N'ai pas peur de te lancer dans l'aventure: c'est extrêmement intéressant et
-enrichissant et on sera là pour t'aider.
+Cette semaine, c'est avec plaisir que nous allons vous présenter et peut
+être faire découvrir Lilo et Stitch et ensuite Origine. Rendez-vous lundi 19
+à 20h dans l'amphi A200.
 <br /><br />
-@ jeudi Prochain
+Lilo et stitch<br />
+A l'autre bout de l'univers, un savant quelque peu dérangé a donné naissance
+à Stitch, la créature la plus intelligente et la plus destructrice qui ait
+jamais existé. Conscientes de son exceptionnel potentiel dévastateur, les
+autorités de sa planète s'apprêtent à l'arrêter, mais le petit monstre prend
+la poudre d'escampette à bord de son vaisseau spatial.
+Stitch échoue sur Terre, en plein Pacifique, sur l'île d'Hawaii.
 <br /><br />
-Périeu pour Solidar'UT
+Origine :<br />
+300 ans après notre ère, la Terre vit meurtrie des blessures causées par
+l'inconscience de l?homme. Le monde est désormais dominé par la toute
+puissance des esprits de la forêt qui infligent à l'humanité leur colère
+pour les souffrances passées. Dans ce nouveau monde, co-existent deux cités
+: Ragna, qui oeuvre pour le retour de la civilisation, et la Cité Neutre,
+qui prône l'harmonie avec la forêt. Mais le destin s'en mêle lorsque le
+jeune Agito réveille par hasard Toola, une jeune fille du temps passé,
+conservée mystérieusement dans un sanctuaire interdit.
+<br /><br />
+En espérant vous voir nombreux,
+Ticho & Otine
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Séance du Club Astro</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Jeudi 15 octobre à partir de 20 heures dans la salle d'activité.<br />
-Cette semaine, le météo devrait être bonne, donc petite observation hors de
-Belfort. Au programme, Jupiter à la webcam, et ciel profond.<br />
-Prévoir une tenue chaude !<br />
-Au cas ou, il y aura une projection de documentaire.<br />
-A jeudi
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Club Astro - Pas de séance</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+Pas de séance prévue pour cette semaine en raison des vacances.<br />
+A la rentrée.
 <br />&nbsp;</td></tr>
-<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Jardin'UT - Nouveau Club !</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Salut à tous !
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">L'Arrêt Dessin participe à l'exposition "alliages"</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+Bonjour à tous!
 <br /><br />
-Vous en avez peut-être entendu parler, un club de jardinage a été ouvert. Le
-but dans un premier temps est d’entretenir la partie de la ME vers le
-barbecue.Par entretenir, on veut dire, ramasser les fruits pourris, nettoyer
-le barbecue et éventuellement débroussailler un peu là où c’est
-nécessaire.Alors si vous vous sentez l’âme verte ou si vous avez juste envie
-de vous bouger un peu pour quelque chose d’utile, n’hésitez plus, inscrivez
-vous au club jardin’UT.
+Vous avez tous pu le lire sur le site de l'AE, ou de l'UTBM ainsi que dans
+vos mails, le club Arrêt Dessin doit participer à l'exposition "alliages" à
+l'UTBM.
 <br /><br />
-La première session aura lieu ce samedi 17 octobre. On se donne rendez vous
-devant le Foyer vers 14h. Pensez à prendre des vêtements qui ne craignent
-pas la boue, le reste du matériel qui pourra être nécessaire sera fourni.
+Pour l'occasion, une artiste nous propose de faire des dessins, le mardi et
+le mercredi de cette semaine à Sévenans. Je ne suis pas encore dans la
+possibilité de vous donner les horaires exactes des séances de dessin. Si
+vous êtes intéressés par rencontrer une artiste et faire un peu de croquis
+et de dessin, contactez-moi!
 <br /><br />
-Bonne semaine à tous et en espérant vous voire nombreux samedi.
+Je vous invite tous au vernissage le Jeudi 22 Octobre à Sévenans de 18h à
+20h. J'espère vous voir malgré la soirée à Montbéliard et les médians de TC.
 <br /><br />
-2trèfle, secrétaire jardin’UT
+Soir
+<br />&nbsp;</td></tr>
+<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Troll Penché - séances de jeu d'échecs</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+Salutations !
 <br /><br />
-P.S : un peu de pluie n’a jamais tué personne, donc si il y a quelques
-averses, prenez un imper et ça sera bon ;)
+Tu aimes le jeu d'échecs ou tu aimerais apprendre à y jouer ?
+Le troll penché organise chaque jeudi à partir de 14h au foyer de Belfort,
+des séances de jeu d'échecs.
+<br /><br />
+Si tu veux t'initier, te perfectionner ou simplement jouer quelques parties,
+que tu sois débutant ou maitre, tu es le bienvenu =)
+<br /><br />
+Trusion, responsable des séances échecs
 <br />&nbsp;</td></tr>
 <tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">La blague !</font></td></tr>
-<tr><td style="padding:2px 5px 2px 5px">Un homme est dans un bar en train de boire son café quand soudain lui prend
-une envie pressante, ne sachant que faire, il met un post-it à côté du café
-avec écrit : "J'ai craché dedans.". Il revient après s'être soulagé quelques
-minutes après et trouve un autre post-it à côté du café où il est écrit :
-"Moi aussi :)"
+<tr><td style="padding:2px 5px 2px 5px">
+C'est une blonde qui retrouve une de ses copines, blonde aussi.
+Holalalalalala, j'ai encore raté le permis...
+Qu'est ce qui s'est passé ?
+Je suis arrivée près d'un rond-point et là comme l'indique le panneau 30,
+j'ai fait 30 fois le tour du rond-point.
+Et tu t'es trompée de combien de tours ?
 <br />&nbsp;</td></tr>
 <tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le mot de la fin</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px">à la semaine prochaine !<br />
