@@ -49,7 +49,7 @@ class participation extends basedb
     $req = new insert($this->dbrw, 'pull_participations',
                       array('nom' => $this->nom,
                             'prenom' => $this->prenom,
-                            'date_de_naissance' => $this->date_de_naissance,
+                            'date_de_naissance' => date("Y-m-d", $this->date_de_naissance),
                             'email' => $this->email,
                             'telephone' => $this->telephone,
                             'adresse_rue' => $this->adresse_rue,
