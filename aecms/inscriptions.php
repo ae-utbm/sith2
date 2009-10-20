@@ -33,7 +33,8 @@ $roles = array ('etudiant' => "Étudiant",
                 'doct' => "Doctorant",
                 'prof' => "Professeur",
                 'enseig-cherch' => "Enseignant-chercheur",
-                'personnel' => "Personnel");
+                'personnel' => "Personnel",
+                'autre' => "Autres");
 
 $Erreur = false;
 
