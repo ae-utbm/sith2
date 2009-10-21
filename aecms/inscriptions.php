@@ -130,7 +130,7 @@ if ($Erreur)
   $frm->error($Erreur);
 
 $frm->add_hidden('action', 'addparticipation');
-$frm->add_info ('<h3>Informations personelles</h3>');
+$frm->add_info ('<h3>Informations personnelles</h3>');
 $frm->add_text_field('prenom', 'Prénom', '', true, 50);
 $frm->add_text_field('nom', 'Nom', '', true, 50);
 $frm->add_date_field('date_de_naissance', 'Date de naissance', -1, true);
