@@ -400,6 +400,7 @@ L'équipe info AE";
       "INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
       "INNER JOIN `utilisateurs` ON `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
       "WHERE `utilisateurs`.`id_utilisateur` IN (".implode(",",$nprintable).") " .
+      "AND date_fin_cotis > NOW()" .
       "ORDER BY `utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl`");
 
   $cts->add(new sqltable(
