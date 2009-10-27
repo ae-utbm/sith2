@@ -225,9 +225,20 @@ class aecms extends site
   function start_page ( $section, $title,$compact=false )
   {
     $sections = explode(",",$this->config["boxes.sections"]);
+    $boxes = array();
+
     if ( in_array($section,$sections) )
-    {
       $boxes = explode(",",$this->config["boxes.names"]);
+
+    foreach( $this->config["boxes.specific"] as $name => $sections )
+    {
+      $sections = explode(",",$sections);
+      if (in_array($section, $sections))
+        $boxes[] = $name;
+    }
+
+    if (! empty($boxes))
+    {
       $this->set_side_boxes("right",$boxes,"aecms");
 
       foreach( $boxes as $name )
