@@ -396,7 +396,7 @@ elseif ( $_REQUEST["action"] == "save" )
   else
     $boxes_specific = explode(",",$site->config["boxes.specific"]);
 
-  if (empty($_REQUEST["sections"]) && ! in_array($_REQUEST["box_name"], $boxes))
+  if (empty($_REQUEST["sections"]))
   {
     $boxes[] = $_REQUEST["box_name"];
     foreach ( $boxes_specific as $key => $name )
@@ -405,6 +405,7 @@ elseif ( $_REQUEST["action"] == "save" )
   }
   else
   {
+    echo "sect\n";
     $boxes_specific[] = $_REQUEST["box_name"];
     foreach ( $boxes as $key => $name )
       if ( $name == $_REQUEST["box_name"] )
@@ -413,7 +414,10 @@ elseif ( $_REQUEST["action"] == "save" )
     $sections = array();
     foreach( $_REQUEST["sections"] as $name => $set )
       $sections[]=$name;
+    print_r($sections);
     $site->config["boxes.specific.".$_REQUEST["box_name"]] = implode(",",$sections);
+    echo $site->config;
+    die();
   }
 
   $site->config["boxes.names"] = implode(",",$boxes);
