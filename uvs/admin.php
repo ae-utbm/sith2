@@ -87,13 +87,6 @@ if ($_REQUEST['sub'] == 'modseance')
 
     $cts->add_title(1, "Modification des séances horaires");
 
-    // formulaire posté
-    if (isset($_REQUEST['modsubmit']))
-      {
-        $cts->add_paragraph("<pre>" . print_r($_REQUEST, true) . "</pre>");
-
-      }
-
     // on sait ce qu'on doit modifier
     if (isset($_REQUEST['id_seance']))
       {

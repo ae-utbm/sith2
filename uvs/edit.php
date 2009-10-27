@@ -49,11 +49,11 @@ $site->start_page("services", "Emploi du temps");
 /* protection d'usage */
 if (!$site->user->utbm)
 {
-	$site->error_forbidden("none","reservedutbm");
+  $site->error_forbidden("none","reservedutbm");
 }
 if (!$site->user->is_valid())
 {
-	$site->error_forbidden();
+  $site->error_forbidden();
 }
 
 
@@ -77,7 +77,7 @@ else
 if ($_REQUEST['action'] == 'unsubscribe')
 {
   $ret = $edt->unsubscr_etu_from_grp($site->user->id,
-				     $_REQUEST['idseance']);
+             $_REQUEST['idseance']);
 
   $newcts = new contents("Désinscription");
 
@@ -85,7 +85,7 @@ if ($_REQUEST['action'] == 'unsubscribe')
     $newcts->add_paragraph("Desinscription de la séance effectuée avec succès.");
   else
     $newcts->add_paragraph("Une erreur est survenue lors de la ".
-			"désinscription de la séance.");
+      "désinscription de la séance.");
 
   $site->add_contents($newcts);
 }
@@ -99,8 +99,8 @@ else if ($_REQUEST['action'] == 'commitmod')
 
   if ($ret)
     $ret = $edt->assign_etu_to_grp($site->user->id,
-				   $_REQUEST['modfrm_idseance'],
-				   $_REQUEST['modfrm_grpfreq']);
+           $_REQUEST['modfrm_idseance'],
+           $_REQUEST['modfrm_grpfreq']);
   if ($ret)
     $newcts->add_paragraph("Modification prise en compte.");
   else
@@ -118,34 +118,34 @@ else if ($_REQUEST['action'] == 'commitadd')
   if ($_REQUEST['addfrm_scid'] != -1)
     {
       $ret = $edt->assign_etu_to_grp($site->user->id,
-				     $_REQUEST['addfrm_scid'],
-				     $_REQUEST['addfrm_ex_freq']);
+             $_REQUEST['addfrm_scid'],
+             $_REQUEST['addfrm_ex_freq']);
       if ($ret == true)
-	$newcts->add_paragraph("Inscription à la séance réussie.");
+  $newcts->add_paragraph("Inscription à la séance réussie.");
       else
-	$newcts->add_paragraph("<b>Echec à l'inscription ".
-			       "de la séance existante</b>");
+  $newcts->add_paragraph("<b>Echec à l'inscription ".
+             "de la séance existante</b>");
     }
   /* création d'une nouvelle séance */
   else
     {
       $ret = $edt->create_grp($_REQUEST['addfrm_iduv'],
-			      $_REQUEST['addfrm_typseance'],
-			      $_REQUEST['addfrm_numgrp'],
-			      $_REQUEST['addfrm_hdeb'] . ":" .$_REQUEST['addfrm_mdeb'] . ":00",
-			      $_REQUEST['addfrm_hfin'] . ":" .$_REQUEST['addfrm_mfin'] . ":00",
-			      $_REQUEST['addfrm_jour'],
-			      $_REQUEST['addfrm_grpfreq'],
-			      $semestre,
-			      $_REQUEST['addfrm_salle']);
+            $_REQUEST['addfrm_typseance'],
+            $_REQUEST['addfrm_numgrp'],
+            $_REQUEST['addfrm_hdeb'] . ":" .$_REQUEST['addfrm_mdeb'] . ":00",
+            $_REQUEST['addfrm_hfin'] . ":" .$_REQUEST['addfrm_mfin'] . ":00",
+            $_REQUEST['addfrm_jour'],
+            $_REQUEST['addfrm_grpfreq'],
+            $semestre,
+            $_REQUEST['addfrm_salle']);
       if (($ret != false) && ($ret > 0))
-	$ret2 = $edt->assign_etu_to_grp($site->user->id,
-					$ret,
-					$_REQUEST['addfrm_freq']);
+  $ret2 = $edt->assign_etu_to_grp($site->user->id,
+          $ret,
+          $_REQUEST['addfrm_freq']);
       if ($ret2 == true)
-	$newcts->add_paragraph("Création et inscription à la nouvelle séance effectuée avec succès.");
+  $newcts->add_paragraph("Création et inscription à la nouvelle séance effectuée avec succès.");
       else
-	$newcts->add_paragraph("<b>Une erreur est survenue lors de la création de la séance.");
+  $newcts->add_paragraph("<b>Une erreur est survenue lors de la création de la séance.");
     }
 
   $site->add_contents($newcts);
@@ -177,7 +177,7 @@ else if ($_REQUEST['action'] == 'addseance')
 
 
   $req = new requete($site->db,
-		     "SELECT  `id_uv_groupe`
+         "SELECT  `id_uv_groupe`
                             , `numero_grp`
                             , `jour_grp`
                             , `type_grp`
@@ -192,28 +192,28 @@ else if ($_REQUEST['action'] == 'addseance')
 
   if ($req->lines <= 0)
     $frm->puts("<p>Aucune séance connue pour cette UV. Vous êtes donc amené à ".
-	       "en renseigner les caractéristiques via le formulaire ci-dessous :<br/></p>");
+         "en renseigner les caractéristiques via le formulaire ci-dessous :<br/></p>");
   else
     {
       $seances = array(-1 => "--");
       while ($rs = $req->get_row())
-	$seances[$rs['id_uv_groupe']] = 'Seance de '.
-	  ($rs['type_grp'] == 'C' ? 'cours' : $rs['type_grp']) .
-	  ' N°'.$rs['numero_grp']. " du ". $jour[$rs['jour_grp']] .
-	  " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
+  $seances[$rs['id_uv_groupe']] = 'Seance de '.
+    ($rs['type_grp'] == 'C' ? 'cours' : $rs['type_grp']) .
+    ' N°'.$rs['numero_grp']. " du ". $jour[$rs['jour_grp']] .
+    " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
 
       $frm->puts("<h3>Séances connues :</h3>");
 
       $frm->add_select_field("addfrm_scid",
-			     'Séances connues',
-			     $seances,
-			     false,
-			     "", false, true);
+           'Séances connues',
+           $seances,
+           false,
+           "", false, true);
       $frm->add_select_field("addfrm_ex_freq",
-			     'Semaine',
-			     array("AB" => "Toutes les semaines",
-				   "A" => "Semaine A",
-				   "B" => "Semaine B"));
+           'Semaine',
+           array("AB" => "Toutes les semaines",
+           "A" => "Semaine A",
+           "B" => "Semaine B"));
 
       $frm->add_submit("addfrm_submit", "Ajouter la séance existante");
     }
@@ -224,17 +224,17 @@ else if ($_REQUEST['action'] == 'addseance')
 
   /* type de séance */
   $frm->add_select_field("addfrm_typeseance",
-			 'Type de séance',
-			 array("Cours", "TD", "TP"));
+       'Type de séance',
+       array("Cours", "TD", "TP"));
   /* numéro groupe */
   $frm->add_text_field("addfrm_numgrp",
-		       'Numéro de groupe',
-		       '1', false, 1);
+           'Numéro de groupe',
+           '1', false, 1);
   /* jour */
   global $jour;
   $frm->add_select_field("addfrm_jour",
-			 'jour',
-			 $jour);
+       'jour',
+       $jour);
 
   /* horaires debut / fin */
   /* horaires */
@@ -251,37 +251,37 @@ else if ($_REQUEST['action'] == 'addseance')
     }
 
   $frm->add_select_field("addfrm_hdeb",
-			 'Heure de début', $hours);
+       'Heure de début', $hours);
 
   $frm->add_select_field("addfrm_mdeb",
-			 'Minutes de début', $minut);
+       'Minutes de début', $minut);
 
 
   $frm->add_select_field("addfrm_hfin",
-			 'Heure de fin', $hours);
+       'Heure de fin', $hours);
 
   $frm->add_select_field("addfrm_mfin",
-			 'Minutes de fin', $minut);
+       'Minutes de fin', $minut);
 
   $frm->add_select_field("addfrm_freq",
-			 'Fréquence',
-			 array("0" => "--",
-			       "1" => "Hebdomadaire",
-			       "2" => "Bimensuelle"),
-			 false,
-			 "",
-			 false,
-			 true);
+       'Fréquence',
+       array("0" => "--",
+             "1" => "Hebdomadaire",
+             "2" => "Bimensuelle"),
+       false,
+       "",
+       false,
+       true);
 
   $frm->add_select_field("addfrm_grpfreq",
-			 'Semaine',
-			 array("AB" => "Toutes les semaines",
-			       "A" => "Semaine A",
-			       "B" => "Semaine B"));
+       'Semaine',
+       array("AB" => "Toutes les semaines",
+             "A" => "Semaine A",
+             "B" => "Semaine B"));
 
   $frm->add_text_field("addfrm_salle",
-		       'salle <b>sans espace, ex : "P103")</b>',
-		       "", false, 4);
+           'salle <b>sans espace, ex : "P103")</b>',
+           "", false, 4);
 
 
   $frm->add_submit("addfrm_submit", "Ajouter");
@@ -305,18 +305,18 @@ else if ($_REQUEST['action'] == 'modify')
       /* on trouve la séance dans l'edt */
       $mys = &$edt->edt_arr[$i];
       if ($mys['id_seance'] == $_REQUEST['idseance'])
-	{
-	  $found = true;
-	  break;
-	}
+  {
+    $found = true;
+    break;
+  }
     }
 
   $frm->add_select_field("modfrm_grpfreq",
-			 'Semaine',
-			 array("AB" => "Toutes les semaines",
-			       "A" => "Semaine A",
-			       "B" => "Semaine B"),
-			 $found == true ? $mys['semaine_seance'] : "AB");
+       'Semaine',
+       array("AB" => "Toutes les semaines",
+             "A" => "Semaine A",
+             "B" => "Semaine B"),
+       $found == true ? $mys['semaine_seance'] : "AB");
 
   $frm->add_submit("modfrm_submit", "Modifier");
   $newcts->add($frm);
@@ -340,7 +340,7 @@ for ($i = 0; $i < count($edt->edt_arr); $i++)
 if (count($uvs) < 1)
 {
   $cts->add_paragraph("Vous n'avez pas renseigné d'emploi du ".
-		      "temps ce semestre.");
+          "temps ce semestre.");
 }
 
 else
@@ -349,36 +349,36 @@ else
     {
       $cts->add_title(2, $code);
       $cts->add_paragraph("Vous êtes inscrit aux séances ".
-			  "suivantes pour cette UV :");
+        "suivantes pour cette UV :");
 
       $lst = array();
 
       foreach ($values as $seance)
-	{
-	  $descr = "Séance de <b>".$seance['type_seance'] . "</b>".
-	    " n°".$seance['grp_seance']." le <b>".
-	    $seance['jour_seance'] . "</b> de <b>" .
-	    $seance['hr_deb_seance'] . "</b> à <b>" . $seance['hr_fin_seance'].
-	    "</b> en salle <b>" . $seance['salle_seance']."</b>";
-	  if ($seance['semaine_seance'] == 'AB')
-	    $descr .= " - Fréquence 1 (hebdomadaire)";
-	  else
-	    $descr .= " - Fréquence 2, Semaine ".$seance['semaine_seance'] .
-	      " (bimensuelle)";
+  {
+    $descr = "Séance de <b>".$seance['type_seance'] . "</b>".
+      " n°".$seance['grp_seance']." le <b>".
+      $seance['jour_seance'] . "</b> de <b>" .
+      $seance['hr_deb_seance'] . "</b> à <b>" . $seance['hr_fin_seance'].
+      "</b> en salle <b>" . $seance['salle_seance']."</b>";
+    if ($seance['semaine_seance'] == 'AB')
+      $descr .= " - Fréquence 1 (hebdomadaire)";
+    else
+      $descr .= " - Fréquence 2, Semaine ".$seance['semaine_seance'] .
+        " (bimensuelle)";
 
-	  /* modification de la séance */
-	  $links = "<a href=\"".$topdir.
-	    "uvs/edit.php?action=modify&idseance=".
-	    $seance['id_seance']."&semestre=".$semestre.
-	    "\">Modification de la séance</a><br/>";
-	  $links .= "<a href=\"".$topdir.
-	    "uvs/edit.php?action=unsubscribe&idseance=".
-	    $seance['id_seance']."&semestre=".$semestre.
-	    "\">Désinscription de la séance</a>";
+    /* modification de la séance */
+    $links = "<a href=\"".$topdir.
+      "uvs/edit.php?action=modify&idseance=".
+      $seance['id_seance']."&semestre=".$semestre.
+      "\">Modification de la séance</a><br/>";
+    $links .= "<a href=\"".$topdir.
+      "uvs/edit.php?action=unsubscribe&idseance=".
+      $seance['id_seance']."&semestre=".$semestre.
+      "\">Désinscription de la séance</a>";
 
 
-	  $lst[] = $descr . "<br/>" . $links;
-	} // fin passage en revue des séances
+    $lst[] = $descr . "<br/>" . $links;
+  } // fin passage en revue des séances
 
       $cts->add(new itemlist(false, false, $lst));
 
@@ -386,22 +386,17 @@ else
 
       $cts->add_title(3, "Autre option");
       $cts->add_paragraph("<ul><li><a href=\"".$topdir.
-			  "uvs/edit.php?action=addseance&iduv=".
-			  $seance['id_uv']."&semestre=".$semestre.
-			  "\">Ajout d'une séance horaire</a></li></ul>");
+        "uvs/edit.php?action=addseance&iduv=".
+        $seance['id_uv']."&semestre=".$semestre.
+        "\">Ajout d'une séance horaire</a></li></ul>");
 
 
     } // fin boucle uvs
 
 }
 
-
-//$cts->add_paragraph("<pre>" . print_r($uvs, true) . "</pre>");
-
-
 $site->add_contents($cts);
 
 $site->end_page();
 
 ?>
-

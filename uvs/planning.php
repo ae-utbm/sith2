@@ -36,7 +36,7 @@ require_once($topdir. "include/entities/uv.inc.php");
 
 $site = new site();
 
-	$site->redirect("/pedagogie/");
+  $site->redirect("/pedagogie/");
 
 $site->add_box("uvsmenu", get_uvsmenu_box() );
 $site->set_side_boxes("left",array("uvsmenu", "connexion"));
@@ -54,43 +54,38 @@ if (! $site->user->is_in_group("gestion_ae"))
 
 
 $cts = new contents("Site de l'AE - Espace Pédagogie - ".
-		    "Gestion du planning");
+        "Gestion du planning");
 
-
-if ($_REQUEST['action'] == 'add_evt')
-{
-  $cts->add(new contents("DEBUG", "<pre>" . print_r($_REQUEST, true) . "</pre>"));
-}
 
 $cts->add_paragraph("Cette page est réservée au groupe gestion-ae.".
-		    " Elle permet de modifier / d'entrer le planning ".
-		    "du semestre courant, tel qu'il nous est fourni par ".
-		    "les Services des Moyens de l'Enseignement");
+        " Elle permet de modifier / d'entrer le planning ".
+        "du semestre courant, tel qu'il nous est fourni par ".
+        "les Services des Moyens de l'Enseignement");
 
 $form = new form('add_evt', 'planning.php?action=add_evt');
 
 $form->add_select_field('addevt_type', "Type d'événement",
-			array(0 => "Semaine A",
-			      1 => "Semaine B",
-			      2 => "Examen d'espagnol (Cervantès)",
-			      3 => "Examen d'anglais (TOEIC)",
-			      4 => "Examen d'allemand (Goethe)",
-			      5 => "Remise des diplomes",
-			      6 => "Vacances",
-			      7 => "Examens médians",
-			      8 => "Examens finaux",
-			      9 => "Examen médian lié à une UV",
-			      10 => "Examen final lié à une UV",
-			      11 => "Tables rondes TC",
-			      12 => "Soutenances",
-			      13 => "Journées Portes Ouvertes",
-			      14 => "Pré-rentrée",
-			      15 => "Rentrée",
-			      16 => "Premier jury de suivi des études",
-			      17 => "Deuxième jury de suivi des études",
-			      18 => "Date limite de résultat aux UVs",
-			      19 => "Activités d'intersemestre",
-			      99 => "Semestre (dates)"), 0);
+      array(0 => "Semaine A",
+            1 => "Semaine B",
+            2 => "Examen d'espagnol (Cervantès)",
+            3 => "Examen d'anglais (TOEIC)",
+            4 => "Examen d'allemand (Goethe)",
+            5 => "Remise des diplomes",
+            6 => "Vacances",
+            7 => "Examens médians",
+            8 => "Examens finaux",
+            9 => "Examen médian lié à une UV",
+            10 => "Examen final lié à une UV",
+            11 => "Tables rondes TC",
+            12 => "Soutenances",
+            13 => "Journées Portes Ouvertes",
+            14 => "Pré-rentrée",
+            15 => "Rentrée",
+            16 => "Premier jury de suivi des études",
+            17 => "Deuxième jury de suivi des études",
+            18 => "Date limite de résultat aux UVs",
+            19 => "Activités d'intersemestre",
+            99 => "Semestre (dates)"), 0);
 
 
 $form->add_date_field('addevt_datedeb', "Date de début", -1, true);
