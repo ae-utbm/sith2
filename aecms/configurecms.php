@@ -474,7 +474,7 @@ $req = new requete($site->db,
     1);
 $pages_boxes = array();
 while ( $row = $req->get_row() )
-  $pages_boxes[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
+  $pages_boxes[substr($row['fullpath_wiki'],strlen(CMS_PREFIX))] = $row['title_rev'];
 print_r($pages_boxes);
 
 $site->start_page ( CMS_PREFIX."config", "Configuration de AECMS" );
