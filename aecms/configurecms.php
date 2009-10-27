@@ -47,10 +47,15 @@ else
   $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-président";
 }
 
-$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "%' AND `nom_page` NOT LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");
+$req = new requete($site->db,
+    "SELECT fullpath_wiki, title_rev FROM `wiki`
+    LEFT JOIN `wiki_rev` ON (wiki.id_wiki = wiki_rev.id_wiki AND wiki.id_rev_last = wiki_rev.id_rev)
+    WHERE `fullpath_wiki` LIKE 'articles:" . mysql_real_escape_string(CMS_PREFIX) . "%'
+    AND `fullpath_wiki` NOT LIKE 'articles:" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'"
+    );
 $pages = array();
 while ( $row = $req->get_row() )
-  $pages[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
+  $pages[substr($row['fullpath_wiki'],strlen("articles:".CMS_PREFIX))] = $row['title_rev'];
 
 if ( !isset($pages["home"]) )
   $pages["home"] = "Accueil";
@@ -470,12 +475,11 @@ elseif ( $_REQUEST["action"] == "addimgfile" )
 $req = new requete($site->db,
     "SELECT fullpath_wiki, title_rev FROM `wiki`
     LEFT JOIN `wiki_rev` ON (wiki.id_wiki = wiki_rev.id_wiki AND wiki.id_rev_last = wiki_rev.id_rev)
-    WHERE `fullpath_wiki` LIKE 'articles:" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'",
-    1);
+    WHERE `fullpath_wiki` LIKE 'articles:" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'"
+    );
 $pages_boxes = array();
 while ( $row = $req->get_row() )
   $pages_boxes[substr($row['fullpath_wiki'],strlen("articles:".CMS_PREFIX))] = $row['title_rev'];
-print_r($pages_boxes);
 
 $site->start_page ( CMS_PREFIX."config", "Configuration de AECMS" );
 
