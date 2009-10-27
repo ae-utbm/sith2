@@ -69,7 +69,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 
   $uv->load_by_id(intval($_REQUEST['id']));
   if(!$uv->is_valid()){
-    print_r($uv);
     exit;
   }
 
