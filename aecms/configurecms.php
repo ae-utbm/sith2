@@ -352,7 +352,6 @@ elseif ( $_REQUEST["action"] == "edit" )
     $frm->add_text_area("texte","Contenu",$page->texte,80,20,true);
 
     $subfrm = new subform("setboxsections","Sections où les boites seront affichées");
-    $subfrm->add_hidden("action","setboxsections");
 
     if (isset($site->config["boxes.specific".$_REQUEST["box_name"]]))
       $boxes_sections = explode(",",$site->config["boxes.specific".$_REQUEST["box_name"]]);
@@ -397,7 +396,7 @@ elseif ( $_REQUEST["action"] == "save" )
     $boxes_specific = explode(",",$site->config["boxes.specific"]);
 
   print_r($_REQUEST);
-  die();
+  //die();
   if (empty($_REQUEST["sections"]))
   {
     $boxes[] = $_REQUEST["box_name"];
@@ -407,7 +406,7 @@ elseif ( $_REQUEST["action"] == "save" )
   }
   else
   {
-    echo "sect\n";
+    //echo "sect\n";
     $boxes_specific[] = $_REQUEST["box_name"];
     foreach ( $boxes as $key => $name )
       if ( $name == $_REQUEST["box_name"] )
@@ -416,10 +415,10 @@ elseif ( $_REQUEST["action"] == "save" )
     $sections = array();
     foreach( $_REQUEST["sections"] as $name => $set )
       $sections[]=$name;
-    print_r($sections);
+    //print_r($sections);
     $site->config["boxes.specific.".$_REQUEST["box_name"]] = implode(",",$sections);
-    echo $site->config;
-    die();
+    //echo $site->config;
+    //die();
   }
 
   $site->config["boxes.names"] = implode(",",$boxes);
