@@ -232,7 +232,8 @@ class aecms extends site
 
     if (isset($this->config["boxes.specific"]))
     {
-      foreach( $this->config["boxes.specific"] as $name )
+      $boxes_specific = explode(",",$this->config["boxes.specific"]);
+      foreach( $boxes_specific as $name )
       {
         $sections = explode(",",$this->config["boxes.specific.".$name]);
         if (in_array($section, $sections))
