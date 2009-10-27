@@ -329,6 +329,14 @@ elseif ( $_REQUEST["action"] == "edit" )
     $frm->add_text_field("title","Titre",$page->titre,true);
     $frm->add_rights_field($page,false,true,"pages");
     $frm->add_text_area("texte","Contenu",$page->texte,80,20,true);
+
+    $subfrm = new subform("setboxsections","Sections où les boites seront affichées");
+    $subfrm->add_hidden("action","setboxsections");
+    foreach ( $onglets_noms as $nom => $titre )
+      $subfrm->add_checkbox("sections[$nom]","$titre",in_array($nom,$boxes_sections));
+
+    $frm->addsub( $subfrm, false, true );
+
     $frm->add_submit("save","Enregistrer");
     $site->add_contents($frm);
     $site->add_contents(new wikihelp());
@@ -346,6 +354,13 @@ elseif ( $_REQUEST["action"] == "save" )
     $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
     $page->save($site->user, $_REQUEST['title'], $_REQUEST['texte'], CMS_PREFIX."accueil" );
   }
+
+  $sections = array();
+  foreach( $_REQUEST["sections"] as $nom => $set )
+    $sections[]=$nom;
+
+  $site->config["boxes.specific"][$_REQUEST["box_name"]] = implode(",",$sections);
+  $site->save_conf();
 }
 elseif( $_REQUEST["action"] == "setcss" )
 {
