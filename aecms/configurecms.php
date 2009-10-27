@@ -401,6 +401,8 @@ elseif ( $_REQUEST["action"] == "save" )
     foreach ( $boxes_specific as $key => $name )
       if ( $name == $_REQUEST["box_name"] )
         unset($boxes_specific[$key]);
+    if (isset($site->config["boxes.specific.".$_REQUEST["box_name"]]))
+      unset($site->config["boxes.specific.".$_REQUEST["box_name"]]);
   }
   else
   {
@@ -601,8 +603,6 @@ else if ( $_REQUEST["view"] == "boxes" )
   if ( isset($site->config["boxes.specific"]) && (! empty($site->config["boxes.specific"])))
     $boxes = array_merge($boxes, explode(",",$site->config["boxes.specific"]));
 
-  print_r($boxes);
-
   $boxes_sections = explode(",",$site->config["boxes.sections"]);
 
   $boxes_list = array();
@@ -620,8 +620,6 @@ else if ( $_REQUEST["view"] == "boxes" )
     }
     $boxes_list[] = array("box_name"=>$name,"box_title"=>$title,"box_type"=>$type);
   }
-
-  print_r($boxes_list);
 
   $cts->add( new sqltable ( "boxes", "Boites", $boxes_list,
   "configurecms.php?view=boxes", "box_name", array("box_title"=>"Titre","box_type"=>"Type"),
