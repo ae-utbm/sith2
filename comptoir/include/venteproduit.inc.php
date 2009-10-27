@@ -108,7 +108,7 @@ class venteproduit extends stdentity
          FROM `cpt_mise_en_vente`
          WHERE `id_produit` = '".intval($id_produit)."'
          AND `id_comptoir` = '".intval($id_comptoir)."'
-         LIMIT 1");
+         LIMIT 1",1);
 
     if ( $req->lines != 1 && !$force )
       return false;
