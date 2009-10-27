@@ -169,7 +169,7 @@ class venteproduit extends stdentity
 
     if ( !$this->_charge(&$produit,&$comptoir) )
       return false;
-
+print_r("bleh");
     if ($produit->action == ACTION_VSTOCKLIM || $produit->action == ACTION_PASS )
       if ($this->stock_local == 0 || $produit->stock_global == 0)
       {
