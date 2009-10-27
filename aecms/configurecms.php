@@ -599,7 +599,7 @@ else if ( $_REQUEST["view"] == "boxes" )
     $boxes = explode(",",$site->config["boxes.names"]);
 
   if ( isset($site->config["boxes.specific"]) && (! empty($site->config["boxes.specific"])))
-    $boxes += explode(",",$site->config["boxes.specific"]);
+    $boxes = array_merge($boxes, explode(",",$site->config["boxes.specific"]));
 
   print_r($boxes);
 
