@@ -353,7 +353,7 @@ elseif ( $_REQUEST["action"] == "edit" )
 
     $subfrm = new subform("setboxsections","Sections où les boites seront affichées");
 
-    if (isset($site->config["boxes.specific".$_REQUEST["box_name"]]))
+    if (isset($site->config["boxes.specific.".$_REQUEST["box_name"]]))
       $boxes_sections = explode(",",$site->config["boxes.specific".$_REQUEST["box_name"]]);
     else
       $boxes_sections = array();
@@ -397,7 +397,8 @@ elseif ( $_REQUEST["action"] == "save" )
 
   if (empty($_REQUEST["sections"]))
   {
-    $boxes[] = $_REQUEST["box_name"];
+    if (! in_array($_REQUEST["box_name"], $boxes))
+      $boxes[] = $_REQUEST["box_name"];
     foreach ( $boxes_specific as $key => $name )
       if ( $name == $_REQUEST["box_name"] )
         unset($boxes_specific[$key]);
@@ -406,7 +407,8 @@ elseif ( $_REQUEST["action"] == "save" )
   }
   else
   {
-    $boxes_specific[] = $_REQUEST["box_name"];
+    if (! in_array($_REQUEST["box_name"], $boxes_specific))
+      $boxes_specific[] = $_REQUEST["box_name"];
     foreach ( $boxes as $key => $name )
       if ( $name == $_REQUEST["box_name"] )
         unset($boxes[$key]);
