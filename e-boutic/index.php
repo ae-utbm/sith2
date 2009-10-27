@@ -43,7 +43,7 @@ require_once($topdir . "include/cts/e-boutic.inc.php");
 
 
 $site = new eboutic();
-print_r("debug");
+
 $produit = new produit($site->db);
 $typeproduit = new typeproduit($site->db);
 
@@ -143,8 +143,10 @@ if(
 
 if ( $produit->is_valid() )
 {
+  $venteprod = new venteproduit ($site->db);
   $typeproduit->load_by_id($produit->id_type);
-  $site->add_contents (new ficheproduit( $typeproduit, $produit, $venteprod, $site->user ));
+  if ( $venteprod->charge($produit,$site->comptoir) )
+    $site->add_contents (new ficheproduit( $typeproduit, $produit, $venteprod, $site->user ));
 }
 elseif ( !$typeproduit->is_valid() )
 {
