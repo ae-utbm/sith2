@@ -200,7 +200,7 @@ class venteproduit extends stdentity
            "WHERE `cpt_mise_en_vente`.`id_produit` = '".intval($produit->id)."' ".
            "AND `cpt_mise_en_vente`.`id_comptoir` = '".intval($comptoir->id)."' ".
            "AND (`cpt_produits`.date_fin_produit IS NULL OR `cpt_produits`.date_fin_produit>NOW()) ".
-           "LIMIT 1");
+           "LIMIT 1",1);
 
     if ($req->lines < 1)
       return false;
