@@ -143,6 +143,7 @@ if(
 
 if ( $produit->is_valid() )
 {
+  $typeproduit->load_by_id($produit->id_type);
   $site->add_contents (new ficheproduit( $typeproduit, $produit, $venteprod, $site->user ));
 }
 elseif ( !$typeproduit->is_valid() )
