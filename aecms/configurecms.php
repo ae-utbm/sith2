@@ -354,7 +354,7 @@ elseif ( $_REQUEST["action"] == "edit" )
     $subfrm = new subform("setboxsections","Sections où les boites seront affichées");
 
     if (isset($site->config["boxes.specific.".$_REQUEST["box_name"]]))
-      $boxes_sections = explode(",",$site->config["boxes.specific".$_REQUEST["box_name"]]);
+      $boxes_sections = explode(",",$site->config["boxes.specific.".$_REQUEST["box_name"]]);
     else
       $boxes_sections = array();
 
