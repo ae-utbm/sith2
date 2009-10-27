@@ -43,7 +43,7 @@ require_once($topdir . "include/cts/e-boutic.inc.php");
 
 
 $site = new eboutic();
-
+print_r("debug");
 $produit = new produit($site->db);
 $typeproduit = new typeproduit($site->db);
 
