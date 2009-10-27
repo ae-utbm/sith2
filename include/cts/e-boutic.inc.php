@@ -163,7 +163,6 @@ class ficheproduit extends stdcontents
     }
     else
     {
-      $this->buffer .= 'stock_local = '.$venteprod->stock_local.', stock_global ='.$produit->stock_global;
       $stock = ($venteprod->stock_local == -1 || empty($venteprod->stock_local)) ? $produit->stock_global : $venteprod->stock_local;
 
       if ( $stock == 0 )
