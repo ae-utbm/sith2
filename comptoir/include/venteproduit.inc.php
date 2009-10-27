@@ -166,7 +166,7 @@ class venteproduit extends stdentity
    */
   function charge ( $produit, $comptoir )
   {
-
+print_r("bleh");
     if ( !$this->_charge(&$produit,&$comptoir) )
       return false;
 print_r("bleh");
