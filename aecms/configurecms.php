@@ -51,7 +51,7 @@ $req = new requete($site->db,
     "SELECT fullpath_wiki, title_rev FROM `wiki`
     LEFT JOIN `wiki_rev` ON (wiki.id_wiki = wiki_rev.id_wiki AND wiki.id_rev_last = wiki_rev.id_rev)
     WHERE `fullpath_wiki` LIKE 'articles:" . mysql_real_escape_string(CMS_PREFIX) . "%'
-    AND `fullpath_wiki` NOT LIKE 'articles:" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'", 1
+    AND `fullpath_wiki` NOT LIKE 'articles:" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'"
     );
 $pages = array();
 while ( $row = $req->get_row() )
