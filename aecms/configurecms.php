@@ -598,8 +598,10 @@ else if ( $_REQUEST["view"] == "boxes" )
   else
     $boxes = explode(",",$site->config["boxes.names"]);
 
-  if ( isset($site->config["boxes.specific"]) && (! empty($site->config["boxes.specific"]) ))
+  if ( isset($site->config["boxes.specific"]) && (! empty($site->config["boxes.specific"])))
     $boxes += explode(",",$site->config["boxes.specific"]);
+
+  print_r($boxes);
 
   $boxes_sections = explode(",",$site->config["boxes.sections"]);
 
@@ -618,6 +620,8 @@ else if ( $_REQUEST["view"] == "boxes" )
     }
     $boxes_list[] = array("box_name"=>$name,"box_title"=>$title,"box_type"=>$type);
   }
+
+  print_r($boxes_list);
 
   $cts->add( new sqltable ( "boxes", "Boites", $boxes_list,
   "configurecms.php?view=boxes", "box_name", array("box_title"=>"Titre","box_type"=>"Type"),
