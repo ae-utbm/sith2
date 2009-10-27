@@ -57,7 +57,7 @@ if ( isset($_REQUEST["id_produit"]) )
      )
   {
     $venteprod = new venteproduit ($site->db);
-    if ( !$venteprod->_charge($produit,$site->comptoir) )
+    if ( !$venteprod->charge($produit,$site->comptoir) )
       $produit->id = null;
     else
       $typeproduit->load_by_id($produit->id_type);
@@ -70,7 +70,7 @@ elseif ( isset($_REQUEST["item"]) ) // legacy support
   if ( !$produit->is_valid() )
   {
     $venteprod = new venteproduit ($site->db);
-    if ( !$venteprod->_charge($produit,$site->comptoir) )
+    if ( !$venteprod->charge($produit,$site->comptoir) )
       $produit->id = null;
     else
       $typeproduit->load_by_id($produit->id_type);
@@ -120,7 +120,7 @@ if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
   if ( $produit->is_valid() )
   {
     $venteprod = new venteproduit ($site->db);
-    if ( !$venteprod->_charge($produit,$site->comptoir) )
+    if ( !$venteprod->charge($produit,$site->comptoir) )
       $produit->id = null;
     else
       $typeproduit->load_by_id($produit->id_type);
