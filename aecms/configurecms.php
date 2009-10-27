@@ -206,9 +206,9 @@ elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["nom_onglet"]) )
 }
 elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["box_name"]) )
 {
-  if (isset($site->config["boxes.specific".$_REQUEST["box_name"]]))
+  if (isset($site->config["boxes.specific.".$_REQUEST["box_name"]]))
   {
-    unset($site->config["boxes.specific".$_REQUEST["box_name"]]);
+    unset($site->config["boxes.specific.".$_REQUEST["box_name"]]);
 
     if ( empty($site->config["boxes.specific"]) )
       $boxes = array();
