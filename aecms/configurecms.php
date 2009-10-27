@@ -470,11 +470,12 @@ elseif ( $_REQUEST["action"] == "addimgfile" )
 $req = new requete($site->db,
     "SELECT fullpath_wiki, title_rev FROM `wiki`
     LEFT JOIN `wiki_rev` ON (wiki.id_wiki = wiki_rev.id_wiki AND wiki.id_rev_last = wiki_rev.id_rev)
-    WHERE `fullpath_wiki` LIKE 'articles:" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'
-    ");
+    WHERE `fullpath_wiki` LIKE 'articles:" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'",
+    1);
 $pages_boxes = array();
 while ( $row = $req->get_row() )
   $pages_boxes[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
+print_r($pages_boxes);
 
 $site->start_page ( CMS_PREFIX."config", "Configuration de AECMS" );
 
