@@ -333,6 +333,7 @@ elseif ( $_REQUEST["action"] == "edit" )
     $subfrm = new subform("setboxsections","Sections où les boites seront affichées");
     $subfrm->add_hidden("action","setboxsections");
 
+    $boxes_sections = explode(",",$site->config["boxes.specific"][$_REQUEST["box_name"]]);
     foreach ( $site->tab_array as $row )
     {
       $nom = $row[0];
