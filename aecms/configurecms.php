@@ -332,8 +332,13 @@ elseif ( $_REQUEST["action"] == "edit" )
 
     $subfrm = new subform("setboxsections","Sections où les boites seront affichées");
     $subfrm->add_hidden("action","setboxsections");
-    foreach ( $onglets_noms as $nom => $titre )
+
+    foreach ( $site->tab_array as $row )
+    {
+      $nom = $row[0];
+      $titre = $row[2];
       $subfrm->add_checkbox("sections[$nom]","$titre",in_array($nom,$boxes_sections));
+    }
 
     $frm->addsub( $subfrm, false, true );
 
