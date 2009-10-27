@@ -419,9 +419,6 @@ class trajet extends stdentity
 
     if (! in_array($date, $this->dates))
       {
-        print_r($date);
-        print_r($this->dates);
-
         return false;
       }
 
