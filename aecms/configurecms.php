@@ -207,7 +207,22 @@ elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["nom_onglet"]) )
 elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["box_name"]) )
 {
   if (isset($site->config["boxes.specific".$_REQUEST["box_name"]]))
+  {
     unset($site->config["boxes.specific".$_REQUEST["box_name"]]);
+
+    if ( empty($site->config["boxes.specific"]) )
+      $boxes = array();
+    else
+      $boxes = explode(",",$site->config["boxes.specific"]);
+
+    foreach ( $boxes as $key => $name )
+    {
+      if ( $_REQUEST["box_name"] == $name )
+        unset($boxes[$key]);
+    }
+
+    $site->config["boxes.specific"] = implode(",",$boxes);
+  }
   else
   {
     if ( empty($site->config["boxes.names"]) )
@@ -339,7 +354,11 @@ elseif ( $_REQUEST["action"] == "edit" )
     $subfrm = new subform("setboxsections","Sections où les boites seront affichées");
     $subfrm->add_hidden("action","setboxsections");
 
-    $boxes_sections = explode(",",$site->config["boxes.specific".$_REQUEST["box_name"]]);
+    if (isset($site->config["boxes.specific".$_REQUEST["box_name"]]))
+      $boxes_sections = explode(",",$site->config["boxes.specific".$_REQUEST["box_name"]]);
+    else
+      $boxes_sections = array();
+
     foreach ( $site->tab_array as $row )
     {
       $nom = $row[0];
@@ -367,23 +386,38 @@ elseif ( $_REQUEST["action"] == "save" )
     $page->save($site->user, $_REQUEST['title'], $_REQUEST['texte'], CMS_PREFIX."accueil" );
   }
 
-  $sections = array();
-  foreach( $_REQUEST["sections"] as $name => $set )
-    $sections[]=$name;
-  $site->config["boxes.specific.".$_REQUEST["box_name"]] = implode(",",$sections);
-
   if ( empty($site->config["boxes.names"]) )
     $boxes = array();
   else
     $boxes = explode(",",$site->config["boxes.names"]);
 
-  if (empty($_REQUEST["sections"]) && ! in_array($_REQUEST["box_name"], $boxes))
-    $boxes[] = $_REQUEST["box_name"];
+  if ( empty($site->config["boxes.specific"]) )
+    $boxes_specific = array();
   else
+    $boxes_specific = explode(",",$site->config["boxes.specific"]);
+
+  if (empty($_REQUEST["sections"]) && ! in_array($_REQUEST["box_name"], $boxes))
+  {
+    $boxes[] = $_REQUEST["box_name"];
+    foreach ( $boxes_specific as $key => $name )
+      if ( $name == $_REQUEST["box_name"] )
+        unset($boxes_specific[$key]);
+  }
+  else
+  {
+    $boxes_specific[] = $_REQUEST["box_name"];
     foreach ( $boxes as $key => $name )
       if ( $name == $_REQUEST["box_name"] )
         unset($boxes[$key]);
 
+    $sections = array();
+    foreach( $_REQUEST["sections"] as $name => $set )
+      $sections[]=$name;
+    $site->config["boxes.specific.".$_REQUEST["box_name"]] = implode(",",$sections);
+  }
+
+  $site->config["boxes.names"] = implode(",",$boxes);
+  $site->config["boxes.specific"] = implode(",",$boxes_specific);
   $site->save_conf();
 }
 elseif( $_REQUEST["action"] == "setcss" )
@@ -565,7 +599,7 @@ else if ( $_REQUEST["view"] == "boxes" )
   else
     $boxes = explode(",",$site->config["boxes.names"]);
 
-  if ( ! empty($site->config["boxes.specific"]) )
+  if ( isset($site->config["boxes.specific"]) && (! empty($site->config["boxes.specific"]) ))
     $boxes += explode(",",$site->config["boxes.specific"]);
 
   $boxes_sections = explode(",",$site->config["boxes.sections"]);
