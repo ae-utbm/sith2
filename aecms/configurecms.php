@@ -396,6 +396,8 @@ elseif ( $_REQUEST["action"] == "save" )
   else
     $boxes_specific = explode(",",$site->config["boxes.specific"]);
 
+  print_r($_REQUEST);
+  die();
   if (empty($_REQUEST["sections"]))
   {
     $boxes[] = $_REQUEST["box_name"];
