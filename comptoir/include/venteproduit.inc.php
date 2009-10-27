@@ -108,7 +108,7 @@ class venteproduit extends stdentity
          FROM `cpt_mise_en_vente`
          WHERE `id_produit` = '".intval($id_produit)."'
          AND `id_comptoir` = '".intval($id_comptoir)."'
-         LIMIT 1",1);
+         LIMIT 1");
 
     if ( $req->lines != 1 && !$force )
       return false;
@@ -168,7 +168,6 @@ class venteproduit extends stdentity
   {
     if ( !$this->_charge(&$produit,&$comptoir) )
       return false;
-print_r('debug');
     if ($produit->action == ACTION_VSTOCKLIM || $produit->action == ACTION_PASS )
       if ($this->stock_local == 0 || $produit->stock_global == 0)
       {
@@ -199,7 +198,7 @@ print_r('debug');
            "WHERE `cpt_mise_en_vente`.`id_produit` = '".intval($produit->id)."' ".
            "AND `cpt_mise_en_vente`.`id_comptoir` = '".intval($comptoir->id)."' ".
            "AND (`cpt_produits`.date_fin_produit IS NULL OR `cpt_produits`.date_fin_produit>NOW()) ".
-           "LIMIT 1",1);
+           "LIMIT 1");
 
     if ($req->lines < 1)
       return false;
