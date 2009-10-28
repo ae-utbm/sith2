@@ -171,11 +171,12 @@ class sascategory extends contents
   {
     $y = date("Y",$date);
     $m = date("m",$date);
+    $d = date("d",$date);
     //$d = date("d",$date);
 
-    if ( $m >= 2 && $m < 9)
+    if (( $m > 2 && $m < 8 ) || ( $m == 8 && $d < 15 ) || ( $m == 2 && $d >= 15 ))
       return "Printemps ".$y;
-    else if ( $m >= 9 )
+    else if ( $m >= 8 )
       return "Automne ".$y;
     else
       return "Automne ".($y-1);
