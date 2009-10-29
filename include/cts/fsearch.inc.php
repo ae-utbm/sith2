@@ -171,7 +171,7 @@ class fsearch extends stdcontents
           "SELECT CONCAT(`prenom_utl`,' ',`nom_utl`),'1' as `method`, utilisateurs.* " .
           "FROM `utilisateurs` " .
           "WHERE CONCAT(`prenom_utl`,' ',`nom_utl`) REGEXP '^".$sqlpattern."' $force_sql " .
-          "UNION SELECT CONCAT(`nom_utl`,' ',`prenom_utl`),'2' as `method`, utilisateurs.* " .
+          "UNION SELECT CONCAT(`prenom_utl`,' ',`nom_utl`),'1' as `method`, utilisateurs.* " .
           "FROM `utilisateurs` " .
           "WHERE CONCAT(`nom_utl`,' ',`prenom_utl`) REGEXP '^".$sqlpattern."' $force_sql " .
           "UNION SELECT `surnom_utbm`, '4' as `method`, `utilisateurs`.* " .
@@ -194,8 +194,6 @@ class fsearch extends stdcontents
           if ( $row["method"] > 2 )
             $nom = $row['prenom_utl']." ".$row['nom_utl']." : ".eregi_replace($pattern,"<b>\\0</b>",$row[0]);
           elseif ( $row["method"] == 1 )
-            $nom = eregi_replace($pattern,"<b>\\0</b>",$row[0]);
-          elseif ( $row["method"] == 2 ) // En attendant de replacer le prenom avant le nom
             $nom = eregi_replace($pattern,"<b>\\0</b>",$row[0]);
 
           $this->buffer .= "<li><div class=\"imguser\"><img src=\"";
