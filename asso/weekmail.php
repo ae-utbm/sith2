@@ -74,7 +74,7 @@ if(isset($_REQUEST['id_news']))
   $req = new requete($site->db,
                      'SELECT `id_utilisateur`, `id_asso` '.
                      'FROM `weekmail_news` '.
-                     'WHERE `id_weekmail`=\''.$weekmail->id.'\' '.
+                     'WHERE `id_weekmail`=\''.$weekmail->id().'\' '.
                      'AND `id_news`=\''.intval($_REQUEST['id_news']).'\' ');
   if($req->lines == 1)
   {
@@ -99,7 +99,7 @@ if( isset($_REQUEST['get_preview']) )
     $error = 'Veuillez remplir le cors de la nouvelle.';
   elseif(!isset($_REQUEST['id_weekmail']))
     $error = 'Erreur indéterminée.';
-  elseif($_REQUEST['id_weekmail']!=$weekmail->id)
+  elseif($_REQUEST['id_weekmail']!=$weekmail->id())
     $error = 'Weekmail déjà expédiée, vous n\'avez sans doute pas respecté la date limite.';
   if(!is_null($error))
   {
@@ -134,7 +134,7 @@ if(isset($_REQUEST['add_news']))
     $error = 'Veuillez remplir le cors de la nouvelle.';
   elseif(!isset($_REQUEST['id_weekmail']))
     $error = 'Erreur indéterminée.';
-  elseif($_REQUEST['id_weekmail']!=$weekmail->id)
+  elseif($_REQUEST['id_weekmail']!=$weekmail->id())
     $error = 'Weekmail déjà expédiée, vous n\'avez sans doute pas respecté la date limite.';
   if(is_null($error) && $GLOBALS['svalid_call'])
   {
@@ -148,7 +148,7 @@ if(isset($_REQUEST['add_news']))
 //formulaire
 $frm = new form('addnews', '?', false, 'post', 'Proposer une nouvelle');
 $frm->allow_only_one_usage();
-$frm->add_hidden('id_weekmail',$weekmail->id);
+$frm->add_hidden('id_weekmail',$weekmail->id());
 $frm->add_select_field('id_asso',
                        'asso/club concerné ',
                        $assos,
@@ -165,7 +165,7 @@ $frm->puts("
     titre = document.".$frm->name.".titre.value;
     id_asso = document.".$frm->name.".id_asso.value;
     content = document.".$frm->name.".content.value;
-    id_weekmail = ".$weekmail->id."
+    id_weekmail = ".$weekmail->id()."
     user = ".$site->user->id.";
     openInContents('preview', './weekmail.php', 'get_preview&title='+encodeURIComponent(titre)+'&content='+encodeURIComponent(content)+'&user='+user+'&id_asso='+id_asso);
   }
