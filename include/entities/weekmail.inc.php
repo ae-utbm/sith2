@@ -55,6 +55,19 @@ class weekmail extends stdentity
     return false;
   }
 
+  public function load_first_not_sent()
+  {
+    $req = new requete($this->db,
+                       'SELECT * '.
+                       'FROM `weekmail` '.
+                       'WHERE `statut_weekmail`=\'0\' '.
+                       'ORDER BY `id_weekmail` ASC '.
+                       'LIMIT 1');
+    if($req->lines==1)
+      return $this->_load($req->get_row());
+    return false;
+  }
+
   public function load_latest_sent()
   {
     $req = new requete($this->db,
