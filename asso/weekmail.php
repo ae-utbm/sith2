@@ -63,8 +63,11 @@ $asso = new asso($site->db);
 if(isset($_REQUEST['id_asso']))
 {
   $asso->load_by_id($_REQUEST['id_asso']);
-  if(!$site->user->is_member_role($site->user->id,ROLEASSO_SECRETAIRE))
+  if(!$asso->is_member_role($site->user->id,ROLEASSO_SECRETAIRE))
+  {
     $asso = new asso($site->db);
+    unset($_REQUEST['id_asso']);
+  }
 }
 
 
