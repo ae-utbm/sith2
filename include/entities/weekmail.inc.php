@@ -42,6 +42,13 @@ class weekmail extends stdentity
   protected $id_header    = null;
   protected $rendu        = null;
 
+  public function id()
+  {
+    if($this->is_valid())
+      return $this->id;
+    return false;
+  }
+
   public function load_latest_not_sent()
   {
     $req = new requete($this->db,
