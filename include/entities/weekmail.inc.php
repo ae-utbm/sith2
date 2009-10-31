@@ -23,6 +23,7 @@
 
 require_once($topdir.'include/entities/files.inc.php');
 require_once($topdir.'include/entities/asso.inc.php');
+require_once($topdir.'include/lib/weekmail_parser.inc.php');
 /**
  * @ingroup stdentity
  * @author Simon Lopez
@@ -32,184 +33,285 @@ class weekmail extends stdentity
 {
 
   protected $id           = null;
+  protected $statut       = 0;
   protected $date         = null;
-  protected $title        = null;
+  protected $titre        = null;
   protected $introduction = null;
   protected $conclusion   = null;
-  protected $statut       = 0;
-  protected $config       = array('styles'=>array(),'header'=>null,'footer'=>null);
+  protected $blague       = null;
+  protected $id_header    = null;
+  protected $rendu        = null;
+
+  public function load_latest_not_sent()
+  {
+    $req = new requete($this->db,
+                       'SELECT * '.
+                       'FROM `weekmail` '.
+                       'WHERE `statut_weekmail`=\'0\' '.
+                       'ORDER BY `id_weekmail` DESC '.
+                       'LIMIT 1');
+    if($req->lines==1)
+      return $this->_load($req->get_row());
+    return false;
+  }
+
+  public function load_latest_sent()
+  {
+    $req = new requete($this->db,
+                       'SELECT * '.
+                       'FROM `weekmail` '.
+                       'WHERE `statut_weekmail`=\'1\' '.
+                       'ORDER BY `id_weekmail` DESC '.
+                       'LIMIT 1');
+    if($req->lines==1)
+      return $this->_load($req->get_row());
+    return false;
+  }
 
   public function load_by_id($id)
   {
+    $req = new requete($this->db,
+                       'SELECT * '.
+                       'FROM `weekmail` '.
+                       'WHERE `id_weekmail`=\''.mysql_real_escape_string($id).'\'');
+    if($req->lines==1)
+      return $this->_load($req->get_row());
+    return false;
+  }
+
+  public function create($titre_weekmail)
+  {
+    $req = new insert($this->dbrw,
+                      'weekmail',
+                      array('titre_weekmail'=>$titre_weekmail));
+    if(!$req->is_success())
+      return false;
+
+    $this->id     = $req->get_id();
+    $this->titre  = $titre_weekmail;
+    return true;
   }
 
   private function _load($row)
   {
+    $this->id           = $row['id_weekmail'];
+    $this->statut       = $row['statut_weekmail'];
+    $this->date         = $row['date_weekmail'];
+    $this->titre        = $row['titre_weekmail'];
+    $this->introduction = $row['intro_weekmail'];
+    $this->conclusion   = $row['conclusion_weekmail'];
+    $this->blague       = $row['blague_weekmail'];
+    $this->id_header    = $row['id_file_header_weekmail'];
+    $this->rendu_html   = $row['rendu_html_weekmail'];
+    $this->rendu_txt    = $row['rendu_txt_weekmail'];
+    return true;
+  }
+
+  public function set_titre($titre)
+  {
+    if(!$this->is_valid())
+      return;
+    $this->titre = $titre;
+    new update($this->dbrw,
+               'weekmail',
+                array('titre_weekmail'=>$this->titre),
+                array('id_weekmail'=>$this->id));
+  }
+
+  public function set_intro($intro)
+  {
+    if(!$this->is_valid())
+      return;
+    $this->introduction = $intro;
+    new update($this->dbrw,
+               'weekmail',
+                array('intro_weekmail'=>$this->introduction),
+                array('id_weekmail'=>$this->id));
+  }
+
+  public function set_blague($blague)
+  {
+    if(!$this->is_valid())
+      return;
+    $this->blague = $blague;
+    new update($this->dbrw,
+               'weekmail',
+                array('blague_weekmail'=>$this->blague),
+                array('id_weekmail'=>$this->id));
+  }
+
+  public function set_conclusion($conclusion)
+  {
+    if(!$this->is_valid())
+      return;
+    $this->conclusion = $conclusion;
+    new update($this->dbrw,
+               'weekmail',
+                array('conclusion_weekmail'=>$this->conclusion),
+                array('id_weekmail'=>$this->id));
+  }
+
+  public function add_news($id_utl,$id_asso=null,$titre,$content,$modere=0)
+  {
+    if(!$this->is_valid())
+      return;
+    new insert($this->dbrw,
+               'weekmail_news',
+               array('id_weekmail'=>$this->id,
+                     'id_utilisateur'=>$id_utl,
+                     'id_asso'=>$id_asso,
+                     'titre'=>$titre,
+                     'content'=>$content,
+                     'modere'=>$modere));
+  }
+
+  public function preview_news($id_asso=null,$titre,$content)
+  {
+    $titre = htmlspecialchars($titre);
+    $asso = null;
+    if(!is_null($id_asso))
+    {
+      $req = new requete($this->db,
+                         'SELECT '.
+                         ' `nom_asso` '.
+                         'FROM `asso` '.
+                         'WHERE `id_asso`=\''.$id_asso.'\' ');
+      if($req->lines==1)
+        list($asso)=$req->get_row();
+    }
+    $buffer  = '<table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">';
+    if(!is_null($asso))
+      $titre = '['.$asso.'] '.$titre;
+    $buffer .= '<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">';
+    $buffer .= $titre;
+    $buffer .= '</font></td></tr>';
+    $buffer .= '<tr><td style="padding:2px 5px 2px 5px">';
+    $buffer .= $this->_render_content($content);
+    $buffer .= '<br />&nbsp;</td></tr>';
+    $buffer .= '</table>';
+    return $buffer;
+  }
+
+  private function _render_content($content)
+  {
+    $parser = new weekmail_parser();
+    return $parser->parse($content);
+  }
+
+  private function _render_html()
+  {
+    $buffer = '<html>
+<body bgcolor="#333333" width="700px">
+<table bgcolor="#333333" width="700px">
+<tr><td align="center">
+<table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
+<tr><td width="601"><img src="http://ae.utbm.fr/d.php?id_file='.$this->id_header.'&action=download" /></td></tr>';
+// intro
+    $buffer .= '<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Introduction</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">'.$this->_render_content($this->introduction).'<br />&nbsp;</td></tr>';
+// sommaire
+    $buffer .= '<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Sommaire</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">
+<ul>';
+    $req = new requete($this->db,
+                       'SELECT '.
+                       ' `nom_asso` '.
+                       ', `titre` '.
+                       ', `content` '.
+                       'FROM `weekmail_news` '.
+                       'LEFT JOIN `asso` USING(`id_asso`) '.
+                       'WHERE `id_weekmail`=\''.$this->id.'\' '.
+                       'AND `modere`=\'1\' '.
+                       'ORDER BY `rank`,`id_news` ASC');
+    while(list($asso,$titre,$content)=$req->get_row())
+    {
+      if(!is_null($asso))
+        $asso = '['.$asso.'] ';
+      else
+        $asso = '';
+      $buffer .= '<li>'.$asso.htmlspecialchars($titre).'</li>';
+    }
+    $buffer .= '</ul>
+</td></tr>';
+// news ...
+    $req->go_first();
+    while(list($asso,$titre,$content)=$req->get_row())
+    {
+      if(!is_null($asso))
+        $titre = '['.$asso.'] '.htmlspecialchars($titre);
+      else
+        $titre = htmlspecialchars($titre);
+      $buffer .= '<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">';
+      $buffer .= $titre;
+      $buffer .= '</font></td></tr>';
+      $buffer .= '<tr><td style="padding:2px 5px 2px 5px">';
+      $buffer .= $this->_render_content($content);
+      $buffer .= '<br />&nbsp;</td></tr>';
+    }
+// blague
+    if(!empty($this->blague) && !is_null($this->blague))
+    {
+      $buffer .= '<tr bgcolor="#000000">
+<td style="padding:2px 5px 2px 5px"><font color="#ffffff">La blague !</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">';
+      $buffer .= $this->_render_content($this->blague);
+      $buffer .= '<br />&nbsp;</td></tr>';
+    }
+// conclusion
+    $buffer .= '<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le mot de la fin</font></td></tr>
+<tr><td style="padding:2px 5px 2px 5px">';
+    $buffer .= $this->_render_content($this->conclusion);
+    $buffer .= '<br /></td></tr>';
+// fin
+    $buffer .= '</table><br />
+</td></tr></table>
+</body>
+</html>';
+    return $buffer;
+  }
+
+  private function _render_txt()
+  {
+    $buffer = 'Bonjour,
+Pour voir le contenu de ce weekmail, merci de vous rendre à l\'adresse
+suivante :
+http://ae.utbm.fr/weekmail.php?id_weekmail='.$this->id.'
+
+Cordialement,
+L\'AE';
+    return $buffer;
   }
 
   public function send ( )
   {
-    if( !$this->is_valid() || $this->is_sent() )
+    if($this->is_sent())
       return false;
-    $buffer='';
-    $this->_render($buffer);
-    // on envoie
-    // si on arrive à envoyer, on change le statut
-    $this->set_statut('sent');
-    $req = new update($site->dbrw,
-                        'weekmail',
-                        array('intro'=>'','conclusion'=>'','content'=>mysql_real_escape_string($content)),
-                        array('id_weekmail'=>$this->id,'statut'=>'sent');
+
+    global $topdir;
+    require_once($topdir.'include/lib/mailer.inc.php');
+    require_once($topdir.'include/lib/weekmail_parser.inc.php');
+    $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
+                         $this->titre);
+    $mailer->add_dest(array('etudiants@utbm.fr',
+                            'enseignants@utbm.fr',
+                            'iatoss@utbm.fr',
+                            'aude.petit@utbm.fr',
+                            'info@ml.aeinfo.net'));
+    $this->rendu_html = $this->_render_html();
+    $this->rendu_txt  = $this->_render_txt();
+    $mailer->set_html($this->rendu_html);
+    $mailer->set_plain($this->rendu_txt);
+    $mailer->send();
+    new update($this->dbrw,
+               'weekmail',
+               array('statut_weekmail'=>1,
+                     'date_weekmail'=>date('Y-m-d')),
+               array('id_weekmail'=>$this->id));
+    new delete($this->dbrw,
+               'weekmail_news',
+               array('id_weekmail'=>$this->id));
+    return true;
   }
-
-  public function set_statut($statut)
-  {
-    if(in_array($statut,array('open','prep','sent')))
-    {
-      $req = new update($site->dbrw,
-                        'weekmail',
-                        array('statut'=>$statut),
-                        array('id_weekmail'=>$this->id);
-      return $req->is_success();
-    }
-    else
-      return false;
-  }
-
-  private function _styles()
-  {
-    $styles['alternate']  = 'align="center" style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;"';
-    $styles['title']      = 'style="background-color:#D50056;padding-left:40px;color:#FFFFFF;font-weight:bold;font-size:16px;font-family:Verdana, Arial, Helvetica, sans-serif;" height="29px"';
-    $styles['intro']      = '';
-    $styles['to']         = '';
-    $styles['toc_item']   = 'style="color:#FFFFFF;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;"';
-    $styles['news_title'] = 'style="color:#D50056;font-weight:bold;padding-left:20px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:16px;"';
-    $styles['news0']      = 'valign="top" style="background-color:#E3EFCD"';
-    $styles['news1']      = 'valign="top" style="background-color:#FFFFFF"';
-    $styles['news_cts']   = '';
-    $styles['conclusion'] = '';
-    $this->config['styles']=$styles;
-  }
-
-  public function set_config($id,$type,$value)
-  {
-    $_value=explode("\n",str_replace("\r",'',trim($value)));
-    $value='';
-    foreach($_value as $val)
-      $value.=' '.trim($val);
-    $req = new update($this->dbrw,
-                      'weekmail_config',
-                      array('value'=>mysql_real_escape_string($value)),
-                      array('id'=>$id,'type'=>$type));
-  }
-
-  public function get_config()
-  {
-    $req = new requete($this->db,
-                       'SELECT id,type,value FROM weekmail_config');
-    while(list($id,$type,$value))
-    {
-      if($type=='img')
-      {
-        if($id=='header')
-          $this->config['header']=intval($value);
-        elseif($id=='footer')
-          $this->config['footer']=intval($value);
-      }
-      else
-        $this->config['styles'][$id]=$value;
-    }
-  }
-
-  private function _render(&$buffer)
-  {
-    $this->get_config();
-    $this->_styles();//a virer
-    $file = new dfile($this->db);
-    $asso = new asso($this->db);
-    $buffer = '<table width="600" border="0" cellspacing="0" cellpadding="0" align="center">';
-    $buffer.= '<tr><td '.$this->styles['alternate'].'>';
-    $buffer.= 'Pour visualiser la newsletter <a target="_blank" href="http://ae.utbm.fr/weekmail.php?id='.
-              $this->id.'">cliquez ici</a><br/><br/></td></tr>';
-    // header
-    if(   $file->load_by_id($this->config['header'])
-       && $file->is_valid()
-       && $file->modere
-       && $file->is_right(new utilisateur($this->db),DROIT_LECTURE)
-      )
-      $buffer.='<tr><td><img src="http://ae.utbm.fr/d.php?id_file='.$file->id.'"></td></tr>';
-
-    //titre
-    $buffer.='<tr><td '.$this->config['styles']['title'].'>[Weekmail AE] '.$this->titre.'</td></tr>';
-    //intro
-    $buffer.='<tr><td '.$this->config['styles']['intro'].'>'.$this->introduction.'</td></tr>';
-
-    //photo semaine ?
-
-    //sommaire
-    if(   $file->load_by_id($this->sommaire)
-       && $file->is_valid()
-       && $file->modere
-       && $file->is_right(new utilisateur($this->db),DROIT_LECTURE)
-      )
-      $buffer.='<tr><td><img src="http://ae.utbm.fr/d.php?id_file='.$file->id.'"></td></tr>';
-    else
-      $buffer.='<tr><td '.$this->config['styles']['toc'].'>Sommaire</td></tr>';
-    $buffer.='<tr><td '.$this->config['styles']['toc'].'><ul>';
-    $req = new requete($this->db,
-                       'SELECT id_asso'.
-                       ', titre'.
-                       ', content'.
-                       ', date'.
-                       ' FROM weekmail_news'.
-                       ' WHERE id_weekmail=\''.$this->id.'\''.
-                       ' ORDER BY order,id_weeknews ASC';
-    while(list($id_asso,$titre,$content,$date)=$req->get_row())
-      $buffer.='<li '.$this->config['styles']['item'].'><strong>'.$titre.'</strong><br/>'.date("Y-m-d",strtotime($date)).'</li>';
-    $buffer.='</ul></td></tr>';
-
-    //news
-    $req->go_first();
-    $n=0;
-    $first=true;
-    while(list($id_asso,$titre,$content,$date)=$req->get_row())
-    {
-      $n = ($n+1)%2;
-      $buffer.='<tr><td '.$this->config['styles']['news'.$n].'>';
-      if($first && $first=false)
-        $buffer.='<hr style="background-color:#8C8C8C;height:1px;border: 0;"/>';
-
-      $img = false;
-      if(   $asso->load_by_id($id_asso)
-         && $asso->is_valid())
-      {
-        $img = "/var/img/logos/".$row['nom_unix_asso'].".icon.png";
-        if ( file_exists("/var/www/ae/www/var/img/logos/".$row['nom_unix_asso'].".icon.png") )
-          $img = "http://ae.utbm.fr/var/img/logos/".$row['nom_unix_asso'].".icon.png";
-      }
-      if($img)
-        $buffer.='<div '.$this->config['styles']['news_title'].'><img src="'.$img.'" border="0" /> '.$titre.'</div><br/>';
-      else
-        $buffer.='<div '.$this->config['styles']['news_title'].'>'.$titre.'</div><br/>';
-      $buffer.='<div '.$this->config['styles']['news_cts'].'>'.$content.'</div>';
-      $buffer.='</td></tr>';
-    }
-
-    //conclusion
-    $buffer.='<tr><td '.$this->config['styles']['conclusion'].'>'.$this->conclusion.'</td></tr>';
-    if(   $file->load_by_id($this->config['footer'])
-       && $file->is_valid()
-       && $file->modere
-       && $file->is_right(new utilisateur($this->db),DROIT_LECTURE)
-      )
-      $buffer.='<tr><td><img src="http://ae.utbm.fr/d.php?id_file='.$file->id.'"></td></tr>';
-
-
-    $buffer.= '</table>';
-  }
-
-
-
 
   public function is_valid( )
   {
@@ -221,9 +323,6 @@ class weekmail extends stdentity
     return ($this->is_valid() && $this->statut==1)?true:false;
   }
 
-  private function _css_parser( )
-  {
-  }
 }
 
 
