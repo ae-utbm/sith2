@@ -139,13 +139,16 @@ if(isset($_REQUEST['add_news']))
     $error = 'Erreur indéterminée.';
   elseif($_REQUEST['id_weekmail']!=$weekmail->id)
     $error = 'Weekmail déjà expédiée, vous n\'avez sans doute pas respecté la date limite.';
-  if(is_null($error) && $GLOBALS['svalid_call'])
+  elseif($GLOBALS['svalid_call'])
   {
-    $weekmail->add_news($site->user->id,$_REQUEST['id_asso'],$_REQUEST['titre'],$_REQUEST['content']);
-    $site->add_contents(new contents(false,'Nouvelle postée et en attente de modération.'));
+    if(is_null($error) && $GLOBALS['svalid_call'])
+    {
+      $weekmail->add_news($site->user->id,$_REQUEST['id_asso'],$_REQUEST['titre'],$_REQUEST['content']);
+      $site->add_contents(new contents(false,'Nouvelle postée et en attente de modération.'));
+    }
+    else
+      $site->add_contents (new error('',$error));
   }
-  else
-    $site->add_contents (new error('',$error));
 }
 
 //formulaire
