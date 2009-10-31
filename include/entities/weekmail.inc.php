@@ -322,7 +322,7 @@ L\'AE';
 
   public function is_valid( )
   {
-    if(is_int($this->id) && $this->id>0)
+    if(!is_null($this->id) && $this->id>0)
       return true;
     return false;
   }
