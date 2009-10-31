@@ -155,6 +155,7 @@ class weekmail extends stdentity
   {
     if(!$this->is_valid())
     {
+      print_r($this->id);
       print_r('debug');
       return;
     }
@@ -321,7 +322,9 @@ L\'AE';
 
   public function is_valid( )
   {
-    return (is_int($this->id) && $this->id>0)?true:false;
+    if(is_int($this->id) && $this->id>0)
+      return true;
+    return false;
   }
 
   public function is_sent ( )
