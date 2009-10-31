@@ -99,7 +99,7 @@ class weekmail extends stdentity
     return true;
   }
 
-  private function _load($row)
+  public function _load($row)
   {
     $this->id           = $row['id_weekmail'];
     $this->statut       = $row['statut_weekmail'];
