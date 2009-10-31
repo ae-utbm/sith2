@@ -56,6 +56,7 @@ if ( isset($_REQUEST["id_asso"]) )
   $lst->add("<a href=\"".$topdir."salle.php?page=reservation&amp;id_asso=".$asso->id."\">Reserver une salle</a>");
   $lst->add("<a href=\"".$topdir."emprunt.php?id_asso=".$asso->id."\">Reserver du matériel</a>");
   $lst->add("<a href=\"".$topdir."news.php?id_asso=".$asso->id."\">Proposer une nouvelle</a>");
+  $lst->add("<a href=\"weekmail.php?id_asso=".$asso->id."\">Poster dans le weekmail</a>");
   $lst->add("<a href=\"reservations.php?id_asso=".$asso->id."\">Suivre les reservations de salle et emprunts de matériel</a>");
   $lst->add("<a href=\"sendfax.php?id_asso=".$asso->id."\">Envoyer un fax</a>");
   $lst->add("<a href=\"".$topdir."entreprise.php\">Carnet d'adresse des entreprises</a>");
