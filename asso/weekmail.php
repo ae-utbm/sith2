@@ -37,7 +37,7 @@ $req = new requete($site->db,
                    'INNER JOIN `asso` USING(`id_asso`) '.
                    'WHERE `id_utilisateur`=\''.$site->user->id.'\' '.
                    'AND `date_fin` is NULL '.
-                   'AND `role` > \''.ROLEASSO_SECRETAIRE.'\'');
+                   'AND `role` >= \''.ROLEASSO_SECRETAIRE.'\'');
 
 if($req->lines==0)
 {
