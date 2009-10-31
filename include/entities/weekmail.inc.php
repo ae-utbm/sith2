@@ -154,11 +154,7 @@ class weekmail extends stdentity
   public function add_news($id_utl,$id_asso=null,$titre,$content,$modere=0)
   {
     if(!$this->is_valid())
-    {
-      print_r($this->id);
-      print_r('debug');
-      return;
-    }
+      return false;
     new insert($this->dbrw,
                'weekmail_news',
                array('id_weekmail'=>$this->id,
@@ -166,7 +162,7 @@ class weekmail extends stdentity
                      'id_asso'=>$id_asso,
                      'titre'=>$titre,
                      'content'=>$content,
-                     'modere'=>$modere),1);
+                     'modere'=>$modere));
   }
 
   public function preview_news($id_asso=null,$titre,$content)
