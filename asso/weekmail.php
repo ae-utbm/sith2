@@ -170,7 +170,7 @@ $frm->puts("
     content = document.".$frm->name.".content.value;
     id_weekmail = ".$weekmail->id()."
     user = ".$site->user->id.";
-    openInContents('preview', './weekmail.php', 'get_preview&titre='+encodeURIComponent(titre)+'&content='+encodeURIComponent(content)+'&user='+user+'&id_asso='+id_asso);
+    openInContents('preview', './weekmail.php', 'get_preview&titre='+encodeURIComponent(titre)+'&content='+encodeURIComponent(content)+'&user='+user+'&id_asso='+id_asso+'id_weekmail='+id_weekmail);
   }
 </script>
 <div class=\"formrow\"><div id=\"preview\"></div></div>\n");
