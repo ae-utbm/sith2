@@ -162,7 +162,7 @@ class weekmail extends stdentity
                      'id_asso'=>$id_asso,
                      'titre'=>$titre,
                      'content'=>$content,
-                     'modere'=>$modere));
+                     'modere'=>$modere),1);
   }
 
   public function preview_news($id_asso=null,$titre,$content)
