@@ -32,7 +32,7 @@ require_once($topdir.'include/lib/weekmail_parser.inc.php');
 class weekmail extends stdentity
 {
 
-  protected $id           = null;
+  public    $id           = null;
   protected $statut       = 0;
   protected $date         = null;
   protected $titre        = null;
