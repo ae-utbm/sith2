@@ -35,7 +35,7 @@ class weekmail_parser
 {
 
 
-   public function weekmail_parser($type)
+   public function weekmail_parser()
    {
    }
 
