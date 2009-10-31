@@ -179,7 +179,9 @@ class weekmail extends stdentity
       if($req->lines==1)
         list($asso)=$req->get_row();
     }
-    $buffer  = '<table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">';
+    $buffer  = '<table bgcolor="#333333" width="700px">';
+    $buffer .= '<tr><td align="center"><br />';
+    $buffer .= '<table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">';
     if(!is_null($asso))
       $titre = '['.$asso.'] '.$titre;
     $buffer .= '<tr bgcolor="#00BBFF"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">';
@@ -187,6 +189,8 @@ class weekmail extends stdentity
     $buffer .= '</font></td></tr>';
     $buffer .= '<tr><td style="padding:2px 5px 2px 5px">';
     $buffer .= $this->_render_content($content);
+    $buffer .= '<br />&nbsp;</td></tr>';
+    $buffer .= '</table>';
     $buffer .= '<br />&nbsp;</td></tr>';
     $buffer .= '</table>';
     return $buffer;
