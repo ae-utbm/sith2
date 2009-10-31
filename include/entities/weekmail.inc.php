@@ -318,7 +318,7 @@ L\'AE';
 
   public function is_valid( )
   {
-    return (is_int($id) && $id>0)?true:false;
+    return (is_int($this->id) && $this->id>0)?true:false;
   }
 
   public function is_sent ( )
