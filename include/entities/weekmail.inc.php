@@ -289,7 +289,6 @@ L\'AE';
 
     global $topdir;
     require_once($topdir.'include/lib/mailer.inc.php');
-    require_once($topdir.'include/lib/weekmail_parser.inc.php');
     $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                          $this->titre);
     $mailer->add_dest(array('etudiants@utbm.fr',
