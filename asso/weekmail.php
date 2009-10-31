@@ -103,7 +103,7 @@ if( isset($_REQUEST['get_preview']) )
   elseif(!isset($_REQUEST['id_weekmail']))
     $error = 'Erreur indéterminée.';
   elseif($_REQUEST['id_weekmail']!=$weekmail->id)
-    $error = 'Weekmail déjà expédiée, vous n\'avez sans doute pas respecté la date limite.'+$weekmail->id;
+    $error = 'Weekmail déjà expédiée, vous n\'avez sans doute pas respecté la date limite.';
   if(!is_null($error))
   {
     header("Content-Type: text/javascript; charset=utf-8");
