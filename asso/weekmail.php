@@ -106,11 +106,11 @@ if( isset($_REQUEST['get_preview']) )
     $error = 'Weekmail déjà expédiée, vous n\'avez sans doute pas respecté la date limite.';
   if(!is_null($error))
   {
+    header("Content-Type: text/javascript; charset=utf-8");
     echo $error;
     exit;
   }
 
-  $preview = new simplemessageforum($message);
   header("Content-Type: text/javascript; charset=utf-8");
   echo "<div class=\"formrow\">";
   echo "<div class=\"formlabel\"></div>";
@@ -170,7 +170,7 @@ $frm->puts("
     content = document.".$frm->name.".content.value;
     id_weekmail = ".$weekmail->id()."
     user = ".$site->user->id.";
-    openInContents('preview', './weekmail.php', 'get_preview&title='+encodeURIComponent(titre)+'&content='+encodeURIComponent(content)+'&user='+user+'&id_asso='+id_asso);
+    openInContents('preview', './weekmail.php', 'get_preview&titre='+encodeURIComponent(titre)+'&content='+encodeURIComponent(content)+'&user='+user+'&id_asso='+id_asso);
   }
 </script>
 <div class=\"formrow\"><div id=\"preview\"></div></div>\n");
