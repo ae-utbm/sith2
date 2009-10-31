@@ -170,10 +170,10 @@ $frm->puts("
     content = document.".$frm->name.".content.value;
     id_weekmail = ".$weekmail->id."
     user = ".$site->user->id.";
-    openInContents('preview', './weekmail.php', 'get_preview&titre='+encodeURIComponent(titre)+'&content='+encodeURIComponent(content)+'&user='+user+'&id_asso='+id_asso+'&id_weekmail='+id_weekmail);
+    openInContents('news_preview', './weekmail.php', 'get_preview&titre='+encodeURIComponent(titre)+'&content='+encodeURIComponent(content)+'&user='+user+'&id_asso='+id_asso+'&id_weekmail='+id_weekmail);
   }
 </script>
-<div class=\"formrow\"><div id=\"preview\"></div></div>\n");
+<div class=\"formrow\"><div id=\"news_preview\"></div></div>\n");
 //$frm->add_submit("add_news", "Poster");
 $site->add_contents ($frm);
 
