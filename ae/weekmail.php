@@ -309,7 +309,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     $frm->allow_only_one_usage();
     $frm->add_hidden('page','addnews');
     $frm->add_hidden('id_weekmail',$weekmail->id);
-    $ult = new utilisateur($site->db);
+    $utl = new utilisateur($site->db);
     $utl->load_by_id($site->user);
     $frm->add_entity_smartselect('id_utilisateur','Auteur',$utl,false,true);
     $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",1,true);
