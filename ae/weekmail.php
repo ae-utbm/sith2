@@ -35,9 +35,11 @@ if (!$site->user->is_in_group ("moderateur_site"))
 $site->start_page("none","Weekmail");
 $cts = new contents('<a href="./index.php">gestion ae</a> / <a href="?">Weekmail</a>');
 $site->add_contents($cts);
+$weekmail = new weekmail($site->db,$site->dbrw);
 
 if( isset($_REQUEST['get_preview']) )
 {
+  $weekmail->load_first_not_sent();
   $error = null;
   if(!isset($_REQUEST['id_asso']) || is_null($_REQUEST['id_asso']) || empty($_REQUEST['id_asso']))
     $error = 'Veuillez indiquer une association ou un club de référence.';
@@ -67,8 +69,6 @@ if( isset($_REQUEST['get_preview']) )
   exit();
 }
 
-$site->start_page ("none", "Weekmail");
-$weekmail = new weekmail($site->db,$site->dbrw);
 
 if(isset($_REQUEST['action'])
    && $_REQUEST['action']=='create'
