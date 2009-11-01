@@ -283,6 +283,11 @@ class weekmail extends stdentity
     return $parser->parse($content);
   }
 
+  public function test_render()
+  {
+    return $this->_render_html();
+  }
+
   private function _render_html()
   {
     $buffer = '<html><body bgcolor="#333333" width="700px"><table bgcolor="#333333" width="700px">
