@@ -265,7 +265,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
         $ln[]='<input type="text" name="'.$id_news.'_rank" value="'.$rank.'" size="3" maxlenght="3" />';//rank field
         $table->add_row($ln);
       }
-      $frm->put($table->html_render ());
+      $frm->puts($table->html_render ());
       $site->add_contents ($frm);
       $site->end_page ();
       exit();
