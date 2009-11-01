@@ -196,18 +196,26 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     }
     if(isset($_REQUEST['id_news']))
     {
-      $frm = new form('moderenews', '?', false, 'post', 'Modérer une nouvelle');
-      $frm->add_hidden('id_weekmail',$weekmail->id);
-      $frm->add_hidden('id_news',$row['id_news']);
-      $frm->add_hidden('modere','update');
-      $frm->add_hidden('page','modere');
-      $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$row['id_asso'],true);
-      $frm->add_info('Le nom du club ou de l\'association sera automatiquement indiqué, il n\'est donc pas nécessaire de le préciser dans le titre !');
-      $frm->add_text_field("titre", "Titre : ",$row['titre'],true,80);
-      $frm->add_dokuwiki_toolbar('content',null,null,true);
-      $frm->add_text_area("content", "contenu : ",$row['content'],80,20,true);
-      $frm->add_button('preview','Prévisualiser','javascript:make_preview();');
-      $frm->puts("
+      $req = new requete($site->db,
+                         'SELECT * '.
+                         'FROM weekmail_news '.
+                         'WHERE id_news=\''.intval($_REQUEST['id_news']).'\' '.
+                         'AND id_weekmail=\''.$weekmail->id.'\'');
+      if($req->lines==1)
+      {
+        $row = $req->get_row();
+        $frm = new form('moderenews', '?', false, 'post', 'Modérer une nouvelle');
+        $frm->add_hidden('id_weekmail',$weekmail->id);
+        $frm->add_hidden('id_news',$row['id_news']);
+        $frm->add_hidden('modere','update');
+        $frm->add_hidden('page','modere');
+        $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$row['id_asso'],true);
+        $frm->add_info('Le nom du club ou de l\'association sera automatiquement indiqué, il n\'est donc pas nécessaire de le préciser dans le titre !');
+        $frm->add_text_field("titre", "Titre : ",$row['titre'],true,80);
+        $frm->add_dokuwiki_toolbar('content',null,null,true);
+        $frm->add_text_area("content", "contenu : ",$row['content'],80,20,true);
+        $frm->add_button('preview','Prévisualiser','javascript:make_preview();');
+        $frm->puts("
 <script language=\"javascript\">
   function make_preview()
   {
@@ -220,60 +228,59 @@ if($_REQUEST['page'] && $weekmail->is_valid())
   }
 </script>
 <div class=\"formrow\"><div id=\"news_preview\"></div></div>\n");
-      $site->add_contents ($frm);
-      $frm = new form('deletenews', '?', false, 'post', '');
-      $frm->add_hidden('page','modere');
-      $frm->add_hidden('id_weekmail',$weekmail->id);
-      $frm->add_hidden('id_news',$row['id_news']);
-      $frm->add_hidden('modere','delete');
-      $frm->add_submit("suppr","Supprimer");
-      $site->add_contents ($frm);
-      $site->end_page ();
-      exit();
-    }
-    else
-    {
-      //liste des news et ordonnanceur
-      $frm = new form('moderenews', '?', false, 'post', '');
-      $frm->add_hidden('page','modere');
-      $table = new table('Liste des nouvelles de ce weekmail');
-      $table->add_row(array('','Titre','Modéré?','Rang'));
-      $req = new requete($site->db,
-                         'SELECT id_news, nom_asso, titre, modere, rank '.
-                         'FROM `weekmail_news` '.
-                         'LEFT JOIN `asso` USING(`id_asso`) '.
-                         'WHERE `id_weekmail`=\''.$weekmail->id.'\' '.
-                         'ORDER BY `rank`,`id_news` ASC');
-      while(list($id_news,$asso,$titre,$modere,$rank)=$req->get_row())
-      {
-        if(!is_null($asso))
-          $titre = '['.$asso.'] '.$titre;
-        $mod = 'non';
-        if($modere==1)
-          $mod = 'oui';
-        if(is_null($rank)) $rank='';
-        $ln = array();
-        $ln[]='<input type="checkbox" class="chkbox" name="id_news['.$id_news.']" value="'.$id_news.'"/>';//case à cocher
-        $ln[]='<a href="?page=modere&id_news='.$id_news.'">'.$titre.'</a>';
-        $ln[]=$mod;
-        $ln[]='<input type="text" name="'.$id_news.'_rank" value="'.$rank.'" size="3" maxlenght="3" />';//rank field
-        $table->add_row($ln);
+        $site->add_contents ($frm);
+        $frm = new form('deletenews', '?', false, 'post', '');
+        $frm->add_hidden('page','modere');
+        $frm->add_hidden('id_weekmail',$weekmail->id);
+        $frm->add_hidden('id_news',$row['id_news']);
+        $frm->add_hidden('modere','delete');
+        $frm->add_submit("suppr","Supprimer");
+        $site->add_contents ($frm);
+        $site->end_page ();
+        exit();
       }
-      $frm->puts($table->html_render ());
-      $frm->add_select_field('modere',
-                             'Action',
-                             array(''=>'',
-                                   'moderes'=>'Accèpter',
-                                   'order'=>'Ordonner',
-                                   '-'=>'',
-                                   '--'=>'----',
-                                   '---'=>'',
-                                   'deletes'=>'Supprimer'));
-      $frm->add_submit("suppr","Valider");
-      $site->add_contents ($frm);
-      $site->end_page ();
-      exit();
     }
+
+    //liste des news et ordonnanceur
+    $frm = new form('moderenews', '?', false, 'post', '');
+    $frm->add_hidden('page','modere');
+    $table = new table('Liste des nouvelles de ce weekmail');
+    $table->add_row(array('','Titre','Modéré?','Rang'));
+    $req = new requete($site->db,
+                       'SELECT id_news, nom_asso, titre, modere, rank '.
+                       'FROM `weekmail_news` '.
+                       'LEFT JOIN `asso` USING(`id_asso`) '.
+                       'WHERE `id_weekmail`=\''.$weekmail->id.'\' '.
+                       'ORDER BY `rank` ASC');
+    while(list($id_news,$asso,$titre,$modere,$rank)=$req->get_row())
+    {
+      if(!is_null($asso))
+        $titre = '['.$asso.'] '.$titre;
+      $mod = 'non';
+      if($modere==1)
+        $mod = 'oui';
+      if(is_null($rank)) $rank='';
+      $ln = array();
+      $ln[]='<input type="checkbox" class="chkbox" name="id_news['.$id_news.']" value="'.$id_news.'"/>';//case à cocher
+      $ln[]='<a href="?page=modere&id_news='.$id_news.'">'.$titre.'</a>';
+      $ln[]=$mod;
+      $ln[]='<input type="text" name="'.$id_news.'_rank" value="'.$rank.'" size="3" maxlenght="3" />';//rank field
+      $table->add_row($ln);
+    }
+    $frm->puts($table->html_render ());
+    $frm->add_select_field('modere',
+                           'Action',
+                           array(''=>'',
+                                 'moderes'=>'Accèpter',
+                                 'order'=>'Ordonner',
+                                 '-'=>'',
+                                 '--'=>'----',
+                                 '---'=>'',
+                                 'deletes'=>'Supprimer'));
+    $frm->add_submit("suppr","Valider");
+    $site->add_contents ($frm);
+    $site->end_page ();
+    exit();
   }
   elseif($page == 'addnews')
   {
@@ -302,7 +309,8 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     $frm->allow_only_one_usage();
     $frm->add_hidden('page','addnews');
     $frm->add_hidden('id_weekmail',$weekmail->id);
-    $ult = new utilisateur($site->db,$site->dbrw,$site->user->id);
+    $ult = new utilisateur($site->db);
+    $utl->load_by_id($site->user);
     $frm->add_entity_smartselect('id_utilisateur','Auteur',$utl,false,true);
     $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",1,true);
     $frm->add_info('Le nom du club ou de l\'association sera automatiquement indiqué, il n\'est donc pas nécessaire de le préciser dans le titre !');
@@ -353,7 +361,6 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     $file = new dfile($site->db);
     if(!is_null($weekmail->id_header) && $weekmail->id_header>0)
       $file->load_by_id($weekmail->id_header);
-print_r($file);
     if($file->is_valid() && getimagesize($file->get_real_filename()))
       $site->add_contents(new image('header',$file->get_real_filename()));
     else
@@ -386,7 +393,8 @@ if($weekmail->can_create_new())
                  'Il vous est alors possible de continuer à éditer le weekmail courant sans modifications externes.');
   $frm->add_hidden('action','create');
   // header par défaut !
-  $file = new dfile($site->db, $site->dbrw,4693);
+  $file = new dfile($site->db);
+  $file->load_by_id(4693);
   $frm->add_entity_smartselect('id_file_header','Header',$file,false,true);
   $frm->add_text_field("titre", "Titre : ",'',true,80);
   $frm->add_text_area("introduction", "introduction : ",'',80,20,false);
