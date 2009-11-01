@@ -350,10 +350,9 @@ if($_REQUEST['page'] && $weekmail->is_valid())
       if(isset($_REQUEST['blague']))
         $weekmail->set_blague($_REQUEST['blague']);
     }
+    $file = new dfile($site->db);
     if(!is_null($weekmail->id_header) && $weekmail->id_header>0)
-      $file = new dfile($site->db, $site->dbrw,$weekmail->id_header);
-    else
-      $file = new dfile($site->db);
+      $file->load_by_id($weekmail->id_header);
 print_r($file);
     if($file->is_valid() && getimagesize($file->get_real_filename()))
       $site->add_contents(new image('header',$file->get_real_filename()));
