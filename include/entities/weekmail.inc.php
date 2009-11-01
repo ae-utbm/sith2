@@ -269,7 +269,7 @@ class weekmail extends stdentity
     $buffer = '<html><body bgcolor="#333333" width="700px"><table bgcolor="#333333" width="700px">
 <tr><td align="center">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td width="601"><a href="http://ae.utbm.fr"><img src="http://ae.utbm.fr/d.php?id_file='.$this->id_header.'&action=download" border="0"/></a></td></tr>';
+<tr><td width="600"><a href="http://ae.utbm.fr"><img src="http://ae.utbm.fr/d.php?id_file='.$this->id_header.'&action=download" border="0"/></a></td></tr>';
 // intro
     $buffer .= '<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Introduction</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px">'.$this->_render_content($this->introduction).'<br />&nbsp;</td></tr>';
