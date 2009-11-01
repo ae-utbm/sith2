@@ -105,6 +105,7 @@ if(isset($_REQUEST['action'])
 
 if($_REQUEST['action']
    && $_REQUEST['action']=='send'
+   && $GLOBALS["svalid_call"]
    && $weekmail->load_first_not_sent())
 {
   $_REQUEST['page']='custom';
@@ -116,7 +117,8 @@ if($_REQUEST['action']
     $site->add_contents(new error('','Aucune introduction de définie !'));
   elseif(is_null($weekmail->conclusion) || empty($weekmail->conclusion))
     $site->add_contents(new error('','Aucune conclusion de définie !'));
-  elseif($site->is_sure ( "","Envoyer le weekmail",null, 2 ))
+//  elseif($site->is_sure ( "","Envoyer le weekmail",null, 2 ))
+  else
   {
     unset($_REQUEST['page']);
     $weekmail->send();
