@@ -350,9 +350,16 @@ if($_REQUEST['page'] && $weekmail->is_valid())
       if(isset($_REQUEST['blague']))
         $weekmail->set_blague($_REQUEST['blague']);
     }
+    if(!is_null($weekmail->id_header) && $weekmail->id_header>0)
+      $file = new dfile($site->db, $site->dbrw,$weekmail->id_header);
+    else
+      $file = new dfile($site->db);
+    if($file->is_valid() && getimagesize($file->get_real_filename()))
+      $site->add_contents(new image('header',$file->get_real_filename()));
+    else
+      $file = new dfile($site->db);
     $frm = new form('custom', '?', false, 'post', 'Personalisation du weekmail');
     $frm->add_hidden('page','custom');
-    $file = new dfile($site->db, $site->dbrw,$weekmail->id_header);
     $frm->add_entity_smartselect('id_file_header','Header',$file,false,true);
     $frm->add_text_field("titre", "Titre : ",$weekmail->titre,true,80);
     $frm->add_text_area("introduction", "introduction : ",$weekmail->introduction,80,20,true);
