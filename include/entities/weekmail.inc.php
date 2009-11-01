@@ -182,11 +182,10 @@ class weekmail extends stdentity
     if(!$this->is_valid())
       return;
     $this->id_header = intval($id_file);
-    $req = new update($this->dbrw,
+    new update($this->dbrw,
                'weekmail',
                 array('id_file_header_weekmail'=>$this->id_header),
                 array('id_weekmail'=>$this->id));
-    print_r($req);
   }
 
   public function set_titre($titre)
