@@ -354,7 +354,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
       $file = new dfile($site->db, $site->dbrw,$weekmail->id_header);
     else
       $file = new dfile($site->db);
-print_r($weekmail->id_header);
+print_r($file);
     if($file->is_valid() && getimagesize($file->get_real_filename()))
       $site->add_contents(new image('header',$file->get_real_filename()));
     else
