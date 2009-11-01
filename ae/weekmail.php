@@ -310,7 +310,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     $frm->add_hidden('page','addnews');
     $frm->add_hidden('id_weekmail',$weekmail->id);
     $utl = new utilisateur($site->db);
-    $utl->load_by_id($site->user);
+    $utl->load_by_id($site->user->id);
     $frm->add_entity_smartselect('id_utilisateur','Auteur',$utl,false,true);
     $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",1,true);
     $frm->add_info('Le nom du club ou de l\'association sera automatiquement indiqué, il n\'est donc pas nécessaire de le préciser dans le titre !');
