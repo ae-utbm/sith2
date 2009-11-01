@@ -151,6 +151,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
           new delete($site->dbrw,
                      'weekmail_news',
                      array('id_weekmail'=>$weekmail->id,'id_news'=>$id_news));
+        unset($_REQUEST['id_news']);
       }
       elseif($modere=='moderes'
          && $_REQUEST['id_news']
@@ -162,6 +163,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
                    'weekmail_news',
                    array('modere'=>1),
                    array('id_weekmail'=>$weekmail->id,'id_news'=>$id_news));
+        unset($_REQUEST['id_news']);
       }
       elseif($modere=='order'
          && $_REQUEST['id_news']
@@ -173,6 +175,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
                    'weekmail_news',
                    array('rank'=>intval($_REQUEST[$id_news.'_rank'])),
                    array('id_weekmail'=>$weekmail->id,'id_news'=>$id_news));
+        unset($_REQUEST['id_news']);
       }
       elseif($modere=='update'
              && $_REQUEST['id_news']
