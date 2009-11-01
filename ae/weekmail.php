@@ -341,7 +341,10 @@ if($_REQUEST['page'] && $weekmail->is_valid())
           list($width)=$file_info;
           print_r($file_info);
           if($width=='600')
+          {
+            print_r($file_info);
             $weekmail->set_header($file->id);
+          }
         }
       }
       if(isset($_REQUEST['intro']) && !empty($_REQUEST['intro']))
