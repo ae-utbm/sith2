@@ -55,7 +55,10 @@ class weekmail extends stdentity
     if($property == 'id')
       throw new Exception('Il n\'est pas possible de redéfinir l\'id !');
     elseif(isset($this->$param))
+    {
       $this->$property = $value;
+      $this->save();
+    }
     else
       throw new Exception('Propriété ou valeur invalide !');
   }
@@ -158,6 +161,14 @@ class weekmail extends stdentity
     return true;
   }
 
+  public function save()
+  {
+    new update($this->dbrw,
+               'weekmail',
+                array('id_file_header_weekmail'=>$this->id_header),
+                array('id_weekmail'=>$this->id));
+  }
+
   public function set_header($id_file)
   {
     if(!$this->is_valid())
@@ -166,7 +177,7 @@ class weekmail extends stdentity
     new update($this->dbrw,
                'weekmail',
                 array('id_file_header_weekmail'=>$this->id_header),
-                array('id_weekmail'=>$this->id));
+                array('id_weekmail'=>$this->id),1);
   }
 
   public function set_titre($titre)
