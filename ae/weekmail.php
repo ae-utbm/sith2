@@ -233,15 +233,6 @@ if($_REQUEST['page'] && $weekmail->is_valid())
       //liste des news et ordonnanceur
       $frm = new form('moderenews', '?', false, 'post', '');
       $frm->add_hidden('page','modere');
-      $frm->add_select_field('modere',
-                             'Action',
-                             array(''=>'Choisir',
-                                   'moderes'=>'Accèpter',
-                                   'order'=>'Ordonner',
-                                   ''=>'',
-                                   ''=>'----',
-                                   ''=>'',
-                                   'deletes'=>'Supprimer'));
       $table = new table('Liste des nouvelles de ce weekmail');
       $table->add_row(array('','Titre','Modéré?','Rang'));
       $req = new requete($site->db,
@@ -266,6 +257,16 @@ if($_REQUEST['page'] && $weekmail->is_valid())
         $table->add_row($ln);
       }
       $frm->puts($table->html_render ());
+      $frm->add_select_field('modere',
+                             'Action',
+                             array(''=>'Choisir',
+                                   'moderes'=>'Accèpter',
+                                   'order'=>'Ordonner',
+                                   '-'=>'',
+                                   '--'=>'----',
+                                   '---'=>'',
+                                   'deletes'=>'Supprimer'));
+      $frm->add_submit("suppr","Valider");
       $site->add_contents ($frm);
       $site->end_page ();
       exit();
