@@ -108,7 +108,6 @@ if($_REQUEST['action']
    && $GLOBALS["svalid_call"]
    && $weekmail->load_first_not_sent())
 {
-print_r($weekmail->titre);
   $_REQUEST['page']='custom';
   if(is_null($weekmail->id_header))
     $site->add_contents(new error('','Aucun header de défini !'));
