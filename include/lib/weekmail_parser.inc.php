@@ -341,6 +341,11 @@ class weekmail_parser
     }
   }
 
+  function mkToken()
+  {
+    return '~'.md5(uniqid(rand(), true)).'~';
+  }
+
   function listformat($block)
   {
     $block = substr($block,1);
