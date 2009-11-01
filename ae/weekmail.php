@@ -348,7 +348,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     }
     $frm = new form('custom', '?', false, 'post', 'Personalisation du weekmail');
     $frm->add_hidden('page','custom');
-    $file = new dfile($site->db, null,$weekmail->id_header);
+    $file = new dfile($site->db, $site->dbrw,$weekmail->id_header);
     $frm->add_entity_smartselect('id_file_header','Header',$file,false,true);
     $frm->add_text_field("titre", "Titre : ",$weekmail->titre,true,80);
     $frm->add_text_area("introduction", "introduction : ",$weekmail->introduction,80,20,true);
@@ -375,7 +375,7 @@ if($weekmail->can_create_new())
                  'Il vous est alors possible de continuer à éditer le weekmail courant sans modifications externes.');
   $frm->add_hidden('action','create');
   // header par défaut !
-  $file = new dfile($site->db, null,4693);
+  $file = new dfile($site->db, $site->dbrw,4693);
   $frm->add_entity_smartselect('id_file_header','Header',$file,false,true);
   $frm->add_text_field("titre", "Titre : ",'',true,80);
   $frm->add_text_area("introduction", "introduction : ",'',80,20,false);
