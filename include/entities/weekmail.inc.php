@@ -312,7 +312,7 @@ class weekmail extends stdentity
                        'LEFT JOIN `asso` USING(`id_asso`) '.
                        'WHERE `id_weekmail`=\''.$this->id.'\' '.
                        'AND `modere`=\'1\' '.
-                       'ORDER BY `rank` ASC',1);
+                       'ORDER BY `rank` ASC');
     while(list($asso,$titre,$content)=$req->get_row())
     {
       if(!is_null($asso))
