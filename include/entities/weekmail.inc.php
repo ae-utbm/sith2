@@ -165,7 +165,15 @@ class weekmail extends stdentity
   {
     new update($this->dbrw,
                'weekmail',
-                array('id_file_header_weekmail'=>$this->id_header),
+                array('statut_weekmail'=>$this->statut,
+                      'date_weekmail'=>$this->date,
+                      'titre_weekmail'=>$this->titre,
+                      'intro_weekmail'=>$this->introduction,
+                      'conclusion_weekmail'=>$this->conclusion,
+                      'blague_weekmail'=>$this->blague,
+                      'id_file_header_weekmail'=>$this->id_header,
+                      'rendu_html_weekmail'=>$this->id_header,
+                      'rendu_txt_weekmail'=>$this->rendu_txt),
                 array('id_weekmail'=>$this->id));
   }
 
@@ -177,7 +185,7 @@ class weekmail extends stdentity
     $req = new update($this->dbrw,
                'weekmail',
                 array('id_file_header_weekmail'=>$this->id_header),
-                array('id_weekmail'=>$this->id),1);
+                array('id_weekmail'=>$this->id));
     print_r($req);
   }
 
