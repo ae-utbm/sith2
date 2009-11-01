@@ -178,6 +178,7 @@ class weekmail extends stdentity
                'weekmail',
                 array('id_file_header_weekmail'=>$this->id_header),
                 array('id_weekmail'=>$this->id),1);
+    print_r($req);
   }
 
   public function set_titre($titre)
