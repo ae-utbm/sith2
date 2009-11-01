@@ -171,8 +171,10 @@ class weekmail extends stdentity
 
   public function set_header($id_file)
   {
+print_r('debug');
     if(!$this->is_valid())
       return;
+print_r('debug');
     $this->id_header = intval($id_file);
     new update($this->dbrw,
                'weekmail',
@@ -393,7 +395,6 @@ L\'AE';
   {
     if(!is_null($this->id) && $this->id>0)
       return true;
-print_r($this->id);
     return false;
   }
 
