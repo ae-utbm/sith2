@@ -111,7 +111,7 @@ if($_REQUEST['action']
   $_REQUEST['page']='custom';
   if(is_null($weekmail->id_header))
     $site->add_contents(new error('','Aucun header de défini !'));
-  elseif(is_null($weekmail->titre) || empty($weekmail->titre))
+  elseif(is_null($weekmail->titre))
     $site->add_contents(new error('','Aucun titre de défini !'));
   elseif(is_null($weekmail->introduction) || empty($weekmail->introduction))
     $site->add_contents(new error('','Aucune introduction de définie !'));
