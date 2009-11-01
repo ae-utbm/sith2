@@ -40,8 +40,29 @@ class weekmail extends stdentity
   protected $conclusion   = null;
   protected $blague       = null;
   protected $id_header    = null;
-  protected $rendu        = null;
+  protected $rendu_html   = null;
+  protected $rendu_txt    = null;
 
+  public function __get($property)
+  {
+    if(isset($this->$property))
+      return $this->$property;
+    throw new Exception('Propriété invalide !');
+  }
+
+  public function __set($property,$value)
+  {
+    if($property == 'id')
+      throw new Exception('Il n\'est pas possible de redéfinir l\'id !');
+    elseif(isset($this->$param))
+      $this->$property = $value;
+    else
+      throw new Exception('Propriété ou valeur invalide !');
+  }
+
+  /* chargement du weekmail encore ouvert à l'ajout de
+   * nouvelles
+   */
   public function load_latest_not_sent()
   {
     $req = new requete($this->db,
@@ -55,6 +76,10 @@ class weekmail extends stdentity
     return false;
   }
 
+  /* chargement du weekmail le plus ancien en attente d'envoi
+   * c'est à dire qui est soit le seul en attente d'envoie soit
+   * l'avant dernier (cas où on a fermé l'ajout de nouvelles).
+   */
   public function load_first_not_sent()
   {
     $req = new requete($this->db,
@@ -78,6 +103,19 @@ class weekmail extends stdentity
                        'LIMIT 1');
     if($req->lines==1)
       return $this->_load($req->get_row());
+    return false;
+  }
+
+  public function can_create_new()
+  {
+    $req = new requete($this->db,
+                       'SELECT * '.
+                       'FROM `weekmail` '.
+                       'WHERE `statut_weekmail`=\'1\' '.
+                       'ORDER BY `id_weekmail` DESC '.
+                       'LIMIT 2');
+    if($req->lines==0 || $req->lines==1)
+      return true;
     return false;
   }
 
@@ -118,6 +156,17 @@ class weekmail extends stdentity
     $this->rendu_html   = $row['rendu_html_weekmail'];
     $this->rendu_txt    = $row['rendu_txt_weekmail'];
     return true;
+  }
+
+  public function set_header($id_file)
+  {
+    if(!$this->is_valid())
+      return;
+    $this->id_header = intval($id_file);
+    new update($this->dbrw,
+               'weekmail',
+                array('id_file_header_weekmail'=>$this->id_header),
+                array('id_weekmail'=>$this->id));
   }
 
   public function set_titre($titre)
@@ -217,12 +266,10 @@ class weekmail extends stdentity
 
   private function _render_html()
   {
-    $buffer = '<html>
-<body bgcolor="#333333" width="700px">
-<table bgcolor="#333333" width="700px">
+    $buffer = '<html><body bgcolor="#333333" width="700px"><table bgcolor="#333333" width="700px">
 <tr><td align="center">
 <table bgcolor="#ffffff" width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><td width="601"><img src="http://ae.utbm.fr/d.php?id_file='.$this->id_header.'&action=download" /></td></tr>';
+<tr><td width="601"><a href="http://ae.utbm.fr"><img src="http://ae.utbm.fr/d.php?id_file='.$this->id_header.'&action=download" border="0"/></a></td></tr>';
 // intro
     $buffer .= '<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Introduction</font></td></tr>
 <tr><td style="padding:2px 5px 2px 5px">'.$this->_render_content($this->introduction).'<br />&nbsp;</td></tr>';
@@ -266,7 +313,7 @@ class weekmail extends stdentity
       $buffer .= '<br />&nbsp;</td></tr>';
     }
 // blague
-    if(!empty($this->blague) && !is_null($this->blague))
+    if(!is_null($this->blague) && !empty($this->blague))
     {
       $buffer .= '<tr bgcolor="#000000">
 <td style="padding:2px 5px 2px 5px"><font color="#ffffff">La blague !</font></td></tr>
@@ -307,7 +354,7 @@ L\'AE';
     global $topdir;
     require_once($topdir.'include/lib/mailer.inc.php');
     $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
-                         $this->titre);
+                         '[weekmail] '.$this->titre);
     $mailer->add_dest(array('etudiants@utbm.fr',
                             'enseignants@utbm.fr',
                             'iatoss@utbm.fr',
@@ -321,7 +368,9 @@ L\'AE';
     new update($this->dbrw,
                'weekmail',
                array('statut_weekmail'=>1,
-                     'date_weekmail'=>date('Y-m-d')),
+                     'date_weekmail'=>date('Y-m-d'),
+                     'rendu_html_weekmail'=>$this->rendu_html,
+                     'rendu_txt_weekmail'=>$this->rendu_txt),
                array('id_weekmail'=>$this->id));
     new delete($this->dbrw,
                'weekmail_news',
