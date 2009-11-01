@@ -214,6 +214,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
         $frm->add_info('Le nom du club ou de l\'association sera automatiquement indiqué, il n\'est donc pas nécessaire de le préciser dans le titre !');
         $frm->add_text_field("titre", "Titre : ",$row['titre'],true,80);
         $frm->add_dokuwiki_toolbar('content',null,null,true);
+print_r($row['content']);
         $frm->add_text_area("content", "contenu : ",$row['content'],80,20,true);
         $frm->add_button('preview','Prévisualiser','javascript:make_preview();');
         $frm->puts("
