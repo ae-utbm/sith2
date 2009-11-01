@@ -99,11 +99,11 @@ if( isset($_REQUEST['get_preview']) )
   elseif(!isset($_REQUEST['titre']) || empty($_REQUEST['titre']))
     $error = 'Veuillez indiquer un titre !';
   elseif(!isset($_REQUEST['content']) || empty($_REQUEST['content']))
-    $error = 'Veuillez remplir le cors de la nouvelle.';
+    $error = 'Veuillez remplir le corps de la nouvelle.';
   elseif(!isset($_REQUEST['id_weekmail']))
     $error = 'Erreur indéterminée.';
   elseif($_REQUEST['id_weekmail']!=$weekmail->id)
-    $error = 'Weekmail déjà expédiée, vous n\'avez sans doute pas respecté la date limite.';
+    $error = 'Weekmail déjà expédié, vous n\'avez sans doute pas respecté la date limite.';
   if(!is_null($error))
   {
     header("Content-Type: text/javascript; charset=utf-8");
@@ -138,7 +138,7 @@ if(isset($_REQUEST['add_news']))
   elseif(!isset($_REQUEST['id_weekmail']))
     $error = 'Erreur indéterminée.';
   elseif($_REQUEST['id_weekmail']!=$weekmail->id)
-    $error = 'Weekmail déjà expédiée, vous n\'avez sans doute pas respecté la date limite.';
+    $error = 'Weekmail déjà expédié, vous n\'avez sans doute pas respecté la date limite.';
   elseif($GLOBALS['svalid_call'])
   {
     if(is_null($error) && $GLOBALS['svalid_call'])
@@ -153,6 +153,7 @@ if(isset($_REQUEST['add_news']))
 
 //formulaire
 $frm = new form('addnews', '?', false, 'post', 'Proposer une nouvelle');
+$frm->add_info('Vous postez pour le weekmail "'.$weekmail->titre.'"');
 $frm->allow_only_one_usage();
 $frm->add_hidden('id_weekmail',$weekmail->id);
 $frm->add_select_field('id_asso',
@@ -177,7 +178,6 @@ $frm->puts("
   }
 </script>
 <div class=\"formrow\"><div id=\"news_preview\"></div></div>\n");
-//$frm->add_submit("add_news", "Poster");
 $site->add_contents ($frm);
 
 // liste des news en attente de weekmailisation :)
