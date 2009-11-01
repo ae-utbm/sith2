@@ -105,23 +105,22 @@ if(isset($_REQUEST['action'])
 
 if($_REQUEST['action']
    && $_REQUEST['action']=='send'
-   && $GLOBALS['svalid_call']
    && $weekmail->load_first_not_sent())
 {
   $_REQUEST['page']='custom';
   if(is_null($weekmail->id_header))
-    $site->add(new error('','Aucun header de défini !'));
+    $site->add_contents(new error('','Aucun header de défini !'));
   elseif(is_null($weekmail->titre) || empty($weekmail->titre))
-    $site->add(new error('','Aucun titre de défini !'));
+    $site->add_contents(new error('','Aucun titre de défini !'));
   elseif(is_null($weekmail->introduction) || empty($weekmail->introduction))
-    $site->add(new error('','Aucune introduction de définie !'));
+    $site->add_contents(new error('','Aucune introduction de définie !'));
   elseif(is_null($weekmail->conclusion) || empty($weekmail->conclusion))
-    $site->add(new error('','Aucune conclusion de définie !'));
+    $site->add_contents(new error('','Aucune conclusion de définie !'));
   elseif($site->is_sure ( "","Envoyer le weekmail",null, 2 ))
   {
     unset($_REQUEST['page']);
     $weekmail->send();
-    $site->add(new contents(false,'Weekmail envoyé avec succès'));
+    $site->add_contents(new contents(false,'Weekmail envoyé avec succès'));
   }
 }
 
