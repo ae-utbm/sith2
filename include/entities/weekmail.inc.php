@@ -381,12 +381,11 @@ L\'AE';
     require_once($topdir.'include/lib/mailer.inc.php');
     $mailer = new mailer('Association des Étudiants <ae@utbm.fr>',
                          '[weekmail] '.$this->titre);
-    /*$mailer->add_dest(array('etudiants@utbm.fr',
+    $mailer->add_dest(array('etudiants@utbm.fr',
                             'enseignants@utbm.fr',
                             'iatoss@utbm.fr',
                             'aude.petit@utbm.fr',
-                            'info@ml.aeinfo.net'));*/
-    $mailer->add_dest(array('simon.lopez@ayolo.org','simon.lopez@utbm.fr'));
+                            'info@ml.aeinfo.net'));
     $this->rendu_html = $this->_render_html();
     $this->rendu_txt  = $this->_render_txt();
     $mailer->set_html($this->rendu_html);
@@ -399,9 +398,9 @@ L\'AE';
                      'rendu_html_weekmail'=>$this->rendu_html,
                      'rendu_txt_weekmail'=>$this->rendu_txt),
                array('id_weekmail'=>$this->id));
-    new delete($this->dbrw,
+    /*new delete($this->dbrw,
                'weekmail_news',
-               array('id_weekmail'=>$this->id));
+               array('id_weekmail'=>$this->id));*/
     return true;
   }
 
