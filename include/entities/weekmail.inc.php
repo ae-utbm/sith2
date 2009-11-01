@@ -52,6 +52,8 @@ class weekmail extends stdentity
 
   public function __set($property,$value)
   {
+    if(!$this->is_valid())
+      return;
     if($property == 'id')
       throw new Exception('Il n\'est pas possible de redéfinir l\'id !');
     elseif(isset($this->$param))
