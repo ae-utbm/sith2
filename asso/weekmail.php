@@ -134,7 +134,7 @@ if(isset($_REQUEST['add_news']))
   elseif(!isset($_REQUEST['titre']) || empty($_REQUEST['titre']))
     $error = 'Veuillez indiquer un titre !';
   elseif(!isset($_REQUEST['content']) || empty($_REQUEST['content']))
-    $error = 'Veuillez remplir le cors de la nouvelle.';
+    $error = 'Veuillez remplir le corps de la nouvelle.';
   elseif(!isset($_REQUEST['id_weekmail']))
     $error = 'Erreur indéterminée.';
   elseif($_REQUEST['id_weekmail']!=$weekmail->id)
