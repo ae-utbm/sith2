@@ -108,10 +108,11 @@ if($_REQUEST['action']
    && $GLOBALS["svalid_call"]
    && $weekmail->load_first_not_sent())
 {
+print_r($weekmail);
   $_REQUEST['page']='custom';
   if(is_null($weekmail->id_header))
     $site->add_contents(new error('','Aucun header de défini !'));
-  elseif(is_null($weekmail->titre))
+  elseif(is_null($weekmail->titre) || empty($weekmail->titre))
     $site->add_contents(new error('','Aucun titre de défini !'));
   elseif(is_null($weekmail->introduction) || empty($weekmail->introduction))
     $site->add_contents(new error('','Aucune introduction de définie !'));
