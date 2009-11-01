@@ -350,6 +350,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
       if(isset($_REQUEST['blague']))
         $weekmail->set_blague($_REQUEST['blague']);
     }
+print_r($weekmail->id_header);
     if(!is_null($weekmail->id_header) && $weekmail->id_header>0)
       $file = new dfile($site->db, $site->dbrw,$weekmail->id_header);
     else
