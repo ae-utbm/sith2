@@ -1,5 +1,5 @@
 <?php
-/* Copyright 2008
+/* Copyright 2009
  * - Simon Lopez < simon dot lopez at ayolo dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -23,51 +23,33 @@
 $topdir = "./";
 
 require_once($topdir. "include/site.inc.php");
-require_once($topdir. "include/cts/sqltable.inc.php");
+require_once($topdir. "include/entities/weekmail.inc.php");
 $site = new site ();
+$weekmail = new weekmail($site->db);
 
-$site->start_page ("none", "Weekmail");
-
-
-if(isset($_REQUEST['id']))
+if(
+   (
+    isset($_REQUEST['id_weekmail'])
+    && $weekmail->load_by_id($_REQUEST['id_weekmail'])
+    && $weekmail->is_sent()
+   )
+   || $weekmail->load_latest_sent()
+  )
 {
-  $sql='SELECT * FROM weekmail WHERE id='.intval($_REQUEST['id'].' AND statut=1');
-  $req = new requete($site->db,$sql);
-  if($req->lines==0)
-  {
-    $cts=new error('Weekmail not found!','Weekmail inconnu au bataillon moussaillon');
-    $site->add_contents($cts);
-  }
-  else
-  {
-    list($id,$date,$title,$content,$statut)=$req->get_row();
-    $cts = new contents('<a href="weekmail.php">Weekmails</a> / [Weekmail AE] '.$title);
-    list($annee, $mois, $jour) = explode("-", $date);
-    $date=$jour."/".$mois."/".$annee;
-    $cts->add_paragraph('Envoyé le '. $date);
-    $cts->puts(doku2xhtml($content));
-    $site->add_contents($cts);
-    $site->end_page();
-    exit();
-  }
+  header("Content-Type: text/html; charset=utf-8");
+  echo str_replace('<html><body bgcolor="#333333" width="700px"><table bgcolor="#333333" width="700px">',
+                   '<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">'.
+                   '<head>'.
+                   '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'.
+                   '<title>[weekmail] '.$weekmail->titre.'</title>'.
+                   '</head>'.
+                   '<body bgcolor="#333333"><table bgcolor="#333333" width="100%">',
+                   $weekmail->rendu_html);
+  exit();
 }
 
-$sql = 'SELECT id'.
-       ',CONCAT(\'[Weekmail AE] \',title) as title'.
-       ',CONCAT(RIGHT(CONCAT(\'00\',DAY(date)),2),\'/\',RIGHT(CONCAT(\'00\',MONTH(date)),2),\'/\',YEAR(date)) as date '.
-       'FROM weekmail '.
-       'WHERE statut=1 '.
-       'ORDER BY date,id DESC';
-$req = new requete($site->db,$sql);
-$cts = new sqltable('weekmails',
-                    'Liste des weekmails',
-                    $req,
-                    'weekmail.php',
-                    'id',
-                    array('id'=>'N°','title'=>'Titre','date'=>'Date'),
-                    array('view'=>'Consulter'),
-                    array());
-$site->add_contents($cts);
-$site->end_page ();
+$site->start_page ("none", "Weekmail");
+$site->add_contents(new contents('Pas de weekmail.','Aucun weekmail n\'a été trouvé.'));
+$site->end_page();
 
 ?>
