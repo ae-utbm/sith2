@@ -91,7 +91,7 @@ if(isset($_REQUEST['action'])
           $weekmail->set_header($file->id);
       }
     }
-    if(isset($_REQUEST['intro']) && !empty($_REQUEST['intro']))
+    if(isset($_REQUEST['introduction']) && !empty($_REQUEST['introduction']))
       $weekmail->set_intro($_REQUEST['intro']);
     if(isset($_REQUEST['conclusion']) && !empty($_REQUEST['conclusion']))
       $weekmail->set_conclusion($_REQUEST['conclusion']);
@@ -351,8 +351,8 @@ if($_REQUEST['page'] && $weekmail->is_valid())
             $weekmail->set_header($file->id);
         }
       }
-      if(isset($_REQUEST['intro']) && !empty($_REQUEST['intro']))
-        $weekmail->set_intro($_REQUEST['intro']);
+      if(isset($_REQUEST['introduction']) && !empty($_REQUEST['introduction']))
+        $weekmail->set_intro($_REQUEST['introduction']);
       if(isset($_REQUEST['conclusion']) && !empty($_REQUEST['conclusion']))
         $weekmail->set_conclusion($_REQUEST['conclusion']);
       if(isset($_REQUEST['blague']))
