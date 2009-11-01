@@ -391,9 +391,9 @@ L\'AE';
 
   public function is_valid( )
   {
-print_r($this->id);
     if(!is_null($this->id) && $this->id>0)
       return true;
+print_r($this->id);
     return false;
   }
 
