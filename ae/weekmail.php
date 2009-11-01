@@ -68,7 +68,7 @@ if( isset($_REQUEST['get_preview']) )
 }
 
 $site->start_page ("none", "Weekmail");
-$weekmail = new weekmail($site->db,$site->rw);
+$weekmail = new weekmail($site->db,$site->dbrw);
 
 if(isset($_REQUEST['action'])
    && $_REQUEST['action']=='create'
@@ -302,7 +302,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     $frm->allow_only_one_usage();
     $frm->add_hidden('page','addnews');
     $frm->add_hidden('id_weekmail',$weekmail->id);
-    $ult = new utilisateur($site->db,null,$site->user->id);
+    $ult = new utilisateur($site->db,$site->dbrw,$site->user->id);
     $frm->add_entity_smartselect('id_utilisateur','Auteur',$utl,false,true);
     $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",1,true);
     $frm->add_info('Le nom du club ou de l\'association sera automatiquement indiqué, il n\'est donc pas nécessaire de le préciser dans le titre !');
@@ -339,7 +339,6 @@ if($_REQUEST['page'] && $weekmail->is_valid())
         if($file_info)
         {
           list($width)=$file_info;
-          print_r($file_info);
           if($width=='600')
           {
             print_r($file_info);
