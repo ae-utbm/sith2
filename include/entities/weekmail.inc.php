@@ -35,7 +35,7 @@ class weekmail extends stdentity
   public    $id           = null;
   protected $statut       = 0;
   protected $date         = null;
-  protected $titre        = null;
+  public $titre        = null;
   protected $introduction = null;
   protected $conclusion   = null;
   protected $blague       = null;
