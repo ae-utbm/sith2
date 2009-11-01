@@ -174,8 +174,7 @@ class weekmail extends stdentity
     if(!$this->is_valid())
       return;
     $this->id_header = intval($id_file);
-print_r($this->id_header);
-    new update($this->dbrw,
+    $req = new update($this->dbrw,
                'weekmail',
                 array('id_file_header_weekmail'=>$this->id_header),
                 array('id_weekmail'=>$this->id),1);
