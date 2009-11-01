@@ -46,11 +46,7 @@ class weekmail extends stdentity
   public function __get($property)
   {
     if(isset($this->$property))
-    {
-      if(!empty($this->$property) && !is_null($this->$property))
-        return $this->$property;
-      return null;
-    }
+      return $this->$property;
     throw new Exception('Propriété invalide !');
   }
 
