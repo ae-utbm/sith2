@@ -259,7 +259,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
       $frm->puts($table->html_render ());
       $frm->add_select_field('modere',
                              'Action',
-                             array(''=>'Choisir',
+                             array(''=>'',
                                    'moderes'=>'Accèpter',
                                    'order'=>'Ordonner',
                                    '-'=>'',
