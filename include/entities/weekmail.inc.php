@@ -90,7 +90,7 @@ class weekmail extends stdentity
                        'FROM `weekmail` '.
                        'WHERE `statut_weekmail`=\'0\' '.
                        'ORDER BY `id_weekmail` ASC '.
-                       'LIMIT 1');
+                       'LIMIT 1',1);
     if($req->lines==1)
       return $this->_load($req->get_row());
     return false;
