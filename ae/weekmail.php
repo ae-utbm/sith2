@@ -387,7 +387,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
                      '<title>[weekmail] '.$weekmail->titre.'</title>'.
                      '</head>'.
                      '<body bgcolor="#333333"><table bgcolor="#333333" width="100%">',
-                     $weekmail->rendu_html);
+                     $weekmail->test_render());
     exit();
 //form send + only once tout ça
 
