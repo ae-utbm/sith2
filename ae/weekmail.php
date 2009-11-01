@@ -104,7 +104,7 @@ if(isset($_REQUEST['action'])
 }
 
 if($_REQUEST['action']
-   && $_REQUEST['page']=='send'
+   && $_REQUEST['action']=='send'
    && $GLOBALS['svalid_call']
    && $weekmail->load_first_not_sent())
 {
@@ -117,7 +117,7 @@ if($_REQUEST['action']
     $site->add(new error('','Aucune introduction de définie !'));
   elseif(is_null($weekmail->conclusion) || empty($weekmail->conclusion))
     $site->add(new error('','Aucune conclusion de définie !'));
-  else
+  elseif($site->is_sure ( "","Envoyer le weekmail",null, 2 ))
   {
     unset($_REQUEST['page']);
     $weekmail->send();
@@ -389,9 +389,14 @@ if($_REQUEST['page'] && $weekmail->is_valid())
                      '<body bgcolor="#333333"><table bgcolor="#333333" width="100%">',
                      $weekmail->test_render());
     exit();
-//form send + only once tout ça
-
-//send
+  }
+  elseif($page == 'send')
+  {
+    $frm = new form("envoyeweekmail", "?", false, "POST", "Envoyer le weekmail");
+    $frm->allow_only_one_usage();
+    $frm->add_hidden("action","send");
+    $frm->add_submit("valid","Envoyer");
+    $cts->add($frm,true);
   }
 }
 
@@ -421,7 +426,8 @@ $list = new itemlist("Outils");
 $list->add("<a href=\"?page=modere\">Modérer</a>");
 $list->add("<a href=\"?page=custom\">Personaliser</a>");
 $list->add("<a href=\"?page=addnews\">Ajouter une nouvelle</a>");
-$list->add("<a href=\"?page=preview\">Prévisualiser/Envoyer</a>");
+$list->add("<a href=\"?page=preview\">Prévisualiser</a>");
+$list->add("<a href=\"?page=send\">Envoyer</a>");
 
 $site->add_contents($list);
 $site->end_page ();
