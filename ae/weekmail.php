@@ -413,9 +413,9 @@ if($weekmail->can_create_new())
   $file->load_by_id(4693);
   $frm->add_entity_smartselect('id_file_header','Header',$file,false,true);
   $frm->add_text_field("titre", "Titre : ",'',true,80);
-  $frm->add_text_area("introduction", "introduction : ",'',80,20,false);
-  $frm->add_text_area("conclusion", "conclusion : ",'',80,20,false);
-  $frm->add_text_area("blague", "blague : ",'',80,20,false);
+  $frm->add_text_area("introduction", "introduction : ",'',80,10,false);
+  $frm->add_text_area("conclusion", "conclusion : ",'',80,10,false);
+  $frm->add_text_area("blague", "blague : ",'',80,10,false);
   $frm->add_submit("update","Vérouiller");
   $site->add_contents ($frm);
 }
