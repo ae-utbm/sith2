@@ -377,9 +377,9 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     $frm->add_hidden('page','custom');
     $frm->add_entity_smartselect('id_file_header','Header',$file,false,true);
     $frm->add_text_field("titre", "Titre : ",$weekmail->titre,true,80);
-    $frm->add_text_area("introduction", "introduction : ",$weekmail->introduction,80,20,true);
-    $frm->add_text_area("conclusion", "conclusion : ",$weekmail->conclusion,80,20,true);
-    $frm->add_text_area("blague", "blague : ",$weekmail->blague,80,20,false);
+    $frm->add_text_area("introduction", "introduction : ",$weekmail->introduction,80,10,true);
+    $frm->add_text_area("conclusion", "conclusion : ",$weekmail->conclusion,80,10,true);
+    $frm->add_text_area("blague", "blague : ",$weekmail->blague,80,10,false);
     $frm->add_submit("update","Mettre à jour");
     $site->add_contents ($frm);
     $site->end_page ();
@@ -426,18 +426,7 @@ if($weekmail->can_create_new())
   $frm->add_submit("update","Vérouiller");
   $site->add_contents ($frm);
 }
-/*
-  form order news+supression
-*/
 
-$list = new itemlist("Outils");
-$list->add("<a href=\"?page=modere\">Modérer</a>");
-$list->add("<a href=\"?page=custom\">Personaliser</a>");
-$list->add("<a href=\"?page=addnews\">Ajouter une nouvelle</a>");
-$list->add("<a href=\"?page=preview\">Prévisualiser</a>");
-$list->add("<a href=\"?page=send\">Envoyer</a>");
-
-$site->add_contents($list);
 $site->end_page ();
 
 ?>
