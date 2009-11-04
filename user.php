@@ -528,15 +528,16 @@ if ( $_REQUEST['action'] == 'settrombi' && $can_edit ) {
 
   $trb = new trombino($site->db, $site->dbrw);
   $result = $trb->load_by_id ($user->id);
+  $autorisation = $trb->autorisation;
 
   $trb->autorisation = $_REQUEST['autorisation'] == true;
-  $trb->photo = $_REQUEST['photo'] == true;
-  $trb->infos_personnelles = $_REQUEST['infos_personnelles'] == true;
-  $trb->famille = $_REQUEST['famille'] == true;
-  $trb->associatif = $_REQUEST['associatif'] == true;
-  $trb->commentaires = $_REQUEST['commentaires'] == true;
-
-  echo $_REQUEST['commentaires'];
+  if ($autorisation) {
+    $trb->photo = $_REQUEST['photo'] == true;
+    $trb->infos_personnelles = $_REQUEST['infos_personnelles'] == true;
+    $trb->famille = $_REQUEST['famille'] == true;
+    $trb->associatif = $_REQUEST['associatif'] == true;
+    $trb->commentaires = $_REQUEST['commentaires'] == true;
+  }
 
   if ($result)
     $trb->update();
