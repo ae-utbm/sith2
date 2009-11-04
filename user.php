@@ -526,7 +526,7 @@ if ( $_REQUEST["action"] == "setblouse" && $can_edit )
 if ( $_REQUEST['action'] == 'settrombi' && $can_edit ) {
   require_once ($topdir . 'include/entities/trombino.inc.php');
 
-  $trb = new trombino();
+  $trb = new trombino($site->db, $site->dbrw);
   $result = $trb->load_by_id ($user->id);
 
   if (isset($_REQUEST['autorisation']) && isset($_REQUEST['photo']) && isset($_REQUEST['infos_personnelles'])
@@ -808,7 +808,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
 
     $cts->add_paragraph('Grâce à cette page, vous pouvez modifier les options de confidentialité associé à votre compte matmatronch pour les trombino de promo');
 
-    $trb = new trombino ();
+    $trb = new trombino ($site->db, $site->dbrw);
     $result = $trb->load_by_id($user->id);
     $autorisation = $result ? $trb->autorisation : false;
 
