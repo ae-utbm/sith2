@@ -530,11 +530,11 @@ if ( $_REQUEST['action'] == 'settrombi' && $can_edit ) {
   $result = $trb->load_by_id ($user->id);
 
   $trb->autorisation = $autorisation = $_REQUEST['autorisation'];
-  $trb->photo = $_REQUEST['photo'] && $autorisation;
-  $trb->infos_personnelles = $_REQUEST['infos_personnelles'] && $autorisation;
-  $trb->famille = $_REQUEST['famille'] && $autorisation;
-  $trb->associatif = $_REQUEST['associatif'] && $autorisation;
-  $trb->commentaires = $_REQUEST['commentaires'] && $autorisation;
+  $trb->photo = $_REQUEST['photo'];
+  $trb->infos_personnelles = $_REQUEST['infos_personnelles'];
+  $trb->famille = $_REQUEST['famille'];
+  $trb->associatif = $_REQUEST['associatif'];
+  $trb->commentaires = $_REQUEST['commentaires'];
 
   if ($result)
     $trb->update();
