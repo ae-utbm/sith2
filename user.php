@@ -536,6 +536,8 @@ if ( $_REQUEST['action'] == 'settrombi' && $can_edit ) {
   $trb->associatif = $_REQUEST['associatif'] == true;
   $trb->commentaires = $_REQUEST['commentaires'] == true;
 
+  echo $_REQUEST['commentaires'];
+
   if ($result)
     $trb->update();
   else
