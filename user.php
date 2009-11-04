@@ -1101,33 +1101,33 @@ else
                 "d.php?id_file=769&action=download&download=thumb\"></a></center>");
   }
 
-  if ( $site->user->is_in_group("gestion_ae") )
-  {
-    $req = new requete($site->db, "SELECT " .
-      "CONCAT(`cpt_debitfacture`.`id_facture`,',',`cpt_produits`.`id_produit`) AS `id_factprod`, " .
-      "`cpt_debitfacture`.`id_facture`, " .
-      "`cpt_debitfacture`.`date_facture`, " .
-      "`asso`.`id_asso`, " .
-      "`asso`.`nom_asso`, " .
-      "`cpt_vendu`.`a_retirer_vente`, " .
-      "`cpt_vendu`.`a_expedier_vente`, " .
-      "`cpt_vendu`.`quantite`, " .
-      "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
-      "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
-      "`cpt_produits`.`nom_prod`, " .
-      "`cpt_produits`.`id_produit` " .
-      "FROM `cpt_vendu` " .
-      "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
-      "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
-      "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-      "WHERE `id_utilisateur_client`='".$user->id."' ".
-      "AND (`cpt_vendu`.`a_retirer_vente`='1' OR `cpt_vendu`.`a_expedier_vente`='1') " .
-      "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+  $req = new requete($site->db, "SELECT " .
+    "CONCAT(`cpt_debitfacture`.`id_facture`,',',`cpt_produits`.`id_produit`) AS `id_factprod`, " .
+    "`cpt_debitfacture`.`id_facture`, " .
+    "`cpt_debitfacture`.`date_facture`, " .
+    "`asso`.`id_asso`, " .
+    "`asso`.`nom_asso`, " .
+    "`cpt_vendu`.`a_retirer_vente`, " .
+    "`cpt_vendu`.`a_expedier_vente`, " .
+    "`cpt_vendu`.`quantite`, " .
+    "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
+    "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
+    "`cpt_produits`.`nom_prod`, " .
+    "`cpt_produits`.`id_produit` " .
+    "FROM `cpt_vendu` " .
+    "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+    "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
+    "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+    "WHERE `id_utilisateur_client`='".$user->id."' ".
+    "AND (`cpt_vendu`.`a_retirer_vente`='1' OR `cpt_vendu`.`a_expedier_vente`='1') " .
+    "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-    if ($req->lines > 0)
+  if ($req->lines > 0)
+  {
+    $items="";
+    while ( $item = $req->get_row() )
     {
-      $items="";
-      while ( $item = $req->get_row() )
+      if ($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($item['id_asso'], 2))
       {
         if ( $item['a_retirer_vente'])
         {
@@ -1153,22 +1153,22 @@ else
 
         $items[]=$item;
       }
-
-      $cts->add(new sqltable(
-        "listresp",
-        "Commandes à retirer", $items,
-        $topdir."comptoir/encours.php?id_utilisateur=".$user->id,
-        "id_factprod",
-        array(
-          "nom_prod"=>"Produit",
-          "quantite"=>"Quantité",
-          "prix_unit"=>"Prix unitaire",
-          "total"=>"Total",
-          "info"=>""),
-        array(),
-        $site->user->is_in_group("gestion_ae")?array("retires"=>"Marquer comme retiré"):array(),
-        array()), true);
     }
+
+    $cts->add(new sqltable(
+      "listresp",
+      "Commandes à retirer", $items,
+      $topdir."comptoir/encours.php?id_utilisateur=".$user->id,
+      "id_factprod",
+      array(
+        "nom_prod"=>"Produit",
+        "quantite"=>"Quantité",
+        "prix_unit"=>"Prix unitaire",
+        "total"=>"Total",
+        "info"=>""),
+      array(),
+      array("retires"=>"Marquer comme retiré"),
+      array()), true);
   }
 
   /* l'onglet AE */
