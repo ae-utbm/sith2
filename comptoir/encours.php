@@ -46,7 +46,7 @@ else
 
 
 
-if ( $_REQUEST["action"] == "retires" && $site->user->is_in_group("gestion_ae"))
+if ( $_REQUEST["action"] == "retires")
 {
   require_once("include/facture.inc.php");
   require_once("include/produit.inc.php");
@@ -90,31 +90,37 @@ $req = new requete($site->db, "SELECT " .
       "WHERE `id_utilisateur_client`='".$user->id."' AND (a_retirer_vente='1' OR a_expedier_vente='1') " .
       "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-$items="";
+$items=array();
+$peut_retirer = false;
 while ( $item = $req->get_row() )
 {
+  if ($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($item['id_asso'], 2))
+    $peut_retirer = true;
 
-  if ( $item['a_retirer_vente'])
+  if ($user->id==$site->user->id || $site->user->is_in_group("gestion_ae"))
   {
-    $noms=array();
+    if ( $item['a_retirer_vente'])
+    {
+      $noms=array();
 
-    $req2 = new requete($site->db,
-         "SELECT `cpt_comptoir`.`nom_cpt`
-          FROM `cpt_mise_en_vente`
-          INNER JOIN `cpt_comptoir` ON `cpt_comptoir`.`id_comptoir` = `cpt_mise_en_vente`.`id_comptoir`
-          WHERE `cpt_mise_en_vente`.`id_produit` = '".$item['id_produit']."' AND `cpt_comptoir`.`type_cpt`!=1");
+      $req2 = new requete($site->db,
+           "SELECT `cpt_comptoir`.`nom_cpt`
+            FROM `cpt_mise_en_vente`
+            INNER JOIN `cpt_comptoir` ON `cpt_comptoir`.`id_comptoir` = `cpt_mise_en_vente`.`id_comptoir`
+            WHERE `cpt_mise_en_vente`.`id_produit` = '".$item['id_produit']."' AND `cpt_comptoir`.`type_cpt`!=1");
 
-    if ( $req2->lines != 0 )
-      while ( list($nom) = $req2->get_row() )
-        $noms[] = $nom;
+      if ( $req2->lines != 0 )
+        while ( list($nom) = $req2->get_row() )
+          $noms[] = $nom;
 
-    $item["info"] = "A venir retirer à : ".implode(" ou ",$noms);
+      $item["info"] = "A venir retirer à : ".implode(" ou ",$noms);
+    }
+    else if ( $item['a_expedier_vente'])
+    {
+      $item["info"] = "En preparation";
+    }
+    $items[]=$item;
   }
-  else if ( $item['a_expedier_vente'])
-  {
-    $item["info"] = "En preparation";
-  }
-  $items[]=$item;
 }
 
 $cts->add(new sqltable(
@@ -128,7 +134,7 @@ $cts->add(new sqltable(
     "total"=>"Total",
     "info"=>""),
   /*($site->user->is_in_group("gestion_ae")&& ( $site->user->is_in_group("root") || $site->user->id != $user->id ))?array("delete"=>"Annuler la facture"):array()*/ array(),
-  $site->user->is_in_group("gestion_ae")?array("retires"=>"Marquer comme retiré"):array(),
+  $peut_retirer?array("retires"=>"Marquer comme retiré"):array(),
   array( )
   ));
 

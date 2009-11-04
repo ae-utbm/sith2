@@ -1153,7 +1153,7 @@ else
     }
   }
 
-  if(sizeof($items) != 0)
+  if(sizeof($items) > 0)
   {
     $cts->add(new sqltable(
       "listresp",
