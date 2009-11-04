@@ -49,13 +49,18 @@ else
 if ( $_REQUEST["action"] == "retires" && $site->user->is_in_group("gestion_ae"))
 {
   require_once("include/facture.inc.php");
+  require_once("include/produit.inc.php");
   $fact = new debitfacture($site->db,$site->dbrw);
+  $prod = new produit($site->db,$site->dbrw);
   foreach(  $_REQUEST["id_factprods"] as $id_factprod )
   {
     list($id_facture,$id_produit) = explode(",",$id_factprod);
     $fact->load_by_id($id_facture);
+    $prod->load_by_id($id_produit);
 
-    if ( $fact->id > 0 && $fact->id_utilisateur_client == $user->id )
+    if (
+        ( $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($prod->id_assocpt, 2))
+        && $fact->id > 0 && $fact->id_utilisateur_client == $user->id )
       $fact->set_retire($id_produit);
 
   }
