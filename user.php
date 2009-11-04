@@ -529,8 +529,8 @@ if ( $_REQUEST['action'] == 'settrombi' && $can_edit ) {
   $trb = new trombino($site->db, $site->dbrw);
   $result = $trb->load_by_id ($user->id);
 
-  if (isset($_REQUEST['autorisation']) && isset($_REQUEST['photo']) && isset($_REQUEST['infos_personnelles'])
-      && isset($_REQUEST['famille']) && isset($_REQUEST['associatif']) && isset($_REQUEST['commentaires'])) {
+  /*  if (isset($_REQUEST['autorisation']) && isset($_REQUEST['photo']) && isset($_REQUEST['infos_personnelles'])
+      && isset($_REQUEST['famille']) && isset($_REQUEST['associatif']) && isset($_REQUEST['commentaires'])) {*/
 
     $trb->autorisation = $autorisation = $_REQUEST['autorisation'];
     $trb->photo = $_REQUEST['photo'] && $autorisation;
@@ -542,8 +542,8 @@ if ( $_REQUEST['action'] == 'settrombi' && $can_edit ) {
     if ($result)
       $trb->update();
     else
-      $trb->create();
-  }
+      $trb->create($user->id);
+    //  }
 
   $_REQUEST['see'] = 'trombi';
   $_REQUEST['page'] = 'edit';
@@ -821,7 +821,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_checkbox('autorisation', 'Publier mon profil Matmatronch dans le trombino de promo', $autorisation);
     $frm->add_info('<h4>Options de confidentialité</h4>');
     $frm->add_checkbox('photo', 'Autoriser ma photo d\'identité à apparaitre', $trb->photo, !$autorisation);
-    $frm->add_checkbox('infos_personelles', 'Autoriser mes informations personnelles à apparaitre (adresse, téléphone, email, ...)', $trb->infos_personnelles, !$autorisation);
+    $frm->add_checkbox('infos_personnelles', 'Autoriser mes informations personnelles à apparaitre (adresse, téléphone, email, ...)', $trb->infos_personnelles, !$autorisation);
     $frm->add_checkbox('famille', 'Autoriser la mention de mes parrain(e)(s)/fillot(e)(s)', $trb->famille, !$autorisation);
     $frm->add_checkbox('associatif', 'Autoriser mon parcours associatif à apparaitre', $trb->associatif, !$autorisation);
     $frm->add_checkbox('commentaires', 'Autoriser les commentaires de mon profil à apparaitre', $trb->commentaires, !$autorisation);

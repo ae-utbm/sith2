@@ -34,7 +34,7 @@ class trombino extends basedb
   public function trombino($db, $dbrw)
   {
     parent::basedb($db, $dbrw);
-    $this->id_utilisateur = $this->autorisation = $this->photo
+    $this->autorisation = $this->photo
       = $this->infos_personnelles = $this->famille = $this->associatif
       = $this->commentaires = false;
   }
