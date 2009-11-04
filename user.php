@@ -815,7 +815,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm = new form('settrombi', 'user.php?id_utilisateur='.$user->id, true, 'POST', 'Changer mes paramètres du trombino');
     $frm->add_hidden('action', 'settrombi');
     $frm->add_info('<h3>Autorisation</h3>');
-    $frm->add_check('autorisation', 'Publier mon profil dans le trombino de promo', $autorisation);
+    $frm->add_checkbox('autorisation', 'Publier mon profil dans le trombino de promo', $autorisation);
     $frm->add_info('<h3>Options ce confidentialité</h3>');
     $frm->add_checkbox('photo', 'Autoriser ma photo d\'identité à apparaitre', $trb->photo, !$autorisation);
     $frm->add_checkbox('infos_personelles', 'Autoriser mes informations personnelles à apparaitre (adresse, téléphone, email, ...)', $trb->infos_personnelles, !$autorisation);
