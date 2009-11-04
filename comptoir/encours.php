@@ -95,7 +95,7 @@ while ( $item = $req->get_row() )
   if ($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($item['id_asso'], 2))
     $peut_retirer = true;
 
-  if ($user->id==$site->user->id || $site->user->is_in_group("gestion_ae"))
+  if ($user->id==$site->user->id || $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($item['id_asso'], 2))
   {
     if ( $item['a_retirer_vente'])
     {
