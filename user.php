@@ -544,6 +544,9 @@ if ( $_REQUEST['action'] == 'settrombi' && $can_edit ) {
     else
       $trb->create();
   }
+
+  $_REQUEST['see'] = 'trombi';
+  $_REQUEST['page'] = 'edit';
 }
 
 $tabs = $user->get_tabs($site->user);
