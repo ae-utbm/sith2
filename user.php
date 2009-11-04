@@ -806,7 +806,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   elseif ( $_REQUEST['see'] == 'trombi' ) {
     require_once($topdir . 'include/entities/trombino.inc.php');
 
-    $cts->add_paragraph('Grâce à cette page, vous pouvez modifier les options de confidentialité associé à votre compte matmatronch pour les trombino de promo');
+    $cts->add_paragraph('Grâce à cette page, vous pouvez modifier les options de confidentialité associées à votre profil Matmatronch qui seront utilisées pour la création du trombino papier de votre promo');
 
     $trb = new trombino ($site->db, $site->dbrw);
     $result = $trb->load_by_id($user->id);
@@ -814,9 +814,9 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
 
     $frm = new form('settrombi', 'user.php?id_utilisateur='.$user->id, true, 'POST', 'Changer mes paramètres du trombino');
     $frm->add_hidden('action', 'settrombi');
-    $frm->add_info('<h3>Autorisation</h3>');
-    $frm->add_checkbox('autorisation', 'Publier mon profil dans le trombino de promo', $autorisation);
-    $frm->add_info('<h3>Options ce confidentialité</h3>');
+    $frm->add_info('<h4>Autorisation</h4>');
+    $frm->add_checkbox('autorisation', 'Publier mon profil Matmatronch dans le trombino de promo', $autorisation);
+    $frm->add_info('<h4>Options de confidentialité</h4>');
     $frm->add_checkbox('photo', 'Autoriser ma photo d\'identité à apparaitre', $trb->photo, !$autorisation);
     $frm->add_checkbox('infos_personelles', 'Autoriser mes informations personnelles à apparaitre (adresse, téléphone, email, ...)', $trb->infos_personnelles, !$autorisation);
     $frm->add_checkbox('famille', 'Autoriser la mention de mes parrain(e)(s)/fillot(e)(s)', $trb->famille, !$autorisation);
