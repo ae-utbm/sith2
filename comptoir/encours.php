@@ -38,8 +38,6 @@ if ( isset($_REQUEST['id_utilisateur']) )
     $site->error_not_found();
     exit();
   }
-  if ( !($user->id==$site->user->id || $site->user->is_in_group("gestion_ae")) )
-    $site->error_forbidden();
 }
 else
   $user = &$site->user;
