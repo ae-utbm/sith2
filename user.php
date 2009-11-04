@@ -523,6 +523,29 @@ if ( $_REQUEST["action"] == "setblouse" && $can_edit )
   $_REQUEST["open"] = "blouse";
 }
 
+if ( $_REQUEST['action'] == 'settrombi' && $can_edit ) {
+  require_once ($topdir . 'include/entities/trombino.inc.php');
+
+  $trb = new trombino();
+  $result = $trb->load_by_id ($user->id);
+
+  if (isset($_REQUEST['autorisation']) && isset($_REQUEST['photo']) && isset($_REQUEST['infos_personnelles'])
+      && isset($_REQUEST['famille']) && isset($_REQUEST['associatif']) && isset($_REQUEST['commentaires'])) {
+
+    $trb->autorisation = $autorisation = $_REQUEST['autorisation'];
+    $trb->photo = $_REQUEST['photo'] && $autorisation;
+    $trb->infos_personnelles = $_REQUEST['infos_personnelles'] && $autorisation;
+    $trb->famille = $_REQUEST['famille'] && $autorisation;
+    $trb->associatif = $_REQUEST['associatif'] && $autorisation;
+    $trb->commentaires = $_REQUEST['commentaires'] && $autorisation;
+
+    if ($result)
+      $trb->update();
+    else
+      $trb->create();
+  }
+}
+
 $tabs = $user->get_tabs($site->user);
 
 if ( $_REQUEST["page"] == "edit" && $can_edit )
@@ -546,7 +569,8 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     array("","user.php?page=edit&id_utilisateur=".$user->id,"Information personnelles"),
     array("email","user.php?see=email&page=edit&id_utilisateur=".$user->id,"Adresses E-Mail"),
     array("passwd","user.php?see=passwd&page=edit&id_utilisateur=".$user->id,"Mot de passe"),
-    array("photos","user.php?see=photos&page=edit&id_utilisateur=".$user->id,"Photo/Avatar/Blouse")
+    array("photos","user.php?see=photos&page=edit&id_utilisateur=".$user->id,"Photo/Avatar/Blouse"),
+    array('trombi', 'user.php?see=trombi&page=edit&id_utilisateur='.$user->id,'Trombinoscope')
     ),
     isset($_REQUEST["see"])?$_REQUEST["see"]:"","","subtab"));
 
@@ -778,6 +802,29 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_submit("save","Enregistrer");
 
     $cts->add($frm,true);
+  }
+  elseif ( $_REQUEST['see'] == 'trombi' ) {
+    require_once($topdir . 'include/entities/trombino.inc.php');
+
+    $cts->add_paragraph('Grâce à cette page, vous pouvez modifier les options de confidentialité associé à votre compte matmatronch pour les trombino de promo');
+
+    $trb = new trombino ();
+    $result = $trb->load_by_id($user->id);
+    $autorisation = $result ? $trb->autorisation : false;
+
+    $frm = new form('settrombi', 'user.php?id_utilisateur='.$user->id, true, 'POST', 'Changer mes paramètres du trombino');
+    $frm->add_hidden('action', 'settrombi');
+    $frm->add_info('<h3>Autorisation</h3>');
+    $frm->add_check('autorisation', 'Publier mon profil dans le trombino de promo', $autorisation);
+    $frm->add_info('<h3>Options ce confidentialité</h3>');
+    $frm->add_checkbox('photo', 'Autoriser ma photo d\'identité à apparaitre', $trb->photo, !$autorisation);
+    $frm->add_checkbox('infos_personelles', 'Autoriser mes informations personnelles à apparaitre (adresse, téléphone, email, ...)', $trb->infos_personnelles, !$autorisation);
+    $frm->add_checkbox('famille', 'Autoriser la mention de mes parrain(e)(s)/fillot(e)(s)', $trb->famille, !$autorisation);
+    $frm->add_checkbox('associatif', 'Autoriser mon parcours associatif à apparaitre', $trb->associatif, !$autorisation);
+    $frm->add_checkbox('commentaires', 'Autoriser les commentaires de mon profil à apparaitre', $trb->commentaires, !$autorisation);
+    $frm->add_submit('save', 'Enregistrer');
+
+    $cts->add($frm);
   }
 
   $site->add_contents($cts);
