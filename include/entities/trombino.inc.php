@@ -42,7 +42,7 @@ class trombino extends basedb
   public function load_by_id ($id)
   {
     $req = new requete ($this->db,
-                        "SELECT * FROM `pull_participations` WHERE `id_utilisateur`='".intval($id)."'");
+                        "SELECT * FROM `utl_trombi` WHERE `id_utilisateur`='".intval($id)."'");
 
     if ($req->lines != 1)
       return false;
