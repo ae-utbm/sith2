@@ -1122,39 +1122,39 @@ else
     "AND (`cpt_vendu`.`a_retirer_vente`='1' OR `cpt_vendu`.`a_expedier_vente`='1') " .
     "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-  if ($req->lines > 0)
+  $items=array();
+  while ( $item = $req->get_row() )
   {
-    $items="";
-    while ( $item = $req->get_row() )
+    if ($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($item['id_asso'], 2))
     {
-      if ($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($item['id_asso'], 2))
+      if ( $item['a_retirer_vente'])
       {
-        if ( $item['a_retirer_vente'])
-        {
-          $noms=array();
-          $noms[]='Bureau AE belfort';
-          $noms[]='bureau AE sevenans';
-          $noms[]='bureau AE montbéliard';
-          /*$req2 = new requete($site->db,
-            "SELECT `cpt_comptoir`.`nom_cpt`
-            FROM `cpt_mise_en_vente`
-            INNER JOIN `cpt_comptoir` ON `cpt_comptoir`.`id_comptoir` = `cpt_mise_en_vente`.`id_comptoir`
-            WHERE `cpt_mise_en_vente`.`id_produit` = '".$item['id_produit']."'
-            AND `cpt_comptoir`.`type_cpt`!=1");
+        $noms=array();
+        $noms[]='Bureau AE belfort';
+        $noms[]='bureau AE sevenans';
+        $noms[]='bureau AE montbéliard';
+        /*$req2 = new requete($site->db,
+          "SELECT `cpt_comptoir`.`nom_cpt`
+          FROM `cpt_mise_en_vente`
+          INNER JOIN `cpt_comptoir` ON `cpt_comptoir`.`id_comptoir` = `cpt_mise_en_vente`.`id_comptoir`
+          WHERE `cpt_mise_en_vente`.`id_produit` = '".$item['id_produit']."'
+          AND `cpt_comptoir`.`type_cpt`!=1");
 
-          if ( $req2->lines != 0 )
-            while ( list($nom) = $req2->get_row() )
-              $noms[] = $nom;
+        if ( $req2->lines != 0 )
+          while ( list($nom) = $req2->get_row() )
+            $noms[] = $nom;
 */
-          $item["info"] = "À venir retirer à : ".implode(" ou ",$noms);
-        }
-        else if ( $item['a_expedier_vente'])
-          $item["info"] = "En preparation";
-
-        $items[]=$item;
+        $item["info"] = "À venir retirer à : ".implode(" ou ",$noms);
       }
-    }
+      else if ( $item['a_expedier_vente'])
+        $item["info"] = "En preparation";
 
+      $items[]=$item;
+    }
+  }
+
+  if(sizeof($items) != 0)
+  {
     $cts->add(new sqltable(
       "listresp",
       "Commandes à retirer", $items,
