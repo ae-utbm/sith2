@@ -529,21 +529,17 @@ if ( $_REQUEST['action'] == 'settrombi' && $can_edit ) {
   $trb = new trombino($site->db, $site->dbrw);
   $result = $trb->load_by_id ($user->id);
 
-  /*  if (isset($_REQUEST['autorisation']) && isset($_REQUEST['photo']) && isset($_REQUEST['infos_personnelles'])
-      && isset($_REQUEST['famille']) && isset($_REQUEST['associatif']) && isset($_REQUEST['commentaires'])) {*/
+  $trb->autorisation = $autorisation = $_REQUEST['autorisation'];
+  $trb->photo = $_REQUEST['photo'] && $autorisation;
+  $trb->infos_personnelles = $_REQUEST['infos_personnelles'] && $autorisation;
+  $trb->famille = $_REQUEST['famille'] && $autorisation;
+  $trb->associatif = $_REQUEST['associatif'] && $autorisation;
+  $trb->commentaires = $_REQUEST['commentaires'] && $autorisation;
 
-    $trb->autorisation = $autorisation = $_REQUEST['autorisation'];
-    $trb->photo = $_REQUEST['photo'] && $autorisation;
-    $trb->infos_personnelles = $_REQUEST['infos_personnelles'] && $autorisation;
-    $trb->famille = $_REQUEST['famille'] && $autorisation;
-    $trb->associatif = $_REQUEST['associatif'] && $autorisation;
-    $trb->commentaires = $_REQUEST['commentaires'] && $autorisation;
-
-    if ($result)
-      $trb->update();
-    else
-      $trb->create($user->id);
-    //  }
+  if ($result)
+    $trb->update();
+  else
+    $trb->create($user->id);
 
   $_REQUEST['see'] = 'trombi';
   $_REQUEST['page'] = 'edit';

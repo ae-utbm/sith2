@@ -66,6 +66,9 @@ class trombino extends basedb
   public function create ($id)
   {
     $this->id_utilisateur = $id;
+    $this->autorisation = $this->photo
+      = $this->infos_personnelles = $this->famille = $this->associatif
+      = $this->commentaires = true;
 
     $requete = new insert($this->dbrw, 'utl_trombi', array('id_utilisateur' => $this->id_utilisateur,
                                                            'autorisation' => $this->autorisation,
