@@ -371,7 +371,7 @@ elseif ( $_REQUEST["action"] == "edit" )
     }
 
     $frm->addsub( $subfrm, false, true );
-    $frm->add_info("Laisser tour décoché pour utiliser les réglages globaux");
+    $frm->add_info("Laisser tout décoché pour utiliser les réglages globaux");
 
     $frm->add_submit("save","Enregistrer");
     $site->add_contents($frm);
