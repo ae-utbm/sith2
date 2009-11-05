@@ -357,7 +357,6 @@ elseif ( $_REQUEST["action"] == "edit" )
     $frm->add_text_area("texte","Contenu",$page->texte,80,20,true);
 
     $subfrm = new subform("setboxsections","Sections où les boites seront affichées");
-    $subfrm->add_info("Laisser tour décoché pour utiliser les réglages globaux");
 
     if (isset($site->config["boxes.specific.".$_REQUEST["box_name"]]))
       $boxes_sections = explode(",",$site->config["boxes.specific.".$_REQUEST["box_name"]]);
@@ -372,6 +371,7 @@ elseif ( $_REQUEST["action"] == "edit" )
     }
 
     $frm->addsub( $subfrm, false, true );
+    $frm->add_info("Laisser tour décoché pour utiliser les réglages globaux");
 
     $frm->add_submit("save","Enregistrer");
     $site->add_contents($frm);
