@@ -356,7 +356,7 @@ elseif ( $_REQUEST["action"] == "edit" )
     $frm->add_rights_field($page,false,true,"pages");
     $frm->add_text_area("texte","Contenu",$page->texte,80,20,true);
 
-    $subfrm = new subform("setboxsections","Sections où les boites seront affichées");
+    $subfrm = new subform("setboxsections","Sections où les boites seront affichées (laisser tour décoché pour utiliser les réglages globaux)");
 
     if (isset($site->config["boxes.specific.".$_REQUEST["box_name"]]))
       $boxes_sections = explode(",",$site->config["boxes.specific.".$_REQUEST["box_name"]]);
