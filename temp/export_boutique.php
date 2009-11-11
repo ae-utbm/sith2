@@ -8,7 +8,7 @@ $db = new mysqlae ();
 $req = new requete($db,
 'SELECT id_utilisateur, nom_utl, prenom_utl, email_utl, pass_utl, hash_utl, addresse_utl
 FROM utilisateurs
-WHERE type = \'srv\'');
+WHERE type_utl = \'srv\'');
 
 while(list($id,$nom,$prenom,$email,$pass,$hash,$adresse)=$req->get_row())
 {
