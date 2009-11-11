@@ -116,7 +116,7 @@ class weekmail extends stdentity
     $req = new requete($this->db,
                        'SELECT * '.
                        'FROM `weekmail` '.
-                       'WHERE `statut_weekmail`=\'1\' '.
+                       'WHERE `statut_weekmail`=\'0\' '.
                        'ORDER BY `id_weekmail` DESC '.
                        'LIMIT 2');
     if($req->lines==0 || $req->lines==1)
