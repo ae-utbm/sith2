@@ -20,7 +20,7 @@ $site->add_css("css/forum.css");
 $cts = new contents();
 $cts->cssclass="liner";
 if ( $site->user->is_valid() )
-  $cts->buffer = "<p class=\"center\">Connecté en tant que ".$site->user->alias." - <a href=\"../user.php?page=edit\">Mon profil</a></p>";
+  $cts->buffer = "<p class=\"center\">Connecté en tant que ".($site->user->surnom!=null ? $site->user->surnom : $site->user->alias )." - <a href=\"../user.php?page=edit\">Mon profil</a> - <a href=\"search.php?page=unread\">Messages non lus</a></p>";
 else
   $cts->buffer = "<p class=\"center\">Non connecté - <a href=\"../index.php\">Se connecter</a> - <a href=\"../newaccount.php\">Creer un compte</a></p>";
 $site->add_contents($cts);
@@ -111,12 +111,12 @@ if ( $_REQUEST["page"] == "unread" )
   if ( $req->lines > 0 )
   {
     $cts->add_title(2,"Sujets favoris avec des messages non lus");
-  	$rows = array();
-  	while ( $row = $req->get_row() )
-  	  $rows[] = $row;
+    $rows = array();
+    while ( $row = $req->get_row() )
+      $rows[] = $row;
 
-  	$cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
-  	$cts->add_paragraph("&nbsp;");
+    $cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
+    $cts->add_paragraph("&nbsp;");
   }
 
 
@@ -124,11 +124,11 @@ if ( $_REQUEST["page"] == "unread" )
   if ( $req->lines > 0 )
   {
     $cts->add_title(2,"Sujets avec des messages non lus");
-  	$rows = array();
-  	while ( $row = $req->get_row() )
-  	  $rows[] = $row;
+    $rows = array();
+    while ( $row = $req->get_row() )
+      $rows[] = $row;
 
-  	$cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
+    $cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
   }
 
   $site->add_contents($cts);
@@ -139,13 +139,13 @@ if ( $_REQUEST["page"] == "unread" )
 
 if ( isset($_REQUEST["pattern"] ) )
 {
-	/*$pattern = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$_REQUEST["pattern"]);
-	$pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
-	$pattern = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern);
-	$pattern = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$pattern);
-	$pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
-	$pattern = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
-	$sqlpattern = mysql_real_escape_string($pattern);
+  /*$pattern = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$_REQUEST["pattern"]);
+  $pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
+  $pattern = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern);
+  $pattern = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$pattern);
+  $pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
+  $pattern = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
+  $sqlpattern = mysql_real_escape_string($pattern);
 
   $sql = "SELECT frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
          "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
@@ -183,32 +183,32 @@ if ( isset($_REQUEST["pattern"] ) )
   $cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a> / <a href=\"search.php?pattern=".urlencode($_REQUEST["pattern"])."\">".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
 
 
-	//$cts->add(new sujetslist($rows, $site->user, "./", null, null, false));
+  //$cts->add(new sujetslist($rows, $site->user, "./", null, null, false));
 
-		$id_sujet=null;
+    $id_sujet=null;
 
-		$cts->buffer .= "<ul class=\"frmsujetres\">";
+    $cts->buffer .= "<ul class=\"frmsujetres\">";
 
-		while ( $row = $req->get_row() )
-		{
-			if ( 	$id_sujet!=$row['id_sujet'] )
-			{
-			  if ( !is_null($id_sujet) )
-  			  $cts->buffer .= "</ul>";
-  			$cts->buffer .=
-  			"<li class=\"sujet\"><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
-  			"<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
-  			$row['titre_sujet']."</b></a></li>";
-  			$cts->buffer .= "<ul class=\"frmmessagesres\">";
-			}
+    while ( $row = $req->get_row() )
+    {
+      if (   $id_sujet!=$row['id_sujet'] )
+      {
+        if ( !is_null($id_sujet) )
+          $cts->buffer .= "</ul>";
+        $cts->buffer .=
+        "<li class=\"sujet\"><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
+        "<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
+        $row['titre_sujet']."</b></a></li>";
+        $cts->buffer .= "<ul class=\"frmmessagesres\">";
+      }
 
-  		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";
+      $cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";
 
-			$id_sujet=$row['id_sujet'];
-		}
-		if ( !is_null($id_sujet) )
-		  $cts->buffer .= "</ul>";
-		$cts->buffer .= "</ul>";
+      $id_sujet=$row['id_sujet'];
+    }
+    if ( !is_null($id_sujet) )
+      $cts->buffer .= "</ul>";
+    $cts->buffer .= "</ul>";
 
 
 
