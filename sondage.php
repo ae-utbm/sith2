@@ -71,7 +71,11 @@ if ( $sdn->is_valid() )
   foreach ( $res as $re )
   {
     $cumul+=$re[1];
-    $pc = $re[1]*100/$sdn->total;
+
+    if ($sdn->total > 0)
+        $pc = $re[1]*100/$sdn->total;
+    else
+        $pc = 0;
 
     $cts->puts($re[0]."<br/>");
 
