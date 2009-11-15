@@ -197,7 +197,7 @@ $frm->add_datetime_field("fin","Date et heure de fin");
 $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit",$_REQUEST["id_typeprod"],true);
 $frm->add_entity_select("id_comptoir","Lieu", $site->db, "comptoir",$_REQUEST["id_comptoir"],true);
 $frm->add_entity_select("id_produit", "Produit", $site->db, "produit",$_REQUEST["id_produit"],true);
-$frm->add_select_field("a_retirer_produit", "A retirer", array(null => "", 1 => "Non retiré", 0 => "Retiré"));
+$frm->add_select_field("a_retirer_vente", "A retirer", array(null => "", 1 => "Non retiré", 2 => "Retiré"));
 $frm->add_submit("valid","Voir");
 $cts->add($frm,true);
 
@@ -223,8 +223,10 @@ if ( $_REQUEST["id_typeprod"] )
 if ( $_REQUEST["id_produit"] )
   $conds[] = "cpt_vendu.id_produit='".intval($_REQUEST["id_produit"])."'";
 
-if ( $_REQUEST["a_retirer_produit"] )
-  $conds[] = "cpt_vendu.a_retirer_produit='".intval($_REQUEST["a_retirer_produit"])."'";
+if ( $_REQUEST["a_retirer_vente"] == '1')
+  $conds[] = "cpt_vendu.a_retirer_vente='1'";
+if ( $_REQUEST["a_retirer_vente"] == '2')
+  $conds[] = "cpt_vendu.a_retirer_vente='0'";
 
 if ( count($conds) >= 1 )
 {
