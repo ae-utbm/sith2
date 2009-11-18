@@ -51,7 +51,7 @@ switch ($_REQUEST["domain"])
 
 if ( !$site->user->is_valid() )
 {
-  header("Location: article.php?name=site:wrongpassoruser");
+  header("Location: article.php?name=site:wrongpassorduser");
   exit();
 }
 
