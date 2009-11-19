@@ -2258,7 +2258,7 @@ L'équipe info AE";
     }
 
     // 2- Verifie qu'il existe des stratégies pour toutes les fusions requises
-    $known_fusions = array("utilisateurs","utl_etu_utbm","utl_etu","utl_extra","job_prefs");
+    $known_fusions = array("utilisateurs","utl_etu_utbm","utl_etu","utl_extra","job_prefs","utl_trombi");
     foreach ( $fusions as $fusion )
     {
       if ( !in_array($fusion[0],$known_fusions) )
