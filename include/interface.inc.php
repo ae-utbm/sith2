@@ -826,7 +826,7 @@ class interfaceweb
     $cts->add_paragraph($message);
 
     if ( $level == 2 )
-      $cts->add_paragraph("Cette opération <b>pourrais avoir de lourdes conséquences</b> sur le <b>bon fonctionnement des services</b> si elle été appliqué sur un élément critique. <b>Contactez un administrateur en cas de doute</b>.");
+      $cts->add_paragraph("Cette opération <b>pourrait avoir de lourdes conséquences</b> sur le <b>bon fonctionnement des services</b> si elle été appliquée sur un élément critique. <b>Contactez un administrateur en cas de doute</b>.");
 
     $cts->add_paragraph("Êtes vous sûr ?");
 
