@@ -303,16 +303,16 @@ class site extends interfaceweb
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
     $this->add_box("calendrier",new calendar($this->db));
-    require_once($topdir . "include/cts/box_slide_show.inc.php");
-    $slides = new box_slideshow('L\'info en boucle');
-    $slides->add_slide($this->get_weekly_photo_contents());
-    $slides->add_slide($this->get_planning_contents());
-    $slides->add_slide($this->get_planning_permanences_contents());
-    if ($this->user->is_valid())
-      $slides->add_slide($this->get_forum_box());
 
     if ( $section == "accueil" )
     {
+      require_once($topdir . "include/cts/box_slide_show.inc.php");
+      $slides = new box_slideshow('L\'info en boucle');
+      $slides->add_slide($this->get_weekly_photo_contents());
+      $slides->add_slide($this->get_planning_contents());
+      $slides->add_slide($this->get_planning_permanences_contents());
+      if ($this->user->is_valid())
+        $slides->add_slide($this->get_forum_box());
       if(!$slides->is_empty())
          $this->add_box("info_en_boucle",$slides);
       //Nb: alerts est *trés* long à calculer, il ne sera donc que dans accueil
