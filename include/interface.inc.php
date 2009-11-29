@@ -816,7 +816,7 @@ class interfaceweb
 
     if ( !$uid ) $uid=$section.md5($message);
 
-    $this->start_page($section,"Êtes vous sûre ?");
+    $this->start_page($section,"Êtes vous sûr ?");
 
     $cts = new contents("Confirmation");
 
@@ -848,8 +848,8 @@ class interfaceweb
         $frm->add_hidden($key,$val);
 
     if ($level == 3) {
-      $frm->add_text_field('____really_sure__', 'Tapez la phrase magique :', '', true, 50, false, false);
-      $cts->puts('<script type="text/javascript"> var txt = document.getElementByName("____really_sure__"); var sub = document.getElementById("___i_am_really_sure"); sub.disabled = "disabled"; txt.onkeypress = function () { if (txt.value == "Oui je suis sur de vouloir faire ça") sub.disabled = "enabled"; else sub.disabled = "disabled"; }</script>');
+      $frm->add_text_field('____really_sure__', 'Tapez la phrase magique :', '', true, 50);
+      $cts->puts('<script type="text/javascript"> var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); sub.disabled = "disabled"; txt.onkeypress = function () { if (txt.value == "Oui je suis sur de vouloir faire ça") sub.disabled = "enabled"; else sub.disabled = "disabled"; }</script>');
     }
 
     $frm->add_submit("___i_am_really_sure","OUI");
