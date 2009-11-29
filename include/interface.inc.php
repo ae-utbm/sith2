@@ -831,7 +831,7 @@ class interfaceweb
     $cts->add_paragraph("Êtes vous sûr ?");
     if ($level == 3) {
       $phrase_magique = 'oui je suis sur de vouloir faire ça';
-      $cts->add_paragraph('Tapez dans le champ correspondant et en toutes lettres la phrase "'.$phrase_magique.'"');
+      $cts->add_paragraph('Tapez dans le champ correspondant et en toutes lettres la phrase "'.str_replace(' ',' &nbsp;',$phrase_magique).'"');
     }
 
     $frm = new form("suretobesurefor".$uid,"?");
@@ -850,7 +850,8 @@ class interfaceweb
         $frm->add_hidden($key,$val);
 
     if ($level == 3) {
-      $frm->add_text_field('____really_sure__', 'Tapez la phrase magique :', '', true, 50);
+      $_uid = gen_uid();
+      $frm->add_text_field('____really_sure__'.$_uid, 'Tapez la phrase magique :', '', true, 50);
     }
 
     $frm->add_submit("___i_am_really_sure","OUI");
@@ -858,7 +859,19 @@ class interfaceweb
 
     $cts->add($frm);
     if ($level == 3)
-      $cts->puts('<script type="text/javascript">var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); sub.disabled = true; txt.onkeypress = function (event) { var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); if (txt.value == "'.substr($phrase_magique, 0, strlen($phrase_magique) - 1).'") sub.disabled = false; else sub.disabled = true; }</script>');
+      $cts->puts('<script type="text/javascript">
+var txt = document.getElementsByName("____really_sure__")[0];
+var sub = document.getElementById("___i_am_really_sure");
+sub.disabled = true;
+txt.onkeypress = function (event){
+  var txt = document.getElementsByName("____really_sure__'.$_uid.'")[0];
+  var sub = document.getElementById("___i_am_really_sure");
+  if (txt.value == "'.substr($phrase_magique, 0, strlen($phrase_magique) - 1).'")
+    sub.disabled = false;
+  else
+    sub.disabled = true;
+}
+</script>');
 
     $this->add_contents($cts);
 
