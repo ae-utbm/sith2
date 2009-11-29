@@ -829,8 +829,10 @@ class interfaceweb
       $cts->add_paragraph("Cette opération <b>pourrait avoir de lourdes conséquences</b> sur le <b>bon fonctionnement des services</b> si elle été appliquée sur un élément critique. <b>Contactez un administrateur en cas de doute</b>.");
 
     $cts->add_paragraph("Êtes vous sûr ?");
-    if ($level == 3)
-      $cts->add_paragraph('Tapez dans le champ correspondant et en toutes lettres la phrase "Oui je suis sur de vouloir faire ça"');
+    if ($level == 3) {
+      $phrase_magique = 'oui je suis sur de vouloir faire ça';
+      $cts->add_paragraph('Tapez dans le champ correspondant et en toutes lettres la phrase "'.$phrase_magique.'"');
+    }
 
     $frm = new form("suretobesurefor".$uid,"?");
     $frm->allow_only_one_usage();
@@ -856,7 +858,7 @@ class interfaceweb
 
     $cts->add($frm);
     if ($level == 3)
-      $cts->puts('<script type="text/javascript"> var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); sub.disabled = "disabled"; txt.onkeypress = function () { if (txt.value == "Oui je suis sur de vouloir faire ça") sub.disabled = "enabled"; else sub.disabled = "disabled"; }</script>');
+      $cts->puts('<script type="text/javascript">var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); sub.disabled = true; txt.onkeypress = function () { var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); if (txt.value == "'.$phrase_magique.'") sub.disabled = false; else sub.disabled = true; }</script>');
 
     $this->add_contents($cts);
 
