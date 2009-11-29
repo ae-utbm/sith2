@@ -849,13 +849,14 @@ class interfaceweb
 
     if ($level == 3) {
       $frm->add_text_field('____really_sure__', 'Tapez la phrase magique :', '', true, 50);
-      $cts->puts('<script type="text/javascript"> var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); sub.disabled = "disabled"; txt.onkeypress = function () { if (txt.value == "Oui je suis sur de vouloir faire ça") sub.disabled = "enabled"; else sub.disabled = "disabled"; }</script>');
     }
 
     $frm->add_submit("___i_am_really_sure","OUI");
     $frm->add_submit("___finally_i_want_to_cancel","NON");
 
     $cts->add($frm);
+    if ($level == 3)
+      $cts->puts('<script type="text/javascript"> var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); sub.disabled = "disabled"; txt.onkeypress = function () { if (txt.value == "Oui je suis sur de vouloir faire ça") sub.disabled = "enabled"; else sub.disabled = "disabled"; }</script>');
 
     $this->add_contents($cts);
 
