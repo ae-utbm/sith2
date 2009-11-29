@@ -491,7 +491,7 @@ class catphoto extends basedb
     $this->meta_cat = &$meta_cat;
   }
 
-  function remove_cat()
+  function remove_cat($site)
   {
     $req = new requete($this->db,
         "SELECT * FROM sas_photos " .
@@ -512,7 +512,7 @@ class catphoto extends basedb
     while ( $row = $req->get_row() )
     {
       $cat->_load($row);
-      $cat->remove_cat();
+      $cat->remove_cat($site);
     }
 
     $sql = new delete($this->dbrw,"sas_cat_photos",array("id_catph"=>$this->id) );

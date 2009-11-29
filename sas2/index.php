@@ -204,7 +204,7 @@ elseif ( $_REQUEST["action"] == "delete" && $cat->is_valid() && !$_REQUEST["id_p
   {
     if ( $site->is_sure ( "","Suppression de la catégorie ".$cat->nom,"ctph".$cat->id, 3 ) )
     {
-      $cat->remove_cat();
+      $cat->remove_cat($site);
       $cat->load_by_id($cat->id_catph_parent);
     }
   }

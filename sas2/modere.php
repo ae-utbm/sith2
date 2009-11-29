@@ -158,7 +158,7 @@ elseif ( $_REQUEST["action"] == "moderecat" )
   {
     if ( isset($_REQUEST["delete"]))
     {
-      $catmod->remove_cat();
+      $catmod->remove_cat($site);
     }
     else
     {
