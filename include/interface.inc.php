@@ -858,7 +858,7 @@ class interfaceweb
 
     $cts->add($frm);
     if ($level == 3)
-      $cts->puts('<script type="text/javascript">var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); sub.disabled = true; txt.onkeypress = function (event) { var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); if (txt.value == "oui je suis sur de vouloir faire ç") sub.disabled = false; else sub.disabled = true; }</script>');
+      $cts->puts('<script type="text/javascript">var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); sub.disabled = true; txt.onkeypress = function (event) { var txt = document.getElementsByName("____really_sure__")[0]; var sub = document.getElementById("___i_am_really_sure"); if (txt.value == "'.substr($phrase_magique, 0, strlen($phrase_magique) - 1).'") sub.disabled = false; else sub.disabled = true; }</script>');
 
     $this->add_contents($cts);
 
