@@ -829,6 +829,8 @@ class interfaceweb
       $cts->add_paragraph("Cette opération <b>pourrait avoir de lourdes conséquences</b> sur le <b>bon fonctionnement des services</b> si elle été appliquée sur un élément critique. <b>Contactez un administrateur en cas de doute</b>.");
 
     $cts->add_paragraph("Êtes vous sûr ?");
+    if ($level == 3)
+      $cts->add_paragraph('Tapez dans le champ correspondant et en toutes lettres la phrase "Oui je suis sur de vouloir faire ça"');
 
     $frm = new form("suretobesurefor".$uid,"?");
     $frm->allow_only_one_usage();
@@ -844,6 +846,11 @@ class interfaceweb
     foreach ( $_GET as $key => $val )
       if ( $key != "magicform" )
         $frm->add_hidden($key,$val);
+
+    if ($level == 3) {
+      $frm->add_text_field('____really_sure__', 'Tapez la phrase magique :', '', true, 50, false, false);
+      $cts->puts('<script type="text/javascript"> var txt = document.getElementByName("____really_sure__"); var sub = document.getElementById("___i_am_really_sure"); sub.disabled = "disabled"; txt.onkeypress = function () { if (txt.value == "Oui je suis sur de vouloir faire ça") sub.disabled = "enabled"; else sub.disabled = "disabled"; }</script>');
+    }
 
     $frm->add_submit("___i_am_really_sure","OUI");
     $frm->add_submit("___finally_i_want_to_cancel","NON");
