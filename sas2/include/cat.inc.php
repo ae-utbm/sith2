@@ -21,6 +21,7 @@
  * 02111-1307, USA.
  */
 require_once($topdir."include/entities/basedb.inc.php");
+require_once($topdir."include/entities/asso.inc.php");
 
 define("CATPH_MODE_NORMAL",0);
 define("CATPH_MODE_META_ASSO",1);
@@ -516,6 +517,7 @@ class catphoto extends basedb
 
     $sql = new delete($this->dbrw,"sas_cat_photos",array("id_catph"=>$this->id) );
     $this->id=null;
+    $site->log('suppression catégorie sas', 'potentiel boulet a supprimé :'.$nom, 'sas', $site->user);
   }
 
   /**
@@ -570,7 +572,19 @@ class catphoto extends basedb
       return "A".($y-1);
   }
 
+  function is_right (&$user, $required)
+  {
+    $result = parent::is_right($user, $required);
 
+    // Le test a réussi vraisemblablement parce que le mec est seulement dans
+    // le bureau de l'asso. Dans ce cas restreindre l'accès aux vrais gradés.
+    if ($meta_id_asso != NULL && $required == DROIT_ECRITURE)
+      if ($result && !$user->is_in_group("sas_admin") && $user->is_in_group_id($this->id_groupe_admin))
+        if (!$user->is_asso_role($meta_id_asso, ROLEASSO_PRESIDENT) && !$user->is_asso_role($meta_id_asso, ROLEASSO_RESPCOM))
+          return false;
+
+    return $result;
+  }
 
   function get_photos_search ( $user, $filter, $joins="", $select="*", $limit="", $order="type_media_ph DESC, date_prise_vue")
   {
