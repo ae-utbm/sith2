@@ -50,7 +50,7 @@ if($_REQUEST['action']=='ban')
   $user->load_by_id($_REQUEST['id_utilisateur']);
   if($user->is_valid())
   {
-    $site->log('Ajout d\'un utilisateur au groupe ban_forum','Ajout de l\'utilisateur '.$user->nom.' '.$user->prenom.' (id : '.$user->id.') au groupe ban_forum (id : 39)','Groupes',$site->user->id);
+    _log($site->dbrw,'Ajout d\'un utilisateur au groupe ban_forum','Ajout de l\'utilisateur '.$user->nom.' '.$user->prenom.' (id : '.$user->id.') au groupe ban_forum (id : 39)','Groupes',$site->user);
     $user->add_to_group(39);
     $cts->add_paragraph($user->get_display_name().' a bien été banni du forum');
   }
@@ -61,7 +61,7 @@ elseif($_REQUEST['action']=='unban')
   $user->load_by_id($_REQUEST['id_utilisateur']);
   if($user->is_valid())
   {
-    $site->log('Retrait d\'un utilisateur du groupe ban_forum','Retrait de l\'utilisateur '.$user->get_display_name().' (id : '.$user->id.') du groupe ban_forum (id : 39)','Groupes',$site->user->id);
+    _log($site->dbrw,'Retrait d\'un utilisateur du groupe ban_forum','Retrait de l\'utilisateur '.$user->get_display_name().' (id : '.$user->id.') du groupe ban_forum (id : 39)','Groupes',$site->user);
     $user->add_to_group(39);
     $cts->add_paragraph($user->get_display_name().' a bien été "débanni" du forum');
   }
@@ -74,7 +74,7 @@ elseif($_REQUEST['action']=='unbans')
     $user->load_by_id($id_utilisateur);
     if($user->is_valid())
     {
-      $site->log('Retrait d\'un utilisateur du groupe ban_forum','Retrait de l\'utilisateur '.$user->get_display_name().' (id : '.$user->id.') du groupe ban_forum (id : 39)','Groupes',$site->user->id);
+      _log($site->dbrw,'Retrait d\'un utilisateur du groupe ban_forum','Retrait de l\'utilisateur '.$user->get_display_name().' (id : '.$user->id.') du groupe ban_forum (id : 39)','Groupes',$site->user);
       $user->add_to_group(39);
       $cts->add_paragraph($user->get_display_name().' a bien été "débanni" du forum');
     }

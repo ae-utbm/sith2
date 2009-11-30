@@ -31,32 +31,33 @@ $site->allow_only_logged_users("matmatronch");
 
 if ( isset($_REQUEST['id_utilisateur']) )
 {
-	$user = new utilisateur($site->db,$site->dbrw);
-	$user->load_by_id($_REQUEST["id_utilisateur"]);
+  $user = new utilisateur($site->db,$site->dbrw);
+  $user->load_by_id($_REQUEST["id_utilisateur"]);
 
-	if ( !$user->is_valid() )
-		$site->error_not_found("matmatronch");
+  if ( !$user->is_valid() )
+    $site->error_not_found("matmatronch");
 
-	if ( !($user->id==$site->user->id || $site->user->is_in_group("gestion_ae")) )
-		$site->error_forbidden("matmatronch","private");
+  if ( !($user->id==$site->user->id || $site->user->is_in_group("gestion_ae")) )
+    $site->error_forbidden("matmatronch","private");
 }
 else
-	$user = &$site->user;
+  $user = &$site->user;
 
 if ( ($_REQUEST["action"] == "delete") && $site->user->is_in_group("gestion_ae") && ( $site->user->is_in_group("root") || $site->user->id != $user->id ) )
 {
-	if ( isset($_REQUEST["id_facture"]))
-	{
-		require_once("../comptoir/include/facture.inc.php");
-		$fact = new debitfacture ($site->db,$site->dbrw);
-		$fact->load_by_id($_REQUEST["id_facture"]);
-		if ( $fact->id > 0 )
+  if ( isset($_REQUEST["id_facture"]))
+  {
+    require_once("../comptoir/include/facture.inc.php");
+    $fact = new debitfacture ($site->db,$site->dbrw);
+    $fact->load_by_id($_REQUEST["id_facture"]);
+    if ( $fact->id > 0 )
     {
       $user_client = new utilisateur($site->db,$site->dbrw);
       $user_client->load_by_id($fact->id_utilisateur_client);
       $user_vendeur = new utilisateur($site->db,$site->dbrw);
       $user_vendeur->load_by_id($fact->id_utilisateur);
-      $site->log("Annulation d'une facture",
+      _log($site->dbrw,
+        "Annulation d'une facture",
         "Annulation de la facture N° " . $fact->id .
         ", d'un montant de " . ($fact->montant)/100 . "€ du " .
         date("Y-m-d H:i",$fact->date) .
@@ -65,122 +66,122 @@ if ( ($_REQUEST["action"] == "delete") && $site->user->is_in_group("gestion_ae")
         " (id : " . $user_client->id . ") par " .
         $user_vendeur->nom . " " . $user_vendeur->prenom .
         " (id : " . $user_vendeur->id . ")","Comptes AE",$site->user->id);
-			$fact->annule_facture();
+      $fact->annule_facture();
     }
-	}
-	else	if ( isset($_REQUEST["id_rechargement"]))
-	{
-		$user->annuler_credit($_REQUEST["id_rechargement"]);
-	}
+  }
+  else  if ( isset($_REQUEST["id_rechargement"]))
+  {
+    $user->annuler_credit($_REQUEST["id_rechargement"]);
+  }
 }
 
 if ( $_REQUEST["page"] == "AE" || $_REQUEST["page"] == "SG" )
 {
-	$mode = $_REQUEST["page"];
+  $mode = $_REQUEST["page"];
 
-	$req = new requete($site->db, "SELECT " .
-			"`cpt_debitfacture`.`id_facture`, " .
-			"`cpt_debitfacture`.`date_facture`, " .
-			"`asso`.`id_asso`, " .
-			"`asso`.`nom_asso`, " .
-			"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-			"`utilisateurs`.`id_utilisateur`, " .
-			"`cpt_vendu`.`quantite`, " .
-			"`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
-			"`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
-			"`cpt_comptoir`.`id_comptoir`, " .
-			"`cpt_comptoir`.`nom_cpt`," .
-			"`cpt_produits`.`nom_prod` " .
-			"FROM `cpt_vendu` " .
-			"LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
-			"INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
-			"INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-			"INNER JOIN `utilisateurs` ON `cpt_debitfacture`.`id_utilisateur` =`utilisateurs`.`id_utilisateur` " .
-			"INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
-			"WHERE `id_utilisateur_client`='".$user->id."' AND mode_paiement='$mode' " .
-			"AND EXTRACT(YEAR_MONTH FROM `date_facture`)='".mysql_real_escape_string($_REQUEST["month"])."' " .
-			"ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+  $req = new requete($site->db, "SELECT " .
+      "`cpt_debitfacture`.`id_facture`, " .
+      "`cpt_debitfacture`.`date_facture`, " .
+      "`asso`.`id_asso`, " .
+      "`asso`.`nom_asso`, " .
+      "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+      "`utilisateurs`.`id_utilisateur`, " .
+      "`cpt_vendu`.`quantite`, " .
+      "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
+      "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
+      "`cpt_comptoir`.`id_comptoir`, " .
+      "`cpt_comptoir`.`nom_cpt`," .
+      "`cpt_produits`.`nom_prod` " .
+      "FROM `cpt_vendu` " .
+      "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+      "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
+      "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+      "INNER JOIN `utilisateurs` ON `cpt_debitfacture`.`id_utilisateur` =`utilisateurs`.`id_utilisateur` " .
+      "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
+      "WHERE `id_utilisateur_client`='".$user->id."' AND mode_paiement='$mode' " .
+      "AND EXTRACT(YEAR_MONTH FROM `date_facture`)='".mysql_real_escape_string($_REQUEST["month"])."' " .
+      "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-	$mois = substr($_REQUEST["month"],4);
-	$annee = substr($_REQUEST["month"],0,4);
+  $mois = substr($_REQUEST["month"],4);
+  $annee = substr($_REQUEST["month"],0,4);
 
-	$site->start_page("matmatronch", $user->prenom . " " . $user->nom );
+  $site->start_page("matmatronch", $user->prenom . " " . $user->nom );
   $cts = new contents( $user->prenom . " " . $user->nom );
   $cts->add(new tabshead($user->get_tabs($site->user),"compte"));
 
-	$cts->add(new sqltable(
-		"listresp",
-		"Depenses", $req, "compteae.php?id_utilisateur=".$user->id,
-		"id_facture",
-		array(
-			"id_facture"=>"Facture",
-			"date_facture"=>"Date",
-			"nom_prod"=>"Produit",
-			"nom_cpt"=>"Lieu",
-			"nom_utilisateur"=>"Vendeur",
-			"nom_asso"=>"Association",
-			"quantite"=>"Quantité",
-			"prix_unit"=>"Prix unitaire",
-			"total"=>"Total"),
-		($mode == "AE") && ($site->user->is_in_group("gestion_ae") &&
+  $cts->add(new sqltable(
+    "listresp",
+    "Depenses", $req, "compteae.php?id_utilisateur=".$user->id,
+    "id_facture",
+    array(
+      "id_facture"=>"Facture",
+      "date_facture"=>"Date",
+      "nom_prod"=>"Produit",
+      "nom_cpt"=>"Lieu",
+      "nom_utilisateur"=>"Vendeur",
+      "nom_asso"=>"Association",
+      "quantite"=>"Quantité",
+      "prix_unit"=>"Prix unitaire",
+      "total"=>"Total"),
+    ($mode == "AE") && ($site->user->is_in_group("gestion_ae") &&
                                     ($site->user->is_in_group("root") || $site->user->id != $user->id)) ? array("delete"=>"Annuler la facture"):array(),
-		array(),
-		array( )
-		));
+    array(),
+    array( )
+    ));
 
-	$site->add_contents($cts);
-	$site->end_page();
-	exit();
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
 }
 elseif ( $_REQUEST["page"] == "rech" )
 {
-	$mois = substr($_REQUEST["month"],4);
-	$annee = substr($_REQUEST["month"],0,4);
+  $mois = substr($_REQUEST["month"],4);
+  $annee = substr($_REQUEST["month"],0,4);
 
-	$req = new requete($site->db, "SELECT " .
-			"`cpt_rechargements`.`id_rechargement`, " .
-			"`cpt_rechargements`.`date_rech`, " .
-			"`cpt_rechargements`.`type_paiement_rech`, " .
-			"`cpt_rechargements`.`montant_rech`/100 AS `montant_rech`, " .
-			"`asso`.`id_asso`, " .
-			"`asso`.`nom_asso`, " .
-			"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-			"`utilisateurs`.`id_utilisateur`, " .
-			"`cpt_comptoir`.`id_comptoir`, " .
-			"`cpt_comptoir`.`nom_cpt` " .
-			"FROM `cpt_rechargements` " .
-			"LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_rechargements`.`id_assocpt` " .
-			"INNER JOIN `utilisateurs` ON `cpt_rechargements`.`id_utilisateur_operateur` =`utilisateurs`.`id_utilisateur` " .
-			"INNER JOIN `cpt_comptoir` ON `cpt_rechargements`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
-			"WHERE `cpt_rechargements`.`id_utilisateur`='".$user->id."' " .
-			"AND EXTRACT(YEAR_MONTH FROM `date_rech`)='".mysql_real_escape_string($_REQUEST["month"])."' " .
-			"ORDER BY `cpt_rechargements`.`date_rech` DESC");
+  $req = new requete($site->db, "SELECT " .
+      "`cpt_rechargements`.`id_rechargement`, " .
+      "`cpt_rechargements`.`date_rech`, " .
+      "`cpt_rechargements`.`type_paiement_rech`, " .
+      "`cpt_rechargements`.`montant_rech`/100 AS `montant_rech`, " .
+      "`asso`.`id_asso`, " .
+      "`asso`.`nom_asso`, " .
+      "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+      "`utilisateurs`.`id_utilisateur`, " .
+      "`cpt_comptoir`.`id_comptoir`, " .
+      "`cpt_comptoir`.`nom_cpt` " .
+      "FROM `cpt_rechargements` " .
+      "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_rechargements`.`id_assocpt` " .
+      "INNER JOIN `utilisateurs` ON `cpt_rechargements`.`id_utilisateur_operateur` =`utilisateurs`.`id_utilisateur` " .
+      "INNER JOIN `cpt_comptoir` ON `cpt_rechargements`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
+      "WHERE `cpt_rechargements`.`id_utilisateur`='".$user->id."' " .
+      "AND EXTRACT(YEAR_MONTH FROM `date_rech`)='".mysql_real_escape_string($_REQUEST["month"])."' " .
+      "ORDER BY `cpt_rechargements`.`date_rech` DESC");
 
-	$site->start_page("matmatronch", $user->prenom . " " . $user->nom );
+  $site->start_page("matmatronch", $user->prenom . " " . $user->nom );
   $cts = new contents( $user->prenom . " " . $user->nom );
   $cts->add(new tabshead($user->get_tabs($site->user),"compte"));
 
-	$cts->add(new sqltable(
-		"listresp",
-		$user->type=="srv"?"Paiements":"Rechargements", $req, "compteae.php?id_utilisateur=".$user->id,
-		"id_rechargement",
-		array(
-			"id_rechargement"=>$user->type=="srv"?"Paiement":"Rechargement",
-			"date_rech"=>"Date",
-			"montant_rech"=>"Montant",
-			"type_paiement_rech"=>"Type",
-			"nom_cpt"=>"Lieu",
-			"nom_utilisateur"=>"Opérateur",
-			"nom_asso"=>"Association"),
-		($site->user->is_in_group("gestion_ae") && ( $site->user->is_in_group("root") || $site->user->id != $user->id ))?array("delete"=>"Annuler la facture"):array(),
-		array(),
-		array("type_paiement_rech"=> $TypesPaiementsFull)
-		));
+  $cts->add(new sqltable(
+    "listresp",
+    $user->type=="srv"?"Paiements":"Rechargements", $req, "compteae.php?id_utilisateur=".$user->id,
+    "id_rechargement",
+    array(
+      "id_rechargement"=>$user->type=="srv"?"Paiement":"Rechargement",
+      "date_rech"=>"Date",
+      "montant_rech"=>"Montant",
+      "type_paiement_rech"=>"Type",
+      "nom_cpt"=>"Lieu",
+      "nom_utilisateur"=>"Opérateur",
+      "nom_asso"=>"Association"),
+    ($site->user->is_in_group("gestion_ae") && ( $site->user->is_in_group("root") || $site->user->id != $user->id ))?array("delete"=>"Annuler la facture"):array(),
+    array(),
+    array("type_paiement_rech"=> $TypesPaiementsFull)
+    ));
 
 
-	$site->add_contents($cts);
-	$site->end_page();
-	exit();
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
 
 }
 
@@ -197,12 +198,12 @@ if ( $user->type!="srv" )
 
   if ( !$user->ae )
   {
-  	$cts->add_paragraph("Remarque: Cotisation AE non renouvelée, ce compte n'est plus utilisable.");
+    $cts->add_paragraph("Remarque: Cotisation AE non renouvelée, ce compte n'est plus utilisable.");
 
-  	if ( $user->montant_compte >= 500 )
-  		$cts->add_paragraph("Vous pouvez demander le remboursement des ".($user->montant_compte/100)." Euros restant sur le compte.");
-  	elseif ( $user->montant_compte > 0 )
-  		$cts->add_paragraph("Le solde restant est insuffisant pour pouvoir obtenir un remboursement. Conformément au réglement intérieur de l'AE.");
+    if ( $user->montant_compte >= 500 )
+      $cts->add_paragraph("Vous pouvez demander le remboursement des ".($user->montant_compte/100)." Euros restant sur le compte.");
+    elseif ( $user->montant_compte > 0 )
+      $cts->add_paragraph("Le solde restant est insuffisant pour pouvoir obtenir un remboursement. Conformément au réglement intérieur de l'AE.");
 
   }
 }
@@ -215,28 +216,28 @@ $cts->add_paragraph("Solde actuel : ".($user->montant_compte/100)." Euros");
 $months = array();
 
 $req = new requete($site->db, "SELECT SUM(`montant_facture`), " .
-		"EXTRACT(YEAR_MONTH FROM `date_facture`) as `month` " .
-		"FROM `cpt_debitfacture` " .
-		"WHERE `id_utilisateur_client`='".$user->id."' AND mode_paiement='AE' " .
-		"GROUP BY `month` " .
-		"ORDER BY `month` DESC");
+    "EXTRACT(YEAR_MONTH FROM `date_facture`) as `month` " .
+    "FROM `cpt_debitfacture` " .
+    "WHERE `id_utilisateur_client`='".$user->id."' AND mode_paiement='AE' " .
+    "GROUP BY `month` " .
+    "ORDER BY `month` DESC");
 
 while ( list($sum,$month) = $req->get_row() )
 {
-	$report[$month]["depense"] = $sum;
-	$months[$month]=$month;
+  $report[$month]["depense"] = $sum;
+  $months[$month]=$month;
 }
 $req = new requete($site->db, "SELECT SUM(`montant_rech`), " .
-		"EXTRACT(YEAR_MONTH FROM `date_rech`) as `month` " .
-		"FROM `cpt_rechargements` " .
-		"WHERE `id_utilisateur`='".$user->id."' " .
-		"GROUP BY `month` " .
-		"ORDER BY `month` DESC");
+    "EXTRACT(YEAR_MONTH FROM `date_rech`) as `month` " .
+    "FROM `cpt_rechargements` " .
+    "WHERE `id_utilisateur`='".$user->id."' " .
+    "GROUP BY `month` " .
+    "ORDER BY `month` DESC");
 
 while ( list($sum,$month) = $req->get_row() )
 {
-	$report[$month]["recharge"] = $sum;
-	$months[$month]=$month;
+  $report[$month]["recharge"] = $sum;
+  $months[$month]=$month;
 }
 
 if(!empty($report))
@@ -251,12 +252,12 @@ if(!empty($report))
   foreach( $months as $month )
   {
     $data = $report[$month];
-	  $t = $t^1;
-  	$mois = substr($month,4);
-	  $annee = substr($month,0,4);
-  	$tbl->add_row(array("$mois / $annee",
-		  "<a href=\"compteae.php?page=AE&amp;month=$month&amp;id_utilisateur=".$user->id."\">".($data["depense"]/100)."</a>",
-	  	"<a href=\"compteae.php?page=rech&amp;month=$month&amp;id_utilisateur=".$user->id."\">".($data["recharge"]/100)."</a>"),"ln$t");
+    $t = $t^1;
+    $mois = substr($month,4);
+    $annee = substr($month,0,4);
+    $tbl->add_row(array("$mois / $annee",
+      "<a href=\"compteae.php?page=AE&amp;month=$month&amp;id_utilisateur=".$user->id."\">".($data["depense"]/100)."</a>",
+      "<a href=\"compteae.php?page=rech&amp;month=$month&amp;id_utilisateur=".$user->id."\">".($data["recharge"]/100)."</a>"),"ln$t");
   }
 
   $cts->add($tbl);

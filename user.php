@@ -233,7 +233,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     if ($user->saveinfos())
     {
       if ( $site->user->id != $user->id )
-        $site->log("Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de ".$user->nom." ".$user->prenom." (id : ".$user->id.") modifiée","Fiche MMT",$site->user->id);
+        _log($site->dbrw,"Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de ".$user->nom." ".$user->prenom." (id : ".$user->id.") modifiée","Fiche MMT",$site->user);
       header("Location: ".$topdir."user.php?id_utilisateur=".$user->id);
       exit();
     }
@@ -300,7 +300,7 @@ elseif ( $_REQUEST["action"] == "setgroups" &&
         if ( ($row["id_groupe"] != 7 && $row["id_groupe"] != 46 && $row["id_groupe"] != 47) || $site->user->is_in_group("root") )
         {
           $user->add_to_group($row["id_groupe"]);
-          $site->log("Ajout d'un utilisateur au groupe ". $row["nom_groupe"],"Ajout de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") au groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user->id);
+          _log($site->dbrw,"Ajout d'un utilisateur au groupe ". $row["nom_groupe"],"Ajout de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") au groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user);
         }
       }
       else
@@ -308,7 +308,7 @@ elseif ( $_REQUEST["action"] == "setgroups" &&
         if ( ($row["id_groupe"] != 7 && $row["id_groupe"] != 46 && $row["id_groupe"] != 47) || $site->user->is_in_group("root") )
         {
           $user->remove_from_group($row["id_groupe"]);
-          $site->log("Retrait d'un utilisateur du groupe ". $row["nom_groupe"],"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user->id);
+          _log($site->dbrw,"Retrait d'un utilisateur du groupe ". $row["nom_groupe"],"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user);
         }
       }
     }

@@ -340,4 +340,27 @@ function gen_uid ()
   return $id ;
 }
 
+/**
+ * Cette fonction permet de loguer une action
+ * @param $dbrw Lien à la base de données en lecture et écriture.
+ * @param $action_log Action effectuée (exemple : Suppression facture)
+ * @param $description_log Détails de l'opération effectuée
+ * @param $context_log Contexte dans lequel l'opération a été effectuée (compteae, rezome...)
+ * @param $user utilisateur effectuant l'action
+ */
+function _log(&$dbrw, $action_log, $description_log, $context_log, &$user)
+{
+  if(!is_a($user,'utilisateur'))
+  {
+    throw new Exception('Il faut un objet de type utilisateur (ou en héritant !)');
+    return false;
+  }
+  $time_log = date("Y-m-d H:i:s", time());
+  $req = new insert($dbrw, "logs", array( "id_utilisateur" => $user->id,
+                                          "time_log" => $time_log,
+                                          "action_log" => $action_log,
+                                          "description_log" => $description_log,
+                                          "context_log" => $context_log ));
+}
+
 ?>

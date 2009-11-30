@@ -101,7 +101,7 @@ if ( $_REQUEST["action"] == "addcomptoir" && $site->user->is_in_group("gestion_a
     $grp_vendeurs->load_by_id($_REQUEST["id_groupe_vendeurs"]);
     $grp_admins = new group ( $site->db);
     $grp_admins->load_by_id($_REQUEST["id_groupe_admins"]);
-    $site->log("Ajout d'un comptoir","Ajout du comptoir \"".$comptoir->nom."\" de type ".$comptoir->type.", administré par le groupe ".$grp_admins->nom." (id : ".$grp_admins->id.") et tenu par le groupe ".$grp_vendeurs->nom." (id : ".$grp_vendeurs->id.")","Comptoirs".$site->user->id);
+    _log($site->dbrw,"Ajout d'un comptoir","Ajout du comptoir \"".$comptoir->nom."\" de type ".$comptoir->type.", administré par le groupe ".$grp_admins->nom." (id : ".$grp_admins->id.") et tenu par le groupe ".$grp_vendeurs->nom." (id : ".$grp_vendeurs->id.")","Comptoirs".$site->user);
  }
 }
 /*
@@ -113,7 +113,7 @@ else if ( $_REQUEST["action"] == "addtype" && ($assocpt->id > 0) )
 
  $typeprod->ajout( $_REQUEST["nom"], $_REQUEST["id_action"], $assocpt->id, $file->id,$_REQUEST["description"] );
 
-  $site->log("Ajout d'un type de produit","Ajout du type de produit \"".$_REQUEST["nom"]."\" (".$_REQUEST["description"].")","Comptoirs",$site->user->id);
+  _log($site->dbrw,"Ajout d'un type de produit","Ajout du type de produit \"".$_REQUEST["nom"]."\" (".$_REQUEST["description"].")","Comptoirs",$site->user);
 }
 /*
  Ajout d'une association
@@ -124,7 +124,7 @@ else if ( $_REQUEST["action"] == "addasso" && $site->user->is_in_group("gestion_
 
   $asso = new asso($site->db);
   $asso->load_by_id($_REQUEST["id_asso"]);
-  $site->log("Ajout d'une association","Ajout de l'association ".$asso->nom." (id : ".$asso->id.")","Comptoirs",$site->user->id);
+  _log($site->dbrw,"Ajout d'une association","Ajout de l'association ".$asso->nom." (id : ".$asso->id.")","Comptoirs",$site->user);
 }
 /*
  Ajout d'un produit
@@ -171,7 +171,7 @@ else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocp
     {
       $asso = new asso($site->db);
       $asso->load_by_id($assocpt->id);
-      $site->log("Ajout d'un produit","Ajout du produit ".$_REQUEST['nom']." (".$_REQUEST["description"].") au profit de ".$asso->nom,"Comptoirs",$site->user->id);
+      _log($site->dbrw,"Ajout d'un produit","Ajout du produit ".$_REQUEST['nom']." (".$_REQUEST["description"].") au profit de ".$asso->nom,"Comptoirs",$site->user);
 
       foreach( $_REQUEST['cpt'] as $idcomptoir => $on )
       {

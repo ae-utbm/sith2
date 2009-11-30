@@ -21,13 +21,6 @@
  * 02111-1307, USA.
  */
 
-define('MAGPIE_CACHE_DIR', '/var/www/ae/www/var/cache/planet/');
-define('MAGPIE_CACHE_ON', true);
-define('MAGPIE_CACHE_AGE', 70*60); //une heure et dix minutes (le cache est regénéré automatiquement)
-define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
-define('MAX_NUM',20);
-define('MAX_SUM_LENGHT',200);
-
 class planet extends stdentity
 {
 
@@ -55,9 +48,8 @@ class planet extends stdentity
     }
   }
 
-
-	/* je sais c'est sale, mais le temps de faire plus proprement ...*/
-	function load_by_id($id)
+  /* je sais c'est sale, mais le temps de faire plus proprement ...*/
+  function load_by_id($id)
   {
   }
 

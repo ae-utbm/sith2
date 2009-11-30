@@ -206,7 +206,8 @@ if ( $_REQUEST["action"] == "delete" && isset($_REQUEST["id_facture"]))
       $user_client->load_by_id($fact->id_utilisateur_client);
       $user_vendeur = new utilisateur($site->db,$site->dbrw);
       $user_vendeur->load_by_id($fact->id_utilisateur);
-      $site->log("Annulation d'une facture",
+      _log($site->dbrw,
+        "Annulation d'une facture",
         "Annulation de la facture N° " . $fact->id .
         ", d'un montant de " . ($fact->montant)/100 . "€ du " .
         date("Y-m-d H:i",$fact->date) .

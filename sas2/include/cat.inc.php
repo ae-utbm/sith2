@@ -517,7 +517,7 @@ class catphoto extends basedb
 
     $sql = new delete($this->dbrw,"sas_cat_photos",array("id_catph"=>$this->id) );
     $this->id=null;
-    $site->log('Suppression catégorie sas', 'Potentiel boulet a supprimé :'.$this->$nom, 'SAS', $site->user->id);
+    _log($this->dbrw,'Suppression catégorie sas', 'Potentiel boulet a supprimé :'.$this->$nom, 'SAS', $site->user);
   }
 
   /**

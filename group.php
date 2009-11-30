@@ -50,7 +50,7 @@ if ( $_REQUEST["action"] == "delete" && !isset($_REQUEST["id_utilisateur"]) && $
   // Opération **trés** critique (la suppression d'un groupe barman, ou d'admin serai trés dommagable)
   if ( $site->is_sure ( "","Suppression du groupe ".$grp->nom,"delgrp".$grp->id, 2 ) )
   {
-    $site->log("Retrait d'un groupe","Retrait du groupe ". $grp->nom ."(id : ". $grp->id .")","Groupes",$site->user->id);
+    _log($site->dbrw,"Retrait d'un groupe","Retrait du groupe ". $grp->nom ."(id : ". $grp->id .")","Groupes",$site->user);
     $grp->delete_group();
   }
   $grp->id = -1;
@@ -72,7 +72,7 @@ if (  $grp->id > 0)
         $grp->remove_user_from_group($_REQUEST["id_utilisateur"]);
         $user = new utilisateur($site->db);
         $user->load_by_id($_REQUEST["id_utilisateur"]);
-        $site->log("Retrait d'un utilisateur du groupe ". $grp->nom,"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user->id);
+        _log($site->dbrw,"Retrait d'un utilisateur du groupe ". $grp->nom,"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user);
       }
       else
         $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes système.";
@@ -88,7 +88,7 @@ if (  $grp->id > 0)
             $grp->remove_user_from_group($id_utilisateur);
             $user = new utilisateur($site->db);
             $user->load_by_id($id_utilisateur);
-            $site->log("Retrait d'un utilisateur du groupe ". $grp->nom,"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user->id);
+            _log($site->dbrw,"Retrait d'un utilisateur du groupe ". $grp->nom,"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user);
           }
         }
       }
@@ -104,7 +104,7 @@ if (  $grp->id > 0)
         if ( $user->id > 0 && ($user->id!=$site->user->id || $site->user->is_in_group("root")))
         {
           $grp->add_user_to_group($user->id);
-          $site->log("Ajout d'un utilisateur au groupe ". $grp->nom,"Ajout de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") au groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user->id);
+          _log($site->dbrw,"Ajout d'un utilisateur au groupe ". $grp->nom,"Ajout de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") au groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user);
         }
       }
       else
@@ -157,7 +157,7 @@ if ( $_REQUEST["action"] == "addgroup" && $site->user->is_in_group("root"))
   else
   {
     $grp->add_group($_REQUEST["nom"],$_REQUEST["description"]);
-    $site->log("Ajout d'un groupe","Ajout du groupe ". $_REQUEST["nom"] ."(". $_REQUEST["description"] .")","Groupes",$site->user->id);
+    _log($site->dbrw,"Ajout d'un groupe","Ajout du groupe ". $_REQUEST["nom"] ."(". $_REQUEST["description"] .")","Groupes",$site->user);
   }
 }
 

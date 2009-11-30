@@ -212,7 +212,7 @@ if(isset($_POST['action'])
           {
             $j++;
             if ( $site->user->id != $user->id )
-              $site->log("Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de ".$user->nom." ".$user->prenom." (id : ".$user->id.") modifiée","Fiche MMT",$site->user->id);
+              _log($site->dbrw,"Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de ".$user->nom." ".$user->prenom." (id : ".$user->id.") modifiée","Fiche MMT",$site->user);
           }
           else
           {
@@ -223,7 +223,7 @@ if(isset($_POST['action'])
       }
       elseif($ae=='O')
       {
-      	// cotisant sans fiche ... c'est la guerre !
+        // cotisant sans fiche ... c'est la guerre !
         $cotizes.=$nom
                   .' '
                   .$prenom

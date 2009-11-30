@@ -1367,6 +1367,7 @@ class site extends interfaceweb
 
   /**
    * Permet de loguer les actions critiques ou sensibles sur le site.
+   * @deprecated, utiliser directement la fonction globale _log()
    * @param $action_log Action effectuée (exemple : Suppression facture)
    * @param $description_log Détails de l'opération effectuée
    * @param $context_log Contexte dans lequel l'opération a été effectuée (compteae, rezome...)
@@ -1374,12 +1375,16 @@ class site extends interfaceweb
    */
   function log($action_log, $description_log, $context_log, $id_utilisateur=null)
   {
-    $time_log = date("Y-m-d H:i:s", time());
-    $req = new insert($this->dbrw, "logs", array( "id_utilisateur" => $id_utilisateur,
-                                                  "time_log" => $time_log,
-                                                  "action_log" => $action_log,
-                                                  "description_log" => $description_log,
-                                                  "context_log" => $context_log ));
+    if(!is_null($id_utilisateur) && $id_utilisateur != $this->user->id)
+    {
+      $user = new utilisateur($this->db);
+      if($user->load_by_id($id_utilisateur))
+      {
+        _log($this->dbrw,$action_log, $description_log, $context_log,$user);
+        return;
+      }
+    }
+    _log($this->dbrw,$action_log, $description_log, $context_log,$this->user);
   }
 
 }
