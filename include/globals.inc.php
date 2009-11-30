@@ -361,6 +361,7 @@ function _log(&$dbrw, $action_log, $description_log, $context_log, &$user)
                                           "action_log" => $action_log,
                                           "description_log" => $description_log,
                                           "context_log" => $context_log ));
+  return true;
 }
 
 ?>
