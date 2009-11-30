@@ -350,9 +350,9 @@ function gen_uid ()
  */
 function _log(&$dbrw, $action_log, $description_log, $context_log, &$user)
 {
-  if(!is_a($user,'utilisateur'))
+  if(!is_a($user,'utilisateur') || !$user->is_valid())
   {
-    throw new Exception('Il faut un objet de type utilisateur (ou en héritant !)');
+    throw new Exception('Il faut un objet de type utilisateur (ou en héritant !) valide');
     return false;
   }
   $time_log = date("Y-m-d H:i:s", time());
