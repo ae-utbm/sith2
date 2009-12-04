@@ -424,15 +424,6 @@ class userinfov2 extends stdcontents
       $img = "/var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue;
       $imgclass="idimg";
     }
-    elseif (file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg"))
-    {
-      $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
-      if ( $exif["FILE"]["FileDateTime"] )
-        $date_prise_vue = $exif["FILE"]["FileDateTime"];
-
-      $img = "/var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue;
-      $imgclass="mmtimg";
-    }
 
     if ( $display == "full" )
       $this->buffer .= "<div class=\"userfullinfo\">";
