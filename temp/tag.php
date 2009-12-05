@@ -46,7 +46,7 @@ if ( $tag->is_valid() )
   $cat = new catphoto($site->db);
   $cat->load_by_id(1);
   $photos = new requete($site->db,
-"SELECT id_photo
+"SELECT sas_photos.*
 FROM sas_photos
 LEFT JOIN sas_photos_tag
 USING ( id_photo )
