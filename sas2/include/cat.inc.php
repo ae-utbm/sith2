@@ -163,7 +163,7 @@ class catphoto extends basedb
     $this->id_lieu = $row['id_lieu'];
   }
 
-  function get_photos ( $id_cat, $user, $grps, $select="*", $limit="")
+  function get_photos ( $id_cat, $user, $grps, $select="sas_photos.*", $limit="")
   {
     if ( isset($this->meta_cat) && $this->meta_cat->meta_id_asso != $this->meta_id_asso )
       $filter = " AND (`meta_id_asso_ph`='".$this->meta_cat->meta_id_asso."' ".
