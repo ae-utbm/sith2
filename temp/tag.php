@@ -104,6 +104,7 @@ LIMIT 6");
     $gal = new gallery("Photo(s)","photos","phlist");
     while ( $row = $photos->get_row() )
     {
+print_r($row);
       $photo->_load($row);
       $img = "sas2/images.php?/".$photo->id.".vignette.jpg";
 
