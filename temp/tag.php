@@ -50,7 +50,7 @@ if ( $tag->is_valid() )
 FROM sas_photos
 LEFT JOIN sas_photos_tag
 USING ( id_photo )
-LEFT JOIN sas_personnes_photos AS p1 USING(id_photo)
+LEFT JOIN sas_personnes_photos p1 USING(id_photo)
 AND p1.id_utilisateur = '2536'
 AND p1.modere_phutl = '1' )
 LEFT JOIN `asso_membre` ON ( `asso_membre`.`id_asso` = `sas_photos`.`meta_id_asso_ph`
