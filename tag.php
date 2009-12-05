@@ -46,7 +46,7 @@ if ( $tag->is_valid() )
   // photo
   $cat = new catphoto($site->db);
   $cat->load_by_id(1);
-  $photos = $cat->get_photos_search ( $site->user, "id_tag='".$tag->id."'", "LEFT JOIN sas_photos_tag USING(id_photo)", "*", "LIMIT 6");
+  $photos = $cat->get_photos_search ( $site->user, "id_tag='".$tag->id."'", "LEFT JOIN sas_photos_tag USING(id_photo)", "sas_photos.*", "LIMIT 6");
 
   if ( $photos->lines > 0 )
   {
