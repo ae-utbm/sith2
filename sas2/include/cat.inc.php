@@ -491,7 +491,7 @@ class catphoto extends basedb
     $this->meta_cat = &$meta_cat;
   }
 
-  function remove_cat($site)
+  function remove_cat(&$user)
   {
     $req = new requete($this->db,
         "SELECT * FROM sas_photos " .
@@ -517,7 +517,7 @@ class catphoto extends basedb
 
     $sql = new delete($this->dbrw,"sas_cat_photos",array("id_catph"=>$this->id) );
     $this->id=null;
-    _log($this->dbrw,'Suppression catégorie sas', 'Potentiel boulet a supprimé :'.$this->$nom, 'SAS', $site->user);
+    _log($this->dbrw,'Suppression catégorie sas', 'Potentiel boulet a supprimé :'.$this->$nom, 'SAS', $user);
   }
 
   /**
