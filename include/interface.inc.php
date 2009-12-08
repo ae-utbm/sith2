@@ -831,7 +831,7 @@ class interfaceweb
     $cts->add_paragraph("Êtes vous sûr ?");
     if ($level == 3) {
       $phrase_magique = 'oui je suis sur de vouloir faire ça';
-      $cts->add_paragraph('Tapez dans le champ correspondant et en toutes lettres la phrase "'.str_replace(' ',' &nbsp;',$phrase_magique).'"');
+      $cts->add_paragraph('Tapez dans le champ correspondant et en toutes lettres la phrase "'.str_replace(' ','&nbsp;',$phrase_magique).'"');
     }
 
     $frm = new form("suretobesurefor".$uid,"?");
@@ -860,7 +860,7 @@ class interfaceweb
     $cts->add($frm);
     if ($level == 3)
       $cts->puts('<script type="text/javascript">
-var txt = document.getElementsByName("____really_sure__")[0];
+var txt = document.getElementsByName("____really_sure__'.$_uid.'")[0];
 var sub = document.getElementById("___i_am_really_sure");
 sub.disabled = true;
 txt.onkeypress = function (event){
