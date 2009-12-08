@@ -64,7 +64,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
   if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae )
     $site->error_forbidden("matmatronch","group",10001);
 
-  // Si la fiche n'est pas publique, et qu'on ne peut pas l'éditer,
+  // Si la fiche n'est pas public, et qu'on ne peut pas l'éditer,
   // cela veut dire que l'on est i admin, ni l'utilisateur en question
   // donc on a pas le droit de la consulter
   if ( !$user->publique && !$can_edit )
@@ -697,7 +697,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     //signature
     $frm->add_text_area("signature","Signature (forum)",$user->signature);
 
-    $frm->add_checkbox ( "publique", "Rendre mon profil publique : Apparaitre dans le matmatronch en ligne.", $user->publique );
+    $frm->add_checkbox ( "publique", "Rendre mon profil public : Apparaitre dans le matmatronch en ligne.", $user->publique );
     $frm->add_checkbox ( "publique_mmtpapier", "Autoriser la publication de mon profil dans le matmatronch papier.", $user->publique_mmtpapier );
 
     $frm->add_submit("save","Enregistrer");
