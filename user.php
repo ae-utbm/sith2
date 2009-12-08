@@ -817,10 +817,10 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm = new form('settrombi', 'user.php?id_utilisateur='.$user->id, true, 'POST', 'Changer mes paramètres du trombino');
     $frm->add_hidden('action', 'settrombi');
     $frm->add_info('<h4>Autorisation</h4>');
-    $frm->add_checkbox('autorisation', 'Publier mon profil Matmatronch dans le trombino de promo', $autorisation);
+    $frm->add_checkbox('autorisation', 'Publier mon profil Matmatronch dans le trombino de promo (nom et prénom au minimum)', $autorisation);
     $frm->add_info('<h4>Options de confidentialité</h4>');
     $frm->add_checkbox('photo', 'Autoriser ma photo d\'identité à apparaitre', $trb->photo, !$autorisation);
-    $frm->add_checkbox('infos_personnelles', 'Autoriser mes informations personnelles à apparaitre (adresse, téléphone, email, ...)', $trb->infos_personnelles, !$autorisation);
+    $frm->add_checkbox('infos_personnelles', 'Autoriser mes informations personnelles à apparaitre (date de naissance, email, ...)', $trb->infos_personnelles, !$autorisation);
     $frm->add_checkbox('famille', 'Autoriser la mention de mes parrain(e)(s)/fillot(e)(s)', $trb->famille, !$autorisation);
     $frm->add_checkbox('associatif', 'Autoriser mon parcours associatif à apparaitre', $trb->associatif, !$autorisation);
     $frm->add_checkbox('commentaires', 'Autoriser les commentaires de mon profil à apparaitre', $trb->commentaires, !$autorisation);
