@@ -790,7 +790,8 @@ class blog extends basedb
       $frm->add_text_area("comment","Commentaire",$billet['intro'],40,5,true);
     }
     $frm->add_submit("submit","Commenter");
-    $cts->add($frm,true);
+    if(!$math)
+      $cts->add($frm,true);
 
     $req = new requete($this->db,
                        'SELECT `id_comment` '.
