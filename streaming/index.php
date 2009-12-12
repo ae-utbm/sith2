@@ -83,31 +83,16 @@ $site = new site ();
 $site->set_side_boxes("left",array());
 $site->set_side_boxes("right",array());
 
-if(isset($event["bandeau"]))
 
-$site->start_page("none",$event["title"]);
+$site->start_page("none","Les étoiles du libre");
 
 $cts = new contents("Présentation");
-if(isset($event["bandeau"]))
-{
-  if(isset($event["photo"]))
-    $cts->add_paragraph("<div align=\"center\"><img src=\"".$event["bandeau"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" /><br /><img src=\"".$event["photo"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" /></div>");
-  else
-    $cts->add_paragraph("<div align=\"center\"><img src=\"".$event["bandeau"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" /></div>");
-  $cts->add_paragraph(" ");
-}
-$cts->add_paragraph($event["intro"]);
-if(!isset($event["nodate"]))
-  $cts->add_paragraph("<b>".$event["type"]." a lieu le ".$event["date"]." de ".$event["h-debut"]." à ".$event["h-fin"]." ".$event["lieu"]."</b>.");
+$cts->add_paragraph("Grâce au travail d'UTBM-Productions pendant la conférence, nous vous offrons en direct les images montées afin de profiter, chez vous, de la conférence. Nous remercions l'ensemble des bénévoles et partenaires.");
 $site->add_contents($cts);
 
 $cts = new contents("Suivre en direct");
 $cts->add_paragraph("Pour profiter au mieux et de manière plus fiable de cette diffusion, nous vous recommandons l'utilisation du logiciel libre <a href=\"http://www.videolan.org\">VideoLan</a>. Ce logiciel est disponible au <a href=\"http://www.videolan.org/vlc/\">téléchargement</a> pour toutes les plateformes (MS Windows, Mac OS X et Linux compris bien sûr).");
 $cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, ouvrez le lien suivant : <b><a href=\"http://ae.utbm.fr/streaming/stream.m3u\">ici</a></b>");
-$site->add_contents($cts);
-
-$cts = new contents("Merci à");
-$cts->add_paragraph($event["remerciements"]);
 $site->add_contents($cts);
 
 $cts = new contents("Propulsé par ...");
