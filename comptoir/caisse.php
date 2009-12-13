@@ -204,33 +204,34 @@ $site->add_contents($cts);
 unset($cts);
 
 
-/*
-// Boite sur le coté
-$cts = new contents("Comptoir");
+if ($site->comptoir->is_valid())
+{
+  // Boite sur le coté
+  $cts = new contents("Comptoir");
 
-$cts->add_paragraph("<a href=\"index.php\">Autre comptoirs</a>");
+  $cts->add_paragraph("<a href=\"index.php\">Autre comptoirs</a>");
 
-$lst = new itemlist();
-foreach( $site->comptoir->operateurs as $op )
-  $lst->add(
-    "<a href=\"comptoir.php?id_comptoir=".$site->comptoir->id."&amp;".
-    "action=unlogoperateur&amp;id_operateur=".$op->id."\">". $op->prenom.
-    " ".$op->nom."</a>");
-$cts->add($lst);
+  $lst = new itemlist();
+  foreach( $site->comptoir->operateurs as $op )
+    $lst->add(
+      "<a href=\"comptoir.php?id_comptoir=".$site->comptoir->id."&amp;".
+      "action=unlogoperateur&amp;id_operateur=".$op->id."\">". $op->prenom.
+      " ".$op->nom."</a>");
+  $cts->add($lst);
 
-$frm = new form ("logoperateur","comptoir.php?id_comptoir=".$site->comptoir->id);
-if ( $opErreur )
-  $frm->error($opErreur);
-$frm->add_hidden("action","logoperateur");
-$frm->add_text_field("adresse_mail","Adresse email","prenom.nom@utbm.fr");
-$frm->add_text_field("code_bar_carte","Carte AE");
-$frm->add_password_field("password","Mot de passe");
-$frm->add_submit("valid","valider");
-$cts->add($frm);
+  $frm = new form ("logoperateur","comptoir.php?id_comptoir=".$site->comptoir->id);
+  if ( $opErreur )
+    $frm->error($opErreur);
+  $frm->add_hidden("action","logoperateur");
+  $frm->add_text_field("adresse_mail","Adresse email","prenom.nom@utbm.fr");
+  $frm->add_text_field("code_bar_carte","Carte AE");
+  $frm->add_password_field("password","Mot de passe");
+  $frm->add_submit("valid","valider");
+  $cts->add($frm);
 
-$site->add_box("comptoir",$cts);
-unset($cts);
-*/
+  $site->add_box("comptoir",$cts);
+  unset($cts);
+}
 
 $site->end_page();
 
