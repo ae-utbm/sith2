@@ -84,9 +84,14 @@ if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) &&
   $user = new utilisateur($site->db);
   $user->load_by_id($caisse->id_utilisateur);
 
-  $cts = new contents("Releve effectué le ".date("d/m/Y H:i:s", $caisse->date_releve).", ".$row['nom_cpt']." par ".$user->get_html_link());
+  if ($site->user->is_in_group("gestion_syscarteae"))
+    $cts = new contents("<a href=\"caisse.php\">Relevés</a> /
+        <a href=\"caisse.php?id_comptoir=".$caisse->id_comptoir."\">".$row['nom_cpt']."</a> /
+        ".date("d/m/Y H:i:s", $caisse->date_releve));
+  else
+    $cts = new contents();
 
-  $tbl = new table("Relevé", "sqltable");
+  $tbl = new table("Releve effectué le ".date("d/m/Y H:i:s", $caisse->date_releve).", ".$row['nom_cpt']." par ".$user->get_html_link(), "sqltable");
   foreach($caisse->especes as $valeur=>$nombre)
     $tbl->add_row(array("Espèce ".($valeur/100)." €", $nombre), "ln1");
   foreach($caisse->cheques as $valeur=>$nombre)
@@ -150,9 +155,13 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     }
     $list = new itemlist("Comptoirs", false, $comptoirs);
     $site->add_contents($list);
-  }
 
-  $cts = new contents("Releves de caisses");
+    $cts = new contents("Releves de caisses");
+  }
+  else
+    $cts = new contents("<a href=\"caisse.php\">Relevés</a> /
+        <a href=\"caisse.php?id_comptoir=".$caisse->id_comptoir."\">".$_REQUEST['id_comptoir']."</a>");
+
 
   $where = "";
   if (isset($_REQUEST['id_comptoir']))
