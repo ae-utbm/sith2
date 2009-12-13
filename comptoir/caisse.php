@@ -43,7 +43,7 @@ if ( !$site->comptoir->is_valid() )
   if (! $site->user->is_in_group("gestion_syscarteae"))
   $site->error_not_found("services");
 
-  $req = new requete($this->db,"SELECT id_comptoir, nom_cpt
+  $req = new requete($site->db,"SELECT id_comptoir, nom_cpt
              FROM `cpt_comptoir`
              WHERE `rechargement`='1'");
 
@@ -87,12 +87,12 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
     if (intval($nb) > 0)
       $especes[intval($val)] = intval($_REQUEST["cheque_nb"][$i]);
 
-  $caisse->ajout(first($this->operateurs), $site->comptoir->id, $especes, $cheques);
+  $caisse->ajout(first($site->operateurs), $site->comptoir->id, $especes, $cheques);
 }
 
 if ((($_REQUEST['action'] == "view") || $_REQUEST['action'] == "newreleve") && ($caisse->is_valid()))
 {
-  $req = new requete($this->db, "SELECT nom_cpt FROM cpt_comptoir WHERE id_comptoir = ".$caisse->id_comptoir);
+  $req = new requete($site->db, "SELECT nom_cpt FROM cpt_comptoir WHERE id_comptoir = ".$caisse->id_comptoir);
   if ( $req->lines == 1 )
     $row = $req->get_row();
 
@@ -141,7 +141,7 @@ elseif ($_REQUEST['action'] == "new")
 elseif ($site->user->is_in_group("gestion_syscarteae"))
 {
   $cts = new contents("Releves de caisses");
-  $req = new requete($this->db,
+  $req = new requete($site->db,
     "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir,
       SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0)) as somme_especes,
       SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse)) as somme_cheques
