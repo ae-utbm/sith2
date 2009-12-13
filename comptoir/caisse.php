@@ -213,4 +213,6 @@ $site->add_box("comptoir",$cts);
 unset($cts);
 */
 
+$site->end_page();
+
 ?>
