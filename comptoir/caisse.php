@@ -53,7 +53,7 @@ if (!$site->comptoir->is_valid())
   {
     $comptoirs[] = "<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']."\">".$row['nom_cpt']."</a>";
   }
-  $list = new itemlist("Comptoirs", $comptoirs);
+  $list = new itemlist("Comptoirs", false, $comptoirs);
   $site->add_contents($list);
 }
 
@@ -163,7 +163,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
   $cts->add(new sqltable(
   "",
   "Releves", $req, "caisse.php",
-  "id_releve",
+  "id_cpt_caisse",
   array(
     "date_releve" => "Date du relevé",
     "id_utilisateur" => "Vendeur",
