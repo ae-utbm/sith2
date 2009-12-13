@@ -131,9 +131,9 @@ elseif ($_REQUEST['action'] == "new")
 
   for($i=0; $i<15; $i++)
   {
-    $subfrm = new subform("cheque_".$i);
-    $subfrm->add_text_field("cheque_value_".$n,"Cheque de : ","",false);
-    $subfrm->add_text_field("cheque_nb_".$n,"Nombre de cheques : ","",false);
+    $subfrm = new subform("cheque[".$i."]");
+    $subfrm->add_text_field("cheque_val[".$i."]","Cheque de : ","",false);
+    $subfrm->add_text_field("cheque_nb[".$i."]","Nombre de cheques : ","",false);
     $frm->addsub($subfrm, false, true);
   }
 
