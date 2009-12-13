@@ -38,10 +38,6 @@ require_once($topdir. "include/localisation.inc.php");
 $site = new sitecomptoirs(true );
 
 
-if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
-  $site->error_forbidden("services","wrongplace");
-
-
 $caisse = new CaisseComptoir($site->db,$site->dbrw);
 
 
@@ -61,6 +57,9 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
 
   if (! $site->comptoir->rechargement)
     $site->error_forbidden("services","invalid");
+
+  if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
+    $site->error_forbidden("services","wrongplace");
 
   $especes = array();
   foreach ($_REQUEST["espece"] as $val=>$nb)
@@ -113,6 +112,9 @@ elseif ($_REQUEST['action'] == "new")
 
   if (! $site->comptoir->rechargement)
     $site->error_forbidden("services","invalid");
+
+  if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
+    $site->error_forbidden("services","wrongplace");
 
   $cts = new contents("Nouveau releve de caisse");
   $frm = new form ("newreleve","caisse.php",true,"POST");
@@ -168,7 +170,6 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     $cts = new contents("<a href=\"caisse.php\">Relevés</a> /
         <a href=\"caisse.php?id_comptoir=".$caisse->id_comptoir."\">".$row['nom_cpt']."</a>");
   }
-
 
   $where = "";
   if (isset($_REQUEST['id_comptoir']))
