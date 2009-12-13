@@ -70,6 +70,7 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
   print_r($_REQUEST["cheque_val"]);
   print_r($_REQUEST["cheque_nb"]);
   print_r($_REQUEST);
+  print_r($_POST);
 
   $cheques = array();
   foreach ($_REQUEST["cheque_val"] as $i=>$val)
