@@ -72,7 +72,7 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
     if (intval($nb) > 0)
       $especes[intval($val)] = intval($_REQUEST["cheque_nb"][$i]);
 
-  $caisse->ajout(first($site->operateurs), $site->comptoir->id, $especes, $cheques);
+  $caisse->ajout(first($site->comptoir->operateurs), $site->comptoir->id, $especes, $cheques);
 }
 
 if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) && ($caisse->is_valid()))
