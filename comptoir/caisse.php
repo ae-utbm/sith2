@@ -92,10 +92,11 @@ if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) &&
     $cts = new contents();
 
   $tbl = new table("Releve effectué le ".date("d/m/Y H:i:s", $caisse->date_releve).", ".$row['nom_cpt']." par ".$user->get_html_link(), "sqltable");
+  $tbl->add_row(array("Type", "Qté"), "head");
   foreach($caisse->especes as $valeur=>$nombre)
     $tbl->add_row(array("Espèce ".($valeur/100)." €", $nombre), "ln1");
   foreach($caisse->cheques as $valeur=>$nombre)
-    $tbl->add_row(array("Cheque ".($valeur/100)." €", $nombre), "ln1");
+    $tbl->add_row(array("Chèques ".($valeur/100)." €", $nombre), "ln1");
 
   $cts->add($tbl,true);
 }
@@ -114,7 +115,7 @@ elseif ($_REQUEST['action'] == "new")
     $site->error_forbidden("services","invalid");
 
   $cts = new contents("Nouveau releve de caisse");
-  $frm = new form ("newreleve","caisse.php",true,"POST","Nouveau releve de caisse");
+  $frm = new form ("newreleve","caisse.php",true,"POST");
   $frm->add_hidden("action","newreleve");
   $frm->add_hidden("id_comptoir",$site->comptoir->id);
   $frm->allow_only_one_usage();
@@ -132,7 +133,7 @@ elseif ($_REQUEST['action'] == "new")
   for($i=0; $i<15; $i++)
   {
     $subfrm = new subform("cheque[".$i."]");
-    $subfrm->add_text_field("cheque_val[".$i."]","Cheque de : ","",false);
+    $subfrm->add_text_field("cheque_val[".$i."]","Chèques de : ","",false);
     $subfrm->add_text_field("cheque_nb[".$i."]","Nombre de cheques : ","",false);
     $frm->addsub($subfrm, false, true);
   }
@@ -159,8 +160,14 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     $cts = new contents("Releves de caisses");
   }
   else
+  {
+    $req = new requete($site->db,"SELECT id_comptoir, nom_cpt
+               FROM `cpt_comptoir`
+               WHERE `id_comptoir`='".$_REQUEST['id_comptoir']."'");
+    $row = $req->get_row();
     $cts = new contents("<a href=\"caisse.php\">Relevés</a> /
-        <a href=\"caisse.php?id_comptoir=".$caisse->id_comptoir."\">".$_REQUEST['id_comptoir']."</a>");
+        <a href=\"caisse.php?id_comptoir=".$caisse->id_comptoir."\">".$row['nom_cpt']."</a>");
+  }
 
 
   $where = "";
