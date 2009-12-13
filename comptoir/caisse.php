@@ -98,6 +98,10 @@ if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) &&
   $user = new utilisateur($site->db);
   $user->load_by_id($caisse->id_utilisateur);
 
+  echo $caisse->id;
+  print_r($caisse->especes);
+  print_r($caisse->cheques);
+
   $cts = new contents("Releve effectué le ".$caisse->date_releve.", ".$row['nom_cpt']." par ".$user->get_html_link());
 
   $tbl = new table("Relevé");
