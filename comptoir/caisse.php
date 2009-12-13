@@ -170,7 +170,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     "id_comptoir" => "Lieu",
     "somme_especes" => "Total espèce",
     "somme_cheques" => "Total cheques"),
-  array("id_cpt_caisse" => "Voir le relevé"),
+  array("show" => "Voir le relevé"),
   array()
   ));
 }
