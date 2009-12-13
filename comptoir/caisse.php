@@ -66,7 +66,7 @@ $caisse = new CaisseComptoir($site->db,$site->dbrw);
 
 if (($_REQUEST['action'] == "view") && ($site->user->is_in_group("gestion_syscarteae")))
 {
-  $caisse->load_by_id($_REQUEST["id_releve"]);
+  $caisse->load_by_id($_REQUEST["id_id_cpt_caisse"]);
 }
 elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
 {
