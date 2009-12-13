@@ -124,7 +124,6 @@ $frm->add_submit("valid","valider");
 $cts->add($frm);
 
 $site->add_box("comptoir",$cts);
-$site->set_side_boxes("right",array("comptoir"));
 unset($cts);
 
 include("frontend.inc.php");

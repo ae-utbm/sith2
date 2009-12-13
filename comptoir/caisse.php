@@ -230,6 +230,7 @@ if ($site->comptoir->is_valid())
   $cts->add($frm);
 
   $site->add_box("comptoir",$cts);
+  $site->set_side_boxes("right",array("comptoir"));
   unset($cts);
 }
 
