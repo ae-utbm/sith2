@@ -185,6 +185,7 @@ $site->add_contents($cts);
 unset($cts);
 
 
+/*
 // Boite sur le coté
 $cts = new contents("Comptoir");
 
@@ -210,5 +211,6 @@ $cts->add($frm);
 
 $site->add_box("comptoir",$cts);
 unset($cts);
+*/
 
 ?>
