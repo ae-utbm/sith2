@@ -89,7 +89,7 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
   $caisse->ajout(first($site->operateurs), $site->comptoir->id, $especes, $cheques);
 }
 
-if ((($_REQUEST['action'] == "view") || $_REQUEST['action'] == "newreleve") && ($caisse->is_valid()))
+if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) && ($caisse->is_valid()))
 {
   $req = new requete($site->db, "SELECT nom_cpt FROM cpt_comptoir WHERE id_comptoir = ".$caisse->id_comptoir);
   if ( $req->lines == 1 )
@@ -98,13 +98,13 @@ if ((($_REQUEST['action'] == "view") || $_REQUEST['action'] == "newreleve") && (
   $user = new utilisateur($site->db);
   $user->load_by_id($caisse->id_utilisateur);
 
-  $cts = new contents("Releve effectué le ".$caisse->date_releve.", ".$row['nom_cpt']."par ".$user->get_html_link());
+  $cts = new contents("Releve effectué le ".$caisse->date_releve.", ".$row['nom_cpt']." par ".$user->get_html_link());
 
   $tbl = new table("Relevé");
   foreach($caisse->especes as $valeur=>$nombre)
-    $tbl->add_row(array("Espèce, ".$valeur." €",$nombre));
+    $tbl->add_row(array("Espèce, ".$valeur." €", $nombre));
   foreach($caisse->cheques as $valeur=>$nombre)
-    $tbl->add_row(array("Cheque, ".$valeur." €",$nombre));
+    $tbl->add_row(array("Cheque, ".$valeur." €", $nombre));
 
   $cts->add($tbl,true);
 }

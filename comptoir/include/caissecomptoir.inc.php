@@ -65,7 +65,7 @@ class CaisseComptoir extends stdentity
     $this->id = $row['id_cpt_caisse'];
     $this->id_utilisateur = $row['id_utilisateur'];
     $this->id_comptoir = $row['id_comptoir'];
-    $this->date = strtotime($row['date_releve']);
+    $this->date_releve = strtotime($row['date_releve']);
     $this->mode = $row['mode_paiement'];
 
     $req = new requete($this->db,
@@ -74,7 +74,7 @@ class CaisseComptoir extends stdentity
 
     while ($row = $req->get_row())
     {
-      if ($row['cheque'] == 1)
+      if ($row['cheque_caisse'] == 1)
         $this->cheques[$row['valeur_caisse']] = $row['nombre_caisse'];
       else
         $this->especes[$row['valeur_caisse']] = $row['nombre_caisse'];
