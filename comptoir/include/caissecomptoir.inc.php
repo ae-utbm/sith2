@@ -72,7 +72,7 @@ class CaisseComptoir extends stdentity
       "SELECT * FROM cpt_caisse_sommes WHERE `id_cpt_caisse` = '".intval($id)."'"
       );
 
-    while ($row = $sql->get_row())
+    while ($row = $req->get_row())
     {
       if ($row['cheque'] == 1)
         $this->cheques[$row['valeur_caisse']] = $row['nombre_caisse'];
