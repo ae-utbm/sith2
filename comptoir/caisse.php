@@ -38,10 +38,10 @@ $site = new sitecomptoirs(true );
 
 $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
 
-if ( !$site->comptoir->is_valid() )
+if (!$site->comptoir->is_valid())
 {
   if (! $site->user->is_in_group("gestion_syscarteae"))
-  $site->error_not_found("services");
+    $site->error_not_found("services");
 
   $req = new requete($site->db,"SELECT id_comptoir, nom_cpt
              FROM `cpt_comptoir`
@@ -59,13 +59,13 @@ if ( !$site->comptoir->is_valid() )
   }
 }
 
-if ( get_localisation() != $site->comptoir->id_salle )
+if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
   $site->error_forbidden("services","wrongplace");
 
-if ( $site->comptoir->type != 0 )
+if ($site->comptoir->type != 0)
   $site->error_forbidden("services","invalid");
 
-if (! $site->comptoir->rechargement )
+if (! $site->comptoir->rechargement)
   $site->error_forbidden("services","invalid");
 
 $caisse = new CaisseComptoir();
@@ -140,13 +140,20 @@ elseif ($_REQUEST['action'] == "new")
 }
 elseif ($site->user->is_in_group("gestion_syscarteae"))
 {
+
   $cts = new contents("Releves de caisses");
+
+  $where = "";
+  if (isset($_REQUEST['id_comptoir']))
+    $where = "WHERE id_comptoir=".intval($_REQUEST['id_comptoir']);
+
   $req = new requete($site->db,
     "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir,
       SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0)) as somme_especes,
       SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse)) as somme_cheques
-    FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`)
-    GROUP BY id_cpt_caisse");
+    FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`) ".
+    $where
+    ." GROUP BY id_cpt_caisse");
 
   $cts->add(new sqltable(
   "",
