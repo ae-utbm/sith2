@@ -54,7 +54,7 @@ if (!$site->comptoir->is_valid())
     $comptoirs[] = "<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']."\">".$row['nom_cpt']."</a>";
   }
   $list = new itemlist("Comptoirs", $comptoirs);
-  $site->add($list);
+  $site->add_contents($list);
 }
 
 if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
