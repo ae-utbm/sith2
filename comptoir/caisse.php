@@ -84,13 +84,13 @@ if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) &&
   $user = new utilisateur($site->db);
   $user->load_by_id($caisse->id_utilisateur);
 
-  $cts = new contents("Releve effectué le ".$caisse->date_releve.", ".$row['nom_cpt']." par ".$user->get_html_link());
+  $cts = new contents("Releve effectué le ".date("d/m/Y H:i:s", $caisse->date_releve).", ".$row['nom_cpt']." par ".$user->get_html_link());
 
-  $tbl = new table("Relevé", "ln1");
+  $tbl = new table("Relevé", "sqltable");
   foreach($caisse->especes as $valeur=>$nombre)
-    $tbl->add_row(array("Espèce, ".$valeur." €", $nombre), "sqltable");
+    $tbl->add_row(array("Espèce, ".$valeur." €", $nombre), "ln1");
   foreach($caisse->cheques as $valeur=>$nombre)
-    $tbl->add_row(array("Cheque, ".$valeur." €", $nombre), "sqltable");
+    $tbl->add_row(array("Cheque, ".$valeur." €", $nombre), "ln1");
 
   $cts->add($tbl,true);
 }
@@ -111,6 +111,7 @@ elseif ($_REQUEST['action'] == "new")
   $cts = new contents("Nouveau releve de caisse");
   $frm = new form ("newreleve","caisse.php",true,"POST","Nouveau releve de caisse");
   $frm->add_hidden("action","newreleve");
+  $frm->add_hidden("id_comptoir",$site->comptoir->id);
   $frm->allow_only_one_usage();
   $frm->add_text_field("espece[10]","Pièces de 10 centimes","",false);
   $frm->add_text_field("espece[20]","Pièces de 20 centimes","",false);
