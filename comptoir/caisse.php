@@ -67,10 +67,13 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
     if (intval($nb) > 0)
       $especes[intval($val)] = intval($nb);
 
+  print_r($_REQUEST["cheque_val"]);
+  print_r($_REQUEST["cheque_nb"]);
+
   $cheques = array();
   foreach ($_REQUEST["cheque_val"] as $i=>$val)
     if (intval($_REQUEST["cheque_nb"][$i]) > 0)
-      $cheques[intval($val)] = intval($_REQUEST["cheque_nb"][$i]);
+      $cheques[100*intval($val)] = intval($_REQUEST["cheque_nb"][$i]);
 
   $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id, $especes, $cheques);
 }
@@ -88,9 +91,9 @@ if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) &&
 
   $tbl = new table("Relevé", "sqltable");
   foreach($caisse->especes as $valeur=>$nombre)
-    $tbl->add_row(array("Espèce, ".$valeur." €", $nombre), "ln1");
+    $tbl->add_row(array("Espèce ".($valeur/100)." €", $nombre), "ln1");
   foreach($caisse->cheques as $valeur=>$nombre)
-    $tbl->add_row(array("Cheque, ".$valeur." €", $nombre), "ln1");
+    $tbl->add_row(array("Cheque ".($valeur/100)." €", $nombre), "ln1");
 
   $cts->add($tbl,true);
 }
