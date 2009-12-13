@@ -39,6 +39,7 @@ require_once($topdir . "comptoir/include/facture.inc.php");
 require_once($topdir . "comptoir/include/produit.inc.php");
 require_once($topdir . "comptoir/include/typeproduit.inc.php");
 require_once($topdir . "comptoir/include/venteproduit.inc.php");
+require_once($topdir . "comptoir/include/caissecomptoir.inc.php");
 require_once($topdir."include/entities/books.inc.php");
 
 /**
