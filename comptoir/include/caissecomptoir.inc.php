@@ -23,7 +23,7 @@
  */
 
 
-class debitfacture extends stdentity
+class CaisseComptoir extends stdentity
 {
   /* Id du releve */
   var $id;
