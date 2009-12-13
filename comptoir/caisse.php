@@ -69,8 +69,8 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
 
   $cheques = array();
   foreach ($_REQUEST["cheque_val"] as $i=>$val)
-    if (intval($nb) > 0)
-      $especes[intval($val)] = intval($_REQUEST["cheque_nb"][$i]);
+    if (intval($_REQUEST["cheque_nb"][$i]) > 0)
+      $cheques[intval($val)] = intval($_REQUEST["cheque_nb"][$i]);
 
   $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id, $especes, $cheques);
 }
@@ -126,7 +126,7 @@ elseif ($_REQUEST['action'] == "new")
 
   for($i=0; $i<15; $i++)
   {
-    $subfrm = new subform("cheque".$i);
+    $subfrm = new subform("cheque[".$i."]");
     $subfrm->add_text_field("cheque_val[1]","Cheque de : ","",false);
     $subfrm->add_text_field("cheque_nb[1]","Nombre de cheques : ","",false);
     $frm->addsub($subfrm, false, true);
