@@ -67,11 +67,6 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
     if (intval($nb) > 0)
       $especes[intval($val)] = intval($nb);
 
-  print_r($_REQUEST["cheque_val"]);
-  print_r($_REQUEST["cheque_nb"]);
-  print_r($_REQUEST);
-  print_r($_POST);
-
   $cheques = array();
   foreach ($_REQUEST["cheque_val"] as $i=>$val)
     if (intval($_REQUEST["cheque_nb"][$i]) > 0)
