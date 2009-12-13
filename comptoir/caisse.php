@@ -48,16 +48,13 @@ if (!$site->comptoir->is_valid())
              FROM `cpt_comptoir`
              WHERE `rechargement`='1'");
 
-  if ( $req->lines == 1 )
+  $comptoirs = array();
+  while($row = $req->get_row())
   {
-    $comptoirs = array();
-    while($row = $req->get_row())
-    {
-      $comptoirs[] = "<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']."\">".$row['nom_cpt']."</a>";
-    }
-    $list = new itemlist("Comptoirs", $comptoirs);
-    $site->add($list);
+    $comptoirs[] = "<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']."\">".$row['nom_cpt']."</a>";
   }
+  $list = new itemlist("Comptoirs", $comptoirs);
+  $site->add($list);
 }
 
 if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
@@ -69,7 +66,7 @@ $caisse = new CaisseComptoir($site->db,$site->dbrw);
 
 if (($_REQUEST['action'] == "view") && ($site->user->is_in_group("gestion_syscarteae")))
 {
-  $caisse->load_by_id($_REQUEST["id_field"]);
+  $caisse->load_by_id($_REQUEST["id_releve"]);
 }
 elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
 {
@@ -168,13 +165,12 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
   "Releves", $req, "caisse.php",
   "id_releve",
   array(
-    "id_cpt_caisse" => "Relevé",
     "date_releve" => "Date du relevé",
     "id_utilisateur" => "Vendeur",
     "id_comptoir" => "Lieu",
     "somme_especes" => "Total espèce",
     "somme_cheques" => "Total cheques"),
-  array("id_cpt_caisse" => "view"),
+  array("id_cpt_caisse" => "Voir le relevé"),
   array()
   ));
 }
