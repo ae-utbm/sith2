@@ -63,7 +63,7 @@ if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_g
   $site->error_forbidden("services","wrongplace");
 
 
-$caisse = new CaisseComptoir();
+$caisse = new CaisseComptoir($site->db,$site->dbrw);
 
 
 if (($_REQUEST['action'] == "view") && ($site->user->is_in_group("gestion_syscarteae")))
