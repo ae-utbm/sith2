@@ -37,25 +37,6 @@ require_once($topdir. "include/localisation.inc.php");
 
 $site = new sitecomptoirs(true );
 
-$site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
-
-if (!$site->comptoir->is_valid())
-{
-  if (! $site->user->is_in_group("gestion_syscarteae"))
-    $site->error_not_found("services");
-
-  $req = new requete($site->db,"SELECT id_comptoir, nom_cpt
-             FROM `cpt_comptoir`
-             WHERE `rechargement`='1'");
-
-  $comptoirs = array();
-  while($row = $req->get_row())
-  {
-    $comptoirs[] = "<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']."\">".$row['nom_cpt']."</a>";
-  }
-  $list = new itemlist("Comptoirs", false, $comptoirs);
-  $site->add_contents($list);
-}
 
 if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
   $site->error_forbidden("services","wrongplace");
@@ -70,6 +51,11 @@ if (($_REQUEST['action'] == "view") && ($site->user->is_in_group("gestion_syscar
 }
 elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
 {
+  $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
+
+  if (!$site->comptoir->is_valid())
+    $site->error_not_found("services");
+
   if ($site->comptoir->type != 0)
     $site->error_forbidden("services","invalid");
 
@@ -98,23 +84,24 @@ if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) &&
   $user = new utilisateur($site->db);
   $user->load_by_id($caisse->id_utilisateur);
 
-  echo $caisse->id;
-  print_r($caisse->especes);
-  print_r($caisse->cheques);
-
   $cts = new contents("Releve effectué le ".$caisse->date_releve.", ".$row['nom_cpt']." par ".$user->get_html_link());
 
-  $tbl = new table("Relevé");
+  $tbl = new table("Relevé", "ln1");
   foreach($caisse->especes as $valeur=>$nombre)
-    $tbl->add_row(array("Espèce, ".$valeur." €", $nombre));
+    $tbl->add_row(array("Espèce, ".$valeur." €", $nombre), "sqltable");
   foreach($caisse->cheques as $valeur=>$nombre)
-    $tbl->add_row(array("Cheque, ".$valeur." €", $nombre));
+    $tbl->add_row(array("Cheque, ".$valeur." €", $nombre), "sqltable");
 
   $cts->add($tbl,true);
 }
 
 elseif ($_REQUEST['action'] == "new")
 {
+  $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
+
+  if (!$site->comptoir->is_valid())
+    $site->error_not_found("services");
+
   if ($site->comptoir->type != 0)
     $site->error_forbidden("services","invalid");
 
@@ -149,6 +136,20 @@ elseif ($_REQUEST['action'] == "new")
 }
 elseif ($site->user->is_in_group("gestion_syscarteae"))
 {
+  if (! isset($_REQUEST['id_comptoir']))
+  {
+    $req = new requete($site->db,"SELECT id_comptoir, nom_cpt
+               FROM `cpt_comptoir`
+               WHERE `rechargement`='1'");
+
+    $comptoirs = array();
+    while($row = $req->get_row())
+    {
+      $comptoirs[] = "<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']."\">".$row['nom_cpt']."</a>";
+    }
+    $list = new itemlist("Comptoirs", false, $comptoirs);
+    $site->add_contents($list);
+  }
 
   $cts = new contents("Releves de caisses");
 
