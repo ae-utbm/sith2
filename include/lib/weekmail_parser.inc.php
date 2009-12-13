@@ -367,7 +367,6 @@ class weekmail_parser
       $line = preg_replace('/^[ \t]+/','',$line);
       (substr($line,0,1) == '-') ? $type='ol' : $type='ul';
       $line = preg_replace('/^[*\-]\s*/','',$line);
-      $line = $this->smileys($line);
       $items[$cnt]['level'] = $lvl;
       $items[$cnt]['type']  = $type;
       $items[$cnt]['text']  = $line;
