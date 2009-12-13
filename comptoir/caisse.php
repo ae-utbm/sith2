@@ -62,11 +62,6 @@ if (!$site->comptoir->is_valid())
 if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
   $site->error_forbidden("services","wrongplace");
 
-if ($site->comptoir->type != 0)
-  $site->error_forbidden("services","invalid");
-
-if (! $site->comptoir->rechargement)
-  $site->error_forbidden("services","invalid");
 
 $caisse = new CaisseComptoir();
 
@@ -77,6 +72,12 @@ if (($_REQUEST['action'] == "view") && ($site->user->is_in_group("gestion_syscar
 }
 elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
 {
+  if ($site->comptoir->type != 0)
+    $site->error_forbidden("services","invalid");
+
+  if (! $site->comptoir->rechargement)
+    $site->error_forbidden("services","invalid");
+
   $especes = array();
   foreach ($_REQUEST["espece"] as $val=>$nb)
     if (intval($nb) > 0)
@@ -112,6 +113,12 @@ if ((($_REQUEST['action'] == "view") || $_REQUEST['action'] == "newreleve") && (
 
 elseif ($_REQUEST['action'] == "new")
 {
+  if ($site->comptoir->type != 0)
+    $site->error_forbidden("services","invalid");
+
+  if (! $site->comptoir->rechargement)
+    $site->error_forbidden("services","invalid");
+
   $cts = new contents("Nouveau releve de caisse");
   $frm = new form ("newreleve","caisse.php",true,"POST","Nouveau releve de caisse");
   $frm->add_hidden("action","newreleve");
