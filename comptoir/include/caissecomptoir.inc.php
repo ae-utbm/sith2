@@ -69,7 +69,7 @@ class CaisseComptoir extends stdentity
     $this->mode = $row['mode_paiement'];
 
     $req = new requete($this->db,
-      "SELECT * FROM cpt_caisse_sommes WHERE `id_cpt_caisse` = '".intval($id)."'"
+      "SELECT * FROM cpt_caisse_sommes WHERE `id_cpt_caisse` = '".intval($this->id)."'", 1
       );
 
     while ($row = $req->get_row())
