@@ -640,11 +640,15 @@ elseif ( $_REQUEST["view"] == "elections" )
     $site->error_forbidden("none","group",9);
 
   $histo=false;
+  $histo2=false;
   if(isset($_REQUEST['bananas']) && $_REQUEST['bananas'] = "cuitas")
     $histo=true;
+  if(isset($_REQUEST['bananas']) && $_REQUEST['bananas'] = "cuitasoupas")
+    $histo2=true;
 
   $cts2 = new contents("Participation aux élections");
   $cts2->add_paragraph("<center><img src=\"./stats.php?view=elections&bananas=cuitas\" alt=\"bananas cuitas\" /></center>");
+  $cts2->add_paragraph("<center><img src=\"./stats.php?view=elections&bananas=cuitasoupas\" alt=\"bananas cuitas\" /></center>");
   $req = new requete($site->db,
          "SELECT ".
          "  id_election".
@@ -654,7 +658,11 @@ elseif ( $_REQUEST["view"] == "elections" )
          "FROM vt_election ".
          "WHERE id_groupe=10000 ".
          "ORDER BY date_debut, date_fin");
-  $datas = array(0=>"Participation");
+  if($histo)
+    $datas = array(0=>"Participation en pourcentage");
+  if($histo2)
+    $datas = array(0=>"Nombre de votant");
+
   $i=0;
   while(list($id,$nom,$deb,$fin)=$req->get_row())
   {
@@ -684,7 +692,9 @@ elseif ( $_REQUEST["view"] == "elections" )
     $cts3->add($lst);
 
     $part = round(($vot/$cot)*100,1);
-    if($histo)
+    if($histo && $part<=100)
+      $datas[$i]=$part;
+    if($histo2)
       $datas[$i]=$part;
     $prog = new progressbar($part);
     $cts3->add($prog);
@@ -693,6 +703,13 @@ elseif ( $_REQUEST["view"] == "elections" )
   if($histo)
   {
     $hist = new histogram($datas, utf8_decode("Taux de participation aux élections"));
+    $hist->png_render();
+    $hist->destroy();
+    exit();
+  }
+  if($histo2)
+  {
+    $hist = new histogram($datas, utf8_decode("Nombre de votants"));
     $hist->png_render();
     $hist->destroy();
     exit();
