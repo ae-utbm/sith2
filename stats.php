@@ -641,9 +641,9 @@ elseif ( $_REQUEST["view"] == "elections" )
 
   $histo=false;
   $histo2=false;
-  if(isset($_REQUEST['bananas']) && $_REQUEST['bananas'] = "cuitas")
+  if(isset($_REQUEST['bananas']) && $_REQUEST['bananas'] == "cuitas")
     $histo=true;
-  if(isset($_REQUEST['bananas']) && $_REQUEST['bananas'] = "cuitasoupas")
+  if(isset($_REQUEST['bananas']) && $_REQUEST['bananas'] == "cuitasoupas")
     $histo2=true;
 
   $cts2 = new contents("Participation aux élections");
