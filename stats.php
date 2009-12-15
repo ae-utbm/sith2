@@ -56,7 +56,7 @@ else
                 array("sas","stats.php?view=sas", "SAS"),
                 array("forum","stats.php?view=forum", "Forum"),
                 array("comptoirs","stats.php?view=comptoirs", "Comptoirs"),
-                array("electionss","stats.php?view=elections", "Élections")
+                array("elections","stats.php?view=elections", "Élections")
                 );
 }
 
@@ -695,7 +695,7 @@ elseif ( $_REQUEST["view"] == "elections" )
     if($histo && $part<=100)
       $datas[$i]=$part;
     if($histo2)
-      $datas[$i]=$part;
+      $datas[$i]=$vot;
     $prog = new progressbar($part);
     $cts3->add($prog);
     $cts2->add($cts3,true);
