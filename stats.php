@@ -70,7 +70,7 @@ if ( $_REQUEST["view"] == "cotisants" )
   $req = new requete($site->db,"SELECT COUNT(*) FROM `utilisateurs` WHERE `ancien_etudiant_utl`='0'");
   list($total) = $req->get_row();
 
-  $req = new requete($site->db,"SELECT COUNT(*) FROM `ae_cotisations` WHERE `date_fin_cotis` > NOW()");
+  $req = new requete($site->db,"SELECT COUNT(DISTINCT (id_utilisateur)) FROM `ae_cotisations` WHERE `date_fin_cotis` > NOW()");
   list($cotisants) = $req->get_row();
 
   if ( $site->user->is_in_group("gestion_ae") )
