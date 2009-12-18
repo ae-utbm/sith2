@@ -123,7 +123,7 @@ elseif ($_REQUEST['action'] == "new")
   $frm->allow_only_one_usage();
   $frm->add_text_field("espece[10]","Pièces de 10 centimes","",false);
   $frm->add_text_field("espece[20]","Pièces de 20 centimes","",false);
-  $frm->add_text_field("espece[50]","Pièces de 30 centimes","",false);
+  $frm->add_text_field("espece[50]","Pièces de 50 centimes","",false);
   $frm->add_text_field("espece[100]","Pièces de 1 €","",false);
   $frm->add_text_field("espece[200]","Pièces de 2 €","",false);
   $frm->add_text_field("espece[500]","Billets de 5 €","",false);
@@ -177,8 +177,8 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
 
   $req = new requete($site->db,
     "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir,
-      SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0)) as somme_especes,
-      SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse)) as somme_cheques
+      SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100 as somme_especes,
+      SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse))/100: as somme_cheques
     FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`) ".
     $where
     ." GROUP BY id_cpt_caisse");
@@ -235,5 +235,7 @@ if ($site->comptoir->is_valid())
 }
 
 $site->end_page();
-
+//TODO :  plusieurs  fois même valeur  cheque
+//TODO :  total théorique chèques et espèce séparés + total relevé
+//TODO: case banque
 ?>
