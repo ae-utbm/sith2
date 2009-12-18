@@ -126,8 +126,10 @@ if ( $_REQUEST["action"] == "cut" )
 }
 elseif ( $file->is_valid() && $_REQUEST["action"] == "delete" )
 {
-  if ( $file->is_right($site->user,DROIT_ECRITURE) )
+  if ( $file->is_right($site->user,DROIT_ECRITURE)
+      && $site->is_sure($section, 'Suppression du fichier '.$file->get_display_name()))
   {
+    _log($site->dbrw,'suppression fichier','Suppression du fichier '.$file->get_display_name(),'fichier',$site->user);
     $file->delete_file();
     $file->id=null;
   }
@@ -135,8 +137,9 @@ elseif ( $file->is_valid() && $_REQUEST["action"] == "delete" )
 elseif ( $folder->is_valid() && $_REQUEST["action"] == "delete" )
 {
   if ( $folder->is_right($site->user,DROIT_ECRITURE) )
-    if ( $site->is_sure ( "","Suppression du dossier ".$folder->nom,"folder".$folder->id, 1 ) )
+    if ( $site->is_sure ( "","Suppression du dossier ".$folder->get_display_name(),"folder".$folder->id, 3 ) )
     {
+      _log($site->dbrw,'suppression dossier','Suppression du dossier '.$folder->get_display_name(),'fichier',$site->user);
       $folder->delete_folder();
       $folder->load_by_id($folder->id_folder_parent);
       if ( !$folder->is_valid() )
