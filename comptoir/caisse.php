@@ -178,7 +178,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
   $req = new requete($site->db,
     "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir,
       SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100 as somme_especes,
-      SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse))/100: as somme_cheques
+      SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse))/100 as somme_cheques
     FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`) ".
     $where
     ." GROUP BY id_cpt_caisse");
