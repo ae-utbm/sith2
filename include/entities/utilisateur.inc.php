@@ -208,7 +208,7 @@ class utilisateur extends stdentity
         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
         "WHERE `utilisateurs`.`email_utl` = '" . mysql_real_escape_string($email) . "' OR " .
         "`utl_etu_utbm`.`email_utbm` = '" . mysql_real_escape_string($email) . "' " .
-        "LIMIT 1");
+        "LIMIT 1",1);
 
     if ( $req->lines == 1 )
     {
