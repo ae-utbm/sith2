@@ -201,7 +201,7 @@ class utilisateur extends stdentity
         "OR `utilisateurs`.`email_utl` = '".mysql_real_escape_string($regs[1]."@assidu-utbm.fr")."' " .
         "OR `utl_etu_utbm`.`email_utbm` = '".mysql_real_escape_string($regs[1]."@utbm.fr")."' " .
         "OR `utl_etu_utbm`.`email_utbm` = '".mysql_real_escape_string($regs[1]."@assidu-utbm.fr")."' " .
-        "LIMIT 1");
+        "LIMIT 1",1);
     else
       $req = new requete($this->db,
         "SELECT `utilisateurs`.* FROM `utilisateurs` " .
