@@ -212,6 +212,7 @@ class utilisateur extends stdentity
 
     if ( $req->lines == 1 )
     {
+print_r('coin');
       $this->_load($req->get_row());
       return true;
     }
