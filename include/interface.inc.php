@@ -310,7 +310,7 @@ class interfaceweb
       $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
       $this->buffer .= "</script>";
       $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onMouseout=\"delayhidemenu()\">\n";
-        $this->buffer .= "Identification\n";
+        $this->buffer .= "<a href='".$topdir."connect.php'>Identification</a>\n";
     }
     elseif($this->user->type=="srv" )
     {
