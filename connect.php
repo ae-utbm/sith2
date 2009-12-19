@@ -27,6 +27,9 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
 
+if(!isset($_REQUEST['domain']))
+  $site->allow_only_logged_users();
+
 switch ($_REQUEST["domain"])
 {
   case "utbm" :
