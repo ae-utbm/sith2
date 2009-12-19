@@ -759,7 +759,6 @@ function showConnexionBox()
   var e=document.getElementById('overlay');
   var htmlheight = document.body.parentNode.clientHeight;
   var windowheight = window.screen.height;
-alert(htmlheight + ' ' + windowheight);
   if ( htmlheight < windowheight )
     e.style.height = windowheight + "px";
   else
