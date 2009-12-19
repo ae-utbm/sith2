@@ -83,10 +83,9 @@ $page = $topdir;
  * Le passage de la redirection se fait via la variable de session pour eviter
  * toute redirection non controlée.
  */
-if ( $_SESSION['session_redirect'] )
+if ( $_SESSION['session_redirect']
+    && !strpos($_SESSION['session_redirect'],'connect.php'))
 {
-print_r($_SESSION['session_redirect']);
-exit();
   $page = $_SESSION['session_redirect'];
   unset($_SESSION['session_redirect']);
 }
