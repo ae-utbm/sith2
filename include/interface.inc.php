@@ -305,7 +305,7 @@ class interfaceweb
     {
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
-      $this->buffer .= "menu_utilisateur[0]='<a class=\"firstdropdown\" href=\"".$topdir."index.php\" onClick=\"return showConnexionBox()\">Connexion</a>';";
+      $this->buffer .= "menu_utilisateur[0]='<a class=\"firstdropdown\" href=\"".$topdir."connect.php\" onClick=\"return showConnexionBox()\">Connexion</a>';";
       $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."password.php\">Mot de passe perdu</a>';";
       $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
       $this->buffer .= "</script>";
