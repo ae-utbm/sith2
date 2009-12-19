@@ -54,7 +54,7 @@ switch ($_REQUEST["domain"])
 
 if ( !$site->user->is_valid() )
 {
-  //header("Location: article.php?name=site:wrongpassorduser");
+  header("Location: article.php?name=site:wrongpassorduser");
   exit();
 }
 
@@ -85,6 +85,8 @@ $page = $topdir;
  */
 if ( $_SESSION['session_redirect'] )
 {
+print_r($_SESSION['session_redirect']);
+exit();
   $page = $_SESSION['session_redirect'];
   unset($_SESSION['session_redirect']);
 }

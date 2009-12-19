@@ -201,18 +201,17 @@ class utilisateur extends stdentity
         "OR `utilisateurs`.`email_utl` = '".mysql_real_escape_string($regs[1]."@assidu-utbm.fr")."' " .
         "OR `utl_etu_utbm`.`email_utbm` = '".mysql_real_escape_string($regs[1]."@utbm.fr")."' " .
         "OR `utl_etu_utbm`.`email_utbm` = '".mysql_real_escape_string($regs[1]."@assidu-utbm.fr")."' " .
-        "LIMIT 1",1);
+        "LIMIT 1");
     else
       $req = new requete($this->db,
         "SELECT `utilisateurs`.* FROM `utilisateurs` " .
         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
         "WHERE `utilisateurs`.`email_utl` = '" . mysql_real_escape_string($email) . "' OR " .
         "`utl_etu_utbm`.`email_utbm` = '" . mysql_real_escape_string($email) . "' " .
-        "LIMIT 1",1);
+        "LIMIT 1");
 
     if ( $req->lines == 1 )
     {
-print_r('coin');
       $this->_load($req->get_row());
       return true;
     }
