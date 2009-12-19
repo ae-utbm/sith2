@@ -66,7 +66,7 @@ if ( $site->user->hash != "valid" )
 
 if ( !$site->user->is_password($_POST["password"]) )
 {
-  header("Location: article.php?name=site:wrongpassorduser");
+  //header("Location: article.php?name=site:wrongpassorduser");
   exit();
 }
 
