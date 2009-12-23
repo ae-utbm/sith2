@@ -1831,9 +1831,6 @@ L'équipe info AE";
     if ( $this->tel_portable )
       echo "TEL;type=CELL:".$this->tel_portable."\n";
 
-    if ( $this->tel_parents )
-      echo "TEL;type=HOME:".$this->tel_parents."\n";
-
     if ( $this->date_naissance )
       echo "BDAY;value=date:".date("Y-m-d",$this->date_naissance)."\n";
 
