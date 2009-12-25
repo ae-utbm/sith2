@@ -226,7 +226,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
                   AND `cpt_caisse_ref`.`caisse_videe` = '1')) ";
   }
   elseif(! isset($_REQUEST['showall']))
-    $limit = "LIMIT 100 ";
+    $limit = "LIMIT 100";
 
   $req = new requete($site->db,
     "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir, nom_cpt,
@@ -239,8 +239,8 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     INNER JOIN `cpt_comptoir` USING(id_comptoir) " .
     $where
     ." GROUP BY id_cpt_caisse
-    $limit
     ORDER BY date_releve DESC
+    $limit
     ");
 
   $cts->add(new sqltable(
