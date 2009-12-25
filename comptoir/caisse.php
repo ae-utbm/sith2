@@ -75,7 +75,7 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
     $cheques = array();
     foreach ($_REQUEST["cheque_val"] as $i=>$val)
       if (intval($_REQUEST["cheque_nb"][$i]) > 0)
-        $cheques[100*intval($val)] = intval($_REQUEST["cheque_nb"][$i]);
+        $cheques[intval($val*100)] = intval($_REQUEST["cheque_nb"][$i]);
 
     $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id, $especes, $cheques);
   }
@@ -137,16 +137,16 @@ elseif ($_REQUEST['action'] == "new")
     $frm->allow_only_one_usage();
 
     $esp = array(
-      10 => "Pièces de 10 centimes",
-      20 => "Pièces de 20 centimes",
-      50 => "Pièces de 50 centimes",
-      100 => "Pièces de 1 €",
-      200 => "Pièces de 2 €",
-      500 => "Billets de 5 €",
-      1000 => "Billets de 10 €",
-      2000 => "Billets de 20 €",
-      5000 => "Billets de 50 €",
-      10000 => "Billets de 100 €",
+      10 => "Pièces de 10 centimes ",
+      20 => "Pièces de 20 centimes ",
+      50 => "Pièces de 50 centimes ",
+      100 => "Pièces de 1 € ",
+      200 => "Pièces de 2 € ",
+      500 => "Billets de 5 € ",
+      1000 => "Billets de 10 € ",
+      2000 => "Billets de 20 € ",
+      5000 => "Billets de 50 € ",
+      10000 => "Billets de 100 € ",
     );
 
     foreach( $esp as $val => $txt)
