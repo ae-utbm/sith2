@@ -198,6 +198,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     $site->add_contents($list);
 
     $cts = new contents("Releves de caisses");
+    $cts->add_paragraph("<a href=\"caisse.php?showall\">Afficher tous les relevés</a>");
   }
   else
   {
@@ -207,6 +208,8 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     $row = $req->get_row();
     $cts = new contents("<a href=\"caisse.php\">Relevés</a> /
         <a href=\"caisse.php?id_comptoir=".$caisse->id_comptoir."\">".$row['nom_cpt']."</a>");
+    $cts->add_paragraph("<a href=\"caisse.php?id_comptoir=".$caisse->id_comptoir
+        ."&amp;showall\">Afficher tous les relevés</a>");
   }
 
   $where = $limit = "";
@@ -234,6 +237,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     $where
     ." GROUP BY id_cpt_caisse
     $limit
+    ORDER BY date_releve DESC
     ");
 
   $cts->add(new sqltable(
