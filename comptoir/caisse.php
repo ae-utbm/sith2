@@ -36,7 +36,7 @@ require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/localisation.inc.php");
 
 $site = new sitecomptoirs(true );
-
+$site->start_page("releves","Releves de caisses");
 
 $caisse = new CaisseComptoir($site->db,$site->dbrw);
 
@@ -176,10 +176,13 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     $where = "WHERE id_comptoir=".intval($_REQUEST['id_comptoir']);
 
   $req = new requete($site->db,
-    "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir,
+    "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir, nom_cpt,
+      CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`,
       SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100 as somme_especes,
       SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse))/100 as somme_cheques
-    FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`) ".
+    FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`)
+    INNER JOIN `utilisateurs` USING(id_utilisateur)
+    INNER JOIN `cpt_comptoir` USING(id_comptoir) " .
     $where
     ." GROUP BY id_cpt_caisse");
 
@@ -189,8 +192,8 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
   "id_cpt_caisse",
   array(
     "date_releve" => "Date du relevé",
-    "id_utilisateur" => "Vendeur",
-    "id_comptoir" => "Lieu",
+    "nom_utilisateur" => "Vendeur",
+    "nom_cpt" => "Lieu",
     "somme_especes" => "Total espèce",
     "somme_cheques" => "Total cheques"),
   array("view" => "Voir le relevé"),
@@ -238,4 +241,5 @@ $site->end_page();
 //TODO :  plusieurs  fois même valeur  cheque
 //TODO :  total théorique chèques et espèce séparés + total relevé
 //TODO: case banque
+//TODO : arrondi deux chiffres
 ?>
