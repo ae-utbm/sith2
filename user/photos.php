@@ -218,7 +218,7 @@ else
     // Dans le cas où on regarde les photos où on apparait, pas de calcul de droit
     $req = new requete($site->db,"SELECT sas_photos.*,sas_cat_photos.nom_catph " .
                        "FROM sas_personnes_photos AS `p` " .
-                       "INNER JOIN sas_photos ON p2.id_photo=sas_photos.id_photo " .
+                       "INNER JOIN sas_photos ON p.id_photo=sas_photos.id_photo " .
                        "INNER JOIN sas_cat_photos ON sas_cat_photos.id_catph=sas_photos.id_catph " .
                        "WHERE " .
                        "p.id_utilisateur='".$user->id."' ".
