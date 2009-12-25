@@ -214,7 +214,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
   {
     $where = "WHERE id_comptoir=".intval($_REQUEST['id_comptoir'])." ";
     if (! isset($_REQUEST['showall']))
-      $where .= "(cpt_caisse.id_cpt_caisse > (SELECT MAX(`cpt_caisse_ref`.`id_cpt_caisse`)
+      $where .= "AND (cpt_caisse.id_cpt_caisse > (SELECT MAX(`cpt_caisse_ref`.`id_cpt_caisse`)
                   FROM `cpt_caisse` `cpt_caisse_ref`
                   WHERE  `cpt_caisse_ref`.`id_comptoir`='".intval($_REQUEST['id_comptoir'])."'
                   AND `cpt_caisse_ref`.`caisse_videe` = '1')) ";
