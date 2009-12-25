@@ -111,7 +111,7 @@ if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) &&
   $cts->add($tbl,true);
 
   if ($caisse->caisse_videe)
-    $cts->add_paragraph(array("La caisse a été vidée après ce relevé"));
+    $cts->add_paragraph("La caisse a été vidée après ce relevé");
 }
 
 elseif ($_REQUEST['action'] == "new")
@@ -209,20 +209,32 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
         <a href=\"caisse.php?id_comptoir=".$caisse->id_comptoir."\">".$row['nom_cpt']."</a>");
   }
 
-  $where = "";
+  $where = $limit = "";
   if (isset($_REQUEST['id_comptoir']))
-    $where = "WHERE id_comptoir=".intval($_REQUEST['id_comptoir']);
+  {
+    $where = "WHERE id_comptoir=".intval($_REQUEST['id_comptoir'])." ";
+    if (! isset($_REQUEST['showall']))
+      $where .= "(cpt_caisse.id_cpt_caisse > (SELECT MAX(`cpt_caisse_ref`.`id_cpt_caisse`)
+                  FROM `cpt_caisse` `cpt_caisse_ref`
+                  WHERE  `cpt_caisse_ref`.`id_comptoir`='".intval($_REQUEST['id_comptoir'])."'
+                  AND `cpt_caisse_ref`.`caisse_videe` = '1')) ";
+  }
+  elseif(! isset($_REQUEST['showall']))
+    $limit = "LIMIT 100";
 
   $req = new requete($site->db,
     "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir, nom_cpt,
       CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`,
       ROUND(SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_especes,
       ROUND(SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse))/100, 2) as somme_cheques
+      IF(caisse_videe='1', 'Oui', '') as caisse_videe
     FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`)
     INNER JOIN `utilisateurs` USING(id_utilisateur)
     INNER JOIN `cpt_comptoir` USING(id_comptoir) " .
     $where
-    ." GROUP BY id_cpt_caisse");
+    ." GROUP BY id_cpt_caisse
+    $limit
+    ");
 
   $cts->add(new sqltable(
   "",
@@ -233,7 +245,8 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     "nom_utilisateur" => "Vendeur",
     "nom_cpt" => "Lieu",
     "somme_especes" => "Total espèce",
-    "somme_cheques" => "Total cheques"),
+    "somme_cheques" => "Total cheques",
+    "caisse_videe" => "Caisse videe"),
   array("view" => "Voir le relevé"),
   array()
   ));
