@@ -192,7 +192,7 @@ class catphoto extends basedb
         "WHERE " .
         "id_catph='".$id_cat."'$filter AND " .
         "((((droits_acces_ph & 0x1) OR " .
-        "((droits_acces_ph & 0x10) AND id_groupe IN ($grps))) " .
+        "((droits_acces_ph & 0x10) AND ".$user->get_grps_authorization_fragment('date_debut_catph', $grps, 'id_groupe').")) " .
           "AND droits_acquis='1' AND modere_ph='1' ) OR " .
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='".$user->id."') OR " .
@@ -216,7 +216,7 @@ class catphoto extends basedb
         "WHERE " .
         "id_catph_parent='$id_cat' AND " .
         "((droits_acces_catph & 0x1) OR " .
-        "((droits_acces_catph & 0x10) AND id_groupe IN ($grps)) OR " .
+        "((droits_acces_catph & 0x10) AND ".$user->get_grps_authorization_fragment('date_debut_catph', $grps, 'id_groupe').") OR " .
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_catph & 0x100) AND id_utilisateur='".$user->id."')) " .
         "ORDER BY `date_debut_catph` DESC,`nom_catph`");
@@ -255,7 +255,7 @@ class catphoto extends basedb
         "WHERE " .
         "id_catph_parent='".$this->id."' AND " .
         "((droits_acces_catph & 0x1) OR " .
-        "((droits_acces_catph & 0x10) AND id_groupe IN ($grps)) OR " .
+        "((droits_acces_catph & 0x10) AND ".$user->get_grps_authorization_fragment('date_debut_catph', $grps).") OR " .
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_catph & 0x100) AND id_utilisateur='".$user->id."')) ";
 
@@ -286,6 +286,7 @@ class catphoto extends basedb
         "AND (sas_cat_photos.meta_id_asso_catph!='".$this->meta_id_asso."' OR sas_cat_photos.meta_id_asso_catph IS NULL)";
 
       $query .= "UNION ".
+
         "SELECT sas_cat_photos.id_catph, ".
         "sas_cat_photos.nom_catph, ".
         "sas_cat_photos.id_photo, ".
@@ -582,6 +583,14 @@ class catphoto extends basedb
       if ($result && !$user->is_in_group("sas_admin") && $user->is_in_group_id($this->id_groupe_admin))
         if (!$user->is_asso_role($meta_id_asso, ROLEASSO_PRESIDENT) && !$user->is_asso_role($meta_id_asso, ROLEASSO_RESPCOM))
           return false;
+
+    // Droit de lecture de toutes les catégories pour les utilisateurs qui ont déjà été à l'AE.
+    $derniere_cotiz = false;
+    if (!$result && ($dernier_cotiz = $user->date_derniere_cotiz_a_lae ()) && $required == DROIT_LECTURE) {
+      $date_derniere_cotiz = strtotime($dernier_cotiz);
+      if ($date_derniere_cotiz >= $date_debut)
+        return true;
+    }
 
     return $result;
   }

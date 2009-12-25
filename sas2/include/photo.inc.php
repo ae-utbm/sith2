@@ -841,6 +841,17 @@ class photo extends basedb
     if ( $this->is_on_photo($user->id) )
       return true;
 
+    if ( $this->id_utilisateur_photographe == $user->id )
+      return true;
+
+    // Droit de lecture de toutes les photos pour les utilisateurs qui ont déjà été à l'AE.
+    $derniere_cotiz = false;
+    if (($dernier_cotiz = $user->date_derniere_cotiz_a_lae ()) && $required == DROIT_LECTURE) {
+      $date_derniere_cotiz = strtotime($dernier_cotiz);
+      if ( $date_derniere_cotiz >= $date_debut)
+        return true;
+    }
+
     if ( $this->meta_id_asso )
       if ( $user->is_asso_role($this->meta_id_asso,ROLEASSO_MEMBREBUREAU) )
         return true;
@@ -896,7 +907,6 @@ class photo extends basedb
       array("id_catph"=>$this->id_catph),
       array("id_photo"=>$this->id ));
   }
-
 }
 
 ?>

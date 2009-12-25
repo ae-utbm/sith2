@@ -746,6 +746,26 @@ class utilisateur extends stdentity
     return $this->_grps;
   }
 
+  /**
+   * Renvoie un fragment SQL qui gère les autorisations de groupe de manière
+   * permissive en prenant en compte la date de dernière cotisation par rapport
+   * à la date passée en paramètre
+   */
+  function get_grps_authorization_fragment ($date_field, $grps, $id_groupe)
+  {
+    $fragment = $id_groupe.' IN ('.$grps.')';
+
+    if ($this->ae)
+      return $fragment;
+
+    $derniere_cotiz = $this->date_derniere_cotiz_a_lae();
+    if (!$derniere_cotiz)
+      return $fragment;
+
+    $fragment = '('.$fragment.' OR ('.$id_groupe.' = \'ae_membres\' AND '.$date_field.' <= '.$derniere_cotiz.'))';
+
+  }
+
   /* Extra infos management */
   /** Change toutes les informations secondaires de l'utilisateur
    */
@@ -2484,6 +2504,19 @@ http://ae.utbm.fr";
 
     $this->id = null;
     return false;
+  }
+
+  function date_derniere_cotiz_a_lae ()
+  {
+    $req = new requete($this->db,
+                       'SELECT date_fin_cotis FROM `ae_cotisations` '.
+                       'WHERE `id_utilisateur` = \''.$this->id.'\' '.
+                       'ORDER BY date_fin_cotis DESC '.
+                       'LIMIT 1');
+
+    $row = $req->lines > 0 ? $req->get_row () : false;
+
+    return $req->lines > 0 ? $row['date_fin_cotis'] : false;
   }
 }
 
