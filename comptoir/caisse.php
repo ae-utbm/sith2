@@ -75,7 +75,7 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
     $cheques = array();
     foreach ($_REQUEST["cheque_val"] as $i=>$val)
       if (intval($_REQUEST["cheque_nb"][$i]) > 0)
-        $cheques[intval($val*100)] = intval($_REQUEST["cheque_nb"][$i]);
+        $cheques[intval($val)] = intval($_REQUEST["cheque_nb"][$i]);
 
     $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id, $especes, $cheques);
   }
@@ -153,15 +153,15 @@ elseif ($_REQUEST['action'] == "new")
     {
       /* On utilise des subform uniquement pour être en harmonie avec la suite... */
       $subfrm = new subform("espece[$val]");
-      $subfrm->add_text_field("espece_nb[$val]", $txt, "",false);
+      $subfrm->add_text_field("espece_nb[$val]", $txt, "",false, 5);
       $frm->addsub($subfrm, false, true);
     }
 
     for($i=0; $i<15; $i++)
     {
       $subfrm = new subform("cheque[".$i."]");
-      $subfrm->add_text_field("cheque_val[".$i."]","Chèques de : ","",false);
-      $subfrm->add_text_field("cheque_nb[".$i."]","Nombre de cheques : ","",false);
+      $subfrm->add_price_field("cheque_val[".$i."]","Chèques de : ","",false, 5);
+      $subfrm->add_text_field("cheque_nb[".$i."]","Nombre de cheques : ","",false, "€", 5);
       $frm->addsub($subfrm, false, true);
     }
 
