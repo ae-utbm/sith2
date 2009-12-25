@@ -163,11 +163,11 @@ elseif ( $user->id == $site->user->id && isset($_REQUEST["see"]) && $_REQUEST["s
 }
 elseif ( $user->id == $site->user->id && isset($_REQUEST["see"]) && $_REQUEST["see"] == "photograph" ) {
   $req = new requete($site->db,"SELECT sas_photos.*,sas_cat_photos.nom_catph " .
-                     "FROM sas_photos" .
+                     "FROM sas_photos " .
                      "INNER JOIN sas_cat_photos ON sas_cat_photos.id_catph=sas_photos.id_catph " .
                      "WHERE " .
                      "sas_photos.id_utilisateur_photographe = '". $user->id."' ".
-                     "ORDER BY sas_cat_photos.date_debut_catph DESC, sas_cat_photos.id_catph DESC, date_prise_vue "
+                     "ORDER BY sas_cat_photos.date_debut_catph DESC, sas_cat_photos.id_catph DESC, date_prise_vue"
                      );
 
   $prev_id_catph=-1;
