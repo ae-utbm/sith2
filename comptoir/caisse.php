@@ -100,9 +100,9 @@ if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) &&
   $tbl = new table("Releve effectué le ".date("d/m/Y H:i:s", $caisse->date_releve).", ".$row['nom_cpt']." par ".$user->get_html_link(), "sqltable");
   $tbl->add_row(array("Type", "Qté"), "head");
   foreach($caisse->especes as $valeur=>$nombre)
-    $tbl->add_row(array("Espèce ".($valeur/100)." €", $nombre), "ln1");
+    $tbl->add_row(array("Espèce ".number_format($valeur/100, 2)." €", $nombre), "ln1");
   foreach($caisse->cheques as $valeur=>$nombre)
-    $tbl->add_row(array("Chèques ".($valeur/100)." €", $nombre), "ln1");
+    $tbl->add_row(array("Chèques ".number_format($valeur/100, 2)." €", $nombre), "ln1");
 
   $cts->add($tbl,true);
 }
@@ -209,8 +209,8 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
   $req = new requete($site->db,
     "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir, nom_cpt,
       CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`,
-      SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100 as somme_especes,
-      SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse))/100 as somme_cheques
+      ROUND(SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_especes,
+      ROUND(SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse))/100, 2) as somme_cheques
     FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`)
     INNER JOIN `utilisateurs` USING(id_utilisateur)
     INNER JOIN `cpt_comptoir` USING(id_comptoir) " .
@@ -269,8 +269,6 @@ if ($site->comptoir->is_valid())
 }
 
 $site->end_page();
-//TODO :  plusieurs  fois même valeur  cheque
 //TODO :  total théorique chèques et espèce séparés + total relevé
 //TODO: case banque
-//TODO : arrondi deux chiffres
 ?>
