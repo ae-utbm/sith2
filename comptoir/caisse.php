@@ -61,17 +61,24 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
   if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
     $site->error_forbidden("services","wrongplace");
 
-  $especes = array();
-  foreach ($_REQUEST["espece"] as $val=>$nb)
-    if (intval($nb) > 0)
-      $especes[intval($val)] = intval($nb);
+  if ( count($site->comptoir->operateurs) == 0 )
+  {
+    $cts->add_paragraph("En attente de la connexion d'un barman");
+  }
+  else
+  {
+    $especes = array();
+    foreach ($_REQUEST["espece_nb"] as $val=>$nb)
+      if (intval($nb) > 0)
+        $especes[intval($val)] = intval($nb);
 
-  $cheques = array();
-  foreach ($_REQUEST["cheque_val"] as $i=>$val)
-    if (intval($_REQUEST["cheque_nb"][$i]) > 0)
-      $cheques[100*intval($val)] = intval($_REQUEST["cheque_nb"][$i]);
+    $cheques = array();
+    foreach ($_REQUEST["cheque_val"] as $i=>$val)
+      if (intval($_REQUEST["cheque_nb"][$i]) > 0)
+        $cheques[100*intval($val)] = intval($_REQUEST["cheque_nb"][$i]);
 
-  $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id, $especes, $cheques);
+    $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id, $especes, $cheques);
+  }
 }
 
 if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) && ($caisse->is_valid()))
@@ -116,32 +123,55 @@ elseif ($_REQUEST['action'] == "new")
   if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
     $site->error_forbidden("services","wrongplace");
 
-  $cts = new contents("Nouveau releve de caisse");
-  $frm = new form ("newreleve","caisse.php",true,"POST");
-  $frm->add_hidden("action","newreleve");
-  $frm->add_hidden("id_comptoir",$site->comptoir->id);
-  $frm->allow_only_one_usage();
-  $frm->add_text_field("espece[10]","Pièces de 10 centimes","",false);
-  $frm->add_text_field("espece[20]","Pièces de 20 centimes","",false);
-  $frm->add_text_field("espece[50]","Pièces de 50 centimes","",false);
-  $frm->add_text_field("espece[100]","Pièces de 1 €","",false);
-  $frm->add_text_field("espece[200]","Pièces de 2 €","",false);
-  $frm->add_text_field("espece[500]","Billets de 5 €","",false);
-  $frm->add_text_field("espece[1000]","Billets de 10 €","",false);
-  $frm->add_text_field("espece[2000]","Billets de 20 €","",false);
-  $frm->add_text_field("espece[5000]","Billets de 50 €","",false);
-  $frm->add_text_field("espece[10000]","Billets de 100 €","",false);
-
-  for($i=0; $i<15; $i++)
+  if ( count($site->comptoir->operateurs) == 0 )
   {
-    $subfrm = new subform("cheque[".$i."]");
-    $subfrm->add_text_field("cheque_val[".$i."]","Chèques de : ","",false);
-    $subfrm->add_text_field("cheque_nb[".$i."]","Nombre de cheques : ","",false);
-    $frm->addsub($subfrm, false, true);
+    $cts->add_paragraph("En attente de la connexion d'un barman");
   }
+  else
+  {
+    $cts = new contents("Nouveau releve de caisse");
+    $frm = new form ("newreleve","caisse.php",true,"POST");
+    $frm->add_hidden("action","newreleve");
+    $frm->add_hidden("id_comptoir",$site->comptoir->id);
+    $frm->allow_only_one_usage();
 
-  $frm->add_submit("valid","Valider");
-  $cts->add($frm,true);
+    $esp = array(
+      10 => "Pièces de 10 centimes",
+      20 => "Pièces de 20 centimes",
+      50 => "Pièces de 50 centimes",
+      100 => "Pièces de 1 €",
+      200 => "Pièces de 2 €",
+      500 => "Billets de 5 €",
+      1000 => "Billets de 10 €",
+      2000 => "Billets de 20 €",
+      5000 => "Billets de 50 €",
+      10000 => "Billets de 100 €",
+    );
+
+    foreach( $esp as $val => $txt)
+    {
+      /* On utilise des subform uniquement pour être en harmonie avec la suite... */
+      $subfrm = new subform("espece[$val]");
+      $subfrm->add_text_field("espece_nb[$val]", $txt, "",false);
+      $frm->addsub($subfrm, false, true);
+    }
+
+    for($i=0; $i<15; $i++)
+    {
+      $subfrm = new subform("cheque[".$i."]");
+      $subfrm->add_text_field("cheque_val[".$i."]","Chèques de : ","",false);
+      $subfrm->add_text_field("cheque_nb[".$i."]","Nombre de cheques : ","",false);
+      $frm->addsub($subfrm, false, true);
+    }
+
+    if ($site->user->is_in_group("gestion_syscarteae"))
+    {
+      $frm->add_checkbox("caisse_videe", "Caisse vidée");
+    }
+
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
+  }
 }
 elseif ($site->user->is_in_group("gestion_syscarteae"))
 {
