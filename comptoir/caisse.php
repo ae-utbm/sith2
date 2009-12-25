@@ -226,7 +226,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir, nom_cpt,
       CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`,
       ROUND(SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_especes,
-      ROUND(SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse))/100, 2) as somme_cheques
+      ROUND(SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse))/100, 2) as somme_cheques,
       IF(caisse_videe='1', 'Oui', '') as caisse_videe
     FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`)
     INNER JOIN `utilisateurs` USING(id_utilisateur)
