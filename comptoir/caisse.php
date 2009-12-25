@@ -209,7 +209,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
                WHERE `id_comptoir`='".$_REQUEST['id_comptoir']."'");
     $row = $req->get_row();
     $cts = new contents("<a href=\"caisse.php\">Relevés</a> /
-        <a href=\"caisse.php?id_comptoir=".$caisse['id_comptoir']."\">".$row['nom_cpt']."</a>");
+        <a href=\"caisse.php?id_comptoir=".$row['id_comptoir']."\">".$row['nom_cpt']."</a>");
     if (! isset($_REQUEST['showall']))
       $cts->add_paragraph("<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']
           ."&amp;showall\">Afficher tous les relevés</a>");
