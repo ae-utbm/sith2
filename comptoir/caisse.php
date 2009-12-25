@@ -125,6 +125,7 @@ elseif ($_REQUEST['action'] == "new")
 
   if ( count($site->comptoir->operateurs) == 0 )
   {
+    $cts = new contents($site->comptoir->nom);
     $cts->add_paragraph("En attente de la connexion d'un barman");
   }
   else
