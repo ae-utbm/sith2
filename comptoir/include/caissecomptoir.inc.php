@@ -37,6 +37,8 @@ class CaisseComptoir extends stdentity
   var $especes = array();
   /* valeurs en chèques */
   var $cheques = array();
+  /* caisse vidée après le compte */
+  var $caisse_videe;
 
 
   /**
@@ -66,7 +68,7 @@ class CaisseComptoir extends stdentity
     $this->id_utilisateur = $row['id_utilisateur'];
     $this->id_comptoir = $row['id_comptoir'];
     $this->date_releve = strtotime($row['date_releve']);
-    $this->mode = $row['mode_paiement'];
+    $this->caisse_videe = $row['caisse_videe'];
 
     $req = new requete($this->db,
       "SELECT * FROM cpt_caisse_sommes WHERE `id_cpt_caisse` = '".intval($this->id)."'"
@@ -84,18 +86,21 @@ class CaisseComptoir extends stdentity
   function ajout($id_utilisateur,
       $id_comptoir,
       $especes,
-      $cheques)
+      $cheques,
+      $caisse_videe)
   {
     $this->id_utilisateur = $id_utilisateur;
     $this->id_comptoir = $id_comptoir;
     $this->date_releve = time();
     $this->especes = $especes;
     $this->cheques = $cheques;
+    $this->caisse_videe = $caisse_videe;
 
     $req = new insert ($this->dbrw,
           "cpt_caisse",
           array("id_utilisateur" => $this->id_utilisateur,
             "id_comptoir" => $this->id_comptoir,
+            "caisse_videe" => ($this->caisse_videe) ? '1' : '0',
             "date_releve" => date("Y-m-d H:i:s",$this->date_releve),
             ));
 

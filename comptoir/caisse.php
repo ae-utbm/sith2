@@ -77,7 +77,11 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
       if (intval($_REQUEST["cheque_nb"][$i]) > 0)
         $cheques[intval($val)] += intval($_REQUEST["cheque_nb"][$i]);
 
-    $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id, $especes, $cheques);
+    $caisse_videe = false;
+    if (($site->user->is_in_group("gestion_syscarteae")) && ($_REQUEST['caisse_videe']))
+      $caisse_videe = true;
+
+    $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id, $especes, $cheques, $caisse_videe);
   }
 }
 
@@ -105,6 +109,9 @@ if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) &&
     $tbl->add_row(array("Chèques ".number_format($valeur/100, 2)." €", $nombre), "ln1");
 
   $cts->add($tbl,true);
+
+  if ($caisse->caisse_videe)
+    $cts->add_paragraph(array("La caisse a été vidée après ce relevé"));
 }
 
 elseif ($_REQUEST['action'] == "new")
