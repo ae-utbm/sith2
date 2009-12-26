@@ -123,6 +123,8 @@ if (isset($_REQUEST['action'])) {
       $cts->add_paragraph('<pre>'.$csv.'</pre>');
 
     } else if ($_REQUEST['view'] == 'addform') {
+      $cts->add_paragraph ('<a href="forms.php?action=admin">Retour à l\'interface d\'admin</a>');
+
       $cfrm = new form ('admin', 'forms.php?action=admin&view=addform', false, 'POST', 'Ajout d\'un formulaire');
       if ($Erreur != false)
         $cfrm->error ($Erreur);
@@ -136,6 +138,8 @@ if (isset($_REQUEST['action'])) {
 
       $cts->add ($cfrm);
     } else if ($_REQUEST['view'] == 'modform' && isset($_REQUEST['id_form'])) {
+      $cts->add_paragraph ('<a href="forms.php?action=admin">Retour à l\'interface d\'admin</a>');
+
       $form->load_by_id ($_REQUEST['id_form']);
 
       $cfrm = new form ('admin', 'forms.php?action=admin&view=modform', false, 'POST', 'Modification d\'un formulaire');
