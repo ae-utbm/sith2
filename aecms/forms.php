@@ -150,7 +150,7 @@ if (isset($_REQUEST['action'])) {
       $cfrm->add_text_field ('name', 'Nom du formulaire', $form->name, true);
       $cfrm->add_text_area('prev_text', 'Texte avant le formulaire', $form->prev_text);
       $cfrm->add_text_area('next_text', 'Texte après le formulaire', $form->next_text);
-      $cfrm->add_text_area('success_text', 'Texte si succès de l\'opération', $form->success_texte);
+      $cfrm->add_text_area('success_text', 'Texte si succès de l\'opération', $form->success_text);
       $cfrm->add_text_area('json', 'Description JSON', $form->json, 60, 20, true);
       $cfrm->add_submit('submit', 'Valider');
 
