@@ -185,7 +185,7 @@ class formulaire extends basedb
 
   function is_admin (&$user)
   {
-    if (!$this->is_valid ())
+    if (!$user->is_valid ())
       return false;
 
     global $site;
