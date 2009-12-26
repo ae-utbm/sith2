@@ -149,10 +149,10 @@ class formulaire extends basedb
 
   function get_form ($action, $page, $erreur = false)
   {
-    $form = new form ($action, $page, false, 'POST', $this->name);
-    $form->allow_only_one_usage ();
+    $frm = new form ($action, $page, false, 'POST', $this->name);
+    $frm->allow_only_one_usage ();
     if ($erreur)
-      $form->error ($erreur);
+      $frm->error ($erreur);
 
     $frm->add_hidden('action', $action);
 
