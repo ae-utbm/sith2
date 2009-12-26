@@ -172,31 +172,31 @@ class formulaire extends basedb
       // Get the type of field
       switch ($args[0]) {
       case TYPE_TEXT:
-        _build_text ($frm, $name, $args[1], $args[2]);
+        $this->_build_text ($frm, $name, $args[1], $args[2]);
         break;
       case TYPE_DATE:
-        _build_date ($frm, $name, $args[1], $args[2]);
+        $this->_build_date ($frm, $name, $args[1], $args[2]);
         break;
       case TYPE_EMAIL:
-        _build_email ($frm, $name, $args[1], $args[2]);
+        $this->_build_email ($frm, $name, $args[1], $args[2]);
         break;
       case TYPE_SELECT:
-        _build_select($frm, $name, $args[1], $args[2]);
+        $this->_build_select($frm, $name, $args[1], $args[2]);
         break;
       case TYPE_TEXT_AREA:
-        _build_text_area ($frm, $name, $args[1], $args[2]);
+        $this->_build_text_area ($frm, $name, $args[1], $args[2]);
         break;
       case TYPE_SUBMIT:
-        _build_submit ($frm, $name, $args[2]);
+        $this->_build_submit ($frm, $name, $args[2]);
         break;
       case TYPE_INFO:
-        _build_info ($frm, $args[2]);
+        $this->_build_info ($frm, $args[2]);
         break;
       case TYPE_RADIO:
-        _build_radio ($frm, $name, $args[1], $args[2]);
+        $this->_build_radio ($frm, $name, $args[1], $args[2]);
         break;
       case TYPE_CHECK:
-        _build_check ($frm, $name, $args[2]);
+        $this->_build_check ($frm, $name, $args[2]);
         break;
       }
 
