@@ -145,7 +145,7 @@ class formulaire extends basedb
                               'name' => $this->name,
                               'prev_text' => $this->prev_text,
                               'next_text' => $this->next_text,
-                              'success_text' => $this->succes_text,
+                              'success_text' => $this->success_text,
                               'json' => $this->json),
                        array ('id_form' => $this->id));
 
