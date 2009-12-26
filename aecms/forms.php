@@ -25,6 +25,7 @@
  */
 
 require_once ('include/site.inc.php');
+require_once ('include/form.inc.php');
 require_once ($topdir.'include/entities/news.inc.php');
 
 $form = new form ($site->db, $site->dbrw);
