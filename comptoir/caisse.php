@@ -216,47 +216,98 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
   }
 
   $where = $limit = "";
-  if (isset($_REQUEST['id_comptoir']))
+
+  if ((isset($_REQUEST['id_comptoir'])) && (! isset($_REQUEST['showall'])))
   {
-    $where = "WHERE id_comptoir=".intval($_REQUEST['id_comptoir'])." ";
-    if (! isset($_REQUEST['showall']))
-      $where .= "AND (cpt_caisse.id_cpt_caisse > (SELECT MAX(`cpt_caisse_ref`.`id_cpt_caisse`)
-                  FROM `cpt_caisse` `cpt_caisse_ref`
-                  WHERE  `cpt_caisse_ref`.`id_comptoir`='".intval($_REQUEST['id_comptoir'])."'
-                  AND `cpt_caisse_ref`.`caisse_videe` = '1')) ";
+    $req = new requete($site->db,
+      "SELECT MAX(`date_releve`) `date_releve`
+        FROM `cpt_caisse`
+        WHERE `id_comptoir`='".intval($_REQUEST['id_comptoir'])."'
+        AND `caisse_videe` = '1'
+      ");
+
+    if ( $req->lines == 1 )
+      $row = $req->get_row();
+    else
+      $row = array('date_releve' => 0);
+
+    $req = new requete($site->db,
+      "SELECT id_cpt_caisse, date_releve, releves.id_utilisateur,
+        releves.id_comptoir, somme_especes, somme_cheques,
+        nom_cpt, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`,
+        ROUND(SUM(IF(type_paiement_rech='1', montant_rech, 0))/100, 2) as somme_especes_th,
+        ROUND(SUM(IF(type_paiement_rech='0', montant_rech, 0))/100, 2) as somme_cheques_th
+      FROM (
+        SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir,
+          ROUND(SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_especes,
+          ROUND(SUM(IF(cheque_caisse='1', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_cheques
+        FROM cpt_caisse
+        LEFT JOIN cpt_caisse_sommes USING ( id_cpt_caisse )
+        WHERE cpt_caisse.id_comptoir=".intval($_REQUEST['id_comptoir'])."
+        AND cpt_caisse.date_releve > '".$row['date_releve']."'
+        GROUP BY id_cpt_caisse
+        ) releves
+      INNER JOIN utilisateurs USING (id_utilisateur)
+      INNER JOIN cpt_comptoir USING (id_comptoir)
+      LEFT JOIN cpt_rechargements ON (cpt_rechargements.date_rech > '".$row['date_releve']."' AND cpt_rechargements.date_rech <= releves.date_releve)
+      WHERE cpt_rechargements.id_comptoir=".intval($_REQUEST['id_comptoir'])."
+      GROUP by releves.id_cpt_caisse
+      ORDER BY date_releve DESC
+      ");
+
+    $cts->add(new sqltable(
+      "",
+      "Releves", $req, "caisse.php",
+      "id_cpt_caisse",
+      array(
+        "date_releve" => "Date du relevé",
+        "nom_utilisateur" => "Vendeur",
+        "nom_cpt" => "Lieu",
+        "somme_especes" => "Total espèce",
+        "somme_cheques" => "Total cheques",
+        "somme_especes_th" => "Total théorique espèce",
+        "somme_cheques_th" => "Total théorique cheques"),
+      array("view" => "Voir le relevé"),
+      array()
+      ));
   }
-  elseif(! isset($_REQUEST['showall']))
-    $limit = "LIMIT 100";
+  else
+  {
+    if (isset($_REQUEST['id_comptoir']))
+      $where = "WHERE id_comptoir=".intval($_REQUEST['id_comptoir'])." ";
+    elseif(! isset($_REQUEST['showall']))
+      $limit = "LIMIT 100";
 
-  $req = new requete($site->db,
-    "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir, nom_cpt,
-      CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`,
-      ROUND(SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_especes,
-      ROUND(SUM(IF(cheque_caisse='0', 0, valeur_caisse*nombre_caisse))/100, 2) as somme_cheques,
-      IF(caisse_videe='1', 'Oui', '') as caisse_videe
-    FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`)
-    INNER JOIN `utilisateurs` USING(id_utilisateur)
-    INNER JOIN `cpt_comptoir` USING(id_comptoir) " .
-    $where
-    ." GROUP BY id_cpt_caisse
-    ORDER BY date_releve DESC
-    $limit
-    ");
+    $req = new requete($site->db,
+      "SELECT id_cpt_caisse, date_releve, id_utilisateur, id_comptoir, nom_cpt,
+        CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`,
+        ROUND(SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_especes,
+        ROUND(SUM(IF(cheque_caisse='1', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_cheques
+        IF(caisse_videe='1', 'Oui', '') as caisse_videe
+      FROM `cpt_caisse` LEFT JOIN `cpt_caisse_sommes` USING(`id_cpt_caisse`)
+      INNER JOIN `utilisateurs` USING(id_utilisateur)
+      INNER JOIN `cpt_comptoir` USING(id_comptoir) " .
+      $where
+      ." GROUP BY id_cpt_caisse
+      ORDER BY date_releve DESC
+      $limit
+      ");
 
-  $cts->add(new sqltable(
-  "",
-  "Releves", $req, "caisse.php",
-  "id_cpt_caisse",
-  array(
-    "date_releve" => "Date du relevé",
-    "nom_utilisateur" => "Vendeur",
-    "nom_cpt" => "Lieu",
-    "somme_especes" => "Total espèce",
-    "somme_cheques" => "Total cheques",
-    "caisse_videe" => "Caisse videe"),
-  array("view" => "Voir le relevé"),
-  array()
-  ));
+    $cts->add(new sqltable(
+    "",
+    "Releves", $req, "caisse.php",
+    "id_cpt_caisse",
+    array(
+      "date_releve" => "Date du relevé",
+      "nom_utilisateur" => "Vendeur",
+      "nom_cpt" => "Lieu",
+      "somme_especes" => "Total espèce",
+      "somme_cheques" => "Total cheques",
+      "caisse_videe" => "Caisse videe"),
+    array("view" => "Voir le relevé"),
+    array()
+    ));
+  }
 }
 else
   $site->error_forbidden("services","invalid");
