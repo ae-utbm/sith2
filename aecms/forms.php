@@ -83,11 +83,13 @@ if (isset($_REQUEST['action'])) {
         $names[$row['id_form']] = $row['name'];
       }
 
-      $frm = new form ('admin', 'forms.php', false, 'POST', 'Sélection du formulaire');
-      $frm->add_hidden ('action', 'admin');
-      $frm->add_hidden ('view', $_REQUEST['view']);
-      $frm->add_select_field ('id_form', 'Nom du formulaire : ', $names);
-      $frm->add_submit ('submit', 'Valider');
+      $sfrm = new form ('admin', 'forms.php', false, 'POST', 'Sélection du formulaire');
+      $sfrm->add_hidden ('action', 'admin');
+      $sfrm->add_hidden ('view', $_REQUEST['view']);
+      $sfrm->add_select_field ('id_form', 'Nom du formulaire : ', $names);
+      $sfrm->add_submit ('submit', 'Valider');
+
+      $cts->add ($sfrm);
     }
 
     if ($_REQUEST['view'] == 'panel') {
