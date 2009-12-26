@@ -131,15 +131,15 @@ class formulaire extends basedb
       if (!isset($_REQUEST[$name]))
         return 'Erreur du champ '.$name;
 
-      if ($args[2] == TRUE) {
+      if ($args[1] == TRUE) {
         if (empty($_REQUEST[$name]))
           return 'Le champ '.$name.' n\'est pas renseigné';
 
-        if ($args[1] == TYPE_EMAIL && !CheckEmail($_REQUEST[$name], 3))
+        if ($args[0] == TYPE_EMAIL && !CheckEmail($_REQUEST[$name], 3))
           return 'L\'email donné dans le champ '.$name.' n\'est pas valide';
       }
 
-      if ($args[1] != TYPE_SUBMIT)
+      if ($args[0] != TYPE_SUBMIT)
         $result_array[$name] = $_REQUEST[$name];
     }
 
