@@ -249,8 +249,11 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
         ) releves
       INNER JOIN utilisateurs USING (id_utilisateur)
       INNER JOIN cpt_comptoir USING (id_comptoir)
-      LEFT JOIN cpt_rechargements ON (cpt_rechargements.date_rech > '".$row['date_releve']."' AND cpt_rechargements.date_rech <= releves.date_releve)
-      WHERE cpt_rechargements.id_comptoir=".intval($_REQUEST['id_comptoir'])."
+      LEFT JOIN cpt_rechargements ON (
+        cpt_rechargements.date_rech > '".$row['date_releve']."'
+        AND cpt_rechargements.date_rech <= releves.date_releve
+        AND cpt_rechargements.id_comptoir=releves.id_comptoir
+      )
       GROUP by releves.id_cpt_caisse
       ORDER BY date_releve DESC
       ");
