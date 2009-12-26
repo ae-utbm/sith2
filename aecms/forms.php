@@ -123,11 +123,9 @@ if (isset($_REQUEST['action'])) {
       $cts->add_paragraph('<pre>'.$csv.'</pre>');
 
     } else if ($_REQUEST['view'] == 'addform') {
-      $cfrm = new form ('admin', 'forms.php', false, 'POST', 'Ajout d\'un formulaire');
+      $cfrm = new form ('admin', 'forms.php?action=admin&view=addform', false, 'POST', 'Ajout d\'un formulaire');
       if ($Erreur != false)
         $cfrm->error ($Erreur);
-      $cfrm->add_hidden ('action', 'admin');
-      $cfrm->add_hidden ('view', 'addform');
       $cfrm->add_hidden ('op', 'createform');
       $cfrm->add_text_field ('name', 'Nom du formulaire', $_REQUEST['name'], true);
       $cfrm->add_text_area('prev_text', 'Texte avant le formulaire', $_REQUEST['prev_text']);
@@ -140,11 +138,9 @@ if (isset($_REQUEST['action'])) {
     } else if ($_REQUEST['view'] == 'modform' && isset($_REQUEST['id_form'])) {
       $form->load_by_id ($_REQUEST['id_form']);
 
-      $cfrm = new form ('admin', 'forms.php', false, 'POST', 'Modification d\'un formulaire');
+      $cfrm = new form ('admin', 'forms.php?action=admin&view=modform', false, 'POST', 'Modification d\'un formulaire');
       if ($Erreur != false)
         $cfrm->error ($Erreur);
-      $cfrm->add_hidden ('action', 'admin');
-      $cfrm->add_hidden ('view', 'modform');
       $cfrm->add_hidden ('op', 'updateform');
       $cfrm->add_hidden ('id_form', $_REQUEST['id_form']);
       $cfrm->add_text_field ('name', 'Nom du formulaire', $form->name, true);
