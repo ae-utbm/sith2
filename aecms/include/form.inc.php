@@ -71,7 +71,7 @@ class formulaire extends basedb
   {
     $id = intval ($id);
     $req = new requete ($this->db,
-                        "SELECT * FROM aecms_forms WHERE id_form = '$id' LIMIT 1");
+                        "SELECT * FROM aecms_forms WHERE id_form = $id LIMIT 1");
 
     if ($req->lines != 1)
       return false;
@@ -85,7 +85,7 @@ class formulaire extends basedb
   {
     $id = intval ($id);
     $req = new requete ($this->db,
-                        "SELECT * FROM aecms_forms WHERE id_asso = '$id' LIMIT 1");
+                        "SELECT * FROM aecms_forms WHERE id_asso = $id LIMIT 1");
 
     if ($req->lines != 1)
       return false;
