@@ -35,7 +35,7 @@ if (isset($_REQUEST['id_form']))
 else
   $form->load_by_asso ($site->asso);
 
-if (!$form->is_valid())
+if (!$form->is_valid($site->asso))
   $site->error_not_found ('Formulaire');
 
 $Erreur = false;
