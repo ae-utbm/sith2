@@ -116,7 +116,7 @@ if (isset($_REQUEST['action'])) {
           $csv .= $value;
           $csv .= ',';
         }
-        $csv .= "\n";
+        $csv .= "\r\n";
       }
 
       $cts->add ($tbl);
