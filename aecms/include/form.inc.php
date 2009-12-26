@@ -219,8 +219,10 @@ class formulaire extends basedb
           return 'L\'email donné dans le champ '.$name.' n\'est pas valide';
       }
 
-      if ($args[0] != TYPE_SUBMIT)
+      if ($args[0] != TYPE_SUBMIT && $args[0] != TYPE_DATE)
         $result_array[$name] = $_REQUEST[$name];
+      if ($args[0] == TYPE_DATE)
+        $result_array[$name] = date('Y-m-d', $_REQUEST[$name]);
     }
 
     $req = new insert ($this->dbrw, 'aecms_forms_results', array('id_form' => $this->id,
