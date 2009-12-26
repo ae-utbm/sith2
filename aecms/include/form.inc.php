@@ -69,12 +69,13 @@ class formulaire extends basedb
 
   function load_by_id ($id)
   {
-    $id = intval ($id);
     $req = new requete ($this->db,
-                        "SELECT * FROM aecms_forms WHERE id_form = $id LIMIT 1");
+                        'SELECT * FROM aecms_forms WHERE id_form = '.intval($id).' LIMIT 1');
 
-    if ($req->lines != 1)
+    if ($req->lines != 1) {
+      $this->id = -1;
       return false;
+    }
 
     $row = $req->get_row ();
 
@@ -83,12 +84,13 @@ class formulaire extends basedb
 
   function load_by_asso ($id)
   {
-    $id = intval ($id);
     $req = new requete ($this->db,
-                        "SELECT * FROM aecms_forms WHERE id_asso = $id LIMIT 1");
+                        'SELECT * FROM aecms_forms WHERE id_asso = '.intval($id).' LIMIT 1');
 
-    if ($req->lines != 1)
+    if ($req->lines != 1) {
+      $this->id = -1;
       return false;
+    }
 
     $row = $req->get_row ();
 
@@ -110,7 +112,7 @@ class formulaire extends basedb
 
   function is_valid ($id_asso)
   {
-    return $this->id_asso == $id_asso;
+    return $this->id != -1 && $this->id_asso == $id_asso;
   }
 
   function validate_and_post ()
