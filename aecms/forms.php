@@ -103,7 +103,7 @@ if (isset($_REQUEST['action'])) {
       $cts->add_title(2, 'Résultats');
 
       $csv = '';
-      $tbl = new table ('Résultats', 'dokutable');
+      $tbl = new table ('Résultats', 'inline doku');
       while ($row = $req->get_row ()) {
         $obj = json_decode ($row['json_answer'], TRUE);
         if ($obj == NULL)
