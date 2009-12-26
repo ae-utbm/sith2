@@ -57,7 +57,7 @@ function array_get ($array, $key, $default)
   return array_key_exists ($key, $array) ? $array[$key] : $default;
 }
 
-class form extends basedb
+class formulaire extends basedb
 {
   var $id;
   var $id_asso;
