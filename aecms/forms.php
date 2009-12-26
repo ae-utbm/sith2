@@ -116,13 +116,13 @@ if (isset($_REQUEST['action'])) {
           $csv .= $value;
           $csv .= ',';
         }
-        $csv .= "\r\n";
+        $csv .= "\n";
       }
 
       $cts->add ($tbl);
 
       $cts->add_title (3, 'Format CSV');
-      $cts->add_paragraph('<code>'.$csv.'</csv>');
+      $cts->add_paragraph('<pre>'.$csv.'</pre>');
 
     } else if ($_REQUEST['view'] == 'addform') {
       $cfrm = new form ('admin', 'forms.php', false, 'POST', 'Ajout d\'un formulaire');
