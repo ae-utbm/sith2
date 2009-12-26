@@ -83,9 +83,7 @@ if (isset($_REQUEST['action'])) {
         $names[$row['id_form']] = $row['name'];
       }
 
-      $sfrm = new form ('admin', 'forms.php', false, 'GET', 'Sélection du formulaire');
-      $sfrm->add_hidden ('action', 'admin');
-      $sfrm->add_hidden ('view', $_REQUEST['view']);
+      $sfrm = new form ('admin', 'forms.php?action=admin&view='.$_REQUEST['view'], false, 'POST', 'Sélection du formulaire');
       $sfrm->add_select_field ('id_form', 'Nom du formulaire : ', $names);
       $sfrm->add_submit ('submit', 'Valider');
 
