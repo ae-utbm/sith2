@@ -98,7 +98,7 @@ if (isset($_REQUEST['action'])) {
       $cts->add_paragraph ('<a href="forms.php?action=admin&view=addform">Ajouter un formulaire</a> / <a href="forms.php?action=admin&view=modform&select=true">Modifier un formulaire</a>');
       $cts->add_paragraph ('<a href="forms.php?action=admin&view=answers&select=true">Visualiser les résultats</a>');
     } else if ($_REQUEST['view'] == 'answers' && isset($_REQUEST['id_form'])) {
-      $req = new requete ($site->db, 'SELECT * FROM `aecms_forms_answers` WHERE id_form = '.$_REQUEST['id_form']);
+      $req = new requete ($site->db, 'SELECT * FROM `aecms_forms_results` WHERE id_form = '.$_REQUEST['id_form']);
 
       $cts->add_title(2, 'Résultats');
 
