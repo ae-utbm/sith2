@@ -168,13 +168,13 @@ if ( $_REQUEST["action"] == "search" )
   if ( $_REQUEST["date_debut"] )
   {
     $conds[] = "sas_photos.date_prise_vue>='".date("Y-m-d H:i",$_REQUEST["date_debut"])."'";
-    $params.="&date_debut=".rawurlencode(date("Y-m-d H:i",$_REQUEST["date_debut"]));
+    $params.="&date_debut=".rawurlencode($_REQUEST["date_debut"]);
   }
 
   if ( $_REQUEST["date_fin"] )
   {
     $conds[] = "sas_photos.date_prise_vue<='".date("Y-m-d H:i",$_REQUEST["date_fin"])."'";
-    $params.="&date_fin=".rawurlencode(date("Y-m-d H:i",$_REQUEST["date_fin"]));
+    $params.="&date_fin=".rawurlencode($_REQUEST["date_fin"]);
   }
 
   if ( isset($_REQUEST["droitimage"]) )
