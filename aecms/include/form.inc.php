@@ -134,7 +134,7 @@ class formulaire extends basedb
         if (empty($_REQUEST[$name]))
           return 'Le champ '.$name.' n\'est pas renseigné';
 
-        if ($args[1] == TYPE_EMAIL && CheckEmail($_REQUEST[$name], 3))
+        if ($args[1] == TYPE_EMAIL && !CheckEmail($_REQUEST[$name], 3))
           return 'L\'email donné dans le champ '.$name.' n\'est pas valide';
       }
 
@@ -152,7 +152,7 @@ class formulaire extends basedb
   {
     $frm = new form ($action, $page, false, 'POST', $this->name);
     $frm->allow_only_one_usage ();
-    if ($erreur)
+    if ($erreur != false)
       $frm->error ($erreur);
 
     $frm->add_hidden('action', $action);

@@ -43,7 +43,7 @@ $Erreur = false;
 if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addentry') {
   $Erreur = $form->validate_and_post ();
 
-  if (!$Erreur) {
+  if ($Erreur == false) {
     $site->start_page (CMS_PREFIX.'form', 'Participation enregistrée');
 
     $cts = new contents();
@@ -60,7 +60,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addentry') {
 
 $frm = $form->get_form ('addentry', 'forms.php', $Erreur);
 
-if (!$frm)
+if ($frm == false)
   $site->fatal_partial (CMS_PREFIX.'form');
 
 $site->start_page (CMS_PREFIX.'form', $form->name);
