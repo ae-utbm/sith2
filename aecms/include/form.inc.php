@@ -148,7 +148,7 @@ class formulaire extends basedb
     return false;
   }
 
-  function get_form ($action, $page, $erreur = false)
+  function get_form ($action, $page, $erreur)
   {
     $frm = new form ($action, $page, false, 'POST', $this->name);
     $frm->allow_only_one_usage ();
