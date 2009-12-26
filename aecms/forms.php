@@ -35,42 +35,153 @@ if (isset($_REQUEST['id_form']))
 else
   $form->load_by_asso ($site->asso->id);
 
-if (!$form->is_valid($site->asso->id))
-  $site->error_not_found ('Formulaire');
-
 $Erreur = false;
 
-if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addentry') {
-  $Erreur = $form->validate_and_post ();
+$site->start_page (CMS_PREFIX.'form', 'Formulaire');
+$cts = new contents();
 
-  if ($Erreur == false) {
-    $site->start_page (CMS_PREFIX.'form', 'Participation enregistrée');
+if (isset($_REQUEST['action'])) {
+  if ($_REQUEST['action'] == 'addentry') {
+    $Erreur = $form->validate_and_post ();
 
-    $cts = new contents();
+    if ($Erreur == false) {
+      $cts->add_title (2, 'Merci de votre participation à : '.$form->name);
+      $cts->add_paragraph ($form->success_text);
 
-    $cts->add_title (2, 'Merci de votre participation à : '.$form->name);
-    $cts->add_paragraph ($form->success_text);
+      $site->add_contents ($cts);
+      $site->end_page ();
+
+      exit(0);
+    }
+  }
+
+  if ($_REQUEST['action'] == 'admin' && $form->is_admin ($site->user)) {
+    if (!isset($_REQUEST['view']))
+      $_REQUEST['view'] = 'panel';
+
+    if (isset($_REQUEST['op'])) {
+      $form->id_asso = $site->asso->id;
+      $form->name = $_REQUEST['name'];
+      $form->prev_text = $_REQUEST['prev_text'];
+      $form->next_text = $_REQUEST['next_text'];
+      $form->success_text = $_REQUEST['success_text'];
+      $form->json = $_REQUEST['json'];
+
+      if ($_REQUEST['op'] == 'createform') {
+        $Erreur = $form->create ();
+      } else if ($_REQUEST['op'] == 'updateform') {
+        $form->id = $_REQUEST['id_form'];
+        $Erreur = $form->update ();
+      }
+    }
+
+    if (isset($_REQUEST['select']) && $_REQUEST['select'] == 'true') {
+      $req = new requete ($site->db, 'SELECT * FROM `aecms_forms` WHERE id_asso = '.$site->asso->id);
+      $names = array();
+
+      while ($row = $req->get_row ()) {
+        $names[$row['id_form']] = $row['name'];
+      }
+
+      $frm = new form ('admin', 'forms.php', false, 'POST', 'Sélection du formulaire');
+      $frm->add_hidden ('action', 'admin');
+      $frm->add_hidden ('view', $_REQUEST['view']);
+      $frm->add_select_field ('id_form', 'Nom du formulaire : ', $names);
+      $frm->add_submit ('submit', 'Valider');
+    }
+
+    if ($_REQUEST['view'] == 'panel') {
+      $cts->add_title(2, 'Admin des formulaires');
+
+      $cts->add_paragraph ('<a href="forms.php?action=admin&view=addform">Ajouter un formulaire</a> / <a href="forms.php?action=admin&view=modform&select=true">Modifier un formulaire</a>');
+      $cts->add_paragraph ('<a href="forms.php?action=admin&view=answers&select=true">Visualiser les résultats</a>');
+    } else if ($_REQUEST['view'] == 'answers' && isset($_REQUEST['id_form'])) {
+      $req = new requete ($site->db, 'SELECT * FROM `aecms_forms_answers` WHERE id_form = '.$_REQUEST['id_form']);
+
+      $cts->add_title(2, 'Résultats');
+
+      $csv = '';
+      $tbl = new table ('Résultats');
+      while ($row = $req->get_row ()) {
+        $obj = json_decode ($row['json_answer'], TRUE);
+        if ($obj == NULL)
+          continue;
+
+        $values = array_values($obj);
+        $tbl->add_row ($values);
+
+        foreach ($values as $value) {
+          $csv .= $value;
+          $csv .= ',';
+        }
+        $csv .= '\n';
+      }
+
+      $cts->add ($tbl);
+
+      $cts->add_title (3, 'Format CSV');
+      $cts->add_paragraph('<code>'.$csv.'</csv>');
+
+    } else if ($_REQUEST['view'] == 'addform') {
+      $cfrm = new form ('admin', 'forms.php', false, 'POST', 'Ajout d\'un formulaire');
+      if ($Erreur != false)
+        $cfrm->error ($Erreur);
+      $cfrm->add_hidden ('action', 'admin');
+      $cfrm->add_hidden ('view', 'addform');
+      $cfrm->add_hidden ('op', 'createform');
+      $cfrm->add_text_field ('name', 'Nom du formulaire', $_REQUEST['name'], true);
+      $cfrm->add_text_area('prev_text', 'Texte avant le formulaire', $_REQUEST['prev_text']);
+      $cfrm->add_text_area('next_text', 'Texte après le formulaire', $_REQUEST['next_text']);
+      $cfrm->add_text_area('success_text', 'Texte si succès de l\'opération', $_REQUEST['success_text']);
+      $cfrm->add_text_area('json', 'Description JSON', $_REQUEST['json'], 60, 20, true);
+      $cfrm->add_submit('submit', 'Valider');
+
+      $cts->add ($cfrm);
+    } else if ($_REQUEST['view'] == 'modform' && isset($_REQUEST['id_form'])) {
+      $form->load_by_id ($_REQUEST['id_form']);
+
+      $cfrm = new form ('admin', 'forms.php', false, 'POST', 'Modification d\'un formulaire');
+      if ($Erreur != false)
+        $cfrm->error ($Erreur);
+      $cfrm->add_hidden ('action', 'admin');
+      $cfrm->add_hidden ('view', 'modform');
+      $cfrm->add_hidden ('op', 'updateform');
+      $cfrm->add_hidden ('id_form', $_REQUEST['id_form']);
+      $cfrm->add_text_field ('name', 'Nom du formulaire', $form->name, true);
+      $cfrm->add_text_area('prev_text', 'Texte avant le formulaire', $form->prev_text);
+      $cfrm->add_text_area('next_text', 'Texte après le formulaire', $form->next_text);
+      $cfrm->add_text_area('success_text', 'Texte si succès de l\'opération', $form->success_texte);
+      $cfrm->add_text_area('json', 'Description JSON', $form->json, 60, 20, true);
+      $cfrm->add_submit('submit', 'Valider');
+
+      $cts->add ($cfrm);
+    }
 
     $site->add_contents ($cts);
     $site->end_page ();
 
     exit(0);
   }
+
 }
 
-$frm = $form->get_form ('addentry', 'forms.php', $Erreur);
+if (!$form->is_valid($site->asso->id)) {
+  $cts->add_title(2, 'Erreur');
+  $cts->add_paragraph ('Formulaire non disponible');
+} else {
+  $frm = $form->get_form ('addentry', 'forms.php', $Erreur);
 
-if ($frm == false)
-  $site->fatal_partial (CMS_PREFIX.'form');
+  if ($frm == false) {
+    $cts->add_title(2, 'Erreur');
+    $cts->add_paragraph ('Il y\'a eu une erreur lors de la génération du formulaire, merci de réessauyer plus tard');
+  } else {
+    $cts->add_title(2, $form->name);
 
-$site->start_page (CMS_PREFIX.'form', $form->name);
-
-$cts = new contents();
-$cts->add_title(2, $form->name);
-
-$cts->add_paragraph ($form->prev_text);
-$cts->add ($frm);
-$cts->add_paragraph ($form->next_text);
+    $cts->add_paragraph ($form->prev_text);
+    $cts->add ($frm);
+    $cts->add_paragraph ($form->next_text);
+  }
+}
 
 $site->add_contents ($cts);
 $site->end_page ();

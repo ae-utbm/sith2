@@ -27,15 +27,15 @@
 require_once($topdir."include/entities/basedb.inc.php");
 
 // Type de champ possible, chacun a ses particularités
-define(TYPE_TEXT, 1);
-define(TYPE_DATE, 2);
-define(TYPE_EMAIL, 3);
-define(TYPE_SELECT, 4);
-define(TYPE_TEXT_AREA, 5);
-define(TYPE_SUBMIT, 6);
-define(TYPE_INFO, 7);
-define(TYPE_RADIO, 8);
-define(TYPE_CHECK, 9);
+define(TYPE_TEXT, 'text');
+define(TYPE_DATE, 'date');
+define(TYPE_EMAIL, 'email');
+define(TYPE_SELECT, 'select');
+define(TYPE_TEXT_AREA, 'text_area');
+define(TYPE_SUBMIT, 'submit');
+define(TYPE_INFO, 'info');
+define(TYPE_RADIO, 'radio');
+define(TYPE_CHECK, 'check');
 
 /*
 
@@ -59,13 +59,13 @@ function array_get ($array, $key, $default)
 
 class formulaire extends basedb
 {
-  var $id;
-  var $id_asso;
-  var $name;
-  var $prev_text;
-  var $next_text;
-  var $success_text;
-  var $json;
+  var $id = 0;
+  var $id_asso = 0;
+  var $name = '';
+  var $prev_text = '';
+  var $next_text = '';
+  var $success_text = '';
+  var $json = '';
 
   function load_by_id ($id)
   {
@@ -110,9 +110,90 @@ class formulaire extends basedb
     return true;
   }
 
+  function create ($id_asso, $name, $prev_text, $next_text, $succes_text, $json)
+  {
+    $rep = $this->check ($name, $json);
+    if ($rep != false)
+      return $rep;
+
+    $req = new insert ($this->dbrw, 'aecms_forms', array( 'id_asso' => $id_asso,
+                                                          'name' => $name,
+                                                          'prev_text' => $prev_text,
+                                                          'next_text' => $next_text,
+                                                          'success_text' => $succes_text,
+                                                          'json' => $json));
+
+    $this->id = $req->get_id ();
+    $this->id_asso = $id_asso;
+    $this->name = $name;
+    $this->prev_text = $prev_text;
+    $this->next_text = $next_text;
+    $this->success_text = $succes_text;
+    $this->json = $json;
+
+    return false;
+  }
+
+  function update ()
+  {
+    $rep = $this->check ($this->name, $this->json);
+    if ($rep != false)
+      return $rep;
+
+    $req = new update ($this->dbrw, 'aecms_forms',
+                       array( 'id_asso' => $this->id_asso,
+                              'name' => $this->name,
+                              'prev_text' => $this->prev_text,
+                              'next_text' => $this->next_text,
+                              'success_text' => $this->succes_text,
+                              'json' => $this->json),
+                       array ('id_form' => $this->id));
+
+    return $req == false ? 'Erreur lors de la mise à jour' : false;
+  }
+
+  function check($name, $json)
+  {
+    $obj = json_decode ($json, TRUE);
+    if ($obj == NULL) {
+      switch(json_last_error()) {
+      case JSON_ERROR_DEPTH:
+        return ' - Maximum stack depth exceeded';
+        break;
+      case JSON_ERROR_CTRL_CHAR:
+        return ' - Unexpected control character found';
+        break;
+      case JSON_ERROR_SYNTAX:
+        return ' - Syntax error, malformed JSON';
+        break;
+      case JSON_ERROR_NONE:
+        return ' - No errors';
+        break;
+      }
+    }
+
+    if (empty($name))
+      return "Le nom du formulaire est vide";
+
+    return false;
+  }
+
   function is_valid ($id_asso)
   {
-    return $this->id != -1 && $this->id_asso == $id_asso;
+    return $this->id > 0 && $this->id_asso == $id_asso;
+  }
+
+  function is_admin (&$user)
+  {
+    if (!$this->is_valid ())
+      return false;
+
+    global $site;
+    if(!$site->asso->is_member_role ($user->id,ROLEASSO_MEMBREBUREAU)
+       && !$user->is_in_group ('root') )
+      return false;
+
+    return true;
   }
 
   function validate_and_post ()
