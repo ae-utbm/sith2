@@ -69,7 +69,7 @@ $cts = new contents();
 $cts->add_title(2, $form->name);
 
 $cts->add_paragraph ($form->prev_text);
-$cts->add ($form->get_form ('addentry', 'forms.php'));
+$cts->add ($frm);
 $cts->add_paragraph ($form->next_text);
 
 $site->add_contents ($cts);
