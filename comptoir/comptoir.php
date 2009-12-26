@@ -105,6 +105,9 @@ $cts = new contents("Comptoir");
 
 $cts->add_paragraph("<a href=\"index.php\">Autre comptoirs</a>");
 
+if ($site->comptoir->rechargement)
+  $cts->add_paragraph("<a href=\"caisse.php?action=new&id_comptoir=".$site->comptoir->id."\">Faire un relevé de caisse</a>");
+
 $lst = new itemlist();
 foreach( $site->comptoir->operateurs as $op )
   $lst->add(
