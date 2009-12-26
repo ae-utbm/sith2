@@ -78,7 +78,7 @@ class formulaire extends basedb
 
     $row = $req->get_row ();
 
-    return _load ($row);
+    return $this->_load ($row);
   }
 
   function load_by_asso ($id)
@@ -92,7 +92,7 @@ class formulaire extends basedb
 
     $row = $req->get_row ();
 
-    return _load ($row);
+    return $this->_load ($row);
   }
 
   function _load ($row)
