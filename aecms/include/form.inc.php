@@ -122,7 +122,6 @@ class formulaire extends basedb
       return 'JSON decode error';
 
     $result_array = array();
-    var_dump($obj);
 
     foreach ($obj as $name=>$args) {
       if (count($args) != 3 || empty($name))
