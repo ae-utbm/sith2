@@ -48,7 +48,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addentry') {
 
     $cts = new contents();
 
-    $cts->add_title ('Merci de votre participation à : '.$form->name);
+    $cts->add_title (2, 'Merci de votre participation à : '.$form->name);
     $cts->add_paragraph ($form->success_text);
 
     $site->add_contents ($cts);

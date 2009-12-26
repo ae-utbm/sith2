@@ -141,7 +141,7 @@ class formulaire extends basedb
       $result_array[$name] = $_REQUEST[$name];
     }
 
-    $req = new insert ($this->dbrw, 'aecms_forms_results', array('id_form' => $this->id_form,
+    $req = new insert ($this->dbrw, 'aecms_forms_results', array('id_form' => $this->id,
                                                                  'json_answer' => json_encode($result_array)));
 
     return false;
