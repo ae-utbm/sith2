@@ -33,9 +33,9 @@ $form = new formulaire ($site->db, $site->dbrw);
 if (isset($_REQUEST['id_form']))
   $form->load_by_id ($_REQUEST['id_form']);
 else
-  $form->load_by_asso ($site->asso);
+  $form->load_by_asso ($site->asso->id);
 
-if (!$form->is_valid($site->asso))
+if (!$form->is_valid($site->asso->id))
   $site->error_not_found ('Formulaire');
 
 $Erreur = false;
