@@ -66,7 +66,7 @@ if (!$frm)
 $site->start_page (CMS_PREFIX.'form', $form->name);
 
 $cts = new contents();
-$cts->add_title($form->name);
+$cts->add_title(2, $form->name);
 
 $cts->add_paragraph ($form->prev_text);
 $cts->add ($form->get_form ('addentry', 'forms.php'));
