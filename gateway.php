@@ -47,12 +47,14 @@ if ( $_REQUEST['module']=="fsearch" )
   $results="";
   require_once($topdir. "include/cts/fsearch.inc.php");
   $fsearch = new fsearch ( $site );
-
-  echo "var content = document.getElementById('fsearchres');\n";
-  echo "content.style.zIndex = 100000;\n";
-  echo "content.style.display = 'block';\n";
-  echo "content.innerHTML ='".addslashes($fsearch->buffer)."';\n";
-  echo "fsearch_display_query='".addslashes($_REQUEST["pattern"])."';";
+  // si la requete a été trop longue on ne l'affiche pas !
+  echo "  if ( ".$_REQUEST['fsearch_sequence']." > fsearch_actual_sequence ) {";
+  echo "    var content = document.getElementById('fsearchres');\n";
+  echo "    content.style.zIndex = 100000;\n";
+  echo "    content.style.display = 'block';\n";
+  echo "    content.innerHTML ='".addslashes($fsearch->buffer)."';\n";
+  echo "    fsearch_display_query='".addslashes($_REQUEST["pattern"])."';\n";
+  echo "  }\n";
   echo "}\n";
 
 }
