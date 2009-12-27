@@ -35,12 +35,13 @@ if ( $_REQUEST['module']=="fsearch" )
 
   echo "if ( ".$_REQUEST['fsearch_sequence']." > fsearch_actual_sequence ) {\n";
 
-  echo "fsearch_actual_sequence=".$_REQUEST['fsearch_sequence'].";\n";
+  echo "  fsearch_actual_sequence=".$_REQUEST['fsearch_sequence'].";\n";
 
   if ( $_REQUEST["pattern"] == "" )
   {
-    echo "var content = document.getElementById('fsearchres');\n";
-    echo "content.style.display = 'none';\n";
+    echo "  var content = document.getElementById('fsearchres');\n";
+    echo "  content.style.display = 'none';\n";
+    echo "}\n";
     exit();
   }
 
