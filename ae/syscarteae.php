@@ -549,6 +549,7 @@ else
 {
   $sublist = new itemlist("Autre outils");
   $sublist->add("<a href=\"".$topdir."comptoir/admin.php\">Administration des produits</a>");
+  $sublist->add("<a href=\"".$topdir."comptoir/caisse.php\">Relevés de caisse</a>");
   $cts->add($sublist,true);
 }
 
