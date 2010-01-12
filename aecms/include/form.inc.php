@@ -110,26 +110,20 @@ class formulaire extends basedb
     return true;
   }
 
-  function create ($id_asso, $name, $prev_text, $next_text, $succes_text, $json)
+  function create ()
   {
     $rep = $this->check ($name, $json);
     if ($rep != false)
       return $rep;
 
-    $req = new insert ($this->dbrw, 'aecms_forms', array( 'id_asso' => $id_asso,
-                                                          'name' => $name,
-                                                          'prev_text' => $prev_text,
-                                                          'next_text' => $next_text,
-                                                          'success_text' => $succes_text,
-                                                          'json' => $json));
+    $req = new insert ($this->dbrw, 'aecms_forms', array( 'id_asso' => $this->id_asso,
+                                                          'name' => $this->name,
+                                                          'prev_text' => $this->prev_text,
+                                                          'next_text' => $this->next_text,
+                                                          'success_text' => $this->succes_text,
+                                                          'json' => $this->json));
 
     $this->id = $req->get_id ();
-    $this->id_asso = $id_asso;
-    $this->name = $name;
-    $this->prev_text = $prev_text;
-    $this->next_text = $next_text;
-    $this->success_text = $succes_text;
-    $this->json = $json;
 
     return false;
   }
