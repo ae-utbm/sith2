@@ -150,7 +150,8 @@ class formulaire extends basedb
   {
     $obj = json_decode ($json, TRUE);
     if ($obj == NULL) {
-      switch(json_last_error()) {
+      return "Erreur lors de la vérification du code JSON, il y'a surement une faute de syntaxe";
+      /*switch(json_last_error()) {
       case JSON_ERROR_DEPTH:
         return ' - Maximum stack depth exceeded';
         break;
@@ -163,7 +164,7 @@ class formulaire extends basedb
       case JSON_ERROR_NONE:
         return ' - No errors';
         break;
-      }
+        }*/
     }
 
     if (empty($name))
