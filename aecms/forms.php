@@ -65,7 +65,6 @@ if (isset($_REQUEST['action'])) {
       $form->prev_text = $_REQUEST['prev_text'];
       $form->next_text = $_REQUEST['next_text'];
       $form->success_text = $_REQUEST['success_text'];
-      echo $form->success_text;
       $form->json = $_REQUEST['json'];
 
       if ($_REQUEST['op'] == 'createform') {
