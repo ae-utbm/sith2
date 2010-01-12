@@ -175,7 +175,7 @@ if (!$form->is_valid($site->asso->id)) {
 
   if ($frm == false) {
     $cts->add_title(2, 'Erreur');
-    $cts->add_paragraph ('Il y\'a eu une erreur lors de la génération du formulaire, merci de réessauyer plus tard');
+    $cts->add_paragraph ('Il y\'a eu une erreur lors de la génération du formulaire, merci de réessayer plus tard');
   } else {
     $cts->add_title(2, $form->name);
 

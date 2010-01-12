@@ -112,7 +112,7 @@ class formulaire extends basedb
 
   function create ()
   {
-    $rep = $this->check ($name, $json);
+    $rep = $this->check ($this->name, $this->json);
     if ($rep != false)
       return $rep;
 
