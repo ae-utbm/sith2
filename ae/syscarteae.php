@@ -228,43 +228,36 @@ if (   $_REQUEST["view"] == "remb" )
     $user->load_by_id($_REQUEST["id_utilisateur"]);
     $cts->add_title(2,"Reboursement de ".$user->get_html_link());
 
-    if ( $user->montant_compte < 500 )
-    {
-      $cts->add_paragraph("Solde insuffisant : ".($user->montant_compte/100)." &euro;");
-    }
-    else
-    {
-      require_once ($topdir . "comptoir/include/comptoir.inc.php");
-      require_once ($topdir . "comptoir/include/comptoirs.inc.php");
-      require_once ($topdir . "comptoir/include/cptasso.inc.php");
-      require_once ($topdir . "comptoir/include/defines.inc.php");
-      require_once ($topdir . "comptoir/include/facture.inc.php");
-      require_once ($topdir . "comptoir/include/produit.inc.php");
-      require_once ($topdir . "comptoir/include/typeproduit.inc.php");
-      require_once ($topdir . "comptoir/include/venteproduit.inc.php");
+    require_once ($topdir . "comptoir/include/comptoir.inc.php");
+    require_once ($topdir . "comptoir/include/comptoirs.inc.php");
+    require_once ($topdir . "comptoir/include/cptasso.inc.php");
+    require_once ($topdir . "comptoir/include/defines.inc.php");
+    require_once ($topdir . "comptoir/include/facture.inc.php");
+    require_once ($topdir . "comptoir/include/produit.inc.php");
+    require_once ($topdir . "comptoir/include/typeproduit.inc.php");
+    require_once ($topdir . "comptoir/include/venteproduit.inc.php");
 
-      $debfact = new debitfacture ($site->db, $site->dbrw);
+    $debfact = new debitfacture ($site->db, $site->dbrw);
 
-      $cpt = new comptoir ($site->db, $site->dbrw);
-      $cpt->load_by_id (6);
+    $cpt = new comptoir ($site->db, $site->dbrw);
+    $cpt->load_by_id (6);
 
-      $cart = array();
+    $cart = array();
 
-      $vp = new venteproduit ($site->db, $site->dbrw);
-      $vp->load_by_id (338, 6);
-      $vp->produit->prix_vente = $user->montant_compte;
-      $vp->produit->prix_vente_barman = $user->montant_compte;
-      $vp->produit->id_assocpt = 0;
-      $cart[0][0] = 1;
-      $cart[0][1] = $vp;
+    $vp = new venteproduit ($site->db, $site->dbrw);
+    $vp->load_by_id (338, 6);
+    $vp->produit->prix_vente = $user->montant_compte;
+    $vp->produit->prix_vente_barman = $user->montant_compte;
+    $vp->produit->id_assocpt = 0;
+    $cart[0][0] = 1;
+    $cart[0][1] = $vp;
 
-      $debfact->debitAE ($user, $site->user, $cpt, $cart, false);
+    $debfact->debitAE ($user, $site->user, $cpt, $cart, false);
 
-      $cts->add_paragraph("Compte soldé. <b>Etablir un chèque du compte carte AE de ".($user->montant_compte/100)." &euro; à l'ordre de ".$user->get_html_link()."</b>");
-    }
-
-    $user->id = null;
+    $cts->add_paragraph("Compte soldé. <b>Etablir un chèque du compte carte AE de ".($user->montant_compte/100)." &euro; à l'ordre de ".$user->get_html_link()."</b>");
   }
+
+  $user->id = null;
 
 
   $cts->add_title(2,"Solder un compte");
