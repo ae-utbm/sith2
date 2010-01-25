@@ -819,12 +819,12 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_info('<h4>Autorisation</h4>');
     $frm->add_checkbox('autorisation', 'Publier mon profil Matmatronch dans le trombino de promo (nom et prénom au minimum)', $autorisation);
     $frm->add_info('<h4>Options de confidentialité</h4>');
+    $frm->add_info("Note : il est nécessaire d'enregistrer votre autorisation de publication dans le trombino de promo pour pouvoir modifier ces paramètres");
     $frm->add_checkbox('photo', 'Autoriser ma photo d\'identité à apparaitre', $trb->photo, !$autorisation);
     $frm->add_checkbox('infos_personnelles', 'Autoriser mes informations personnelles à apparaitre (date de naissance, email, ...)', $trb->infos_personnelles, !$autorisation);
     $frm->add_checkbox('famille', 'Autoriser la mention de mes parrain(e)(s)/fillot(e)(s)', $trb->famille, !$autorisation);
     $frm->add_checkbox('associatif', 'Autoriser mon parcours associatif à apparaitre', $trb->associatif, !$autorisation);
     $frm->add_checkbox('commentaires', 'Autoriser les commentaires de mon profil à apparaitre', $trb->commentaires, !$autorisation);
-    $frm->add_info("Il est nécessaire d'enregistrer votre autorisation de publication dans le trombino de promo pour pouvoir modifier ces paramètres");
     $frm->add_submit('save', 'Enregistrer');
 
     $cts->add($frm);
