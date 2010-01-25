@@ -178,11 +178,22 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
       if ( $st > $count )
         $st = floor($count/$npp)*$npp;
 
-      $req = new requete($site->db,"SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.*, `utilisateurs`.`id_ville` as `id_ville`, `utl_etu`.`id_ville` as `ville_parents`, `utilisateurs`.`id_pays` as `id_pays`, `utl_etu`.`id_pays` as `pays_parents` " .
-        "FROM `utilisateurs` " .
-        "LEFT JOIN `utl_etu` ON `utl_etu`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
-        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
-        "WHERE "  .implode(" AND ",$elements)." $order LIMIT $st,$npp", 1);
+      $req = new requete($site->db,"SELECT `utilisateurs`.*, `utl_etu`.citation,
+        `utl_etu`.adresse_parents, `utl_etu`.ville_parents,
+        `utl_etu`.cpostal_parents, `utl_etu`.pays_parents, `utl_etu`.tel_parents,
+        `utl_etu`.nom_ecole_etudiant, `utl_etu`.visites, `utl_etu`.id_ville,
+        `utl_etu`.id_pays, `utl_etu_utbm`.id_utilisateur,
+        `utl_etu_utbm`.semestre_utbm, `utl_etu_utbm`.branche_utbm,
+        `utl_etu_utbm`.filiere_utbm, `utl_etu_utbm`.surnom_utbm,
+        `utl_etu_utbm`.email_utbm, `utl_etu_utbm`.promo_utbm,
+        `utl_etu_utbm`.date_diplome_utbm, `utl_etu_utbm`.role_utbm,
+        `utl_etu_utbm`.departement_utbm, `utilisateurs`.`id_ville` as `id_ville`,
+        `utl_etu`.`id_ville` as `ville_parents`,
+        `utilisateurs`.`id_pays` as `id_pays`, `utl_etu`.`id_pays` as `pays_parents`
+        FROM `utilisateurs`
+        LEFT JOIN `utl_etu` ON `utl_etu`.`id_utilisateur`=`utilisateurs`.`id_utilisateur`
+        LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur`
+        WHERE "  .implode(" AND ",$elements)." $order LIMIT $st,$npp", 1);
 
       $user = new utilisateur($site->db);
 
