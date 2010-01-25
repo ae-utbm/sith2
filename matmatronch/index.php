@@ -182,12 +182,12 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
         `utl_etu`.adresse_parents, `utl_etu`.ville_parents,
         `utl_etu`.cpostal_parents, `utl_etu`.pays_parents, `utl_etu`.tel_parents,
         `utl_etu`.nom_ecole_etudiant, `utl_etu`.visites, `utl_etu`.id_ville,
-        `utl_etu`.id_pays, `utl_etu_utbm`.id_utilisateur,
-        `utl_etu_utbm`.semestre_utbm, `utl_etu_utbm`.branche_utbm,
-        `utl_etu_utbm`.filiere_utbm, `utl_etu_utbm`.surnom_utbm,
-        `utl_etu_utbm`.email_utbm, `utl_etu_utbm`.promo_utbm,
-        `utl_etu_utbm`.date_diplome_utbm, `utl_etu_utbm`.role_utbm,
-        `utl_etu_utbm`.departement_utbm, `utilisateurs`.`id_ville` as `id_ville`,
+        `utl_etu`.id_pays, `utl_etu_utbm`.semestre_utbm,
+        `utl_etu_utbm`.branche_utbm, `utl_etu_utbm`.filiere_utbm,
+        `utl_etu_utbm`.surnom_utbm, `utl_etu_utbm`.email_utbm,
+        `utl_etu_utbm`.promo_utbm, `utl_etu_utbm`.date_diplome_utbm,
+        `utl_etu_utbm`.role_utbm, `utl_etu_utbm`.departement_utbm,
+        `utilisateurs`.`id_ville` as `id_ville`,
         `utl_etu`.`id_ville` as `ville_parents`,
         `utilisateurs`.`id_pays` as `id_pays`, `utl_etu`.`id_pays` as `pays_parents`
         FROM `utilisateurs`
