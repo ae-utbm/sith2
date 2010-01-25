@@ -203,7 +203,10 @@ class formulaire extends basedb
       if (count($args) != 3 || empty($name))
         return 'JSON malformed';
 
-      if (($args[0] != "info") && (!isset($_REQUEST[$name])))
+      if ($args[0] == "info")
+        continue;
+
+      if (!isset($_REQUEST[$name]))
         return 'Erreur du champ '.$name;
 
       if ($args[1] == TRUE) {
