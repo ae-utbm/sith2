@@ -82,7 +82,7 @@ class uvcomment extends stdcontents
 
       $this->buffer .= "<div class=\"uvcheader\">\n";
 
-      $this->buffer .= "<span class=\"uvcdate\"><b>Le ".date("j F Y")." à ".date("H:i")."\n";
+      $this->buffer .= "<span class=\"uvcdate\"><b>Le ".date("l j F Y")." à ".date("H:i")."\n";
 
       if ($comment->etat == 1)
         $this->buffer .= "(Commentaire jugé abusif !)";
@@ -193,7 +193,7 @@ class uv_comment_box extends stdcontents
 
     $this->buffer .= "<div class=\"uvcheader\">\n";
 
-    $this->buffer .= "<span class=\"uvcdate\"><b>Le ".date("j F Y")." à ".date("H:i")."\n";
+    $this->buffer .= "<span class=\"uvcdate\"><b>Le ".date("l j F Y")." à ".date("H:i")."\n";
 
     if ($comment->etat == 1)
       $this->buffer .= "(Commentaire jugé abusif !)";
