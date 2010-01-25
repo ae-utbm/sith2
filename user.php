@@ -824,6 +824,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_checkbox('famille', 'Autoriser la mention de mes parrain(e)(s)/fillot(e)(s)', $trb->famille, !$autorisation);
     $frm->add_checkbox('associatif', 'Autoriser mon parcours associatif à apparaitre', $trb->associatif, !$autorisation);
     $frm->add_checkbox('commentaires', 'Autoriser les commentaires de mon profil à apparaitre', $trb->commentaires, !$autorisation);
+    $frm->add_info("Il est nécessaire d'enregistrer votre autorisation de publication dans le trombino de promo pour pouvoir modifier ces paramètres");
     $frm->add_submit('save', 'Enregistrer');
 
     $cts->add($frm);
