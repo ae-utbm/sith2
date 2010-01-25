@@ -37,12 +37,12 @@ function p_stars($note)
 
   $str = "";
   for ($i = 1; $i <= 4; $i++){
- 		if ($i <= $note)
-			$str .= "<img src=\"$topdir/images/icons/16/star.png\" alt=\"star\" />\n";
+     if ($i <= $note)
+      $str .= "<img src=\"$topdir/images/icons/16/star.png\" alt=\"star\" />\n";
     else
-			$str .= "<img src=\"$topdir/images/icons/16/unstar.png\" alt=\"unstar\" />\n";
+      $str .= "<img src=\"$topdir/images/icons/16/unstar.png\" alt=\"unstar\" />\n";
   }
-  
+
   return $str;
 }
 
@@ -68,7 +68,7 @@ class uvcomment extends stdcontents
     $i = 0;
     for ($i = 0; $i < count($comments); $i++)
     {
-	    $comment = &$comments[$i];
+      $comment = &$comments[$i];
 
       $parity = (($i %2) == 0);
 
@@ -82,7 +82,7 @@ class uvcomment extends stdcontents
 
       $this->buffer .= "<div class=\"uvcheader\">\n";
 
-      $this->buffer .= "<span class=\"uvcdate\"><b>Le ".HumanReadableDate($comment->date). "\n";
+      $this->buffer .= "<span class=\"uvcdate\"><b>Le ".date("j F Y")." à ".date("H:i")."\n";
 
       if ($comment->etat == 1)
         $this->buffer .= "(Commentaire jugé abusif !)";
@@ -127,7 +127,7 @@ class uvcomment extends stdcontents
           $this->buffer .= "<span class=\"uvcnote\">obtenu avec " . $comment->note_obtention;
         else
           $this->buffer .= "<span class=\"uvcnote\">échec (" . $comment->note_obtention . ")";
-          
+
         $this->buffer .= "</span>";
       }
 
@@ -181,9 +181,9 @@ class uv_comment_box extends stdcontents
   public function __construct($comment, $uv, $user, $author)
   {
     static $n = 0;
-    $parity = ($n++ % 2); 
-    
-  
+    $parity = ($n++ % 2);
+
+
     if ($comment->valid != 1)
       $extra = "abuse";
     else if ($parity)
@@ -193,7 +193,7 @@ class uv_comment_box extends stdcontents
 
     $this->buffer .= "<div class=\"uvcheader\">\n";
 
-    $this->buffer .= "<span class=\"uvcdate\"><b>Le ".HumanReadableDate($comment->date). "\n";
+    $this->buffer .= "<span class=\"uvcdate\"><b>Le ".date("j F Y")." à ".date("H:i")."\n";
 
     if ($comment->etat == 1)
       $this->buffer .= "(Commentaire jugé abusif !)";
@@ -238,7 +238,7 @@ class uv_comment_box extends stdcontents
         $this->buffer .= "<span class=\"uvcnote\">échec (" . $_RESULT[$note]['long'] . ")";
       else
         $this->buffer .= "<span class=\"uvcnote\"> ".$_RESULT[$note]['long']." ";
-        
+
       $this->buffer .= "</span>";
     }
 
