@@ -120,7 +120,10 @@ if ( $_REQUEST["action"] == "newop" && $GLOBALS["svalid_call"] )
   if ( !$_REQUEST["date"] )
     $_REQUEST["page"] = "new";
   else if ( is_null($opclb->id) && is_null($opstd->id)  )
+  {
     $_REQUEST["page"] = "new";
+    $cts->add(new error('', "Type d'opération non spécifié"));
+  }
   else if ( is_null($ent->id) && is_null($assotier->id) && is_null($cptasso->id) && is_null($utl->id ) )
     $_REQUEST["page"] = "new";
   else
