@@ -255,7 +255,7 @@ class catphoto extends basedb
         "WHERE " .
         "id_catph_parent='".$this->id."' AND " .
         "((droits_acces_catph & 0x1) OR " .
-        "((droits_acces_catph & 0x10) AND ".$user->get_grps_authorization_fragment('date_debut_catph', $grps).") OR " .
+        "((droits_acces_catph & 0x10) AND ".$user->get_grps_authorization_fragment('date_debut_catph', $grps, 'id_groupe').") OR " .
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_catph & 0x100) AND id_utilisateur='".$user->id."')) ";
 
