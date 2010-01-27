@@ -353,6 +353,32 @@ class formulaire extends basedb
                         array_get($args, 'checked', false));
   }
 
+  function _build_html ($valeurs)
+  {
+    $result = '<br /><p><table>';
+
+    foreach ($valeurs as $key=>$value) {
+      $result .= '<tr><th>'.$key.'</th><th>'.$value.'</th></tr>';
+    }
+
+    $result .= '</table></p>';
+
+    return $result;
+  }
+
+  function _build_plain ($valeurs)
+  {
+    $result = '\n\n--------------------------';
+
+    foreach ($valeurs as $key=>$value) {
+      $result .= '# '.$key.' # '.$value.' #';
+    }
+
+    $result .= '--------------------------';
+
+    return $result;
+  }
+
   function send_validation_email ($valeurs)
   {
     $obj = json_decode ($this->json, TRUE);
@@ -393,32 +419,6 @@ class formulaire extends basedb
 
         return;
       }
-    }
-
-    function _build_html ($valeurs)
-    {
-      $result = '<br /><p><table>';
-
-      foreach ($valeurs as $key=>$value) {
-        $result .= '<tr><th>'.$key.'</th><th>'.$value.'</th></tr>';
-      }
-
-      $result .= '</table></p>';
-
-      return $result;
-    }
-
-    function _build_plain ($valeurs)
-    {
-      $result = '\n\n--------------------------';
-
-      foreach ($valeurs as $key=>$value) {
-        $result .= '# '.$key.' # '.$value.' #';
-      }
-
-      $result .= '--------------------------';
-
-      return $result;
     }
   }
 }
