@@ -228,6 +228,8 @@ class formulaire extends basedb
     $req = new insert ($this->dbrw, 'aecms_forms_results', array('id_form' => $this->id,
                                                                  'json_answer' => json_encode($result_array)));
 
+    $this->send_validation_email ($result_array);
+
     return false;
   }
 
@@ -351,7 +353,7 @@ class formulaire extends basedb
                         array_get($args, 'checked', false));
   }
 
-  function send_validation_email ()
+  function send_validation_email ($valeurs)
   {
     $obj = json_decode ($this->json, TRUE);
     if ($obj == NULL)
@@ -362,30 +364,61 @@ class formulaire extends basedb
         continue;
 
       if (array_get($args[2], 'validation_dest', false)) {
-        $mail = $_REQUEST[$name];
-        $mailer = new mailer('ae@utbm.fr', 'Confirmation de '.$this->name);
-        $mailer->add_dest ($mail);
-
-        $mailer->set_plain ('Confirmation de votre participation à '.$this->name
-                            .'\n\nNous avons bien recu votre demande de participation, merci !');
-        $mailer->set_html ('<p>Confirmation de votre participation à '.$this->name.'</p>'
-                           .'<p>Nous avons bien recu votre demande de participation, merci !</p>');
-
-        $mailer->send ();
-
         $asso = new asso ($this->db, $this->dbrw);
         $asso->load_by_id ($this->id_asso);
+
+        $from = $asso->is_valid () ? $asso->email : 'ae@utbm.fr';
+
+        $mail = $_REQUEST[$name];
+        $mailer = new mailer($from, 'Confirmation de '.$this->name);
+        $mailer->add_dest ($mail);
+
+        $infos_plain = $this->_build_plain ($valeurs);
+        $infos_html = $this->_build_html ($valeurs);
+
+        $mailer->set_plain ('Confirmation de votre participation à '.$this->name
+                            .'\n\nNous avons bien recu votre demande de participation, merci !'.$infos_plain);
+        $mailer->set_html ('<p>Confirmation de votre participation à '.$this->name.'</p>'
+                           .'<p>Nous avons bien recu votre demande de participation, merci !</p>'.$infos_html);
+
+        $mailer->send ();
 
         if (!$asso->is_valid ())
           return;
 
-        $mailer = new mailer ('ae@utbm.fr', 'Nouveau participant à '.$this->name);
+        $mailer = new mailer ($from, 'Nouveau participant à '.$this->name);
         $mailer->add_dest ($asso->email);
         $mailer->set_plain ('Nouveau participant avec l\'adresse email : '.$mail);
         $mailer->set_html ('<p>Nouveau participant avec l\'adresse email : '.$mail.'</p>');
 
         return;
       }
+    }
+
+    function _build_html ($valeurs)
+    {
+      $result = '<br /><p><table>';
+
+      foreach ($valeurs as $key=>$value) {
+        $result .= '<tr><th>'.$key.'</th><th>'.$value.'</th></tr>';
+      }
+
+      $result .= '</table></p>';
+
+      return $result;
+    }
+
+    function _build_plain ($valeurs)
+    {
+      $result = '\n\n--------------------------';
+
+      foreach ($valeurs as $key=>$value) {
+        $result .= '# '.$key.' # '.$value.' #';
+      }
+
+      $result .= '--------------------------';
+
+      return $result;
     }
   }
 }

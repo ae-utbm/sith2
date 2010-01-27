@@ -45,7 +45,6 @@ if (isset($_REQUEST['action'])) {
     $Erreur = $form->validate_and_post ();
 
     if ($Erreur == false) {
-      $form->send_validation_email ();
       $cts->add_title (2, 'Merci de votre participation à : '.$form->name);
       $cts->add_paragraph ($form->success_text);
 
