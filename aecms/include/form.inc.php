@@ -25,6 +25,8 @@
  */
 
 require_once($topdir."include/entities/basedb.inc.php");
+require_once($topdir."include/entities/asso.inc.php");
+require_once($topdir."include/lib/mailer.inc.php");
 
 // Type de champ possible, chacun a ses particularités
 define(TYPE_TEXT, 'text');
