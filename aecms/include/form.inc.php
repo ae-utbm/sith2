@@ -348,6 +348,41 @@ class formulaire extends basedb
     $frm->add_checkbox ($name, array_get($args, 'title', $name),
                         array_get($args, 'checked', false));
   }
+
+  function send_validation_email ()
+  {
+    $obj = json_decode ($this->json, TRUE);
+    if ($obj == NULL)
+      return;
+
+    foreach ($obj as $name=>$args) {
+      if ($args[0] != TYPE_EMAIL)
+        continue;
+
+      if (array_get($args[2], 'validation_dest', false)) {
+        $mail = $_REQUEST[$name];
+        $mailer = new mailer('ae@utbm.fr', 'Confirmation de '.$this->name);
+        $mailer->add_dest ($mail);
+
+        $mailer->set_plain ('Confirmation de votre participation à '.$this->name
+                            .'\n\nNous avons bien recu votre demande de participation, merci !');
+
+        $mailer->send ();
+
+        $asso = new asso ($this->db, $this->dbrw);
+        $asso->load_by_id ($this->id_asso);
+
+        if (!$asso->is_valid ())
+          return;
+
+        $mailer = new mailer ('ae@utbm.fr', 'Nouveau participant à '.$this->name);
+        $mailer->add_dest ($asso->email);
+        $mailer->set_plain ('Nouveau participant avec l\'adresse email : '.$mail);
+
+        return;
+      }
+    }
+  }
 }
 
 ?>
