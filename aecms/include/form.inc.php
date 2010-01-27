@@ -368,6 +368,8 @@ class formulaire extends basedb
 
         $mailer->set_plain ('Confirmation de votre participation à '.$this->name
                             .'\n\nNous avons bien recu votre demande de participation, merci !');
+        $mailer->set_html ('<p>Confirmation de votre participation à '.$this->name.'</p>'
+                           .'<p>Nous avons bien recu votre demande de participation, merci !</p>');
 
         $mailer->send ();
 
@@ -380,6 +382,7 @@ class formulaire extends basedb
         $mailer = new mailer ('ae@utbm.fr', 'Nouveau participant à '.$this->name);
         $mailer->add_dest ($asso->email);
         $mailer->set_plain ('Nouveau participant avec l\'adresse email : '.$mail);
+        $mailer->set_html ('<p>Nouveau participant avec l\'adresse email : '.$mail.'</p>');
 
         return;
       }
