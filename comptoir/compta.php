@@ -215,7 +215,7 @@ if ( $_REQUEST["action"] == "delete" && isset($_REQUEST["id_facture"]))
         " " . $user_client->prenom .
         " (id : " . $user_client->id . ") par " .
         $user_vendeur->nom . " " . $user_vendeur->prenom .
-        " (id : " . $user_vendeur->id . ")","Comptes AE",$site->user->id);
+        " (id : " . $user_vendeur->id . ")","Comptes AE",$site->user);
       $fact->annule_facture();
     }
   }
