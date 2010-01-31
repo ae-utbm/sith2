@@ -151,7 +151,7 @@ class CaisseComptoir extends stdentity
    * Marque qu'un passage à la banque à été effectué
    * @param $date Date du passage
    */
-  function passageBanque($date)
+  function passage_banque($date)
   {
     if (is_null($date))
       $date = date("Y-m-d");

@@ -231,7 +231,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
 
   $frm = new form ("passagebanque","");
   $frm->add_hidden("action","passagebanque");
-  $frm->add_date_field("date_passage","Passage à la banque effectué le",time());
+  $frm->add_datetime_field("date_passage","Passage à la banque effectué le",time());
   $frm->add_submit("valid","valider");
   $cts->add($frm);
 
