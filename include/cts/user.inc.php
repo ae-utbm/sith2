@@ -124,7 +124,7 @@ class userinfo extends stdcontents
 
         $this->buffer .= "</div>";
 
-    if ($user->date_naissance != strtotime("01 january 1970"))
+    if (! is_null($user->date_naissance))
       {
         if ( $user->sexe == 1 )
           $this->buffer .= "N&eacute; ";
@@ -239,7 +239,7 @@ class userinfo extends stdcontents
         $this->buffer .= "<div class=\"others_infos\" style=\"position: relative; float: left;\">";
         $this->buffer .= "<br/>";
 
-    if ($user->date_naissance != strtotime("01 january 1970"))
+    if (! is_null($user->date_naissance))
       {
         if ( $user->sexe == 1 )
           $this->buffer .= "N&eacute; ";

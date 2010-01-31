@@ -1152,7 +1152,8 @@ class utilisateur extends stdentity
                               "pass_utl" => $this->pass,
                               "hash_utl" => "",
                               "sexe_utl" => $this->sexe,
-                              "date_naissance_utl" => date("Y-m-d",$this->date_naissance),
+                              "date_naissance_utl" => (is_null($this->date_naissance)
+                                ? null : date("Y-m-d",$this->date_naissance)),
                               "etudiant_utl" => $this->etudiant,
                               "utbm_utl" => $this->utbm,
                               "droit_image_utl" => $this->droit_image,
@@ -1328,7 +1329,8 @@ class utilisateur extends stdentity
                              "pass_utl" => $this->pass,
                              "hash_utl" => "",
                              "sexe_utl" => $this->sexe,
-                             "date_naissance_utl" => date("Y-m-d",$this->date_naissance),
+                             "date_naissance_utl" => (is_null($this->date_naissance)
+                                ? null : date("Y-m-d",$this->date_naissance)),
                              "etudiant_utl" => $this->etudiant,
                              "utbm_utl" => $this->utbm,
                              "droit_image_utl" => $this->droit_image,
