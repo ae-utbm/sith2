@@ -160,8 +160,8 @@ if ( $_REQUEST["action"] == "cut" )
 }
 elseif ( $file->is_valid() && $_REQUEST["action"] == "delete" )
 {
-  if ( $file->is_right($site->user,DROIT_ECRITURE
-       && $site->is_sure($section, 'Suppression du fichier '.$file->get_display_name())))
+  if ( $file->is_right($site->user,DROIT_ECRITURE)
+       && $site->is_sure($section, 'Suppression du fichier '.$file->get_display_name()))
   {
     _log($site->dbrw,'suppression fichier','Suppression du fichier '.$file->get_display_name(),'fichier',$site->user);
     $file->delete_file();
