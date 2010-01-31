@@ -383,6 +383,8 @@ if ($site->comptoir->is_valid())
   $site->set_side_boxes("right",array("comptoir"));
   unset($cts);
 }
+else
+  $site->set_side_boxes("right",array());
 
 $site->end_page();
 ?>
