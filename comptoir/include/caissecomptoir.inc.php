@@ -146,6 +146,23 @@ class CaisseComptoir extends stdentity
 
     return true;
   }
+
+  /**
+   * Marque qu'un passage à la banque à été effectué
+   * @param $date Date du passage
+   */
+  function passageBanque($date)
+  {
+    if (is_null($date))
+      $date = date("Y-m-d");
+    else
+      $date = date("Y-m-d",$this->date_naissance);
+
+    $req = new insert ($this->dbrw,
+          "cpt_caisse_banque",
+          array("date_passage" => $date,)
+          );
+  }
 }
 
 /**@}*/
