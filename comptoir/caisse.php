@@ -224,10 +224,16 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
               ORDER BY date_passage DESC
               LIMIT 1
             )");
-  $row = $req->get_row();
 
-  $cts->add_paragraph("Argent à ammener à la banque : ".$row['somme_especes']." € en espèce et ".
-                      $row['somme_cheques']." € en chèques");
+  if ( $req->lines )
+  {
+    $row = $req->get_row();
+
+    $cts->add_paragraph("Argent à ammener à la banque : ".$row['somme_especes']." € en espèce et ".
+                        $row['somme_cheques']." € en chèques");
+  }
+  else
+    $cts->add_paragraph("Pas d'argent à ammener à la banque");
 
   $frm = new form ("passagebanque","");
   $frm->add_hidden("action","passagebanque");

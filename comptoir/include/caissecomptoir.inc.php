@@ -154,9 +154,9 @@ class CaisseComptoir extends stdentity
   function passage_banque($date)
   {
     if (is_null($date))
-      $date = date("Y-m-d");
+      $date = date("Y-m-d H:i:s");
     else
-      $date = date("Y-m-d",$date);
+      $date = date("Y-m-d H:i:s",$date);
 
     $req = new insert ($this->dbrw,
           "cpt_caisse_banque",
