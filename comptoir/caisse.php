@@ -201,9 +201,6 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     $site->add_contents($list);
 
     $cts = new contents("Releves de caisses");
-
-    if (! isset($_REQUEST['showall']))
-      $cts->add_paragraph("<a href=\"caisse.php?showall\">Afficher tous les relevés</a>");
   }
   else
   {
@@ -213,9 +210,6 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
     $row = $req->get_row();
     $cts = new contents("<a href=\"caisse.php\">Relevés</a> /
         <a href=\"caisse.php?id_comptoir=".$row['id_comptoir']."\">".$row['nom_cpt']."</a>");
-    if (! isset($_REQUEST['showall']))
-      $cts->add_paragraph("<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']
-          ."&amp;showall\">Afficher tous les relevés</a>");
   }
 
   $req = new requete($site->db,"SELECT
@@ -232,15 +226,25 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
             )");
   $row = $req->get_row();
 
-  $cts->add_paragraph("Actuellement dans la caisse : ".$row['somme_especes']." € en espèce et ".
+  $cts->add_paragraph("Argent à ammener à la banque : ".$row['somme_especes']." € en espèce et ".
                       $row['somme_cheques']." € en chèques");
 
   $frm = new form ("passagebanque","");
   $frm->add_hidden("action","passagebanque");
-  $frm->add_date_field("date_passage","Date passade",time());
+  $frm->add_date_field("date_passage","Passage à la banque effectué le",time());
   $frm->add_submit("valid","valider");
   $cts->add($frm);
 
+  $cts->add_title(2, "Relevés");
+
+  if (! isset($_REQUEST['showall']))
+  {
+    if(isset($_REQUEST['id_comptoir']))
+      $cts->add_paragraph("<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']
+          ."&amp;showall\">Afficher tous les relevés</a>");
+    else
+      $cts->add_paragraph("<a href=\"caisse.php?showall\">Afficher tous les relevés</a>");
+  }
 
   $where = $limit = "";
 
