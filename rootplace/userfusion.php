@@ -41,7 +41,7 @@ if ( $_REQUEST["action"] == "fusion" && $GLOBALS["svalid_call"] )
 
   if ( !$user1->is_valid() || !$user2->is_valid() )
     $Erreur="ID invalide";
-  elseif ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user1->id." : ".$user1->get_html_link()." en faveur de l'utilisateur N°".$user2->id." : ".$user2->get_html_link(),"fusionusr".$user->id, 2 ) )
+  elseif ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user1->id." : ".$user1->get_html_link()." en faveur de l'utilisateur N°".$user2->id." : ".$user2->get_html_link(),"fusionusr".$user1->id, 2 ) )
     $Success = $user1->replace_and_remove($user2);
 
 }
