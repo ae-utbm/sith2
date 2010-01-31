@@ -186,30 +186,6 @@ elseif ($_REQUEST['action'] == "new")
 }
 elseif ($site->user->is_in_group("gestion_syscarteae"))
 {
-  $cts = new contents("Argent stocké");
-  $req = new requete($site->db,"SELECT
-            ROUND(SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_especes,
-            ROUND(SUM(IF(cheque_caisse='1', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_cheques
-            FROM `cpt_caisse`
-            LEFT JOIN `cpt_caisse_sommes` USING (id_cpt_caisse)
-            WHERE caisse_videe='1'
-            AND date_releve > (
-              SELECT date_passage
-              FROM cpt_caisse_banque
-              ORDER BY date_passage DESC
-              LIMIT 1
-            )");
-  $row = $req->get_row();
-
-  $cts->add_paragraph("Actuellement dans la caisse : ".$row['somme_especes']." € en espèce et ".
-                      $row['somme_cheques']." € en chèques");
-
-  $frm = new form ("passagebanque","");
-  $frm->add_hidden("action","passagebanque");
-  $frm->add_date_field("date_passage","Date passade",time());
-  $frm->add_submit("valid","valider");
-  $cts->add($frm);
-
   if (! isset($_REQUEST['id_comptoir']))
   {
     $req = new requete($site->db,"SELECT id_comptoir, nom_cpt
@@ -241,6 +217,30 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
       $cts->add_paragraph("<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']
           ."&amp;showall\">Afficher tous les relevés</a>");
   }
+
+  $req = new requete($site->db,"SELECT
+            ROUND(SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_especes,
+            ROUND(SUM(IF(cheque_caisse='1', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_cheques
+            FROM `cpt_caisse`
+            LEFT JOIN `cpt_caisse_sommes` USING (id_cpt_caisse)
+            WHERE caisse_videe='1'
+            AND date_releve > (
+              SELECT date_passage
+              FROM cpt_caisse_banque
+              ORDER BY date_passage DESC
+              LIMIT 1
+            )");
+  $row = $req->get_row();
+
+  $cts->add_paragraph("Actuellement dans la caisse : ".$row['somme_especes']." € en espèce et ".
+                      $row['somme_cheques']." € en chèques");
+
+  $frm = new form ("passagebanque","");
+  $frm->add_hidden("action","passagebanque");
+  $frm->add_date_field("date_passage","Date passade",time());
+  $frm->add_submit("valid","valider");
+  $cts->add($frm);
+
 
   $where = $limit = "";
 
