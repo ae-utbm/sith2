@@ -339,7 +339,7 @@ $frm->add_radiobox_field("sexe","Sexe",array(1=>"Homme",2=>"Femme",0=>"Indiffér
 $frm->add_select_field("role","Role",$GLOBALS["utbm_roles"],"etu");
 $frm->add_select_field("departement","Departement",$GLOBALS["utbm_departements"],"");
 $frm->add_text_field("semestre","Semestre","");
-$frm->add_radiobox_field("promo", "Promo", $site->user->liste_promos("Toutes"), 0, -1);
+$frm->add_select_field("promo", "Promo", $site->user->liste_promos("Toutes"), 0);
 $frm->add_date_field("date_naissance","Date de naissance");
 $frm->add_checkbox("inclus_ancien","Inclure les anciens",false);
 $frm->add_checkbox("inclus_nutbm","Inclure les non-utbm",false);
