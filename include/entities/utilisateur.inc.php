@@ -801,8 +801,6 @@ class utilisateur extends stdentity
     $cache = new cachedcontents("sig".$this->id);
     $cache->expire();
 
-    print_r(array("Date naissance", $this->date_naissance));
-
     new update($this->dbrw,
                       "utilisateurs",
                       array('nom_utl' => $this->nom,
@@ -821,7 +819,7 @@ class utilisateur extends stdentity
                             'publique_utl'=> $this->publique,
                             'publique_mmtpapier_utl'=>$this->publique_mmtpapier,
                             'signature_utl' =>$this->signature),
-                      array('id_utilisateur' => $this->id), 1);
+                      array('id_utilisateur' => $this->id));
 
 
 
