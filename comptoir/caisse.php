@@ -225,15 +225,15 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
               LIMIT 1
             )");
 
-  if ( $req->lines )
+  if (is_null($row['somme_especes']) && is_null($row['somme_cheques']))
+    $cts->add_paragraph("Pas d'argent à ammener à la banque");
+  else
   {
     $row = $req->get_row();
 
     $cts->add_paragraph("Argent à ammener à la banque : ".$row['somme_especes']." € en espèce et ".
                         $row['somme_cheques']." € en chèques");
   }
-  else
-    $cts->add_paragraph("Pas d'argent à ammener à la banque");
 
   $frm = new form ("passagebanque","");
   $frm->add_hidden("action","passagebanque");
@@ -387,5 +387,4 @@ if ($site->comptoir->is_valid())
 }
 
 $site->end_page();
-//TODO: case banque
 ?>
