@@ -806,7 +806,8 @@ class utilisateur extends stdentity
                       array('nom_utl' => $this->nom,
                             'prenom_utl' => $this->prenom,
                             'sexe_utl' => $this->sexe,
-                            'date_naissance_utl' => date("Y-m-d",$this->date_naissance),
+                            'date_naissance_utl' => (is_null($this->date_naissance)
+                                ? null : date("Y-m-d",$this->date_naissance)),
                             'addresse_utl' => $this->addresse,
                             'id_ville' => $this->id_ville,
                             'id_pays' => $this->id_pays,
