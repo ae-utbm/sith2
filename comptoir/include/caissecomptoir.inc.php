@@ -156,7 +156,7 @@ class CaisseComptoir extends stdentity
     if (is_null($date))
       $date = date("Y-m-d");
     else
-      $date = date("Y-m-d",$this->date_naissance);
+      $date = date("Y-m-d",$date);
 
     $req = new insert ($this->dbrw,
           "cpt_caisse_banque",
