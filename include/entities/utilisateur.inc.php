@@ -374,7 +374,7 @@ class utilisateur extends stdentity
     $this->pass = $row['pass_utl'];
     $this->hash = $row['hash_utl'];
     $this->sexe = $row['sexe_utl'];
-    $this->date_naissance = strtotime($row['date_naissance_utl']);
+    $this->date_naissance = (is_null($row['date_naissance_utl']) ? null : strtotime($row['date_naissance_utl']));
     $this->addresse = $row['addresse_utl'];
     $this->id_ville = $row['id_ville'];
     $this->id_pays = $row['id_pays'];
