@@ -95,7 +95,7 @@ if ( isset($_REQUEST["id_asso"]) )
     }
     $lst->add("<a href=\"".$topdir."compta/cptasso.php?id_cptasso=$id_cptasso\">Gestion des classeurs $nom_cpbc</a>");
   }
-  $lst->add("<a href=\"".$topdir."compta/\">Accès la comptabilité</a>");
+  $lst->add("<a href=\"".$topdir."compta/\">Accès à la comptabilité</a>");
   $brd->add($lst,true);
 
   $req = new requete ($site->db,
