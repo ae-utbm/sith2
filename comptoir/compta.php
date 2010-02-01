@@ -180,7 +180,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
 
 $site->start_page("services","Comptabilité comptoirs");
 
-$cts = new contents("<a href=\"admin.php\">Administraion comptoirs</a> / Ventes système carte AE/e-boutic");
+$cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / Ventes système carte AE/e-boutic");
 
 $frm = new form ("cptacpt","compta.php",true,"POST","Critères de selection");
 $frm->add_hidden("action","view");
