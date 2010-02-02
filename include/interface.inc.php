@@ -438,7 +438,7 @@ class interfaceweb
           $i++;
           $class="";
         }
-        if( $this->user->is_in_group("gestion_syscarteae") )
+        if( $req2->lines > 4 )
         {
           $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."comptoir/admin.php\">Admin : comptoirs</a>';";
           $i++;
