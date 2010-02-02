@@ -130,7 +130,7 @@ if (in_array($_REQUEST['action'], array("view", "newreleve", "updatecomment")) &
   $frm->add_hidden("action","updatecomment");
   $frm->add_hidden("id_cpt_caisse",$caisse->id);
   $frm->allow_only_one_usage();
-  $frm->add_text_field("comment", "Commentaire");
+  $frm->add_text_area("comment", "Commentaire", $caisse->commentaire, 80, 24);
   $frm->add_submit("valid","Modifier");
   $cts->add($frm,true);
 }
@@ -198,7 +198,7 @@ elseif ($_REQUEST['action'] == "new")
       $frm->add_checkbox("caisse_videe", "Caisse vidée");
     }
 
-    $frm->add_text_field("comment", "Commentaire");
+    $frm->add_text_area("comment", "Commentaire", "", 80, 24);
 
     $frm->add_submit("valid","Valider");
     $cts->add($frm,true);
