@@ -49,19 +49,23 @@ elseif (in_array($_REQUEST['action'], array("newreleve", "updatecomment")) && $G
 {
   $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
 
-  if (!$site->comptoir->is_valid())
-    $site->error_not_found("services");
+  // Si l'utilisateur est gestion_syscarteae, il peut effectuer les opérations depuis n'importe où
+  if (! $site->user->is_in_group("gestion_syscarteae"))
+  {
+    if (!$site->comptoir->is_valid())
+      $site->error_not_found("services");
 
-  if ($site->comptoir->type != 0)
-    $site->error_forbidden("services","invalid");
+    if ($site->comptoir->type != 0)
+      $site->error_forbidden("services","invalid");
 
-  if (! $site->comptoir->rechargement)
-    $site->error_forbidden("services","invalid");
+    if (! $site->comptoir->rechargement)
+      $site->error_forbidden("services","invalid");
 
-  if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
-    $site->error_forbidden("services","wrongplace");
+    if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
+      $site->error_forbidden("services","wrongplace");
+  }
 
-  if ( count($site->comptoir->operateurs) == 0 )
+  if ((count($site->comptoir->operateurs) == 0) && (! $site->user->is_in_group("gestion_syscarteae")))
   {
     $cts->add_paragraph("En attente de la connexion d'un barman");
   }
@@ -130,7 +134,7 @@ if (in_array($_REQUEST['action'], array("view", "newreleve", "updatecomment")) &
   $frm->add_hidden("action","updatecomment");
   $frm->add_hidden("id_cpt_caisse",$caisse->id);
   $frm->allow_only_one_usage();
-  $frm->add_text_area("comment", "Commentaire", $caisse->commentaire, 80, 24);
+  $frm->add_text_area("comment", "Commentaire", $caisse->commentaire, 60, 12);
   $frm->add_submit("valid","Modifier");
   $cts->add($frm,true);
 }
@@ -198,7 +202,7 @@ elseif ($_REQUEST['action'] == "new")
       $frm->add_checkbox("caisse_videe", "Caisse vidée");
     }
 
-    $frm->add_text_area("comment", "Commentaire", "", 80, 24);
+    $frm->add_text_area("comment", "Commentaire", "", 60, 12);
 
     $frm->add_submit("valid","Valider");
     $cts->add($frm,true);
