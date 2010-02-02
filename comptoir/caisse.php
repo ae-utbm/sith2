@@ -87,6 +87,8 @@ elseif (($_REQUEST['action'] == "newreleve") && $GLOBALS["svalid_call"])
 }
 elseif (($_REQUEST['action'] == "updatecomment") && $GLOBALS["svalid_call"])
 {
+  $caisse->load_by_id($_REQUEST["id_cpt_caisse"]);
+
   /* Si l'utilisateur n'est pas gestion_syscartae, on vérifie que le barman
    est le même que celui qui a créé le relevé */
   if (! $site->user->is_in_group("gestion_syscarteae"))
@@ -102,11 +104,11 @@ elseif (($_REQUEST['action'] == "updatecomment") && $GLOBALS["svalid_call"])
     if (! $site->comptoir->rechargement)
       $site->error_forbidden("services","invalid");
 
-    if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
+    if (get_localisation() != $site->comptoir->id_salle)
       $site->error_forbidden("services","wrongplace");
 
     if (first($site->comptoir->operateurs)->id != $caisse->id_utilisateur)
-      $site->error_forbidden("services","wrongplace");
+      $site->error_forbidden("services","invalid");
   }
 
   $caisse->update_comment($_REQUEST['comment']);
