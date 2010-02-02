@@ -45,7 +45,7 @@ if (($_REQUEST['action'] == "view") && ($site->user->is_in_group("gestion_syscar
 {
   $caisse->load_by_id($_REQUEST["id_cpt_caisse"]);
 }
-elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
+elseif (in_array($_REQUEST['action'], array("newreleve", "updatecomment")) && $GLOBALS["svalid_call"])
 {
   $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
 
@@ -65,7 +65,7 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
   {
     $cts->add_paragraph("En attente de la connexion d'un barman");
   }
-  else
+  elseif($_REQUEST['action'] == "newreleve")
   {
     $especes = array();
     foreach ($_REQUEST["espece_nb"] as $val=>$nb)
@@ -83,12 +83,22 @@ elseif (($_REQUEST['action'] == "newreleve") && ($GLOBALS["svalid_call"]))
 
     $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id, $especes, $cheques, $caisse_videe);
   }
+  elseif($_REQUEST['action'] == "updatecomment")
+  {
+    $caisse->load_by_id($_REQUEST["id_cpt_caisse"]);
+    if (($site->user->is_in_group("gestion_syscarteae"))
+        || (first($site->comptoir->operateurs)->id == $caisse->id_utilisateur))
+      $caisse->update_comment($_REQUEST['comment']);
+    else
+      $site->error_forbidden("services","wrongplace");
+  }
 }
-if (($_REQUEST['action'] == "passagebanque") && ($site->user->is_in_group("gestion_syscarteae")))
+elseif (($_REQUEST['action'] == "passagebanque") && ($site->user->is_in_group("gestion_syscarteae")))
   $caisse->passage_banque($_REQUEST['date_passage']);
 
 
-if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) && ($caisse->is_valid()))
+
+if (in_array($_REQUEST['action'], array("view", "newreleve", "updatecomment")) && $caisse->is_valid())
 {
   $req = new requete($site->db, "SELECT nom_cpt FROM cpt_comptoir WHERE id_comptoir = ".$caisse->id_comptoir);
   if ( $req->lines == 1 )
@@ -115,6 +125,14 @@ if ((($_REQUEST['action'] == "view") || ($_REQUEST['action'] == "newreleve")) &&
 
   if ($caisse->caisse_videe)
     $cts->add_paragraph("La caisse a été vidée après ce relevé");
+
+  $frm = new form ("updatecomment","caisse.php",true,"POST");
+  $frm->add_hidden("action","updatecomment");
+  $frm->add_hidden("id_cpt_caisse",$caisse->id);
+  $frm->allow_only_one_usage();
+  $frm->add_text_field("comment", "Commentaire");
+  $frm->add_submit("valid","Modifier");
+  $cts->add($frm,true);
 }
 
 elseif ($_REQUEST['action'] == "new")
@@ -179,6 +197,8 @@ elseif ($_REQUEST['action'] == "new")
     {
       $frm->add_checkbox("caisse_videe", "Caisse vidée");
     }
+
+    $frm->add_text_field("comment", "Commentaire");
 
     $frm->add_submit("valid","Valider");
     $cts->add($frm,true);
