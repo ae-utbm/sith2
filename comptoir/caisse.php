@@ -45,31 +45,27 @@ if (($_REQUEST['action'] == "view") && ($site->user->is_in_group("gestion_syscar
 {
   $caisse->load_by_id($_REQUEST["id_cpt_caisse"]);
 }
-elseif (in_array($_REQUEST['action'], array("newreleve", "updatecomment")) && $GLOBALS["svalid_call"])
+elseif (($_REQUEST['action'] == "newreleve") && $GLOBALS["svalid_call"])
 {
   $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
 
-  // Si l'utilisateur est gestion_syscarteae, il peut effectuer les opérations depuis n'importe où
-  if (! $site->user->is_in_group("gestion_syscarteae"))
-  {
-    if (!$site->comptoir->is_valid())
-      $site->error_not_found("services");
+  if (!$site->comptoir->is_valid())
+    $site->error_not_found("services");
 
-    if ($site->comptoir->type != 0)
-      $site->error_forbidden("services","invalid");
+  if ($site->comptoir->type != 0)
+    $site->error_forbidden("services","invalid");
 
-    if (! $site->comptoir->rechargement)
-      $site->error_forbidden("services","invalid");
+  if (! $site->comptoir->rechargement)
+    $site->error_forbidden("services","invalid");
 
-    if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
-      $site->error_forbidden("services","wrongplace");
-  }
+  if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
+    $site->error_forbidden("services","wrongplace");
 
   if ((count($site->comptoir->operateurs) == 0) && (! $site->user->is_in_group("gestion_syscarteae")))
   {
     $cts->add_paragraph("En attente de la connexion d'un barman");
   }
-  elseif($_REQUEST['action'] == "newreleve")
+  else
   {
     $especes = array();
     foreach ($_REQUEST["espece_nb"] as $val=>$nb)
@@ -88,15 +84,32 @@ elseif (in_array($_REQUEST['action'], array("newreleve", "updatecomment")) && $G
     $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id,
                     $especes, $cheques, $caisse_videe, $_REQUEST['comment']);
   }
-  elseif($_REQUEST['action'] == "updatecomment")
+}
+elseif (($_REQUEST['action'] == "updatecomment") && $GLOBALS["svalid_call"])
+{
+  /* Si l'utilisateur n'est pas gestion_syscartae, on vérifie que le barman
+   est le même que celui qui a créé le relevé */
+  if (! $site->user->is_in_group("gestion_syscarteae"))
   {
-    $caisse->load_by_id($_REQUEST["id_cpt_caisse"]);
-    if (($site->user->is_in_group("gestion_syscarteae"))
-        || (first($site->comptoir->operateurs)->id == $caisse->id_utilisateur))
-      $caisse->update_comment($_REQUEST['comment']);
-    else
+    $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
+
+    if (!$site->comptoir->is_valid())
+      $site->error_not_found("services");
+
+    if ($site->comptoir->type != 0)
+      $site->error_forbidden("services","invalid");
+
+    if (! $site->comptoir->rechargement)
+      $site->error_forbidden("services","invalid");
+
+    if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
+      $site->error_forbidden("services","wrongplace");
+
+    if (first($site->comptoir->operateurs)->id != $caisse->id_utilisateur)
       $site->error_forbidden("services","wrongplace");
   }
+
+  $caisse->update_comment($_REQUEST['comment']);
 }
 elseif (($_REQUEST['action'] == "passagebanque") && ($site->user->is_in_group("gestion_syscarteae")))
   $caisse->passage_banque($_REQUEST['date_passage']);
@@ -134,6 +147,10 @@ if (in_array($_REQUEST['action'], array("view", "newreleve", "updatecomment")) &
   $frm = new form ("updatecomment","caisse.php",true,"POST");
   $frm->add_hidden("action","updatecomment");
   $frm->add_hidden("id_cpt_caisse",$caisse->id);
+
+  if ($site->comptoir->is_valid())
+    $frm->add_hidden("id_comptoir",$site->comptoir->id);
+
   $frm->allow_only_one_usage();
   $frm->add_text_area("comment", "Commentaire", $caisse->commentaire, 60, 12);
   $frm->add_submit("valid","Modifier");
@@ -385,6 +402,9 @@ if ($site->comptoir->is_valid())
   $cts = new contents("Comptoir");
 
   $cts->add_paragraph("<a href=\"index.php\">Autre comptoirs</a>");
+
+  if ($site->comptoir->rechargement)
+    $cts->add_paragraph("<a href=\"caisse.php?action=new&id_comptoir=".$site->comptoir->id."\">Faire un relevé de caisse</a>");
 
   $lst = new itemlist();
   foreach( $site->comptoir->operateurs as $op )
