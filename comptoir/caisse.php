@@ -85,7 +85,8 @@ elseif (in_array($_REQUEST['action'], array("newreleve", "updatecomment")) && $G
     if (($site->user->is_in_group("gestion_syscarteae")) && ($_REQUEST['caisse_videe']))
       $caisse_videe = true;
 
-    $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id, $especes, $cheques, $caisse_videe);
+    $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id,
+                    $especes, $cheques, $caisse_videe, $_REQUEST['comment']);
   }
   elseif($_REQUEST['action'] == "updatecomment")
   {
