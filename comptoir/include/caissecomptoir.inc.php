@@ -175,8 +175,9 @@ class CaisseComptoir extends stdentity
     $this->commentaire = $commentaire;
     $req = new update ($this->dbrw,
           "cpt_caisse",
-          array("commentaire" => $this->commentaire,
-            ));
+          array("commentaire" => $this->commentaire,),
+          array("id_cpt_caisse" => $this->id)
+        );
   }
 }
 
