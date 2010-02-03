@@ -1,5 +1,8 @@
 <?php
 
+if(!isset($argc))
+  exit();
+
 /*
  * Daily at 4am (04h)
  */

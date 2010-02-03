@@ -1,4 +1,6 @@
 <?
+exit();
+
 $_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/phpcron";
 $topdir=$_SERVER['SCRIPT_FILENAME']."/../";
 
