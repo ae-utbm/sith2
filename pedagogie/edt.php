@@ -404,20 +404,26 @@ if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'schedule' || $_REQUEST
     /* automne : septembre -> mi janvier */
     if ($group['semestre'][0] == "A")
     {
-      $start = substr($group['semestre'], 1)."0901T000000";
+      $start = substr($group['semestre'], 1)."0901T";
       $until = (substr($group['semestre'], 1) + 1)."0115T000000";
     }
     /* printemps : mi février -> fin juin */
     else
     {
-      $start = substr($group['semestre'], 1)."0215T000000";
+      $start = substr($group['semestre'], 1)."0215T";
       $until = (substr($group['semestre'], 1) + 1)."0701T000000";
     }
+    $start .= substr($group['debut'], 0, 2).substr($group['debut'], 3, 2)."00";
 
     echo "BEGIN:VEVENT\n";
     echo "DTSTART:".$start."\n";
     echo "EXDATE:".$start."\n";
-    echo "SUMMARY:".$group['code'].": ".$group['type']."\n";
+
+    if ($group['type'] == "C")
+      echo "SUMMARY:".$group['code'].": Cours\n";
+    else
+      echo "SUMMARY:".$group['code'].": ".$group['type']."\n";
+
     echo "LOCATION:".$group['salle']."\n";
     echo "DURATION:T".(($time_fin - $time_deb) / 3600)."H"
           .((($time_fin - $time_deb) / 60) % 60)."M\n";
