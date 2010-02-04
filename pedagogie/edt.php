@@ -428,7 +428,7 @@ if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'schedule' || $_REQUEST
     echo "DURATION:T".(($time_fin - $time_deb) / 3600)."H"
           .((($time_fin - $time_deb) / 60) % 60)."M\n";
     echo "RRULE:FREQ=WEEKLY;UNTIL=".$until.";WKST=MO;BYDAY="
-          .$shortdays[$group['jour']]."\n";
+          .$shortdays[$group['jour']-1]."\n";
     echo "END:VEVENT\n";
   }
 
