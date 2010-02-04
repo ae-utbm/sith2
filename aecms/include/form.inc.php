@@ -359,6 +359,10 @@ class formulaire extends basedb
 
   function _build_html ($valeurs)
   {
+    $result .= '<p>';
+    $result .= $this->mail_text;
+    $result .= '</p>';
+
     $result = '<br /><p><table>';
 
     foreach ($valeurs as $key=>$value) {
@@ -367,15 +371,14 @@ class formulaire extends basedb
 
     $result .= '</table></p>';
 
-    $result .= '<p>';
-    $result .= $this->mail_text;
-    $result .= '</p>';
-
     return $result;
   }
 
   function _build_plain ($valeurs)
   {
+    $result .= '\n';
+    $result .= $this->mail_text;
+
     $result = '\n\n--------------------------';
 
     foreach ($valeurs as $key=>$value) {
@@ -383,9 +386,6 @@ class formulaire extends basedb
     }
 
     $result .= '--------------------------';
-
-    $result .= '\n';
-    $result .= $this->mail_text;
 
     return $result;
   }
