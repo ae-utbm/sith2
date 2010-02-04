@@ -373,7 +373,61 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
  */
 if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'schedule' || $_REQUEST['action'] == 'ical'))
 {
-  echo "coming soon";
+  if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
+    $semestre = $_REQUEST['semestre'];
+  else
+    $semestre = SEMESTER_NOW;
+
+  if(!in_array($semestre, $user->get_edt_list()))
+    $site->redirect('edt.php');
+
+  $groups = $user->get_groups_detail($semestre);
+  if(empty($groups))
+    $site->redirect('edt.php');
+
+  $shortdays = array("MO", "TU", "WE", "TH", "FR", "SA", "SU");
+
+
+  header("Content-Type: text/calendar; charset=utf-8");
+  header("Content-Disposition: filename=edt.ics");
+
+  echo "BEGIN:VCALENDAR";
+  echo "VERSION:2.0";
+  echo "PRODID:ae.utbm.fr";
+  echo "X-WR-TIMEZONE:Europe/Paris";
+
+  foreach($groups as $group)
+  {
+    $time_deb = mktime(substr($group['debut'], 0, 2), substr($group['debut'], 3, 2));
+    $time_fin = mktime(substr($group['fin'], 0, 2), substr($group['fin'], 3, 2));
+
+    /* automne : septembre -> mi janvier */
+    if ($group['semestre'][0] == "A")
+    {
+      $start = substr($group['semestre'], 1)."0901T000000";
+      $until = (substr($group['semestre'], 1) + 1)."0115T000000";
+    }
+    /* printemps : mi février -> fin juin */
+    else
+    {
+      $start = substr($group['semestre'], 1)."0215T000000";
+      $until = (substr($group['semestre'], 1) + 1)."0701T000000";
+    }
+
+    echo "BEGIN:VEVENT\n";
+    echo "DTSTART:".$start."\n";
+    echo "EXDATE:".$start."\n";
+    echo "SUMMARY:".$group['code'].": ".$group['type']."\n";
+    echo "LOCATION:".$group['salle']."\n";
+    echo "DURATION:T".(($time_fin - $time_deb) / 3600)."H"
+          .(($time_fin - $time_deb) / 60)."M\n";
+    echo "RRULE:FREQ=WEEKLY;UNTIL=".$until.";WKST=MO;BYDAY="
+          .$shortdays[$group['jour']]."\n";
+    echo "END:VEVENT\n";
+  }
+
+  echo "END:VCALENDAR";
+
   exit;
 }
 
