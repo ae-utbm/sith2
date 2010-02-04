@@ -67,6 +67,7 @@ class formulaire extends basedb
   var $prev_text = '';
   var $next_text = '';
   var $success_text = '';
+  var $mail_text = '';
   var $json = '';
 
   function load_by_id ($id)
@@ -107,6 +108,7 @@ class formulaire extends basedb
     $this->prev_text = $row['prev_text'];
     $this->next_text = $row['next_text'];
     $this->success_text = $row['success_text'];
+    $this->mail_text = $row['mail_text'];
     $this->json = $row['json'];
 
     return true;
@@ -123,6 +125,7 @@ class formulaire extends basedb
                                                           'prev_text' => $this->prev_text,
                                                           'next_text' => $this->next_text,
                                                           'success_text' => $this->success_text,
+                                                          'mail_text' => $this->mail_text,
                                                           'json' => $this->json));
 
     $this->id = $req->get_id ();
@@ -142,6 +145,7 @@ class formulaire extends basedb
                               'prev_text' => $this->prev_text,
                               'next_text' => $this->next_text,
                               'success_text' => $this->success_text,
+                              'mail_text' => $this->mail_text,
                               'json' => $this->json),
                        array ('id_form' => $this->id));
 
@@ -363,6 +367,10 @@ class formulaire extends basedb
 
     $result .= '</table></p>';
 
+    $result .= '<p>';
+    $result .= $this->mail_text;
+    $result .= '</p>';
+
     return $result;
   }
 
@@ -375,6 +383,9 @@ class formulaire extends basedb
     }
 
     $result .= '--------------------------';
+
+    $result .= '\n';
+    $result .= $this->mail_text;
 
     return $result;
   }
@@ -402,10 +413,9 @@ class formulaire extends basedb
         $infos_plain = $this->_build_plain ($valeurs);
         $infos_html = $this->_build_html ($valeurs);
 
-        $mailer->set_plain ('Confirmation de votre participation à '.$this->name
-                            .'\n\nNous avons bien recu votre demande de participation, merci !'.$infos_plain);
+        $mailer->set_plain ('Confirmation de votre participation à '.$this->name.$infos_plain);
         $mailer->set_html ('<p>Confirmation de votre participation à '.$this->name.'</p>'
-                           .'<p>Nous avons bien recu votre demande de participation, merci !</p>'.$infos_html);
+                           .$infos_html);
 
         $mailer->send ();
 
