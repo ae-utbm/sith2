@@ -391,10 +391,10 @@ if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'schedule' || $_REQUEST
   header("Content-Type: text/calendar; charset=utf-8");
   header("Content-Disposition: filename=edt.ics");
 
-  echo "BEGIN:VCALENDAR";
-  echo "VERSION:2.0";
-  echo "PRODID:ae.utbm.fr";
-  echo "X-WR-TIMEZONE:Europe/Paris";
+  echo "BEGIN:VCALENDAR\n";
+  echo "VERSION:2.0\n";
+  echo "PRODID:ae.utbm.fr\n";
+  echo "X-WR-TIMEZONE:Europe/Paris\n";
 
   foreach($groups as $group)
   {
@@ -420,7 +420,7 @@ if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'schedule' || $_REQUEST
     echo "SUMMARY:".$group['code'].": ".$group['type']."\n";
     echo "LOCATION:".$group['salle']."\n";
     echo "DURATION:T".(($time_fin - $time_deb) / 3600)."H"
-          .(($time_fin - $time_deb) / 60)."M\n";
+          .((($time_fin - $time_deb) / 60) % 60)."M\n";
     echo "RRULE:FREQ=WEEKLY;UNTIL=".$until.";WKST=MO;BYDAY="
           .$shortdays[$group['jour']]."\n";
     echo "END:VEVENT\n";
