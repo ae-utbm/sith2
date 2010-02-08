@@ -45,8 +45,8 @@ if (date("m-d") < "02-15")
 {
   $date1 = date("Y") . "-02-15";
   $date2 = date("Y") . "-08-15";
-  $date3 = date("Y") + 2 . "-08-15";
-  $date4 = date("Y") + 3 . "-08-15";
+  $date3 = date("Y") + 1 . "-08-15";
+  $date4 = date("Y") + 2 . "-08-15";
 }
 else
 {
