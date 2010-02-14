@@ -125,7 +125,7 @@ class cotisation extends stdentity
 
     $types = array(1 => "ae_utl", 2 => "assidu_utl", 3 => "amicale_utl");
 
-    $req = new update($this->dbrw,"utilisateurs",array($types[$type_cotisation]=>true),array("id_utilisateur"=>$this->id_utilisateur));
+    $req = new update($this->dbrw,"utilisateurs",array($types[$type_cotis]=>true),array("id_utilisateur"=>$this->id_utilisateur));
 
     return true;
   }
