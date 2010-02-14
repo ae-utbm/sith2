@@ -27,8 +27,8 @@ require_once($topdir . "include/lib/barcodefpdf.inc.php");
 
 class pdfcarteae extends FPDF
 {
-  var $img_front;
-  var $img_back;
+  var $img_front = array();
+  var $img_back = array();
   var $width;
   var $height;
   var $xmargin;
