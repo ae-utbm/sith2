@@ -1138,7 +1138,7 @@ else
 
   $cts->add($info);
 
-  if ( $site->user->id == $user->id && !$user->ae && !$site->user->assidu && !$site->user->amicale)
+  if ( $site->user->id == $user->id && !$user->ae && !$user->assidu && !$user->amicale)
   {
     $cts->add_title(2, "Cotisation AE");
     $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_non_ae.png\">" .
@@ -1224,7 +1224,7 @@ else
   }
 
   /* l'onglet AE */
-  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") ) && ($user->ae || $site->user->assidu || $site->user->amicale) )
+  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") ) && ($user->ae || $user->assidu || $user->amicale) )
   {
     $cts->add_title(2, "Cotisation AE");
 
