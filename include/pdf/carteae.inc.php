@@ -90,6 +90,8 @@ class pdfcarteae extends FPDF
   {
     global $topdir;
 
+    print_r($this->img_front);
+    print_r($this->img_front[$infos[$type_cotis]]."\n");
     $this->Image($this->img_front[$infos[$type_cotis]],$x,$y,$this->width,$this->height);
 
     $src = "../var/img/matmatronch/".$infos['id'].".identity.jpg";
@@ -111,6 +113,8 @@ class pdfcarteae extends FPDF
 
   function render_back ( $x, $y, $infos )
   {
+    print_r($this->img_back);
+    print_r($this->img_back[$infos[$type_cotis]]."\n\n");
     $this->Image($this->img_back[$infos[$type_cotis]],$x,$y,$this->width,$this->height);
 
     $cbar = new PDF_C128AObject($this->pos['cbar']['w'], $this->pos['cbar']['h'],
