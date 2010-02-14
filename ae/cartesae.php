@@ -343,7 +343,7 @@ L'équipe info AE";
       "INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
       "LEFT JOIN `utl_etu_utbm` ON `ae_cotisations`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur` ".
       "WHERE `ae_carte`.`etat_vie_carte_ae`=".CETAT_ATTENTE." " .
-      "AND departement_utbm IN ('tc','gmc') " .
+      "AND departement_utbm IN ('tc','mc') " .
       "ORDER BY `ae_carte`.`id_carte_ae`");
   $printable['sev'] = array();
   while ( $row = $req->get_row() )
@@ -367,7 +367,7 @@ L'équipe info AE";
       "INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
       "LEFT JOIN `utl_etu_utbm` ON `ae_cotisations`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur` ".
       "WHERE `ae_carte`.`etat_vie_carte_ae`=".CETAT_ATTENTE." " .
-      "AND ( departement_utbm NOT IN ('tc','gmc','edim') OR departement_utbm IS NULL ) " .
+      "AND ( departement_utbm NOT IN ('tc','mc','edim') OR departement_utbm IS NULL ) " .
       "ORDER BY `ae_carte`.`id_carte_ae`");
   $printable['bel'] = array();
   while ( $row = $req->get_row() )
