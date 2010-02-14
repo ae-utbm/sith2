@@ -27,8 +27,8 @@ require_once($topdir . "include/lib/barcodefpdf.inc.php");
 
 class pdfcarteae extends FPDF
 {
-  var $img_front = array();
-  var $img_back = array();
+  var $img_front;
+  var $img_back;
   var $width;
   var $height;
   var $xmargin;
@@ -90,7 +90,7 @@ class pdfcarteae extends FPDF
   {
     global $topdir;
 
-    $this->Image($this->img_front[$infos[type_cotis]],$x,$y,$this->width,$this->height);
+    $this->Image($this->img_front[$infos[$type_cotis]],$x,$y,$this->width,$this->height);
 
     $src = "../var/img/matmatronch/".$infos['id'].".identity.jpg";
 
@@ -111,7 +111,7 @@ class pdfcarteae extends FPDF
 
   function render_back ( $x, $y, $infos )
   {
-    $this->Image($this->img_back[$infos[type_cotis]],$x,$y,$this->width,$this->height);
+    $this->Image($this->img_back[$infos[$type_cotis]],$x,$y,$this->width,$this->height);
 
     $cbar = new PDF_C128AObject($this->pos['cbar']['w'], $this->pos['cbar']['h'],
             BCS_ALIGN_CENTER | BCS_DRAW_TEXT,
