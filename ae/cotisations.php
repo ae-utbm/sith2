@@ -457,7 +457,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
       $frm = new form("newcotiz","cotisations.php?id_utilisateur=".$user->id,true,"POST","Nouvelle cotisation");
       $frm->add_hidden("action","newcotiz");
-      $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2", 2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3", 3 => "Cursus Branche, 45 €, jusqu'au $date4", 4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2"),1);
+      $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2", 2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3", 3 => "Cursus Branche, 45 €, jusqu'au $date4", 4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2", 5 => "Cotisation par Assidu, 4€, jusqu'au $date2", 6 => "Cotisation Amicale, 4€, jusqu'au $date2"),1);
       $frm->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
       $frm->add_checkbox("a_pris_cadeau","Cadeau distribué",false);
