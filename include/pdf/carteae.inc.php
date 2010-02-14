@@ -179,7 +179,7 @@ class pdfcarteae extends FPDF
       $users[$i]["nom"] = $row["nom_utl"];
       $users[$i]["prenom"] = $row["prenom_utl"];
       $users[$i]["surnom"] = $row["surnom_utbm"];
-      $users[$i]["type_cotis"] = $row["type_cotis_utbm"];
+      $users[$i]["type_cotis"] = $row["type_cotis"];
       $fsem = $this->semestre(strtotime($row["date_fin_cotis"]));
       $sem = $this->semestre(time());
 
