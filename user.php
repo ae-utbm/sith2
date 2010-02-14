@@ -61,7 +61,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
 
   // Pour accdéder aux fiches matmatronch faut être cotisant, ou être utbm
   // ou vouloir consulter sa propre fiche
-  if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae )
+  if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae && !$site->user->assidu)
     $site->error_forbidden("matmatronch","group",10001);
 
   // Si la fiche n'est pas public, et qu'on ne peut pas l'éditer,
@@ -1138,7 +1138,7 @@ else
 
   $cts->add($info);
 
-  if ( $site->user->id == $user->id && !$user->ae )
+  if ( $site->user->id == $user->id && !$user->ae && !$site->user->assidu && !$site->user->amicale)
   {
     $cts->add_title(2, "Cotisation AE");
     $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_non_ae.png\">" .
@@ -1224,7 +1224,7 @@ else
   }
 
   /* l'onglet AE */
-  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") ) && $user->ae )
+  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") ) && ($user->ae || $site->user->assidu || $site->user->amicale) )
   {
     $cts->add_title(2, "Cotisation AE");
 
@@ -1247,9 +1247,19 @@ else
 
       $year = explode("-", $res['date_fin_cotis']);
       $year = $year[0];
-      $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_ae.png\">&nbsp;&nbsp;" .
-                          "Cotisant(e) AE jusqu'au " .
-                          HumanReadableDate($res['date_fin_cotis'], null, false) . " $year !");
+      if ($user->ae)
+        $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_ae.png\">&nbsp;&nbsp;" .
+                            "Cotisant(e) AE jusqu'au " .
+                            HumanReadableDate($res['date_fin_cotis'], null, false) . " $year !");
+      elseif ($user->assidu)
+        $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_ae.png\">&nbsp;&nbsp;" .
+                            "Cotisant(e) par Assidu jusqu'au " .
+                            HumanReadableDate($res['date_fin_cotis'], null, false) . " $year !");
+      if ($user->amicale)
+        $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_ae.png\">&nbsp;&nbsp;" .
+                            "Cotisant(e) par l'Amicale jusqu'au " .
+                            HumanReadableDate($res['date_fin_cotis'], null, false) . " $year !");
+
       if ( $can_edit )
       {
         $req = new requete($site->db,"SELECT `id_carte_ae`, `etat_vie_carte_ae`, `cle_carteae`, `a_pris_cadeau` FROM `ae_carte` INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` WHERE `ae_cotisations`.`id_utilisateur`='".$user->id."' AND `ae_carte`.`etat_vie_carte_ae`<".CETAT_EXPIRE."");
