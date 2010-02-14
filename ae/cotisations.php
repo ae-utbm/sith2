@@ -115,7 +115,7 @@ function add_new_form($id = null)
   $frm->add_info("&nbsp;");
 
   $sub_frm_cotiz = new form("cotisation",null,null,null,"Cotisation");
-  $sub_frm_cotiz->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, jusqu'au $date1", 1=>"2 Semestres, 28 Euros, jusqu'au $date2", 2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3", 3 => "Cursus Branche, 45 €, jusqu'au $date4", 4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2"),1);
+  $sub_frm_cotiz->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, jusqu'au $date1", 1=>"2 Semestres, 28 Euros, jusqu'au $date2", 2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3", 3 => "Cursus Branche, 45 €, jusqu'au $date4", 4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2", 5 => "Cotisation par Assidu, 4€, jusqu'au $date2", 6 => "Cotisation Amicale, 4€, jusqu'au $date2"),1);
   $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
   $sub_frm_cotiz->add_info("&nbsp;");
 
@@ -217,7 +217,7 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
   }
   else
   {
-    if ( $user->ae )
+    if ( $user->ae || $user->assidu || $user->amicale )
     {
       global $site;
       $req = new requete($site->db,
@@ -256,22 +256,35 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     if ( $_REQUEST["cotiz"] == 0 ) {
       $date_fin = strtotime($date1);
       $prix_paye = 1500;
+      $type_cotis = 1;
     } elseif ( $_REQUEST["cotiz"] == 1 ) {
       $date_fin = strtotime($date2);
       $prix_paye = 2800;
+      $type_cotis = 1;
     } elseif ( $_REQUEST["cotiz"] == 2 ) {
       $date_fin = strtotime($date3);
       $prix_paye = 4500;
+      $type_cotis = 1;
     } elseif ( $_REQUEST["cotiz"] == 3 ) {
       $date_fin = strtotime($date4);
       $prix_paye = 4500;
-    } else {
+      $type_cotis = 1;
+    } elseif ( $_REQUEST["cotiz"] == 4 ) {
       $date_fin = strtotime($date2);
       $prix_paye = 0;
+      $type_cotis = 1;
+    } elseif ( $_REQUEST["cotiz"] == 5 ) {
+      $date_fin = strtotime($date2);
+      $prix_paye = 4;
+      $type_cotis = 2;
+    } else {
+      $date_fin = strtotime($date2);
+      $prix_paye = 4;
+      $type_cotis = 3;
     }
 
     $cotisation->load_lastest_by_user ( $user->id );
-    $cotisation->add ( $user->id, $date_fin, $_REQUEST["paiement"], $prix_paye );
+    $cotisation->add ( $user->id, $date_fin, $_REQUEST["paiement"], $prix_paye, $type_cotis );
 
     $a_pris_cadeau = $_REQUEST["cadeau"] == true;
 

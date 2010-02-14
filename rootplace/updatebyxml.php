@@ -172,7 +172,7 @@ if(isset($_POST['action'])
               $date_fin = strtotime($date);
               $prix_paye = 2800;
               $cotisation->load_lastest_by_user ( $user->id );
-              $cotisation->add( $user->id, $date_fin, 4, $prix_paye );
+              $cotisation->add( $user->id, $date_fin, 4, $prix_paye, 1 );
               $m++;
 
             }
@@ -191,7 +191,7 @@ if(isset($_POST['action'])
                 $date_fin = strtotime($date);
                 $prix_paye = 2800;
                 $cotisation->load_lastest_by_user ( $user->id );
-                $cotisation->add( $user->id, $date_fin, 4, $prix_paye );
+                $cotisation->add( $user->id, $date_fin, 4, $prix_paye, 1 );
                 $m++;
               }
             }
@@ -202,7 +202,7 @@ if(isset($_POST['action'])
             $date_fin = strtotime($date);
             $prix_paye = 2800;
             $cotisation->load_lastest_by_user ( $user->id );
-            $cotisation->add( $user->id, $date_fin, 4, $prix_paye );
+            $cotisation->add( $user->id, $date_fin, 4, $prix_paye, 1 );
             $m++;
           }
         }

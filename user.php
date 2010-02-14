@@ -1090,6 +1090,8 @@ elseif ( ($_REQUEST["view"]=="groups") &&
   $frm = new form("setattributes","user.php?view=groups&id_utilisateur=".$user->id,false,"POST","Attribus");
   $frm->add_hidden("action","setattributes");
   $frm->add_checkbox("ae","ae",$user->ae,true);
+  $frm->add_checkbox("assidu","assidu",$user->assidu,true);
+  $frm->add_checkbox("amicale","amicale",$user->amicale,true);
   $frm->add_checkbox("utbm","utbm",$user->utbm, !$user->email_utbm);
   $frm->add_checkbox("etudiant","etudiant",$user->etudiant);
   $frm->add_checkbox("ancien_etudiant","ancien_etudiant",$user->ancien_etudiant);

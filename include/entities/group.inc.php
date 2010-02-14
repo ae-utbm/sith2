@@ -43,128 +43,128 @@
 class group extends stdentity
 {
 
-	/** Nom unix du groupe */
-	var $nom;
-	/** Description du groupe */
-	var $description;
+  /** Nom unix du groupe */
+  var $nom;
+  /** Description du groupe */
+  var $description;
 
-	/** Accés à la base de donnés en lecture seule.*/
-	var $db;
-	/** Accés à la base de donnés en lecture et ecriture.*/
-	var $dbrw;
+  /** Accés à la base de donnés en lecture seule.*/
+  var $db;
+  /** Accés à la base de donnés en lecture et ecriture.*/
+  var $dbrw;
 
-	/** Charge un groupe par son ID
-	 * @param $id ID du groupe
-	 */
-	function load_by_id ( $id )
-	{
-	  if ( $id >= 10000 )
-	  {
-	    $all = $this->enumerate();
+  /** Charge un groupe par son ID
+   * @param $id ID du groupe
+   */
+  function load_by_id ( $id )
+  {
+    if ( $id >= 10000 )
+    {
+      $all = $this->enumerate();
 
-	    if ( !isset($all[$id]) )
-	     return false;
+      if ( !isset($all[$id]) )
+       return false;
 
-	    $this->id = $id;
-	    $this->nom = $all[$id];
-	    $this->description = "";
-	    return true;
-	  }
+      $this->id = $id;
+      $this->nom = $all[$id];
+      $this->description = "";
+      return true;
+    }
 
-		$req = new requete($this->db, "SELECT * FROM `groupe`
-				WHERE `id_groupe` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+    $req = new requete($this->db, "SELECT * FROM `groupe`
+        WHERE `id_groupe` = '" . mysql_real_escape_string($id) . "'
+        LIMIT 1");
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
 
-		$this->id = null;
+    $this->id = null;
     return false;
-	}
+  }
 
-	/**
-	 * Charge un groupe depuis une ligne SQL.
-	 * @param $row Ligne SQL
-	 */
-	function _load ( $row )
-	{
-		$this->id = $row['id_groupe'];
-		$this->nom = $row['nom_groupe'];
-		$this->description = $row['description_groupe'];
-	}
+  /**
+   * Charge un groupe depuis une ligne SQL.
+   * @param $row Ligne SQL
+   */
+  function _load ( $row )
+  {
+    $this->id = $row['id_groupe'];
+    $this->nom = $row['nom_groupe'];
+    $this->description = $row['description_groupe'];
+  }
 
-	/**
-	 * Crée un groupe
-	 * @param $nom Nom du groupe (unix)
-	 * @param $description Description du groupe
-	 */
-	function add_group ( $nom, $description )
-	{
+  /**
+   * Crée un groupe
+   * @param $nom Nom du groupe (unix)
+   * @param $description Description du groupe
+   */
+  function add_group ( $nom, $description )
+  {
 
-		$this->nom = $nom;
-		$this->description = $description;
+    $this->nom = $nom;
+    $this->description = $description;
 
-		$sql = new insert ($this->dbrw,
-				"groupe",
-				array(
-					"nom_groupe" => $this->nom,
-					"description_groupe" => $this->description
-					)
-				);
+    $sql = new insert ($this->dbrw,
+        "groupe",
+        array(
+          "nom_groupe" => $this->nom,
+          "description_groupe" => $this->description
+          )
+        );
 
-		if ( $sql )
-			$this->id = $sql->get_id();
-		else
-			$this->id = null;
-	}
+    if ( $sql )
+      $this->id = $sql->get_id();
+    else
+      $this->id = null;
+  }
 
-	/**
-	 * Supprime un groupe
-	 */
-	function delete_group ( )
-	{
-		$req = new delete($this->dbrw,"utl_groupe",
-						array(
-							"id_groupe"=>$this->id
-							));
-		$req = new delete($this->dbrw,"groupe",
-						array(
-							"id_groupe"=>$this->id
-							));
-	}
-	/**
-	 * Ajoute un utilisateur au groupe
-	 * @param $id_utilisateur Id de l'utilisateur
-	 */
-	function add_user_to_group ( $id_utilisateur )
-	{
-		$req = new insert($this->dbrw,"utl_groupe",
-						array(
-							"id_groupe"=>$this->id,
-							"id_utilisateur"=>$id_utilisateur
-							));
+  /**
+   * Supprime un groupe
+   */
+  function delete_group ( )
+  {
+    $req = new delete($this->dbrw,"utl_groupe",
+            array(
+              "id_groupe"=>$this->id
+              ));
+    $req = new delete($this->dbrw,"groupe",
+            array(
+              "id_groupe"=>$this->id
+              ));
+  }
+  /**
+   * Ajoute un utilisateur au groupe
+   * @param $id_utilisateur Id de l'utilisateur
+   */
+  function add_user_to_group ( $id_utilisateur )
+  {
+    $req = new insert($this->dbrw,"utl_groupe",
+            array(
+              "id_groupe"=>$this->id,
+              "id_utilisateur"=>$id_utilisateur
+              ));
 
-	}
-	/**
-	 * Enlève un utilisateur
-	 * @param $id_utilisateur Id de l'utilisateur
-	 */
-	function remove_user_from_group ( $id_utilisateur )
-	{
-		$req = new delete($this->dbrw,"utl_groupe",
-						array(
-							"id_groupe"=>$this->id,
-							"id_utilisateur"=>$id_utilisateur
-							));
+  }
+  /**
+   * Enlève un utilisateur
+   * @param $id_utilisateur Id de l'utilisateur
+   */
+  function remove_user_from_group ( $id_utilisateur )
+  {
+    $req = new delete($this->dbrw,"utl_groupe",
+            array(
+              "id_groupe"=>$this->id,
+              "id_utilisateur"=>$id_utilisateur
+              ));
 
-	}
+  }
 
-	function can_enumerate()
-	{
+  function can_enumerate()
+  {
     return true;
-	}
+  }
 
   function enumerate ( $null=false, $conds = null )
   {
@@ -186,6 +186,8 @@ class group extends stdentity
       $values[10007] = "etudiants-tous";
       $values[10008] = "utilisateurs-valides";
       $values[10009] = "responsables-clubs";
+      $values[10010] = "assidu-membres";
+      $values[10011] = "amicale-membres";
 
       $req = new requete($this->db,
         "SELECT `id_asso`, `nom_unix_asso` " .

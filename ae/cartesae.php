@@ -48,6 +48,7 @@ if ( $_REQUEST["action"] == "pdf" )
       "`utilisateurs`.`prenom_utl`, " .
       "`utl_etu_utbm`.`surnom_utbm`, " .
       "`ae_cotisations`.`date_fin_cotis`, " .
+      "`ae_cotisations`.`type_cotis`, " .
       "`ae_carte`.`id_carte_ae` " .
       "FROM `ae_carte` " .
       "INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .

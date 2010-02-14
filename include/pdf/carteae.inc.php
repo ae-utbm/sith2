@@ -51,8 +51,12 @@ class pdfcarteae extends FPDF
     $this->npp = 10; // Nombre par page
     $this->npl=2; // Nombre par ligne
 
-    $this->img_front = $topdir."images/carteae/front-A2009.png";
-    $this->img_back = $topdir."images/carteae/back-A2009.png";
+    $this->img_front[1] = $topdir."images/carteae/ae-front-A2009.png";
+    $this->img_back[1] = $topdir."images/carteae/ae-back-A2009.png";
+    $this->img_front[2] = $topdir."images/carteae/assidu-front-A2009.png";
+    $this->img_back[2] = $topdir."images/carteae/assidu-back-A2009.png";
+    $this->img_front[3] = $topdir."images/carteae/amicale-front-A2009.png";
+    $this->img_back[3] = $topdir."images/carteae/amicale-back-A2009.png";
 
     /* ATTENTION
      * - l'égalité suivante doit être respectée :
@@ -86,7 +90,7 @@ class pdfcarteae extends FPDF
   {
     global $topdir;
 
-    $this->Image($this->img_front,$x,$y,$this->width,$this->height);
+    $this->Image($this->img_front[$infos[type_cotis]],$x,$y,$this->width,$this->height);
 
     $src = "../var/img/matmatronch/".$infos['id'].".identity.jpg";
 
@@ -107,7 +111,7 @@ class pdfcarteae extends FPDF
 
   function render_back ( $x, $y, $infos )
   {
-    $this->Image($this->img_back,$x,$y,$this->width,$this->height);
+    $this->Image($this->img_back[$infos[type_cotis]],$x,$y,$this->width,$this->height);
 
     $cbar = new PDF_C128AObject($this->pos['cbar']['w'], $this->pos['cbar']['h'],
             BCS_ALIGN_CENTER | BCS_DRAW_TEXT,

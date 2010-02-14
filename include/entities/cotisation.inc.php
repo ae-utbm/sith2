@@ -15,151 +15,160 @@ require_once("carteae.inc.php");
  - 4 : administration
  - 5 : eboutic */
 
+/** Type de cotisation :
+ - 1 : normale
+ - 2 : assidu
+ - 3 : amicale */
+
 class cotisation extends stdentity
 {
-	var $id_utilisateur;
-	var $date_cotis;
-	var $date_fin_cotis;
-	var $a_pris_cadeau;
-	var $a_pris_carte;
-	var $mode_paiement_cotis;
-	var $prix_paye_cotis;
+  var $id_utilisateur;
+  var $date_cotis;
+  var $date_fin_cotis;
+  var $a_pris_cadeau;
+  var $a_pris_carte;
+  var $mode_paiement_cotis;
+  var $prix_paye_cotis;
 
 
-	/** Charge une carte en fonction de son id
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id de la fonction
-	 */
-	function load_by_id ( $id )
-	{
-		$req = new requete($this->db, "SELECT * FROM `ae_cotisations`
-				WHERE `id_cotisation` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");
+  /** Charge une carte en fonction de son id
+   * $this->id est égal à -1 en cas d'erreur
+   * @param $id id de la fonction
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * FROM `ae_cotisations`
+        WHERE `id_cotisation` = '" . mysql_real_escape_string($id) . "'
+        LIMIT 1");
 
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
 
-		$this->id = null;
-		return false;
-	}
+    $this->id = null;
+    return false;
+  }
 
-	function load_lastest_by_user ( $id_utilisateur )
-	{
-		$req = new requete($this->db, "SELECT * FROM `ae_cotisations`
-				WHERE `id_utilisateur` = '" . mysql_real_escape_string($id_utilisateur) . "'
-				ORDER BY `date_fin_cotis` DESC LIMIT 1");
+  function load_lastest_by_user ( $id_utilisateur )
+  {
+    $req = new requete($this->db, "SELECT * FROM `ae_cotisations`
+        WHERE `id_utilisateur` = '" . mysql_real_escape_string($id_utilisateur) . "'
+        ORDER BY `date_fin_cotis` DESC LIMIT 1");
 
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
 
-		$this->id = null;
-		return false;
-	}
+    $this->id = null;
+    return false;
+  }
 
-	function _load ( $row )
-	{
-		$this->id					= $row['id_cotisation'];
-		$this->id_utilisateur			= $row['id_utilisateur'];
-		$this->date_cotis			= strtotime($row['date_cotis']);
-		$this->date_fin_cotis			= strtotime($row['date_fin_cotis']);
-		$this->a_pris_cadeau			= $row['a_pris_cadeau'];
-		$this->a_pris_carte			= $row['a_pris_carte'];
-		$this->mode_paiement_cotis	= $row['mode_paiement_cotis'];
-		$this->prix_paye_cotis		= $row['prix_paye_cotis'];
+  function _load ( $row )
+  {
+    $this->id          = $row['id_cotisation'];
+    $this->id_utilisateur      = $row['id_utilisateur'];
+    $this->date_cotis      = strtotime($row['date_cotis']);
+    $this->date_fin_cotis      = strtotime($row['date_fin_cotis']);
+    $this->a_pris_cadeau      = $row['a_pris_cadeau'];
+    $this->a_pris_carte      = $row['a_pris_carte'];
+    $this->mode_paiement_cotis  = $row['mode_paiement_cotis'];
+    $this->prix_paye_cotis    = $row['prix_paye_cotis'];
 
-	}
+  }
 
 
-	function add ( $id_utilisateur, $date_fin, $mode_paiement, $prix_paye )
-	{
+  function add ( $id_utilisateur, $date_fin, $mode_paiement, $prix_paye, $type_cotis )
+  {
 
-		$this->id_utilisateur = $id_utilisateur;
-		$this->date_cotis = time();
-		$this->date_fin_cotis = $date_fin;
-		$this->a_pris_cadeau = false;
-		$this->a_pris_carte = false;
-		$this->mode_paiement_cotis = $mode_paiement;
-		$this->prix_paye_cotis = $prix_paye;
+    $this->id_utilisateur = $id_utilisateur;
+    $this->date_cotis = time();
+    $this->date_fin_cotis = $date_fin;
+    $this->a_pris_cadeau = ($type_cotis != 1);
+    $this->a_pris_carte = false;
+    $this->mode_paiement_cotis = $mode_paiement;
+    $this->prix_paye_cotis = $prix_paye;
+    $this->type_cotis = $type_cotis;
 
-		$sql = new insert ($this->dbrw,
-			"ae_cotisations",
-			array(
-				"id_utilisateur" => $this->id_utilisateur,
-				"date_cotis" => date("Y-m-d H:i:s",$this->date_cotis),
-				"date_fin_cotis" => date("Y-m-d",$this->date_fin_cotis),
-				"a_pris_cadeau" => $this->a_pris_cadeau,
-				"a_pris_carte" => $this->a_pris_carte,
-				"mode_paiement_cotis" => $this->mode_paiement_cotis,
-				"prix_paye_cotis" => $this->prix_paye_cotis
-				)
-			);
+    $sql = new insert ($this->dbrw,
+      "ae_cotisations",
+      array(
+        "id_utilisateur" => $this->id_utilisateur,
+        "date_cotis" => date("Y-m-d H:i:s",$this->date_cotis),
+        "date_fin_cotis" => date("Y-m-d",$this->date_fin_cotis),
+        "a_pris_cadeau" => $this->a_pris_cadeau,
+        "a_pris_carte" => $this->a_pris_carte,
+        "mode_paiement_cotis" => $this->mode_paiement_cotis,
+        "prix_paye_cotis" => $this->prix_paye_cotis,
+        "type_cotis" => $this->type_cotis,
+        )
+      );
 
-		if ( $sql )
-			$this->id = $sql->get_id();
-		else
-		{
-			$this->id = null;
-			return false;
-		}
+    if ( $sql )
+      $this->id = $sql->get_id();
+    else
+    {
+      $this->id = null;
+      return false;
+    }
 
-		$carte = new carteae($this->db,$this->dbrw);
+    $carte = new carteae($this->db,$this->dbrw);
 
-		$carte->load_by_utilisateur($this->id_utilisateur);
-		if ( $carte->id > 0 ) // On ré-utilise l'ancienne carte, s'il y a en une utilisable
-			$carte->prolongate($this->id,$this->date_fin_cotis);
-		else
-			$carte->add($this->id,$this->date_fin_cotis);
+    $carte->load_by_utilisateur($this->id_utilisateur);
+    if ( $carte->id > 0 ) // On ré-utilise l'ancienne carte, s'il y a en une utilisable
+      $carte->prolongate($this->id,$this->date_fin_cotis);
+    else
+      $carte->add($this->id,$this->date_fin_cotis);
 
-		$req = new update($this->dbrw,"utilisateurs",array("ae_utl"=>true),array("id_utilisateur"=>$this->id_utilisateur));
+    $types = array(1 => "ae_utl", 2 => "assidu_utl", 3 => "amicale_utl");
 
-		return true;
-	}
+    $req = new update($this->dbrw,"utilisateurs",array($types[$type_cotisation]=>true),array("id_utilisateur"=>$this->id_utilisateur));
 
-	function mark_cadeau($cadeau=true)
-	{
-		$this->a_pris_cadeau = $cadeau;
+    return true;
+  }
 
-		$sql = new update ($this->dbrw,
-			"ae_cotisations",
-			array(
-				"a_pris_cadeau" => $this->a_pris_cadeau
-				),
-			array(
-				"id_cotisation"=>$this->id
-				)
-			);
-	}
+  function mark_cadeau($cadeau=true)
+  {
+    $this->a_pris_cadeau = $cadeau;
 
-	function mark_carte($carte=true)
-	{
-		$this->a_pris_carte = $carte;
+    $sql = new update ($this->dbrw,
+      "ae_cotisations",
+      array(
+        "a_pris_cadeau" => $this->a_pris_cadeau
+        ),
+      array(
+        "id_cotisation"=>$this->id
+        )
+      );
+  }
 
-		$sql = new update ($this->dbrw,
-			"ae_cotisations",
-			array(
-				"a_pris_carte" => $this->a_pris_carte
-				),
-			array(
-				"id_cotisation"=>$this->id
-				)
-			);
-	}
+  function mark_carte($carte=true)
+  {
+    $this->a_pris_carte = $carte;
+
+    $sql = new update ($this->dbrw,
+      "ae_cotisations",
+      array(
+        "a_pris_carte" => $this->a_pris_carte
+        ),
+      array(
+        "id_cotisation"=>$this->id
+        )
+      );
+  }
 
   function generate_card()
   {
     $carte = new carteae($this->db,$this->dbrw);
 
-		$carte->load_by_utilisateur($this->id_utilisateur);
-		if ( $carte->id > 0 ) // On ré-utilise l'ancienne carte, s'il y a en une utilisable
-			$carte->prolongate($this->id,$this->date_fin_cotis);
-		else
-			$carte->add($this->id,$this->date_fin_cotis);
+    $carte->load_by_utilisateur($this->id_utilisateur);
+    if ( $carte->id > 0 ) // On ré-utilise l'ancienne carte, s'il y a en une utilisable
+      $carte->prolongate($this->id,$this->date_fin_cotis);
+    else
+      $carte->add($this->id,$this->date_fin_cotis);
   }
 
 }

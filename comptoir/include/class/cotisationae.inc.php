@@ -84,7 +84,7 @@ class cotisationae
   function vendu($user,$prix_unit)
   {
     $cotisation = new cotisation($this->db,$this->dbrw);
-    $cotisation->add ( $user->id, $this->enddate, 5, $prix_unit );
+    $cotisation->add ( $user->id, $this->enddate, 5, $prix_unit, 1 );
   }
 
   function get_info()

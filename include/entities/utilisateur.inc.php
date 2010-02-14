@@ -70,6 +70,8 @@ class utilisateur extends stdentity
   var $etudiant;
   var $ancien_etudiant;
   var $ae;
+  var $assidu;
+  var $amicale;
   var $modere;
 
   var $droit_image;
@@ -385,6 +387,8 @@ class utilisateur extends stdentity
     $this->etudiant = $row['etudiant_utl'];
     $this->ancien_etudiant = $row['ancien_etudiant_utl'];
     $this->ae = $row['ae_utl'];
+    $this->assidu = $row['assidu_utl'];
+    $this->amicale = $row['amicale_utl'];
     $this->modere = $row['modere_utl'];
     $this->droit_image = $row['droit_image_utl'];
     $this->id_licence_default_sas = $row['id_licence_default_sas'];
@@ -616,6 +620,14 @@ class utilisateur extends stdentity
 
     if ( $this->modere )
       $this->groupes[10008] = "utilisateurs-valides";
+
+    // 10009 : voir plus bas
+
+    if ( $this->amicale )
+      $this->groupes[10010] = "assidu-membres";
+
+    if ( $this->assidu )
+      $this->groupes[10011] = "amicale-membres";
 
     $req = new requete($this->db,
                        "SELECT `asso`.`id_asso`, ".
@@ -1135,6 +1147,8 @@ class utilisateur extends stdentity
     $this->droit_image = $droit_image;
 
     $this->ae = false;
+    $this->assidu = false;
+    $this->amicale = false;
     $this->utbm = $_utbm;
     $this->etudiant = $_etudiant;
     $this->ancien_etudiant = false;
@@ -1159,6 +1173,8 @@ class utilisateur extends stdentity
                               "droit_image_utl" => $this->droit_image,
                               "ancien_etudiant_utl"=> false,
                               "ae_utl"=>false,
+                              "assidu_utl"=>false,
+                              "amicale_utl"=>false,
                               "modere_utl"=> $this->modere,
                               "montant_compte"=> 0,
                               "publique_utl"=> $this->publique,
@@ -1336,6 +1352,8 @@ class utilisateur extends stdentity
                              "droit_image_utl" => $this->droit_image,
                              "ancien_etudiant_utl"=> false,
                              "ae_utl"=>false,
+                             "assidu_utl"=>false,
+                             "amicale_utl"=>false,
                              "modere_utl"=> $this->modere,
                              "montant_compte"=> 0,
                              "publique_utl"=> $this->publique,
@@ -2300,6 +2318,8 @@ L'équipe info AE";
       "utilisateurs.tovalid_utl"=>"noop",
       "utilisateurs.pass_utl"=>"noop",
       "utilisateurs.ae_utl"=>"or",
+      "utilisateurs.assidu_utl"=>"or",
+      "utilisateurs.amicale_utl"=>"or",
       "utl_etu_utbm.email_utbm"=>"validutbm");
 
     // Fusion par fusion
