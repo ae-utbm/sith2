@@ -283,7 +283,7 @@ class affiche extends stdentity
 
   /* Génère un pdf avec les affiches
    */
-  function gen_pdf($last){
+  function gen_pdf(){
     $req = new requete($this->db, "SELECT id_file* FROM `aff_affiches`
         WHERE date_deb < NOW AND date_fin < NOW()");
 
