@@ -31,6 +31,9 @@ require_once($topdir . "include/entities/affiche.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
 require_once($topdir . "include/entities/page.inc.php");
 
+require_once($topdir."include/entities/files.inc.php");
+require_once($topdir."include/entities/folder.inc.php");
+
 $site = new site();
 
 $affiche = new affiche($site->db, $site->dbrw);
@@ -181,9 +184,6 @@ if ( !$site->user->is_valid() )
   header("Location: 403.php?reason=session");
   exit();
 }
-
-require_once($topdir."include/entities/files.inc.php");
-require_once($topdir."include/entities/folder.inc.php");
 
 $file = new dfile($site->db, $site->dbrw);
 
