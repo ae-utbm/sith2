@@ -98,7 +98,7 @@ class affiche extends stdentity
   {
     global $wwwtopdir,$topdir;
 
-    $file = new dfile($site->db, $site->dbrw);
+    $file = new dfile($this->db, $this->dbrw);
     $file->load_by_id($this->id_file);
     $image = new image($this->titre, $file->get_html_link());
 
