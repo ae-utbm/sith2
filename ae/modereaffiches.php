@@ -83,7 +83,7 @@ if ((isset($_REQUEST['id_aff']))
           "<p>Mod&eacute;ration eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
 
     $fl = new dfile($site->db,$site->dbrw);
-    $fl->load_by_id($affiche->$id_file);
+    $fl->load_by_id($affiche->id_file);
     $fl->set_modere();
   }
 }
