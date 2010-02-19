@@ -135,7 +135,7 @@ if ( $_REQUEST["page"] == "checkupdate" )
  */
 if ( $_REQUEST["page"] == "pdf" )
 {
-  $affiches->gen_pdf();
+  $affiche->gen_pdf();
   exit();
 }
 
