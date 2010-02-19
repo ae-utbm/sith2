@@ -106,6 +106,7 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
 }
 if ( $_REQUEST["page"]  == "list" )
 {
+  $site->start_page ("services", "Modifier une affiche");
   $cts = $affiche->get_html_list($site->user);
   $site->add_contents ($cts);
   $site->end_page ();

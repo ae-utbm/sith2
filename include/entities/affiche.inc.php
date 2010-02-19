@@ -205,7 +205,6 @@ class affiche extends stdentity
 
     $this->id_asso = $id_asso;
     $this->titre = $titre;
-    $this->id_file = $id_file;
     $this->date_deb = $date_deb;
     $this->date_fin = $date_fin;
     $this->modere = $modere;
@@ -213,10 +212,8 @@ class affiche extends stdentity
 
     $req = new update ($this->dbrw,
            "aff_affiches",
-           array ("id_utilisateur" => $id_utilisateur,
-            "id_asso" => $id_asso,
+           array ( "id_asso" => $id_asso,
             "titre_aff" => $titre,
-            "id_file" => $id_file,
             "date_modifie" => date("Y-m-d H:i:s"),
             "date_deb" => date("Y-m-d H:i:s", $date_deb),
             "date_fin" => date("Y-m-d H:i:s", $date_fin),
@@ -249,9 +246,9 @@ class affiche extends stdentity
       "listaff",
       "Campagnes d'affichage en cours ou à venir",
       $req,
-      "news.php",
+      "affiches.php",
       "id_affiche",
-      array("titre"=>"Titre", "nom_utilisateur"=>"Auteur", "date_deb"=>"Début", "date_fin"=>"Fin"),
+      array("titre_aff"=>"Titre", "nom_utilisateur"=>"Auteur", "date_deb"=>"Début", "date_fin"=>"Fin"),
       array("edit" => "Modifier", "delete"=>"Enlever"), array(), array( )
       );
 
