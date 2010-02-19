@@ -94,16 +94,14 @@ class affiche extends stdentity
 
   /** Construit un stdcontents avec l'affiche
    */
-  function get_contents ($displaymap=true)
+  function get_contents ()
   {
-    global $wwwtopdir,$topdir;
-
     $file = new dfile($this->db, $this->dbrw);
     $file->load_by_id($this->id_file);
     $image = new image($this->titre, $file->get_html_link());
 
     $cts = new contents("Affiche : ".$this->titre);
-    $cts->add(image);
+    $cts->add($image);
     $cts->add_paragraph("Affichée du ".textual_plage_horraire($this->date_deb)."au ".textual_plage_horraire($this->date_fin));
 
     return $cts;
