@@ -304,6 +304,7 @@ class affiche extends stdentity
       }
     }
 
+    header("Content-Type: application/pdf");
     passthru("convert ".implode(' ', $fichiers)." pdf:-");
   }
 }
