@@ -422,7 +422,7 @@ class site extends interfaceweb
       $nbflux+=$nbtags;
 
       $req = new requete($this->db,"SELECT COUNT(*) FROM `aff_affiches`  WHERE `modere_aff`='0' ");
-      list($nbnews) = $req->get_row();
+      list($nbaffiches) = $req->get_row();
 
       if ( $nbnews > 0 )
         $elements[] = "<a href=\"".$topdir."ae/moderenews.php\"><b>$nbnews nouvelle(s)</b> à modérer</b></a>";

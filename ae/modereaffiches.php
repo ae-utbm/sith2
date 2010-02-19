@@ -1,5 +1,5 @@
 <?php
-/* Copyright 2006
+/* Copyright 2010
  *
  * - Maxime Petazzoni < sam at bulix dot org >
  * - Pierre Mauduit < pierre dot mauduit at utbm dot fr >
@@ -107,7 +107,7 @@ if (isset($_REQUEST['id_affiche']) &&
 
   /* on affiche un formulaire d'edition */
   $form = new form ("edit_aff",
-        "modereaffiche.php?id_aff=".$_REQUEST['id_affiche'].
+        "modereaffiches.php?id_aff=".$_REQUEST['id_affiche'].
         "&action=mod",
         true,
         "post",

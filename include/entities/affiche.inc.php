@@ -1,5 +1,5 @@
 <?php
-/* Copyright 2005,2006,2007
+/* Copyright 2010
  * - Julien Etelain < julien at pmad dot net >
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Mathieu Briand < briandmathieu at hyprua dot org >

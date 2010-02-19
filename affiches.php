@@ -1,5 +1,5 @@
 <?
-/* Copyright 2006
+/* Copyright 2010
  * - Julien Etelain < julien at pmad dot net >
  * - Pierre Mauduit
  * - Mathieu Briand < briandmathieu at hyprua dot org >
@@ -86,7 +86,7 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
 {
   $site->start_page ("services", "Affiche : ".$affiche->titre);
 
-  $frm = new form ("editaffiche","affiche.php",false,"POST","Edition d'une affiche");
+  $frm = new form ("editaffiche","affiches.php",false,"POST","Edition d'une affiche");
   $frm->add_hidden("action","save");
   $frm->add_hidden("id_affiche",$affiche->id);
   $frm->add_info("<b>ATTENTION</b> L'affiche sera soumise &agrave; nouveau &agrave; mod&eacute;ration");
@@ -140,8 +140,8 @@ if ( $affiche->id > 0 )
   if ( $can_edit )
   {
     $cts = new contents("Edition");
-    $cts->add_paragraph("<a href=\"affiche.php?page=edit&amp;id_affiche=".$affiche->id."\">Modifier</a> (l'affiche sera de nouveau soumise &agrave; mod&eacute;ration)");
-    $cts->add_paragraph("<a href=\"affiche.php?action=delete&amp;id_affiche=".$affiche->id."\">Supprimer</a>");
+    $cts->add_paragraph("<a href=\"affiches.php?page=edit&amp;id_affiche=".$affiche->id."\">Modifier</a> (l'affiche sera de nouveau soumise &agrave; mod&eacute;ration)");
+    $cts->add_paragraph("<a href=\"affiches.php?action=delete&amp;id_affiche=".$affiche->id."\">Supprimer</a>");
     $site->add_contents($cts);
   }
 
@@ -216,7 +216,7 @@ if ( $suitable && isset($_REQUEST["submit"]) )
                               "avec succ&egrave;s</p>"));
 }
 
-$frm = new form ("editaffiche","affiche.php",false,"POST","Proposition d'une affiche");
+$frm = new form ("editaffiche","affiches.php",false,"POST","Proposition d'une affiche");
 
 if ( $affiche_error )
   $frm->error($affiche_error);
