@@ -187,7 +187,7 @@ if ( isset($_REQUEST["submit"]) )
   elseif ( isset($_REQUEST["id_file"]) )
     $file->load_by_id($_REQUEST["id_file"]);
 
-  if ( !$_REQUEST["title"] || !$_REQUEST["content"] )
+  if ( !$_REQUEST["title"] )
     $affiche_error = "Le champ titre n'a pas &eacute;t&eacute; remplis";
   elseif ( $_REQUEST["debut"] >= $_REQUEST["fin"] )
     $affiche_error = "Date de debut et date de fin erron&eacute;s";
