@@ -120,8 +120,8 @@ if (isset($_REQUEST['id_affiche']) &&
   $form->add_text_field ("aff_title", "Titre de l'affiche :",$affiche->titre, true,"80");
 
   /* dates */
-  $frm->add_datetime_field("aff_deb","Date et heure de d&eacute;but");
-  $frm->add_datetime_field("aff_fin","Date et heure de fin");
+  $form->add_datetime_field("aff_deb","Date et heure de d&eacute;but");
+  $form->add_datetime_field("aff_fin","Date et heure de fin");
 
   $form->add_submit("accept", "Accepter");
   $form->add_submit("delete", "Supprimer");
