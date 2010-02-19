@@ -211,6 +211,7 @@ if ( $suitable && isset($_REQUEST["submit"]) )
   unset($_REQUEST["fin"]);
   unset($_REQUEST["id_asso"]);
   unset($_REQUEST["title"]);
+  unset($_REQUEST["id_file"]);
   $site->add_contents(new contents("Ajout d'affiches",
                               "<p>Votre affiche a &eacute;t&eacute; ajout&eacute;e ".
                               "avec succ&egrave;s</p>"));
@@ -223,8 +224,8 @@ if ( $affiche_error )
 
 $frm->add_text_field("title", "Titre de l'affiche",$_REQUEST["title"],true);
 
-$frm->add_datetime_field("debut","Date et heure de d&eacute;but", $_REQUEST['date_deb'], true);
-$frm->add_datetime_field("fin","Date et heure de fin", $_REQUEST['date_fin'], true);
+$frm->add_datetime_field("debut","Date et heure de d&eacute;but", $_REQUEST['debut'], true);
+$frm->add_datetime_field("fin","Date et heure de fin", $_REQUEST['fin'], true);
 
 $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$_REQUEST["id_asso"],true);
 

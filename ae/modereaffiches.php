@@ -28,7 +28,7 @@
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
-require_once($topdir . "include/entities/affiches.inc.php");
+require_once($topdir . "include/entities/affiche.inc.php");
 require_once($topdir."include/entities/files.inc.php");
 
 $site = new site ();
