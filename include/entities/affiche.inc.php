@@ -96,13 +96,11 @@ class affiche extends stdentity
    */
   function get_contents ()
   {
-    $file = new dfile($this->db, $this->dbrw);
-    $file->load_by_id($this->id_file);
-    $image = new image($this->titre, $file->get_html_link());
+    $image = new image($this->titre, "http://ae.utbm.fr/d.php?action=download&download=preview&id_file=".$this->id_file);
 
     $cts = new contents("Affiche : ".$this->titre);
     $cts->add($image);
-    $cts->add_paragraph("Affichée du ".textual_plage_horraire($this->date_deb)."au ".textual_plage_horraire($this->date_fin));
+    $cts->add_paragraph("Affichée du ".textual_plage_horraire($this->date_deb, $this->date_fin));
 
     return $cts;
   }
