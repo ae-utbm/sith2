@@ -115,6 +115,29 @@ if ( $_REQUEST["page"]  == "list" )
   $site->end_page ();
   exit();
 }
+/* Permet de vérifier s'il existe une version plus récente du fichier pdf.
+ * Page vide dans le cas où le pde n'a pas changé depuis 'last'.
+ * Dans le cas où le pdf a changé, la page contient l'heure actuelle : celle-ci
+ * doit être utilisée pour les futures vérifications (et non l'heure local de
+ * l'ordinateur diffusant le pdf, les horloges sont jamais à jour de toute
+ * façon... )
+ */
+if ( $_REQUEST["page"] == "checkupdate" )
+{
+  $last = mysql_real_escape_string(urldecode($_REQUEST['last']));
+
+  if ($affiche->check_update($last))
+    echo date("Y-m-d H:i:s");
+
+  exit();
+}
+/* Génère le pdf avec les affiches en cours
+ */
+if ( $_REQUEST["page"] == "pdf" )
+{
+  $affiches->gen_pdf();
+  exit();
+}
 
 
 if ( $affiche->id > 0 )

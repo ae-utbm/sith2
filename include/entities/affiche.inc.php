@@ -268,6 +268,44 @@ class affiche extends stdentity
     return $tbl;
   }
 
+  /* Vérifie si un changement à eu lieu depuis 'last'
+  */
+  function check_update($last){
+    $req = new requete($this->db, "SELECT COUNT(*) FROM `aff_affiches`
+        WHERE (date_deb > '".$last."' AND date_deb < NOW())
+        OR (date_fin > '".$last."' AND date_fin < NOW())
+        OR (date_modifie > '".$last."' AND date_modifie < NOW())");
+
+    list($count_modif) = $req->get_row();
+
+    return ($count_modif > 0);
+  }
+
+  /* Génère un pdf avec les affiches
+   */
+  function gen_pdf($last){
+    $req = new requete($this->db, "SELECT id_file* FROM `aff_affiches`
+        WHERE date_deb < NOW AND date_fin < NOW()");
+
+    $file = new dfile($site->db, $site->dbrw);
+
+    $fichiers = array();
+    if ( $req->lines < 1 )
+    {
+      $file->load_by_id(2762);
+      $fichiers[] = $file->get_real_filename();
+    }
+    else
+    {
+      while ($row = $req->get_row())
+      {
+        $file->load_by_id($row['id_file']);
+        $fichiers[] = $file->get_real_filename();
+      }
+    }
+
+    passthru("convert ".implode(' ', $fichiers)." pdf:-");
+  }
 }
 
 
