@@ -59,12 +59,19 @@ if ( isset($_REQUEST["id_affiche"]) )
 if ( ($_REQUEST["action"] == "delete") && $can_edit )
 {
   if ( $site->is_sure("accueil","Supprimer l'affiche ?","delaff".$affiche->id) )
-    {
+  {
+      $site->start_page ("services", "Modifier une affiche");
+
       $affiche->delete();
-      $cts_success = new contents("Suppression d'affiche",
-                                  "<p>Votre affiche a &eacute;t&eacute; supprim&eacute;e ".
-                                  "avec succ&egrave;s</p>");
-    }
+      $site->add_contents(new contents("Suppression d'affiche",
+                                    "<p>Votre affiche a &eacute;t&eacute; supprim&eacute;e ".
+                                    "avec succ&egrave;s</p>"));
+
+      $cts = $affiche->get_html_list($site->user);
+      $site->add_contents ($cts);
+      $site->end_page ();
+      exit();
+  }
 }
 elseif ( ($_REQUEST["action"] == "save") && $can_edit )
 {
@@ -212,7 +219,7 @@ if ( $suitable && isset($_REQUEST["submit"]) )
   unset($_REQUEST["fin"]);
   unset($_REQUEST["id_asso"]);
   unset($_REQUEST["title"]);
-  unset($_REQUEST["id_file"]);
+  $file = new dfile($site->db, $site->dbrw);
   $site->add_contents(new contents("Ajout d'affiches",
                               "<p>Votre affiche a &eacute;t&eacute; ajout&eacute;e ".
                               "avec succ&egrave;s</p>"));

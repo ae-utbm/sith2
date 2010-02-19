@@ -249,7 +249,7 @@ class affiche extends stdentity
       "affiches.php",
       "id_affiche",
       array("titre_aff"=>"Titre", "nom_utilisateur"=>"Auteur", "date_deb"=>"Début", "date_fin"=>"Fin"),
-      array("edit" => "Modifier", "delete"=>"Enlever"), array(), array( )
+      array("view" => "Voir"), array(), array( )
       );
 
     return $tbl;
