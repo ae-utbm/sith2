@@ -434,7 +434,7 @@ class site extends interfaceweb
         $elements[] = "<a href=\"".$topdir."planet/index.php?view=modere\"><b>$nbflux flux</b> à modérer</b></a>";
 
       if ( $nbaffiches > 0 )
-        $elements[] = "<a href=\"".$topdir."ae/modereaffiches.php\"><b>$nbnews affiche(s)</b> à modérer</b></a>";
+        $elements[] = "<a href=\"".$topdir."ae/modereaffiches.php\"><b>$nbaffiches affiche(s)</b> à modérer</b></a>";
     }
 
     if ( $this->user->is_in_group("gestion_salles") )

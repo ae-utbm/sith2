@@ -135,7 +135,7 @@ if (isset($_REQUEST['id_affiche']) &&
  * modération. C'est pourquoi il n'y a pas de batch action possibles
  * dans les formulaires */
 
-/* presentation des news en attente de moderation */
+/* presentation des affiches en attente de moderation */
 else
 {
   $req = new requete($site->db,"SELECT `aff_affiches`.*,
@@ -152,10 +152,10 @@ else
         "les affiches</p>");
 
 
-  $tabl = new sqltable ("moderenews_list",
+  $tabl = new sqltable ("modereaffiche_list",
       "Nouvelles en attente de mod&eacute;ration",
       $req,
-      "moderenews.php",
+      "modereaffiches.php",
       "id_affiche",
       array ("titre_aff" => "Titre",
              "nom_utilisateur" => "Auteur",
