@@ -101,8 +101,8 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
   $frm->add_text_field("title", "Titre",$affiche->titre,true);
   $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$affiche->id_asso,true);
 
-  $frm->add_datetime_field("debut","Date et heure de d&eacute;but");
-  $frm->add_datetime_field("fin","Date et heure de fin");
+  $frm->add_datetime_field("debut","Date et heure de d&eacute;but", $affiche->date_deb, true);
+  $frm->add_datetime_field("fin","Date et heure de fin", $affiche->date_fin, true);
 
   $frm->add_submit("valid","Enregistrer");
 

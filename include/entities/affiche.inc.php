@@ -32,6 +32,9 @@
  */
 class affiche extends stdentity
 {
+  /** Id de l'affiche */
+  var $id;
+
   /** Auteur de l'affiche */
   var $id_utilisateur;
 
@@ -43,6 +46,15 @@ class affiche extends stdentity
 
   /** Le fichier lié */
   var $id_file;
+
+  /** Date de début */
+  var $date_deb;
+
+  /** Date de fin */
+  var $date_fin;
+
+  /** Date de modication */
+  var $date;
 
   /** Etat de modération: true modéré, false non modéré */
   var $modere;
