@@ -287,7 +287,7 @@ class affiche extends stdentity
     $req = new requete($this->db, "SELECT id_file FROM `aff_affiches`
         WHERE date_deb < NOW()
         AND date_fin > NOW()
-        AND modere_aff == '1'");
+        AND modere_aff = '1'");
 
     $file = new dfile($this->db, $this->dbrw);
 
