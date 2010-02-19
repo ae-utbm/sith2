@@ -229,7 +229,7 @@ class affiche extends stdentity
             "date_modifie" => date("Y-m-d H:i:s"),
             "date_deb" => date("Y-m-d H:i:s", $date_deb),
             "date_fin" => date("Y-m-d H:i:s", $date_fin),
-            "modere_aff" =>  $modere,
+            "modere_aff" => $modere,
             "id_utilisateur_moderateur"=>$id_utilisateur_moderateur
             ),
          array(

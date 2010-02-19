@@ -75,7 +75,7 @@ if ( ($_REQUEST["action"] == "delete") && $can_edit )
 }
 elseif ( ($_REQUEST["action"] == "save") && $can_edit )
 {
-  if ( $_REQUEST["title"] && $_REQUEST["content"] )
+  if ( $_REQUEST["title"] && $_REQUEST['debut'] && $_REQUEST['fin'])
   {
     $affiche->save_affiche(
                      $_REQUEST['id_asso'],
