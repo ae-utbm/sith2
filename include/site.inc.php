@@ -421,6 +421,9 @@ class site extends interfaceweb
       list($nbtags) = $req->get_row();
       $nbflux+=$nbtags;
 
+      $req = new requete($this->db,"SELECT COUNT(*) FROM `aff_affiches`  WHERE `modere_aff`='0' ");
+      list($nbnews) = $req->get_row();
+
       if ( $nbnews > 0 )
         $elements[] = "<a href=\"".$topdir."ae/moderenews.php\"><b>$nbnews nouvelle(s)</b> à modérer</b></a>";
 
@@ -429,6 +432,9 @@ class site extends interfaceweb
 
       if ( $nbflux > 0 )
         $elements[] = "<a href=\"".$topdir."planet/index.php?view=modere\"><b>$nbflux flux</b> à modérer</b></a>";
+
+      if ( $nbaffiches > 0 )
+        $elements[] = "<a href=\"".$topdir."ae/modereaffiches.php\"><b>$nbnews affiche(s)</b> à modérer</b></a>";
     }
 
     if ( $this->user->is_in_group("gestion_salles") )
