@@ -75,10 +75,6 @@ if ( ($_REQUEST["action"] == "delete") && $can_edit )
 }
 elseif ( ($_REQUEST["action"] == "save") && $can_edit )
 {
-  $modere = false;
-  $lieu->load_by_id($_REQUEST["id_lieu"]);
-
-
   if ( $_REQUEST["title"] && $_REQUEST["content"] )
   {
     $affiche->save_affiche(

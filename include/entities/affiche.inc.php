@@ -252,7 +252,8 @@ class affiche extends stdentity
         FROM `aff_affiches`
         INNER JOIN `utilisateurs` USING (id_utilisateur)
         WHERE `date_fin` > NOW()" .
-        $where);
+        $where .
+        "ORDER BY date_deb, date_fin");
 
     $tbl = new sqltable(
       "listaff",

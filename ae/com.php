@@ -63,6 +63,9 @@ $req = new requete($site->db,"SELECT COUNT(*) FROM `planet_tags`  WHERE `modere`
 list($nbtags) = $req->get_row();
 $nbflux+=$nbtags;
 
+$req = new requete($site->db,"SELECT COUNT(*) FROM `aff_affiches`  WHERE `modere_nvl`='0' ");
+list($nbaffiches) = $req->get_row();
+
 if ( $nbnews > 0 )
   $sublist->add("<a href=\"moderenews.php\"><b>Modération des nouvelles ($nbnews)</b></a>");
 else
@@ -78,11 +81,17 @@ if ( $nbflux > 0 )
 else
   $sublist->add("<a href=\"".$topdir."planet/index.php?view=modere\">Modération des flux (Aucun)</a>");
 
+if ( $nbaffiches > 0 )
+  $sublist->add("<a href=\"".$topdir."planet/index.php?view=modere\"><b>Modération des affiches ($nbaffiches)</b></a>");
+else
+  $sublist->add("<a href=\"".$topdir."planet/index.php?view=modere\">Modération des affiches (Aucune)</a>");
+
 $board->add($sublist,true);
 
 $sublist = new itemlist("Divers");
 $sublist->add("<a href=\"sondage.php\">Sondages</a>");
 $sublist->add("<a href=\"weekmail.php\">Weekmail</a>");
+$sublist->add("<a href=\"affiches.php?page=list\">Affiches actuelles ou à venir</a>");
 $board->add($sublist,true);
 
 $cts->add($board);
