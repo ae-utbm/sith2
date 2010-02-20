@@ -294,7 +294,7 @@ class affiche extends stdentity
     $fichiers = array();
     if ( $req->lines < 1 )
     {
-      $file->load_by_id(2762);
+      $file->load_by_id(2515);
       $fichiers[] = $file->get_real_filename();
     }
     else
@@ -307,7 +307,7 @@ class affiche extends stdentity
     }
 
     header("Content-Type: application/pdf");
-    passthru("convert ".implode(' ', $fichiers)." pdf:-");
+    passthru("convert -density 300x300 ".implode(' ', $fichiers)." pdf:-");
   }
 }
 
