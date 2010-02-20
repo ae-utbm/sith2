@@ -129,7 +129,7 @@ if ( $_REQUEST["page"]  == "list" )
  *
  * #! /bin/bash
  *
- * WD="${HOME}/ecran"
+ * WD="/home/ae/ecran"
  *
  * mkdir -p $WD
  *
@@ -138,7 +138,7 @@ if ( $_REQUEST["page"]  == "list" )
  *
  * if [ -n "$new" ]
  * then
- *     wget -O ${WD}/ecran.pdf "https://ae.utbm.fr/affiches.php?page=pdf"
+ *     wget -O ${WD}/ecran.pdf "https://ae.utbm.fr/affiches.php?page=pdf" 2> /dev/null
  *     echo $new > ${WD}/current
  * fi
  *
