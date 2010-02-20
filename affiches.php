@@ -124,6 +124,24 @@ if ( $_REQUEST["page"]  == "list" )
  * doit être utilisée pour les futures vérifications (et non l'heure local de
  * l'ordinateur diffusant le pdf, les horloges sont jamais à jour de toute
  * façon... )
+ *
+ * Script shell permettant de récupérer le pdf :
+ *
+ * #! /bin/bash
+ *
+ * WD="${HOME}/ecran"
+ *
+ * mkdir -p $WD
+ *
+ * current=$(cat ${WD}/current)
+ * new=$(wget -O - "https://ae.utbm.fr/affiches.php?page=checkupdate&last=${current}" 2> /dev/null )
+ *
+ * if [ -n "$new" ]
+ * then
+ *     wget -O ${WD}/ecran.pdf "https://ae.utbm.fr/affiches.php?page=pdf"
+ *     echo $new > ${WD}/current
+ * fi
+ *
  */
 if ( $_REQUEST["page"] == "checkupdate" )
 {
