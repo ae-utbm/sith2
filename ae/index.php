@@ -82,6 +82,7 @@ $board->clear();
 $sublist = new itemlist("Divers");
 $sublist->add("<a href=\"activites.php\">Listing des responsables et des trésoriers des activités</a>");
 $sublist->add("<a href=\"".$topdir."asso/sendfax.php?id_asso=1\">Envoyer des fax</a>");
+$sublist->add("<a href=\"".$topdir."group.php\">Gestion des groupes</a>");
 $board->add($sublist,true);
 
 $cts->add($board);
