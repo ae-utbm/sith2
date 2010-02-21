@@ -294,7 +294,7 @@ class affiche extends stdentity
     $fichiers = array();
     if ( $req->lines < 1 )
     {
-      $file->load_by_id(2515);
+      $file->load_by_id(5006);
       $fichiers[] = $file->get_real_filename();
     }
     else
