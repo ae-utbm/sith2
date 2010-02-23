@@ -189,6 +189,19 @@ $cts->add(new tabshead($asso->get_tabs($site->user),"slds"));
 
 $cts->add_title(1,"Ventes cartes AE + e-boutic");
 
+if (! isset($_REQUEST["allprod"]))
+  $req_produits = new requete($site->db, "SELECT `id_produit`, `nom_prod`
+                                          FROM `cpt_produits`
+                                          WHERE `cpt_produits`.`id_assocpt` = ".$asso->id."
+                                          AND prod_archive =0");
+else
+  $req_produits = new requete($site->db, "SELECT `id_produit` , `nom_prod`
+                                          FROM `cpt_produits`");
+
+$produits = array();
+while($row = $req_produits->get_row())
+  $produits[$row['id_produit']] = $row['nom_prod'];
+
 $frm = new form ("cptacpt","ventes.php",true,"POST","Critères de selection");
 $frm->add_hidden("action","view");
 $frm->add_hidden("id_asso",$asso->id);
@@ -197,6 +210,11 @@ $frm->add_datetime_field("fin","Date et heure de fin");
 $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit",$_REQUEST["id_typeprod"],true);
 $frm->add_entity_select("id_comptoir","Lieu", $site->db, "comptoir",$_REQUEST["id_comptoir"],true);
 $frm->add_entity_select("id_produit", "Produit", $site->db, "produit",$_REQUEST["id_produit"],true);
+$frm->add_select_field("id_produit", "Produit", $produits);
+
+if (! isset($_REQUEST["allprod"]))
+  $frm->add_info("<a href=\"?id_asso=".$asso->id."&amp;allprod\">Afficher tous les produits</a>");
+
 $frm->add_select_field("a_retirer_vente", "A retirer", array(null => "", 1 => "Non retiré", 2 => "Retiré"));
 $frm->add_submit("valid","Voir");
 $cts->add($frm,true);
