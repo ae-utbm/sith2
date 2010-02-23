@@ -134,12 +134,12 @@ class affiche extends stdentity
 
   function expire()
   {
-    $this->date_fin = date();
+    $this->date_fin = time;
 
     $req = new update ($this->dbrw,
            "aff_affiches",
            array ("date_modifie" => date("Y-m-d H:i:s"),
-            "date_fin" => $this->date_fin
+            "date_fin" => date("Y-m-d H:i:s")
             ),
          array(
            "id_affiche"=>$this->id
