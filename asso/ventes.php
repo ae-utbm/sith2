@@ -190,13 +190,19 @@ $cts->add(new tabshead($asso->get_tabs($site->user),"slds"));
 $cts->add_title(1,"Ventes cartes AE + e-boutic");
 
 if (! isset($_REQUEST["allprod"]))
+{
+  $allprod = false;
   $req_produits = new requete($site->db, "SELECT `id_produit`, `nom_prod`
                                           FROM `cpt_produits`
                                           WHERE `cpt_produits`.`id_assocpt` = ".$asso->id."
                                           AND prod_archive =0");
+}
 if (isset($_REQUEST["allprod"]) || ($req_produits->lines <= 0))
+{
+  $allprod = true;
   $req_produits = new requete($site->db, "SELECT `id_produit` , `nom_prod`
                                           FROM `cpt_produits`");
+}
 
 $produits = array();
 while($row = $req_produits->get_row())
@@ -211,7 +217,7 @@ $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit",$_REQUES
 $frm->add_entity_select("id_comptoir","Lieu", $site->db, "comptoir",$_REQUEST["id_comptoir"],true);
 $frm->add_select_field("id_produit", "Produit", $produits);
 
-if (! isset($_REQUEST["allprod"]))
+if (! $allprod)
   $frm->add_info("<a href=\"?id_asso=".$asso->id."&amp;allprod\">Afficher tous les produits</a>");
 
 $frm->add_select_field("a_retirer_vente", "A retirer", array(null => "", 1 => "Non retiré", 2 => "Retiré"));
