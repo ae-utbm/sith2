@@ -85,6 +85,9 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
                      $_REQUEST['title'],
                      $_REQUEST['debut'],
                      $_REQUEST['fin']);
+
+    if ($site->user->is_in_group("moderateur_site"))
+      $affiche->validate($site->user->id);
   }
 }
 
@@ -251,6 +254,9 @@ if ( $suitable && isset($_REQUEST["submit"]) )
                   $file->id,
                   $_REQUEST['debut'],
                   $_REQUEST['fin']);
+
+  if ($site->user->is_in_group("moderateur_site"))
+    $affiche->validate($site->user->id);
 
   unset($_REQUEST["debut"]);
   unset($_REQUEST["fin"]);
