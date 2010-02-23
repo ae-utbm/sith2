@@ -194,7 +194,7 @@ if (! isset($_REQUEST["allprod"]))
                                           FROM `cpt_produits`
                                           WHERE `cpt_produits`.`id_assocpt` = ".$asso->id."
                                           AND prod_archive =0");
-else
+if (isset($_REQUEST["allprod"]) || ($req_produits->lines > 0))
   $req_produits = new requete($site->db, "SELECT `id_produit` , `nom_prod`
                                           FROM `cpt_produits`");
 
@@ -209,7 +209,6 @@ $frm->add_datetime_field("debut","Date et heure de début");
 $frm->add_datetime_field("fin","Date et heure de fin");
 $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit",$_REQUEST["id_typeprod"],true);
 $frm->add_entity_select("id_comptoir","Lieu", $site->db, "comptoir",$_REQUEST["id_comptoir"],true);
-$frm->add_entity_select("id_produit", "Produit", $site->db, "produit",$_REQUEST["id_produit"],true);
 $frm->add_select_field("id_produit", "Produit", $produits);
 
 if (! isset($_REQUEST["allprod"]))
