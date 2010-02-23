@@ -194,7 +194,7 @@ if (! isset($_REQUEST["allprod"]))
                                           FROM `cpt_produits`
                                           WHERE `cpt_produits`.`id_assocpt` = ".$asso->id."
                                           AND prod_archive =0");
-if (isset($_REQUEST["allprod"]) || ($req_produits->lines > 0))
+if (isset($_REQUEST["allprod"]) || ($req_produits->lines <= 0))
   $req_produits = new requete($site->db, "SELECT `id_produit` , `nom_prod`
                                           FROM `cpt_produits`");
 
