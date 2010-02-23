@@ -122,11 +122,28 @@ class affiche extends stdentity
   function delete ()
   {
     if ( !$this->dbrw ) return;
-
-    $this->set_tags_array(array());
-
-    new delete($this->dbrw,"aff_affiches",array("id_affiche"=>$this->id));
+    if (($this->date_deb <= time()) && $this->modere)
+      $this->expire();
+    else
+      new delete($this->dbrw,"aff_affiches",array("id_affiche"=>$this->id));
     $this->id = null;
+  }
+
+  /** Fait expirer une affiche
+  */
+
+  function expire()
+  {
+    $this->date_fin = date();
+
+    $req = new update ($this->dbrw,
+           "aff_affiches",
+           array ("date_modifie" => date("Y-m-d H:i:s"),
+            "date_fin" => $this->date_fin
+            ),
+         array(
+           "id_affiche"=>$this->id
+           ));
   }
 
   /** Valide l'affiche
