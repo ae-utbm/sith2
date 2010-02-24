@@ -163,7 +163,7 @@ class utilisateur extends stdentity
   function load_all_by_id ( $id )
   {
     $req = new requete($this->db,
-                       "SELECT * ".
+                       "SELECT *, `utilisateurs`.`id_utilisateur` `id_utilisateur` ".
                        "FROM utilisateurs ".
                        "LEFT JOIN `utl_etu` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
                        "LEFT JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur`) ".
