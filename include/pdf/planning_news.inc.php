@@ -78,7 +78,7 @@ class pdfplanning_news extends FPDF
     list($x, $y) = $positions[$day];
     list($w, $h) = $dimensions[$day];
 
-    print_r(array($day, $x, $y, $w, $h));
+    print_r(array($day, $x, $y, $w, $h, $positions[$day], $dimensions[$day]));
 
     if (($x == null) || ($w == null))
     {
