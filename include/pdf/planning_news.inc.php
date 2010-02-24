@@ -75,10 +75,10 @@ class pdfplanning_news extends FPDF
 
   function add_day($day, $textes)
   {
-    list($x, $y) = $positions[$day];
-    list($w, $h) = $dimensions[$day];
+    list($x, $y) = $this->positions[$day];
+    list($w, $h) = $this->dimensions[$day];
 
-    print_r(array($day, $x, $y, $w, $h, $positions[$day], $dimensions[$day]));
+    print_r(array($day, $x, $y, $w, $h, $this->positions[$day], $this->dimensions[$day]));
 
     if (($x == null) || ($w == null))
     {
