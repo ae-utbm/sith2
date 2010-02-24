@@ -86,6 +86,8 @@ class pdfplanning_news extends FPDF
       $x = ($this->w - $max_w) / 2;
     }
 
+    print_r(array($x, $y, $w, $h));
+
     $this->SetXY($x, $y);
     $this->Cell($w, $h, implode('\n', $textes));
   }
