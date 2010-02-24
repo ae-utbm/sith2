@@ -95,7 +95,7 @@ if ($_REQUEST['action'] == "choix_even")
 
     if ($req->lines > 0)
     {
-      $subfrm = new subform("createplaning_".date("N", $date),
+      $subfrm = new subform("createplaning".date("N", $date),
                             strftime("%A %d %B", $date));
       while($row = $req->get_row())
       {
@@ -140,7 +140,7 @@ if ($_REQUEST['action'] == "choix_even")
 
   if ($req->lines > 0)
   {
-    $subfrm = new subform("createplaning_sem", "Toute la semaine");
+    $subfrm = new subform("createplaningsem", "Toute la semaine");
     while($row = $req->get_row())
     {
       $txt = "";
@@ -157,7 +157,7 @@ if ($_REQUEST['action'] == "choix_even")
 
       $txt .= $row['titre_nvl'];
 
-      $subfrm->add_checkbox("news[sem][".$i."]", $row['titre_nvl'], true);
+      $subfrm->add_checkbox("news[sem|".$i."]", $row['titre_nvl'], true);
       $subfrm->add_text_field("textes[".$i."]", "", $txt, true);
       $i++;
     }
@@ -168,7 +168,7 @@ if ($_REQUEST['action'] == "choix_even")
 
   $frm->add_submit("valid","Générer");
 
-  $site->add_contents ($frm);
+  $site->add_contents($frm);
 }
 /* Premier formulaire : on choisit la date du planning
  */
