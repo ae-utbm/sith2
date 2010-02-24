@@ -106,7 +106,7 @@ if ($_REQUEST['action'] == "choix_even")
         $subfrm->add_text_field("textes[".$row['id_nouvelle']."]", "Texte", $txt, true);
       }
 
-      $frm->addsub($subfrm);
+      $frm->addsub($subfrm, true);
     }
 
     $date = strtotime("+1 day", $date);
@@ -145,7 +145,7 @@ if ($_REQUEST['action'] == "choix_even")
       $subfrm->add_text_field("textes[".$row['id_nouvelle']."]", "Texte", $txt, true);
     }
 
-    $frm->addsub($subfrm);
+    $frm->addsub($subfrm, true);
   }
 
 
