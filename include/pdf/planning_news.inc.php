@@ -32,25 +32,8 @@ class pdfplanning_news extends FPDF
   var $xmargin;
   var $ymargin;
 
-  var $title_height;
-
-  var $positions = array( 1 => array(15,20),
-                          2 => array(50,90),
-                          3 => array(86,20),
-                          4 => array(121,90),
-                          5 => array(157,20),
-                          6 => array(192,90),
-                          7 => array(228,20),
-                          'sem' => array(null,160));
-
-  var $dimensions = array(1 => array(55,50),
-                          2 => array(55,50),
-                          3 => array(55,50),
-                          4 => array(55,50),
-                          5 => array(55,50),
-                          6 => array(55,50),
-                          7 => array(55,50),
-                          'sem' => array(null,30));
+  var $positions;
+  var $dimensions;
 
   function pdfplanning_news($title)
   {
@@ -60,6 +43,24 @@ class pdfplanning_news extends FPDF
 
     $this->xmargin = 15;
     $this->ymargin = 10;
+
+    $positions = array( 1 => array(15,20),
+                        2 => array(50,90),
+                        3 => array(86,20),
+                        4 => array(121,90),
+                        5 => array(157,20),
+                        6 => array(192,90),
+                        7 => array(228,20),
+                        'sem' => array(null,160));
+
+    $dimensions = array(1 => array(55,50),
+                        2 => array(55,50),
+                        3 => array(55,50),
+                        4 => array(55,50),
+                        5 => array(55,50),
+                        6 => array(55,50),
+                        7 => array(55,50),
+                        'sem' => array(null,30));
 
     $this->SetAutoPageBreak(false);
 
