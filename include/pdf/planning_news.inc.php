@@ -70,7 +70,7 @@ class pdfplanning_news extends FPDF
     $this->SetXY($this->xmargin, $this->ymargin);
     $this->Cell($this->w-($this->xmargin*2), $this->ymargin, utf8_decode($title), 0, 0, "C");
 
-    $this->SetFont('Arial','',10);
+    $this->SetFont('Arial','',8);
   }
 
   function add_day($day, $textes)
@@ -82,7 +82,7 @@ class pdfplanning_news extends FPDF
     {
       $max_w = 0;
       foreach($textes as $texte)
-        $max_w = max($max_w, $this->GetStringWidth($texte));
+        $max_w = max($max_w, $this->GetStringWidth(utf8_decode($texte)));
       $w = $max_w;
       $x = ($this->w - $max_w) / 2;
     }
