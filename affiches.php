@@ -260,7 +260,6 @@ if ( $suitable && isset($_REQUEST["submit"]) )
 
   unset($_REQUEST["debut"]);
   unset($_REQUEST["fin"]);
-  unset($_REQUEST["id_asso"]);
   unset($_REQUEST["title"]);
   $file = new dfile($site->db, $site->dbrw);
   $site->add_contents(new contents("Ajout d'affiches",
