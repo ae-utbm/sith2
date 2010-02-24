@@ -86,10 +86,12 @@ if ($_REQUEST['action'] == "choix_even")
                             strftime("%A %d %B", $date), true);
       while($row = $req->get_row())
       {
+        $i = 0;
         $txt = "";
+
         $time = strtotime($row['date_debut_eve']);
         if ($time > $date)
-          $txt .= date("G:i", $date);
+          $txt .= date("G:i", $time);
 
         if ($row['id_lieu'] != null)
         {
@@ -102,8 +104,9 @@ if ($_REQUEST['action'] == "choix_even")
 
         $txt .= $row['titre_nvl'];
 
-        $subfrm->add_checkbox("news[".$row['id_nouvelle']."]", $row['titre_nvl'], true);
-        $subfrm->add_text_field("textes[".$row['id_nouvelle']."]", "Texte", $txt, true);
+        $subfrm->add_checkbox("news[".date("N", $date)."][".$i."]", $row['titre_nvl'], true);
+        $subfrm->add_text_field("textes[".date("N", $date)."][".$i."]", "", $txt, true);
+        $i++;
       }
 
       $frm->addsub($subfrm, true);
@@ -121,14 +124,16 @@ if ($_REQUEST['action'] == "choix_even")
     INNER JOIN `nvl_nouvelles` USING (`id_nouvelle`)
     WHERE date_debut_eve < '".date("Y-m-d", $lastday)." 24:00'
       AND date_fin_eve > '".date("Y-m-d", $firstday)." 00:00'
-      AND `type_nvl` = 3");
+      AND `type_nvl` = 0");
 
   if ($req->lines > 0)
   {
     $subfrm = new subform("createplaning_sem", "Toute la semaine", true);
     while($row = $req->get_row())
     {
+      $i = 0;
       $txt = "";
+
       $time1 = strtotime($row['date_debut_eve']);
       $time2 = strtotime($row['date_fin_eve']);
 
@@ -141,8 +146,9 @@ if ($_REQUEST['action'] == "choix_even")
 
       $txt .= $row['titre_nvl'];
 
-      $subfrm->add_checkbox("news[".$row['id_nouvelle']."]", $row['titre_nvl'], true);
-      $subfrm->add_text_field("textes[".$row['id_nouvelle']."]", "Texte", $txt, true);
+      $subfrm->add_checkbox("news[sem][".$i."]", $row['titre_nvl'], true);
+      $subfrm->add_text_field("textes[sem][".$i."]", "", $txt, true);
+      $i++;
     }
 
     $frm->addsub($subfrm, true);
