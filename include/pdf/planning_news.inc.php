@@ -68,7 +68,7 @@ class pdfplanning_news extends FPDF
 
     $this->SetFont('Arial','',24);
     $this->SetXY($this->xmargin, $this->ymargin);
-    $this->Cell($this->w-($this->xmargin*2), $this->ymargin, utf8_decode($title));
+    $this->Cell($this->w-($this->xmargin*2), $this->ymargin, utf8_decode($title), 0, 0, "C");
 
     $this->SetFont('Arial','',10);
   }
@@ -88,7 +88,7 @@ class pdfplanning_news extends FPDF
     }
 
     $this->SetXY($x, $y);
-    $this->Cell($w, $h, implode('\n', $textes));
+    $this->MultiCell($w, $h, utf8_decode(implode('\n', $textes)));
   }
 
 }
