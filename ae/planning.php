@@ -60,6 +60,7 @@ if ($_REQUEST['action'] == "choix_even")
   /* Pour chaque jour on permet de choisir parmis la liste des nouvelles
   */
   $date = $firstday;
+  $i = 0;
   do
   {
     /* On ne cherche que dans les nouvelles ponctuelles ou répétitives
@@ -82,7 +83,6 @@ if ($_REQUEST['action'] == "choix_even")
 
     if ($req->lines > 0)
     {
-      $i = 0;
       $subfrm = new subform("createplaning_".date("N", $date),
                             strftime("%A %d %B", $date), true);
       while($row = $req->get_row())
@@ -105,7 +105,7 @@ if ($_REQUEST['action'] == "choix_even")
         $txt .= $row['titre_nvl'];
 
         $subfrm->add_checkbox("news[".date("N", $date)."|".$i."]", $row['titre_nvl'], true);
-        $subfrm->add_text_field("textes[".date("N", $date)."|".$i."]", "Texte", $txt, true);
+        $subfrm->add_text_field("textes[".$i."]", "", $txt, true);
         $i++;
       }
 
@@ -128,7 +128,6 @@ if ($_REQUEST['action'] == "choix_even")
 
   if ($req->lines > 0)
   {
-    $i = 0;
     $subfrm = new subform("createplaning_sem", "Toute la semaine", true);
     while($row = $req->get_row())
     {
@@ -147,7 +146,7 @@ if ($_REQUEST['action'] == "choix_even")
       $txt .= $row['titre_nvl'];
 
       $subfrm->add_checkbox("news[sem][".$i."]", $row['titre_nvl'], true);
-      $subfrm->add_text_field("textes[sem][".$i."]", "", $txt, true);
+      $subfrm->add_text_field("textes[".$i."]", "", $txt, true);
       $i++;
     }
 
