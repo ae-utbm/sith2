@@ -104,8 +104,8 @@ if ($_REQUEST['action'] == "choix_even")
 
         $txt .= $row['titre_nvl'];
 
-        $subfrm->add_checkbox("news[".date("N", $date)."][".$i."]", $row['titre_nvl'], true);
-        $subfrm->add_text_field("textes[".date("N", $date)."][".$i."]", "", $txt, true);
+        $subfrm->add_checkbox("news[".date("N", $date)."]", $row['titre_nvl'], true);
+        $subfrm->add_text_field("textes[".date("N", $date)."]", "Texte", $txt, true);
         $i++;
       }
 
