@@ -91,12 +91,12 @@ if ($_REQUEST['action'] == "choix_even")
           (date_debut_eve < '".date("Y-m-d", $date)." 00:00'
           AND date_fin_eve > '".date("Y-m-d", $date)." 10:00')
         )
-        AND `type_nvl` IN ( 1, 2 )", 1);
+        AND `type_nvl` IN ( 1, 2 )");
 
     if ($req->lines > 0)
     {
       $subfrm = new subform("createplaning_".date("N", $date),
-                            strftime("%A %d %B", $date), true);
+                            strftime("%A %d %B", $date));
       while($row = $req->get_row())
       {
         $txt = "";
@@ -121,7 +121,7 @@ if ($_REQUEST['action'] == "choix_even")
         $i++;
       }
 
-      $frm->addsub($subfrm, true);
+      $frm->addsub($subfrm, false);
     }
 
     $date = strtotime("+1 day", $date);
@@ -140,7 +140,7 @@ if ($_REQUEST['action'] == "choix_even")
 
   if ($req->lines > 0)
   {
-    $subfrm = new subform("createplaning_sem", "Toute la semaine", true);
+    $subfrm = new subform("createplaning_sem", "Toute la semaine");
     while($row = $req->get_row())
     {
       $txt = "";
@@ -162,7 +162,7 @@ if ($_REQUEST['action'] == "choix_even")
       $i++;
     }
 
-    $frm->addsub($subfrm, true);
+    $frm->addsub($subfrm, false);
   }
 
 
