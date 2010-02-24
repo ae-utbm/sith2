@@ -95,7 +95,7 @@ if ($_REQUEST['action'] == "choix_even")
         $subfrm->add_checkbox("news[".$row['id_nouvelle']."]", $txt, true);
       }
 
-      $frm->addsub($subfrm);
+      $frm->addsub($subfrm, true);
     }
 
     $date = strtotime("+1 day", $date);
