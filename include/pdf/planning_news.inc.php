@@ -78,8 +78,6 @@ class pdfplanning_news extends FPDF
     list($x, $y) = $this->positions[$day];
     list($w, $h) = $this->dimensions[$day];
 
-    print_r(array($day, $x, $y, $w, $h, $this->positions[$day], $this->dimensions[$day]));
-
     if (($x == null) || ($w == null))
     {
       $max_w = 0;
@@ -88,8 +86,6 @@ class pdfplanning_news extends FPDF
       $w = $max_w;
       $x = ($this->w - $max_w) / 2;
     }
-
-    print_r(array($day, $x, $y, $w, $h));
 
     $this->SetXY($x, $y);
     $this->Cell($w, $h, implode('\n', $textes));
