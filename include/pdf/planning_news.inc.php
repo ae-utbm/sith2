@@ -53,14 +53,14 @@ class pdfplanning_news extends FPDF
                               7 => array(228,20),
                               'sem' => array(null,160));
 
-    $this->dimensions = array(1 => array(55,50),
-                              2 => array(55,50),
-                              3 => array(55,50),
-                              4 => array(55,50),
-                              5 => array(55,50),
-                              6 => array(55,50),
-                              7 => array(55,50),
-                              'sem' => array(null,30));
+    $this->dimensions = array(1 => array(55,9),
+                              2 => array(55,9),
+                              3 => array(55,9),
+                              4 => array(55,9),
+                              5 => array(55,9),
+                              6 => array(55,9),
+                              7 => array(55,9),
+                              'sem' => array(null,9));
 
     $this->SetAutoPageBreak(false);
 
