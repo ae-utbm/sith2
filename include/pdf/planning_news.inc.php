@@ -88,7 +88,7 @@ class pdfplanning_news extends FPDF
     }
 
     $this->SetXY($x, $y);
-    $this->MultiCell($w, $h, utf8_decode(implode('\n', $textes)));
+    $this->MultiCell($w, $h, utf8_decode(implode("\n", $textes)));
   }
 
 }
