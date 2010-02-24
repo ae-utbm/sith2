@@ -89,7 +89,7 @@ if ($_REQUEST['action'] == "choix_even")
         $txt = "";
         $time = strtotime($row['date_debut_eve']);
         if ($time > $date)
-          $txt .= strftime("%G:%i", $date);
+          $txt .= date("G:i", $date);
 
         if ($row['id_lieu'] != null)
         {
