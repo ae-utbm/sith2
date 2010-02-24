@@ -40,7 +40,7 @@ if ($_REQUEST['action'] == "pdf")
 
   foreach($_REQUEST['news'] as $jour => $num_textes)
   {
-    foreach($num_textes as $num_texte)
+    foreach($num_textes as $num_texte => $bleh)
       $textes[] = $_REQUEST['textes'][$num_texte];
     $pdf->add_day($jour, $textes);
   }

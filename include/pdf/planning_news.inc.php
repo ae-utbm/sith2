@@ -68,6 +68,8 @@ class pdfplanning_news extends FPDF
     $this->SetFont('Arial','',24);
     $this->SetXY($this->xmargin, $this->ymargin);
     $this->Cell($this->w-($this->xmargin*2), $this->ymargin, utf8_decode($title));
+
+    $this->SetFont('Arial','',10);
   }
 
   function add_day($day, $textes)
