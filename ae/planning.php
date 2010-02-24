@@ -66,9 +66,10 @@ if ($_REQUEST['action'] == "choix_even")
      * si elles ont commencées avant le jour concerné, elles doivent se finir après 10h00
      */
     $req = new requete($site->db, "
-      SELECT id_nouvelle, titre_nvl, date_debut_eve
+      SELECT id_nouvelle, titre_nvl, date_debut_eve, id_lieu, nom_lieu
       FROM `nvl_dates`
       INNER JOIN `nvl_nouvelles` USING (`id_nouvelle`)
+      LEFT JOIN `loc_lieu` USING ( `id_lieu` )
       WHERE
         (
           (date_debut_eve > '".date("Y-m-d", $date)." 00:00'
@@ -82,20 +83,30 @@ if ($_REQUEST['action'] == "choix_even")
     if ($req->lines > 0)
     {
       $subfrm = new subform("createplaning_".date("N", $date),
-                            strftime("%A %d %B", $date));
+                            strftime("%A %d %B", $date), true);
       while($row = $req->get_row())
       {
         $txt = "";
         $time = strtotime($row['date_debut_eve']);
         if ($time > $date)
-          $txt .= date("%G:%i", $date).": ";
+          $txt .= strftime("%G:%i", $date);
+
+        if ($row['id_lieu'] != null)
+        {
+          if ($txt != "")
+            $txt .= ", ";
+          $txt .= $row['nom_lieu']." : ";
+        }
+        elseif ($txt != "")
+          $txt .= " : ";
 
         $txt .= $row['titre_nvl'];
 
-        $subfrm->add_checkbox("news[".$row['id_nouvelle']."]", $txt, true);
+        $subfrm->add_checkbox("news[".$row['id_nouvelle']."]", $row['titre_nvl'], true);
+        $subfrm->add_text_field("textes[".$row['id_nouvelle']."]", "Texte", $txt, true);
       }
 
-      $frm->addsub($subfrm, true);
+      $frm->addsub($subfrm);
     }
 
     $date = strtotime("+1 day", $date);
@@ -114,7 +125,7 @@ if ($_REQUEST['action'] == "choix_even")
 
   if ($req->lines > 0)
   {
-    $subfrm = new subform("createplaning_sem", "Toute la semaine");
+    $subfrm = new subform("createplaning_sem", "Toute la semaine", true);
     while($row = $req->get_row())
     {
       $txt = "";
@@ -130,7 +141,8 @@ if ($_REQUEST['action'] == "choix_even")
 
       $txt .= $row['titre_nvl'];
 
-      $subfrm->add_checkbox("news[".$row['id_nouvelle']."]", $txt, true);
+      $subfrm->add_checkbox("news[".$row['id_nouvelle']."]", $row['titre_nvl'], true);
+      $subfrm->add_text_field("textes[".$row['id_nouvelle']."]", "Texte", $txt, true);
     }
 
     $frm->addsub($subfrm);
