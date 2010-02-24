@@ -50,8 +50,7 @@ if ($_REQUEST['action'] == "choix_even")
     $firstday = strtotime("last Monday", $firstday);
   $lastday = strtotime("next Sunday", $firstday);
 
-
-  $title = "Planning du ".strftime("%A %d %B", $date)." au ".strftime("%A %d %B", $lastday);
+  $title = "Planning du ".strftime("%A %d %B", $firstday)." au ".strftime("%A %d %B", $lastday);
 
   $frm = new form ("createplaning", "planning.php", false, "POST", "Création d'un planning");
   $frm->add_hidden("action", "pdf");
@@ -78,7 +77,7 @@ if ($_REQUEST['action'] == "choix_even")
           (date_debut_eve < '".date("Y-m-d", $date)." 00:00'
           AND date_fin_eve > '".date("Y-m-d", $date)." 10:00')
         )
-        AND `type_nvl` IN ( 1, 2 )");
+        AND `type_nvl` IN ( 1, 2 )", 1);
 
     if ($req->lines > 0)
     {
@@ -148,7 +147,7 @@ else
 {
   $frm = new form ("createplaning","planning.php",false,"POST","Création d'un planning");
   $frm->add_hidden("action","choix_even");
-  $frm->add_date_field("date","Semaine concernée", date(), true);
+  $frm->add_date_field("date","Semaine concernée", time(), true);
 
   $frm->add_submit("valid","Choisir les évènements");
 
