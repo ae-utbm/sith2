@@ -34,7 +34,18 @@ if (!$site->user->is_in_group ("gestion_ae"))
 
 if ($_REQUEST['action'] == "pdf")
 {
-  print_r($_REQUEST);
+  require_once($topdir. "include/pdf/planning_news.inc.php");
+
+  $pdf = new pdfplanning_news($_REQUEST['title']);
+
+  foreach($_REQUEST['news'] as $jour => $num_textes)
+  {
+    foreach($num_textes as $num_texte)
+      $textes[] = $_REQUEST['textes'][$num_texte];
+    $pdf->add_day($jour, $textes);
+  }
+
+  $pdf->Output();
   exit();
 }
 
