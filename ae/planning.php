@@ -66,7 +66,7 @@ if ($_REQUEST['action'] == "choix_even")
     /* On ne cherche que dans les nouvelles ponctuelles ou répétitives
      * si elles ont commencées avant le jour concerné, elles doivent se finir après 10h00
      */
-    $req = new requete($this->db, "
+    $req = new requete($site->db, "
       SELECT id_nouvelle, titre_nvl, date_debut_eve
       FROM `nvl_dates`
       INNER JOIN `nvl_nouvelles` USING (`id_nouvelle`)
@@ -105,7 +105,7 @@ if ($_REQUEST['action'] == "choix_even")
 
   /* On affiches les nouvelles longues
   */
-  $req = new requete($this->db, "
+  $req = new requete($site->db, "
     SELECT id_nouvelle, titre_nvl, date_debut_eve, date_fin_eve
     FROM `nvl_dates`
     INNER JOIN `nvl_nouvelles` USING (`id_nouvelle`)
@@ -148,7 +148,7 @@ else
 {
   $frm = new form ("createplaning","planning.php",false,"POST","Création d'un planning");
   $frm->add_hidden("action","choix_even");
-  $frm->add_date_field("date","Semaine concernée", -1, true);
+  $frm->add_date_field("date","Semaine concernée", date(), true);
 
   $frm->add_submit("valid","Choisir les évènements");
 
