@@ -82,11 +82,11 @@ if ($_REQUEST['action'] == "choix_even")
 
     if ($req->lines > 0)
     {
+      $i = 0;
       $subfrm = new subform("createplaning_".date("N", $date),
                             strftime("%A %d %B", $date), true);
       while($row = $req->get_row())
       {
-        $i = 0;
         $txt = "";
 
         $time = strtotime($row['date_debut_eve']);
@@ -128,10 +128,10 @@ if ($_REQUEST['action'] == "choix_even")
 
   if ($req->lines > 0)
   {
+    $i = 0;
     $subfrm = new subform("createplaning_sem", "Toute la semaine", true);
     while($row = $req->get_row())
     {
-      $i = 0;
       $txt = "";
 
       $time1 = strtotime($row['date_debut_eve']);
