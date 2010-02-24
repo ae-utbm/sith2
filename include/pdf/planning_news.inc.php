@@ -83,7 +83,7 @@ class pdfplanning_news extends FPDF
       $max_w = 0;
       foreach($textes as $texte)
         $max_w = max($max_w, $this->GetStringWidth(utf8_decode($texte)));
-      $w = $max_w;
+      $w = $max_w + 10;
       $x = ($this->w - $max_w) / 2;
     }
 
