@@ -123,7 +123,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 
     $tab = array();
     foreach(uv::get_list($site->db) as $uv)
-      $tab[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
+      $tab[ $uv['id_uv'] ] = $uv['code']." - ".stripslashes($uv['intitule']);
 
     $frm->add(new selectbox('uvlist', 'Choisissez les UV de ce nouvel emploi du temps', $tab, '', 'UV'));
     /* semestre */
