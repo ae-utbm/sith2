@@ -91,6 +91,7 @@ $board->add($sublist,true);
 $sublist = new itemlist("Divers");
 $sublist->add("<a href=\"sondage.php\">Sondages</a>");
 $sublist->add("<a href=\"weekmail.php\">Weekmail</a>");
+$sublist->add("<a href=\"".$topdir."affiches.php\">Proposer une affiche</a>");
 $sublist->add("<a href=\"".$topdir."affiches.php?page=list\">Affiches actuelles ou à venir</a>");
 $sublist->add("<a href=\"".$topdir."news.php?id_asso=1\">Proposer une nouvelle</a>");
 $board->add($sublist,true);

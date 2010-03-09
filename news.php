@@ -89,7 +89,7 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
   $lieu->load_by_id($_REQUEST["id_lieu"]);
 
 
-  if ( $_REQUEST["title"] && $_REQUEST["content"] )
+  if ( $_REQUEST["title"] && $_REQUEST["content"] && $_REQUEST['resume'] )
   {
     $news->save_news(
                      $_REQUEST['id_asso'],
@@ -255,7 +255,7 @@ if ( isset($_REQUEST["preview"]) || isset($_REQUEST["submit"]) )
     }
   }
 
-  if ( !$_REQUEST["title"] || !$_REQUEST["content"] )
+  if ( !$_REQUEST["title"] || !$_REQUEST["content"] || !$_REQUEST['resume'] )
     $news_error = "Un ou plusieurs champs obligatoires n'ont pas &eacute;t&eacute; remplis";
 
   elseif ( $_REQUEST["type"] == 3 &&
@@ -288,6 +288,13 @@ if ( isset($_REQUEST["preview"]) || isset($_REQUEST["submit"]) )
           $_REQUEST["t2_dates"]["$debut:$fin"] = true;
         }
     }
+  elseif ( $_REQUEST["type"] == 1 && $_REQUEST["t1_vpi"] != 1 )
+    $news_error = "Veuillez vérifier avec la salle avec le VPI avant de poster la nouvelle";
+  elseif ( $_REQUEST["type"] == 2 && $_REQUEST["t2_vpi"] != 1 )
+    $news_error = "Veuillez vérifier avec la salle avec le VPI avant de poster la nouvelle";
+  elseif ( $_REQUEST["type"] == 1 && $_REQUEST["t1_doublon"] != 1 )
+    $news_error = "Veuillez vérifier qu'il n'y a pas de doublon avant de poster la nouvelle";
+
   else
     $suitable = true;
 
@@ -403,6 +410,8 @@ $frm->add($sfrm,false,true, $type==3 ,3 ,false,true);
 $sfrm = new form("type",null,null,null,"Nouvelle sur un &eacute;v&eacute;nement ponctuel associ&eacute; &agrave; une date");
 $sfrm->add_datetime_field("t1_debut","Date et heure de d&eacute;but",$_REQUEST['t1_debut']);
 $sfrm->add_datetime_field("t1_fin","Date et heure de fin",$_REQUEST['t1_fin']);
+$sfrm->add_checkbox("t1_doublon", "J'ai vérifié qu'il n'existe pas encore de nouvelle pour cet évènement", $_REQUEST["t1_doublon"]);
+$sfrm->add_checkbox("t1_doublon", "J'ai vu avec le VPI pour la réservation de salle avant de poster cette nouvelle", $_REQUEST["t1_vpi"]);
 $frm->add($sfrm,false,true, $type==1 ,1 ,false,true);
 
 $sfrm = new form("type",null,null,null,"Nouvelle sur une s&eacute;ance ou une r&eacute;union hebdomadaire");
@@ -428,6 +437,7 @@ else
   $sfrm->add_datetime_field("t2_fin","Date et heure de fin",$_REQUEST['t2_fin']);
   $sfrm->add_datetime_field("t2_until","... jusqu'au",$_REQUEST['t2_until']);
 }
+$sfrm->add_checkbox("t2_doublon", "J'ai vu avec le VPI pour la réservation de salle avant de poster cette nouvelle", $_REQUEST["t2_vpi"]);
 $frm->add($sfrm,false,true, $type==2 ,2 ,false,true);
 
 $sfrm = new form("type",null,null,null,"Information, resultat d'&eacute;lection - sans date");
