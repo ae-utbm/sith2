@@ -681,6 +681,7 @@ elseif ( $typeprod->id > 0 )
   "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
   "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
   "WHERE `cpt_produits`.`id_typeprod`='".$typeprod->id."' " .
+  "AND `cpt_produits`.`prod_archive` != 1 " .
   "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
 
  $tbl = new sqltable(
