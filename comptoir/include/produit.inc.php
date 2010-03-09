@@ -490,9 +490,9 @@ class produit extends stdentity
 
     if($this->mineur>0)
     {
-      $dob=$user->date_naissance;
+      $naiss=$user->date_naissance;
       $today = mktime();
-      $secondes = ($today > $naiss)? $today - $naiss : $naiss - $today;
+      $secondes = ($today > $naiss)? $today - $naiss : 0;
       $annees = date('Y', $secondes) - 1970;
       if($age<$this->mineur)
         return false;
