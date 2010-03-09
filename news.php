@@ -411,7 +411,7 @@ $sfrm = new form("type",null,null,null,"Nouvelle sur un &eacute;v&eacute;nement 
 $sfrm->add_datetime_field("t1_debut","Date et heure de d&eacute;but",$_REQUEST['t1_debut']);
 $sfrm->add_datetime_field("t1_fin","Date et heure de fin",$_REQUEST['t1_fin']);
 $sfrm->add_checkbox("t1_doublon", "J'ai vérifié qu'il n'existe pas encore de nouvelle pour cet évènement", $_REQUEST["t1_doublon"]);
-$sfrm->add_checkbox("t1_doublon", "J'ai vu avec le VPI pour la réservation de salle avant de poster cette nouvelle", $_REQUEST["t1_vpi"]);
+$sfrm->add_checkbox("t1_vpi", "J'ai vu avec le VPI pour la réservation de salle avant de poster cette nouvelle", $_REQUEST["t1_vpi"]);
 $frm->add($sfrm,false,true, $type==1 ,1 ,false,true);
 
 $sfrm = new form("type",null,null,null,"Nouvelle sur une s&eacute;ance ou une r&eacute;union hebdomadaire");
@@ -437,7 +437,7 @@ else
   $sfrm->add_datetime_field("t2_fin","Date et heure de fin",$_REQUEST['t2_fin']);
   $sfrm->add_datetime_field("t2_until","... jusqu'au",$_REQUEST['t2_until']);
 }
-$sfrm->add_checkbox("t2_doublon", "J'ai vu avec le VPI pour la réservation de salle avant de poster cette nouvelle", $_REQUEST["t2_vpi"]);
+$sfrm->add_checkbox("t2_vpi", "J'ai vu avec le VPI pour la réservation de salle avant de poster cette nouvelle", $_REQUEST["t2_vpi"]);
 $frm->add($sfrm,false,true, $type==2 ,2 ,false,true);
 
 $sfrm = new form("type",null,null,null,"Information, resultat d'&eacute;lection - sans date");
