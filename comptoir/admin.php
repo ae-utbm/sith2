@@ -505,14 +505,17 @@ if ( $_REQUEST["page"] == "produits" )
   "FROM `cpt_produits` " .
   "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
   "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
-  "WHERE prod_archive != 1 " .
+  (isset($_REQUEST['showall'])? "" : "AND `cpt_produits`.`prod_archive` != 1 ") .
   "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
 
 
+ $section_name = "Produits";
+ if (! isset($_REQUEST['showall']))
+  $section_name .= " (hors archivés)";
 
  $tbl = new sqltable(
    "lstproduits",
-   "Produits (hors archivés)", $req, "admin.php",
+   $section_name, $req, "admin.php",
    "id_produit",
    array(
    "nom_typeprod"=>"Type",
@@ -527,6 +530,9 @@ if ( $_REQUEST["page"] == "produits" )
    );
 
  $cts->add($tbl,true);
+
+  if (! isset($_REQUEST['showall']))
+   $cts->add_paragraph("<a href=\"admin.php?page=produits&showall\">Afficher les produits archivés</a>");
 
  $req = new requete($site->db,
   "SELECT `id_typeprod`,`nom_typeprod` " .
@@ -681,12 +687,16 @@ elseif ( $typeprod->id > 0 )
   "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
   "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
   "WHERE `cpt_produits`.`id_typeprod`='".$typeprod->id."' " .
-  "AND `cpt_produits`.`prod_archive` != 1 " .
+  (isset($_REQUEST['showall'])? "" : "AND `cpt_produits`.`prod_archive` != 1 ") .
   "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
+
+ $section_name = "Produits";
+ if (! isset($_REQUEST['showall']))
+  $section_name .= " (hors archivés)";
 
  $tbl = new sqltable(
    "lstproduits",
-   "Produits", $req, "admin.php?id_typeprod=".$typeprod->id,
+   $section_name, $req, "admin.php?id_typeprod=".$typeprod->id,
    "id_produit",
    array(
    "nom_typeprod"=>"Type",
@@ -702,6 +712,9 @@ elseif ( $typeprod->id > 0 )
    );
 
  $cts->add($tbl,true);
+
+ if (! isset($_REQUEST['showall']))
+   $cts->add_paragraph("<a href=\"admin.php?id_typeprod=".$typeprod->id."&showall\">Afficher les produits archivés</a>");
 
  $site->add_contents($cts);
  $site->end_page();
