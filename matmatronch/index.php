@@ -139,6 +139,11 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
   {
     $elements[] = "`utilisateurs`.`id_ville`='".intval($_REQUEST['id_ville'])."'";
     $params.="&id_ville=".intval($_REQUEST['id_ville']);
+    if( isset($_REQUEST['id_pays'] ) )
+      $params.="&id_pays=".intval($_REQUEST['id_pays']);
+  } elseif(isset($_REQUEST['id_pays'] ) ) {
+    $params.="&id_pays=".intval($_REQUEST['id_pays']);
+    $elements[] = "`utilisateurs`.`id_pays`='".intval($_REQUEST['id_pays'])."'";
   }
 
   if ( count($elements) > 0 )
