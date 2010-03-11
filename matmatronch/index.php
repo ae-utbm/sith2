@@ -135,8 +135,9 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
     $params.="&numtel=".rawurlencode($_REQUEST["numtel"]);
   }
 
-  if( $_REQUEST['id_ville'] && is_int($_REQUEST['id_ville']))
+  if( $_REQUEST['id_ville'] )
   {
+exit();
     $elements[] = "`utl_etu`.id_ville='".intval($_REQUEST['id_ville'])."'";
     $params.="&id_ville=".intval($_REQUEST['id_ville']);
   }
@@ -445,7 +446,7 @@ $ville = new ville($site->db);
 $pays = new pays($site->db);
 $frm = new form("mmtville","index.php",true,"POST","Recherche par ville");
 $frm->add_hidden("action","search");
-$frm->add_entity_smartselect ("id_pays","ou pays", $pays,true);
+$frm->add_entity_smartselect ("id_pays","Pays", $pays,true);
 $frm->add_entity_smartselect ("id_ville","Ville", $ville,true,false,array('id_pays'=>'id_pays_id'),true);
 $frm->add_submit("go","Rechercher");
 if ( isset($_REQUEST["action"]) && !isset($_REQUEST["ville"]) )
