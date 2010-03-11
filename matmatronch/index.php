@@ -7,6 +7,8 @@ require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/cts/gallery.inc.php");
 require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir. "include/entities/uv.inc.php");
+require_once($topdir . "include/entities/ville.inc.php");
+require_once($topdir . "include/entities/pays.inc.php");
 
 $site = new site ();
 
@@ -131,6 +133,12 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
     $tel = mysql_escape_string(telephone_userinput($_REQUEST["numtel"]));
     $elements[] = "(`tel_maison_utl`='$tel' OR `tel_portable_utl`='$tel')";
     $params.="&numtel=".rawurlencode($_REQUEST["numtel"]);
+  }
+
+  if( $_REQUEST['id_ville'] && is_int($_REQUEST['id_ville']))
+  {
+    $elements[] = "`utl_etu`.id_ville='".intval($_REQUEST['id_ville'])."'";
+    $params.="&id_ville=".intval($_REQUEST['id_ville']);
   }
 
   if ( count($elements) > 0 )
@@ -433,6 +441,17 @@ else
 $cts->add($frm,true);
 
 
+$ville = new ville($site->db);
+$pays = new pays($site->db);
+$frm = new form("mmtville","index.php",true,"POST","Recherche par ville");
+$frm->add_hidden("action","search");
+$frm->add_entity_smartselect ("id_pays","ou pays", $pays,true);
+$frm->add_entity_smartselect ("id_ville","Ville", $ville,true,false,array('id_pays'=>'id_pays_id'),true);
+$frm->add_submit("go","Rechercher");
+if ( isset($_REQUEST["action"]) && !isset($_REQUEST["ville"]) )
+  $cts->add($frm, true, true, "bxville", false, true, false);
+else
+  $cts->add($frm,true);
 
 
 $site->add_contents($cts);
