@@ -137,7 +137,6 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
 
   if( $_REQUEST['id_ville'] )
   {
-exit();
     $elements[] = "`utl_etu`.id_ville='".intval($_REQUEST['id_ville'])."'";
     $params.="&id_ville=".intval($_REQUEST['id_ville']);
   }
@@ -162,7 +161,7 @@ exit();
         "FROM `utilisateurs` " .
         "LEFT JOIN `utl_etu` ON `utl_etu`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
-        "WHERE "  .implode(" AND ",$elements));
+        "WHERE "  .implode(" AND ",$elements),1);
 
     list($count) = $req->get_row();
 
