@@ -63,7 +63,11 @@ foreach ( $allowed as $key )
 {
   if ( isset($_REQUEST[$key]) )
   {
-    $GLOBALS["streaminfo"][$key] = $_REQUEST[$key];
+    if(!empty($_REQUEST[$key])) {
+      $GLOBALS["streaminfo"][$key] = $_REQUEST[$key];
+    } elseif(isset($GLOBALS["streaminfo"][$key])) {
+      unset($GLOBALS["streaminfo"][$key]);
+    }
     $updated[] = $key;
   }
 }
