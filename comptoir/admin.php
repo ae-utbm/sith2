@@ -500,6 +500,7 @@ if ( $_REQUEST["page"] == "produits" )
   "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
   "`cpt_produits`.stock_global_prod, `cpt_produits`.prix_vente_barman_prod/100 AS prix_vente_barman_prod," .
   "`cpt_produits`.prix_vente_prod/100 AS prix_vente_prod, `cpt_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
+  "`cpt_produits`.`cbarre_prod`, " .
   "`asso`.`nom_asso`,`asso`.`id_asso`, " .
   "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod` " .
   "FROM `cpt_produits` " .
@@ -524,6 +525,7 @@ if ( $_REQUEST["page"] == "produits" )
    "prix_vente_prod"=>"Prix de vente",
    "prix_achat_prod"=>"Prix d'achat",
    "stock_global_prod"=>"Stock global",
+   "cbarre_prod"=>"Code barre",
    "nom_asso"=>"Association"
    ),
    array("edit"=>"Editer"), $batch, array()
@@ -681,6 +683,7 @@ elseif ( $typeprod->id > 0 )
   "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`,`cpt_produits`.`prod_archive`, " .
   "`cpt_produits`.stock_global_prod, `cpt_produits`.prix_vente_barman_prod/100 AS prix_vente_barman_prod," .
   "`cpt_produits`.prix_vente_prod/100 AS prix_vente_prod, `cpt_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
+  "`cpt_produits`.`cbarre_prod`, " .
   "`asso`.`nom_asso`,`asso`.`id_asso`, " .
   "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod` " .
   "FROM `cpt_produits` " .
@@ -705,6 +708,7 @@ elseif ( $typeprod->id > 0 )
    "prix_vente_prod"=>"Prix de vente",
    "prix_achat_prod"=>"Prix d'achat",
    "stock_global_prod"=>"Stock global",
+   "cbarre_prod"=>"Code barre",
    "nom_asso"=>"Association",
    "prod_archive"=>"Archivé"
    ),
@@ -834,6 +838,7 @@ elseif ( $comptoir->id > 0 )
   "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
   "`cpt_produits`.stock_global_prod, `cpt_produits`.prix_vente_barman_prod/100 AS prix_vente_barman_prod," .
   "`cpt_produits`.prix_vente_prod/100 AS prix_vente_prod, `cpt_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
+  "`cpt_produits`.`cbarre_prod`, " .
   "`asso`.`nom_asso`,`asso`.`id_asso`, " .
   "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
   "`cpt_mise_en_vente`.`stock_local_prod` " .
@@ -856,6 +861,7 @@ elseif ( $comptoir->id > 0 )
    "prix_achat_prod"=>"Prix d'achat",
    "stock_global_prod"=>"Stock global",
    "stock_local_prod"=>"Stock local",
+   "cbarre_prod"=>"Code barre",
    "nom_asso"=>"Association"
    ),
    array("edit"=>"Editer"), array("retirervente"=>"Ne plus vendre ce(s) produit(s)"), array()
