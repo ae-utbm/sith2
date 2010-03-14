@@ -35,8 +35,8 @@ $cts = new contents("Responsables des clubs");
 if ($site->user->is_in_group("gestion_ae"))
 {
   $tabs = array();
-  $tabs[] = array("list","activites.php","Liste");
-  $tabs[] = array("trombino","activites.php","Trombino");
+  $tabs[] = array("list","activites.php?view=list","Liste");
+  $tabs[] = array("trombino","activites.php?view=trombino","Trombino");
   $cts->add(new tabshead($tabs, (isset($_REQUEST['view'])) ? $_REQUEST['view'] : 'trombino'));
 }
 
@@ -82,7 +82,7 @@ else
 
   while ( $rowpoles = $reqpoles->get_row() )
   {
-    $cts->add_title($rowpoles['nom_asso'], 2);
+    $cts->add_title(2, $rowpoles['nom_asso']);
 
     $req = new requete($site->db,
       "SELECT `utilisateurs`.`id_utilisateur`, " .
@@ -110,7 +110,7 @@ else
         $img = $topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
 
       $gal->add_item(
-      "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"$img\" alt=\"Photo\" height=\"105\"></a>",
+      "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"$img\" alt=\"Photo\" height=\"105\"></a><br />",
       "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a> (".htmlentities($row['nom_asso'],ENT_NOQUOTES,"UTF-8").")");
     }
     $cts->add($gal);
