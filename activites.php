@@ -22,7 +22,7 @@
  * 02111-1307, USA.
  */
 
-$topdir = "../";
+$topdir = "./";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
