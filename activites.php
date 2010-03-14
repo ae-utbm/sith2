@@ -110,8 +110,8 @@ else
         $img = $topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
 
       $gal->add_item(
-      "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"$img\" alt=\"Photo\" height=\"105\"></a><br />",
-      "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a> (".htmlentities($row['nom_asso'],ENT_NOQUOTES,"UTF-8").")");
+      "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"$img\" alt=\"Photo\" height=\"105\"></a>",
+      "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a><br /> (".htmlentities($row['nom_asso'],ENT_NOQUOTES,"UTF-8").")");
     }
     $cts->add($gal);
   }
