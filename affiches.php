@@ -249,7 +249,7 @@ if ( isset($_REQUEST["submit"]) )
     $folder->create_or_load ( "Affiches", $asso->id );
     if ( $folder->is_valid() )
     {
-      if (in_array(strtolower(strrchr($_FILES["affiche_file"]['name'], ".")), array('png', 'jpg', 'jpeg')))
+      if (in_array(strtolower(strrchr($_FILES["affiche_file"]['name'], ".")), array('.png', '.jpg', '.jpeg')))
       {
         $file->herit($folder);
         $file->id_utilisateur = $site->user->id;
