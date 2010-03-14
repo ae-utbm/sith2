@@ -203,7 +203,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
 
   if ( $_REQUEST["operation"] ==  3 )
   {
-    if ( $site->user->is_in_group_id(20084))
+    if ( $site->user->is_in_group("gestion_machines"))
       $sql =
       "SELECT
       CONCAT(MIN(cl.id_creneau),',',MIN(cs.id_creneau)) AS id_creneau,
@@ -241,7 +241,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   {
     $type = $_REQUEST["operation"] ==  1 ? 'laver' : 'secher';
 
-    if ( $site->user->is_in_group_id(20084))
+    if ( $site->user->is_in_group("gestion_machines"))
       $sql =
       "SELECT
        id_creneau,
