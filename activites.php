@@ -35,8 +35,8 @@ $cts = new contents("Responsables des clubs");
 if ($site->user->is_in_group("gestion_ae"))
 {
   $tabs = array();
-  $tabs[] = array("list","ae/activites.php","Liste");
-  $tabs[] = array("trombino","ae/activites.php","Trombino");
+  $tabs[] = array("list","activites.php","Liste");
+  $tabs[] = array("trombino","activites.php","Trombino");
   $cts->add(new tabshead($tabs, (isset($_REQUEST['view'])) ? $_REQUEST['view'] : 'trombino'));
 }
 
@@ -90,7 +90,7 @@ else
       "`asso`.`nom_asso` ".
       "FROM `asso_membre` " .
       "INNER JOIN `utilisateurs` USING (`id_utilisateur`) " .
-      "INNER JOIN `asso` USING (`id_utilisateur`) " .
+      "INNER JOIN `asso` USING (`id_asso`) " .
       "WHERE `asso_membre`.`date_fin` IS NULL " .
       "AND `asso_membre`.`role`='10' " .
       "AND `asso`.`id_asso_parent` = '".$rowpoles['id_asso']."'" .
