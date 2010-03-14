@@ -35,19 +35,19 @@ $bat = new batiment($site->db,$site->dbrw);
 $bat->load_by_id($_REQUEST["id_batiment"]);
 if ( $bat->id < 1 )
 {
-	$site->error_not_found();
-	exit();
+  $site->error_not_found();
+  exit();
 }
 $sitebat->load_by_id($bat->id_site);
 
 if ( $_REQUEST["action"] == "addsalle" )
 {
 
-	if ($_REQUEST["nom"] != "" && $_REQUEST["etage"]  != "")
-	{
-		$salle = new salle($site->db,$site->dbrw);
-		$salle->add ( $bat->id, $_REQUEST["nom"], $_REQUEST["etage"], $_REQUEST["fumeur"], $_REQUEST["convention"], $_REQUEST["reservable"], $_REQUEST["surface"], $_REQUEST["tel"], $_REQUEST["notes"] );
-	}
+  if ($_REQUEST["nom"] != "" && $_REQUEST["etage"]  != "")
+  {
+    $salle = new salle($site->db,$site->dbrw);
+    $salle->add ( $bat->id, $_REQUEST["nom"], $_REQUEST["etage"], $_REQUEST["fumeur"], $_REQUEST["convention"], $_REQUEST["reservable"], $_REQUEST["surface"], $_REQUEST["tel"], $_REQUEST["notes"], $_REQUEST['bar_bdf'] );
+  }
 }
 
 $site->start_page("none","Batiment ".$bat->nom);
@@ -57,29 +57,30 @@ $cts->add_paragraph("Voir aussi : <a href=\"sitebat.php\">Autre sites</a>");
 
 $req = new requete($site->db,"SELECT * FROM `sl_salle` WHERE `id_batiment`='".$bat->id."'");
 $tbl = new sqltable(
-	"listsalles",
-	"Salles", $req, "batiment.php?id_batiment=".$bat->id,
-	"id_salle",
-	array("nom_salle"=>"Salle","etage"=>"Etage"),
-	array(), array(),array()
-	);
+  "listsalles",
+  "Salles", $req, "batiment.php?id_batiment=".$bat->id,
+  "id_salle",
+  array("nom_salle"=>"Salle","etage"=>"Etage"),
+  array(), array(),array()
+  );
 $cts->add($tbl,true);
 
 
 if ( $site->user->is_in_group("gestion_ae") )
 {
-	$frm = new form("newsalle","batiment.php?id_batiment=".$bat->id,true,"POST","Nouvelle salle");
-	$frm->add_hidden("action","addsalle");
-	$frm->add_text_field("nom","Nom","",true);
-	$frm->add_text_field("etage","Etage","",true);
-	$frm->add_checkbox("fumeur","Fumeur",$bat->fumeur);
-	$frm->add_checkbox("convention","Convention de locaux",$bat->convention);
-	$frm->add_checkbox("reservable","Reservable");
-	$frm->add_text_field("surface","Surface");
-	$frm->add_text_field("tel","Téléphone");
-	$frm->add_text_area("notes","Notes");
-	$frm->add_submit("valid","Ajouter");
-	$cts->add($frm,true);
+  $frm = new form("newsalle","batiment.php?id_batiment=".$bat->id,true,"POST","Nouvelle salle");
+  $frm->add_hidden("action","addsalle");
+  $frm->add_text_field("nom","Nom","",true);
+  $frm->add_text_field("etage","Etage","",true);
+  $frm->add_checkbox("fumeur","Fumeur",$bat->fumeur);
+  $frm->add_checkbox("convention","Convention de locaux",$bat->convention);
+  $frm->add_checkbox("bar_bdf","La salle contient un bar géré par le BDF",false);
+  $frm->add_checkbox("reservable","Reservable");
+  $frm->add_text_field("surface","Surface");
+  $frm->add_text_field("tel","Téléphone");
+  $frm->add_text_area("notes","Notes");
+  $frm->add_submit("valid","Ajouter");
+  $cts->add($frm,true);
 }
 $site->add_contents($cts);
 $site->end_page();

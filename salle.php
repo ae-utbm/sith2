@@ -146,14 +146,14 @@ if ( $salle->is_valid() )
       {
         list($debut,$fin) = explode(":",$seq);
 
-        if ( $resa->add ( $salle->id, $site->user->id, $id_asso, $debut, $fin, $_REQUEST['description'] ) )
+        if ( $resa->add ( $salle->id, $site->user->id, $id_asso, $debut, $fin, $_REQUEST['description'], $_REQUEST['util_bar'] ) )
         {
 
           $result->add("Le ".textual_plage_horraire($debut,$fin));
         }
       }
     }
-    else if ( !$_REQUEST['debut'] || !$_REQUEST['fin']||!$_REQUEST['description'] )
+    else if ( !$_REQUEST['debut'] || !$_REQUEST['fin'] || !$_REQUEST['description'] || !$_REQUEST['util_bar'])
     {
       $_REQUEST["action"] = "reservation";
       $ErreurResa = "Incomplet";
@@ -173,6 +173,7 @@ if ( $salle->is_valid() )
       $frm->add_hidden("action","reserver");
       $frm->add_hidden("description",$_REQUEST['description']);
       $frm->add_hidden("id_asso",$id_asso);
+      $frm->add_hidden("util_bar", $_REQUEST['util_bar']);
       $h = intval(date("H",$_REQUEST["debut"]));
 
       for($debut=$_REQUEST["debut"];$debut<$_REQUEST["until"];$debut+=60*60*24*7)
@@ -206,7 +207,7 @@ if ( $salle->is_valid() )
       $_REQUEST["action"] = "reservation";
     }
     else
-      $resa->add ( $salle->id, $site->user->id, $id_asso, $_REQUEST['debut'], $_REQUEST['fin'], $_REQUEST['description'] );
+      $resa->add ( $salle->id, $site->user->id, $id_asso, $_REQUEST['debut'], $_REQUEST['fin'], $_REQUEST['description'], $_REQUEST['util_bar'] );
 
 
 
@@ -237,6 +238,8 @@ if ( $salle->is_valid() )
     $frm->add_entity_select("id_asso", "Association", $site->db, "asso",$_REQUEST["id_asso"],true);
     $frm->add_checkbox("allweeks","Toutes les semaines ...");
     $frm->add_datetime_field("until","... jusqu'au");
+    if ( $salle->bar_bdf )
+      $frm->add_select_field("util_bar", "Utilisation du bar", array(1=>"Je n'utilise pas le bar", 2=>"J'utilise le bar", 3=>"Je laisse les barmens BDF tenir le bar"), 0, "", true);
     $frm->add_submit("valide","Demander");
     $cts->add($frm,true);
 
