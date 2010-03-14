@@ -103,6 +103,8 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
                      $_REQUEST['title'],
                      $_REQUEST['debut'],
                      $_REQUEST['fin'],
+                     false,
+                     null,
                      $_REQUEST['horaires'],
                      (isset($_REQUEST['frequence'])) ? $_REQUEST['frequence'] : 1);
 

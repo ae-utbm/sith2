@@ -257,9 +257,6 @@ class affiche extends stdentity
     $this->horaires = $horaires;
     $this->frequence = $frequence;
 
-    print_r($horaires);
-    print_r($frequence);
-
     $req = new update ($this->dbrw,
            "aff_affiches",
            array ( "id_asso" => $id_asso,
@@ -274,7 +271,7 @@ class affiche extends stdentity
             ),
          array(
            "id_affiche"=>$this->id
-           ), 1);
+           ));
   }
 
   /* Renvoie un sqltable des affiches que l'utilisateur peut modifier
