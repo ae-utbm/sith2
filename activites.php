@@ -69,7 +69,7 @@ if (($_REQUEST['view'] == "list") && ($site->user->is_in_group("gestion_ae")))
                               ),
                         array(), array(), array() );
 
-  $cts->add_contents($table);
+  $cts->add($table);
 }
 else
 {
