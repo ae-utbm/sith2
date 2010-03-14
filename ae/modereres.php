@@ -173,6 +173,7 @@ elseif ( $_REQUEST["action"] == "info")
 
 $site->start_page("none","Moderation des reservations de salle");
 
+
 if($site->user->is_in_group("gestion_ae"))
 {
   $frm = new form ("filter","?",false,"POST","Filtrer");
@@ -222,9 +223,9 @@ if($site->user->is_in_group("gestion_ae"))
     "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
     "sl_salle.id_salle, sl_salle.nom_salle," .
     "asso.id_asso, asso.nom_asso," .
-    "sl_reservation.id_salres,  sl_reservation.date_debut_salres," .
+    "sl_reservation.id_salres,  MIN(sl_reservation.date_debut_salres) date_debut_salres, " .
     "sl_reservation.date_fin_salres, sl_reservation.description_salres, " .
-    "sl_reservation.date_accord_res," .
+    "sl_reservation.date_accord_res, IF(COUNT(*) > 1, MAX(sl_reservation.date_debut_salres), '') repet," .
     "(sl_reservation.convention_salres*10+sl_salle.convention_salle) as `convention` " .
     "FROM sl_reservation " .
     "INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=sl_reservation.id_utilisateur " .
@@ -234,7 +235,13 @@ if($site->user->is_in_group("gestion_ae"))
     "WHERE sl_reservation.date_accord_res IS NOT NULL " .
     "AND sl_reservation.date_debut_salres > NOW() ".
     $filter.
+    "GROUP BY date_demande_res ".
     "ORDER BY date_debut_salres");
+
+  /* On groupe les réservations en fonction de la date de demande...
+   * en espérant qu'il y ai pas deux utilisateurs qui fassent une demande en
+   * même temps... faudrait limite revoir le schéma des tables à l'occas...
+   */
 
   $site->add_contents(new sqltable(
       "modereres",
@@ -244,6 +251,7 @@ if($site->user->is_in_group("gestion_ae"))
         "nom_salle"=>"Salle",
         "date_debut_salres"=>"De",
         "date_fin_salres"=>"A",
+        "repet"=>"Répété jusqu'au",
         "description_salres" => "Motif",
         "date_accord_res"=>"Accord le"
         ),
@@ -259,9 +267,10 @@ elseif($site->user->is_in_group("bdf-bureau"))
     "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
     "sl_salle.id_salle, sl_salle.nom_salle," .
     "asso.id_asso, asso.nom_asso," .
-    "sl_reservation.id_salres,  sl_reservation.date_debut_salres," .
+    "sl_reservation.id_salres,  MIN(sl_reservation.date_debut_salres) date_debut_salres, " .
     "sl_reservation.date_fin_salres, sl_reservation.description_salres, " .
     "sl_reservation.date_accord_res, sl_reservation.util_bar_salres," .
+    "IF(COUNT(*) > 1, MAX(sl_reservation.date_debut_salres), '') repet," .
     "(sl_reservation.convention_salres*10+sl_salle.convention_salle) as `convention` " .
     "FROM sl_reservation " .
     "INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=sl_reservation.id_utilisateur " .
@@ -269,6 +278,7 @@ elseif($site->user->is_in_group("bdf-bureau"))
     "LEFT JOIN asso ON asso.id_asso=sl_reservation.id_asso " .
     "WHERE sl_reservation.date_debut_salres > NOW()" .
     "AND (sl_salle.id_salle='5' OR sl_salle.id_salle='28') ".
+    "GROUP BY date_demande_res ".
     "ORDER BY date_debut_salres");
 
   $site->add_contents(new sqltable(
@@ -279,6 +289,7 @@ elseif($site->user->is_in_group("bdf-bureau"))
         "nom_salle"=>"Salle",
         "date_debut_salres"=>"De",
         "date_fin_salres"=>"A",
+        "repet"=>"Répété jusqu'au",
         "description_salres" => "Motif",
         "convention"=>"Conv.",
         "util_bar_salres" => "Bar",
