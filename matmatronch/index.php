@@ -137,16 +137,21 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
 
   if( $_REQUEST['id_ville'] )
   {
-    $elements[] = "( `utilisateurs`.`id_ville`='".intval($_REQUEST['id_ville'])."'".
-                " OR `utl_etu`.`id_ville`='".intval($_REQUEST['id_ville'])."' )";
-      ;
+    if (isset($_REQUEST['ville_parents']))
+      $elements[] = "( `utilisateurs`.`id_ville`='".intval($_REQUEST['id_ville'])."'".
+                    " OR `utl_etu`.`id_ville`='".intval($_REQUEST['id_ville'])."' )";
+    else
+      $elements[] = "`utilisateurs`.`id_ville`='".intval($_REQUEST['id_ville'])."'";
     $params.="&id_ville=".intval($_REQUEST['id_ville']);
     if( isset($_REQUEST['id_pays'] ) )
       $params.="&id_pays=".intval($_REQUEST['id_pays']);
   } elseif(isset($_REQUEST['id_pays'] ) ) {
     $params.="&id_pays=".intval($_REQUEST['id_pays']);
-    $elements[] = "( `utilisateurs`.`id_pays`='".intval($_REQUEST['id_pays'])."'".
-                " OR `utl_etu`.`id_pays`='".intval($_REQUEST['id_pays'])."' )";
+    if (isset($_REQUEST['ville_parents']))
+      $elements[] = "( `utilisateurs`.`id_pays`='".intval($_REQUEST['id_pays'])."'".
+                  " OR `utl_etu`.`id_pays`='".intval($_REQUEST['id_pays'])."' )";
+    else
+      $elements[] = "`utilisateurs`.`id_pays`='".intval($_REQUEST['id_pays'])."'";
   }
 
   if ( count($elements) > 0 )
@@ -456,6 +461,7 @@ $frm = new form("mmtville","index.php",true,"POST","Recherche par ville");
 $frm->add_hidden("action","search");
 $frm->add_entity_smartselect ("id_pays","Pays", $pays,true);
 $frm->add_entity_smartselect ("id_ville","Ville", $ville,true,false,array('id_pays'=>'id_pays_id'),true);
+$frm->add_checkbox ("ville_parents","Chercher aussi parmis les adresses des parents");
 $frm->add_submit("go","Rechercher");
 if ( isset($_REQUEST["action"]) && !isset($_REQUEST["ville"]) )
   $cts->add($frm, true, true, "bxville", false, true, false);
