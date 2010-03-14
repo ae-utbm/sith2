@@ -351,7 +351,7 @@ class affiche extends stdentity
 
     //TODO : fréquence
 
-    $req = new requete($this->db, "SELECT id_file FROM `aff_affiches`
+    $req = new requete($this->db, "SELECT id_file, frequence_aff FROM `aff_affiches`
         WHERE date_deb < NOW()
         AND date_fin > NOW()
         AND horaires_aff IN (".implode(",",$cur_plages).")
@@ -367,10 +367,24 @@ class affiche extends stdentity
     }
     else
     {
+      $nb_aff = 0;
+      while ($row = $req->get_row())
+        $nb_aff += $row['frequence_aff'];
+
+      $req->go_first();
+      $i = 0;
       while ($row = $req->get_row())
       {
-        $file->load_by_id($row['id_file']);
-        $fichiers[] = $file->get_real_filename();
+        for($n=0; $n < $row['frequence_aff']; $n++)
+        {
+          $j = $i + ($n * $nb_aff/$row['frequence_aff']);
+          while(isset($fichiers[$j]))
+            $j++;
+
+          $file->load_by_id($row['id_file']);
+          $fichiers[] = $file->get_real_filename();
+        }
+        $i++;
       }
     }
 
