@@ -249,9 +249,14 @@ if ( isset($_REQUEST["submit"]) )
     $folder->create_or_load ( "Affiches", $asso->id );
     if ( $folder->is_valid() )
     {
-      $file->herit($folder);
-      $file->id_utilisateur = $site->user->id;
-      $file->add_file ( $_FILES["affiche_file"], $_REQUEST["title"], $folder->id, "Affiche : ".$_REQUEST["title"], $asso->id );
+      if (in_array(array('png', 'jpg', 'jpeg'), strtolower(strrchr($_FILES["affiche_file"]['name'], "."))))
+      {
+        $file->herit($folder);
+        $file->id_utilisateur = $site->user->id;
+        $file->add_file ( $_FILES["affiche_file"], $_REQUEST["title"], $folder->id, "Affiche : ".$_REQUEST["title"], $asso->id );
+      }
+      else
+        $affiche_error = "Fichier non supporté.";
     }
     else
       $affiche_error = "Erreur interne lors de la creation du dossier \"Affiches\".";
@@ -319,7 +324,10 @@ if ( $file->id > 0 )
   $frm->add_hidden("id_file",$file->id);
 }
 else
+{
   $frm->add_file_field("affiche_file","Affiche");
+  $frm->add_info("Fichier PNG ou JPEG");
+}
 
 $frm->add_submit ("submit","Proposer l'affiche");
 
