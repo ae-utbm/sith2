@@ -324,6 +324,7 @@ if ( $salle->is_valid() )
   $tbl->add_row(array("Etage:",$salle->etage));
   $tbl->add_row(array("Fumeur",$salle->fumeur?"Oui":"Non"));
   $tbl->add_row(array("Convention de locaux requise",$salle->convention?"Oui":"Non"));
+  $tbl->add_row(array("La salle contient un bar géré par le BDF",$salle->bar_bdf?"Oui":"Non"));
   $tbl->add_row(array("Reservable",$salle->reservable?"Oui":"Non"));
   $tbl->add_row(array("Telephone:",$salle->tel));
   $tbl->add_row(array("Batiment",$bat->get_html_link()));
