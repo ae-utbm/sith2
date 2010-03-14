@@ -62,6 +62,12 @@ class affiche extends stdentity
   /** Utilisateur ayant modéré l'affiche */
   var $id_utilisateur_moderateur;
 
+  /** Plages horaires de l'affiche */
+  var $horaires;
+
+  /** Fréquence d'affichage */
+  var $frequence;
+
   /** Charge une affiche en fonction de son id
    * $this->id est égal à null en cas d'erreur
    * @param $id id de la fonction
@@ -102,6 +108,8 @@ class affiche extends stdentity
     $this->date        = strtotime($row['date_aff']);
     $this->modere      = $row['modere_aff'];
     $this->id_utilisateur_moderateur  = $row['id_utilisateur_moderateur'];
+    $this->horaires   = $row['horaires_aff'];
+    $this->frequence  = $row['frequence_aff'];
   }
 
   /** Construit un stdcontents avec l'affiche
@@ -182,7 +190,9 @@ class affiche extends stdentity
         $titre,
         $id_file,
         $date_deb,
-        $date_fin)
+        $date_fin,
+        $horaires=0,
+        $frequence=1)
 
   {
     if (!$this->dbrw)
@@ -194,6 +204,8 @@ class affiche extends stdentity
     $this->id_file = $id_file;
     $this->date_deb = $date_deb;
     $this->date_fin = $date_fin;
+    $this->horaires = $horaires;
+    $this->frequence = $frequence;
 
     $req = new insert ($this->dbrw,
            "aff_affiches",
@@ -205,7 +217,9 @@ class affiche extends stdentity
             "date_deb" => date("Y-m-d H:i:s", $date_deb),
             "date_fin" => date("Y-m-d H:i:s", $date_fin),
             "modere_aff" =>  false,
-            "id_utilisateur_moderateur"=>null
+            "id_utilisateur_moderateur"=>null,
+            "horaires_aff" =>$horaires,
+            "frequence_aff" =>$frequence,
             ));
 
     if ( $req )
@@ -227,7 +241,9 @@ class affiche extends stdentity
         $date_deb,
         $date_fin,
         $modere=false,
-        $id_utilisateur_moderateur=null)
+        $id_utilisateur_moderateur=null,
+        $horaires=0,
+        $frequence=1)
   {
     if (!$this->dbrw)
       return false;
@@ -238,6 +254,8 @@ class affiche extends stdentity
     $this->date_fin = $date_fin;
     $this->modere = $modere;
     $this->id_utilisateur_moderateur = $id_utilisateur_moderateur;
+    $this->horaires = $horaires;
+    $this->frequence = $frequence;
 
     $req = new update ($this->dbrw,
            "aff_affiches",
@@ -247,7 +265,9 @@ class affiche extends stdentity
             "date_deb" => date("Y-m-d H:i:s", $date_deb),
             "date_fin" => date("Y-m-d H:i:s", $date_fin),
             "modere_aff" => $modere,
-            "id_utilisateur_moderateur"=>$id_utilisateur_moderateur
+            "id_utilisateur_moderateur"=>$id_utilisateur_moderateur,
+            "horaires_aff" =>$horaires,
+            "frequence_aff" =>$frequence,
             ),
          array(
            "id_affiche"=>$this->id
@@ -258,7 +278,7 @@ class affiche extends stdentity
   */
   function get_html_list($user){
     $where = "";
-    if (! $user->is_in_group("moderateur_site"))
+    if ( !$user->is_in_group("moderateur_site") && !$user->is_in_group("bdf-bureau") )
       $where = "AND (`id_utilisateur` = '".$user->id."'
               OR `id_asso` IN (".$user->get_assos_csv(ROLEASSO_MEMBREBUREAU)."))";
 
@@ -271,15 +291,16 @@ class affiche extends stdentity
         WHERE `date_fin` > NOW()" .
         $where .
         "ORDER BY date_deb, date_fin");
-
     $tbl = new sqltable(
       "listaff",
       "Campagnes d'affichage en cours ou à venir",
       $req,
       "affiches.php",
       "id_affiche",
-      array("titre_aff"=>"Titre", "nom_utilisateur"=>"Auteur", "date_deb"=>"Début", "date_fin"=>"Fin"),
-      array("view" => "Voir"), array(), array( )
+      array("titre_aff"=>"Titre", "nom_utilisateur"=>"Auteur", "date_deb"=>"Début", "date_fin"=>"Fin", "horaires_aff"=>"Horaires", "frequence_aff"=>"Fréquence"),
+      ($user->is_in_group("moderateur_site")) ? array("view" => "Voir", "increase"=>"Augmenter la fréquence", "decrease"=>"Diminuer la fréquence", "delete" => "Supprimer") : array("view" => "Voir", "delete" => "Supprimer"),
+      array(),
+      array("horaires_aff" => array(0=>"Toute la journée", 1=>"Entre 8h et 12h", 2=>"Entre 11h30 et 14h", 3=>"Entre 12h et 18h", 4=>"Entre 18h et 6h"))
       );
 
     return $tbl;
@@ -288,10 +309,32 @@ class affiche extends stdentity
   /* Vérifie si un changement à eu lieu depuis 'last'
   */
   function check_update($last){
+    $plages_horaires = array(1=>array(28800, 43200), 2=>array(41400, 50400), 3=>array(43200, 64800), 4=>array(64800, 21600));
+
+    $time = strtotime($last) % (60 * 60 * 24);
+    $last_plages = array(0);
+    foreach($plages_horaires as $id => $plage)
+      if (($time >= $plage[0]) && ($time < $plage[1]))
+        $last_plages[] = $id;
+
+    $time = time() % (60 * 60 * 24);
+    $cur_plages = array(0);
+    foreach($plages_horaires as $id => $plage)
+      if (($time >= $plage[0]) && ($time < $plage[1]))
+        $cur_plages[] = $id;
+
     $req = new requete($this->db, "SELECT COUNT(*) FROM `aff_affiches`
         WHERE (date_deb > '".$last."' AND date_deb < NOW())
         OR (date_fin > '".$last."' AND date_fin < NOW())
-        OR (date_modifie > '".$last."' AND date_modifie < NOW())");
+        OR (date_modifie > '".$last."' AND date_modifie < NOW())
+        OR ((date_deb < NOW()) AND (date_fin > NOW())
+          AND (((horaires_aff IN (".implode(",",$last_plages).")) AND (horaires_aff NOT IN (".implode(",",$cur_plages).")))
+            OR ((horaires_aff NOT IN (".implode(",",$last_plages).")) AND (horaires_aff IN (".implode(",",$cur_plages).")))
+          )
+        )
+
+
+        ");
 
     list($count_modif) = $req->get_row();
 
@@ -301,9 +344,19 @@ class affiche extends stdentity
   /* Génère un pdf avec les affiches
    */
   function gen_pdf(){
+    $plages_horaires = array(1=>array(28800, 43200), 2=>array(41400, 50400), 3=>array(43200, 64800), 4=>array(64800, 21600));
+    $time = time() % (60 * 60 * 24);
+    $cur_plages = array(0);
+    foreach($plages_horaires as $id => $plage)
+      if (($time >= $plage[0]) && ($time < $plage[1]))
+        $cur_plages[] = $id;
+
+    //TODO : fréquence
+
     $req = new requete($this->db, "SELECT id_file FROM `aff_affiches`
         WHERE date_deb < NOW()
         AND date_fin > NOW()
+        AND horaires_aff IN (".implode(",",$cur_plages).")
         AND modere_aff = '1'");
 
     $file = new dfile($this->db, $this->dbrw);
@@ -325,6 +378,24 @@ class affiche extends stdentity
 
     header("Content-Type: application/pdf");
     passthru("convert -density 300x300 ".implode(' ', $fichiers)." pdf:-");
+  }
+
+  function decrease_frequence()
+  {
+    if ($this->frequence > 0)
+    {
+      $this->frequence--;
+      new update($this->dbrw,"aff_affiches",array("frequece_aff"=>$this->frequence),array("id_affiche"=>$this->id));
+    }
+  }
+
+  function increase_frequence()
+  {
+    if ($this->frequence > 0)
+    {
+      $this->frequence--;
+      new update($this->dbrw,"aff_affiches",array("frequece_aff"=>$this->frequence),array("id_affiche"=>$this->id));
+    }
   }
 }
 

@@ -153,7 +153,7 @@ else
 
 
   $tabl = new sqltable ("modereaffiche_list",
-      "Nouvelles en attente de mod&eacute;ration",
+      "Affiches en attente de mod&eacute;ration",
       $req,
       "modereaffiches.php",
       "id_affiche",

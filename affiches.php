@@ -76,6 +76,24 @@ if ( ($_REQUEST["action"] == "delete") && $can_edit )
       exit();
   }
 }
+elseif ( ($_REQUEST["action"] == "decrease") && $can_edit )
+{
+  $affiche->decrease_frequence();
+  $site->start_page ("services", "Modifier une affiche");
+  $cts = $affiche->get_html_list($site->user);
+  $site->add_contents ($cts);
+  $site->end_page ();
+  exit();
+}
+elseif ( ($_REQUEST["action"] == "increase") && $can_edit )
+{
+  $affiche->increase_frequence();
+  $site->start_page ("services", "Modifier une affiche");
+  $cts = $affiche->get_html_list($site->user);
+  $site->add_contents ($cts);
+  $site->end_page ();
+  exit();
+}
 elseif ( ($_REQUEST["action"] == "save") && $can_edit )
 {
   if ( $_REQUEST["title"] && $_REQUEST['debut'] && $_REQUEST['fin'])
@@ -84,7 +102,9 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
                      $_REQUEST['id_asso'],
                      $_REQUEST['title'],
                      $_REQUEST['debut'],
-                     $_REQUEST['fin']);
+                     $_REQUEST['fin'],
+                     $_REQUEST['horaires'],
+                     $_REQUEST['frequence']);
 
     if ($site->user->is_in_group("moderateur_site"))
       $affiche->validate($site->user->id);
@@ -105,6 +125,11 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
 
   $frm->add_datetime_field("debut","Date et heure de d&eacute;but", $affiche->date_deb, true);
   $frm->add_datetime_field("fin","Date et heure de fin", $affiche->date_fin, true);
+
+  $frm->add_select_field("horaires", "Plage horaire :", array(0=>"Toute la journée", 1=>"Entre 8h et 12h", 2=>"Entre 11h30 et 14h", 3=>"Entre 12h et 18h", 4=>"Entre 18h et 6h"), 0);
+
+  if ($site->user->is_in_group("moderateur_site"))
+    $frm->add_select_field("frequence", "Fréquence :", array(0=>"Désactivée", 1=>"Une fois par cycle", 2=>"Deux fois par cycle", 3=>"Trois fois par cycle"), 1);
 
   $frm->add_submit("valid","Enregistrer");
 
@@ -253,7 +278,9 @@ if ( $suitable && isset($_REQUEST["submit"]) )
                   $_REQUEST['title'],
                   $file->id,
                   $_REQUEST['debut'],
-                  $_REQUEST['fin']);
+                  $_REQUEST['fin'],
+                  $_REQUEST['horaires'],
+                  $_REQUEST['frequence']);
 
   if ($site->user->is_in_group("moderateur_site"))
     $affiche->validate($site->user->id);
@@ -278,6 +305,11 @@ $frm->add_datetime_field("debut","Date et heure de d&eacute;but", $_REQUEST['deb
 $frm->add_datetime_field("fin","Date et heure de fin", $_REQUEST['fin'], true);
 
 $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$_REQUEST["id_asso"],true);
+
+$frm->add_select_field("horaires", "Plage horaire :", array(0=>"Toute la journée", 1=>"Entre 8h et 12h", 2=>"Entre 11h30 et 14h", 3=>"Entre 12h et 18h", 4=>"Entre 18h et 6h"), 0);
+
+if ($site->user->is_in_group("moderateur_site"))
+  $frm->add_select_field("frequence", "Fréquence :", array(0=>"Désactivée", 1=>"Une fois par cycle", 2=>"Deux fois par cycle", 3=>"Trois fois par cycle"), 1);
 
 if ( $file->id > 0 )
 {
