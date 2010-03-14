@@ -126,10 +126,10 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
   $frm->add_datetime_field("debut","Date et heure de d&eacute;but", $affiche->date_deb, true);
   $frm->add_datetime_field("fin","Date et heure de fin", $affiche->date_fin, true);
 
-  $frm->add_select_field("horaires", "Plage horaire :", array(0=>"Toute la journée", 1=>"Entre 8h et 12h", 2=>"Entre 11h30 et 14h", 3=>"Entre 12h et 18h", 4=>"Entre 18h et 6h"), 0);
+  $frm->add_select_field("horaires", "Plage horaire :", array(0=>"Toute la journée", 1=>"Entre 8h et 12h", 2=>"Entre 11h30 et 14h", 3=>"Entre 12h et 18h", 4=>"Entre 18h et 6h"), $affiche->horaires);
 
   if ($site->user->is_in_group("moderateur_site"))
-    $frm->add_select_field("frequence", "Fréquence :", array(0=>"Désactivée", 1=>"Une fois par cycle", 2=>"Deux fois par cycle", 3=>"Trois fois par cycle"), 1);
+    $frm->add_select_field("frequence", "Fréquence :", array(0=>"Désactivée", 1=>"Une fois par cycle", 2=>"Deux fois par cycle", 3=>"Trois fois par cycle"), $affiche->frequence);
 
   $frm->add_submit("valid","Enregistrer");
 
