@@ -365,15 +365,15 @@ $cts->add($frm, true, true, "bxnor", false, true, false);
 else
 $cts->add($frm,true);
 
-
+/* TODO : mettre à jour...
 $semestre = ((date("m") > 6 || date("m") < 2) ? "A" : "P");
 
-/* on est encore en semestre d'automne année précédente */
+/* on est encore en semestre d'automne année précédente *
 if (date("m") < 2)
 {
   $semestre .= sprintf("%02d", (date("y") -1));
 }
-/* sinon, semestre suivant */
+/* sinon, semestre suivant *
 else
 {
   $semestre .= date("y");
@@ -425,6 +425,7 @@ else
   else
   $cts->add($frm,true);
 }
+*/
 
 $frm = new form("mmtinv","index.php",true,"POST","Recherche inversée");
 $frm->add_hidden("action","search");
