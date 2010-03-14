@@ -137,13 +137,16 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
 
   if( $_REQUEST['id_ville'] )
   {
-    $elements[] = "`utilisateurs`.`id_ville`='".intval($_REQUEST['id_ville'])."'";
+    $elements[] = "( `utilisateurs`.`id_ville`='".intval($_REQUEST['id_ville'])."'".
+                " OR `utl_etu`.`id_ville`='".intval($_REQUEST['id_ville'])."' )";
+      ;
     $params.="&id_ville=".intval($_REQUEST['id_ville']);
     if( isset($_REQUEST['id_pays'] ) )
       $params.="&id_pays=".intval($_REQUEST['id_pays']);
   } elseif(isset($_REQUEST['id_pays'] ) ) {
     $params.="&id_pays=".intval($_REQUEST['id_pays']);
-    $elements[] = "`utilisateurs`.`id_pays`='".intval($_REQUEST['id_pays'])."'";
+    $elements[] = "( `utilisateurs`.`id_pays`='".intval($_REQUEST['id_pays'])."'".
+                " OR `utl_etu`.`id_pays`='".intval($_REQUEST['id_pays'])."' )";
   }
 
   if ( count($elements) > 0 )
@@ -357,7 +360,6 @@ $frm->add_date_field("date_naissance","Date de naissance");
 $frm->add_checkbox("inclus_ancien","Inclure les anciens",false);
 $frm->add_checkbox("inclus_nutbm","Inclure les non-utbm",false);
 //TODO:améliorer la présentation
-//TODO:recherche par ville/dep/region/pays d'origine ?
 
 $frm->add_submit("go","Rechercher");
 if ( isset($_REQUEST["action"]) && (isset($_REQUEST["numtel"]) || isset($_REQUEST["pattern"])||$_REQUEST["action"]=="searchedt") )
@@ -449,6 +451,7 @@ $cts->add($frm,true);
 
 $ville = new ville($site->db);
 $pays = new pays($site->db);
+$pays->load_by_id(1);
 $frm = new form("mmtville","index.php",true,"POST","Recherche par ville");
 $frm->add_hidden("action","search");
 $frm->add_entity_smartselect ("id_pays","Pays", $pays,true);
