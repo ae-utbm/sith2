@@ -228,8 +228,8 @@ elseif ( $_REQUEST["page"] == "viewreserv" )
   if ( $is_admin )
   {
     $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
-    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=1\">Afficher les réservations pour les lavages</a>");
-    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=2\">Afficher les réservations pour les sechages</a>");
+    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=1&amp;id_salle=".$_REQUEST["id_salle"]."\">Afficher les réservations pour les lavages</a>");
+    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=2&amp;id_salle=".$_REQUEST["id_salle"]."\">Afficher les réservations pour les sechages</a>");
   }
 
   $cts->add_paragraph("<a href=\"index.php\">Créneaux déjà réservés</a>");
@@ -302,8 +302,8 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   if ( $is_admin )
   {
     $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
-    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=1\">Afficher les réservations pour les lavages</a>");
-    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=2\">Afficher les réservations pour les sechages</a>");
+    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=1&amp;id_salle=".$_REQUEST["id_salle"]."\">Afficher les réservations pour les lavages</a>");
+    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=2&amp;id_salle=".$_REQUEST["id_salle"]."\">Afficher les réservations pour les sechages</a>");
   }
 
   $cts->add_paragraph("<a href=\"index.php\">Créneaux déjà réservés</a>");
@@ -357,11 +357,7 @@ $cts->add($tbl,true);
 //TODO: liste des jetons empruntés ?
 
 if ( $is_admin )
-{
   $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
-  $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=1\">Afficher les réservations pour les lavages</a>");
-  $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=2\">Afficher les réservations pour les sechages</a>");
-}
 
 $site->add_contents($cts);
 $site->end_page();
