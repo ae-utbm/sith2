@@ -389,7 +389,7 @@ class affiche extends stdentity
 
   function increase_frequence()
   {
-    if ($this->frequence > 0)
+    if ($this->frequence < 3)
     {
       $this->frequence++;
       new update($this->dbrw,"aff_affiches",array("frequence_aff"=>$this->frequence),array("id_affiche"=>$this->id));
