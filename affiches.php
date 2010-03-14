@@ -271,8 +271,11 @@ if ( isset($_REQUEST["submit"]) )
     $affiche_error = "Le champ titre n'a pas &eacute;t&eacute; remplis";
   elseif ( $_REQUEST["debut"] >= $_REQUEST["fin"] )
     $affiche_error = "Date de debut et date de fin erron&eacute;s";
-  elseif ( !$file->is_valid() && ! isset($affiche_error))
-    $affiche_error = "Fichier invalide";
+  elseif ( !$file->is_valid() )
+  {
+    if (! isset($affiche_error))
+      $affiche_error = "Fichier invalide";
+  }
   else
     $suitable = true;
 }
