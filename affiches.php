@@ -96,8 +96,6 @@ elseif ( ($_REQUEST["action"] == "increase") && $can_edit )
 }
 elseif ( ($_REQUEST["action"] == "save") && $can_edit )
 {
-  print_r($_REQUEST['horaires']);
-  print_r($_REQUEST['frequence']);
   if ( $_REQUEST["title"] && $_REQUEST['debut'] && $_REQUEST['fin'])
   {
     $affiche->save_affiche(
