@@ -31,6 +31,7 @@ $site = new site ();
 
 $site->start_page("none","Activités");
 
+$cts = new contents("Responsables des clubs");
 if ($site->user->is_in_group("gestion_ae"))
 {
   $tabs = array();
@@ -68,7 +69,7 @@ if (($_REQUEST['view'] == "list") && ($site->user->is_in_group("gestion_ae")))
                               ),
                         array(), array(), array() );
 
-  $site->add_contents($table);
+  $cts->add_contents($table);
 }
 else
 {
@@ -115,6 +116,8 @@ else
     $cts->add($gal);
   }
 }
+
+$site->add_contents($cts);
 
 $site->end_page();
 
