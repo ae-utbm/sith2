@@ -224,7 +224,7 @@ if($site->user->is_in_group("gestion_ae"))
     "asso.id_asso, asso.nom_asso," .
     "sl_reservation.id_salres,  sl_reservation.date_debut_salres," .
     "sl_reservation.date_fin_salres, sl_reservation.description_salres, " .
-    "sl_reservation.date_accord_res, sl_reservation.util_bar_salres," .
+    "sl_reservation.date_accord_res," .
     "(sl_reservation.convention_salres*10+sl_salle.convention_salle) as `convention` " .
     "FROM sl_reservation " .
     "INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=sl_reservation.id_utilisateur " .
@@ -245,12 +245,11 @@ if($site->user->is_in_group("gestion_ae"))
         "date_debut_salres"=>"De",
         "date_fin_salres"=>"A",
         "description_salres" => "Motif",
-        "util_bar_salres" => "Bar",
         "date_accord_res"=>"Accord le"
         ),
       array("info"=>"Details"),
       array(),
-      array("util_bar_salres"=>array(1=>"Non", 2=>"Oui", 3=>"BDF"))
+      array()
       ));
 
 }
@@ -262,7 +261,7 @@ elseif($site->user->is_in_group("bdf-bureau"))
     "asso.id_asso, asso.nom_asso," .
     "sl_reservation.id_salres,  sl_reservation.date_debut_salres," .
     "sl_reservation.date_fin_salres, sl_reservation.description_salres, " .
-    "sl_reservation.date_accord_res," .
+    "sl_reservation.date_accord_res, sl_reservation.util_bar_salres," .
     "(sl_reservation.convention_salres*10+sl_salle.convention_salle) as `convention` " .
     "FROM sl_reservation " .
     "INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=sl_reservation.id_utilisateur " .
@@ -282,11 +281,12 @@ elseif($site->user->is_in_group("bdf-bureau"))
         "date_fin_salres"=>"A",
         "description_salres" => "Motif",
         "convention"=>"Conv.",
+        "util_bar_salres" => "Bar",
         "date_accord_res"=>"Accord le"
         ),
       array("info"=>"Details"),
       array(),
-      array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite"))
+      array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite"), "util_bar_salres"=>array(1=>"Non", 2=>"Oui", 3=>"BDF"))
       ));
 }
 
