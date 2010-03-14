@@ -629,6 +629,9 @@ class utilisateur extends stdentity
     if ( $this->assidu )
       $this->groupes[10011] = "amicale-membres";
 
+    if ( $this->ae || $this->amicale || $this->assidu )
+      $this->groupes[10012] = "cotisants-tous";
+
     $req = new requete($this->db,
                        "SELECT `asso`.`id_asso`, ".
                        "`asso`.`nom_unix_asso`, ".

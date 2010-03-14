@@ -188,6 +188,7 @@ class group extends stdentity
       $values[10009] = "responsables-clubs";
       $values[10010] = "assidu-membres";
       $values[10011] = "amicale-membres";
+      $values[10012] = "cotisants-tous";
 
       $req = new requete($this->db,
         "SELECT `id_asso`, `nom_unix_asso` " .
@@ -294,6 +295,15 @@ class group extends stdentity
 
     if ( $this->id == 10009 )
       return "responsables des clubs";
+
+    if ( $this->id == 10010 )
+      return "cotisants par ASSIDU";
+
+    if ( $this->id == 10011 )
+      return "cotisants par l'amicale de l'UTBM";
+
+    if ( $this->id == 10012 )
+      return "cotisants à l'AE y compris par ASSIDU et l'amicale";
 
     return trim($this->description);
   }
