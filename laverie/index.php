@@ -195,7 +195,8 @@ if ( $_REQUEST["page"] == "reserver" )
 elseif ( $_REQUEST["page"] == "viewreserv" )
 {
   $site->start_page("services","Laverie");
-  $cts = new contents("<a href=\"index.php\">Laverie</a> / ".$salles[$_REQUEST["id_salle"]]." / Créneaux réservés");
+  $titre = "Créneaux réservés (".($_REQUEST["operation"] ==  1 ? 'lavage' : 'sechage').")";
+  $cts = new contents("<a href=\"index.php\">Laverie</a> / ".$salles[$_REQUEST["id_salle"]]." / ".$titre);
 
   $type = $_REQUEST["operation"] ==  1 ? 'laver' : 'secher';
 
