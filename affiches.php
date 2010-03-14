@@ -104,7 +104,7 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
                      $_REQUEST['debut'],
                      $_REQUEST['fin'],
                      $_REQUEST['horaires'],
-                     $_REQUEST['frequence']);
+                     (isset($_REQUEST['frequence'])) ? $_REQUEST['frequence'] : 1);
 
     if ($site->user->is_in_group("moderateur_site"))
       $affiche->validate($site->user->id);
@@ -280,7 +280,7 @@ if ( $suitable && isset($_REQUEST["submit"]) )
                   $_REQUEST['debut'],
                   $_REQUEST['fin'],
                   $_REQUEST['horaires'],
-                  $_REQUEST['frequence']);
+                  (isset($_REQUEST['frequence'])) ? $_REQUEST['frequence'] : 1);
 
   if ($site->user->is_in_group("moderateur_site"))
     $affiche->validate($site->user->id);

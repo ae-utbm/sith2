@@ -332,8 +332,6 @@ class affiche extends stdentity
             OR ((horaires_aff NOT IN (".implode(",",$last_plages).")) AND (horaires_aff IN (".implode(",",$cur_plages).")))
           )
         )
-
-
         ");
 
     list($count_modif) = $req->get_row();
