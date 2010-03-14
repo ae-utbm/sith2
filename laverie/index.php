@@ -192,6 +192,53 @@ if ( $_REQUEST["page"] == "reserver" )
 
   exit();
 }
+elseif ( $_REQUEST["page"] == "viewreserv" )
+{
+  $site->start_page("services","Laverie");
+  $cts = new contents("<a href=\"index.php\">Laverie</a> / ".$salles[$_REQUEST["id_salle"]]." / Créneaux réservés");
+
+  $type = $_REQUEST["operation"] ==  1 ? 'laver' : 'secher';
+
+  if ( $site->user->is_in_group("gestion_machines"))
+    $sql =
+    "SELECT
+     id_creneau,
+     debut_creneau, SUBTIME(fin_creneau,'00:00:01') as fin_creneau,
+     COALESCE(GROUP_CONCAT(prenom_utl, ' ', nom_utl), 'Choisir') AS texte
+     FROM mc_creneaux
+     INNER JOIN mc_machines ON ( mc_creneaux.id_machine = mc_machines.id  )
+     LEFT JOIN utilisateurs ON ( mc_creneaux.id_utilisateur = utilisateurs.id_utilisateur )
+     WHERE mc_machines.type='".mysql_real_escape_string($type)."'
+     AND mc_machines.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
+     AND debut_creneau > NOW()";
+
+    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut_creneau", "fin_creneau", "texte", "index.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"], "index.php?page=reserver".$extraurl, "GROUP BY debut_creneau" );
+    $cts->add($pl,true);
+
+
+  $frm = new form("searchmc","index.php",false,"POST","Nouvelle recherche");
+  $frm->add_hidden("action","searchmc");
+  if ( isset($_REQUEST["fallback"]) )
+    $frm->add_hidden("fallback",$_REQUEST["fallback"]);
+  $frm->add_select_field("id_salle","Lieu",$salles, $_REQUEST["id_salle"]);
+  $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sechage",1=>"Lavage seulement",2=>"Sechage seulement"));
+  $frm->add_submit("search","Rechercher un créneau");
+  $cts->add($frm,true);
+
+  if ( $is_admin )
+  {
+    $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
+    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=1\">Afficher les réservations pour les lavages</a>");
+    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=2\">Afficher les réservations pour les sechages</a>");
+  }
+
+  $cts->add_paragraph("<a href=\"index.php\">Créneaux déjà réservés</a>");
+
+  $site->add_contents($cts);
+  $site->end_page();
+
+  exit();
+}
 elseif ( $_REQUEST["action"] == "searchmc" )
 {
   $site->start_page("services","Laverie");
@@ -203,37 +250,21 @@ elseif ( $_REQUEST["action"] == "searchmc" )
 
   if ( $_REQUEST["operation"] ==  3 )
   {
-    if ( $site->user->is_in_group("gestion_machines"))
-      $sql =
-      "SELECT
-      CONCAT(MIN(cl.id_creneau),',',MIN(cs.id_creneau)) AS id_creneau,
-      cl.debut_creneau, SUBTIME(cl.fin_creneau,'00:00:01') AS fin_creneau,
-      COALESCE(CONCAT(prenom_utl, ' ', nom_utl), 'Choisir') AS texte
-      FROM mc_creneaux AS cl
-      INNER JOIN mc_machines AS ml ON ( cl.id_machine = ml.id AND ml.type='laver' )
-      INNER JOIN mc_creneaux AS cs ON ( cs.debut_creneau = cl.fin_creneau )
-      INNER JOIN mc_machines AS ms ON ( cs.id_machine = ms.id AND ms.type='secher' )
-      LEFT JOIN utilisateurs ON ( cl.id_utilisateur = utilisateurs.id_utilisateur )
-      WHERE ml.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
-      AND ms.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
-      AND cl.debut_creneau > NOW()";
-    else
-      $sql =
-      "SELECT
-       CONCAT(MIN(cl.id_creneau),',',MIN(cs.id_creneau)) AS id_creneau,
-       cl.debut_creneau, SUBTIME(cl.fin_creneau,'00:00:01') AS fin_creneau,
-       'Choisir' AS texte
-       FROM mc_creneaux AS cl
-       INNER JOIN mc_machines AS ml ON ( cl.id_machine = ml.id AND ml.type='laver' )
-       INNER JOIN mc_creneaux AS cs ON ( cs.debut_creneau = cl.fin_creneau )
-       INNER JOIN mc_machines AS ms ON ( cs.id_machine = ms.id AND ms.type='secher' )
-       WHERE ml.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
-       AND ms.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
-       AND cs.id_utilisateur IS NULL
-       AND cl.id_utilisateur IS NULL
-       AND cl.debut_creneau > NOW()";
+    $sql =
+    "SELECT
+     CONCAT(MIN(cl.id_creneau),',',MIN(cs.id_creneau)) AS id_creneau,
+     cl.debut_creneau, SUBTIME(cl.fin_creneau,'00:00:01') AS fin_creneau,
+     'Choisir' AS texte
+     FROM mc_creneaux AS cl
+     INNER JOIN mc_machines AS ml ON ( cl.id_machine = ml.id AND ml.type='laver' )
+     INNER JOIN mc_creneaux AS cs ON ( cs.debut_creneau = cl.fin_creneau )
+     INNER JOIN mc_machines AS ms ON ( cs.id_machine = ms.id AND ms.type='secher' )
+     WHERE ml.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
+     AND ms.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
+     AND cs.id_utilisateur IS NULL
+     AND cl.id_utilisateur IS NULL
+     AND cl.debut_creneau > NOW()";
 
-    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "cl.debut_creneau", "cl.fin_creneau", "texte", "index.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"].$extraurl, "index.php?page=reserver".$extraurl, "GROUP BY cl.debut_creneau" );
     $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "cl.debut_creneau", "cl.fin_creneau", "texte", "index.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"].$extraurl, "index.php?page=reserver".$extraurl, "GROUP BY cl.debut_creneau" );
     $cts->add($pl,true);
   }
@@ -241,30 +272,17 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   {
     $type = $_REQUEST["operation"] ==  1 ? 'laver' : 'secher';
 
-    if ( $site->user->is_in_group("gestion_machines"))
-      $sql =
-      "SELECT
-       id_creneau,
-       debut_creneau, SUBTIME(fin_creneau,'00:00:01') as fin_creneau,
-       COALESCE(CONCAT(prenom_utl, ' ', nom_utl), 'Choisir') AS texte
-       FROM mc_creneaux
-       INNER JOIN mc_machines ON ( mc_creneaux.id_machine = mc_machines.id  )
-       LEFT JOIN utilisateurs ON ( mc_creneaux.id_utilisateur = utilisateurs.id_utilisateur )
-       WHERE mc_machines.type='".mysql_real_escape_string($type)."'
-       AND mc_machines.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
-       AND debut_creneau > NOW()";
-    else
-      $sql =
-      "SELECT
-       id_creneau,
-       debut_creneau, SUBTIME(fin_creneau,'00:00:01') as fin_creneau,
-       'Choisir' AS texte
-       FROM mc_creneaux
-       INNER JOIN mc_machines ON ( mc_creneaux.id_machine = mc_machines.id  )
-       WHERE mc_machines.type='".mysql_real_escape_string($type)."'
-       AND mc_machines.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
-       AND id_utilisateur IS NULL
-       AND debut_creneau > NOW()";
+    $sql =
+    "SELECT
+     id_creneau,
+     debut_creneau, SUBTIME(fin_creneau,'00:00:01') as fin_creneau,
+     'Choisir' AS texte
+     FROM mc_creneaux
+     INNER JOIN mc_machines ON ( mc_creneaux.id_machine = mc_machines.id  )
+     WHERE mc_machines.type='".mysql_real_escape_string($type)."'
+     AND mc_machines.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
+     AND id_utilisateur IS NULL
+     AND debut_creneau > NOW()";
 
     $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut_creneau", "fin_creneau", "texte", "index.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"].$extraurl, "index.php?page=reserver".$extraurl, "GROUP BY debut_creneau" );
     $cts->add($pl,true);
@@ -282,7 +300,11 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   $cts->add($frm,true);
 
   if ( $is_admin )
+  {
     $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
+    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=1\">Afficher les réservations pour les lavages</a>");
+    $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=2\">Afficher les réservations pour les sechages</a>");
+  }
 
   $cts->add_paragraph("<a href=\"index.php\">Créneaux déjà réservés</a>");
 
@@ -335,7 +357,11 @@ $cts->add($tbl,true);
 //TODO: liste des jetons empruntés ?
 
 if ( $is_admin )
+{
   $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
+  $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=1\">Afficher les réservations pour les lavages</a>");
+  $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=2\">Afficher les réservations pour les sechages</a>");
+}
 
 $site->add_contents($cts);
 $site->end_page();
