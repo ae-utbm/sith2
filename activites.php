@@ -95,7 +95,7 @@ else
       "AND `asso_membre`.`role`='10' " .
       "AND `asso`.`id_asso_parent` = '".$rowpoles['id_asso']."'" .
       "AND `asso`.`hidden` = '0' " .
-      ($site->user->is_in_group ("gestion_ae") ? "" : "AND `utilisateur`.`publique_utl` = '1'") .
+      ($site->user->is_in_group ("gestion_ae") ? "" : "AND `utilisateurs`.`publique_utl` = '1'") .
       "GROUP BY `asso`.`id_asso` " .
       "ORDER BY `asso`.`nom_asso`");
 
