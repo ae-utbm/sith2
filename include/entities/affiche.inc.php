@@ -391,7 +391,7 @@ class affiche extends stdentity
   {
     if ($this->frequence > 0)
     {
-      $this->frequence--;
+      $this->frequence++;
       new update($this->dbrw,"aff_affiches",array("frequence_aff"=>$this->frequence),array("id_affiche"=>$this->id));
     }
   }
