@@ -365,7 +365,7 @@ class weekmail extends stdentity
     $buffer = 'Bonjour,
 Pour voir le contenu de ce weekmail, merci de vous rendre à l\'adresse
 suivante :
-http://ae.utbm.fr/weekmail.php?id_weekmail='.$this->id.'
+http://ae.utbm.fr/weekmail.php
 
 Cordialement,
 L\'AE';
