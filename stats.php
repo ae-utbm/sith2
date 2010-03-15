@@ -535,7 +535,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
   if (isset($_REQUEST["details"]))
   {
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
-        "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos" .
+        "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos " .
         "FROM ( " .
           "SELECT `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
@@ -548,7 +548,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
           "AND id_produit !=338 " .
           "GROUP BY utilisateurs.id_utilisateur " .
           "ORDER BY total DESC LIMIT 100 " .
-        ")top " .
+        ") top " .
         "LEFT JOIN asso_membre USING ( `id_utilisateur` ) " .
         "LEFT JOIN asso USING ( `id_asso` ) " .
         "GROUP BY id_utilisateur " .
@@ -602,8 +602,9 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
         $lst->add("N°$n : <a href=\"../user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>".(isset($_REQUEST["fcsoldes"])?" ".($row["total"]/100):""),$class);
       $n++;
 
-    $cts->add($lst);
     }
+
+    $cts->add($lst);
   }
 }
 elseif ( $_REQUEST["view"] == "matmatronch" )
