@@ -539,7 +539,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
         "FROM ( " .
           "SELECT `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
-          "sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) as total " .
+          "sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) as total, promo_utbm " .
           "FROM cpt_vendu " .
           "INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture " .
           "INNER JOIN utilisateurs ON cpt_debitfacture.id_utilisateur_client=utilisateurs.id_utilisateur " .
