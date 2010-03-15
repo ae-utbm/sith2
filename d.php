@@ -467,7 +467,7 @@ if ( $file->is_valid() )
 
   $req = new requete($site->db,"SELECT ".
   "id_rev_file, date_rev_file, comment_rev_file, ".
-  "COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur` ".
+  "COALESCE(CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`), alias_utl) AS `nom_utilisateur` ".
   "FROM d_file_rev ".
   "INNER JOIN utilisateurs ON ( d_file_rev.id_utilisateur_rev_file=utilisateurs.id_utilisateur) ".
   "WHERE id_file='".$file->id."' ".
