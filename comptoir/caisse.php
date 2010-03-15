@@ -179,7 +179,7 @@ elseif ($_REQUEST['action'] == "new")
   if ((get_localisation() != $site->comptoir->id_salle) && (! $site->user->is_in_group("gestion_syscarteae")))
     $site->error_forbidden("services","wrongplace");
 
-  if ( count($site->comptoir->operateurs) == 0 )
+  if (( count($site->comptoir->operateurs) == 0 ) && (! $site->user->is_in_group("gestion_syscarteae")))
   {
     $cts = new contents($site->comptoir->nom);
     $cts->add_paragraph("En attente de la connexion d'un barman");
