@@ -217,7 +217,7 @@ elseif ($_REQUEST['action'] == "new")
       $frm->addsub($subfrm, false, true);
     }
 
-    if ($site->user->is_in_group("gestion_syscarteae"))
+    if (first($site->comptoir->operateurs)->is_in_group("gestion_syscarteae"))
     {
       $frm->add_checkbox("caisse_videe", "Caisse vidée");
     }
