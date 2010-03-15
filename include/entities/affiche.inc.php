@@ -397,7 +397,9 @@ class affiche extends stdentity
     if ($this->frequence > 0)
     {
       $this->frequence--;
-      new update($this->dbrw,"aff_affiches",array("frequence_aff"=>$this->frequence),array("id_affiche"=>$this->id));
+      new update($this->dbrw,"aff_affiches",
+          array("frequence_aff"=>$this->frequence, "date_modifie" => date("Y-m-d H:i:s"),),
+          array("id_affiche"=>$this->id));
     }
   }
 
@@ -406,7 +408,9 @@ class affiche extends stdentity
     if ($this->frequence < 3)
     {
       $this->frequence++;
-      new update($this->dbrw,"aff_affiches",array("frequence_aff"=>$this->frequence),array("id_affiche"=>$this->id));
+      new update($this->dbrw,"aff_affiches",
+          array("frequence_aff"=>$this->frequence, "date_modifie" => date("Y-m-d H:i:s"),),
+          array("id_affiche"=>$this->id));
     }
   }
 }
