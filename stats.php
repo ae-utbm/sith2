@@ -531,39 +531,80 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
       array()
       ),true);
   }
-  $cts->add_title(2,"Consomateurs : Top 10 (+ 90 premiers) (ce semestre)");
 
-
-  $req = new requete ($site->db, "SELECT `utilisateurs`.`id_utilisateur`, " .
-      "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
-      "sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) as total " .
-      "FROM cpt_vendu " .
-      "INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture " .
-      "INNER JOIN utilisateurs ON cpt_debitfacture.id_utilisateur_client=utilisateurs.id_utilisateur " .
-      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
-      "WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' " .
-      "AND id_produit !=338 " .
-      "GROUP BY utilisateurs.id_utilisateur " .
-      "ORDER BY total DESC LIMIT 100");
-
-  $lst = new itemlist(false,"top10");
-
-  $n=1;
-
-  while ( $row = $req->get_row() )
+  if (isset($_REQUEST["details"]))
   {
-    $class = $n<=10?"top":false;
+    $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
+        "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos" .
+        "FROM ( " .
+          "SELECT `utilisateurs`.`id_utilisateur`, " .
+          "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
+          "sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) as total " .
+          "FROM cpt_vendu " .
+          "INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture " .
+          "INNER JOIN utilisateurs ON cpt_debitfacture.id_utilisateur_client=utilisateurs.id_utilisateur " .
+          "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+          "WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' " .
+          "AND id_produit !=338 " .
+          "GROUP BY utilisateurs.id_utilisateur " .
+          "ORDER BY total DESC LIMIT 100 " .
+        ")top " .
+        "LEFT JOIN asso_membre USING ( `id_utilisateur` ) " .
+        "LEFT JOIN asso USING ( `id_asso` ) " .
+        "GROUP BY id_utilisateur " .
+        "ORDER BY total DESC");
 
-    if ( $row["id_utilisateur"] == $site->user->id )
-      $class = $class?"$class me":"me";
-          if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("foyer_admin") && !$site->user->is_in_group("kfet_admin"))
-      $lst->add("N°$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>",$class);
-          else
-      $lst->add("N°$n : <a href=\"../user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>".(isset($_REQUEST["fcsoldes"])?" ".($row["total"]/100):""),$class);
-    $n++;
+    $cols = array( "nom_utilisateur" => "Utilisateur",
+                  "promo_utbm" => "Promo",
+                  "assos" =>"Associations");
+    if (isset($_REQUEST["fcsoldes"]))
+      $cols["total"] = "Total";
+
+    $tbl = new sqltable("top10",
+                        "Consomateurs : Top 10 (+ 90 premiers) (ce semestre)", $req, "stats.php",
+                         "id_utilisateur",
+                         $cols,
+                         array(),
+                         array(),
+                         array());
+
+    $cts->add($tbl);
   }
+  else
+  {
+    $cts->add_title(2,"Consomateurs : Top 10 (+ 90 premiers) (ce semestre)");
 
-  $cts->add($lst);
+    $req = new requete ($site->db, "SELECT `utilisateurs`.`id_utilisateur`, " .
+        "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
+        "sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) as total " .
+        "FROM cpt_vendu " .
+        "INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture " .
+        "INNER JOIN utilisateurs ON cpt_debitfacture.id_utilisateur_client=utilisateurs.id_utilisateur " .
+        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+        "WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' " .
+        "AND id_produit !=338 " .
+        "GROUP BY utilisateurs.id_utilisateur " .
+        "ORDER BY total DESC LIMIT 100");
+
+    $lst = new itemlist(false,"top10");
+
+    $n=1;
+
+    while ( $row = $req->get_row() )
+    {
+      $class = $n<=10?"top":false;
+
+      if ( $row["id_utilisateur"] == $site->user->id )
+        $class = $class?"$class me":"me";
+            if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("foyer_admin") && !$site->user->is_in_group("kfet_admin"))
+        $lst->add("N°$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>",$class);
+            else
+        $lst->add("N°$n : <a href=\"../user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>".(isset($_REQUEST["fcsoldes"])?" ".($row["total"]/100):""),$class);
+      $n++;
+
+    $cts->add($lst);
+    }
+  }
 }
 elseif ( $_REQUEST["view"] == "matmatronch" )
 {
