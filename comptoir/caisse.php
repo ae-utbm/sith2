@@ -186,6 +186,11 @@ elseif ($_REQUEST['action'] == "new")
   }
   else
   {
+    if ( $site->user->is_in_group("gestion_syscarteae"))
+      $user = $site->user;
+    else
+      $user = first($site->comptoir->operateurs);
+
     $cts = new contents("Nouveau releve de caisse");
     $frm = new form ("newreleve","caisse.php",true,"POST");
     $frm->add_hidden("action","newreleve");
@@ -221,7 +226,7 @@ elseif ($_REQUEST['action'] == "new")
       $frm->addsub($subfrm, false, true);
     }
 
-    if (first($site->comptoir->operateurs)->is_in_group("gestion_syscarteae") || $site->user->is_in_group("gestion_syscarteae"))
+    if ($user->is_in_group("gestion_syscarteae"))
     {
       $frm->add_checkbox("caisse_videe", "Caisse vidée");
     }
