@@ -213,7 +213,7 @@ Merci d'avance
 Les responsables machines à laver";
 
     $mail = mail($user->email, utf8_decode("[AE] Jetons de machines à laver"), utf8_decode($body),
-        "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
+        "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: laverie@utbm.fr");
 
     if ($mail)
       $cts->add_paragraph("Mail de rappel &agrave; ".$user->get_html_link()." : Envoy&eacute;");
