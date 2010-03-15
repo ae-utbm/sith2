@@ -556,7 +556,8 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
         "GROUP BY id_utilisateur " .
         "ORDER BY total DESC");
 
-    $cols = array( "nom_utilisateur" => "Utilisateur",
+    $cols = array( "=num" => "N°",
+                  "nom_utilisateur" => "Utilisateur",
                   "promo_utbm" => "Promo",
                   "assos" =>"Associations");
     if (isset($_REQUEST["fcsoldes"]))
