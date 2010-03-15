@@ -67,6 +67,11 @@ elseif (($_REQUEST['action'] == "newreleve") && $GLOBALS["svalid_call"])
   }
   else
   {
+    if ( $site->user->is_in_group("gestion_syscarteae"))
+      $user = $site->user;
+    else
+      $user = first($site->comptoir->operateurs);
+
     $especes = array();
     foreach ($_REQUEST["espece_nb"] as $val=>$nb)
       if (intval($nb) > 0)
@@ -78,11 +83,10 @@ elseif (($_REQUEST['action'] == "newreleve") && $GLOBALS["svalid_call"])
         $cheques[intval($val)] += intval($_REQUEST["cheque_nb"][$i]);
 
     $caisse_videe = false;
-    if (($site->user->is_in_group("gestion_syscarteae")) && ($_REQUEST['caisse_videe']))
+    if (($user->is_in_group("gestion_syscarteae")) && ($_REQUEST['caisse_videe']))
       $caisse_videe = true;
 
-    $caisse->ajout(first($site->comptoir->operateurs)->id, $site->comptoir->id,
-                    $especes, $cheques, $caisse_videe, $_REQUEST['comment']);
+    $caisse->ajout($user->id, $site->comptoir->id, $especes, $cheques, $caisse_videe, $_REQUEST['comment']);
   }
 }
 elseif (($_REQUEST['action'] == "updatecomment") && $GLOBALS["svalid_call"])
@@ -217,7 +221,7 @@ elseif ($_REQUEST['action'] == "new")
       $frm->addsub($subfrm, false, true);
     }
 
-    if (first($site->comptoir->operateurs)->is_in_group("gestion_syscarteae"))
+    if (first($site->comptoir->operateurs)->is_in_group("gestion_syscarteae") || $site->user->is_in_group("gestion_syscarteae"))
     {
       $frm->add_checkbox("caisse_videe", "Caisse vidée");
     }
