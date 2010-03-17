@@ -43,6 +43,8 @@ function setPointer(theClass, currentNum, theAction, basename, the_form)
     color = '#eff7ff';
   else if (theAction == 'out' && theClass == 'ln1')
     color = 'white';
+  else if (theAction == 'out' && theClass == 'hilight')
+    color = '#ffdd77';
   else if (theAction == 'click' && document.forms[the_form].elements[basename + currentNum + ']'].checked == true)
   {
     var do_check = document.forms[the_form].elements[basename + currentNum + ']'].checked;
