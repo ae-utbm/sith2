@@ -564,12 +564,15 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
       $cols["total"] = "Total";
 
     $tbl = new sqltable("top10",
-                        "Consomateurs : Top 10 (+ 90 premiers) (ce semestre)", $req, "stats.php",
+                        "Consomateurs : Top 100 (ce semestre)", $req, "stats.php",
                          "id_utilisateur",
                          $cols,
                          array(),
                          array(),
-                         array());
+                         array(),
+                         true,
+                         true,
+                         array($site->user->id));
 
     $cts->add($tbl);
   }

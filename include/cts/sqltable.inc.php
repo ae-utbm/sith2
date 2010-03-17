@@ -62,8 +62,9 @@ class sqltable extends stdcontents
    * @param $batch_actions actions possibles sur plusieurs objets (envoyé à page, les id sont le tableau %id_field%s)
    * @param $enumerated valeurs des champs énumérés ($enumerated[id] = array(0=>"truc"))
    * @param $htmlentitize indique si les entrées du tableau doivent être passées par la fonction htmlentities()
+   * @param $hilight ids des éléments sélectionnés
    **/
-  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array(), $htmlentitize = true, $fjs=true)
+  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array(), $htmlentitize = true, $fjs=true, $hilight=array())
   {
     global $topdir,$wwwtopdir;
 
@@ -147,13 +148,18 @@ class sqltable extends stdcontents
 
       $t = $t^1;
 
+      if (in_array($row[$id_field], $hilight))
+        $style = "hilight";
+      else
+        $style = "ln$t";
+
       if ( count($batch_actions) )
       {
-        $this->buffer .= "<tr id=\"ln[$num]\" class=\"ln$t\" onMouseDown=\"setPointer('ln$t','$num','click','".$this->id_name."s[','".$formname."');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
+        $this->buffer .= "<tr id=\"ln[$num]\" class=\"$style\" onMouseDown=\"setPointer('ln$t','$num','click','".$this->id_name."s[','".$formname."');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
         $this->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$this->id_name."s[$num]\" value=\"".$row[$id_field]."\" onClick=\"setPointer('ln$t','$num','click','".$this->id_name."s[','".$formname."');\"/></td>\n";
       }
       else
-        $this->buffer .= "<tr id=\"ln[$num]\" class=\"ln$t\" onMouseDown=\"setPointer('ln$t','$num','click');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
+        $this->buffer .= "<tr id=\"ln[$num]\" class=\"$style\" onMouseDown=\"setPointer('ln$t','$num','click');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
 
       $num++;
       foreach ( $cols as $key => $name )

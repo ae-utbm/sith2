@@ -20,11 +20,11 @@
  * 02111-1307, USA.
  */
 
- 
+
 div.sqltable2 div.filter
 {
   position:absolute;
-  background:#d8e7f3;  
+  background:#d8e7f3;
   border:5px solid white;
   text-align:left;
   font-weight:normal;
@@ -33,7 +33,7 @@ div.sqltable2 div.filter
 
 div.sqltable2 div.filter h4
 {
-  background:#d8e7f3;  
+  background:#d8e7f3;
   margin:0;
   padding:5px;
   font-weight:normal;
@@ -102,6 +102,11 @@ div.sqltable2 th.filtree
 div.sqltable2 tr.ln0
 {
   background: #eff7ff;
+}
+
+div.sqltable2 tr.hilight
+{
+  background: #ffdd77;
 }
 
 div.sqltable2 td
