@@ -155,11 +155,11 @@ class sqltable extends stdcontents
 
       if ( count($batch_actions) )
       {
-        $this->buffer .= "<tr id=\"ln[$num]\" class=\"$style\" onMouseDown=\"setPointer('ln$t','$num','click','".$this->id_name."s[','".$formname."');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
+        $this->buffer .= "<tr id=\"ln[$num]\" class=\"$style\" onMouseDown=\"setPointer('ln$t','$num','click','".$this->id_name."s[','".$formname."');\" onMouseOut=\"setPointer('$style','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
         $this->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$this->id_name."s[$num]\" value=\"".$row[$id_field]."\" onClick=\"setPointer('ln$t','$num','click','".$this->id_name."s[','".$formname."');\"/></td>\n";
       }
       else
-        $this->buffer .= "<tr id=\"ln[$num]\" class=\"$style\" onMouseDown=\"setPointer('ln$t','$num','click');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
+        $this->buffer .= "<tr id=\"ln[$num]\" class=\"$style\" onMouseDown=\"setPointer('ln$t','$num','click');\" onMouseOut=\"setPointer('$style','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
 
       $num++;
       foreach ( $cols as $key => $name )
