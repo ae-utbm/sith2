@@ -532,7 +532,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
       ),true);
   }
 
-  $cts->add_title(2,"Consomateurs : Top 10 (+ 90 premiers) (ce semestre)");
+  $cts->add_title(2,"Consomateurs : Top 100 (ce semestre)");
 
   if (isset($_REQUEST["details"]))
   {
