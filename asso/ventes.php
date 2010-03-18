@@ -204,7 +204,7 @@ if (isset($_REQUEST["allprod"]) || ($req_produits->lines <= 0))
                                           FROM `cpt_produits`");
 }
 
-$produits = array();
+$produits = array(0=> "(aucun)");
 while($row = $req_produits->get_row())
   $produits[$row['id_produit']] = $row['nom_prod'];
 
