@@ -343,14 +343,11 @@ class affiche extends stdentity
    */
   function gen_pdf(){
     $plages_horaires = array(1=>array(28800, 43200), 2=>array(41400, 50400), 3=>array(43200, 64800), 4=>array(64800, 21600));
-    $time = time() % (60 * 60 * 24);
-    echo $time;
+    eval("\$time=".strftime("%H*3600+%M*60+%S;"));
     $cur_plages = array(0);
     foreach($plages_horaires as $id => $plage)
       if (($time >= $plage[0]) && ($time < $plage[1]))
         $cur_plages[] = $id;
-
-    print_r($cur_plages);
 
     $req = new requete($this->db, "SELECT id_file, frequence_aff FROM `aff_affiches`
         WHERE date_deb < NOW()
@@ -389,8 +386,8 @@ class affiche extends stdentity
       }
     }
 
-    //header("Content-Type: application/pdf");
-    //passthru("convert -density 300x300 ".implode(' ', $fichiers)." pdf:-");
+    header("Content-Type: application/pdf");
+    passthru("convert -density 300x300 ".implode(' ', $fichiers)." pdf:-");
   }
 
   function decrease_frequence()
