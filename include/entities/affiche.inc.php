@@ -349,13 +349,13 @@ class affiche extends stdentity
       if (($time >= $plage[0]) && ($time < $plage[1]))
         $cur_plages[] = $id;
 
-    //TODO : fréquence
+    print_r($cur_plages);
 
     $req = new requete($this->db, "SELECT id_file, frequence_aff FROM `aff_affiches`
         WHERE date_deb < NOW()
         AND date_fin > NOW()
         AND horaires_aff IN (".implode(",",$cur_plages).")
-        AND modere_aff = '1'");
+        AND modere_aff = '1'", 1);
 
     $file = new dfile($this->db, $this->dbrw);
 
