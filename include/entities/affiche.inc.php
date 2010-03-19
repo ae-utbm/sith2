@@ -353,7 +353,7 @@ class affiche extends stdentity
         WHERE date_deb < NOW()
         AND date_fin > NOW()
         AND horaires_aff IN (".implode(",",$cur_plages).")
-        AND modere_aff = '1'", 1);
+        AND modere_aff = '1'");
 
     $file = new dfile($this->db, $this->dbrw);
 
