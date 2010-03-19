@@ -312,16 +312,20 @@ class affiche extends stdentity
     $plages_horaires = array(1=>array(28800, 43200), 2=>array(41400, 50400), 3=>array(43200, 64800), 4=>array(64800, 21600));
 
     eval("\$time=".strftime("%H*3600+%M*60+%S;", strtotime($last)));
+    echo $time;
     $last_plages = array(0);
     foreach($plages_horaires as $id => $plage)
       if (($time >= $plage[0]) && ($time < $plage[1]))
         $last_plages[] = $id;
+    print_r($last_plages);
 
     eval("\$time=".strftime("%H*3600+%M*60+%S;"));
+    echo $time;
     $cur_plages = array(0);
     foreach($plages_horaires as $id => $plage)
       if (($time >= $plage[0]) && ($time < $plage[1]))
         $cur_plages[] = $id;
+    print_r($cur_plages);
 
     $req = new requete($this->db, "SELECT COUNT(*) FROM `aff_affiches`
         WHERE (date_deb > '".$last."' AND date_deb < NOW())
