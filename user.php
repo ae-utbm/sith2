@@ -784,7 +784,10 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       }
     }
     else
+    {
       $subfrm->add_file_field ( "idtfile", "Fichier" );
+      $subfrm->add_info("Vous devez être reconnaissable sur la photo. Dans le cas contraire, celle-ci sera supprimée.");
+    }
 
     $frm->add ( $subfrm );
     $frm->add_submit("save","Enregistrer");
