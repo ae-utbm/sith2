@@ -204,8 +204,8 @@ elseif ( $_REQUEST["view"] == "retrait" )
       "INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
       "INNER JOIN `utilisateurs` ON `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
          "LEFT JOIN `utl_etu_utbm` ON `ae_cotisations`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur` ".
-      "WHERE `ae_carte`.`etat_vie_carte_ae` = '" . CETAT_AU_BUREAU_AE . "'" .
-      "`ae_cotisations`.`date_fin_cotis` > '".date("Y-m-d")."' " .
+      "WHERE `ae_carte`.`etat_vie_carte_ae` = '" . CETAT_AU_BUREAU_AE . "' " .
+      "AND `ae_cotisations`.`date_fin_cotis` > '".date("Y-m-d")."' " .
       "ORDER BY `utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl`");
 
   $cts->add(new sqltable(
