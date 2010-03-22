@@ -411,7 +411,7 @@ if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'schedule' || $_REQUEST
     else
     {
       $start = substr($group['semestre'], 1)."0215T";
-      $until = (substr($group['semestre'], 1) + 1)."0701T000000";
+      $until = (substr($group['semestre'], 1))."0701T000000";
     }
     $start .= substr($group['debut'], 0, 2).substr($group['debut'], 3, 2)."00";
 
