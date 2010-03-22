@@ -22,76 +22,77 @@ class jeton extends stdentity
   var $type;
   var $nom;
 
-	/** Charge un jeton en fonction de son id
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id du jeton
-	 */
-	function load_by_id ( $id )
-	{
-		$req = new requete($this->db, "SELECT * FROM `mc_jeton`
-				WHERE `id_jeton` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");
+  /** Charge un jeton en fonction de son id
+   * $this->id est égal à -1 en cas d'erreur
+   * @param $id id du jeton
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * FROM `mc_jeton`
+        WHERE `id_jeton` = '" . mysql_real_escape_string($id) . "'
+        LIMIT 1");
 
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
 
-		$this->id = -1;
-		return false;
-	}
+    $this->id = -1;
+    return false;
+  }
 
-	/** Charge un jeton en fonction de son nom
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id du jeton
-	 */
-	function load_by_nom ( $nom, $type )
-	{
-		$req = new requete($this->db, "SELECT * FROM `mc_jeton`
-			WHERE `nom_jeton` = '" . mysql_real_escape_string($nom) . "'
-			AND `type_jeton` = '" . mysql_real_escape_string($type) . "'
-			LIMIT 1");
+  /** Charge un jeton en fonction de son nom
+   * $this->id est égal à -1 en cas d'erreur
+   * @param $id id du jeton
+   */
+  function load_by_nom ( $nom, $type )
+  {
+    $req = new requete($this->db, "SELECT * FROM `mc_jeton`
+      WHERE `nom_jeton` = '" . mysql_real_escape_string($nom) . "'
+      AND `type_jeton` = '" . mysql_real_escape_string($type) . "'
+      LIMIT 1");
 
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
 
-		$this->id = -1;
-		return false;
-	}
+    $this->id = -1;
+    return false;
+  }
 
-	/** Charge un jeton en fonction de son nom
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id du jeton
-	 */
-	function load_by_nom_and_salle ( $nom, $type, $id_salle )
-	{
-		$req = new requete($this->db, "SELECT * FROM `mc_jeton`
-			WHERE `nom_jeton` = '" . mysql_real_escape_string($nom) . "'
-			AND `type_jeton` = '" . mysql_real_escape_string($type) . "'
-			AND `id_salle` = '" . mysql_real_escape_string($id_salle) . "'
-			LIMIT 1");
+  /** Charge un jeton en fonction de son nom
+   * $this->id est égal à -1 en cas d'erreur
+   * @param $id id du jeton
+   */
+  function load_by_nom_and_salle ( $nom, $type, $id_salle )
+  {
+    $req = new requete($this->db, "SELECT * FROM `mc_jeton`
+      WHERE `nom_jeton` = '" . mysql_real_escape_string($nom) . "'
+      AND `type_jeton` = '" . mysql_real_escape_string($type) . "'
+      AND `id_salle` = '" . mysql_real_escape_string($id_salle) . "'
+      LIMIT 1", 1);
 
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      print_r("id : ".$this->id);
+      return true;
+    }
 
-		$this->id = -1;
-		return false;
-	}
+    $this->id = -1;
+    return false;
+  }
 
-	function _load ( $row )
-	{
-		$this->id      = $row['id_jeton'];
-		$this->id_salle = $row['id_salle'];
-		$this->type    = $row['type_jeton'];
-		$this->nom     = $row['nom_jeton'];
-	}
+  function _load ( $row )
+  {
+    $this->id      = $row['id_jeton'];
+    $this->id_salle = $row['id_salle'];
+    $this->type    = $row['type_jeton'];
+    $this->nom     = $row['nom_jeton'];
+  }
 
   /**
    * Ajoute un jeton
@@ -99,27 +100,27 @@ class jeton extends stdentity
    * @param $type Type de jeton
    * @param $nom Nom du jeton (identifiant)
    */
-	function add ( $id_salle, $type, $nom )
-	{
-		$this->id_salle = $id_salle;
-		$this->type = $type;
-		$this->nom = $nom;
+  function add ( $id_salle, $type, $nom )
+  {
+    $this->id_salle = $id_salle;
+    $this->type = $type;
+    $this->nom = $nom;
 
-		$sql = new insert ($this->dbrw,
-			"mc_jeton",
-			array(
-				"id_salle" => $this->id_salle,
-				"type_jeton" => $this->type,
-				"nom_jeton" => $this->nom
-				)
-			);
+    $sql = new insert ($this->dbrw,
+      "mc_jeton",
+      array(
+        "id_salle" => $this->id_salle,
+        "type_jeton" => $this->type,
+        "nom_jeton" => $this->nom
+        )
+      );
 
-		if ( $sql )
-			$this->id = $sql->get_id();
-		else
-			$this->id = null;
+    if ( $sql )
+      $this->id = $sql->get_id();
+    else
+      $this->id = null;
 
-	}
+  }
 
   /**
    * Modifie les informations sur le jeton
@@ -128,45 +129,45 @@ class jeton extends stdentity
    * @param $nom Nom du jeton (identifiant)
    */
   function save ( $id_salle, $type, $nom )
-	{
-		$this->id_salle = $id_salle;
-		$this->type = $type;
-		$this->nom = $nom;
+  {
+    $this->id_salle = $id_salle;
+    $this->type = $type;
+    $this->nom = $nom;
 
-		$sql = new update ($this->dbrw,
-			"mc_jeton",
-		  array(
-				"id_salle" => $this->id_salle,
-				"type_jeton" => $this->type,
-				"nom_jeton" => $this->nom
-				),
-			array(
-				"id_jeton" => $this->id
-				)
-			);
-	}
+    $sql = new update ($this->dbrw,
+      "mc_jeton",
+      array(
+        "id_salle" => $this->id_salle,
+        "type_jeton" => $this->type,
+        "nom_jeton" => $this->nom
+        ),
+      array(
+        "id_jeton" => $this->id
+        )
+      );
+  }
 
-	/**
-	 * Supprime un jeton
-	 * @return 1 si le jeton est umprunté, sinon retourne 0
-	 */
+  /**
+   * Supprime un jeton
+   * @return 1 si le jeton est umprunté, sinon retourne 0
+   */
 
-	function delete ( )
-	{
-		if ( $this->is_borrowed() == 0 )
-		{
-			$sql = new delete ($this->dbrw,
-				"mc_jeton",
-				array(
-					"id_jeton" => $this->id
-					)
-			);
-			return 0;
-		}
-		else
-			return 1;
+  function delete ( )
+  {
+    if ( $this->is_borrowed() == 0 )
+    {
+      $sql = new delete ($this->dbrw,
+        "mc_jeton",
+        array(
+          "id_jeton" => $this->id
+          )
+      );
+      return 0;
+    }
+    else
+      return 1;
 
-	}
+  }
 
   /**
    * Prête le jeton à un utilisateur.
@@ -177,16 +178,16 @@ class jeton extends stdentity
     if ( $this->is_borrowed() != 0 )
       $this->given_back();
 
-		$sql = new insert ($this->dbrw,
-			"mc_jeton_utilisateur",
-			array(
-				"id_utilisateur" => $id_utilisateur,
-				"id_jeton" => $this->id,
-				"id_gap" => $id_gap,
-				"prise_jeton" => date("Y-m-d H:i:s"),
-				"retour_jeton" => NULL
-				)
-			);
+    $sql = new insert ($this->dbrw,
+      "mc_jeton_utilisateur",
+      array(
+        "id_utilisateur" => $id_utilisateur,
+        "id_jeton" => $this->id,
+        "id_gap" => $id_gap,
+        "prise_jeton" => date("Y-m-d H:i:s"),
+        "retour_jeton" => NULL
+        )
+      );
   }
 
   /**
@@ -194,16 +195,16 @@ class jeton extends stdentity
    */
   function given_back ( )
   {
-		$sql = new update ($this->dbrw,
-			"mc_jeton_utilisateur",
-		  array(
-				"retour_jeton" => date("Y-m-d H:i:s")
-				),
-			array(
-				"id_jeton" => $this->id,
-				"retour_jeton" => NULL
-				)
-			);
+    $sql = new update ($this->dbrw,
+      "mc_jeton_utilisateur",
+      array(
+        "retour_jeton" => date("Y-m-d H:i:s")
+        ),
+      array(
+        "id_jeton" => $this->id,
+        "retour_jeton" => NULL
+        )
+      );
   }
 
   /**

@@ -598,6 +598,8 @@ else // Vente
       {
         $machine->load_by_id_creneau ( $id_creneau, $debut );
 
+        print_r("nom :".$nom_jeton);
+
         $jeton = new jeton($site->db,$site->dbrw);
         $jeton->load_by_nom_and_salle($nom_jeton,$machine->type,$id_salle);
 
