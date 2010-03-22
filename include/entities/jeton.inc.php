@@ -73,12 +73,11 @@ class jeton extends stdentity
       WHERE `nom_jeton` = '" . mysql_real_escape_string($nom) . "'
       AND `type_jeton` = '" . mysql_real_escape_string($type) . "'
       AND `id_salle` = '" . mysql_real_escape_string($id_salle) . "'
-      LIMIT 1", 1);
+      LIMIT 1");
 
     if ( $req->lines == 1 )
     {
       $this->_load($req->get_row());
-      print_r("id : ".$this->id);
       return true;
     }
 
