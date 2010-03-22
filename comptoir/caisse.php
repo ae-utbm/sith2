@@ -278,6 +278,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
             AND date_releve > (
               SELECT date_passage
               FROM cpt_caisse_banque
+              GROUP BY id_comptoir
               ORDER BY date_passage DESC
               LIMIT 1
             )");
