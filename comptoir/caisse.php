@@ -300,8 +300,12 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
   if (! isset($_REQUEST['showall']))
   {
     if(isset($_REQUEST['id_comptoir']))
+    {
       $cts->add_paragraph("<a href=\"caisse.php?id_comptoir=".$_REQUEST['id_comptoir']
           ."&amp;showall\">Afficher tous les relevés</a>");
+      $cts->add_paragraph("<a href=\"caisse.php?id_comptoir=".$_REQUEST['id_comptoir']
+          ."&amp;action=new\">Nouveau relevé</a>");
+    }
     else
       $cts->add_paragraph("<a href=\"caisse.php?showall\">Afficher tous les relevés</a>");
   }
