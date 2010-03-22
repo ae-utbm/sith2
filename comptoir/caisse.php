@@ -270,7 +270,8 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
 
   $req = new requete($site->db,"SELECT
             ROUND(SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_especes,
-            ROUND(SUM(IF(cheque_caisse='1', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_cheques
+            ROUND(SUM(IF(cheque_caisse='1', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_cheques,
+            id_comptoir
             FROM `cpt_caisse`
             LEFT JOIN `cpt_caisse_sommes` USING (id_cpt_caisse)
             WHERE caisse_videe='1'
