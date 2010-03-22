@@ -389,8 +389,15 @@ class interfaceweb
          "WHERE ( id_groupe IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' " .
          "ORDER BY nom_cpt");
 
+      $req3 = new requete($this->db,
+         "SELECT id_comptoir,nom_cpt " .
+         "FROM cpt_comptoir " .
+         "WHERE id_groupe_vendeur IN (".$this->user->get_groups_csv().") AND type_cpt = '2' " .
+         "ORDER BY nom_cpt");
+
       if (   $req->lines > 0
           || $req2->lines > 0
+          || $req3->lines > 0
           || $this->user->is_in_group("root")
           || $this->user->is_in_group("moderateur_site")
           || $this->user->is_in_group("compta_admin")
@@ -402,6 +409,8 @@ class interfaceweb
         $this->buffer .= "var menu_assos=new Array();";
         $i=0;
         $class="class=\"firstdropdown\"";
+
+        /* Droits spécifiques */
         if( $this->user->is_in_group("root") )
         {
           $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>';";
@@ -432,12 +441,24 @@ class interfaceweb
           $i++;
           $class="";
         }
+
+        /* Gestion assos */
         while(list($id,$nom)=$req->get_row())
         {
           $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."asso/index.php?id_asso=$id\">".str_replace("'","\'",$nom)."</a>';";
           $i++;
           $class="";
         }
+
+        /* Comptoirs */
+        while(list($id,$nom)=$req3->get_row())
+        {
+          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."comptoir/bureau.php?id_comptoir=$id\">Comptoir : ".str_replace("'","\'",$nom)."</a>';";
+          $i++;
+          $class="";
+        }
+
+        /* Admins comptoirs */
         if( $req2->lines > 4 )
         {
           $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."comptoir/admin.php\">Admin : comptoirs</a>';";
@@ -453,6 +474,7 @@ class interfaceweb
             $class="";
           }
         }
+
         $this->buffer .= "</script>";
         $this->buffer .= "<div id='assos' onMouseover=\"dropdownmenu(this, event, menu_assos, '150px')\" onMouseout='delayhidemenu()'>\n";
         $this->buffer .= "Gestion assos/clubs";
