@@ -146,14 +146,14 @@ if ( $salle->is_valid() )
       {
         list($debut,$fin) = explode(":",$seq);
 
-        if ( $resa->add ( $salle->id, $site->user->id, $id_asso, $debut, $fin, $_REQUEST['description'], $_REQUEST['util_bar'] ) )
+        if ( $resa->add ( $salle->id, $site->user->id, $id_asso, $debut, $fin, $_REQUEST['description'], isset($_REQUEST['util_bar']) ) )
         {
 
           $result->add("Le ".textual_plage_horraire($debut,$fin));
         }
       }
     }
-    else if ( !$_REQUEST['debut'] || !$_REQUEST['fin'] || !$_REQUEST['description'] || !$_REQUEST['util_bar'])
+    else if ( !$_REQUEST['debut'] || !$_REQUEST['fin'] || !$_REQUEST['description'] || !isset($_REQUEST['util_bar']))
     {
       $_REQUEST["action"] = "reservation";
       $ErreurResa = "Incomplet";
