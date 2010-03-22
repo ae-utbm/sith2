@@ -148,6 +148,7 @@ class comptoir extends stdentity
     $this->type = $row['type_cpt'];
     $this->id_salle = $row['id_salle'];
     $this->rechargement = $row['rechargement'];
+    $this->archive = $row['archive'];
   }
 
   /**
@@ -235,6 +236,9 @@ class comptoir extends stdentity
   function ouvrir ($id)
   {
     $this->load_by_id($id);
+
+    if ( $this->archive )
+      return false;
 
     if ( !$this->is_valid() )
       return false;

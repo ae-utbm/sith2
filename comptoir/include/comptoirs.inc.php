@@ -84,14 +84,18 @@ class sitecomptoirs extends site
     $this->admin_comptoirs = array();
 
     if ( $this->user->is_in_group("gestion_ae") )
-      $req = new requete($this->db,"SELECT `id_comptoir`,`nom_cpt` FROM `cpt_comptoir`");
+      $req = new requete($this->db,"SELECT `id_comptoir`,`nom_cpt`, `archive` FROM `cpt_comptoir`");
     else
-      $req = new requete($this->db,"SELECT `id_comptoir`,`nom_cpt`
+      $req = new requete($this->db,"SELECT `id_comptoir`,`nom_cpt`, `archive`
            FROM `cpt_comptoir`
            WHERE (`id_groupe` IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' ");
 
-    while ( list($id,$nom) = ($row = $req->get_row()) )
+    while ( list($id,$nom,$archive) = ($row = $req->get_row()) )
+    {
       $this->admin_comptoirs[$id] = $nom;
+      if ($archive)
+        $this->admin_comptoirs[$id].= " (archivé)";
+    }
 
   }
 

@@ -387,12 +387,14 @@ class interfaceweb
          "SELECT id_comptoir,nom_cpt " .
          "FROM cpt_comptoir " .
          "WHERE ( id_groupe IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' " .
+         "AND archive != '1' " .
          "ORDER BY nom_cpt");
 
       $req3 = new requete($this->db,
          "SELECT id_comptoir,nom_cpt " .
          "FROM cpt_comptoir " .
          "WHERE id_groupe_vendeur IN (".$this->user->get_groups_csv().") AND type_cpt = '2' " .
+         "AND archive != '1' " .
          "ORDER BY nom_cpt");
 
       if (   $req->lines > 0
