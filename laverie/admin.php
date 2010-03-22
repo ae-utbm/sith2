@@ -594,7 +594,7 @@ else // Vente
     {
       $nom_jeton = trim($nom_jeton);
 
-      if ( !empty($nom_jeton) )
+      if ( !empty($nom_jeton) || $nom_jeton == 0)
       {
         $machine->load_by_id_creneau ( $id_creneau, $debut );
 
