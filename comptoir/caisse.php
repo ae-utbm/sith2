@@ -270,15 +270,13 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
 
   $req = new requete($site->db,"SELECT
             ROUND(SUM(IF(cheque_caisse='0', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_especes,
-            ROUND(SUM(IF(cheque_caisse='1', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_cheques,
-            id_comptoir
+            ROUND(SUM(IF(cheque_caisse='1', valeur_caisse*nombre_caisse, 0))/100, 2) as somme_cheques
             FROM `cpt_caisse`
             LEFT JOIN `cpt_caisse_sommes` USING (id_cpt_caisse)
             WHERE caisse_videe='1'
             AND date_releve > (
               SELECT date_passage
               FROM cpt_caisse_banque
-              GROUP BY id_comptoir
               ORDER BY date_passage DESC
               LIMIT 1
             )");
@@ -302,7 +300,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
   if (! isset($_REQUEST['showall']))
   {
     if(isset($_REQUEST['id_comptoir']))
-      $cts->add_paragraph("<a href=\"caisse.php?id_comptoir=".$row['id_comptoir']
+      $cts->add_paragraph("<a href=\"caisse.php?id_comptoir=".$_REQUEST['id_comptoir']
           ."&amp;showall\">Afficher tous les relevés</a>");
     else
       $cts->add_paragraph("<a href=\"caisse.php?showall\">Afficher tous les relevés</a>");
