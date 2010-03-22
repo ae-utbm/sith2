@@ -47,7 +47,8 @@ if (($_REQUEST['action'] == "view") && ($site->user->is_in_group("gestion_syscar
 }
 elseif (($_REQUEST['action'] == "newreleve") && $GLOBALS["svalid_call"])
 {
-  $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
+  if (! $site->comptoir->ouvrir($_REQUEST["id_comptoir"]))
+    $site->error_not_found("services");
 
   if (!$site->comptoir->is_valid())
     $site->error_not_found("services");
@@ -97,7 +98,8 @@ elseif (($_REQUEST['action'] == "updatecomment") && $GLOBALS["svalid_call"])
    est le même que celui qui a créé le relevé */
   if (! $site->user->is_in_group("gestion_syscarteae"))
   {
-    $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
+    if (! $site->comptoir->ouvrir($_REQUEST["id_comptoir"]))
+      $site->error_not_found("services");
 
     if (!$site->comptoir->is_valid())
       $site->error_not_found("services");
@@ -165,7 +167,8 @@ if (in_array($_REQUEST['action'], array("view", "newreleve", "updatecomment")) &
 
 elseif ($_REQUEST['action'] == "new")
 {
-  $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
+  if (! $site->comptoir->ouvrir($_REQUEST["id_comptoir"]))
+    $site->error_not_found("services");
 
   if (!$site->comptoir->is_valid())
     $site->error_not_found("services");

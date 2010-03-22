@@ -43,7 +43,9 @@ require_once("include/comptoirs.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
 
 $site = new sitecomptoirs(true);
-$site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
+
+if (! $site->comptoir->ouvrir($_REQUEST["id_comptoir"]))
+  $site->error_not_found("services");
 
 if ( !$site->comptoir->is_valid() )
   $site->error_not_found("services");

@@ -49,7 +49,8 @@ require_once($topdir. "include/localisation.inc.php");
 
 $site = new sitecomptoirs(true );
 
-$site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
+if (! $site->comptoir->ouvrir($_REQUEST["id_comptoir"]))
+  $site->error_not_found("services");
 
 if ( !$site->comptoir->is_valid() )
   $site->error_not_found("services");
