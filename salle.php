@@ -240,6 +240,8 @@ if ( $salle->is_valid() )
     $frm->add_datetime_field("until","... jusqu'au");
     if ( $salle->bar_bdf )
       $frm->add_select_field("util_bar", "Utilisation du bar", array(1=>"Je n'utilise pas le bar", 2=>"J'utilise le bar", 3=>"Je laisse les barmens BDF tenir le bar"), 0, "", true);
+    else
+      $frm->add_hidden("util_bar", 0);
     $frm->add_submit("valide","Demander");
     $cts->add($frm,true);
 
