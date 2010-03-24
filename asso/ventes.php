@@ -195,13 +195,15 @@ if (! isset($_REQUEST["allprod"]))
   $req_produits = new requete($site->db, "SELECT `id_produit`, `nom_prod`
                                           FROM `cpt_produits`
                                           WHERE `cpt_produits`.`id_assocpt` = ".$asso->id."
-                                          AND prod_archive =0");
+                                          AND prod_archive =0
+                                          ORDER BY `nom_prod`");
 }
 if (isset($_REQUEST["allprod"]) || ($req_produits->lines <= 0))
 {
   $allprod = true;
   $req_produits = new requete($site->db, "SELECT `id_produit` , `nom_prod`
-                                          FROM `cpt_produits`");
+                                          FROM `cpt_produits`
+                                          ORDER BY `nom_prod`");
 }
 
 $produits = array(0=> "(aucun)");
