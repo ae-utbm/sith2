@@ -113,10 +113,10 @@ elseif($site->user->is_in_group("root") || $site->user->is_in_group("moderateur_
 }
 
 /* Comptoirs */
-$req = new requete($this->db,
+$req = new requete($site->db,
    "SELECT id_comptoir,nom_cpt " .
    "FROM cpt_comptoir " .
-   "WHERE id_groupe_vendeur IN (".$this->user->get_groups_csv().") AND type_cpt = '2' " .
+   "WHERE id_groupe_vendeur IN (".$site->user->get_groups_csv().") AND type_cpt = '2' " .
    "AND archive != '1' " .
    "ORDER BY nom_cpt");
 if ($req->lines > 0)
