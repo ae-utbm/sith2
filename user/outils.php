@@ -70,6 +70,21 @@ $sublist->add("<a href=\"".$topdir."emprunt.php\">Reserver du matériel</a>");
 $board->add($sublist,true);
 
 
+/* Comptoirs */
+$req = new requete($site->db,
+   "SELECT id_comptoir,nom_cpt " .
+   "FROM cpt_comptoir " .
+   "WHERE id_groupe_vendeur IN (".$site->user->get_groups_csv().") AND type_cpt = '2' " .
+   "AND archive != '1' " .
+   "ORDER BY nom_cpt");
+if ($req->lines > 0)
+{
+  $sublist = new itemlist("Comptoirs","boxlist");
+  while(list($id,$nom)=$req->get_row())
+    $sublist->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=$id\">Comptoir : ".$nom."</a>");
+  $board->add($sublist,true);
+}
+
 // assos
 $req = new requete($site->db,
         "SELECT `asso`.`id_asso`, " .
@@ -109,21 +124,6 @@ elseif($site->user->is_in_group("root") || $site->user->is_in_group("moderateur_
     $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
   if($site->user->is_in_group("moderateur_site"))
     $sublist->add("<a href=\"".$topdir."ae/com.php\">Équipe com</a>");
-  $board->add($sublist,true);
-}
-
-/* Comptoirs */
-$req = new requete($site->db,
-   "SELECT id_comptoir,nom_cpt " .
-   "FROM cpt_comptoir " .
-   "WHERE id_groupe_vendeur IN (".$site->user->get_groups_csv().") AND type_cpt = '2' " .
-   "AND archive != '1' " .
-   "ORDER BY nom_cpt");
-if ($req->lines > 0)
-{
-  $sublist = new itemlist("Gestion assos/clubs","boxlist");
-  while(list($id,$nom)=$req->get_row())
-    $sublist->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=$id\">Comptoir : ".$nom."</a>");
   $board->add($sublist,true);
 }
 
