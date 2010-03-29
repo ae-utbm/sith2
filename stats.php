@@ -510,28 +510,6 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     $debut_semestre = date("Y")."-09-01";
   else
     $debut_semestre = (date("Y")-1)."-09-01";
-  if ($site->user->is_in_group ("gestion_ae") || $site->user->is_in_group ("kfet_admin") || $site->user->is_in_group ("foyer_admin"))
-  {
-    $req = new requete ($site->db, "SELECT `utilisateurs`.`id_utilisateur`, " .
-        "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
-        "ROUND(SUM( UNIX_TIMESTAMP( `activity_time` ) - UNIX_TIMESTAMP( `logged_time` ) ) /60/60,1) as total " .
-        "FROM cpt_tracking " .
-        "INNER JOIN utilisateurs ON cpt_tracking.id_utilisateur=utilisateurs.id_utilisateur " .
-        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
-        "WHERE logged_time > '$debut_semestre' " .
-        "GROUP BY utilisateurs.id_utilisateur " .
-        "ORDER BY total DESC LIMIT 30");
-
-    $cts->add(new sqltable(
-      "barmens",
-      "Barmens : Permanences cumulées (ce semestre)", $req, "",
-      "",
-      array("nom_utilisateur"=>"Barmen","total"=>"Heures cumulées"),
-      array(), array(),
-      array()
-      ),true);
-  }
-
   $cts->add_title(2,"Consomateurs : Top 100 (ce semestre)");
 
   if (isset($_REQUEST["details"]))
@@ -610,6 +588,28 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
     $cts->add($lst);
   }
+  if ($site->user->is_in_group ("gestion_ae") || $site->user->is_in_group ("kfet_admin") || $site->user->is_in_group ("foyer_admin"))
+  {
+    $req = new requete ($site->db, "SELECT `utilisateurs`.`id_utilisateur`, " .
+        "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
+        "ROUND(SUM( UNIX_TIMESTAMP( `activity_time` ) - UNIX_TIMESTAMP( `logged_time` ) ) /60/60,1) as total " .
+        "FROM cpt_tracking " .
+        "INNER JOIN utilisateurs ON cpt_tracking.id_utilisateur=utilisateurs.id_utilisateur " .
+        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+        "WHERE logged_time > '$debut_semestre' " .
+        "GROUP BY utilisateurs.id_utilisateur " .
+        "ORDER BY total DESC LIMIT 30");
+
+    $cts->add(new sqltable(
+      "barmens",
+      "Barmens : Permanences cumulées (ce semestre)", $req, "",
+      "",
+      array("nom_utilisateur"=>"Barmen","total"=>"Heures cumulées"),
+      array(), array(),
+      array()
+      ),true);
+  }
+
 }
 elseif ( $_REQUEST["view"] == "matmatronch" )
 {
