@@ -356,7 +356,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                                 "intitule"=>"Intitulé",
                                 "type"=>"Type",
                                 "responsable"=>"Responsable"),
-                          array(),array()), false);
+                          array(),array()), true);
 
   $cts->add_title(3, "Version graphique");
   $cts->add_paragraph("<center><img src=\"edt.php?semestre=$semestre&action=print&id_utilisateur=".$user->id."\" alt=\"Emploi du temps ".$semestre."\" /></center>");
