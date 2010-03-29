@@ -390,16 +390,8 @@ class interfaceweb
          "AND archive != '1' " .
          "ORDER BY nom_cpt");
 
-      $req3 = new requete($this->db,
-         "SELECT id_comptoir,nom_cpt " .
-         "FROM cpt_comptoir " .
-         "WHERE id_groupe_vendeur IN (".$this->user->get_groups_csv().") AND type_cpt = '2' " .
-         "AND archive != '1' " .
-         "ORDER BY nom_cpt");
-
       if (   $req->lines > 0
           || $req2->lines > 0
-          || $req3->lines > 0
           || $this->user->is_in_group("root")
           || $this->user->is_in_group("moderateur_site")
           || $this->user->is_in_group("compta_admin")
@@ -448,14 +440,6 @@ class interfaceweb
         while(list($id,$nom)=$req->get_row())
         {
           $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."asso/index.php?id_asso=$id\">".str_replace("'","\'",$nom)."</a>';";
-          $i++;
-          $class="";
-        }
-
-        /* Comptoirs */
-        while(list($id,$nom)=$req3->get_row())
-        {
-          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."comptoir/bureau.php?id_comptoir=$id\">Comptoir : ".str_replace("'","\'",$nom)."</a>';";
           $i++;
           $class="";
         }

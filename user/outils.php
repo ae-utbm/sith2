@@ -64,6 +64,7 @@ else
   $sublist->add("<a href=\"".$topdir."user/emprunts.php\">Mes emprunts de matériel</a>");
 
 $sublist->add("<a href=\"".$topdir."news.php\">Proposer une nouvelle</a>");
+$sublist->add("<a href=\"".$topdir."affiches.php\">Proposer une affiche</a>");
 $sublist->add("<a href=\"".$topdir."salle.php?page=reservation\">Reserver une salle</a>");
 $sublist->add("<a href=\"".$topdir."emprunt.php\">Reserver du matériel</a>");
 $board->add($sublist,true);
@@ -111,7 +112,20 @@ elseif($site->user->is_in_group("root") || $site->user->is_in_group("moderateur_
   $board->add($sublist,true);
 }
 
-
+/* Comptoirs */
+$req = new requete($this->db,
+   "SELECT id_comptoir,nom_cpt " .
+   "FROM cpt_comptoir " .
+   "WHERE id_groupe_vendeur IN (".$this->user->get_groups_csv().") AND type_cpt = '2' " .
+   "AND archive != '1' " .
+   "ORDER BY nom_cpt");
+if ($req->lines > 0)
+{
+  $sublist = new itemlist("Gestion assos/clubs","boxlist");
+  while(list($id,$nom)=$req->get_row())
+    $sublist->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=$id\">Comptoir : ".$nom."</a>");
+  $board->add($sublist,true);
+}
 
 $cts->add($board);
 $site->add_contents($cts);
