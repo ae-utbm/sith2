@@ -64,19 +64,20 @@ if ( isset($_REQUEST["mode"]) )
       {
         /** @todo créer le compte avec les informations élémentaires */
         if ( $mode == "utbm" )
-          $user->create_utbm_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"], $_REQUEST["role"], $_REQUEST["dep"] );
+          $ret = $user->create_utbm_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"], $_REQUEST["role"], $_REQUEST["dep"] );
         elseif ( $mode == "etu" )
-          $user->create_etudiant_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"], $_REQUEST["ecole"] );
+          $ret = $user->create_etudiant_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"], $_REQUEST["ecole"] );
         else
-          $user->create_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"] );
+          $ret = $user->create_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"] );
 
         $site->start_page("services","Inscription");
         $cts = new contents("Inscription : Etape 3/3");
-
-        $cts->add_paragraph("Votre compte vient d'être crée, il faut maintenant l'activer. Pour cela vous devez cliquer le lien qui vous a été envoyé par email à l'adresse ".htmlentities($_REQUEST["email"]).". Votre compte ne sera utilisable que dès lors que cette opération sera terminée.");
-
-        $cts->add_paragraph("Votre compte sera soumis à vérification (modération), vous ne pourrez accéder à toutes les fonctions dès que votre compte sera vérifié.");
-
+        if($ret) {
+          $cts->add_paragraph("Votre compte vient d'être crée, il faut maintenant l'activer. Pour cela vous devez cliquer le lien qui vous a été envoyé par email à l'adresse ".htmlentities($_REQUEST["email"]).". Votre compte ne sera utilisable que dès lors que cette opération sera terminée.");
+          $cts->add_paragraph("Votre compte sera soumis à vérification (modération), vous ne pourrez accéder à toutes les fonctions dès que votre compte sera vérifié.");
+        } else {
+          $cts->add_paragraph("Une erreur s'est produite, veuillez contacter l'équipe informatique de l'association des étudiants à l'adresse suivante : ae.info @ utbm.fr (sans les espaces).");
+        }
         $site->add_contents($cts);
         $site->end_page();
         exit();
