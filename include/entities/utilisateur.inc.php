@@ -1182,7 +1182,7 @@ class utilisateur extends stdentity
                               "montant_compte"=> 0,
                               "publique_utl"=> $this->publique,
                               "publique_mmtpapier_utl"=>$this->publique_mmtpapier,
-                              "tovalid_utl"=>"none"),1);
+                              "tovalid_utl"=>"none"));
 
     if ( $sql )
       $this->id = $sql->get_id();
