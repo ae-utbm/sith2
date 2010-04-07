@@ -1260,7 +1260,6 @@ class utilisateur extends stdentity
     }
     elseif ( !$this->create_user ( $nom,
                                    $prenom,
-                                   $alias,
                                    $emailutbm,
                                    $password,
                                    $droit_image,
