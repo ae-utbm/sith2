@@ -128,18 +128,23 @@ elseif ( $_REQUEST["action"] == "addphoto" && $GLOBALS["svalid_call"] )
 
     $photo->herit($cat,false);
     $photo->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],false);
-    if($_REQUEST['auteur']==1)
+    $licence = new licence($site->db);
+    if($_REQUEST['auteur']==1) {
       $auteur=$site->user->id;
+      $licence->load_by_id($_REQUEST['id_licence']);
+    }
     else
     {
+      $licence->id = null;
       $auteur = new utilisateur($site->db);
-      if($auteur->load_by_id($_REQUEST['photographe']))
+      if($auteur->load_by_id($_REQUEST['photographe'])){
+        if(!is_null($auteur->id_licence_default_sas))
+          $licence->load_by_id($auteur->id_licence_default_sas);
         $auteur=$auteur->id;
+      }
       else
         $auteur=null;
     }
-    $licence = new licence($site->db);
-    $licence->load_by_id($_REQUEST['id_licence']);
     $photo->add_photo (
       $_FILES['file']['tmp_name'],
       $cat->id,
