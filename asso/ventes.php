@@ -102,7 +102,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
                                 "`cpt_produits`.`id_produit`, " .
                                 "`cpt_type_produit`.`id_typeprod`, " .
                                 "`cpt_type_produit`.`nom_typeprod`, " .
-                                "`cpt_produits`.`nom_prod` AS `produit`" .
+                                "`cpt_produits`.`nom_prod` AS `produit`, " .
                                 "`utl_etu_utbm`.`surnom_utbm` AS `surnom_client` " .
                                 "FROM `cpt_vendu` " .
                                 "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
