@@ -86,7 +86,7 @@ class request
     // PRODUCTION : le parametre ci-dessous identifie l'AE en tant que
     //commercant aupres de la sogé.
     if (STO_PRODUCTION == true)
-      $parm ="merchant_id=039499258000016";
+      $parm ="merchant_id=__ID_SOGE__";
 
     //Serveurs de tests / marchand bidon
     // toutefois, le numero ci-apres a son importance, et il est bien
