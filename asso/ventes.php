@@ -136,7 +136,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
       $pdf->Cell($w[1],7,"Prenom", 1, 0, 'C', 1);
       $pdf->Cell($w[6],7,"Surnom", 1, 0, 'C', 1);
       $pdf->Cell($w[2],7,"Produit", 1, 0, 'C', 1);
-      $pdf->Cell($w[3],7,"Qté", 1, 0, 'C', 1);
+      $pdf->Cell($w[3],7,utf8_decode("Qté"), 1, 0, 'C', 1);
       $pdf->Cell($w[4],7,"Prix", 1, 0, 'C', 1);
       $pdf->Cell($w[5],7,"Total", 1, 0, 'C', 1);
 
