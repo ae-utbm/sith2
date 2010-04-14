@@ -68,7 +68,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
   $pdf->SetFont('Arial','B',11);
 
   //Header
-  $w=array(40,40,60,20,15,15);
+  $w=array(35,35,50,10,15,15,30);
 
   //Data
   $fill=0;
@@ -103,6 +103,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
                                 "`cpt_type_produit`.`id_typeprod`, " .
                                 "`cpt_type_produit`.`nom_typeprod`, " .
                                 "`cpt_produits`.`nom_prod` AS `produit`" .
+                                "`utl_etu_utbm`.`surnom_utbm` AS `surnom_client` " .
                                 "FROM `cpt_vendu` " .
                                 "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
                                 "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
@@ -110,6 +111,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
                                 "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
                                 "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_debitfacture`.`id_utilisateur` =`vendeur`.`id_utilisateur` " .
                                 "INNER JOIN `utilisateurs` AS `client` ON `cpt_debitfacture`.`id_utilisateur_client` =`client`.`id_utilisateur` " .
+                                "LEFT JOIN `utl_etu_utbm` ON `cpt_debitfacture`.`id_utilisateur_client` =`utl_etu_utbm`.`id_utilisateur` " .
                                 "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
                                 "WHERE " .implode(" AND ",$conds).
                                 "ORDER BY `client`.`nom_utl`, `client`.`prenom_utl`");
@@ -132,8 +134,9 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
 
       $pdf->Cell($w[0],7,"Nom", 1, 0, 'C', 1);
       $pdf->Cell($w[1],7,"Prenom", 1, 0, 'C', 1);
+      $pdf->Cell($w[6],7,"Surnom", 1, 0, 'C', 1);
       $pdf->Cell($w[2],7,"Produit", 1, 0, 'C', 1);
-      $pdf->Cell($w[3],7,"Quantite", 1, 0, 'C', 1);
+      $pdf->Cell($w[3],7,"Qté", 1, 0, 'C', 1);
       $pdf->Cell($w[4],7,"Prix", 1, 0, 'C', 1);
       $pdf->Cell($w[5],7,"Total", 1, 0, 'C', 1);
 
@@ -157,10 +160,11 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
 
     $pdf->Cell($w[0],6,utf8_decode($res['nom_client']),$border,0,'L',$fill);
     $pdf->Cell($w[1],6,utf8_decode($res['prenom_client']),$border,0,'L',$fill);
+    $pdf->Cell($w[6],6,utf8_decode($res['surnom_client']),$border,0,'L',$fill);
     $pdf->Cell($w[2],6,utf8_decode($res['produit']),$border,0,'L',$fill);
     $pdf->Cell($w[3],6,utf8_decode($res['quantite']),$border,0,'L',$fill);
-    $pdf->Cell($w[4],6,utf8_decode($res['prix_unit']),$border,0,'L',$fill);
-    $pdf->Cell($w[5],6,utf8_decode($res['total']),$border,0,'L',$fill);
+    $pdf->Cell($w[4],6,number_format(utf8_decode($res['prix_unit']),2),$border,0,'L',$fill);
+    $pdf->Cell($w[5],6,number_format(utf8_decode($res['total']),2),$border,0,'L',$fill);
 
     $pdf->Ln();
 
