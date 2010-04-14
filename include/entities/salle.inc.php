@@ -106,7 +106,7 @@ class salle extends stdentity
     $this->surface    = $surface;
     $this->tel        = $tel;
     $this->notes      = $notes;
-    $this->bar_bdf    = $bar_bdf;
+    $this->bar_bdf    = is_null($bar_bdf)?false:$bar_bdf;
 
     $sql = new insert ($this->dbrw,
       "sl_salle",
