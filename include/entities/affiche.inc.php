@@ -381,7 +381,7 @@ class affiche extends stdentity
             $j++;
 
           $file->load_by_id($row['id_file']);
-          $fichiers[] = $file->get_real_filename();
+          $fichiers[$j] = $file->get_real_filename();
         }
         $i++;
       }
