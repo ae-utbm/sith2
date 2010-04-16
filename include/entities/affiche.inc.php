@@ -387,6 +387,8 @@ class affiche extends stdentity
       }
     }
 
+    ksort($fichiers);
+
     header("Content-Type: application/pdf");
     passthru("convert -density 300x300 ".implode(' ', $fichiers)." pdf:-");
   }
