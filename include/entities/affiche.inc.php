@@ -354,7 +354,7 @@ class affiche extends stdentity
         AND date_fin > NOW()
         AND horaires_aff IN (".implode(",",$cur_plages).")
         AND modere_aff = '1'
-        ORDER BY frequence_aff");
+        ORDER BY frequence_aff DESC");
 
     $file = new dfile($this->db, $this->dbrw);
 
