@@ -387,10 +387,8 @@ class affiche extends stdentity
       }
     }
 
-    print_r($fichiers);
-
-    //header("Content-Type: application/pdf");
-    //passthru("convert -density 300x300 ".implode(' ', $fichiers)." pdf:-");
+    header("Content-Type: application/pdf");
+    passthru("convert -density 300x300 ".implode(' ', $fichiers)." pdf:-");
   }
 
   function decrease_frequence()
