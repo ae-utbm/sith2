@@ -121,8 +121,8 @@ class calendar extends stdcontents
     if ($month == 12)
       $nextdate = $year+1 . "-" . "1"  . "-" . $day;
 
-    $dmois = mktime(6, 0, 0, $month, 1, $year);
-    $fmois = mktime(6, 0, 0, $month+1, 1, $year);
+    $dmois = mktime(6, 0, 1, $month, 1, $year);
+    $fmois = mktime(6, 0, 1, $month+1, 1, $year);
     $sql = "SELECT `nvl_dates`.date_debut_eve, ".
       "`nvl_dates`.date_fin_eve, ".
       "`nvl_nouvelles`.type_nvl, ".
