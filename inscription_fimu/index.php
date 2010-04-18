@@ -31,7 +31,7 @@ require_once($topdir. "include/cts/user.inc.php");
 
 $site = new site;
 
-$site->start_page ("none", "FIMU 2009 - Inscriptions des bénévoles");
+$site->start_page ("none", "FIMU 2010 - Inscriptions des bénévoles");
 
 $cts = new contents("Festival International de Musique Universitaire");
 
@@ -161,10 +161,10 @@ else
  */
 
   $intro = "
-  <b>23ème FIMU : les 30, 31 mai et 1er juin 2009</b>
+  <b>24ème FIMU : les 22, 23 et 24 mai 2010</b>
 <br />
 <br />
-  L'AE vous permet de vous inscrire en ligne pour être bénévole au FIMU 2009. Le formulaire suivant est la copie conforme de la feuille que   vous pourrez trouver dans les points de distribution.
+  L'AE vous permet de vous inscrire en ligne pour être bénévole au FIMU 2010. Le formulaire suivant est la copie conforme de la feuille que vous pourrez trouver dans les points de distribution.
 <br />
 <br />
   Les informations personnelles (telles que votre nom, prénom, adresse...) seront remplies à partir de vos informations Matmatronch', vous n'avez plus qu'à indiquer vos disponibilités et vos souhaits d'affectation.
