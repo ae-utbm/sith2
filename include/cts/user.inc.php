@@ -147,13 +147,20 @@ class userinfo extends stdcontents
           $this->buffer .= "N&eacute;e ";
           $this->buffer .= "le : ". date("d/m/Y", $user->date_naissance) . "<br />\n";
       }
-    if ($user->addresse || $user->cpostal || $user->ville)
-    {
-          $this->buffer .= "<br /><img src=\"".$topdir."images/icons/16/batiment.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
-        $this->buffer .= $user->addresse . "<br />" . $user->cpostal . " " . $user->ville;
-    }
-        if ($user->pays != "FRANCE")
-          $this->buffer .= "<br/>".strtoupper($user->pays);
+    if ( $user->addresse || $ville->is_valid() )
+     {
+        $this->buffer .= "<br><img src=\"".$topdir."images/icons/16/site.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
+        $this->buffer .= $user->addresse;
+
+        if ( $ville->is_valid() )
+          $this->buffer .= "<br/>".$ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")";
+
+        if ( $pays->is_valid() && $pays->id != 1)
+          $this->buffer .= "<br/>".$pays->get_html_link();
+     }
+
+      if ( $pays->is_valid() && $pays->id != 1)
+        $this->buffer .= "<br/>".$pays->get_html_link();
 
         $this->buffer .="<br />";
         //$this->buffer .="<br />";
@@ -296,7 +303,7 @@ class userinfo extends stdcontents
         $this->buffer .= "<div class=\"clearboth\"></div>\n";
 
         $this->buffer .= "<div class=\"adresse_perso\" style=\"float: left; width: 200px; text-align:center;\">";
-    if ( $user->addresse || $user->is_valid() )
+    if ( $user->addresse || $ville->is_valid() )
      {
         $this->buffer .= "<br><img src=\"".$topdir."images/icons/16/site.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
         $this->buffer .= $user->addresse;
