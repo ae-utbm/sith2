@@ -185,7 +185,9 @@ else
 
   if( $site->user->is_valid() )
   {
-    $usrinfo = new userinfo($site->user, true, false, false, false, true, true);
+    $usr = new utilisateur($this->db);
+    $usr->load_all_by_id($site->user->id);
+    $usrinfo = new userinfo($usr, true, false, false, false, true, true);
     $cts->add($usrinfo, false, true, "Informations personnelles");
     $trait = "<hr />";
     $cts->add_paragraph($trait);
@@ -209,12 +211,12 @@ else
 
   $subfrm = new form("fimu_inscr", "index.php", true, "POST", "Disponibilités");
     $subfrm->add_info("Il est fortement souhaitable que vous soyez disponible 3 jours consécutifs minimum");
-    $subfrm->add_checkbox("jour1", "Jeudi 28 Mai");
-    $subfrm->add_checkbox("jour2", "Vendredi 29 Mai");
-  $subfrm->add_checkbox("jour3", "Samedi 30 Mai");
-    $subfrm->add_checkbox("jour4", "Dimanche 31 Mai");
-    $subfrm->add_checkbox("jour5", "Lundi 1er Juin");
-    $subfrm->add_checkbox("jour6", "Mardi 2 Juin");
+    $subfrm->add_checkbox("jour1", "Jeudi 20 Mai");
+    $subfrm->add_checkbox("jour2", "Vendredi 21 Mai");
+  $subfrm->add_checkbox("jour3", "Samedi 22 Mai");
+    $subfrm->add_checkbox("jour4", "Dimanche 23 Mai");
+    $subfrm->add_checkbox("jour5", "Lundi 24 Mai");
+    $subfrm->add_checkbox("jour6", "Mardi 25 Mai");
   $frm->add($subfrm);
 
   $subfrm = new form("fimu_inscr", "index.php", true, "POST", "<a href='http://ae.utbm.fr/article.php?name=fimu_info'>Souhaits de poste <img src='$topdir/images/tipp.png' /></a>");
