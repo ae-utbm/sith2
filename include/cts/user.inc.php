@@ -74,8 +74,8 @@ class userinfo extends stdcontents
 
     $this->title = $user->prenom." ".$user->nom;
 
-    $ville = new ville($this->db);
-    $pays = new pays($this->db);
+    $ville = new ville($user->db);
+    $pays = new pays($user->db);
     $ville->load_by_id($user->id_ville);
     $pays->load_by_id($user->id_pays);
 

@@ -118,8 +118,8 @@ else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") 
           CONCAT(utilisateurs.addresse_utl,' ',ville.cpostal_ville,' ',ville.nom_ville) AS adresse_utilisateur
           FROM fimu_inscr
           LEFT JOIN utilisateurs
-          LEFT JOIN villes
-          ON fimu_inscr.id_utilisateur = utilisateurs.id_utilisateur");
+          ON fimu_inscr.id_utilisateur = utilisateurs.id_utilisateur
+          LEFT JOIN villes USING (id_ville)");
 
   $tbl = new sqltable("fimu_benevoles",
         "Liste des personnes s'étant inscrites pour le FIMU via le site de l'AE",
