@@ -185,7 +185,7 @@ else
 
   if( $site->user->is_valid() )
   {
-    $usr = new utilisateur($this->db);
+    $usr = new utilisateur($site->db);
     $usr->load_all_by_id($site->user->id);
     $usrinfo = new userinfo($usr, true, false, false, false, true, true);
     $cts->add($usrinfo, false, true, "Informations personnelles");
