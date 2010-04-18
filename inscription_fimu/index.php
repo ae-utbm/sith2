@@ -115,7 +115,7 @@ else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") 
             fimu_inscr.poste_preced,
             fimu_inscr.remarques,
           CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
-          CONCAT(utilisateurs.addresse_utl,' ',villes.cpostal_ville,' ',ville.nom_ville) AS adresse_utilisateur
+          CONCAT(utilisateurs.addresse_utl,' ',villes.cpostal_ville,' ',villes.nom_ville) AS adresse_utilisateur
           FROM fimu_inscr
           LEFT JOIN utilisateurs
           ON fimu_inscr.id_utilisateur = utilisateurs.id_utilisateur
