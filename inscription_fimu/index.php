@@ -187,7 +187,7 @@ else
   if( $site->user->is_valid() )
   {
     $site->user->load_all_extra();
-    $usrinfo = new userinfo($user, true, false, false, false, true, true);
+    $usrinfo = new userinfo($site->user, true, false, false, false, true, true);
     $cts->add($usrinfo, false, true, "Informations personnelles");
     $trait = "<hr />";
     $cts->add_paragraph($trait);
