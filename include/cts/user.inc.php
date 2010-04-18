@@ -62,6 +62,16 @@ class userinfo extends stdcontents
   function userinfo ( $user, $link=false, $solde=false, $vcard=false, $extraadmin=false, $brief=true, $identity=false )
   {
     global $topdir, $UserBranches;
+    $sub=substr_count($urldest, "/");
+    $realpath="";
+    if($sub>0)
+    {
+      for($i=0;$i<$sub;$i++)
+        $realpath.= "../";
+    }
+    require_once($topdir . "include/entities/ville.inc.php");
+    require_once($topdir . "include/entities/pays.inc.php");
+
     $this->title = $user->prenom." ".$user->nom;
 
     $ville = new ville($this->db);
