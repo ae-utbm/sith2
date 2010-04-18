@@ -137,7 +137,7 @@ elseif ( $_REQUEST["action"] == "info")
   $tbl->add_row(array("Convention de locaux requise",$salle->convention?"Oui":"Non"));
   $tbl->add_row(array("Convention de locaux faite",$resa->convention?"Oui":"Non"));
   $util_bar_txt = array(1=>"Non", 2=>"Oui", 3=>"BDF");
-  if ($resa->util_bar)
+  //if ($resa->util_bar)
     $tbl->add_row(array("Utilisation du bar",$util_bar_txt[$resa->util_bar]));
   if( $resa->date_accord )
     $tbl->add_row(array("Accord","le ".date("d/m/Y H:i",$resa->date_accord)." par ".$userop->get_html_link()));
