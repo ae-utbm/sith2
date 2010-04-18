@@ -64,6 +64,11 @@ class userinfo extends stdcontents
     global $topdir, $UserBranches;
     $this->title = $user->prenom." ".$user->nom;
 
+    $ville = new ville($this->db);
+    $pays = new pays($this->db);
+    $ville->load_by_id($user->id_ville);
+    $pays->load_by_id($user->id_pays);
+
     if ( $brief )
       {
         if ( $user->promo_utbm > 0 )
@@ -281,15 +286,21 @@ class userinfo extends stdcontents
         $this->buffer .= "<div class=\"clearboth\"></div>\n";
 
         $this->buffer .= "<div class=\"adresse_perso\" style=\"float: left; width: 200px; text-align:center;\">";
-    if ( $user->addresse || $user->cpostal || $user->ville )
+    if ( $user->addresse || $user->is_valid() )
      {
-      $this->buffer .= "<br><img src=\"".$topdir."images/icons/16/site.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
-        $this->buffer .= $user->addresse . "<br />" . $user->cpostal . " " . $user->ville;
+        $this->buffer .= "<br><img src=\"".$topdir."images/icons/16/site.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
+        $this->buffer .= $user->addresse;
+
+        if ( $ville->is_valid() )
+          $this->buffer .= "<br/>".$ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")";
+
+        if ( $pays->is_valid() && $pays->id != 1)
+          $this->buffer .= "<br/>".$pays->get_html_link();
      }
-        if ( $user->pays )
-          {
-            $this->buffer .= "<br/>".strtoupper($user->pays);
-          }
+
+      if ( $pays->is_valid() && $pays->id != 1)
+        $this->buffer .= "<br/>".$pays->get_html_link();
+
         if ( $user->tel_maison )
           $this->buffer .= "<br/><br/><img src=\"".$topdir."images/usr_fixe.png\" width=\"18\" height=\"16\" style=\"margin-right: 0.5em;\">".telephone_display($user->tel_maison);
 
@@ -300,6 +311,20 @@ class userinfo extends stdcontents
             $this->buffer .= "<br/><img src=\"".$topdir."images/usr_portable.png\" style=\"margin-right: 0.5em;\">".telephone_display($user->tel_portable);
           }
         $this->buffer .= "</div>";
+      if ( $user->addresse || $user->is_valid() )
+       {
+          $this->buffer .= "<br><img src=\"".$topdir."images/icons/16/site.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
+          $this->buffer .= $user->addresse;
+
+          if ( $ville->is_valid() )
+            $this->buffer .= "<br/>".$ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")";
+
+          if ( $pays->is_valid() && $pays->id != 1)
+            $this->buffer .= "<br/>".$pays->get_html_link();
+       }
+
+      if ( $pays->is_valid() && $pays->id != 1)
+        $this->buffer .= "<br/>".$pays->get_html_link();
         if ($user->adresse_parents || $user->cpostal_parents || $user->ville_parents)
           {
             $this->buffer .= "<div class=\"adresse_parents\" style=\"float: left; text-align:center; border-left: 1px dashed black; width: 200px; height: 110px;\">";

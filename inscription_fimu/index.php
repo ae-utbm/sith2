@@ -98,7 +98,6 @@ else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") 
             utilisateurs.prenom_utl,
             utilisateurs.id_utilisateur,
             utilisateurs.email_utl AS email_utilisateur,
-            utilisateurs.addresse_utl AS adresse_utilisateur,
             utilisateurs.tel_portable_utl AS portable_utilisateur,
             fimu_inscr.jour1,
             fimu_inscr.jour2,
@@ -116,8 +115,10 @@ else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") 
             fimu_inscr.poste_preced,
             fimu_inscr.remarques,
           CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
+          CONCAT(utilisateurs.addresse_utl,' ',ville.cpostal_ville,' ',ville.nom_ville) AS adresse_utilisateur,
           FROM fimu_inscr
           LEFT JOIN utilisateurs
+          LEFT JOIN villes
           ON fimu_inscr.id_utilisateur = utilisateurs.id_utilisateur");
 
   $tbl = new sqltable("fimu_benevoles",
@@ -290,7 +291,7 @@ else
 
 $cts->add_paragraph("<br /><br />Le FIMU est un évenement co-organisé par la Ville de Belfort, la Fédération Com'Et et l'UTBM");
 $cts->add_paragraph("Pour plus d'information : <a href='http://www.fimu.com'>www.fimu.com</a> <br />
-      Cellule des Festivals : 03 84 22 94 43 <br />
+      Pôle Musique : 03 84 54 25 81<br />
       Com'Et : 03 84 26 48 01 <br />
       Renseignement auprès de l'AE ");
 
