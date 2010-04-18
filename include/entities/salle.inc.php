@@ -314,7 +314,7 @@ class reservation extends stdentity
     $this->convention = $row['convention_salres'];
     $this->etat = $row['etat_salres'];
     $this->notes = $row['notes_salres'];
-    $thi->util_bar = $row['util_bar_salres'];
+    $this->util_bar = $row['util_bar_salres'];
   }
 
 
