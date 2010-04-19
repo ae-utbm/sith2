@@ -603,7 +603,7 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
     foreach ($_REQUEST['partenariats'] as $id_partenariat)
     {
       print_r("partenariats[".$id_partenariat."]");
-      $frm->add_hidden("partenariats[".$id_partenariat."]",true);
+      $frm->add_hidden("partenariats[".$id_partenariat."]");
     }
     $frm->add_submit("submit","Enregistrer");
     $cts->add($frm);
@@ -688,7 +688,7 @@ elseif ($_REQUEST["action"] == "newstudent")
     foreach ($_REQUEST['partenariats'] as $id_partenariat)
     {
       print_r("partenariats[".$id_partenariat."]");
-      $frm->add_hidden("partenariats[".$id_partenariat."]",true);
+      $frm->add_hidden("partenariats[".$id_partenariat."]");
     }
 
     $frm->add_submit("submit","Enregistrer");
