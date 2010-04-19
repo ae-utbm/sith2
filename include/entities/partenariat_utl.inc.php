@@ -16,7 +16,7 @@ class Partenariat extends stdentity
             "FROM `partenariats_utl` ".
             "WHERE id_partenariat_utl = '".$id."' ");
     if($req->lines == 1)
-      $this->_load($req->fetch_row());
+      $this->_load($req->get_row());
   }
 
   function load_by_partenariat_utilisateur($id_partenariat, $id_utilisateur)
@@ -26,7 +26,7 @@ class Partenariat extends stdentity
             "WHERE id_utilisateur = '".$id_utilisateur."' ".
             "AND id_partenariat = '".$id_partenariat."'", 1);
     if($req->lines == 1)
-      $this->_load($req->fetch_row());
+      $this->_load($req->get_row());
   }
 
   function _load($row)

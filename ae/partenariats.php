@@ -69,7 +69,7 @@ $cts = new contents();
 $tbl = new sqltable2("partenariats_utl", "Utilisateurs en attente", "ae/partenariats.php");
 $tbl->add_batch_action("deletes", "Supprimer");
 $tbl->add_column_text('id_partenariat', 'Partenaire');
-//$tbl->set_column_enumeration('id_partenariat', $partenaires);
+$tbl->set_column_enumeration('id_partenariat', $partenaires);
 $tbl->add_column_text('nom_utilisateur', 'Nom');
 $tbl->add_column_date('date_partenariat', 'Date');
 $tbl->set_data('id_partenariat_utl', $req);
