@@ -45,15 +45,11 @@ if ($_REQUEST['action'] == "add")
 elseif ($_REQUEST['action'] == "deletes")
 {
   print_r($_REQUEST);
-  /*
-  foreach($_REQUEST[""] as $ids )
+  foreach($_REQUEST['id_partenariat_utls'] as $id )
   {
-    $elem = explode(',', $ids);
-    $partenariat->load_by_partenariat_utilisateur($elem[0], $elem[1]);
+    $partenariat->load_by_id($id);
     $partenariat->remove();
-    $partenariat->delete();
   }
-  */
 }
 
 $req = new requete($site->db,
