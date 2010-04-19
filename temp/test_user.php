@@ -18,7 +18,7 @@ echo "--------\n";
 
 $user = new utilisateur($site->db,$site->dbrw);
 $user->load_by_id($_REQUEST["id_utilisateur"]);
-$user->load_all_extras();
+$user->load_all_extra();
 
 echo $user->id."\n";
 echo $user->id_ville."\n";
