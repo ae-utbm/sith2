@@ -32,6 +32,7 @@ $partenaires=array(1=>"Société Générale", 2=>"SMEREB");
 
 
 $site = new site ();
+$site->start_page("utl_partenariats","Partenariats en attente");
 $partenariat = new Partenariat($site->db, $site->dbrw);
 
 if ($_REQUEST['action'] == "add")

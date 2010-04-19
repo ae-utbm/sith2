@@ -99,7 +99,7 @@ function add_new_form($id = null)
 {
   global $topdir, $ch;
 
-  global $date1, $date2, $date3, $date4;
+  global $date1, $date2, $date3, $date4, $partenariats;
 
   $cts = new contents("Gestion des cotisations");
 
