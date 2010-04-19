@@ -48,7 +48,6 @@ elseif ($_REQUEST['action'] == "deletes")
   foreach($_REQUEST['id_partenariat_utls'] as $id )
   {
     $partenariat->load_by_id($id);
-    print_r($partenariat->id);
     $partenariat->remove();
   }
 }
