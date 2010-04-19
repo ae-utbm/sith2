@@ -45,7 +45,6 @@ if ($_REQUEST['action'] == "add")
 }
 elseif ($_REQUEST['action'] == "deletes")
 {
-  print_r($_REQUEST);
   foreach($_REQUEST['id_partenariat_utls'] as $id )
   {
     $partenariat->load_by_id($id);
@@ -85,8 +84,4 @@ $site->add_contents($cts);
 $site->end_page();
 
 
-/*TODO
-
-maj fusion / supr utl
-*/
 ?>
