@@ -60,9 +60,9 @@ $sql = "SELECT `partenariats_utl`.`id_partenariat_utl`, `partenariats_utl`.`id_p
       "LEFT JOIN `utilisateurs` USING (`id_utilisateur`) ".
       "ORDER BY `partenariats_utl`.`id_partenariat`, `nom_utilisateur`";
 
-$cts = new contents();
+$cts = new contents("Partenariats en attente");
 
-$tbl = new sqltable2("partenariats_utl", "Utilisateurs en attente", "partenariats.php");
+$tbl = new sqltable2("partenariats_utl", null, "partenariats.php");
 $tbl->add_batch_action("deletes", "Supprimer");
 $tbl->add_column_text('id_partenariat', 'Partenaire');
 $tbl->set_column_enumeration('id_partenariat', $partenaires);
