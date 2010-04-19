@@ -80,6 +80,7 @@ $frm->add_hidden("action","add");
 $frm->add_select_field("id_partenaire", "Partenaire", $partenaires);
 $utl = new utilisateur($site->db);
 $frm->add_entity_smartselect ("id_utilisateur_ent","Cotisant", $utl, false, true);
+$frm->add_submit("submit","Ajouter");
 $cts->add($frm,true);
 
 
