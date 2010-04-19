@@ -163,7 +163,9 @@ class utilisateur extends stdentity
   function load_all_by_id ( $id )
   {
     $req = new requete($this->db,
-                       "SELECT *, `utilisateurs`.`id_utilisateur` `id_utilisateur` ".
+                       "SELECT `utl_etu`.*, `utl_etu_utbm`.*, `utl_extra`.*, `utilisateurs`.* ".
+                       "`utl_etu`.`id_ville` AS `id_ville_parent` ".
+                       "`utl_etu`.`id_pays` AS `id_pays_parent` ".
                        "FROM utilisateurs ".
                        "LEFT JOIN `utl_etu` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
                        "LEFT JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur`) ".
@@ -421,8 +423,8 @@ class utilisateur extends stdentity
     {
       $this->citation = $row["citation"];
       $this->adresse_parents = $row["adresse_parents"];
-      $this->id_ville_parents = $row["id_ville"];
-      $this->id_pays_parents = $row["id_pays"];
+      $this->id_ville_parents = $row["id_ville_parents"];
+      $this->id_pays_parents = $row["id_pays_parents"];
       $this->tel_parents = $row["tel_parents"];
       $this->nom_ecole_etudiant = $row["nom_ecole_etudiant"];
     }
@@ -789,7 +791,9 @@ class utilisateur extends stdentity
   function load_all_extra ()
   {
     $req = new requete($this->db,
-                       "SELECT `utl_etu`.*, `utl_etu_utbm`.*, `utl_extra`.* ".
+                       "SELECT `utl_etu`.*, `utl_etu_utbm`.*, `utl_extra`.*, ".
+                       "`utl_etu`.`id_ville` AS `id_ville_parent`, ".
+                       "`utl_etu`.`id_pays` AS `id_pays_parent` ".
                        "FROM utilisateurs ".
                        "LEFT JOIN `utl_etu` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
                        "LEFT JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur`) ".
