@@ -357,7 +357,7 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     print_r($_REQUEST);
     foreach ($_REQUEST['partenariats'] as $id_partenariat => $val)
     {
-      print_r("\n".id_partenariat."\n".$val."\n".$user->id);
+      print_r("\n".$id_partenariat."\n".$val."\n".$user->id);
       $partenariat->add($id_partenariat, $user->id);
     }
 
