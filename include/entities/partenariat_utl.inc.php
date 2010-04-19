@@ -45,7 +45,7 @@ class Partenariat extends stdentity
 
     print_r("aaa");
 
-    $req = new insert($site->dbrw, "partenariats_utl",
+    $req = new insert($this->dbrw, "partenariats_utl",
               array('id_partenariat'=>$id_partenariat,
                 'id_utilisateur'=>$id_utilisateur,
                 'date_partenariat'=>$this->date,
