@@ -164,8 +164,8 @@ class utilisateur extends stdentity
   {
     $req = new requete($this->db,
                        "SELECT `utl_etu`.*, `utl_etu_utbm`.*, `utl_extra`.*, `utilisateurs`.*, ".
-                       "`utl_etu`.`id_ville` AS `id_ville_parent`, ".
-                       "`utl_etu`.`id_pays` AS `id_pays_parent` ".
+                       "`utl_etu`.`id_ville` AS `id_ville_parents`, ".
+                       "`utl_etu`.`id_pays` AS `id_pays_parents` ".
                        "FROM utilisateurs ".
                        "LEFT JOIN `utl_etu` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
                        "LEFT JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur`) ".
@@ -792,8 +792,8 @@ class utilisateur extends stdentity
   {
     $req = new requete($this->db,
                        "SELECT `utl_etu`.*, `utl_etu_utbm`.*, `utl_extra`.*, ".
-                       "`utl_etu`.`id_ville` AS `id_ville_parent`, ".
-                       "`utl_etu`.`id_pays` AS `id_pays_parent` ".
+                       "`utl_etu`.`id_ville` AS `id_ville_parents`, ".
+                       "`utl_etu`.`id_pays` AS `id_pays_parents` ".
                        "FROM utilisateurs ".
                        "LEFT JOIN `utl_etu` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
                        "LEFT JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur`) ".
