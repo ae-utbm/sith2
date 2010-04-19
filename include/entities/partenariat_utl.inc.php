@@ -55,7 +55,7 @@ class Partenariat extends stdentity
   function remove()
   {
     $req = new delete($site->dbrw, "partenariats_utl",
-      array('id_partenariat'=>$id_partenariat, 'id_utilisateur'=>$id_utilisateur)
+      array('id_partenariat_utl'=>$this->id)
       );
     $this->id_partenariat = null;
     $this->id_utilisateur = null;
