@@ -171,9 +171,11 @@ if ( $req->lines == 1 )
 
   $req = new requete($site->db,
     "SELECT `utilisateurs`.`id_utilisateur`, " .
-    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
+    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`, " .
+    "  COALESCE(CONCAT(' (',`utl_etu_utbm`.`surnom_utbm`,')'),'')) as `nom_utilisateur` " .
     "FROM `sas_personnes_photos` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`sas_personnes_photos`.`id_utilisateur` " .
+    "LEFT JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur` " .
     "WHERE `sas_personnes_photos`.`id_photo`='".$photo->id."' " .
     "ORDER BY `nom_utilisateur`");
 
@@ -209,23 +211,23 @@ if ( $req->lines == 1 )
   for ($i=0;$i<7;$i++)
     $sfrm->add_user_fieldv2("id_utilisateur[$i]","");
   $sfrm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
-	$frm->addsub($sfrm);
+  $frm->addsub($sfrm);
 
   $sfrm = new subform("meta","Meta-informations");
   $sfrm->add_text_field("titre","Titre",$photo->titre);
   $sfrm->add_text_field("tags","Tags (séparteur: virgule)",$photo->get_tags());
   $sfrm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);
   $sfrm->add_entity_select("id_asso_photographe", "Photographe", $site->db, "asso",$photo->id_asso_photographe,true);
-	$frm->addsub($sfrm);
+  $frm->addsub($sfrm);
 
   $sfrm = new subform("access","Droits d'accés");
   $sfrm->set_subform_checked("restrict", ($photo->droits_acces & 1) ? "none" : "group");
   $ssfrm = new subformoption("restrict","none","Accès non restreint");
-	$sfrm->addsub($ssfrm,true);
+  $sfrm->addsub($ssfrm,true);
   $ssfrm = new subformoption("restrict","group","Limiter l'accés au groupe");
-	$ssfrm->add_entity_select( "id_group", "Groupe", $site->db, "group", $photo->id_groupe );
-	$sfrm->addsub($ssfrm,true);
-	$frm->addsub($sfrm);
+  $ssfrm->add_entity_select( "id_group", "Groupe", $site->db, "group", $photo->id_groupe );
+  $sfrm->addsub($ssfrm,true);
+  $frm->addsub($sfrm);
 
   $frm->add_submit("fin","Valider/Suivant");
   $subcts->add($frm,true);
