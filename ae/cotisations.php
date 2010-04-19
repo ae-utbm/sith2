@@ -354,6 +354,7 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     $user->saveinfos();
 
     $partenariat = new Partenariat($site->db);
+    print_r($_REQUEST);
     foreach ($_REQUEST['partenariats'] as $id_partenariat)
       $partenariat->add($id_partenariat, $user->id);
 
@@ -600,10 +601,11 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
     $frm->add_hidden("paiement",$_POST['paiement']);
     $frm->add_hidden("droit_image",$_POST['droit_image']);
     $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
+    print_r($_REQUEST);
     foreach ($_REQUEST['partenariats'] as $id_partenariat)
     {
-      print_r("partenariats[".$id_partenariat."]");
-      $frm->add_hidden("partenariats[".$id_partenariat."]");
+      print_r("(1) partenariats[".$id_partenariat."]");
+      $frm->add_hidden("partenariats[".$id_partenariat."]","1");
     }
     $frm->add_submit("submit","Enregistrer");
     $cts->add($frm);
@@ -685,10 +687,11 @@ elseif ($_REQUEST["action"] == "newstudent")
     $frm->add_hidden("paiement",$_POST['paiement']);
     $frm->add_hidden("droit",$_REQUEST["droit_image"]);
     $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
+    print_r($_REQUEST);
     foreach ($_REQUEST['partenariats'] as $id_partenariat)
     {
-      print_r("partenariats[".$id_partenariat."]");
-      $frm->add_hidden("partenariats[".$id_partenariat."]");
+      print_r("(2) partenariats[".$id_partenariat."]");
+      $frm->add_hidden("partenariats[".$id_partenariat."]","1");
     }
 
     $frm->add_submit("submit","Enregistrer");
