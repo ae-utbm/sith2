@@ -142,7 +142,7 @@ function add_new_form($id = null)
 
   $sub_frm_cotiz->add_info("&nbsp;");
   foreach ($partenariats as $id_partenariat => $texte_partenariat)
-    $sub_frm_cotiz->add_checkbox("parteneriats[".$id_partenariat."]",$texte_partenariat,false);
+    $sub_frm_cotiz->add_checkbox("partenariats[".$id_partenariat."]",$texte_partenariat,false);
 
   $frm->add($sub_frm_cotiz);
 
@@ -476,7 +476,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
       $frm->add_checkbox("a_pris_cadeau","Cadeau distribué",false);
       foreach ($partenariats as $id_partenariat => $texte_partenariat)
-        $frm_cotiz->add_checkbox("parteneriats[".$id_partenariat."]",$texte_partenariat,false);
+        $frm_cotiz->add_checkbox("partenariats[".$id_partenariat."]",$texte_partenariat,false);
       $frm->add_submit("submit","Enregistrer");
       $cts->add($frm,true);
 
