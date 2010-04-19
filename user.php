@@ -1104,7 +1104,8 @@ elseif ( ($_REQUEST["view"]=="groups") &&
 
 
   $req = new requete($site->db,
-                     "SELECT `groupe`.`id_groupe`, `groupe`.`nom_groupe`, `utl_groupe`.`id_utilisateur` ".
+                     "SELECT `groupe`.`id_groupe`, `groupe`.`nom_groupe`, ".
+                     "`groupe`.`description_groupe`, `utl_groupe`.`id_utilisateur` ".
                      "FROM `groupe` " .
                      "LEFT JOIN `utl_groupe` ON (`groupe`.`id_groupe`=`utl_groupe`.`id_groupe`" .
                      " AND `utl_groupe`.`id_utilisateur`='".$user->id."' ) " .
@@ -1117,10 +1118,11 @@ elseif ( ($_REQUEST["view"]=="groups") &&
   while ( $row=$req->get_row())
   {
     $grp->_load($row);
+    $txt = $grp->get_html_link().' ('.$grp->description.')';
     if ( ($row["id_groupe"] == 7 || $row["id_groupe"] == 46 || $row["id_groupe"] == 47) && !$site->user->is_in_group("root") )
-      $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link().' '.$grp->description,$row["id_utilisateur"]!="",true);
+      $frm->add_checkbox("groups|".$row["id_groupe"],$txt,$row["id_utilisateur"]!="",true);
     else
-      $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link().' '.$grp->description,$row["id_utilisateur"]!="");
+      $frm->add_checkbox("groups|".$row["id_groupe"],$txt,$row["id_utilisateur"]!="");
   }
 
   $frm->add_submit("save","Enregistrer");
