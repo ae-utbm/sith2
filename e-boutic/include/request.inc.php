@@ -161,6 +161,5 @@ class request
     $this->transid = $sess_id;
     return $sess_id;
   }
-
 }
 ?>
