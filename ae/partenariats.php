@@ -52,6 +52,7 @@ elseif ($_REQUEST['action'] == "deletes")
   }
 }
 
+/*
 $req = new requete($site->db,
   "SELECT `partenariats_utl`.`id_partenariat_utl`, `partenariats_utl`.`id_partenariat`, ".
   "`partenariats_utl`.`date_partenariat`, " .
@@ -59,6 +60,14 @@ $req = new requete($site->db,
   "FROM `partenariats_utl` ".
   "LEFT JOIN `utilisateurs` USING (`id_utilisateur`) ".
   "ORDER BY `partenariats_utl`.`id_partenariat`, `nom_utilisateur`");
+*/
+
+$sql = "SELECT `partenariats_utl`.`id_partenariat_utl`, `partenariats_utl`.`id_partenariat`, ".
+      "`partenariats_utl`.`date_partenariat`, " .
+      "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` ".
+      "FROM `partenariats_utl` ".
+      "LEFT JOIN `utilisateurs` USING (`id_utilisateur`) ".
+      "ORDER BY `partenariats_utl`.`id_partenariat`, `nom_utilisateur`";
 
 $cts = new contents();
 
@@ -68,7 +77,8 @@ $tbl->add_column_text('id_partenariat', 'Partenaire');
 $tbl->set_column_enumeration('id_partenariat', $partenaires);
 $tbl->add_column_text('nom_utilisateur', 'Nom');
 $tbl->add_column_date('date_partenariat', 'Date');
-$tbl->set_data('id_partenariat_utl', $req);
+//$tbl->set_data('id_partenariat_utl', $req);
+$tbl->set_sql($site->db, 'id_partenariat_utl', $sql);
 $cts->add($tbl,true);
 
 $frm = new form("partenariat","partenariats.php",true,"POST",null);
