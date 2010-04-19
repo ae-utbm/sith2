@@ -405,7 +405,7 @@ class form extends stdcontents
    * @deprecated Technique un peu ancienne, smartselect est une généralisation :
    * Utilisez plutôt add_entity_smartselect ( $name, $title, new Utilisateur($site->db)...)
    */
-  function add_user_fieldv2 ( $name, $title, $value = "", $required = false )
+  function add_user_fieldv2 ( $name, $title, $value = "", $required = false, $surnom = false )
   {
     global $topdir;
     $siteroot=$topdir;
