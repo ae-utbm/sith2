@@ -30,8 +30,11 @@ require_once($topdir. "include/entities/partenariat_utl.inc.php");
 
 $partenaires=array(1=>"Société Générale", 2=>"SMEREB");
 
-
 $site = new site ();
+
+if ( !$site->user->is_in_group("gestion_ae") )
+  $site->error_forbidden("none","group","gestion_ae");
+
 $site->add_js("js/sqltable2.js");
 $site->start_page("utl_partenariats","Partenariats en attente");
 $partenariat = new Partenariat($site->db, $site->dbrw);
