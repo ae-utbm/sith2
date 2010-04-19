@@ -66,7 +66,7 @@ $req = new requete($site->db,
 
 $cts = new contents();
 
-$tbl = new sqltable2("partenariats_utl", "Utilisateurs en attente", "ae/partenariats.php");
+$tbl = new sqltable2("partenariats_utl", "Utilisateurs en attente", "partenariats.php");
 $tbl->add_batch_action("deletes", "Supprimer");
 $tbl->add_column_text('id_partenariat', 'Partenaire');
 $tbl->set_column_enumeration('id_partenariat', $partenaires);

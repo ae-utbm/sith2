@@ -24,7 +24,7 @@ class Partenariat extends stdentity
     $req = new requete($this->db, "SELECT * ".
             "FROM `partenariats_utl` ".
             "WHERE id_utilisateur = '".$id_utilisateur."' ".
-            "AND id_partenariat = '".$id_partenariat."'", 1);
+            "AND id_partenariat = '".$id_partenariat."'");
     if($req->lines == 1)
       $this->_load($req->get_row());
   }
@@ -43,14 +43,12 @@ class Partenariat extends stdentity
     $this->id_utilisateur = $id_utilisateur;
     $this->date = date('Y-m-d');
 
-    print_r("aaa");
 
     $req = new insert($this->dbrw, "partenariats_utl",
               array('id_partenariat'=>$id_partenariat,
                 'id_utilisateur'=>$id_utilisateur,
                 'date_partenariat'=>$this->date,
-              ), 1);
-    print_r("bbb");
+              ));
     $this->id = $req->get_id();
   }
 
