@@ -80,308 +80,307 @@ class userinfo extends stdcontents
     $pays->load_by_id($user->id_pays);
 
     if ( $brief )
-      {
-        if ( $user->promo_utbm > 0 )
-          $this->buffer .= "<div class=\"userinfo userinfopromo".sprintf("%02d",$user->promo_utbm)."\">\n";
-        else
-          $this->buffer .= "<div class=\"userinfo\">\n";
-
-        if ( $link )
-          {
-            $this->buffer .= "<div class=\"links\" style=\"position: relative; float: right;\">";
-            /*if ($user->utbm)
-              {
-                $this->buffer .= "<a href=\"".$topdir."edt.php?id_utilisateur=".$user->id."\"><img src=\"".$topdir."images/actions/schedule.png\" title=\"Emploi du temps\" alt=\"Emploi du temps\"></a>";
-                $this->buffer .= "&nbsp;";
-              }*/
-            $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$user->id."\"><img src=\"".$topdir."images/actions/view.png\" title=\"Voir la fiche complète\" alt=\"Voir la fiche complète\"></a>";
-            $this->buffer .= "</div>";
-          }
-        $this->buffer .= "<p><b>". $user->prenom . " " . $user->nom . " </b>";
-        if ( $user->surnom )
-          $this->buffer .= "<i>&laquo;". $user->surnom . "&raquo;</i><br/></p>";
-        elseif ( $user->alias )
-          $this->buffer .= "<i>&laquo;". $user->alias . "&raquo;</i><br/></p>";
-        $this->buffer .= "<div class=\"clearboth\"></div>";
-
-        $this->buffer .= "<div class=\"photo\" style=\"height: 120px; float: left;\">";
-
-        if ($user->id && file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
-        {
-            $date_prise_vue = "";
-            $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
-            if ( $exif["FILE"]["FileDateTime"] )
-              $date_prise_vue = $exif["FILE"]["FileDateTime"];
-            $size = getimagesize($topdir."var/img/matmatronch/".$user->id.".identity.jpg");
-            /* laissons une marge de 50px */
-            $width = $size[0] + 50;
-            $height = $size[1] + 75;
-            $this->buffer .= "<a href=\"javascript:openMatmatronch('".
-              $user->id."','".$width."','".$height."')\"><img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."\" alt=\"\" class=\"fiche_image\" title=\"Cliquez pour agrandir l'image\" alt=\"Cliquez pour agrandir l'image\"/></a>\n";
-
-        }
-        elseif ( $user->id && file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
-          {
-            $date_prise_vue = "";
-            $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
-            if ( $exif["FILE"]["FileDateTime"] )
-              $date_prise_vue = $exif["FILE"]["FileDateTime"];
-            $size = getimagesize($topdir."var/img/matmatronch/".$user->id.".jpg");
-            /* laissons une marge de 50px */
-            $width = $size[0] + 50;
-            $height = $size[1] + 75;
-            $this->buffer .= "<a href=\"javascript:openMatmatronch('". $topdir. "','".
-              $user->id."','".$width."','".$height."')\"><img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."\" alt=\"\" class=\"fiche_image\" title=\"Cliquez pour agrandir l'image\" alt=\"Cliquez pour agrandire l'image\"/></a>\n";
-
-          }
-        else
-          $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image\" />\n";
-
-        $this->buffer .= "</div>";
-
-    if (! is_null($user->date_naissance))
-      {
-        if ( $user->sexe == 1 )
-          $this->buffer .= "N&eacute; ";
-        else
-          $this->buffer .= "N&eacute;e ";
-          $this->buffer .= "le : ". date("d/m/Y", $user->date_naissance) . "<br />\n";
-      }
-    if ( $user->addresse || $ville->is_valid() )
-     {
-        $this->buffer .= "<br><img src=\"".$topdir."images/icons/16/batiment.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
-        $this->buffer .= $user->addresse;
-
-        if ( $ville->is_valid() )
-          $this->buffer .= "<br/>".$ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")";
-
-        if ( $pays->is_valid() && $pays->id != 1)
-          $this->buffer .= "<br/>".$pays->get_html_link();
-     }
-
-      if ( $pays->is_valid() && $pays->id != 1)
-        $this->buffer .= "<br/>".$pays->get_html_link();
-
-        $this->buffer .="<br />";
-        //$this->buffer .="<br />";
-
-        if ( $user->branche )
-          {
-            $this->buffer .= "<b>".$UserBranches[$user->branche];
-            if ( $user->branche!="Enseignant" && $user->branche!="Administration" && $user->branche!="Autre" )
-              {
-                $this->buffer .= sprintf("%02d",$user->semestre)."</b>";
-                if ( $user->filiere )
-                  {
-                    $this->buffer .= "<br/>Filière : <br/>";
-                    $this->buffer .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$user->filiere;
-                  }
-              }
-            $this->buffer .="</b>";
-          }
-
-        $this->buffer .= "<div class=\"clearboth\"></div>";
-        $this->buffer .= "<div class=\"phones\" style=\"position: relative; float: left;\">";
-        if ( $user->tel_maison )
-          $this->buffer .= "<img src=\"".$topdir."images/usr_fixe.png\" width=\"18\" height=\"16\" style=\"margin-right: 0.5em;\">".telephone_display($user->tel_maison);
-        if ( $user->tel_portable )
-          $this->buffer .= "<br><img src=\"".$topdir."images/usr_portable.png\" style=\"margin-right: 0.5em;\">".telephone_display($user->tel_portable);
-        $this->buffer .= "</div>";
-        $this->buffer .= "<div class=\"mails\" style=\"position: relative; float: right; margin-top: 14px;\">";
-        if ( $user->email || $user->email_utbm )
-          {
-            if ( $user->email == $user->email_utbm ) $user->email = false;
-
-            if ( $user->email )
-              $this->buffer .= "<a href=\"mailto:".$user->email."\"><img src=\"".$topdir."images/email_perso.png\" style=\"margin-right: 5px;\" alt=\"Email perso\" title=\"Email perso\"></a>";
-
-            if ( $user->email_utbm )
-              $this->buffer .= "<a href=\"mailto:".$user->email_utbm."\"><img src=\"".$topdir."images/mail_UTBM.png\" style=\"margin-right: 5px;\" alt=\"Email UTBM\" title=\"Email UTBM\"></a>";
-
-          }
-        if ( $vcard )
-          {
-            $this->buffer .= "<a href=\"".$topdir."matmatronch/vcf.php?id_utilisateur=".$user->id."\"><img src=\"".$topdir."images/vcard.png\" alt=\"vCard\" title=\"vCard\"></a>";
-          }
-        $this->buffer .= "</div>";
-        $this->buffer .= "<div class=\"clearboth\"></div>\n";
-
-        if ( $solde )
-          {
-            $this->buffer .= "<p>";
-            $this->buffer .= "Solde: ".number_format($user->montant_compte/100, 2)." €\n";
-            $this->buffer .= "</p>";
-          }
-
-        $this->buffer .= "</div>\n";
-      }
-    else
-      {
-        /*if ( $user->etudiant || $user->ancien_etudiant )
-                {
-                        $this->buffer .= $user->citation;
-                        $this->buffer .= $user->adresse_parents;
-                        $this->buffer .= $user->ville_parents;
-                        $this->buffer .= $user->cpostal_parents;
-                        $this->buffer .= $user->tel_parents;
-                        $this->buffer .= $user->nom_ecole_etudiant;
-                }
-                if ( $user->utbm )
-                {
-                        $this->buffer .= $user->surnom;
-                        $this->buffer .= $user->semestre;
-                        $this->buffer .= $user->branche;
-                        $this->buffer .= $user->filiere;
-                        $this->buffer .= $user->promo_utbm;
-                }*/
-        $this->buffer .= "<div class=\"clearboth\"></div>\n";
-
+    {
+      if ( $user->promo_utbm > 0 )
+        $this->buffer .= "<div class=\"userinfo userinfopromo".sprintf("%02d",$user->promo_utbm)."\">\n";
+      else
         $this->buffer .= "<div class=\"userinfo\">\n";
 
-        $this->buffer .= "<div class=\"denomination\" style=\"position: relative; float: left;\">";
-        if ( $solde && $user->montant_compte/100 != 0)
-          {
-            $this->buffer .= "<div class=\"compt_ae\" style=\"color: red; float: right; text-align: center;\">";
-            $this->buffer .= "<a href=\"".$topdir."user/compteae.php?id_utilisateur=".$user->id."\" alt=\"Consulter son compte AE\" title=\"Consulter son compte AE\"><img src=\"".$topdir."images/money.png\"></a><br/>".($user->montant_compte/100)." €\n";
-            $this->buffer .= "</div>";
-          }
-        $this->buffer .= "<p>";
-        if ( $user->sexe == 1 )
-          $this->buffer .= "<img src=\"".$topdir."images/icon_homme.png\" style=\"height: 18px; width; 18px; margin-right: 0.5em;\">";
-        else
-          $this->buffer .= "<img src=\"".$topdir."images/icon_femme.png\" style=\"height: 18px; width; 18px; margin-right: 0.5em;\">";
-        $this->buffer .= "<b>". $user->prenom . " " . $user->nom . " </b>";
-        if ( $user->surnom )
-          $this->buffer .= "alias <i>&laquo;". $user->surnom . "&raquo;</i><br/></p>";
-        elseif ( $user->alias )
-          $this->buffer .= "alias <i>&laquo;". $user->alias . "&raquo;</i><br/></p>";
-
-
-
-        $this->buffer .= "<div class=\"others_infos\" style=\"position: relative; float: left;\">";
-        $this->buffer .= "<br/>";
-
-    if (! is_null($user->date_naissance))
+      if ( $link )
       {
-        if ( $user->sexe == 1 )
-          $this->buffer .= "N&eacute; ";
-        else
-          $this->buffer .= "N&eacute;e ";
-        $this->buffer .= "le " . strftime("%A %d %B %Y", $user->date_naissance) . "<br />";
-      }
-        if ( $user->hash != "valid" )
-          $this->buffer .= "<span style=\"font-color: red;\">Compte non valid&eacute; !</span><br />\n";
-
-        $this->buffer .= "<br /><br />";
-        if ( $user->branche && $user->nom_ecole_etudiant == "UTBM")
+        $this->buffer .= "<div class=\"links\" style=\"position: relative; float: right;\">";
+        /*if ($user->utbm)
           {
-            $this->buffer .= "<div class=\"branches\" style=\"float: left; width: 200px;\">";
-            $this->buffer .= "<img src=\"".$topdir."images/utbmlogo.gif\" style=\"position: relative; float: left; width: 65px;\">";
-            $this->buffer .= "<div class=\"branches_info\" style=\"position: relative; width: 300px;\">";
-            $this->buffer .= "<br/><b>".$UserBranches[$user->branche];
-            if ( $user->branche!="Enseignant" && $user->branche!="Administration" && $user->branche!="Autre" && $user->branche!="TC")
-              {
-                if (isset($user->date_diplome_utbm) && !(empty($user->date_diplome_utbm)) && ($user->date_diplome_utbm != "0000-00-00") && ($user->date_diplome_utbm < time()))
+            $this->buffer .= "<a href=\"".$topdir."edt.php?id_utilisateur=".$user->id."\"><img src=\"".$topdir."images/actions/schedule.png\" title=\"Emploi du temps\" alt=\"Emploi du temps\"></a>";
+            $this->buffer .= "&nbsp;";
+          }*/
+        $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$user->id."\"><img src=\"".$topdir."images/actions/view.png\" title=\"Voir la fiche complète\" alt=\"Voir la fiche complète\"></a>";
+        $this->buffer .= "</div>";
+      }
+      $this->buffer .= "<p><b>". $user->prenom . " " . $user->nom . " </b>";
+      if ( $user->surnom )
+        $this->buffer .= "<i>&laquo;". $user->surnom . "&raquo;</i><br/></p>";
+      elseif ( $user->alias )
+        $this->buffer .= "<i>&laquo;". $user->alias . "&raquo;</i><br/></p>";
+      $this->buffer .= "<div class=\"clearboth\"></div>";
 
+      $this->buffer .= "<div class=\"photo\" style=\"height: 120px; float: left;\">";
+
+      if ($user->id && file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
+      {
+        $date_prise_vue = "";
+        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
+        if ( $exif["FILE"]["FileDateTime"] )
+          $date_prise_vue = $exif["FILE"]["FileDateTime"];
+        $size = getimagesize($topdir."var/img/matmatronch/".$user->id.".identity.jpg");
+        /* laissons une marge de 50px */
+        $width = $size[0] + 50;
+        $height = $size[1] + 75;
+        $this->buffer .= "<a href=\"javascript:openMatmatronch('".
+        $user->id."','".$width."','".$height."')\"><img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."\" alt=\"\" class=\"fiche_image\" title=\"Cliquez pour agrandir l'image\" alt=\"Cliquez pour agrandir l'image\"/></a>\n";
+      }
+      elseif ( $user->id && file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
+      {
+        $date_prise_vue = "";
+        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
+        if ( $exif["FILE"]["FileDateTime"] )
+          $date_prise_vue = $exif["FILE"]["FileDateTime"];
+        $size = getimagesize($topdir."var/img/matmatronch/".$user->id.".jpg");
+        /* laissons une marge de 50px */
+        $width = $size[0] + 50;
+        $height = $size[1] + 75;
+        $this->buffer .= "<a href=\"javascript:openMatmatronch('". $topdir. "','".
+          $user->id."','".$width."','".$height."')\"><img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."\" alt=\"\" class=\"fiche_image\" title=\"Cliquez pour agrandir l'image\" alt=\"Cliquez pour agrandire l'image\"/></a>\n";
+
+      }
+      else
+        $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image\" />\n";
+
+      $this->buffer .= "</div>";
+
+  if (! is_null($user->date_naissance))
+  {
+    if ( $user->sexe == 1 )
+      $this->buffer .= "N&eacute; ";
+    else
+      $this->buffer .= "N&eacute;e ";
+      $this->buffer .= "le : ". date("d/m/Y", $user->date_naissance) . "<br />\n";
+  }
+  if ( $user->addresse || $ville->is_valid() )
+  {
+    $this->buffer .= "<br><img src=\"".$topdir."images/icons/16/batiment.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
+    $this->buffer .= $user->addresse;
+
+    if ( $ville->is_valid() )
+      $this->buffer .= "<br/>".$ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")";
+
+    if ( $pays->is_valid() && $pays->id != 1)
+      $this->buffer .= "<br/>".$pays->get_html_link();
+  }
+
+  if ( $pays->is_valid() && $pays->id != 1)
+    $this->buffer .= "<br/>".$pays->get_html_link();
+
+    $this->buffer .="<br />";
+    //$this->buffer .="<br />";
+
+    if ( $user->branche )
+    {
+      $this->buffer .= "<b>".$UserBranches[$user->branche];
+      if ( $user->branche!="Enseignant" && $user->branche!="Administration" && $user->branche!="Autre" )
+        {
+          $this->buffer .= sprintf("%02d",$user->semestre)."</b>";
+          if ( $user->filiere )
+            {
+              $this->buffer .= "<br/>Filière : <br/>";
+              $this->buffer .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$user->filiere;
+            }
+        }
+        $this->buffer .="</b>";
+      }
+
+      $this->buffer .= "<div class=\"clearboth\"></div>";
+      $this->buffer .= "<div class=\"phones\" style=\"position: relative; float: left;\">";
+      if ( $user->tel_maison )
+        $this->buffer .= "<img src=\"".$topdir."images/usr_fixe.png\" width=\"18\" height=\"16\" style=\"margin-right: 0.5em;\">".telephone_display($user->tel_maison);
+      if ( $user->tel_portable )
+        $this->buffer .= "<br><img src=\"".$topdir."images/usr_portable.png\" style=\"margin-right: 0.5em;\">".telephone_display($user->tel_portable);
+      $this->buffer .= "</div>";
+      $this->buffer .= "<div class=\"mails\" style=\"position: relative; float: right; margin-top: 14px;\">";
+      if ( $user->email || $user->email_utbm )
+      {
+        if ( $user->email == $user->email_utbm ) $user->email = false;
+
+        if ( $user->email )
+          $this->buffer .= "<a href=\"mailto:".$user->email."\"><img src=\"".$topdir."images/email_perso.png\" style=\"margin-right: 5px;\" alt=\"Email perso\" title=\"Email perso\"></a>";
+
+        if ( $user->email_utbm )
+          $this->buffer .= "<a href=\"mailto:".$user->email_utbm."\"><img src=\"".$topdir."images/mail_UTBM.png\" style=\"margin-right: 5px;\" alt=\"Email UTBM\" title=\"Email UTBM\"></a>";
+
+      }
+      if ( $vcard )
+      {
+        $this->buffer .= "<a href=\"".$topdir."matmatronch/vcf.php?id_utilisateur=".$user->id."\"><img src=\"".$topdir."images/vcard.png\" alt=\"vCard\" title=\"vCard\"></a>";
+      }
+      $this->buffer .= "</div>";
+      $this->buffer .= "<div class=\"clearboth\"></div>\n";
+
+      if ( $solde )
+      {
+        $this->buffer .= "<p>";
+        $this->buffer .= "Solde: ".number_format($user->montant_compte/100, 2)." €\n";
+        $this->buffer .= "</p>";
+      }
+
+      $this->buffer .= "</div>\n";
+    }
+    else
+    {
+      /*if ( $user->etudiant || $user->ancien_etudiant )
+              {
+                      $this->buffer .= $user->citation;
+                      $this->buffer .= $user->adresse_parents;
+                      $this->buffer .= $user->ville_parents;
+                      $this->buffer .= $user->cpostal_parents;
+                      $this->buffer .= $user->tel_parents;
+                      $this->buffer .= $user->nom_ecole_etudiant;
+              }
+              if ( $user->utbm )
+              {
+                      $this->buffer .= $user->surnom;
+                      $this->buffer .= $user->semestre;
+                      $this->buffer .= $user->branche;
+                      $this->buffer .= $user->filiere;
+                      $this->buffer .= $user->promo_utbm;
+              }*/
+      $this->buffer .= "<div class=\"clearboth\"></div>\n";
+
+      $this->buffer .= "<div class=\"userinfo\">\n";
+
+      $this->buffer .= "<div class=\"denomination\" style=\"position: relative; float: left;\">";
+      if ( $solde && $user->montant_compte/100 != 0)
+      {
+        $this->buffer .= "<div class=\"compt_ae\" style=\"color: red; float: right; text-align: center;\">";
+        $this->buffer .= "<a href=\"".$topdir."user/compteae.php?id_utilisateur=".$user->id."\" alt=\"Consulter son compte AE\" title=\"Consulter son compte AE\"><img src=\"".$topdir."images/money.png\"></a><br/>".($user->montant_compte/100)." €\n";
+          $this->buffer .= "</div>";
+      }
+      $this->buffer .= "<p>";
+      if ( $user->sexe == 1 )
+        $this->buffer .= "<img src=\"".$topdir."images/icon_homme.png\" style=\"height: 18px; width; 18px; margin-right: 0.5em;\">";
+      else
+        $this->buffer .= "<img src=\"".$topdir."images/icon_femme.png\" style=\"height: 18px; width; 18px; margin-right: 0.5em;\">";
+      $this->buffer .= "<b>". $user->prenom . " " . $user->nom . " </b>";
+      if ( $user->surnom )
+        $this->buffer .= "alias <i>&laquo;". $user->surnom . "&raquo;</i><br/></p>";
+      elseif ( $user->alias )
+        $this->buffer .= "alias <i>&laquo;". $user->alias . "&raquo;</i><br/></p>";
+
+
+
+      $this->buffer .= "<div class=\"others_infos\" style=\"position: relative; float: left;\">";
+      $this->buffer .= "<br/>";
+
+  if (! is_null($user->date_naissance))
+  {
+    if ( $user->sexe == 1 )
+      $this->buffer .= "N&eacute; ";
+    else
+      $this->buffer .= "N&eacute;e ";
+    $this->buffer .= "le " . strftime("%A %d %B %Y", $user->date_naissance) . "<br />";
+  }
+    if ( $user->hash != "valid" )
+      $this->buffer .= "<span style=\"font-color: red;\">Compte non valid&eacute; !</span><br />\n";
+
+    $this->buffer .= "<br /><br />";
+    if ( $user->branche && $user->nom_ecole_etudiant == "UTBM")
+    {
+      $this->buffer .= "<div class=\"branches\" style=\"float: left; width: 200px;\">";
+      $this->buffer .= "<img src=\"".$topdir."images/utbmlogo.gif\" style=\"position: relative; float: left; width: 65px;\">";
+      $this->buffer .= "<div class=\"branches_info\" style=\"position: relative; width: 300px;\">";
+      $this->buffer .= "<br/><b>".$UserBranches[$user->branche];
+      if ( $user->branche!="Enseignant" && $user->branche!="Administration" && $user->branche!="Autre" && $user->branche!="TC")
+      {
+        if (isset($user->date_diplome_utbm) && !(empty($user->date_diplome_utbm)) && ($user->date_diplome_utbm != "0000-00-00") && ($user->date_diplome_utbm < time()))
           if ($user->sexe == 1)
-              $this->buffer .= " Dipl&ocirc;m&eacute;</b>";
+            $this->buffer .= " Dipl&ocirc;m&eacute;</b>";
           else
-              $this->buffer .= " Dipl&ocirc;m&eacute;e</b>";
+            $this->buffer .= " Dipl&ocirc;m&eacute;e</b>";
         else
           $this->buffer .= sprintf("%02d",$user->semestre)."</b>";
-                if ( $user->filiere )
-                  {
-                    $this->buffer .= "<br/>Filière : <br/>";
-                    $this->buffer .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$user->filiere;
-                  }
-              }
-            $this->buffer .="</b>";
-            $this->buffer .= "</div>";
 
-            $this->buffer .= "</div>";
-          }
-        $this->buffer .= "<div class=\"clearboth\"></div>\n";
-
-        $this->buffer .= "<div class=\"adresse_perso\" style=\"float: left; width: 200px; text-align:center;\">";
-    if ( $user->addresse || $ville->is_valid() )
-     {
-        $this->buffer .= "<br><img src=\"".$topdir."images/icons/16/batiment.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
-        $this->buffer .= $user->addresse;
-
-        if ( $ville->is_valid() )
-          $this->buffer .= "<br/>".$ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")";
-
-        if ( $pays->is_valid() && $pays->id != 1)
-          $this->buffer .= "<br/>".$pays->get_html_link();
-     }
-
-      if ( $pays->is_valid() && $pays->id != 1)
-        $this->buffer .= "<br/>".$pays->get_html_link();
-
-        if ( $user->tel_maison )
-          $this->buffer .= "<br/><br/><img src=\"".$topdir."images/usr_fixe.png\" width=\"18\" height=\"16\" style=\"margin-right: 0.5em;\">".telephone_display($user->tel_maison);
-
-        if ( $user->tel_portable )
-          {
-            if (!$user->tel_maison)
-              $this->buffer .= "<br/>";
-            $this->buffer .= "<br/><img src=\"".$topdir."images/usr_portable.png\" style=\"margin-right: 0.5em;\">".telephone_display($user->tel_portable);
-          }
-        $this->buffer .= "</div>";
-
-        $this->buffer .= "<div class=\"clearboth\"></div>\n";
-        $this->buffer .= "<br/><br/>";
-        $this->buffer .= "<div class=\"admin\" style=\"position : relative; float: left;\">";
-        if ( $user->promo_utbm && file_exists($topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png") )
-          {
-            $this->buffer .= "<a href=\"promo".sprintf("%02d",$user->promo_utbm)."\"><img src=\"".$topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png\" style=\"position: relative; float: left;\"></a>";
-          }
-    if ($user->promo_utbm)
-          $this->buffer .= "<p style=\"padding-top: 5px;\"><a href=\"promo".sprintf("%02d",$user->promo_utbm)."\">Le Site de la Promo ".sprintf("%02d",$user->promo_utbm)."</p>";
-        if ( $extraadmin )
-          {
-            $this->buffer .= "<p><a href=\"".$topdir."ae/cotisations.php?action=searchstudent&amp;id_utilisateur=".$user->id."\">&nbsp;&nbsp;Nouvelle cotisation à l'AE</a></p>";
-            $this->buffer .= "<a href=\"".$topdir."user/compteae.php?id_utilisateur=".$user->id."\">Consulter compte AE</a>";
-          }
-
-        $this->buffer .= "</div>";
-
-        $this->buffer .= "</div>";
-
-        // droite
-        $this->buffer .= "<div class=\"right\" style=\"text-align: center; float: right; width: 280px;\">";
-        $this->buffer .= "<div class=\"mails\">";
-        if ( $user->email || $user->email_utbm )
-          {
-            if ( $user->email == $user->email_utbm ) $user->email = false;
-
-            if ( $user->email )
-              $this->buffer .= "<a href=\"mailto:".$user->email."\"><img src=\"".$topdir."images/email_perso.png\" style=\"margin-bottom: 5px; margin-right: 5px;\" alt=\"Email perso\" title=\"Email perso\"></a>";
-
-            if ( $user->email_utbm )
-              $this->buffer .= "<a href=\"mailto:".$user->email_utbm."\"><img src=\"".$topdir."images/mail_UTBM.png\" style=\"margin-bottom: 5px; margin-right: 5px;\" alt=\"Email UTBM\" title=\"Email UTBM\"></a>";
-          }
-        if ( $vcard )
-          {
-            $this->buffer .= "<a href=\"".$topdir."matmatronch/vcf.php?id_utilisateur=".$user->id."\"><img src=\"".$topdir."images/vcard.png\"  style=\"margin-bottom: 5px;\" alt=\"vCard\" title=\"vCard\"></a>";
-          }
-        $this->buffer .= "</div>";
-
-        if (file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
-          $this->buffer .= "<img src=\"".$topdir."/var/img/matmatronch/".$user->id.".jpg\" class=\"fiche_image_full\"/>\n";
-        elseif (file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
-          $this->buffer .= "<img src=\"".$topdir."/var/img/matmatronch/".$user->id.".identity.jpg\" class=\"fiche_image_full\"/>\n<br /><i>(Photo MatMatronch non pr&eacute;sente&nbsp;!)</i>\n";
-        else
-          $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image_full\" />\n";
-
-        $this->buffer .= "<br/><br/><div class=\"citation\" style=\"width: 250px; text-align: center;\"><i>".$user->citation."</i></div>";
-        $this->buffer .= "</div>";
-
-        $this->buffer .= "</div>";
-
-        $this->buffer .= "<div class=\"clearboth\"></div>\n";
-        $this->buffer .= "</div>\n";
+        if ( $user->filiere )
+        {
+          $this->buffer .= "<br/>Filière : <br/>";
+          $this->buffer .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$user->filiere;
+        }
       }
+      $this->buffer .="</b>";
+      $this->buffer .= "</div>";
+
+      $this->buffer .= "</div>";
+    }
+    $this->buffer .= "<div class=\"clearboth\"></div>\n";
+
+    $this->buffer .= "<div class=\"adresse_perso\" style=\"float: left; width: 200px; text-align:center;\">";
+  if ( $user->addresse || $ville->is_valid() )
+  {
+  $this->buffer .= "<br><img src=\"".$topdir."images/icons/16/batiment.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
+  $this->buffer .= $user->addresse;
+
+  if ( $ville->is_valid() )
+    $this->buffer .= "<br/>".$ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")";
+
+  if ( $pays->is_valid() && $pays->id != 1)
+    $this->buffer .= "<br/>".$pays->get_html_link();
+  }
+
+  if ( $pays->is_valid() && $pays->id != 1)
+    $this->buffer .= "<br/>".$pays->get_html_link();
+
+    if ( $user->tel_maison )
+      $this->buffer .= "<br/><br/><img src=\"".$topdir."images/usr_fixe.png\" width=\"18\" height=\"16\" style=\"margin-right: 0.5em;\">".telephone_display($user->tel_maison);
+
+    if ( $user->tel_portable )
+    {
+      if (!$user->tel_maison)
+        $this->buffer .= "<br/>";
+      $this->buffer .= "<br/><img src=\"".$topdir."images/usr_portable.png\" style=\"margin-right: 0.5em;\">".telephone_display($user->tel_portable);
+    }
+    $this->buffer .= "</div>";
+
+    $this->buffer .= "<div class=\"clearboth\"></div>\n";
+    $this->buffer .= "<br/><br/>";
+    $this->buffer .= "<div class=\"admin\" style=\"position : relative; float: left;\">";
+    if ( $user->promo_utbm && file_exists($topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png") )
+    {
+      $this->buffer .= "<a href=\"promo".sprintf("%02d",$user->promo_utbm)."\"><img src=\"".$topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png\" style=\"position: relative; float: left;\"></a>";
+    }
+    if ($user->promo_utbm)
+      $this->buffer .= "<p style=\"padding-top: 5px;\"><a href=\"promo".sprintf("%02d",$user->promo_utbm)."\">Le Site de la Promo ".sprintf("%02d",$user->promo_utbm)."</p>";
+    if ( $extraadmin )
+    {
+      $this->buffer .= "<p><a href=\"".$topdir."ae/cotisations.php?action=searchstudent&amp;id_utilisateur=".$user->id."\">&nbsp;&nbsp;Nouvelle cotisation à l'AE</a></p>";
+      $this->buffer .= "<a href=\"".$topdir."user/compteae.php?id_utilisateur=".$user->id."\">Consulter compte AE</a>";
+    }
+
+    $this->buffer .= "</div>";
+
+    $this->buffer .= "</div>";
+
+    // droite
+    $this->buffer .= "<div class=\"right\" style=\"text-align: center; float: right; width: 280px;\">";
+    $this->buffer .= "<div class=\"mails\">";
+    if ( $user->email || $user->email_utbm )
+    {
+      if ( $user->email == $user->email_utbm ) $user->email = false;
+
+      if ( $user->email )
+        $this->buffer .= "<a href=\"mailto:".$user->email."\"><img src=\"".$topdir."images/email_perso.png\" style=\"margin-bottom: 5px; margin-right: 5px;\" alt=\"Email perso\" title=\"Email perso\"></a>";
+
+      if ( $user->email_utbm )
+        $this->buffer .= "<a href=\"mailto:".$user->email_utbm."\"><img src=\"".$topdir."images/mail_UTBM.png\" style=\"margin-bottom: 5px; margin-right: 5px;\" alt=\"Email UTBM\" title=\"Email UTBM\"></a>";
+    }
+    if ( $vcard )
+    {
+      $this->buffer .= "<a href=\"".$topdir."matmatronch/vcf.php?id_utilisateur=".$user->id."\"><img src=\"".$topdir."images/vcard.png\"  style=\"margin-bottom: 5px;\" alt=\"vCard\" title=\"vCard\"></a>";
+    }
+    $this->buffer .= "</div>";
+
+    if (file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
+      $this->buffer .= "<img src=\"".$topdir."/var/img/matmatronch/".$user->id.".jpg\" class=\"fiche_image_full\"/>\n";
+    elseif (file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
+      $this->buffer .= "<img src=\"".$topdir."/var/img/matmatronch/".$user->id.".identity.jpg\" class=\"fiche_image_full\"/>\n<br /><i>(Photo MatMatronch non pr&eacute;sente&nbsp;!)</i>\n";
+    else
+      $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image_full\" />\n";
+
+      $this->buffer .= "<br/><br/><div class=\"citation\" style=\"width: 250px; text-align: center;\"><i>".$user->citation."</i></div>";
+      $this->buffer .= "</div>";
+
+      $this->buffer .= "</div>";
+
+      $this->buffer .= "<div class=\"clearboth\"></div>\n";
+      $this->buffer .= "</div>\n";
+    }
   }
 }
 
@@ -450,7 +449,7 @@ class userinfov2 extends stdcontents
     else
       $this->buffer .= "<div class=\"userinfov2\">";
 
-  $this->buffer .= "<h2 class=\"nom\">".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."</h2>\n";
+    $this->buffer .= "<h2 class=\"nom\">".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."</h2>\n";
 
     $this->buffer .= "<div class=\"photo\">";
     $this->buffer .= "<img src=\"$img\" id=\"mmtphoto$numFiche\" class=\"$imgclass\" alt=\"Photo de ".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" />";
@@ -644,7 +643,6 @@ class userinfov2 extends stdcontents
         $this->buffer .= "</ul>";
       }
     }
-
 
     $this->buffer .= "</div>";
 
