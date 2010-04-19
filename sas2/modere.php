@@ -227,9 +227,11 @@ if ( $req->lines == 1 )
 
   $req = new requete($site->db,
     "SELECT `utilisateurs`.`id_utilisateur`, " .
-    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
+    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`,
+      COALESCE(CONCAT(' (',`utl_etu_utbm`.`surnom_utbm`,')'),'')) as `nom_utilisateur` " .
     "FROM `sas_personnes_photos` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`sas_personnes_photos`.`id_utilisateur` " .
+    "LEFT JOIN `utl_etu_utbm` USING `id_utilisateur`" .
     "WHERE `sas_personnes_photos`.`id_photo`='".$photo->id."' " .
     "ORDER BY `nom_utilisateur`");
 
