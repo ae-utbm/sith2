@@ -353,14 +353,10 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     $user->taille_tshirt = $_REQUEST['taille_tshirt'];
     $user->saveinfos();
 
-    $partenariat = new Partenariat($site->db);
-    print_r($_REQUEST);
-    foreach ($_REQUEST['partenariats'] as $id_partenariat => $val)
-    {
-      print_r("\n".$id_partenariat."\n".$val."\n".$user->id);
-      $partenariat->add($id_partenariat, $user->id);
-    }
-
+    $partenariat = new Partenariat($site->db, $site->dbrw);
+    if (isset($_REQUEST['partenariats']))
+      foreach ($_REQUEST['partenariats'] as $id_partenariat => $val)
+        $partenariat->add($id_partenariat, $user->id);
 
     $info = new contents("Nouvelle cotisation","<img src=\"".$topdir."images/actions/done.png\">&nbsp;&nbsp;La cotisation a bien &eacute;t&eacute; enregistr&eacute;e.<br /><a href=\"" . $topdir . "ae/cotisations.php\">Retour</a>");
 
@@ -604,12 +600,10 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
     $frm->add_hidden("paiement",$_POST['paiement']);
     $frm->add_hidden("droit_image",$_POST['droit_image']);
     $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
-    print_r($_REQUEST);
-    foreach ($_REQUEST['partenariats'] as $id_partenariat => $val)
-    {
-      print_r("(1) partenariats[".$id_partenariat."]");
-      $frm->add_hidden("partenariats[".$id_partenariat."]","1");
-    }
+    if (isset($_REQUEST['partenariats']))
+      foreach ($_REQUEST['partenariats'] as $id_partenariat => $val)
+        $frm->add_hidden("partenariats[".$id_partenariat."]","1");
+
     $frm->add_submit("submit","Enregistrer");
     $cts->add($frm);
     $site->add_contents($cts);
@@ -690,12 +684,9 @@ elseif ($_REQUEST["action"] == "newstudent")
     $frm->add_hidden("paiement",$_POST['paiement']);
     $frm->add_hidden("droit",$_REQUEST["droit_image"]);
     $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
-    print_r($_REQUEST);
-    foreach ($_REQUEST['partenariats'] as $id_partenariat => $val)
-    {
-      print_r("(2) partenariats[".$id_partenariat."]");
-      $frm->add_hidden("partenariats[".$id_partenariat."]","1");
-    }
+    if (isset($_REQUEST['partenariats']))
+      foreach ($_REQUEST['partenariats'] as $id_partenariat => $val)
+        $frm->add_hidden("partenariats[".$id_partenariat."]","1");
 
     $frm->add_submit("submit","Enregistrer");
     $cts->add($frm);
