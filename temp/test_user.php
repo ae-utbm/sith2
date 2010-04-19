@@ -1,7 +1,7 @@
 <?
 $topdir = "../";
-require_once($topdir . "include/entities/utilisateur.inc.php");
 require_once($topdir . "include/entities/std.inc.php");
+require_once($topdir . "include/entities/utilisateur.inc.php");
 
 $site = new site ();
 $user = new utilisateur($site->db,$site->dbrw);
