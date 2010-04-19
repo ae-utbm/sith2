@@ -1118,9 +1118,9 @@ elseif ( ($_REQUEST["view"]=="groups") &&
   {
     $grp->_load($row);
     if ( ($row["id_groupe"] == 7 || $row["id_groupe"] == 46 || $row["id_groupe"] == 47) && !$site->user->is_in_group("root") )
-      $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="",true);
+      $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link().' '.$grp->description,$row["id_utilisateur"]!="",true);
     else
-      $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="");
+      $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link().' '.$grp->description,$row["id_utilisateur"]!="");
   }
 
   $frm->add_submit("save","Enregistrer");
