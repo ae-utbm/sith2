@@ -36,7 +36,7 @@ $partenariat = new Partenariat($site->db);
 
 if ($_REQUEST['action'] == "add")
 {
-  $partenariat->load_by_partenariat_utilisateur($_REQUEST['id_utilisateur'], $_REQUEST['id_partenariat']);
+  $partenariat->load_by_partenariat_utilisateur($_REQUEST['id_partenariat'], $_REQUEST['id_utilisateur']);
   if($partenariat->is_valid())
     $this->add_contents(new error("Partenariat en attente déjà enregistré pour l'utilisateur"));
   else
@@ -77,9 +77,9 @@ $cts->add($tbl,true);
 
 $frm = new form("partenariat","partenariats.php",true,"POST",null);
 $frm->add_hidden("action","add");
-$frm->add_select_field("id_partenaire", "Partenaire", $partenaires);
+$frm->add_select_field("id_partenariat", "Partenaire", $partenaires);
 $utl = new utilisateur($site->db);
-$frm->add_entity_smartselect ("id_utilisateur_ent","Cotisant", $utl, false, true);
+$frm->add_entity_smartselect ("id_utilisateur","Cotisant", $utl, false, true);
 $frm->add_submit("submit","Ajouter");
 $cts->add($frm,true);
 
