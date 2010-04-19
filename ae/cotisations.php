@@ -682,7 +682,7 @@ elseif ($_REQUEST["action"] == "newstudent")
     $frm->add_hidden("paiement",$_POST['paiement']);
     $frm->add_hidden("droit",$_REQUEST["droit_image"]);
     $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
-    print_r($_REQUEST['partenariats']);
+    print_r($_REQUEST);
     foreach ($_REQUEST['partenariats'] as $id_partenariat)
       $frm->add_hidden("partenariats[".$id_partenariat."]",true);
 
