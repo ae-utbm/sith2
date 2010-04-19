@@ -47,7 +47,7 @@ class Partenariat extends stdentity
               array('id_partenariat'=>$id_partenariat,
                 'id_utilisateur'=>$id_utilisateur,
                 'date_partenariat'=>$this->date,
-              ));
+              ), 1);
     $this->id = $req->get_id();
   }
 
