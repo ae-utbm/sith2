@@ -25,6 +25,7 @@
 
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
+require_once($topdir. "include/cts/sqltable2.inc.php");
 require_once($topdir. "include/entities/partenariat_utl.inc.php");
 
 $partenaires=array(1=>"Société Générale", 2=>"SMEREB");
