@@ -35,7 +35,7 @@ $partenariat = new Partenariat($site->db);
 
 if ($_REQUEST['action'] == "add")
 {
-  $partenariat->load_by_id($_REQUEST['id_utilisateur'], $_REQUEST['id_partenariat']);
+  $partenariat->load_by_partenariat_utilisateur($_REQUEST['id_utilisateur'], $_REQUEST['id_partenariat']);
   if($partenariat->is_valid())
     $this->add_contents(new error("Partenariat en attente déjà enregistré pour l'utilisateur"));
   else
@@ -48,7 +48,7 @@ elseif ($_REQUEST['action'] == "deletes")
   foreach($_REQUEST[""] as $ids )
   {
     $elem = explode(',', $ids);
-    $partenariat->load_by_id($elem[0], $elem[1]);
+    $partenariat->load_by_partenariat_utilisateur($elem[0], $elem[1]);
     $partenariat->remove();
     $partenariat->delete();
   }
@@ -56,7 +56,7 @@ elseif ($_REQUEST['action'] == "deletes")
 }
 
 $req = new requete($site->db,
-  "SELECT `CONCAT(partenariats_utl`.`id_partenariat`,','`utilisateurs`.`id_utilisateur`), ".
+  "SELECT partenariats_utl`.`id_partenariat_utl`, partenariats_utl`.`id_partenariat`, ".
   "`partenariats_utl`.`date_partenariat`" .
   "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` ".
   "FROM `partenariats_utl` ".
@@ -71,7 +71,7 @@ $tbl->add_column_text('id_partenariat', 'Partenaire');
 $tbl->set_column_enumeration('id_partenariat', $partenaires);
 $tbl->add_column_text('nom_utl', 'Nom');
 $tbl->add_column_date('date_partenariat', 'Date');
-$tbl->set_data('id', $req);
+$tbl->set_data('id_partenariat_utl', $req);
 $cts->add($tbl,true);
 
 $frm = new form("partenariat","partenariats.php",true,"POST",null);
