@@ -35,6 +35,7 @@ require_once($topdir. "include/entities/cotisation.inc.php");
 require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
+require_once($topdir. "include/entities/partenariat_utl.inc.php");
 
 $site = new site ();
 
