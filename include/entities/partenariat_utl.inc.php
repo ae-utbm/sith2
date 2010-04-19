@@ -43,11 +43,14 @@ class Partenariat extends stdentity
     $this->id_utilisateur = $id_utilisateur;
     $this->date = date('Y-m-d');
 
+    print_r("aaa");
+
     $req = new insert($site->dbrw, "partenariats_utl",
               array('id_partenariat'=>$id_partenariat,
                 'id_utilisateur'=>$id_utilisateur,
                 'date_partenariat'=>$this->date,
               ), 1);
+    print_r("bbb");
     $this->id = $req->get_id();
   }
 
