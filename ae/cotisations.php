@@ -66,6 +66,10 @@ else
   }
 }
 
+$partenariats = array(1=> "Ce cotisant vient d'ouvrir un compte à la Société Générale",
+                      2=> "Ce cotisant est à la SMEREB",
+                      );
+
 $site->start_page ("none", "Gestion des cotisations");
 
 function add_search_form()
@@ -134,6 +138,10 @@ function add_new_form($id = null)
   $sub_frm_cotiz->add_checkbox("droit_image","Droit à l'image",false);
   $sub_frm_cotiz->add_checkbox("cadeau","Cadeau",false);
   $sub_frm_cotiz->add_info("&nbsp;");
+
+  $sub_frm_cotiz->add_info("&nbsp;");
+  foreach ($partenariats as $id_partenariat => $texte_partenariat)
+    $sub_frm_cotiz->add_checkbox("parteneriat[".$id_partenariat."]",$texte_partenariat,false);
 
   $frm->add($sub_frm_cotiz);
 
@@ -344,6 +352,11 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     $user->taille_tshirt = $_REQUEST['taille_tshirt'];
     $user->saveinfos();
 
+    $partenariat = new partenariat($site->db);
+    foreach ($partenariats as $id_partenariat => $texte_partenariat)
+      $partenariat->add($id_partenariat, $user->id);
+
+
     $info = new contents("Nouvelle cotisation","<img src=\"".$topdir."images/actions/done.png\">&nbsp;&nbsp;La cotisation a bien &eacute;t&eacute; enregistr&eacute;e.<br /><a href=\"" . $topdir . "ae/cotisations.php\">Retour</a>");
 
 
@@ -461,6 +474,8 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
       $frm->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
       $frm->add_checkbox("a_pris_cadeau","Cadeau distribué",false);
+      foreach ($partenariats as $id_partenariat => $texte_partenariat)
+        $frm_cotiz->add_checkbox("parteneriat[".$id_partenariat."]",$texte_partenariat,false);
       $frm->add_submit("submit","Enregistrer");
       $cts->add($frm,true);
 
@@ -584,6 +599,8 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
     $frm->add_hidden("paiement",$_POST['paiement']);
     $frm->add_hidden("droit_image",$_POST['droit_image']);
     $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
+    foreach ($_REQUEST['partenariats'] as $id_partenariat)
+      $frm->add_hidden("partenariats[".$id_partenariat."]",true);
     $frm->add_submit("submit","Enregistrer");
     $cts->add($frm);
     $site->add_contents($cts);
@@ -664,6 +681,9 @@ elseif ($_REQUEST["action"] == "newstudent")
     $frm->add_hidden("paiement",$_POST['paiement']);
     $frm->add_hidden("droit",$_REQUEST["droit_image"]);
     $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
+    foreach ($_REQUEST['partenariats'] as $id_partenariat)
+      $frm->add_hidden("partenariats[".$id_partenariat."]",true);
+
     $frm->add_submit("submit","Enregistrer");
     $cts->add($frm);
     $site->add_contents($cts);
