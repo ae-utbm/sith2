@@ -476,7 +476,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
       $frm->add_checkbox("a_pris_cadeau","Cadeau distribué",false);
       foreach ($partenariats as $id_partenariat => $texte_partenariat)
-        $frm_cotiz->add_checkbox("partenariats[".$id_partenariat."]",$texte_partenariat,false);
+        $frm->add_checkbox("partenariats[".$id_partenariat."]",$texte_partenariat,false);
       $frm->add_submit("submit","Enregistrer");
       $cts->add($frm,true);
 
