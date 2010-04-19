@@ -353,7 +353,7 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     $user->taille_tshirt = $_REQUEST['taille_tshirt'];
     $user->saveinfos();
 
-    $partenariat = new partenariat($site->db);
+    $partenariat = new Partenariat($site->db);
     foreach ($partenariats as $id_partenariat => $texte_partenariat)
       $partenariat->add($id_partenariat, $user->id);
 

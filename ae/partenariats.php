@@ -31,7 +31,7 @@ $partenaires=array(1=>"Société Générale", 2=>"SMEREB");
 
 
 $site = new site ();
-$partenariat = new partenariat($site->db);
+$partenariat = new Partenariat($site->db);
 
 if ($_REQUEST['action'] == "add")
 {

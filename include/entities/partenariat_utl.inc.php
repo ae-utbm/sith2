@@ -1,7 +1,7 @@
 <?php
 
 
-class CaisseComptoir extends stdentity
+class Partenariat extends stdentity
 {
   /* ID du partenariat */
   var $id_partenariat;
