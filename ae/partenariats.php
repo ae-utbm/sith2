@@ -32,7 +32,7 @@ $partenaires=array(1=>"Société Générale", 2=>"SMEREB");
 
 
 $site = new site ();
-$partenariat = new Partenariat($site->db);
+$partenariat = new Partenariat($site->db, $site->dbrw);
 
 if ($_REQUEST['action'] == "add")
 {
