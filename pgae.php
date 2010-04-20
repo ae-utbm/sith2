@@ -36,7 +36,7 @@ $site = new site ();
 $site->start_page ("maintenance", "Petit géni");
 $cts = new contents();
 $cts->add_title(2, "Petit géni : c'est repartit !");
-$cts->add_paragraph("Le petit géni est actuellement en reconstruction, la nouvelle version sera bientôt disponible. En attendant, pour toutes questions ou renseignements, merci de contacter l'équipe à l'adresse suivante: petit [dot] geni [ae] utbm [dot] fr");
+$cts->add_paragraph("Le petit géni est actuellement en reconstruction, la nouvelle version sera bientôt disponible. En attendant, pour toutes questions ou renseignements, merci de contacter l'équipe à l'adresse suivante: petit [dot] geni [at] utbm [dot] fr");
 $site->add_contents($cts);
 $site->end_page();
 exit();
