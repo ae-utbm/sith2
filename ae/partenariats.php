@@ -74,7 +74,7 @@ $tbl->add_column_date('date_partenariat', 'Date');
 $tbl->set_sql($site->db, 'id_partenariat_utl', $sql);
 $cts->add($tbl,true);
 
-$frm = new form("partenariat","partenariats.php",true,"POST",null);
+$frm = new form("partenariat","partenariats.php",true,"POST", "Ajouter un partenariat en attente");
 $frm->add_hidden("action","add");
 $frm->add_select_field("id_partenariat", "Partenaire", $partenaires);
 $utl = new utilisateur($site->db);
