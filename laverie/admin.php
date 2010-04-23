@@ -110,7 +110,7 @@ elseif ( $_REQUEST["action"] == "retjetons" )
   foreach ( $jetons as $nom_jeton )
   {
     $nom_jeton = trim($nom_jeton);
-    if ( !empty($nom_jeton) )
+    if ( !empty($nom_jeton) || $nom_jeton == "0")
     {
       if ( $jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
         $jeton->given_back();
