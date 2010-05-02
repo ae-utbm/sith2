@@ -284,11 +284,11 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
       $type_cotis = 1;
     } elseif ( $_REQUEST["cotiz"] == 5 ) {
       $date_fin = strtotime($date2);
-      $prix_paye = 4;
+      $prix_paye = 400;
       $type_cotis = 2;
     } else {
       $date_fin = strtotime($date2);
-      $prix_paye = 4;
+      $prix_paye = 400;
       $type_cotis = 3;
     }
 
