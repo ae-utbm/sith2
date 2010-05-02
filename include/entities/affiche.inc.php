@@ -393,6 +393,45 @@ class affiche extends stdentity
     passthru("convert -density 300x300 ".implode(' ', $fichiers)." pdf:-");
   }
 
+  /* Génère un fichier xml des affiches à afficher
+   */
+  function gen_xml(){
+    $req = new requete($this->db, "SELECT id_file, frequence_aff, horaires_aff FROM `aff_affiches`
+        WHERE date_deb < NOW()
+        AND date_fin > NOW()
+        AND modere_aff = '1'
+        ORDER BY frequence_aff DESC");
+
+    header("Content-Type: text/xml");
+    print "<presentation>\n";
+
+    if ( $req->lines < 1 )
+    {
+      $file->load_by_id(5006);
+      $fichier = $file->rev_file.'.'.$file->id_rev_file;
+      print "  <affiche>\n";
+      print "    <horaire>".$row['horaires_aff']."</horaire>";
+      print "    <fichier>".$fichier."</fichier>\n";
+      print "    <frequence>".$row['frequence_aff']."</frequence>\n";
+      print "  </affiche>\n";
+    }
+    else
+    {
+      while ($row = $req->get_row())
+      {
+        $file->load_by_id($row['id_file']);
+        $fichier = $file->rev_file.'.'.$file->id_rev_file;
+        print "  <affiche>\n";
+        print "    <horaire>".$row['horaires_aff']."</horaire>";
+        print "    <fichier>".$fichier."</fichier>\n";
+        print "    <frequence>".$row['frequence_aff']."</frequence>\n";
+        print "  </affiche>\n";
+      }
+    }
+
+    print "</presentation>\n";
+  }
+
   function decrease_frequence()
   {
     if ($this->frequence > 0)

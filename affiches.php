@@ -189,7 +189,11 @@ if ( $_REQUEST["page"] == "pdf" )
   $affiche->gen_pdf();
   exit();
 }
-
+elseif ( $_REQUEST["page"] == "xml" )
+{
+  $affiche->gen_xml();
+  exit();
+}
 
 if ( $affiche->id > 0 )
 {
