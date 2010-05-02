@@ -362,7 +362,7 @@ else
         "`asso2`.`id_asso` as `id_asso_parent` " .
         "FROM `asso` AS `asso1`" .
         "LEFT JOIN `asso` AS `asso2` ON `asso1`.`id_asso_parent`=`asso2`.`id_asso`" .
-        "AND `asso1`.`hidden`='0' ".
+        "WHERE `asso1`.`hidden`='0' ".
         "ORDER BY `asso2`.`id_asso`,`asso1`.`nom_asso` ");
 
 $site->add_contents(new treects ( "Associations", $req, 0, "id_asso", "id_asso_parent", "nom_asso" ));
