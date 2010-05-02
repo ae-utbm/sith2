@@ -412,7 +412,7 @@ class affiche extends stdentity
       $file->load_by_id(5006);
       $fichier = $file->rev_file.'.'.$file->id_rev_file;
       print "  <affiche>\n";
-      print "    <horaire>".$row['horaires_aff']."</horaire>";
+      print "    <horaire>".$row['horaires_aff']."</horaire>\n";
       print "    <fichier>".$fichier."</fichier>\n";
       print "    <frequence>".$row['frequence_aff']."</frequence>\n";
       print "  </affiche>\n";
@@ -424,7 +424,7 @@ class affiche extends stdentity
         $file->load_by_id($row['id_file']);
         $fichier = $file->rev_file.'.'.$file->id_rev_file;
         print "  <affiche>\n";
-        print "    <horaire>".$row['horaires_aff']."</horaire>";
+        print "    <horaire>".$row['horaires_aff']."</horaire>\n";
         print "    <fichier>".$fichier."</fichier>\n";
         print "    <frequence>".$row['frequence_aff']."</frequence>\n";
         print "  </affiche>\n";
