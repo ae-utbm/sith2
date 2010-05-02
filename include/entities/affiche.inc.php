@@ -405,6 +405,8 @@ class affiche extends stdentity
     header("Content-Type: text/xml");
     print "<presentation>\n";
 
+    $file = new dfile($this->db, $this->dbrw);
+
     if ( $req->lines < 1 )
     {
       $file->load_by_id(5006);
