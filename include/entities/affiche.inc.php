@@ -410,7 +410,7 @@ class affiche extends stdentity
     $nbaff = 0;
     while ($row = $req->get_row())
     {
-      if (! $file->modere)
+      if (is_null($file->modere))
         continue;
 
       $file->load_by_id($row['id_file']);
