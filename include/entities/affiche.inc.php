@@ -410,10 +410,11 @@ class affiche extends stdentity
     $nbaff = 0;
     while ($row = $req->get_row())
     {
-      if (is_null($file->modere))
+      $file->load_by_id($row['id_file']);
+
+      if (! $file->modere)
         continue;
 
-      $file->load_by_id($row['id_file']);
       $fichier = $file->id.'.'.$file->id_rev_file;
       print "  <affiche>\n";
       print "    <horaire>".$row['horaires_aff']."</horaire>\n";
