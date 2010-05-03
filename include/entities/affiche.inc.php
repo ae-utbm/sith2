@@ -407,7 +407,23 @@ class affiche extends stdentity
 
     $file = new dfile($this->db, $this->dbrw);
 
-    if ( $req->lines < 1 )
+    $nbaff = 0;
+    while ($row = $req->get_row())
+    {
+      if (! $file->modere)
+        continue;
+
+      $file->load_by_id($row['id_file']);
+      $fichier = $file->id.'.'.$file->id_rev_file;
+      print "  <affiche>\n";
+      print "    <horaire>".$row['horaires_aff']."</horaire>\n";
+      print "    <fichier>".$fichier."</fichier>\n";
+      print "    <frequence>".$row['frequence_aff']."</frequence>\n";
+      print "  </affiche>\n";
+
+      $nbaff++;
+    }
+    if ( $nbaff < 1 )
     {
       $file->load_by_id(5006);
       $fichier = $file->id.'.'.$file->id_rev_file;
@@ -416,19 +432,6 @@ class affiche extends stdentity
       print "    <fichier>".$fichier."</fichier>\n";
       print "    <frequence>".$row['frequence_aff']."</frequence>\n";
       print "  </affiche>\n";
-    }
-    else
-    {
-      while ($row = $req->get_row())
-      {
-        $file->load_by_id($row['id_file']);
-        $fichier = $file->id.'.'.$file->id_rev_file;
-        print "  <affiche>\n";
-        print "    <horaire>".$row['horaires_aff']."</horaire>\n";
-        print "    <fichier>".$fichier."</fichier>\n";
-        print "    <frequence>".$row['frequence_aff']."</frequence>\n";
-        print "  </affiche>\n";
-      }
     }
 
     print "</presentation>\n";
