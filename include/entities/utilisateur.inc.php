@@ -2206,7 +2206,8 @@ L'équipe info AE";
       "utl_joue_instru",
       "utl_parametres",
       "site_sessions",
-      "frm_sujet_utilisateur");
+      "frm_sujet_utilisateur",
+      "partenariats_utl");
 
     // Liste toutes les tables
     $req1 = new requete($this->db,"SHOW TABLES");
