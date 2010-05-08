@@ -46,7 +46,7 @@ class pdfplanning_news extends FPDF
     $this->espace = 8;
     $this->numdays = count($days);
 
-    $larg = (297 - 2*$this->xmargin - 6*10) / 7;
+    $larg = (297 - 2*$this->xmargin - 6*10) / $this->numdays;
 
     $this->positions = array('sem' => array(null,160));
 
