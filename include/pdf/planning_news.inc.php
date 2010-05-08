@@ -25,6 +25,7 @@
 define('FPDF_FONTPATH', $topdir . 'font/');
 
 require_once($topdir . "include/lib/fpdf.inc.php");
+require_once($topdir."include/entities/files.inc.php");
 
 class pdfplanning_news extends FPDF
 {

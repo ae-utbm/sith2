@@ -37,7 +37,7 @@ if ($_REQUEST['action'] == "pdf")
   require_once($topdir. "include/pdf/planning_news.inc.php");
 
   $days = array_keys($_REQUEST['news']);
-  $pdf = new pdfplanning_news($_REQUEST['title'], $days);
+  $pdf = new pdfplanning_news($site->db, $_REQUEST['title'], $days);
 
   foreach($_REQUEST['news'] as $jour => $num_textes)
   {
