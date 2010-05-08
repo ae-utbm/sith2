@@ -44,7 +44,7 @@ class pdfplanning_news extends FPDF
 
     $this->xmargin = 15;
     $this->ymargin = 10;
-    $this->espace = 8;
+    $this->espace = 6;
     $this->numdays = count($days);
     $this->db = $db;
 
@@ -59,7 +59,7 @@ class pdfplanning_news extends FPDF
     {
       if ($day != 'sem')
       {
-        $this->positions[$day] = array($posx, 20);
+        $this->positions[$day] = array($posx, 40);
         $posx += $larg + $this->espace;
       }
     }
@@ -132,7 +132,7 @@ class pdfplanning_news extends FPDF
         $this->MultiCell($w, $h, utf8_decode($texte[0]), 'LRTB', 'C', true);
       }
 
-      $this->SetX(x);
+      $this->SetX($x);
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->MultiCell($w, $h, utf8_decode($texte[1]), 'LRTB', '', true);
       $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $w);
