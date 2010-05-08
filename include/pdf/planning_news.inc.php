@@ -125,8 +125,7 @@ class pdfplanning_news extends FPDF
 
     foreach($textes as $texte)
     {
-      print_r($topdir."images/plannings/haut_".$day.".png");
-      $this->Image($topdir."images/plannings/haut_".$day.".png", null, null, $w);
+      $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $w);
 
       if ($texte[0] != '')
       {
@@ -136,7 +135,7 @@ class pdfplanning_news extends FPDF
 
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->MultiCell($w, $h, utf8_decode($texte[1]), 'LRTB', '', true);
-      $this->Image($topdir."images/plannings/bas_".$day.".png", null, null, $w);
+      $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $w);
     }
   }
 
