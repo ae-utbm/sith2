@@ -88,7 +88,7 @@ class cotisation extends stdentity
     $this->id_utilisateur = $id_utilisateur;
     $this->date_cotis = time();
     $this->date_fin_cotis = $date_fin;
-    $this->a_pris_cadeau = ($type_cotis != 1);
+    $this->a_pris_cadeau = (! in_array($type_cotis, array(0, 1, 2, 3)));
     $this->a_pris_carte = false;
     $this->mode_paiement_cotis = $mode_paiement;
     $this->prix_paye_cotis = $prix_paye;
@@ -124,9 +124,14 @@ class cotisation extends stdentity
     else
       $carte->add($this->id,$this->date_fin_cotis);
 
-    $types = array(1 => "ae_utl", 2 => "assidu_utl", 3 => "amicale_utl");
+    if ($type_cotis == 5)
+      $type_cotis_txt = "assidu_utl";
+    elseif($type_cotis == 6)
+      $type_cotis_txt = "amicale_utl";
+    else
+      $type_cotis_txt = "ae_utl";
 
-    $req = new update($this->dbrw,"utilisateurs",array($types[$type_cotis]=>true),array("id_utilisateur"=>$this->id_utilisateur));
+    $req = new update($this->dbrw,"utilisateurs",array($type_cotis_txt=>true),array("id_utilisateur"=>$this->id_utilisateur));
 
     return true;
   }
