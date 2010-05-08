@@ -105,6 +105,8 @@ class pdfplanning_news extends FPDF
     if (! in_array($day, array(1, 2, 3, 4, 5, 6, 7, 'sem')))
       return;
 
+    global $topdir;
+
     list($x, $y) = $this->positions[$day];
     list($w, $h) = $this->dimensions[$day];
     $colors = $this->colors[$day];
