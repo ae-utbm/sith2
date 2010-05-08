@@ -35,7 +35,7 @@ class pdfplanning_news extends FPDF
   var $positions;
   var $dimensions;
 
-  function pdfplanning_news($title)
+  function pdfplanning_news($title, $days)
   {
     global $topdir;
 
@@ -43,23 +43,31 @@ class pdfplanning_news extends FPDF
 
     $this->xmargin = 15;
     $this->ymargin = 10;
+    $this->espace = 8;
+    $this->numdays = count($days);
 
-    $this->positions = array( 1 => array(15,20),
-                              2 => array(54,20),
-                              3 => array(93,20),
-                              4 => array(132,20),
-                              5 => array(171,20),
-                              6 => array(210,20),
-                              7 => array(249,20),
-                              'sem' => array(null,160));
+    $larg = (297 - 2*$this->xmargin - 6*10) / 7;
 
-    $this->dimensions = array(1 => array(30,6),
-                              2 => array(30,6),
-                              3 => array(30,6),
-                              4 => array(30,6),
-                              5 => array(30,6),
-                              6 => array(30,6),
-                              7 => array(30,6),
+    $this->positions = array('sem' => array(null,160));
+
+    sort($days);
+    $posx = $this->xmargin;
+    foreach($days as $day)
+    {
+      if ($day != 'sem')
+      {
+        $this->positions[$day] = array($posx, 20);
+        $posx += $larg + $this->espace;
+      }
+    }
+
+    $this->dimensions = array(1 => array($larg,6),
+                              2 => array($larg,6),
+                              3 => array($larg,6),
+                              4 => array($larg,6),
+                              5 => array($larg,6),
+                              6 => array($larg,6),
+                              7 => array($larg,6),
                               'sem' => array(null,6));
 
     $this->colors = array ( 1 => array('r' => 255, 'g' => 0, 'b' => 0),
