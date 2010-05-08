@@ -47,7 +47,7 @@ if ($_REQUEST['action'] == "pdf")
     $pdf->add_day($jour, $textes);
   }
 
-  //$pdf->Output();
+  $pdf->Output();
   exit();
 }
 
@@ -145,22 +145,21 @@ if ($_REQUEST['action'] == "choix_even")
     $subfrm = new subform("createplaningsem", "Toute la semaine");
     while($row = $req->get_row())
     {
-      $txt = "";
-
       $time1 = strtotime($row['date_debut_eve']);
       $time2 = strtotime($row['date_fin_eve']);
 
       if (($time1 > $firstday ) && ($time2 < $lastday ))
-        $txt .= "De ".strftime("%A", $time1)." à ".strftime("%A", $time2)." : ";
+        $date = "De ".strftime("%A", $time1)." à ".strftime("%A", $time2);
       elseif ($time1 > $firstday )
-        $txt .= "À partir de ".strftime("%A", $time1)." : ";
+        $date = "À partir de ".strftime("%A", $time1);
       elseif ($time2 < $lastday )
-        $txt .= "Jusqu'à ".strftime("%A", $time2)." : ";
-
-      $txt .= $row['titre_nvl'];
+        $date = "Jusqu'à ".strftime("%A", $time2);
+      else
+        $date = "";
 
       $subfrm->add_checkbox("news[sem|".$i."]", $row['titre_nvl'], true);
-      $subfrm->add_text_field("textes[".$i."]", "", $txt, true);
+      $subfrm->add_text_field("textes[".$i."][0]", "", $txt, true);
+      $subfrm->add_text_field("textes[".$i."][1]", "", $row['titre_nvl'], true);
       $i++;
     }
 

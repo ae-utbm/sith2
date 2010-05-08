@@ -35,7 +35,7 @@ class pdfplanning_news extends FPDF
   var $positions;
   var $dimensions;
 
-  function pdfplanning_news($title, $days)
+  function pdfplanning_news($db, $title, $days)
   {
     global $topdir;
 
@@ -46,7 +46,8 @@ class pdfplanning_news extends FPDF
     $this->espace = 8;
     $this->numdays = count($days);
 
-    $larg = (297 - 2*$this->xmargin - 6*10) / $this->numdays;
+    $larg = (297 - 2*$this->xmargin - ($this->numdays-1)*$this->espace)
+          / $this->numdays;
 
     $this->positions = array('sem' => array(null,160));
 
@@ -60,8 +61,6 @@ class pdfplanning_news extends FPDF
         $posx += $larg + $this->espace;
       }
     }
-
-    print_r($this->positions);
 
     $this->dimensions = array(1 => array($larg,6),
                               2 => array($larg,6),
@@ -84,6 +83,12 @@ class pdfplanning_news extends FPDF
     $this->SetAutoPageBreak(false);
 
     $this->AddPage();
+
+    $file = new dfile($this->db, $this->dbrw);
+    $file->load_by_id(5418);
+    $this->Image($file->get_real_filename(), $this->xmargin, $this->ymargin,
+                297-2*$this->xmargin, 210-2*$this->ymargin, 'JPG');
+
 
     $this->SetFont('Arial','',24);
     $this->SetXY($this->xmargin, $this->ymargin);
@@ -108,9 +113,17 @@ class pdfplanning_news extends FPDF
     }
 
     $this->SetXY($x, $y);
-    $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
     $this->SetDrawColor($colors['r'], $colors['g'], $colors['b']);
-    $this->MultiCell($w, $h, utf8_decode(implode("\n", $textes)), 'TB', '', true);
+
+    foreach($textes as $texte)
+    {
+      $this->Image($topdir."images/plannings/haut_".$day.".png", null, null, $w);
+      $this->SetFillColor(255);
+      $this->MultiCell($w, $h, utf8_decode($texte[0]), 'LRTB', 'C', true);
+      $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
+      $this->MultiCell($w, $h, utf8_decode($texte[1]), 'LRTB', '', true);
+      $this->Image($topdir."images/plannings/bas_".$day.".png", null, null, $w);
+    }
   }
 
 }
