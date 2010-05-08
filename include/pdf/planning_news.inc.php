@@ -124,12 +124,12 @@ class pdfplanning_news extends FPDF
 
     if (in_array($day, array(1, 2, 3, 4, 5, 6, 7)))
     {
+      $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $w);
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->SetX($x);
       $daynames = array('Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi',
                         'Samedi', 'Dimanche');
       $this->MultiCell($w, $h, $daynames[$day], '1', 'C', true);
-      $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $w);
       $this->SetY($this->getY() + 3);
@@ -151,7 +151,6 @@ class pdfplanning_news extends FPDF
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->SetX($x);
       $this->MultiCell($w, $h, utf8_decode($texte[1]), '1', 'C', true);
-      $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $w);
       $this->SetY($this->getY() + 3);
