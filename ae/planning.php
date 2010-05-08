@@ -95,10 +95,12 @@ if ($_REQUEST['action'] == "choix_even")
 
     if ($req->lines > 0)
     {
+      print_r($req->lines);
       $subfrm = new subform("createplaning".date("N", $date),
                             strftime("%A %d %B", $date));
       while($row = $req->get_row())
       {
+        print_r($row);
         $txt = "";
 
         $time = strtotime($row['date_debut_eve']);
@@ -115,6 +117,8 @@ if ($_REQUEST['action'] == "choix_even")
           $txt .= " : ";
 
         $txt .= $row['titre_nvl'];
+
+        print_r($txt);
 
         $subfrm->add_checkbox("news[".date("N", $date)."|".$i."]", $row['titre_nvl'], true);
         $subfrm->add_text_field("textes[".$i."]", "", $txt, true);
