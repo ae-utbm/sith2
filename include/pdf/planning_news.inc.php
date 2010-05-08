@@ -88,7 +88,6 @@ class pdfplanning_news extends FPDF
 
     $file = new dfile($this->db, $this->dbrw);
     $file->load_by_id(5418);
-    print_r($file->get_real_filename());
     $this->Image($file->get_real_filename(), $this->xmargin, $this->ymargin,
                 297-2*$this->xmargin, 210-2*$this->ymargin, 'JPG');
 
