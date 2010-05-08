@@ -90,7 +90,7 @@ class pdfcarteae extends FPDF
   {
     global $topdir;
 
-    $this->Image($this->img_front[$infos['type_cotis']],$x,$y,$this->width,$this->height);
+    $this->Image($this->img_front[$infos['type_carte']],$x,$y,$this->width,$this->height);
 
     $src = "../var/img/matmatronch/".$infos['id'].".identity.jpg";
 
@@ -111,7 +111,7 @@ class pdfcarteae extends FPDF
 
   function render_back ( $x, $y, $infos )
   {
-    $this->Image($this->img_back[$infos['type_cotis']],$x,$y,$this->width,$this->height);
+    $this->Image($this->img_back[$infos['type_carte']],$x,$y,$this->width,$this->height);
 
     $cbar = new PDF_C128AObject($this->pos['cbar']['w'], $this->pos['cbar']['h'],
             BCS_ALIGN_CENTER | BCS_DRAW_TEXT,
@@ -174,12 +174,19 @@ class pdfcarteae extends FPDF
 
     while ( $row= $req->get_row())
     {
+      if ($infos['type_cotis'] == 5)
+        $type_carte = 2;
+      elseif($infos['type_cotis'] == 6)
+        $type_carte = 3;
+      else
+        $type_carte = 1;
 
       $users[$i]["id"] = $row["id_utilisateur"];
       $users[$i]["nom"] = $row["nom_utl"];
       $users[$i]["prenom"] = $row["prenom_utl"];
       $users[$i]["surnom"] = $row["surnom_utbm"];
-      $users[$i]["type_cotis"] = $row["type_cotis"];
+      $users[$i]["type_carte"] = $type_carte;
+
       $fsem = $this->semestre(strtotime($row["date_fin_cotis"]));
       $sem = $this->semestre(time());
 

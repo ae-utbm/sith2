@@ -77,6 +77,7 @@ class cotisation extends stdentity
     $this->a_pris_carte      = $row['a_pris_carte'];
     $this->mode_paiement_cotis  = $row['mode_paiement_cotis'];
     $this->prix_paye_cotis    = $row['prix_paye_cotis'];
+    $this->type_cotis = $row['type_paye_cotis'];
 
   }
 

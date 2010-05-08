@@ -120,7 +120,16 @@ function add_new_form($id = null)
   $frm->add_info("&nbsp;");
 
   $sub_frm_cotiz = new form("cotisation",null,null,null,"Cotisation");
-  $sub_frm_cotiz->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, jusqu'au $date1", 1=>"2 Semestres, 28 Euros, jusqu'au $date2", 2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3", 3 => "Cursus Branche, 45 €, jusqu'au $date4", 4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2", 5 => "Cotisation par Assidu, 4€, jusqu'au $date2", 6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2"),1);
+  $sub_frm_cotiz->add_select_field("cotiz","Cotisation",
+      array(  0 => "1 Semestre, 15 Euros, $date1",
+              1 => "2 Semestres, 28 Euros, $date2",
+              2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3",
+              3 => "Cursus Branche, 45 €, jusqu'au $date4",
+              4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2",
+              5 => "Cotisation par Assidu, 4€, jusqu'au $date2",
+              6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2",
+              7 => "Cotisation inter UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire")
+      ,1);
   $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
   $sub_frm_cotiz->add_info("&nbsp;");
 
@@ -265,35 +274,32 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     if ( $_REQUEST["cotiz"] == 0 ) {
       $date_fin = strtotime($date1);
       $prix_paye = 1500;
-      $type_cotis = 1;
     } elseif ( $_REQUEST["cotiz"] == 1 ) {
       $date_fin = strtotime($date2);
       $prix_paye = 2800;
-      $type_cotis = 1;
     } elseif ( $_REQUEST["cotiz"] == 2 ) {
       $date_fin = strtotime($date3);
       $prix_paye = 4500;
-      $type_cotis = 1;
     } elseif ( $_REQUEST["cotiz"] == 3 ) {
       $date_fin = strtotime($date4);
       $prix_paye = 4500;
-      $type_cotis = 1;
     } elseif ( $_REQUEST["cotiz"] == 4 ) {
       $date_fin = strtotime($date2);
       $prix_paye = 0;
-      $type_cotis = 1;
     } elseif ( $_REQUEST["cotiz"] == 5 ) {
       $date_fin = strtotime($date2);
       $prix_paye = 400;
-      $type_cotis = 2;
-    } else {
+    } elseif ( $_REQUEST["cotiz"] == 6 ) {
       $date_fin = strtotime($date2);
       $prix_paye = 400;
-      $type_cotis = 3;
+    }
+    elseif ( $_REQUEST["cotiz"] == 7 ) {
+      $date_fin = strtotime($date1);
+      $prix_paye = 0;
     }
 
     $cotisation->load_lastest_by_user ( $user->id );
-    $cotisation->add ( $user->id, $date_fin, $_REQUEST["paiement"], $prix_paye, $type_cotis );
+    $cotisation->add ( $user->id, $date_fin, $_REQUEST["paiement"], $prix_paye, $_REQUEST["cotiz"] );
 
     $a_pris_cadeau = $_REQUEST["cadeau"] == true;
 
@@ -471,7 +477,16 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
       $frm = new form("newcotiz","cotisations.php?id_utilisateur=".$user->id,true,"POST","Nouvelle cotisation");
       $frm->add_hidden("action","newcotiz");
-      $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2", 2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3", 3 => "Cursus Branche, 45 €, jusqu'au $date4", 4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2", 5 => "Cotisation par Assidu, 4€, jusqu'au $date2", 6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2"),1);
+      $frm->add_select_field("cotiz","Cotisation",
+          array(  0 => "1 Semestre, 15 Euros, $date1",
+                  1 => "2 Semestres, 28 Euros, $date2",
+                  2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3",
+                  3 => "Cursus Branche, 45 €, jusqu'au $date4",
+                  4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2",
+                  5 => "Cotisation par Assidu, 4€, jusqu'au $date2",
+                  6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2",
+                  7 => "Cotisation inter UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire")
+          ,1);
       $frm->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
       $frm->add_checkbox("a_pris_cadeau","Cadeau distribué",false);
