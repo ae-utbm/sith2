@@ -74,14 +74,13 @@ if ($_REQUEST['action'] == "choix_even")
   $date = $firstday;
   $i = 0;
 
-  print_r($date."<br /><br />\n");
   do
   {
     /* On ne cherche que dans les nouvelles ponctuelles ou répétitives
      * si elles ont commencées avant le jour concerné, elles doivent se finir après 10h00
      */
-    $req = new requete($site->db, "
-      SELECT id_nouvelle, titre_nvl, date_debut_eve, id_lieu, nom_lieu
+    $req = new requete($site->db,
+      "SELECT id_nouvelle, titre_nvl, date_debut_eve, id_lieu, nom_lieu
       FROM `nvl_dates`
       INNER JOIN `nvl_nouvelles` USING (`id_nouvelle`)
       LEFT JOIN `loc_lieu` USING ( `id_lieu` )
@@ -95,15 +94,12 @@ if ($_REQUEST['action'] == "choix_even")
         )
         AND `type_nvl` IN ( 1, 2 )", 1);
 
-    print_r($date."<br />\n");
-    print_r($req->lines."<br />\n");
     if ($req->lines > 0)
     {
       $subfrm = new subform("createplaning".date("N", $date),
                             strftime("%A %d %B", $date));
       while($row = $req->get_row())
       {
-        print_r($row);
         $txt = "";
 
         $time = strtotime($row['date_debut_eve']);
@@ -120,8 +116,6 @@ if ($_REQUEST['action'] == "choix_even")
           $txt .= " : ";
 
         $txt .= $row['titre_nvl'];
-
-        print_r($txt);
 
         $subfrm->add_checkbox("news[".date("N", $date)."|".$i."]", $row['titre_nvl'], true);
         $subfrm->add_text_field("textes[".$i."]", "", $txt, true);
