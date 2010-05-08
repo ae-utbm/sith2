@@ -47,7 +47,7 @@ if ($_REQUEST['action'] == "pdf")
     $pdf->add_day($jour, $textes);
   }
 
-  //$pdf->Output();
+  $pdf->Output();
   exit();
 }
 
