@@ -61,6 +61,8 @@ class pdfplanning_news extends FPDF
       }
     }
 
+    print_r($this->positions);
+
     $this->dimensions = array(1 => array($larg,6),
                               2 => array($larg,6),
                               3 => array($larg,6),
