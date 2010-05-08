@@ -38,7 +38,7 @@ if ($_REQUEST['action'] == "pdf")
 
   $days = array();
 
-  print_r($days);
+  print_r($_REQUEST['news']);
 
   foreach($_REQUEST['news'] as $jour => $num_textes)
   {
