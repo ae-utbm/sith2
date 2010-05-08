@@ -73,6 +73,8 @@ if ($_REQUEST['action'] == "choix_even")
   */
   $date = $firstday;
   $i = 0;
+
+  print_r($date."<br /><br />\n");
   do
   {
     /* On ne cherche que dans les nouvelles ponctuelles ou répétitives
@@ -93,9 +95,10 @@ if ($_REQUEST['action'] == "choix_even")
         )
         AND `type_nvl` IN ( 1, 2 )", 1);
 
+    print_r($date."<br />\n");
+    print_r($req->lines."<br />\n");
     if ($req->lines > 0)
     {
-      print_r($req->lines);
       $subfrm = new subform("createplaning".date("N", $date),
                             strftime("%A %d %B", $date));
       while($row = $req->get_row())
