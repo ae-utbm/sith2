@@ -46,6 +46,7 @@ class pdfplanning_news extends FPDF
     $this->ymargin = 10;
     $this->espace = 8;
     $this->numdays = count($days);
+    $this->db = $db;
 
     $larg = (297 - 2*$this->xmargin - ($this->numdays-1)*$this->espace)
           / $this->numdays;
@@ -87,6 +88,7 @@ class pdfplanning_news extends FPDF
 
     $file = new dfile($this->db, $this->dbrw);
     $file->load_by_id(5418);
+    print_r($file->get_real_filename());
     $this->Image($file->get_real_filename(), $this->xmargin, $this->ymargin,
                 297-2*$this->xmargin, 210-2*$this->ymargin, 'JPG');
 
@@ -100,6 +102,9 @@ class pdfplanning_news extends FPDF
 
   function add_day($day, $textes)
   {
+    if (! in_array($day, array(1, 2, 3, 4, 5, 6, 7, 'sem')))
+      return;
+
     list($x, $y) = $this->positions[$day];
     list($w, $h) = $this->dimensions[$day];
     $colors = $this->colors[$day];
@@ -118,6 +123,7 @@ class pdfplanning_news extends FPDF
 
     foreach($textes as $texte)
     {
+      print_r($topdir."images/plannings/haut_".$day.".png");
       $this->Image($topdir."images/plannings/haut_".$day.".png", null, null, $w);
 
       if ($texte[0] != '')
