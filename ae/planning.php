@@ -101,25 +101,22 @@ if ($_REQUEST['action'] == "choix_even")
                             strftime("%A %d %B", $date));
       while($row = $req->get_row())
       {
-        $txt = "";
+        $date_ev = "";
 
         $time = strtotime($row['date_debut_eve']);
         if ($time > $date)
-          $txt .= date("G:i", $time);
+          $date_ev .= date("G:i", $time);
 
         if ($row['id_lieu'] != null)
         {
-          if ($txt != "")
-            $txt .= ", ";
-          $txt .= $row['nom_lieu']." : ";
+          if ($date_ev != "")
+            $date_ev .= ", ";
+          $date_ev .= $row['nom_lieu'];
         }
-        elseif ($txt != "")
-          $txt .= " : ";
-
-        $txt .= $row['titre_nvl'];
 
         $subfrm->add_checkbox("news[".date("N", $date)."|".$i."]", $row['titre_nvl'], true);
-        $subfrm->add_text_field("textes[".$i."]", "", $txt, true);
+        $subfrm->add_text_field("textes[".$i."][0]", "", $date_ev, true);
+        $subfrm->add_text_field("textes[".$i."][1]", "", $row['titre_nvl'], true);
         $i++;
       }
 
@@ -149,16 +146,16 @@ if ($_REQUEST['action'] == "choix_even")
       $time2 = strtotime($row['date_fin_eve']);
 
       if (($time1 > $firstday ) && ($time2 < $lastday ))
-        $date = "De ".strftime("%A", $time1)." à ".strftime("%A", $time2);
+        $date_ev = "De ".strftime("%A", $time1)." à ".strftime("%A", $time2);
       elseif ($time1 > $firstday )
-        $date = "À partir de ".strftime("%A", $time1);
+        $date_ev = "À partir de ".strftime("%A", $time1);
       elseif ($time2 < $lastday )
-        $date = "Jusqu'à ".strftime("%A", $time2);
+        $date_ev = "Jusqu'à ".strftime("%A", $time2);
       else
-        $date = "";
+        $date_ev = "";
 
       $subfrm->add_checkbox("news[sem|".$i."]", $row['titre_nvl'], true);
-      $subfrm->add_text_field("textes[".$i."][0]", "", $txt, true);
+      $subfrm->add_text_field("textes[".$i."][0]", "", $date_ev, true);
       $subfrm->add_text_field("textes[".$i."][1]", "", $row['titre_nvl'], true);
       $i++;
     }
