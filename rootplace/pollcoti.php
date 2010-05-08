@@ -67,7 +67,7 @@ $cts->add_paragraph($req->lines." utilisateurs de plus sont désormais cotisants
 $req = new requete($site->dbrw,"UPDATE `utilisateurs` SET `ae_utl`='0' " .
     "WHERE `ae_utl`='1' AND NOT EXISTS(SELECT * FROM `ae_cotisations` " .
       "WHERE `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
-      "AND (type_cotis IN ('0', '1', '2', '3', '4', '7') OR type_cotis IN NULL)" .
+      "AND (type_cotis IN ('0', '1', '2', '3', '4', '7') OR type_cotis IS NULL) " .
       "AND `date_fin_cotis` > NOW())");
 
 $cts->add_paragraph($req->lines." utilisateurs ne sont plus cotisants AE");
