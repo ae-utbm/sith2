@@ -88,8 +88,8 @@ class pdfplanning_news extends FPDF
 
     $file = new dfile($this->db, $this->dbrw);
     $file->load_by_id(5418);
-    $this->Image($file->get_real_filename(), $this->xmargin, $this->ymargin,
-                297-2*$this->xmargin, 210-2*$this->ymargin, 'JPG');
+    $this->Image($file->get_real_filename(), $this->xmargin/2, $this->ymargin/2,
+                297-$this->xmargin, 210-$this->ymargin, 'JPG');
 
 
     $this->SetFont('Arial','',24);
@@ -132,6 +132,7 @@ class pdfplanning_news extends FPDF
         $this->MultiCell($w, $h, utf8_decode($texte[0]), 'LRTB', 'C', true);
       }
 
+      $this->SetX(x);
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->MultiCell($w, $h, utf8_decode($texte[1]), 'LRTB', '', true);
       $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $w);
