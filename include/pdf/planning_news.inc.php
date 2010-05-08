@@ -98,8 +98,9 @@ class pdfplanning_news extends FPDF
     }
 
     $this->SetXY($x, $y);
+    $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
     $this->SetDrawColor($colors['r'], $colors['g'], $colors['b']);
-    $this->MultiCell($w, $h, utf8_decode(implode("\n", $textes)), '', '', true);
+    $this->MultiCell($w, $h, utf8_decode(implode("\n", $textes)), 'TB', '', true);
   }
 
 }
