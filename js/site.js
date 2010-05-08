@@ -911,14 +911,14 @@ select_box.prototype = {
 
     for(var i = from.length-1; i >= 0; i--){
       if(from.options[i].selected){
-        content[count] = from.options[i].text;
+        contents[count] = from.options[i].text;
         values[count] = from.options[i].value;
         this.remove_from(from, i);
         count++;
       }
     }
     for(i = count-1; i >= 0; i--){
-      this.add_to(to, content[i], values[i], from);
+      this.add_to(to, contents[i], values[i], from);
     }
   },
 
