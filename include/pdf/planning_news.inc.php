@@ -124,18 +124,21 @@ class pdfplanning_news extends FPDF
 
     foreach($textes as $texte)
     {
+      $this->SetX($x);
       $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $w);
 
       if ($texte[0] != '')
       {
         $this->SetFillColor(255);
-        $this->MultiCell($w, $h, utf8_decode($texte[0]), 'LRTB', 'C', true);
         $this->SetX($x);
+        $this->MultiCell($w, $h, utf8_decode($texte[0]), 'LRTB', 'C', true);
       }
 
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->SetX($x);
       $this->MultiCell($w, $h, utf8_decode($texte[1]), 'LRTB', '', true);
+      $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
+      $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $w);
     }
   }
