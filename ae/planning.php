@@ -92,7 +92,7 @@ if ($_REQUEST['action'] == "choix_even")
           (date_debut_eve < '".date("Y-m-d", $date)." 00:00'
           AND date_fin_eve > '".date("Y-m-d", $date)." 10:00')
         )
-        AND `type_nvl` IN ( 1, 2 )", 1);
+        AND `type_nvl` IN ( 1, 2 )");
 
     if ($req->lines > 0)
     {

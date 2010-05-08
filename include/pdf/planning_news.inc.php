@@ -45,22 +45,31 @@ class pdfplanning_news extends FPDF
     $this->ymargin = 10;
 
     $this->positions = array( 1 => array(15,20),
-                              2 => array(50,90),
-                              3 => array(86,20),
-                              4 => array(121,90),
-                              5 => array(157,20),
-                              6 => array(192,90),
-                              7 => array(228,20),
+                              2 => array(54,20),
+                              3 => array(93,20),
+                              4 => array(132,20),
+                              5 => array(171,20),
+                              6 => array(210,20),
+                              7 => array(249,20),
                               'sem' => array(null,160));
 
-    $this->dimensions = array(1 => array(55,9),
-                              2 => array(55,9),
-                              3 => array(55,9),
-                              4 => array(55,9),
-                              5 => array(55,9),
-                              6 => array(55,9),
-                              7 => array(55,9),
-                              'sem' => array(null,9));
+    $this->dimensions = array(1 => array(30,6),
+                              2 => array(30,6),
+                              3 => array(30,6),
+                              4 => array(30,6),
+                              5 => array(30,6),
+                              6 => array(30,6),
+                              7 => array(30,6),
+                              'sem' => array(null,6));
+
+    $this->colors = array ( 1 => array('r' => 255, 'g' => 0, 'b' => 0),
+                            2 => array('r' => 255, 'g' => 255, 'b' => 0),
+                            3 => array('r' => 0, 'g' => 255, 'b' => 0),
+                            4 => array('r' => 0, 'g' => 255, 'b' => 255),
+                            5 => array('r' => 0, 'g' => 0, 'b' => 255),
+                            6 => array('r' => 255, 'g' => 0, 'b' => 255),
+                            7 => array('r' => 255, 'g' => 127, 'b' => 127),
+                            'sem' => array('r' => 127, 'g' => 127, 'b' => 255));
 
     $this->SetAutoPageBreak(false);
 
@@ -77,6 +86,7 @@ class pdfplanning_news extends FPDF
   {
     list($x, $y) = $this->positions[$day];
     list($w, $h) = $this->dimensions[$day];
+    $colors = $this->colors[$day];
 
     if (($x == null) || ($w == null))
     {
@@ -88,7 +98,8 @@ class pdfplanning_news extends FPDF
     }
 
     $this->SetXY($x, $y);
-    $this->MultiCell($w, $h, utf8_decode(implode("\n", $textes)));
+    $this->SetDrawColor($colors['r'], $colors['g'], $colors['b']);
+    $this->MultiCell($w, $h, utf8_decode(implode("\n", $textes)), '', '', true);
   }
 
 }
