@@ -75,7 +75,7 @@ if ($_REQUEST['action'] == "choix_even")
   $frm = new form ("createplaning", "planning.php", false, "POST", "Création d'un planning");
   $frm->add_hidden("action", "pdf");
   $frm->add_hidden("date", $firstday);
-  $frm->add_text_field("title", "Titre", $title, true);
+  $frm->add_text_field("title", "Titre", $title, true, 80);
 
   /* Pour chaque jour on permet de choisir parmis la liste des nouvelles
   */
@@ -123,8 +123,8 @@ if ($_REQUEST['action'] == "choix_even")
         }
 
         $subfrm->add_checkbox("news[".date("N", $date)."|".$i."]", $row['titre_nvl'], true);
-        $subfrm->add_text_field("textes[".$i."][0]", "", $date_ev, true);
-        $subfrm->add_text_field("textes[".$i."][1]", "", $row['titre_nvl'], true);
+        $subfrm->add_text_field("textes[".$i."][0]", "", $date_ev, true, 80);
+        $subfrm->add_text_field("textes[".$i."][1]", "", $row['titre_nvl'], true, 80);
         $subfrm->add_hidden("textes[".$i."][2]", $row['type_nvl']);
         $i++;
       }
@@ -164,8 +164,8 @@ if ($_REQUEST['action'] == "choix_even")
         $date_ev = "";
 
       $subfrm->add_checkbox("news[sem|".$i."]", $row['titre_nvl'], true);
-      $subfrm->add_text_field("textes[".$i."][0]", "", $date_ev, true);
-      $subfrm->add_text_field("textes[".$i."][1]", "", $row['titre_nvl'], true);
+      $subfrm->add_text_field("textes[".$i."][0]", "", $date_ev, true, 80);
+      $subfrm->add_text_field("textes[".$i."][1]", "", $row['titre_nvl'], true, 80);
       $subfrm->add_hidden("textes[".$i."][2]", "0");
       $i++;
     }
@@ -175,18 +175,18 @@ if ($_REQUEST['action'] == "choix_even")
 
   $file = new dfile($site->db);
   $file->load_by_id(5418);
-  $subfrm = new subform("createplaningopt", "Options");
+  $subfrm = new subform("createplaningopt", "Options", false);
   $subfrm->add_text_field("xmargin", "Marge horizontale (boîtes)", "10", true);
   $subfrm->add_text_field("ymargin", "Marge verticale (boîtes)", "15", true);
   $subfrm->add_text_field("xmargin_b", "Marge horizontale (fond)", "5", true);
   $subfrm->add_text_field("ymargin_b", "Marge verticale (fond)", "7", true);
-  $subfrm->add_text_field("title_h", "Marge pour le titre", "15", true);
+  $subfrm->add_text_field("title_h", "Marge pour le titre", "30", true);
   $subfrm->add_text_field("title_fontsize", "Taille du titre", "24", true);
-  $subfrm->add_text_field("cell_h", "Interligne des boîtes", "4", true);
+  $subfrm->add_text_field("cell_h", "Interligne des boîtes", "12", true);
   $subfrm->add_text_field("fontsize", "Taille de la police", "8", true);
-  $subfrm->add_text_field("space", "Espacement horizontal (boîtes)", "3", true);
-  $subfrm->add_text_field("vspace", "Espacement vertical (boîtes)", "2", true);
-  $subfrm->add_text_field("section_space", "Espacement vertical (sections)", "5", true);
+  $subfrm->add_text_field("space", "Espacement horizontal (boîtes)", "12", true);
+  $subfrm->add_text_field("vspace", "Espacement vertical (boîtes)", "12", true);
+  $subfrm->add_text_field("section_space", "Espacement vertical (sections)", "15", true);
   $subfrm->add_entity_smartselect("background_file", "Image de fond", $file, true);
   $frm->addsub($subfrm, true);
 
