@@ -36,15 +36,13 @@ if ($_REQUEST['action'] == "pdf")
 {
   require_once($topdir. "include/pdf/planning_news.inc.php");
 
-  $days = array_keys($_REQUEST['news']);
-  $pdf = new pdfplanning_news($site->db, $_REQUEST['title'], $days);
+  $pdf = new pdfplanning_news($site->db, $_REQUEST['title']);
 
   foreach($_REQUEST['news'] as $jour => $num_textes)
   {
     $textes = array();
     foreach($num_textes as $num_texte => $bleh)
-      $textes[] = $_REQUEST['textes'][$num_texte];
-    $pdf->add_day($jour, $textes);
+      $pdf->add_texte($jour, $_REQUEST['textes'][$num_texte]);
   }
 
   $pdf->Output();
@@ -81,7 +79,7 @@ if ($_REQUEST['action'] == "choix_even")
      * si elles ont commencées avant le jour concerné, elles doivent se finir après 10h00
      */
     $req = new requete($site->db,
-      "SELECT id_nouvelle, titre_nvl, date_debut_eve, id_lieu, nom_lieu
+      "SELECT id_nouvelle, titre_nvl, date_debut_eve, id_lieu, nom_lieu, type_nvl
       FROM `nvl_dates`
       INNER JOIN `nvl_nouvelles` USING (`id_nouvelle`)
       LEFT JOIN `loc_lieu` USING ( `id_lieu` )
@@ -93,7 +91,8 @@ if ($_REQUEST['action'] == "choix_even")
           (date_debut_eve < '".date("Y-m-d", $date)." 00:00'
           AND date_fin_eve > '".date("Y-m-d", $date)." 10:00')
         )
-        AND `type_nvl` IN ( 1, 2 )");
+        AND `type_nvl` IN ( 1, 2 )
+        ORDER BY type_nvl, date_debut_eve");
 
     if ($req->lines > 0)
     {
@@ -117,6 +116,7 @@ if ($_REQUEST['action'] == "choix_even")
         $subfrm->add_checkbox("news[".date("N", $date)."|".$i."]", $row['titre_nvl'], true);
         $subfrm->add_text_field("textes[".$i."][0]", "", $date_ev, true);
         $subfrm->add_text_field("textes[".$i."][1]", "", $row['titre_nvl'], true);
+        $subfrm->add_hidden("textes[".$i."][2]", $row['type_nvl']);
         $i++;
       }
 
@@ -157,6 +157,7 @@ if ($_REQUEST['action'] == "choix_even")
       $subfrm->add_checkbox("news[sem|".$i."]", $row['titre_nvl'], true);
       $subfrm->add_text_field("textes[".$i."][0]", "", $date_ev, true);
       $subfrm->add_text_field("textes[".$i."][1]", "", $row['titre_nvl'], true);
+      $subfrm->add_hidden("textes[".$i."][2]", "0");
       $i++;
     }
 
@@ -182,5 +183,8 @@ else
 }
 
 $site->end_page();
+
+// TODO : tailles paramètrables
+// TODO : fond paramètrable
 
 ?>
