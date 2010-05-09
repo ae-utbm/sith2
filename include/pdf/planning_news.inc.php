@@ -232,7 +232,7 @@ class pdfplanning_news extends FPDF
     $this->Rect($x, $y, $w, $h*count($lignes), 'FD');
 
     foreach($lignes as $ligne)
-      $this->Cell($w, $h, $ligne, 0, 1, 'C');
+      $this->Cell($w, $h, $ligne, 0, 2, 'C');
   }
 
 }
