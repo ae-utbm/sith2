@@ -80,7 +80,6 @@ class pdfplanning_news extends FPDF
     $this->Cell($this->w-($this->xmargin*2), $this->ymargin, utf8_decode($title), 0, 0, "C");
 
     $this->SetFont('Arial','',8);
-    $this->SetLineWidth(2);
   }
 
   function render()
@@ -122,7 +121,7 @@ class pdfplanning_news extends FPDF
       $this->SetDrawColor($colors['r'], $colors['g'], $colors['b']);
       $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $this->larg);
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
-      $this->MultiCell($this->larg, $this->cell_h, $daynames[$day], 'TB', 'C', true);
+      $this->MultiCell($this->larg, $this->cell_h, $daynames[$day], '', 'C', true);
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
 
@@ -155,12 +154,12 @@ class pdfplanning_news extends FPDF
         {
           $this->SetFillColor(255);
           $this->SetX($x);
-          $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[0]), 'TB', 'C', true);
+          $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[0]), '', 'C', true);
         }
 
         $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
         $this->SetX($x);
-        $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]), 'TB', 'C', true);
+        $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]), '', 'C', true);
         $this->SetX($x);
         $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
         $this->SetY($this->getY() + 3);
@@ -192,12 +191,12 @@ class pdfplanning_news extends FPDF
       {
         $this->SetFillColor(255);
         $this->SetX($x);
-        $this->MultiCell($w, $this->cell_h, utf8_decode($texte[0]), '1', 'C', true);
+        $this->MultiCell($w, $this->cell_h, utf8_decode($texte[0]), '', 'C', true);
       }
 
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->SetX($x);
-      $this->MultiCell($w, $this->cell_h, utf8_decode($texte[1]), 'TB', 'C', true);
+      $this->MultiCell($w, $this->cell_h, utf8_decode($texte[1]), '', 'C', true);
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_sem.gif", null, null, $w);
       $this->SetY($this->getY() + 3);
