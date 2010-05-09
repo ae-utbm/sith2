@@ -216,11 +216,11 @@ class pdfplanning_news extends FPDF
 
     foreach($mots as $mot)
     {
-      if ($this->GetStringWidth($ligne + " " + $mot) <= $w)
+      if ($this->GetStringWidth($ligne . " " . $mot) <= $w)
       {
         if ($ligne != "")
-          $ligne += " ";
-        $ligne += $mot;
+          $ligne .= " ";
+        $ligne .= $mot;
       }
       else
       {
