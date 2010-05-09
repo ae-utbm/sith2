@@ -155,12 +155,12 @@ class pdfplanning_news extends FPDF
         {
           $this->SetFillColor(255);
           $this->SetX($x);
-          $this->myMultiCell($this->larg, $this->cell_h, utf8_decode($texte[0]), '', 'C', true);
+          $this->myMultiCell($this->larg, $this->cell_h, utf8_decode($texte[0]));
         }
 
         $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
         $this->SetX($x);
-        $this->myMultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]), '', 'C', true);
+        $this->myMultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]));
         $this->SetX($x);
         $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
         $this->SetY($this->getY() + $this->vspace);
@@ -196,7 +196,7 @@ class pdfplanning_news extends FPDF
 
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->SetX($x);
-      $this->myMultiCell($w, $this->cell_h, utf8_decode($texte), '', 'C', true);
+      $this->myMultiCell($w, $this->cell_h, utf8_decode($texte));
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_sem.gif", null, null, $w);
       $this->SetY($this->getY() + $this->vspace);
@@ -216,16 +216,20 @@ class pdfplanning_news extends FPDF
     foreach($mots as $mot)
     {
       if ($this->GetStringWidth($ligne + " " + $mot) <= $w)
-        $ligne += " " + $mot;
+      {
+        if ($ligne != "")
+          $ligne += " ";
+        $ligne += $mot;
+      }
       else
       {
-        $ligne = $mot;
         $lignes[] = $ligne;
+        $ligne = $mot;
       }
     }
     $lignes[] = $ligne;
 
-    $this->Rect($x, $y, $w, $h*count($lignes));
+    $this->Rect($x, $y, $w, $h*count($lignes), 'FD');
 
     foreach($lignes as $ligne)
       $this->Cell($w, $h, $ligne, 0, 1, 'C');
