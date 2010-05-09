@@ -80,6 +80,7 @@ class pdfplanning_news extends FPDF
     $this->Cell($this->w-($this->xmargin*2), $this->ymargin, utf8_decode($title), 0, 0, "C");
 
     $this->SetFont('Arial','',8);
+    $this->SetLineWidth(2);
   }
 
   function render()
@@ -122,6 +123,7 @@ class pdfplanning_news extends FPDF
       $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $this->larg);
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->MultiCell($this->larg, $this->cell_h, $daynames[$day], '1', 'C', true);
+      $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
 
       $x += $this->larg + $this->espace;
