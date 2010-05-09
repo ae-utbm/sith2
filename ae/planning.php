@@ -45,6 +45,7 @@ if ($_REQUEST['action'] == "pdf")
       $pdf->add_texte($jour, $_REQUEST['textes'][$num_texte]);
   }
 
+  $pdf->render();
   $pdf->Output();
   exit();
 }
