@@ -71,7 +71,7 @@ class pdfplanning_news extends FPDF
 
     $file = new dfile($this->db, $this->dbrw);
     $file->load_by_id($this->background_file);
-    $this->Image($file->get_real_filename(), $this->xmargin, $this->ymargin,
+    $this->Image($file->get_real_filename(), $this->xmargin_b, $this->ymargin_b,
                 $this->w-$this->xmargin_b*2, $this->h-$this->ymargin_b*2,
                 substr(strrchr($file->nom_fichier, '.'), 1));
 
@@ -115,15 +115,13 @@ class pdfplanning_news extends FPDF
     $x = $this->xmargin;
     foreach($this->days as $day)
     {
-      $this->SetX($x);
-      $this->SetY($ymargin);
+      $colors = $this->colors[$day];
 
-      $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $this->larg);
+      $this->Image($topdir."images/plannings/haut_".$day.".gif", $x, $y, $this->larg);
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
-      $this->SetX($x);
+      $this->SetXY($x, $ymargin);
       $this->MultiCell($this->larg, $this->cell_h, $daynames[$day], '1', 'C', true);
-      $this->SetX($x);
-      $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
+      $this->Image($topdir."images/plannings/bas_".$day.".gif", $x, $y, $this->larg);
 
       $x += $this->larg + $this->espace;
     }
