@@ -65,27 +65,8 @@ class pdfplanning_news extends FPDF
     $this->evenements = array();
     $this->reguliers = array();
     $this->semaine = array();
-  }
-
-  function render()
-  {
-    $endpos = $self->render_days($this->reguliers, $this->ymargin + $this->title_h);
-    $endpos = $self->render_days($this->evenements, $endpos + $this->section_space);
-    $self->render_week($this->semaine, $endpos + $this->section_space);
-
-  }
-
-  function calc_dimensions()
-  {
-    $days = sort(array_unique(array_merge(array_keys($this->evenements), array_keys($this->reguliers))));
-    print_r($days);
-
-    $numdays = count($days);
-
-    $this->larg = ($this->w - 2*$this->xmargin - ($numdays-1)*$this->espace) / $numdays;
 
     $this->SetAutoPageBreak(false);
-
     $this->AddPage();
 
     $file = new dfile($this->db, $this->dbrw);
@@ -99,6 +80,21 @@ class pdfplanning_news extends FPDF
     $this->Cell($this->w-($this->xmargin*2), $this->ymargin, utf8_decode($title), 0, 0, "C");
 
     $this->SetFont('Arial','',8);
+  }
+
+  function render()
+  {
+    $days = sort(array_unique(array_merge(array_keys($this->evenements), array_keys($this->reguliers))));
+    print_r($days);
+
+    $numdays = count($days);
+
+    $this->larg = ($this->w - 2*$this->xmargin - ($numdays-1)*$this->espace) / $numdays;
+
+    $endpos = $self->render_days($this->reguliers, $this->ymargin + $this->title_h);
+    $endpos = $self->render_days($this->evenements, $endpos + $this->section_space);
+    $self->render_week($this->semaine, $endpos + $this->section_space);
+
   }
 
   function add_texte($day, $texte)
