@@ -42,15 +42,18 @@ class pdfplanning_news extends FPDF
 
     $this->FPDF("L", "pt");
 
-    $this->xmargin = 40;
-    $this->ymargin = 30;
-    $this->xmargin_b = 20;
-    $this->ymargin_b = 15;
-    $this->title_h = 50;
-    $this->cell_h = 14;
-    $this->space = 11;
-    $this->vspace = 8;
-    $this->section_space = 20;
+    $this->title = $title;
+    $this->xmargin = 10;
+    $this->ymargin = 15;
+    $this->xmargin_b = 5;
+    $this->ymargin_b = 7;
+    $this->title_h = 15;
+    $this->title_fontsize = 24;
+    $this->cell_h = 4;
+    $this->fontsize = 8;
+    $this->space = 3;
+    $this->vspace = 2;
+    $this->section_space = 5;
     $this->db = $db;
     $this->background_file = 5418;
 
@@ -69,22 +72,39 @@ class pdfplanning_news extends FPDF
 
     $this->SetAutoPageBreak(false);
     $this->AddPage();
+  }
 
-    $file = new dfile($this->db, $this->dbrw);
-    $file->load_by_id($this->background_file);
-    $this->Image($file->get_real_filename(), $this->xmargin_b, $this->ymargin_b,
-                $this->w-$this->xmargin_b*2, $this->h-$this->ymargin_b*2,
-                substr(strrchr($file->nom_fichier, '.'), 1));
-
-    $this->SetFont('Arial','',24);
-    $this->SetXY($this->xmargin, $this->ymargin);
-    $this->Cell($this->w-($this->xmargin*2), $this->ymargin, utf8_decode($title), 0, 0, "C");
-
-    $this->SetFont('Arial','',8);
+  function set_options($xmargin, $ymargin, $xmargin_b, $ymargin_b, $title_h, $title_fontsize, $cell_h, $fontsize, $space, $vspace, $section_space, $background_file)
+  {
+    $this->xmargin = $xmargin;
+    $this->ymargin = $ymargin;
+    $this->xmargin_b = $xmargin_b;
+    $this->ymargin_b = $ymargin_b;
+    $this->title_h = $title_h;
+    $this->title_fontsize = $title_fontsize;
+    $this->cell_h = $cell_h;
+    $this->fontsize = $fontsize;
+    $this->space = $space;
+    $this->vspace = $vspace;
+    $this->section_space = $section_space;
+    $this->background_file = $background_file;
   }
 
   function render()
   {
+    $file = new dfile($this->db, $this->dbrw);
+    $file->load_by_id($this->ibackground_file);
+    if ($file->is_valid())
+      $this->Image($file->get_real_filename(), $this->xmargin_b, $this->ymargin_b,
+                  $this->w-$this->xmargin_b*2, $this->h-$this->ymargin_b*2,
+                  substr(strrchr($file->nom_fichier, '.'), 1));
+
+    $this->SetFont('Arial', '', $this->title_fontsize);
+    $this->SetXY($this->xmargin, $this->ymargin);
+    $this->Cell($this->w-($this->xmargin*2), $this->ymargin, utf8_decode($this->title), 0, 0, "C");
+
+    $this->SetFont('Arial', '', $this->fontsize);
+
     $this->days = array_unique(array_merge(array_keys($this->evenements), array_keys($this->reguliers)));
     sort($this->days);
     $numdays = count($this->days);

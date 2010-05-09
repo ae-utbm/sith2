@@ -37,6 +37,13 @@ if ($_REQUEST['action'] == "pdf")
   require_once($topdir. "include/pdf/planning_news.inc.php");
 
   $pdf = new pdfplanning_news($site->db, $_REQUEST['title']);
+  $pdf->set_options($_REQUEST['xmargin'], $_REQUEST['ymargin'],
+                    $_REQUEST['xmargin_b'], $_REQUEST['ymargin_b'],
+                    $_REQUEST['title_h'], $_REQUEST['title_fontsize'],
+                    $_REQUEST['cell_h'], $_REQUEST['fontsize'],
+                    $_REQUEST['space'], $_REQUEST['vspace'],
+                    $_REQUEST['section_space'], $_REQUEST['background_file']
+                    );
 
   foreach($_REQUEST['news'] as $jour => $num_textes)
   {
@@ -165,6 +172,21 @@ if ($_REQUEST['action'] == "choix_even")
     $frm->addsub($subfrm, false);
   }
 
+  $file = new dfile($site->db);
+  $subfrm = new subform("createplaningopt", "Options");
+  $subfrm->add_text_field("xmargin", "Marge horizontale pour les boîtes", "10", true);
+  $subfrm->add_text_field("ymargin", "Marge verticale pour les boîtes", "15", true);
+  $subfrm->add_text_field("xmargin_b", "Marge horizontale pour le fond", "5", true);
+  $subfrm->add_text_field("ymargin_b", "Marge verticale pour le fond", "7", true);
+  $subfrm->add_text_field("title_h", "Marge pour le titre", "15", true);
+  $subfrm->add_text_field("title_fontsize", "Taille du titre", "24", true);
+  $subfrm->add_text_field("cell_h", "Interligne des boîtes", "4", true);
+  $subfrm->add_text_field("fontsize", "Taille de la police", "8", true);
+  $subfrm->add_text_field("space", "Espacement horizontal entre les boîtes", "3", true);
+  $subfrm->add_text_field("vspace", "Espacement vertical entre les boîtes", "2", true);
+  $subfrm->add_text_field("section_space", "Espacement vertical entre les sections", "5", true);
+  $subfrm->add_entity_smartselect("background_file", "Image de fond", $file, true);
+  $frm->addsub($subfrm, true);
 
   $frm->add_submit("valid","Générer");
 
@@ -185,7 +207,6 @@ else
 
 $site->end_page();
 
-// TODO : tailles paramètrables
-// TODO : fond paramètrable
+// TODO : ajout evenement
 
 ?>
