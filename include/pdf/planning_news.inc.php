@@ -40,16 +40,17 @@ class pdfplanning_news extends FPDF
   {
     global $topdir;
 
-    $this->FPDF("L");
+    $this->FPDF("L", "pt");
 
-    $this->xmargin = 15;
-    $this->ymargin = 10;
-    $this->xmargin_b = 8;
-    $this->ymargin_b = 5;
-    $this->title_h = 20;
-    $this->cell_h = 5;
-    $this->espace = 4;
-    $this->section_space = 10;
+    $this->xmargin = 40;
+    $this->ymargin = 30;
+    $this->xmargin_b = 20;
+    $this->ymargin_b = 15;
+    $this->title_h = 50;
+    $this->cell_h = 14;
+    $this->space = 11;
+    $this->vspace = 8;
+    $this->section_space = 20;
     $this->db = $db;
     $this->background_file = 5418;
 
@@ -88,7 +89,7 @@ class pdfplanning_news extends FPDF
     sort($this->days);
     $numdays = count($this->days);
 
-    $this->larg = ($this->w - 2*$this->xmargin - ($numdays-1)*$this->espace) / $numdays;
+    $this->larg = ($this->w - 2*$this->xmargin - ($numdays-1)*$this->space) / $numdays;
 
     $endpos = $this->render_daynames($this->ymargin + $this->title_h);
     $endpos = $this->render_days($this->reguliers, $endpos + $this->section_space);
@@ -125,7 +126,7 @@ class pdfplanning_news extends FPDF
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
 
-      $x += $this->larg + $this->espace;
+      $x += $this->larg + $this->space;
     }
     return $this->getY();
   }
@@ -162,9 +163,9 @@ class pdfplanning_news extends FPDF
         $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]), '', 'C', true);
         $this->SetX($x);
         $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
-        $this->SetY($this->getY() + 3);
+        $this->SetY($this->getY() + $this->vspace);
       }
-      $x += $this->larg + $this->espace;
+      $x += $this->larg + $this->space;
       $endpos = max($endpos, $this->getY());
     }
     return $endpos;
@@ -179,7 +180,7 @@ class pdfplanning_news extends FPDF
     $max_w = 0;
     foreach($this->semaine as $texte)
       $max_w = max($max_w, $this->GetStringWidth(utf8_decode($texte[1])));
-    $w = $max_w + 10;
+    $w = $max_w + 30;
     $x = ($this->w - $max_w) / 2;
 
     foreach($this->semaine as $texte)
@@ -199,7 +200,7 @@ class pdfplanning_news extends FPDF
       $this->MultiCell($w, $this->cell_h, utf8_decode($texte[1]), '', 'C', true);
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_sem.gif", null, null, $w);
-      $this->SetY($this->getY() + 3);
+      $this->SetY($this->getY() + $this->vspace);
     }
     return $this->getY();
   }
