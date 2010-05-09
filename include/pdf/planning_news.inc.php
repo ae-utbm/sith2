@@ -122,7 +122,7 @@ class pdfplanning_news extends FPDF
       $this->SetDrawColor($colors['r'], $colors['g'], $colors['b']);
       $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $this->larg);
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
-      $this->MultiCell($this->larg, $this->cell_h, $daynames[$day], '', 'C', true);
+      $this->MultiCell($this->larg, $this->cell_h, $daynames[$day], 'TB', 'C', true);
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
 
@@ -155,12 +155,12 @@ class pdfplanning_news extends FPDF
         {
           $this->SetFillColor(255);
           $this->SetX($x);
-          $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[0]), '', 'C', true);
+          $this->myMultiCell($this->larg, $this->cell_h, utf8_decode($texte[0]), '', 'C', true);
         }
 
         $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
         $this->SetX($x);
-        $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]), '', 'C', true);
+        $this->myMultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]), '', 'C', true);
         $this->SetX($x);
         $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
         $this->SetY($this->getY() + $this->vspace);
@@ -188,16 +188,15 @@ class pdfplanning_news extends FPDF
       $this->SetX($x);
       $this->Image($topdir."images/plannings/haut_sem.gif", null, null, $w);
 
+      $texte = "";
       if ($texte[0] != '')
-      {
-        $this->SetFillColor(255);
-        $this->SetX($x);
-        $this->MultiCell($w, $this->cell_h, utf8_decode($texte[0]), '', 'C', true);
-      }
+        $texte = $texte[0]." : ";
+
+      $texte .= $texte[1];
 
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->SetX($x);
-      $this->MultiCell($w, $this->cell_h, utf8_decode($texte[1]), '', 'C', true);
+      $this->myMultiCell($w, $this->cell_h, utf8_decode($texte), '', 'C', true);
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_sem.gif", null, null, $w);
       $this->SetY($this->getY() + $this->vspace);
@@ -205,6 +204,32 @@ class pdfplanning_news extends FPDF
     return $this->getY();
   }
 
+  // Multi Cell sans le bug de couleur de fond...
+  function myMultiCell($w, $h, $txt)
+  {
+    $x = $this->GetX();
+    $y = $this->GetY();
+    $lignes = array();
+    $ligne = "";
+    $mots = explode(' ', $txt);
+
+    foreach($mots as $mot)
+    {
+      if ($this->GetStringWidth($ligne + " " + $mot) <= $w)
+        $ligne += " " + $mot;
+      else
+      {
+        $ligne = $mot;
+        $lignes[] = $ligne;
+      }
+    }
+    $lignes[] = $ligne;
+
+    $this->Rect($x, $y, $w, $h*count($lignes));
+
+    foreach($lines as $ligne)
+      $this->Cell($w, $h, $ligne, 0, 1, 'C');
+  }
 
 }
 ?>
