@@ -153,7 +153,7 @@ class pdfplanning_news extends FPDF
         $this->SetY($this->getY() + 3);
       }
       $x += $this->larg + $this->espace;
-      $endpos = max($endpos + $this->getY());
+      $endpos = max($endpos, $this->getY());
     }
     return $endpos;
   }
