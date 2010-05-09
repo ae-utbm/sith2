@@ -46,8 +46,6 @@ if ($_REQUEST['action'] == "pdf")
                     $_REQUEST['section_space'], $_REQUEST['background_file']
                     );
 
-  print_r($_REQUEST);
-
   foreach($_REQUEST['news'] as $jour => $num_textes)
   {
     $textes = array();

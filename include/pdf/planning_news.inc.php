@@ -42,6 +42,7 @@ class pdfplanning_news extends FPDF
 
     $this->FPDF("L", "pt");
 
+    $this->db = $db;
     $this->title = $title;
     $this->xmargin = 10;
     $this->ymargin = 15;
@@ -54,7 +55,6 @@ class pdfplanning_news extends FPDF
     $this->space = 3;
     $this->vspace = 2;
     $this->section_space = 5;
-    $this->db = $db;
     $this->background_file = 5418;
 
     $this->colors = array ( 1 => array('r' => 255, 'g' => 0, 'b' => 0),
@@ -76,7 +76,6 @@ class pdfplanning_news extends FPDF
 
   function set_options($xmargin, $ymargin, $xmargin_b, $ymargin_b, $title_h, $title_fontsize, $cell_h, $fontsize, $space, $vspace, $section_space, $background_file)
   {
-    print_r(array($xmargin, $ymargin, $xmargin_b, $ymargin_b, $title_h, $title_fontsize, $cell_h, $fontsize, $space, $vspace, $section_space, $background_file));
     $this->xmargin = $xmargin;
     $this->ymargin = $ymargin;
     $this->xmargin_b = $xmargin_b;
@@ -94,7 +93,7 @@ class pdfplanning_news extends FPDF
   function render()
   {
     $file = new dfile($this->db, $this->dbrw);
-    $file->load_by_id($this->ibackground_file);
+    $file->load_by_id($this->background_file);
     if ($file->is_valid())
       $this->Image($file->get_real_filename(), $this->xmargin_b, $this->ymargin_b,
                   $this->w-$this->xmargin_b*2, $this->h-$this->ymargin_b*2,
