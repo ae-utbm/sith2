@@ -212,6 +212,7 @@ class pdfplanning_news extends FPDF
     $lignes = array();
     $ligne = "";
     $mots = explode(' ', $txt);
+    print_r($mots);
 
     foreach($mots as $mot)
     {
@@ -228,6 +229,7 @@ class pdfplanning_news extends FPDF
       }
     }
     $lignes[] = $ligne;
+    print_r($lignes);
 
     $this->Rect($x, $y, $w, $h*count($lignes), 'FD');
 
