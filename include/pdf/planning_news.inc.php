@@ -117,12 +117,12 @@ class pdfplanning_news extends FPDF
     {
       $colors = $this->colors[$day];
 
-      $this->SetDrawColor($colors['r'], $colors['g'], $colors['b']);
-      $this->Image($topdir."images/plannings/haut_".$day.".gif", $x, $ymargin, $this->larg);
-      $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->SetXY($x, $ymargin);
+      $this->SetDrawColor($colors['r'], $colors['g'], $colors['b']);
+      $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $this->larg);
+      $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->MultiCell($this->larg, $this->cell_h, $daynames[$day], '1', 'C', true);
-      $this->Image($topdir."images/plannings/bas_".$day.".gif", $x, $ymargin, $this->larg);
+      $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
 
       $x += $this->larg + $this->espace;
     }
