@@ -84,12 +84,14 @@ class pdfplanning_news extends FPDF
 
   function render()
   {
-    $days = array_unique(array_merge(array_keys($this->evenements), array_keys($this->reguliers)));
-    $numdays = count($days);
+    $this->days = array_unique(array_merge(array_keys($this->evenements), array_keys($this->reguliers)));
+    $sort($this->days);
+    $numdays = count($this->days);
 
     $this->larg = ($this->w - 2*$this->xmargin - ($numdays-1)*$this->espace) / $numdays;
 
-    $endpos = $this->render_days($this->reguliers, $this->ymargin + $this->title_h);
+    $endpos = $this->render_daynames($this->ymargin + $this->title_h);
+    $endpos = $this->render_days($this->reguliers, $endpos + $this->section_space);
     $endpos = $this->render_days($this->evenements, $endpos + $this->section_space);
     $this->render_week($this->semaine, $endpos + $this->section_space);
   }
@@ -104,34 +106,43 @@ class pdfplanning_news extends FPDF
       $this->reguliers[$day][] = $texte;
   }
 
+  function render_daynames($ymargin)
+  {
+    $daynames = array('Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi',
+                      'Samedi', 'Dimanche');
+
+    $x = $this->xmargin;
+    foreach($this->days as $day)
+    {
+      $this->SetX($x);
+      $this->SetY($ymargin);
+
+      $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $this->larg);
+      $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
+      $this->SetX($x);
+      $this->MultiCell($this->larg, $this->cell_h, $daynames[$day], '1', 'C', true);
+      $this->SetX($x);
+      $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
+
+      $x += $this->larg + $this->espace;
+    }
+    return $this->getY();
+  }
+
   function render_days($data, $ymargin)
   {
     global $topdir;
     $endpos = 0;
 
-    $daynames = array('Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi',
-                      'Samedi', 'Dimanche');
-
     $x = $this->xmargin;
     $y = $ymargin;
 
-    foreach($this->reguliers as $day => $textes)
+    foreach($data as $day => $textes)
     {
       $colors = $this->colors[$day];
 
       $this->SetXY($x, $y);
       $this->SetDrawColor($colors['r'], $colors['g'], $colors['b']);
-
-      if (in_array($day, array(1, 2, 3, 4, 5, 6, 7)))
-      {
-        $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $this->larg);
-        $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
-        $this->SetX($x);
-        $this->MultiCell($w, $h, $daynames[$day], '1', 'C', true);
-        $this->SetX($x);
-        $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
-        $this->SetY($this->getY() + 3);
-      }
 
       foreach($textes as $texte)
       {
