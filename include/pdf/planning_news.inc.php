@@ -92,8 +92,8 @@ class pdfplanning_news extends FPDF
     $this->larg = ($this->w - 2*$this->xmargin - ($numdays-1)*$this->space) / $numdays;
 
     $endpos = $this->render_daynames($this->ymargin + $this->title_h);
-    $endpos = $this->render_days($this->reguliers, $endpos + $this->section_space);
     $endpos = $this->render_days($this->evenements, $endpos + $this->section_space);
+    $endpos = $this->render_days($this->reguliers, $endpos + $this->section_space);
     $this->render_week($this->semaine, $endpos + $this->section_space);
   }
 
@@ -110,8 +110,13 @@ class pdfplanning_news extends FPDF
   function render_daynames($ymargin)
   {
     global $topdir;
-    $daynames = array('Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi',
-                      'Samedi', 'Dimanche');
+    $daynames = array(1 => 'Lundi',
+                      2 => 'Mardi',
+                      3 => 'Mercredi',
+                      4 => 'Jeudi',
+                      5 => 'Vendredi',
+                      6 => 'Samedi',
+                      7 => 'Dimanche');
 
     $x = $this->xmargin;
     foreach($this->days as $day)
@@ -139,31 +144,34 @@ class pdfplanning_news extends FPDF
     $x = $this->xmargin;
     $y = $ymargin;
 
-    foreach($data as $day => $textes)
+    foreach($this->days as $day)
     {
       $colors = $this->colors[$day];
 
       $this->SetXY($x, $y);
       $this->SetDrawColor($colors['r'], $colors['g'], $colors['b']);
 
-      foreach($textes as $texte)
+      if (isset($data[$day]))
       {
-        $this->SetX($x);
-        $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $this->larg);
-
-        if ($texte[0] != '')
+        foreach($data[$day] as $texte)
         {
-          $this->SetFillColor(255);
           $this->SetX($x);
-          $this->myMultiCell($this->larg, $this->cell_h, utf8_decode($texte[0]));
-        }
+          $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $this->larg);
 
-        $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
-        $this->SetX($x);
-        $this->myMultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]));
-        $this->SetX($x);
-        $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
-        $this->SetY($this->getY() + $this->vspace);
+          if ($texte[0] != '')
+          {
+            $this->SetFillColor(255);
+            $this->SetX($x);
+            $this->myMultiCell($this->larg, $this->cell_h, utf8_decode($texte[0]));
+          }
+
+          $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
+          $this->SetX($x);
+          $this->myMultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]));
+          $this->SetX($x);
+          $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
+          $this->SetY($this->getY() + $this->vspace);
+        }
       }
       $x += $this->larg + $this->space;
       $endpos = max($endpos, $this->getY());
