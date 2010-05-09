@@ -46,6 +46,8 @@ if ($_REQUEST['action'] == "pdf")
                     $_REQUEST['section_space'], $_REQUEST['background_file']
                     );
 
+  print_r($_REQUEST);
+
   foreach($_REQUEST['news'] as $jour => $num_textes)
   {
     $textes = array();
@@ -174,18 +176,19 @@ if ($_REQUEST['action'] == "choix_even")
   }
 
   $file = new dfile($site->db);
+  $file->load_by_id(5418);
   $subfrm = new subform("createplaningopt", "Options");
-  $subfrm->add_text_field("xmargin", "Marge horizontale pour les boîtes", "10", true);
-  $subfrm->add_text_field("ymargin", "Marge verticale pour les boîtes", "15", true);
-  $subfrm->add_text_field("xmargin_b", "Marge horizontale pour le fond", "5", true);
-  $subfrm->add_text_field("ymargin_b", "Marge verticale pour le fond", "7", true);
+  $subfrm->add_text_field("xmargin", "Marge horizontale (boîtes)", "10", true);
+  $subfrm->add_text_field("ymargin", "Marge verticale (boîtes)", "15", true);
+  $subfrm->add_text_field("xmargin_b", "Marge horizontale (fond)", "5", true);
+  $subfrm->add_text_field("ymargin_b", "Marge verticale (fond)", "7", true);
   $subfrm->add_text_field("title_h", "Marge pour le titre", "15", true);
   $subfrm->add_text_field("title_fontsize", "Taille du titre", "24", true);
   $subfrm->add_text_field("cell_h", "Interligne des boîtes", "4", true);
   $subfrm->add_text_field("fontsize", "Taille de la police", "8", true);
-  $subfrm->add_text_field("space", "Espacement horizontal entre les boîtes", "3", true);
-  $subfrm->add_text_field("vspace", "Espacement vertical entre les boîtes", "2", true);
-  $subfrm->add_text_field("section_space", "Espacement vertical entre les sections", "5", true);
+  $subfrm->add_text_field("space", "Espacement horizontal (boîtes)", "3", true);
+  $subfrm->add_text_field("vspace", "Espacement vertical (boîtes)", "2", true);
+  $subfrm->add_text_field("section_space", "Espacement vertical (sections)", "5", true);
   $subfrm->add_entity_smartselect("background_file", "Image de fond", $file, true);
   $frm->addsub($subfrm, true);
 

@@ -76,6 +76,7 @@ class pdfplanning_news extends FPDF
 
   function set_options($xmargin, $ymargin, $xmargin_b, $ymargin_b, $title_h, $title_fontsize, $cell_h, $fontsize, $space, $vspace, $section_space, $background_file)
   {
+    print_r(array($xmargin, $ymargin, $xmargin_b, $ymargin_b, $title_h, $title_fontsize, $cell_h, $fontsize, $space, $vspace, $section_space, $background_file));
     $this->xmargin = $xmargin;
     $this->ymargin = $ymargin;
     $this->xmargin_b = $xmargin_b;
