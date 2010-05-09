@@ -160,7 +160,7 @@ class pdfplanning_news extends FPDF
 
         $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
         $this->SetX($x);
-        $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]), '1', 'C', true);
+        $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]), '', 'C', true);
         $this->SetX($x);
         $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
         $this->SetY($this->getY() + 3);
