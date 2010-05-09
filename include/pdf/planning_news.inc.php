@@ -84,7 +84,7 @@ class pdfplanning_news extends FPDF
 
   function render()
   {
-    $days = sort(array_unique(array_merge(array_keys($this->evenements), array_keys($this->reguliers))));
+    $days = array_unique(array_merge(array_keys($this->evenements), array_keys($this->reguliers)));
     print_r($days);
 
     $numdays = count($days);
@@ -93,7 +93,7 @@ class pdfplanning_news extends FPDF
 
     $endpos = $self->render_days($this->reguliers, $this->ymargin + $this->title_h);
     $endpos = $self->render_days($this->evenements, $endpos + $this->section_space);
-    $self->render_week($this->semaine, $endpos + $this->section_space);
+    $this->render_week($this->semaine, $endpos + $this->section_space);
 
   }
 
