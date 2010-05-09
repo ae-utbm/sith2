@@ -85,7 +85,7 @@ class pdfplanning_news extends FPDF
   function render()
   {
     $this->days = array_unique(array_merge(array_keys($this->evenements), array_keys($this->reguliers)));
-    $sort($this->days);
+    sort($this->days);
     $numdays = count($this->days);
 
     $this->larg = ($this->w - 2*$this->xmargin - ($numdays-1)*$this->espace) / $numdays;
