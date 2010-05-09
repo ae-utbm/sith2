@@ -108,6 +108,7 @@ class pdfplanning_news extends FPDF
 
   function render_daynames($ymargin)
   {
+    global $topdir;
     $daynames = array('Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi',
                       'Samedi', 'Dimanche');
 
