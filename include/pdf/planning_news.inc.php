@@ -47,7 +47,7 @@ class pdfplanning_news extends FPDF
     $this->xmargin_b = 8;
     $this->ymargin_b = 5;
     $this->title_h = 20;
-    $this->cell_h = 6;
+    $this->cell_h = 5;
     $this->espace = 4;
     $this->section_space = 10;
     $this->db = $db;
@@ -122,7 +122,7 @@ class pdfplanning_news extends FPDF
       $this->SetDrawColor($colors['r'], $colors['g'], $colors['b']);
       $this->Image($topdir."images/plannings/haut_".$day.".gif", null, null, $this->larg);
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
-      $this->MultiCell($this->larg, $this->cell_h, $daynames[$day], '1', 'C', true);
+      $this->MultiCell($this->larg, $this->cell_h, $daynames[$day], 'TB', 'C', true);
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
 
@@ -155,12 +155,12 @@ class pdfplanning_news extends FPDF
         {
           $this->SetFillColor(255);
           $this->SetX($x);
-          $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[0]), '1', 'C', true);
+          $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[0]), 'TB', 'C', true);
         }
 
         $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
         $this->SetX($x);
-        $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]), '', 'C', true);
+        $this->MultiCell($this->larg, $this->cell_h, utf8_decode($texte[1]), 'TB', 'C', true);
         $this->SetX($x);
         $this->Image($topdir."images/plannings/bas_".$day.".gif", null, null, $this->larg);
         $this->SetY($this->getY() + 3);
@@ -197,7 +197,7 @@ class pdfplanning_news extends FPDF
 
       $this->SetFillColor($colors['r'], $colors['g'], $colors['b']);
       $this->SetX($x);
-      $this->MultiCell($w, $this->cell_h, utf8_decode($texte[1]), '1', 'C', true);
+      $this->MultiCell($w, $this->cell_h, utf8_decode($texte[1]), 'TB', 'C', true);
       $this->SetX($x);
       $this->Image($topdir."images/plannings/bas_sem.gif", null, null, $w);
       $this->SetY($this->getY() + 3);
