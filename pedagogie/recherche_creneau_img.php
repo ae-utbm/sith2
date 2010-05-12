@@ -72,6 +72,7 @@ foreach($id_utls as $id_utl)
     if(in_array(SEMESTER_NOW, $user->get_edt_list()))
     {
       $groups = $user->get_groups_detail(SEMESTER_NOW);
+      print_r($groups);
       if(!empty($groups))
       {
         foreach($groups as $group)
