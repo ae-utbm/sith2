@@ -351,12 +351,17 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 
   $uvs = $user->get_edt_detail($semestre);
 
-  $cts->add(new sqltable("edtdetail", "Liste de vos UV pour ".$semestre, $uvs, "uv_groupe.php", 'id_uv',
+  $cts->add(new sqltable("edtdetail", "Liste des UV pour ".$semestre, $uvs, "uv_groupe.php", 'id_uv',
                           array("code"=>"Code",
                                 "intitule"=>"Intitulé",
                                 "type"=>"Type",
                                 "responsable"=>"Responsable"),
                           array(),array()), true);
+
+  $url = "recherche_creneau_img.php?id_utilisateurs[0]=".$site->user->id;
+  if ($site->user->id != $user->id)
+    $url .= "&id_utilisateurs[1]=".$user->id;
+  $cts->add("<a href=\"".$url."\">Chercher les compatibilités d'emploi du temps</a>");
 
   $cts->add_title(3, "Version graphique");
   $cts->add_paragraph("<center><img src=\"edt.php?semestre=$semestre&action=print&id_utilisateur=".$user->id."\" alt=\"Emploi du temps ".$semestre."\" /></center>");
@@ -477,7 +482,7 @@ if(!empty($edts))
 if(count($tab) > 1)
   sort_by_semester($tab, 'semestre');
 
-$cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre',
+$cts->add(new sqltable("edtlist", "Liste des emplois du temps", $tab, "edt.php", 'semestre',
                         array("semestre_bold"=>"Semestre",
                               "code_1" => "UV 1",
                               "code_2" => "UV 2",
