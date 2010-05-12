@@ -106,6 +106,7 @@ foreach($id_utls as $id_utl)
     }
   }
 }
+print_r($oqp);
 $free = array();
 foreach($oqp as $jour => $_horraires)
 {
