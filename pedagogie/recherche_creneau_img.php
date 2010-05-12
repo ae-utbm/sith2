@@ -106,7 +106,8 @@ foreach($id_utls as $id_utl)
     }
   }
 }
-print_r($oqp);
+if (isset($_REQUEST['debug1']))
+  print_r($oqp);
 $free = array();
 foreach($oqp as $jour => $_horraires)
 {
@@ -184,7 +185,8 @@ foreach($oqp as $jour => $_horraires)
                     "salle_seance"   => '');
   }
 }
-print_r($free);
+if (isset($_REQUEST['debug2']))
+  print_r($free);
 $edt = new edt_img('Créneaux disponibles', $free,false,false);
 $edt->generate(false);
 exit;
