@@ -57,7 +57,8 @@ if ($nbutil == 0)
   $nbutil++;
 }
 
-$frm->add_entity_smartselect("id_utilisateur[".$nbutil."]","Utilisateur", $util, true);
+$utilisateur = new utilisateur($site->db);
+$frm->add_entity_smartselect("id_utilisateur[".$nbutil."]","Utilisateur", $utilisateur, true);
 $frm->add_submit("valid","Générer");
 
 $site->add_contents($frm);
