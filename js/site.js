@@ -953,3 +953,21 @@ function reduce_textarea(id)
    if (element.rows>20)
       element.rows = element.rows-10;
 }
+
+if (window.addEventListener) {
+    var keys = [];
+    var konami = "38,38,40,40,37,39,37,39,66,65";
+    window.addEventListener("keydown", function(e){
+      keys.push(e.keyCode);
+      if (keys.toString()==konami) {
+        keys = [];
+        var id = document.getElementById('site');
+        if (id.style.display == 'none')
+          id.style.display = 'block';
+        else
+          id.style.display = 'none';
+      } else if(keys.length==10) {
+        keys.shift();
+      };
+    }, true);
+};
