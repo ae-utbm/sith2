@@ -184,6 +184,7 @@ foreach($oqp as $jour => $_horraires)
                     "salle_seance"   => '');
   }
 }
+print_r($free);
 $edt = new edt_img('Créneaux disponibles', $free,false,false);
 $edt->generate(false);
 exit;
