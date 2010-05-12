@@ -43,8 +43,10 @@ if (isset($_REQUEST['id_utilisateur']))
     $utilisateur->load_by_id($id);
     if ($utilisateur->is_valid())
     {
-      $frm->add_entity_smartselect("id_utilisateur[".$i."]","Utilisateur", $utilisateur, true);
-      $utilisateurs[] = $utilisateur->id;
+      $frm->add_entity_smartselect("id_utilisateur[".$nbutil."]","Utilisateur", $utilisateur, true);
+      if ($param != "")
+        $param .= "&";
+      $param .= "id_utilisateurs[".$nbutil."]=".$utilisateur->id;
       $nbutil++;
     }
   }
@@ -52,8 +54,8 @@ if (isset($_REQUEST['id_utilisateur']))
 
 if ($nbutil == 0)
 {
-  $frm->add_entity_smartselect("id_utilisateur[".$i."]","Utilisateur", $site->user, true);
-  $utilisateurs[] = $site->user->id;
+  $frm->add_entity_smartselect("id_utilisateur[".$nbutil."]","Utilisateur", $site->user, true);
+  $param .= "id_utilisateurs[0]=".$site->user->id;
   $nbutil++;
 }
 
@@ -63,10 +65,7 @@ $frm->add_submit("valid","Générer");
 
 $site->add_contents($frm);
 
-print_r($utilisateurs);
-print_r(serialize($utilisateurs));
-$param = "?id_utilisateurs=".serialize($utilisateurs);
-$image = new image("Créneaux communs", "recherche_creneau_img.php".$param);
+$image = new image("Créneaux communs", "recherche_creneau_img.php".$param."?");
 $site->add_contents($image);
 
 $site->end_page();
