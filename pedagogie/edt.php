@@ -358,9 +358,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                                 "responsable"=>"Responsable"),
                           array(),array()), true);
 
-  $url = "recherche_creneau_img.php?id_utilisateurs[0]=".$site->user->id;
+  $url = "recherche_creneau.php?id_utilisateur[0]=".$site->user->id;
   if ($site->user->id != $user->id)
-    $url .= "&id_utilisateurs[1]=".$user->id;
+    $url .= "&id_utilisateur[1]=".$user->id;
   $cts->add_paragraph("<a href=\"".$url."\">Chercher les compatibilités d'emploi du temps</a>");
 
   $cts->add_title(3, "Version graphique");
