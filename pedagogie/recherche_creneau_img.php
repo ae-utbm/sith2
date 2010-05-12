@@ -106,8 +106,6 @@ foreach($id_utls as $id_utl)
     }
   }
 }
-if (isset($_REQUEST['debug1']))
-  print_r($oqp);
 $free = array();
 foreach($oqp as $jour => $_horraires)
 {
@@ -119,14 +117,12 @@ foreach($oqp as $jour => $_horraires)
   {
     if((int)$_oqp['A']==0)
     {
-      // FIXME
       $lastA=$horraires[array_search($horraire, $horraires)+1];
       if(!$startA)
         $startA=$horraire;
     }
     if((int)$_oqp['B']==0)
     {
-      // FIXME
       $lastB=$horraires[array_search($horraire, $horraires)+1];
       if(!$startB)
         $startB=$horraire;
@@ -187,9 +183,7 @@ foreach($oqp as $jour => $_horraires)
                     "salle_seance"   => '');
   }
 }
-if (isset($_REQUEST['debug2']))
-  print_r($free);
-$edt = new edt_img('Créneaux disponibles', $free,false,false);
+$edt = new edt_img('Créneaux disponibles', $free,false,false,false);
 $edt->generate(false);
 exit;
 

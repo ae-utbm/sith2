@@ -299,35 +299,38 @@ class edt_img
                      $this->font,
                      $hstd[$i][0] ."h". $hstd[$i][1]);
       }
-    // Zone du temps de midi
-    imagefilledrectangle($this->img,
-                         $this->dim['mg'] + 1,
-                         12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'],
-                         $this->dim['mg'] + $this->dim['lj'] * 6 - 1,
-                         13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'],
-                         $this->colors['bleu_clair']);
+    if ($zonemidi)
+    {
+      // Zone du temps de midi
+      imagefilledrectangle($this->img,
+                           $this->dim['mg'] + 1,
+                           12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'],
+                           $this->dim['mg'] + $this->dim['lj'] * 6 - 1,
+                           13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'],
+                           $this->colors['bleu_clair']);
 
-    imagerectangle($this->img,
-                   $this->dim['mg'] + 1,
-                   12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'],
-                   45 + $this->dim['lj'] * 6 - 1,
-                   13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'],
-                   $this->colors['noir']);
+      imagerectangle($this->img,
+                     $this->dim['mg'] + 1,
+                     12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'],
+                     45 + $this->dim['lj'] * 6 - 1,
+                     13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'],
+                     $this->colors['noir']);
 
-    imagerectangle($this->img,
-                   $this->dim['mg'] + 1,
-                   12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'] + 1,
-                   45 + $this->dim['lj'] * 6 - 1,
-                   13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'] - 1,
-                   $this->colors['noir']);
+      imagerectangle($this->img,
+                     $this->dim['mg'] + 1,
+                     12 * 60 + 15 - $this->dim['dh'] + $this->dim['entete'] + 1,
+                     45 + $this->dim['lj'] * 6 - 1,
+                     13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'] - 1,
+                     $this->colors['noir']);
 
-    // Zone du samedi aprem
-    imagefilledrectangle($this->img,
-                         $this->dim['mg'] + $this->dim['lj'] * 5 + 2,
-                         13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'] + 1,
-                         $this->dim['mg'] + $this->dim['lj'] * 6 - 2,
-                         $this->dim['height'] - 18,
-                         $this->colors['bleu_clair']);
+      // Zone du samedi aprem
+      imagefilledrectangle($this->img,
+                           $this->dim['mg'] + $this->dim['lj'] * 5 + 2,
+                           13 * 60 + 00 - $this->dim['dh'] + $this->dim['entete'] + 1,
+                           $this->dim['mg'] + $this->dim['lj'] * 6 - 2,
+                           $this->dim['height'] - 18,
+                           $this->colors['bleu_clair']);
+    }
 
     // Affichage de l'établissement
     //imagettftext($this->img,10,0,$this->dim['mg'],42,$noir,$police,$NomEtab);
