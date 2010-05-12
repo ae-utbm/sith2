@@ -26,14 +26,14 @@ $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
 
-$site = new site ();
-$site->allow_only_logged_users();
-$site->start_page("none", "Recherche de crénaux libres communs");
-
-
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 $path .= " / "."<a href=\"./recherche_creneau.php\">Recherche de crénaux libres communs</a>";
-$cts = new contents($path);
+
+$site = new site ();
+$site->allow_only_logged_users();
+$site->start_page("none", $path);
+
+$cts = new contents();
 
 $frm = new form ("crenauxcommuns", "recherche_creneau.php", false, "POST", "Recherche de crénaux libres communs");
 
@@ -66,10 +66,10 @@ $utilisateur = new utilisateur($site->db);
 $frm->add_entity_smartselect("id_utilisateur[".$nbutil."]","Utilisateur", $utilisateur, true);
 $frm->add_submit("valid","Générer");
 
-$site->add_contents($frm);
+$cts->add_contents($frm);
 
 $image = new image("Créneaux communs", "recherche_creneau_img.php?".$param);
-$site->add_contents($image);
+$cts->add_contents($image);
 
 $site->end_page();
 
