@@ -37,7 +37,6 @@ $site->allow_only_logged_users();
 $site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db);
 $id_utls = $_REQUEST['id_utilisateurs'];
-print_r($id_utls);
 
 $lines = array();
 $horraires = array('08:00',

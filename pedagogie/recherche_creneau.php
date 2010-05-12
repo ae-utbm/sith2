@@ -65,7 +65,7 @@ $frm->add_submit("valid","Générer");
 
 $site->add_contents($frm);
 
-$image = new image("Créneaux communs", "recherche_creneau_img.php".$param."?");
+$image = new image("Créneaux communs", "recherche_creneau_img.php?".$param);
 $site->add_contents($image);
 
 $site->end_page();
