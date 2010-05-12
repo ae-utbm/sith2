@@ -66,10 +66,10 @@ $utilisateur = new utilisateur($site->db);
 $frm->add_entity_smartselect("id_utilisateur[".$nbutil."]","Utilisateur", $utilisateur, true);
 $frm->add_submit("valid","Générer");
 
-$cts->add_contents($frm);
+$cts->add($frm);
 
 $image = new image("Créneaux communs", "recherche_creneau_img.php?".$param);
-$cts->add_contents($image);
+$cts->add($image);
 
 $site->end_page();
 
