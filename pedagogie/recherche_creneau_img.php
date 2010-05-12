@@ -76,7 +76,7 @@ foreach($id_utls as $id_utl)
       {
         foreach($groups as $group)
         {
-          if ($jour > 0)
+          if ($group['jour'] > 0)
             $jour  = get_day($group['jour']);
           $debut = substr($group['debut'], 0,5);
           $fin   = substr($group['fin'], 0, 5);
