@@ -120,14 +120,14 @@ foreach($oqp as $jour => $_horraires)
     if((int)$_oqp['A']==0)
     {
       // FIXME
-      $lastA=$horaires[array_search($horraire, $horaires)+1];
+      $lastA=$horaires[array_search($horraire, $horraires)+1];
       if(!$startA)
         $startA=$horraire;
     }
     if((int)$_oqp['B']==0)
     {
       // FIXME
-      $lastB=$horaires[array_search($horraire, $horaires)+1];
+      $lastB=$horaires[array_search($horraire, $horraires)+1];
       if(!$startB)
         $startB=$horraire;
     }
