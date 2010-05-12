@@ -71,7 +71,7 @@ $cts->add($frm);
 $image = new image("Créneaux communs", "recherche_creneau_img.php?".$param);
 $cts->add($image);
 
-$site->add_cts($cts);
+$site->add_contents($cts);
 
 $site->end_page();
 
