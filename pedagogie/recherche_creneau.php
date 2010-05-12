@@ -30,7 +30,10 @@ $site = new site ();
 $site->allow_only_logged_users();
 $site->start_page("none", "Recherche de crénaux libres communs");
 
-$cts = new contents("Recherche de crénaux libres communs");
+
+$path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+$path .= " / "."<a href=\"./recherche_creneau.php\">Recherche de crénaux libres communs</a>";
+$cts = new contents($path);
 
 $frm = new form ("crenauxcommuns", "recherche_creneau.php", false, "POST", "Recherche de crénaux libres communs");
 
