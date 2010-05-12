@@ -86,7 +86,7 @@ class edt_img
   var $fillcolor;
 
   /* constructeur */
-  function edt_img($name, $lines, $logo = false, $printsem=true)
+  function edt_img($name, $lines, $logo = false, $printsem=true, $zonemidi=true)
   {
     global $topdir;
     $this->printsem = ($printsem!=false);

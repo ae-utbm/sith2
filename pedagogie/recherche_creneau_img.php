@@ -55,7 +55,7 @@ $horraires = array('08:00',
                    '18:15',
                    '19:15',
                    '20:15',
-                   '21:00');
+                   '20:45');
 $jours = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');
 $oqp = array();
 foreach($jours as $jour)
@@ -183,7 +183,6 @@ foreach($oqp as $jour => $_horraires)
                     "salle_seance"   => '');
   }
 }
-print_r($free);
 $edt = new edt_img('Créneaux disponibles', $free,false,false,false);
 $edt->generate(false);
 exit;
