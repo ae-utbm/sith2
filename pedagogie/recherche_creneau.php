@@ -31,9 +31,9 @@ $path .= " / "."<a href=\"./recherche_creneau.php\">Recherche de crénaux libres
 
 $site = new site ();
 $site->allow_only_logged_users();
-$site->start_page("none", $path);
+$site->start_page("none", "Recherche de créneaux libres communs");
 
-$cts = new contents();
+$cts = new contents($path);
 
 $frm = new form ("crenauxcommuns", "recherche_creneau.php", false, "POST", "Recherche de crénaux libres communs");
 
@@ -70,6 +70,8 @@ $cts->add($frm);
 
 $image = new image("Créneaux communs", "recherche_creneau_img.php?".$param);
 $cts->add($image);
+
+$site->add_cts($cts);
 
 $site->end_page();
 
