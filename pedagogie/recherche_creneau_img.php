@@ -72,7 +72,6 @@ foreach($id_utls as $id_utl)
     if(in_array(SEMESTER_NOW, $user->get_edt_list()))
     {
       $groups = $user->get_groups_detail(SEMESTER_NOW);
-      print_r($groups);
       if(!empty($groups))
       {
         foreach($groups as $group)
@@ -89,6 +88,11 @@ foreach($id_utls as $id_utl)
             {
               $add = 1;
             }
+            if($horraire==$fin)
+            {
+              $add = 0;
+              break;
+            }
             if(is_null($sem))
             {
               $oqp[$jour][$horraire]['A']+=$add;
@@ -96,11 +100,6 @@ foreach($id_utls as $id_utl)
             }
             else
               $oqp[$jour][$horraire][$sem]+=$add;
-            if($horraire==$fin)
-            {
-              $add = 0;
-              break;
-            }
           }
         }
       }
