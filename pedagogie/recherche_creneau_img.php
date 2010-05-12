@@ -76,9 +76,8 @@ foreach($id_utls as $id_utl)
       {
         foreach($groups as $group)
         {
-          print_r($group);
-          $jour  = get_day($group['jour']);
-          print_r($jour);
+          if ($jour > 0)
+            $jour  = get_day($group['jour']);
           $debut = substr($group['debut'], 0,5);
           $fin   = substr($group['fin'], 0, 5);
           $sem   = $group['semaine'];
@@ -107,7 +106,6 @@ foreach($id_utls as $id_utl)
     }
   }
 }
-print_r($oqp);
 $free = array();
 foreach($oqp as $jour => $_horraires)
 {
@@ -185,7 +183,6 @@ foreach($oqp as $jour => $_horraires)
                     "salle_seance"   => '');
   }
 }
-print_r($free);
 $edt = new edt_img('Créneaux disponibles', $free,false,false);
 $edt->generate(false);
 exit;
