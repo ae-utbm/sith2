@@ -164,22 +164,22 @@ foreach($oqp as $jour => $_horraires)
       $lastA = false;
     }
   }
-  if($startB && $lastB && $startB!=$lastB)
+  if($startB)
   {
     $free[] = array("semaine_seance" =>'B',
                     "hr_deb_seance"  => $startB,
-                    "hr_fin_seance"  => $lastB,
+                    "hr_fin_seance"  => $horraires[count($horraires)-1],
                     "jour_seance"    => $jour,
                     "type_seance"    => '',
                     "grp_seance"     => 0,
                     "nom_uv"         => '',
                     "salle_seance"   => '');
   }
-  if($startA && $lastA && $startA!=$lastA)
+  if($startA)
   {
     $free[] = array("semaine_seance" =>'A',
                     "hr_deb_seance"  => $startA,
-                    "hr_fin_seance"  => $lastA,
+                    "hr_fin_seance"  => $horraires[count($horraires)-1],
                     "jour_seance"    => $jour,
                     "type_seance"    => '',
                     "grp_seance"     => 0,
