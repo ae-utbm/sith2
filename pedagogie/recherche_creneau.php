@@ -1,11 +1,10 @@
 <?php
-/**
- * Copyright 2008
- * - Manuel Vonthron  <manuel DOT vonthron AT acadis DOT org>
- * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
+
+/* Copyright 2010
+ * - Mathieu Briand < briandmathieu AT hyprua DOT org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
- * l'UTBM, http://ae.utbm.fr/
+ * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -25,165 +24,48 @@
 
 $topdir = "../";
 
-require_once($topdir . "include/site.inc.php");
-require_once("include/pedagogie.inc.php");
-require_once("include/pedag_user.inc.php");
-require_once("include/cts/edt_render.inc.php");
+require_once($topdir. "include/site.inc.php");
 
-$site = new site();
-$site->add_js("pedagogie/pedagogie.js");
+$site = new site ();
 $site->allow_only_logged_users();
+$site->start_page("none", "Recherche de crénaux libres communs");
 
-$site->start_page("services", "AE Pédagogie");
-$user = new pedag_user($site->db);
-$id_utls = array(1827,1987,2536,4135);
+$cts = new contents("Recherche de crénaux libres communs");
 
-$lines = array();
-$horraires = array('08:00',
-                   '09:00',
-                   '10:00',
-                   '10:15',
-                   '11:15',
-                   '12:15',
-                   '13:00',
-                   '13:15',
-                   '14:00',
-                   '15:00',
-                   '16:00',
-                   '16:15',
-                   '17:15',
-                   '18:15',
-                   '19:15',
-                   '20:15',
-                   '21:00');
-$jours = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');
-$oqp = array();
-foreach($jours as $jour)
+$frm = new form ("crenauxcommuns", "recherche_creneau.php", false, "POST", "Recherche de crénaux libres communs");
+
+$utilisateur = new utilisateur($site->db);
+$nbutil = 0;
+if (isset($_REQUEST['id_utilisateur']))
 {
-  $oqp[$jour]=array();
-  foreach($horraires as $horraire)
-    $oqp[$jour][$horraire]=array('A'=>0,'B'=>0);
-}
-foreach($id_utls as $id_utl)
-{
-  $user->load_by_id($id_utl);
-  if($user->is_valid())
+  foreach($_REQUEST['id_utilisateur'] as $id)
   {
-    if(in_array(SEMESTER_NOW, $user->get_edt_list()))
+    $utilisateur->load_by_id($id);
+    if ($utilisateur->is_valid())
     {
-      $groups = $user->get_groups_detail(SEMESTER_NOW);
-      if(!empty($groups))
-      {
-        foreach($groups as $group)
-        {
-          $jour  = get_day($group['jour']);
-          $debut = substr($group['debut'], 0,5);
-          $fin   = substr($group['fin'], 0, 5);
-          $sem   = $group['semaine'];
-          $add   = 0;
-          foreach($horraires as $horraire)
-          {
-            if($horraire==$debut)
-            {
-              $add = 1;
-            }
-            if(is_null($sem))
-            {
-              $oqp[$jour][$horraire]['A']+=$add;
-              $oqp[$jour][$horraire]['B']+=$add;
-            }
-            else
-              $oqp[$jour][$horraire][$sem]+=$add;
-            if($horraire==$fin)
-            {
-              $add = 0;
-              break;
-            }
-          }
-        }
-      }
+      $frm->add_entity_smartselect("id_utilisateur[".$i."]","Utilisateur", $utilisateur, true);
+      $utilisateurs[] = $utilisateur->id;
+      $nbutil++;
     }
   }
 }
-$free = array();
-foreach($oqp as $jour => $_horraires)
+
+if ($nbutil == 0)
 {
-  $startA = false;
-  $startB = false;
-  $lastA = false;
-  $lastB = false;
-  foreach($_horraires as $horraire => $_oqp)
-  {
-    if((int)$_oqp['A']==0)
-    {
-      $lastA=$horraire;
-      if(!$startA)
-        $startA=$horraire;
-    }
-    if((int)$_oqp['B']==0)
-    {
-      $lastB=$horraire;
-      if(!$startB)
-        $startB=$horraire;
-    }
-    if((int)$_oqp['B']>0)
-    {
-      if($startB && $lastB && $startB!=$lastB)
-      {
-        $free[] = array("semaine_seance" =>'B',
-                        "hr_deb_seance"  => $startB,
-                        "hr_fin_seance"  => $lastB,
-                        "jour_seance"    => $jour,
-                        "type_seance"    => '',
-                        "grp_seance"     => 0,
-                        "nom_uv"         => '',
-                        "salle_seance"   => '');
-      }
-      $startB = false;
-      $lastB = false;
-    }
-    if((int)$_oqp['A']>0)
-    {
-      if($startA && $lastA && $startA!=$lastA)
-      {
-        $free[] = array("semaine_seance" =>'A',
-                        "hr_deb_seance"  => $startA,
-                        "hr_fin_seance"  => $lastA,
-                        "jour_seance"    => $jour,
-                        "type_seance"    => '',
-                        "grp_seance"     => 0,
-                        "nom_uv"         => '',
-                        "salle_seance"   => '');
-      }
-      $startA = false;
-      $lastA = false;
-    }
-  }
-  if($startB && $lastB && $startB!=$lastB)
-  {
-    $free[] = array("semaine_seance" =>'B',
-                    "hr_deb_seance"  => $startB,
-                    "hr_fin_seance"  => $lastB,
-                    "jour_seance"    => $jour,
-                    "type_seance"    => '',
-                    "grp_seance"     => 0,
-                    "nom_uv"         => '',
-                    "salle_seance"   => '');
-  }
-  if($startA && $lastA && $startA!=$lastA)
-  {
-    $free[] = array("semaine_seance" =>'A',
-                    "hr_deb_seance"  => $startA,
-                    "hr_fin_seance"  => $lastA,
-                    "jour_seance"    => $jour,
-                    "type_seance"    => '',
-                    "grp_seance"     => 0,
-                    "nom_uv"         => '',
-                    "salle_seance"   => '');
-  }
+  $frm->add_entity_smartselect("id_utilisateur[".$i."]","Utilisateur", $site->user, true);
+  $utilisateurs[] = $site->user->id;
+  $nbutil++;
 }
-$edt = new edt_img('Créneaux disponibles', $free,false,false);
-$edt->generate(false);
-exit;
+
+$frm->add_entity_smartselect("id_utilisateur[".$nbutil."]","Utilisateur", $util, true);
+$frm->add_submit("valid","Générer");
+
+$site->add_contents($frm);
+
+$param = "?id_utilisateurs=".serialize($site->user->id);
+$image = new image("Créneaux communs", "recherche_creneau_img.php".$param);
+$site->add_contents($image);
+
+$site->end_page();
 
 ?>
