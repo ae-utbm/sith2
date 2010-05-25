@@ -1163,7 +1163,7 @@ else
     "`asso`.`id_asso`, " .
     "`asso`.`nom_asso`, " .
     "`cpt_vendu`.`a_retirer_vente`, " .
-    "`cpt_vendu`.`a_retirer_info`, " .
+    "`cpt_produits`.`a_retirer_info`, " .
     "`cpt_vendu`.`a_expedier_vente`, " .
     "`cpt_vendu`.`quantite`, " .
     "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
