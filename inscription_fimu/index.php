@@ -35,9 +35,10 @@ $site->start_page ("none", "FIMU 2010 - Inscriptions des bénévoles");
 
 $cts = new contents("Festival International de Musique Universitaire");
 
+$site->error_forbidden("none","reserved");
+
 if ( $site->user->is_valid() )
 {
-  $site->error_forbidden("none","reserved");
   $sql = new requete($site->db, "SELECT id_utilisateur
                 FROM fimu_inscr
                 WHERE id_utilisateur = ".$site->user->id);
