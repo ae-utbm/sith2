@@ -48,13 +48,13 @@ class pdfplanning_news extends FPDF
     $this->ymargin = 15;
     $this->xmargin_b = 5;
     $this->ymargin_b = 7;
-    $this->title_h = 15;
+    $this->title_h = 30;
     $this->title_fontsize = 24;
-    $this->cell_h = 4;
+    $this->cell_h = 12;
     $this->fontsize = 8;
-    $this->space = 3;
-    $this->vspace = 2;
-    $this->section_space = 5;
+    $this->space = 12;
+    $this->vspace = 12;
+    $this->section_space = 15;
     $this->background_file = 5418;
 
     $this->colors = array ( 1 => array('r' => 255, 'g' => 0, 'b' => 0),
@@ -99,7 +99,7 @@ class pdfplanning_news extends FPDF
                   $this->w-$this->xmargin_b*2, $this->h-$this->ymargin_b*2,
                   substr(strrchr($file->nom_fichier, '.'), 1));
 
-    $this->SetFont('Arial', '', $this->title_fontsize);
+    $this->SetFont('Courier', '', $this->title_fontsize);
     $this->SetXY($this->xmargin, $this->ymargin);
     $this->Cell($this->w-($this->xmargin*2), $this->ymargin, utf8_decode($this->title), 0, 0, "C");
 

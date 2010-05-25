@@ -176,9 +176,9 @@ if ($_REQUEST['action'] == "choix_even")
   $file = new dfile($site->db);
   $file->load_by_id(5418);
   $subfrm = new subform("createplaningopt", "Options", false);
-  $subfrm->add_text_field("xmargin", "Marge horizontale (boîtes)", "10", true);
-  $subfrm->add_text_field("ymargin", "Marge verticale (boîtes)", "15", true);
-  $subfrm->add_text_field("xmargin_b", "Marge horizontale (fond)", "5", true);
+  $subfrm->add_text_field("xmargin", "Marge horizontale (contenu)", "20", true);
+  $subfrm->add_text_field("ymargin", "Marge verticale (contenu)", "15", true);
+  $subfrm->add_text_field("xmargin_b", "Marge horizontale (fond)", "10", true);
   $subfrm->add_text_field("ymargin_b", "Marge verticale (fond)", "7", true);
   $subfrm->add_text_field("title_h", "Marge pour le titre", "30", true);
   $subfrm->add_text_field("title_fontsize", "Taille du titre", "24", true);

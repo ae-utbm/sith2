@@ -386,7 +386,7 @@ class interfaceweb
       $req2 = new requete($this->db,
          "SELECT id_comptoir,nom_cpt " .
          "FROM cpt_comptoir " .
-         "WHERE ( id_groupe IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' " .
+         "WHERE ( id_groupe IN ".$this->user->get_groups_csv()." AND nom_cpt != 'test' " .
          "AND archive != '1' " .
          "ORDER BY nom_cpt");
 
