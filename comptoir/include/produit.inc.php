@@ -73,8 +73,10 @@ class produit extends stdentity
   /** Id du produit parent (null si aucun) si non null, alors ce produit est une
    *  déclinaisaon du produit parent */
   var $id_produit_parent;
-  /** A venir retiré aux bureaux où cet objet est vendu (boolénn) */
+  /** A venir retirer */
   var $a_retirer;
+  /** Infos sur les modalités du retrait */
+  var $a_retirer_info;
   /** Envoyable par la poste (booléen) (non disponible pour le moment) */
   var $postable;
   /** Frais de port de l'objet en centimes (non disponible pour le moment) */
@@ -167,6 +169,7 @@ class produit extends stdentity
       $description,
       $description_longue,
       $a_retirer,
+      $a_retirer_info,
       $postable,
       $frais_port,
       $id_groupe=null,
@@ -192,6 +195,7 @@ class produit extends stdentity
     $this->description_longue = $description_longue;
 
     $this->a_retirer = $a_retirer?1:0;
+    $this->a_retirer_info = $a_retirer_info;
     $this->postable = $postable?1:0;
     $this->frais_port = intval(frais_port);
 
@@ -221,6 +225,7 @@ class produit extends stdentity
            'frais_port_prod' => $this->frais_port,
            'postable_prod' => $this->postable,
            'a_retirer_prod'=> $this->a_retirer,
+           'a_retirer_info'=> $this->a_retirer_info,
 
            'id_groupe'=>$this->id_groupe,
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
@@ -261,6 +266,7 @@ class produit extends stdentity
          $description_longue,
          $id_assocpt,
          $a_retirer,
+         $a_retirer_info,
          $postable,
          $frais_port,
          $id_groupe=null,
@@ -286,6 +292,7 @@ class produit extends stdentity
     $this->id_assocpt = $id_assocpt;
 
     $this->a_retirer = $a_retirer?1:0;
+    $this->a_retirer_info = $a_retirer_info;
     $this->postable = $postable?1:0;
     $this->frais_port = intval(frais_port);
 
@@ -314,6 +321,7 @@ class produit extends stdentity
            'frais_port_prod' => $this->frais_port,
            'postable_prod' => $this->postable,
            'a_retirer_prod'=> $this->a_retirer,
+           'a_retirer_info'=> $this->a_retirer_info,
 
            'id_groupe'=>$this->id_groupe,
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
@@ -446,6 +454,7 @@ class produit extends stdentity
     $this->description_longue = $row['description_longue_prod'];
 
     $this->a_retirer = $row['a_retirer_prod'];
+    $this->a_retirer_info = $row['a_retirer_prod_info'];
     $this->postable = $row['postable_prod'];
     $this->frais_port = $row['frais_port_prod'];
 

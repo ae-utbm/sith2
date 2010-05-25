@@ -1163,6 +1163,7 @@ else
     "`asso`.`id_asso`, " .
     "`asso`.`nom_asso`, " .
     "`cpt_vendu`.`a_retirer_vente`, " .
+    "`cpt_vendu`.`a_retirer_info`, " .
     "`cpt_vendu`.`a_expedier_vente`, " .
     "`cpt_vendu`.`quantite`, " .
     "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
@@ -1184,22 +1185,10 @@ else
     {
       if ( $item['a_retirer_vente'])
       {
-        $noms=array();
-        $noms[]='Bureau AE belfort';
-        $noms[]='bureau AE sevenans';
-        $noms[]='bureau AE montbéliard';
-        /*$req2 = new requete($site->db,
-          "SELECT `cpt_comptoir`.`nom_cpt`
-          FROM `cpt_mise_en_vente`
-          INNER JOIN `cpt_comptoir` ON `cpt_comptoir`.`id_comptoir` = `cpt_mise_en_vente`.`id_comptoir`
-          WHERE `cpt_mise_en_vente`.`id_produit` = '".$item['id_produit']."'
-          AND `cpt_comptoir`.`type_cpt`!=1");
-
-        if ( $req2->lines != 0 )
-          while ( list($nom) = $req2->get_row() )
-            $noms[] = $nom;
-*/
-        $item["info"] = "À venir retirer à : ".implode(" ou ",$noms);
+        if ($item['a_retirer_info'] != null)
+          $item["info"] = "À venir retirer : ".$item['a_retirer_info'];
+        else
+          $item["info"] = "À venir retirer aux bureaux AE";
       }
       else if ( $item['a_expedier_vente'])
         $item["info"] = "En preparation";
