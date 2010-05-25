@@ -32,10 +32,10 @@ if ( !$site->user->is_valid() )
   exit();
 }
 
-$site->fetch_admin_comptoirs();
-$comptoirs = array_merge(array(0=>"-"),$site->admin_comptoirs);
+$site->fetch_proprio_comptoirs();
+$comptoirs = array_merge(array(0=>"-"),$site->proprio_comptoirs);
 
-if ( !count($site->admin_comptoirs) && !$site->user->is_in_group("gestion_ae") )
+if ( !count($site->proprio_comptoirs) && !$site->user->is_in_group("gestion_ae") )
   $site->error_forbidden();
 
 $site->set_admin_mode();
@@ -200,7 +200,7 @@ if ( $_REQUEST["action"] == "delete" && isset($_REQUEST["id_facture"]))
   $fact->load_by_id($_REQUEST["id_facture"]);
   if ( $fact->id > 0 )
   {
-    if ( !empty($site->admin_comptoirs[$fact->id_comptoir]) || $site->user->is_in_group("gestion_ae") )
+    if ( !empty($site->proprio_comptoirs[$fact->id_comptoir]) || $site->user->is_in_group("gestion_ae") )
     {
       $user_client = new utilisateur($site->db,$site->dbrw);
       $user_client->load_by_id($fact->id_utilisateur_client);

@@ -88,13 +88,33 @@ class sitecomptoirs extends site
     else
       $req = new requete($this->db,"SELECT `id_comptoir`,`nom_cpt`, `archive`
            FROM `cpt_comptoir`
-           WHERE (`id_groupe` IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' ");
+           WHERE `id_groupe` IN (".$this->user->get_groups_csv()." AND nom_cpt != 'test' ");
 
     while ( list($id,$nom,$archive) = ($row = $req->get_row()) )
     {
       $this->admin_comptoirs[$id] = $nom;
       if ($archive)
         $this->admin_comptoirs[$id].= " (archivé)";
+    }
+
+  }
+
+  function fetch_proprio_comptoirs()
+  {
+    $this->proprio_comptoirs = array();
+
+    if ( $this->user->is_in_group("gestion_ae") )
+      $req = new requete($this->db,"SELECT `id_comptoir`,`nom_cpt`, `archive` FROM `cpt_comptoir`");
+    else
+      $req = new requete($this->db,"SELECT `id_comptoir`,`nom_cpt`, `archive`
+           FROM `cpt_comptoir`
+           WHERE (`id_groupe` IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' ");
+
+    while ( list($id,$nom,$archive) = ($row = $req->get_row()) )
+    {
+      $this->proprio_comptoirs[$id] = $nom;
+      if ($archive)
+        $this->proprio_comptoirs[$id].= " (archivé)";
     }
 
   }

@@ -37,11 +37,11 @@ if ( !$site->user->is_valid() )
   exit();
 }
 
-$site->fetch_admin_comptoirs();
+$site->fetch_proprio_comptoirs();
 
-$comptoirs = array(0=>"-") + $site->admin_comptoirs;
+$comptoirs = array(0=>"-") + $site->proprio_comptoirs;
 
-if ( !count($site->admin_comptoirs) && !$site->user->is_in_group("gestion_ae") )
+if ( !count($site->proprio_comptoirs) && !$site->user->is_in_group("gestion_ae") )
   $site->error_forbidden();
 
 $site->set_admin_mode();
