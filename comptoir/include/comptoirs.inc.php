@@ -88,7 +88,7 @@ class sitecomptoirs extends site
     else
       $req = new requete($this->db,"SELECT `id_comptoir`,`nom_cpt`, `archive`
            FROM `cpt_comptoir`
-           WHERE `id_groupe` IN ".$this->user->get_groups_csv()." AND nom_cpt != 'test' ");
+           WHERE `id_groupe` IN (".$this->user->get_groups_csv().") AND nom_cpt != 'test' ");
 
     while ( list($id,$nom,$archive) = ($row = $req->get_row()) )
     {
