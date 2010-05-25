@@ -37,7 +37,7 @@ $cts = new contents("Festival International de Musique Universitaire");
 
 if ( $site->user->is_valid() )
 {
-  //$site->error_forbidden("none","reserved");
+  $site->error_forbidden("none","reserved");
   $sql = new requete($site->db, "SELECT id_utilisateur
                 FROM fimu_inscr
                 WHERE id_utilisateur = ".$site->user->id);
