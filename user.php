@@ -649,7 +649,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $subfrm1->add_text_field("addresse","Adresse",$user->addresse);
 
     $subfrm1->add_entity_smartselect ("id_pays","ou pays", $pays,true);
-    $subfrm1->add_entity_smartselect ("id_ville","Ville", $ville,true,false,array('id_pays'=>'id_pays'),true);
+    $subfrm1->add_entity_smartselect ("id_ville","Ville", $ville,true,false,array(),true);
 
     $subfrm1->add_text_field("tel_maison","Telephone (fixe)",$user->tel_maison);
     $subfrm1->add_text_field("tel_portable","Telephone (portable)",$user->tel_portable);
