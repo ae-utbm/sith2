@@ -2546,9 +2546,18 @@ http://ae.utbm.fr";
                        'ORDER BY date_fin_cotis DESC '.
                        'LIMIT 1');
 
-    $row = $req->lines > 0 ? $req->get_row () : false;
-
-    return $req->lines > 0 ? $row['date_fin_cotis'] : false;
+    /* Les cotis avant 2006 ne sont pas enregistrées... On est super sympas
+     * et on dit que tous les utbm étaient cotisant
+     */
+    if ($req->lines > 0)
+    {
+      $row = $req->get_row ();
+      return $row['date_fin_cotis'];
+    }
+    elseif($this->utbm)
+      return '2006-02-15';
+    else
+      return false;
   }
 }
 
