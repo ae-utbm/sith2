@@ -575,6 +575,8 @@ class catphoto extends basedb
 
   function is_right (&$user, $required)
   {
+    print "Euh... bleh ?\n";
+
     $result = parent::is_right($user, $required);
 
     print $result;
