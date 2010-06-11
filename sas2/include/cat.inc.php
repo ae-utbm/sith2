@@ -577,6 +577,8 @@ class catphoto extends basedb
   {
     $result = parent::is_right($user, $required);
 
+    print $result;
+
     // Le test a réussi vraisemblablement parce que le mec est seulement dans
     // le bureau de l'asso. Dans ce cas restreindre l'accès aux vrais gradés.
     if ($meta_id_asso != NULL && $required == DROIT_ECRITURE)
