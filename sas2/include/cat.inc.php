@@ -579,7 +579,10 @@ class catphoto extends basedb
 
     $result = parent::is_right($user, $required);
 
-    print $result;
+    if ($result)
+      print "cc";
+    else
+      print "dd";
 
     // Le test a réussi vraisemblablement parce que le mec est seulement dans
     // le bureau de l'asso. Dans ce cas restreindre l'accès aux vrais gradés.
