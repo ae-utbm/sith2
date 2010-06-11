@@ -65,7 +65,7 @@ if ( !$cat->is_valid() && !$cat->load_by_id(1) )
   exit();
 }
 
-if ( !$cat->is_right($site->user,DROIT_LECTURE) )
+if ( !$cat->is_right($site->user,DROIT_LECTURE) && !($photo->is_valid() && $photo->is_on_photo($site->user->id)))
 {
   print "aa";
   exit();
