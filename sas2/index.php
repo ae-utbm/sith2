@@ -66,22 +66,14 @@ if ( !$cat->is_valid() && !$cat->load_by_id(1) )
 }
 
 if ( !$cat->is_right($site->user,DROIT_LECTURE) && !($photo->is_valid() && $photo->is_on_photo($site->user->id)))
-{
-  print "aa";
-  exit();
   $site->error_forbidden("sas","group",$cat->id_groupe);
-}
 
 
 if ( $metacat->is_valid() && !$metacat->is_right($site->user,DROIT_LECTURE) )
   $metacat->id=null;
 
 if ( $photo->is_valid() && !$photo->is_right($site->user,DROIT_LECTURE) )
-{
-  print "bb";
-  exit();
   $site->error_forbidden("matmatronch","group",$photo->id_groupe);
-}
 
 $site->add_css("css/sas.css");
 

@@ -575,14 +575,7 @@ class catphoto extends basedb
 
   function is_right (&$user, $required)
   {
-    print "Euh... bleh ?\n";
-
     $result = parent::is_right($user, $required);
-
-    if ($result)
-      print "cc";
-    else
-      print "dd";
 
     // Le test a réussi vraisemblablement parce que le mec est seulement dans
     // le bureau de l'asso. Dans ce cas restreindre l'accès aux vrais gradés.
@@ -594,8 +587,6 @@ class catphoto extends basedb
     // Droit de lecture de toutes les catégories pour les utilisateurs qui ont déjà été à l'AE.
     $derniere_cotiz = false;
     if (!$result && ($dernier_cotiz = $user->date_derniere_cotiz_a_lae ()) && $required == DROIT_LECTURE) {
-      print $dernier_cotiz."\n";
-      print $date_derniere_cotiz."\n";
       $date_derniere_cotiz = strtotime($dernier_cotiz);
       if ($date_derniere_cotiz >= $date_debut)
         return true;

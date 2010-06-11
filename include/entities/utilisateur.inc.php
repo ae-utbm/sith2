@@ -2554,8 +2554,8 @@ http://ae.utbm.fr";
       $row = $req->get_row ();
       return $row['date_fin_cotis'];
     }
-    //elseif($this->utbm)
-    //  return '2006-02-15';
+    elseif($this->utbm)
+      return '2006-02-15';
     else
       return false;
   }
