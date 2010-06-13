@@ -51,7 +51,7 @@ if ( isset($_REQUEST["id_election"]))
       $site->user->is_in_group_id($elec->id_groupe) && ! $elec->a_vote($site->user->id) )
     $elec->enregistre_vote($site->user->id, $_REQUEST['vote']);
 
-    $Message = "Votre vote a été bien enregistré.";
+    $Message = "Votre vote a bien été enregistré";
 
   }
 
