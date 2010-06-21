@@ -330,7 +330,7 @@ function utf8_pattern_accents ($text)
  */
 function gen_uid ()
 {
-  return uniqid('', true);
+  return str_replace('.','_',uniqid('', true));
 }
 
 /**
