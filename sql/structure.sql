@@ -29,6 +29,85 @@ CREATE TABLE `ae_carte` (
 -- --------------------------------------------------------
 
 -- 
+-- Table structure for table `groupe`
+-- 
+
+CREATE TABLE `groupe` (
+  `id_groupe` int(11) NOT NULL auto_increment,
+  `nom_groupe` varchar(40) NOT NULL default '',
+  `description_groupe` text NOT NULL,
+  PRIMARY KEY  (`id_groupe`)
+) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=latin1 AUTO_INCREMENT=52 ;
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `utl_groupe`
+-- 
+
+CREATE TABLE `utl_groupe` (
+  `id_groupe` int(11) NOT NULL default '0',
+  `id_utilisateur` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id_groupe`,`id_utilisateur`),
+  KEY `fk_utl_groupe_utilisateurs` (`id_utilisateur`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `utilisateurs`
+-- 
+
+CREATE TABLE `utilisateurs` (
+  `id_utilisateur` int(11) NOT NULL auto_increment,
+  `type_utl` enum('std','srv') NOT NULL default 'std',
+  `nom_utl` varchar(64) NOT NULL default '',
+  `prenom_utl` varchar(64) NOT NULL default '',
+  `email_utl` varchar(128) NOT NULL default '',
+  `pass_utl` varchar(34) default NULL,
+  `hash_utl` varchar(32) NOT NULL default '',
+  `sexe_utl` enum('1','2') default '1',
+  `date_naissance_utl` date default NULL,
+  `addresse_utl` varchar(128) default NULL,
+  `tel_maison_utl` varchar(32) default NULL,
+  `tel_portable_utl` varchar(32) default NULL,
+  `alias_utl` varchar(128) default NULL,
+  `utbm_utl` enum('0','1') default '0',
+  `etudiant_utl` enum('0','1') default '0',
+  `ancien_etudiant_utl` enum('0','1') default '0',
+  `ae_utl` enum('0','1') default '0',
+  `modere_utl` enum('0','1') default '0',
+  `droit_image_utl` enum('0','1') default '0',
+  `montant_compte` int(32) default NULL,
+  `site_web` varchar(92) default NULL,
+  `date_maj_utl` datetime default NULL,
+  `derniere_visite_utl` datetime default NULL,
+  `publique_utl` enum('0','1') NOT NULL default '1',
+  `publique_mmtpapier_utl` enum('0','1') NOT NULL default '1',
+  `tovalid_utl` enum('none','email','utbmemail','utbm') default 'none',
+  `id_ville` int(11) default NULL,
+  `id_pays` int(11) default NULL,
+  `tout_lu_avant_utl` datetime default NULL,
+  `signature_utl` text,
+  `serviceident` varchar(255) default NULL,
+  `id_licence_default_sas` int(11) default NULL,
+  PRIMARY KEY  (`id_utilisateur`),
+  KEY `email_utl` (`email_utl`),
+  KEY `nom_utl` (`nom_utl`,`prenom_utl`),
+  KEY `alias_utl` (`alias_utl`),
+  KEY `id_ville` (`id_ville`),
+  KEY `id_pays` (`id_pays`),
+  KEY `date_naissance_utl` (`date_naissance_utl`),
+  KEY `ae_utl` (`ae_utl`),
+  KEY `etudiant_utl` (`etudiant_utl`),
+  KEY `utbm_utl` (`utbm_utl`)
+) ENGINE=MyISAM AUTO_INCREMENT=6578 DEFAULT CHARSET=latin1 AUTO_INCREMENT=6578 ;
+
+-- --------------------------------------------------------
+
+-- 
 -- Table structure for table `ae_cotisations`
 -- 
 
@@ -211,6 +290,35 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- 
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ae2`.`auth_group` AS select `ae2`.`utilisateurs`.`alias_utl` AS `username`,`ae2`.`utilisateurs`.`pass_utl` AS `passwd`,`ae2`.`groupe`.`nom_groupe` AS `groups` from ((`ae2`.`utl_groupe` join `ae2`.`utilisateurs` on((`ae2`.`utl_groupe`.`id_utilisateur` = `ae2`.`utilisateurs`.`id_utilisateur`))) join `ae2`.`groupe` on((`ae2`.`utl_groupe`.`id_groupe` = `ae2`.`groupe`.`id_groupe`))) where (`ae2`.`utilisateurs`.`alias_utl` is not null);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `svn_depot`
+-- 
+
+CREATE TABLE `svn_depot` (
+  `id_depot` int(6) NOT NULL auto_increment,
+  `nom` varchar(16) NOT NULL,
+  `type` enum('public','private','aeinfo') NOT NULL default 'public',
+  `id_asso` int(11) default NULL,
+  PRIMARY KEY  (`id_depot`),
+  UNIQUE KEY `groupetype` (`nom`,`type`)
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `svn_member_depot`
+-- 
+
+CREATE TABLE `svn_member_depot` (
+  `id_depot` int(6) NOT NULL,
+  `id_utilisateur` int(11) NOT NULL,
+  `right` enum('','r','rw') NOT NULL,
+  PRIMARY KEY  (`id_depot`,`id_utilisateur`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1572,19 +1680,6 @@ CREATE TABLE `geopoint` (
   KEY `nom_geopoint` (`nom_geopoint`),
   KEY `lat_geopoint` (`lat_geopoint`,`long_geopoint`)
 ) ENGINE=MyISAM AUTO_INCREMENT=20130 DEFAULT CHARSET=latin1 AUTO_INCREMENT=20130 ;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `groupe`
--- 
-
-CREATE TABLE `groupe` (
-  `id_groupe` int(11) NOT NULL auto_increment,
-  `nom_groupe` varchar(40) NOT NULL default '',
-  `description_groupe` text NOT NULL,
-  PRIMARY KEY  (`id_groupe`)
-) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=latin1 AUTO_INCREMENT=52 ;
 
 -- --------------------------------------------------------
 
@@ -3250,34 +3345,6 @@ CREATE TABLE `stats_page` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `svn_depot`
--- 
-
-CREATE TABLE `svn_depot` (
-  `id_depot` int(6) NOT NULL auto_increment,
-  `nom` varchar(16) NOT NULL,
-  `type` enum('public','private','aeinfo') NOT NULL default 'public',
-  `id_asso` int(11) default NULL,
-  PRIMARY KEY  (`id_depot`),
-  UNIQUE KEY `groupetype` (`nom`,`type`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `svn_member_depot`
--- 
-
-CREATE TABLE `svn_member_depot` (
-  `id_depot` int(6) NOT NULL,
-  `id_utilisateur` int(11) NOT NULL,
-  `right` enum('','r','rw') NOT NULL,
-  PRIMARY KEY  (`id_depot`,`id_utilisateur`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
 -- Table structure for table `tag`
 -- 
 
@@ -3361,57 +3428,6 @@ CREATE TABLE `utbm_planning` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `utilisateurs`
--- 
-
-CREATE TABLE `utilisateurs` (
-  `id_utilisateur` int(11) NOT NULL auto_increment,
-  `type_utl` enum('std','srv') NOT NULL default 'std',
-  `nom_utl` varchar(64) NOT NULL default '',
-  `prenom_utl` varchar(64) NOT NULL default '',
-  `email_utl` varchar(128) NOT NULL default '',
-  `pass_utl` varchar(34) default NULL,
-  `hash_utl` varchar(32) NOT NULL default '',
-  `sexe_utl` enum('1','2') default '1',
-  `date_naissance_utl` date default NULL,
-  `addresse_utl` varchar(128) default NULL,
-  `tel_maison_utl` varchar(32) default NULL,
-  `tel_portable_utl` varchar(32) default NULL,
-  `alias_utl` varchar(128) default NULL,
-  `utbm_utl` enum('0','1') default '0',
-  `etudiant_utl` enum('0','1') default '0',
-  `ancien_etudiant_utl` enum('0','1') default '0',
-  `ae_utl` enum('0','1') default '0',
-  `modere_utl` enum('0','1') default '0',
-  `droit_image_utl` enum('0','1') default '0',
-  `montant_compte` int(32) default NULL,
-  `site_web` varchar(92) default NULL,
-  `date_maj_utl` datetime default NULL,
-  `derniere_visite_utl` datetime default NULL,
-  `publique_utl` enum('0','1') NOT NULL default '1',
-  `publique_mmtpapier_utl` enum('0','1') NOT NULL default '1',
-  `tovalid_utl` enum('none','email','utbmemail','utbm') default 'none',
-  `id_ville` int(11) default NULL,
-  `id_pays` int(11) default NULL,
-  `tout_lu_avant_utl` datetime default NULL,
-  `signature_utl` text,
-  `serviceident` varchar(255) default NULL,
-  `id_licence_default_sas` int(11) default NULL,
-  PRIMARY KEY  (`id_utilisateur`),
-  KEY `email_utl` (`email_utl`),
-  KEY `nom_utl` (`nom_utl`,`prenom_utl`),
-  KEY `alias_utl` (`alias_utl`),
-  KEY `id_ville` (`id_ville`),
-  KEY `id_pays` (`id_pays`),
-  KEY `date_naissance_utl` (`date_naissance_utl`),
-  KEY `ae_utl` (`ae_utl`),
-  KEY `etudiant_utl` (`etudiant_utl`),
-  KEY `utbm_utl` (`utbm_utl`)
-) ENGINE=MyISAM AUTO_INCREMENT=6578 DEFAULT CHARSET=latin1 AUTO_INCREMENT=6578 ;
-
--- --------------------------------------------------------
-
--- 
 -- Table structure for table `utl_etu`
 -- 
 
@@ -3473,19 +3489,6 @@ CREATE TABLE `utl_extra` (
   `id_flickr` varchar(64) NOT NULL,
   `jabber_utl` varchar(128) default NULL,
   PRIMARY KEY  (`id_utilisateur`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `utl_groupe`
--- 
-
-CREATE TABLE `utl_groupe` (
-  `id_groupe` int(11) NOT NULL default '0',
-  `id_utilisateur` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id_groupe`,`id_utilisateur`),
-  KEY `fk_utl_groupe_utilisateurs` (`id_utilisateur`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
