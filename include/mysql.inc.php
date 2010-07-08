@@ -45,7 +45,7 @@
  * @ingroup mysql
  */
 function mysql_escape_joker_string ( $string ) {
-	return str_replace("_","\\_",str_replace("%","\\%",mysql_real_escape_string($string)));
+  return str_replace("_","\\_",str_replace("%","\\%",mysql_real_escape_string($string)));
 }
 
 /** Classe permettant de se connecter à la base
@@ -138,7 +138,10 @@ class requete {
     {
       $this->errmsg = mysql_error($base->dbh);
       if( $GLOBALS["taiste"] )
+      {
         echo "<p>Erreur lors du traitement de votre demande : ".$this->errmsg."</p>\n";
+        echo "Votre requete SQL est <b> " . $req_sql . "</b><br/>";
+      }
       $this->lines = -1;
       return;
     }
@@ -154,10 +157,10 @@ class requete {
    * @return un tableau associatif, ou null s'il n'ya plus aucune ligne.
    */
   function get_row () {
-	  if(!empty($this->result))
+    if(!empty($this->result))
       return mysql_fetch_array($this->result);
-		else
-		  return null;
+    else
+      return null;
   }
 
   /**
@@ -165,8 +168,8 @@ class requete {
    */
   function go_first ()
   {
-  	if ($this->lines > 0 )
-  	mysql_data_seek($this->result, 0);
+    if ($this->lines > 0 )
+    mysql_data_seek($this->result, 0);
   }
 
   /**
@@ -201,53 +204,53 @@ class insert extends requete {
   function insert($base, $table, $insert_array, $debug = 0)
     {
       if(!$base || !$table)
-	{
-	  return false;
-	}
+  {
+    return false;
+  }
 
       $insert_array_count = count($insert_array);
 
       if($insert_array_count <= 0)
-	{
-	  return false;
-	}
+  {
+    return false;
+  }
 
       $sql = "insert into `" . $table . "` (";
       $sql2 = "";
       $i = 0;
 
       foreach ($insert_array as $key => $value)
-	{
-	  $sql .= "`" . $key . "`";
-	  if ( $value === false )
-	  $sql2 .= "'0'";
-	  elseif ( $value === true )
-	  $sql2 .= "'1'";
-	  elseif ( is_null($value) )
-	  $sql2 .= "NULL";
-	  else
-	  $sql2 .= "'" . mysql_escape_string($value) . "'";
+  {
+    $sql .= "`" . $key . "`";
+    if ( $value === false )
+    $sql2 .= "'0'";
+    elseif ( $value === true )
+    $sql2 .= "'1'";
+    elseif ( is_null($value) )
+    $sql2 .= "NULL";
+    else
+    $sql2 .= "'" . mysql_escape_string($value) . "'";
 
-	  if($i != ($insert_array_count-1))
-	    {
-	      $sql .= ",";
-	      $sql2 .= ",";
-	    }
+    if($i != ($insert_array_count-1))
+      {
+        $sql .= ",";
+        $sql2 .= ",";
+      }
 
-	  $i++;
-	}
+    $i++;
+  }
 
       $sql .= ") values (" . $sql2 . ")";
 
       if($debug == 1)
-	{
-	  echo "Votre requete SQL est <b> " . $sql . "</b><br/>";
-	}
+  {
+    echo "Votre requete SQL est <b> " . $sql . "</b><br/>";
+  }
 
       if(! $this->requete($base, $sql))
-	{
-	  return false;
-	}
+  {
+    return false;
+  }
     }
 
   /** Récupération de l'ID de l'élément inséré
@@ -284,78 +287,78 @@ class update extends requete {
   function update($base, $table, $update_array, $update_conds, $debug = 0)
     {
       if(!$base || !$table || ! $update_array)
-	{
-	  return false;
-	}
+  {
+    return false;
+  }
 
       $update_array_count = count($update_array);
 
       if($update_array_count <= 0)
-	{
-	  return false;
-	}
+  {
+    return false;
+  }
 
       $sql = "update `" . $table . "` set ";
 
       $i = 0;
 
       foreach ($update_array as $key => $value)
-	{
-		if ( $value === false )
-	    $sql .= "`" . $key . "`='0'";
-	  elseif ( $value === true )
-	    $sql .= "`" . $key . "`='1'";
-		elseif ( is_null($value) )
-		  $sql .= "`" . $key . "`= NULL";
-	  else
-	     $sql .= "`" . $key . "`= '" . mysql_escape_string($value) . "'";
+  {
+    if ( $value === false )
+      $sql .= "`" . $key . "`='0'";
+    elseif ( $value === true )
+      $sql .= "`" . $key . "`='1'";
+    elseif ( is_null($value) )
+      $sql .= "`" . $key . "`= NULL";
+    else
+       $sql .= "`" . $key . "`= '" . mysql_escape_string($value) . "'";
 
-	  if($i != ($update_array_count-1))
-	    {
-	      $sql .= ",";
-	    }
+    if($i != ($update_array_count-1))
+      {
+        $sql .= ",";
+      }
 
-	  $i++;
-	}
+    $i++;
+  }
 
       /* Gestion du tableau update_conds qui contient les conditions
          permettant de délimiter les entrées de la table qu'il faut
          modifier.
       */
       if($update_conds)
-	{
-	  $sql .= " WHERE (";
+  {
+    $sql .= " WHERE (";
 
-	  $update_conds_count = count($update_conds);
-	  $i = 0;
+    $update_conds_count = count($update_conds);
+    $i = 0;
 
-	  foreach ($update_conds as $key => $value)
-	    {
-	      if ( is_null($value) )
-	        $sql .= "(`" . $key . "` is NULL)";
-	      else
-	        $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
+    foreach ($update_conds as $key => $value)
+      {
+        if ( is_null($value) )
+          $sql .= "(`" . $key . "` is NULL)";
+        else
+          $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
 
-	      if($i != ($update_conds_count-1))
-		{
-		  $sql .= " AND ";
-		}
+        if($i != ($update_conds_count-1))
+    {
+      $sql .= " AND ";
+    }
 
-	      $i++;
-	    }
+        $i++;
+      }
 
-	  $sql .= ")";
-	}
+    $sql .= ")";
+  }
 
       if($debug == 1)
-	{
-	  echo "Votre requete SQL est <b> " . $sql . "</b><br/>";
-	}
+  {
+    echo "Votre requete SQL est <b> " . $sql . "</b><br/>";
+  }
 
       if(! $this->requete($base, $sql))
-	{
-	  return false;
-	}
+  {
+    return false;
+  }
     }
 }
 
@@ -386,43 +389,43 @@ class delete extends requete {
   function delete($base, $table, $delete_conds, $debug = 0)
   {
     if(!$base || !$table || ! $delete_conds)
-  	{
-  	  return false;
-  	}
+    {
+      return false;
+    }
 
     $delete_conds_count = count($delete_conds);
 
     if($delete_conds_count <= 0)
-  	{
-  	  return false;
-  	}
+    {
+      return false;
+    }
 
     $sql = "delete from `" . $table . "` where (";
 
     $i = 0;
 
     foreach ($delete_conds as $key => $value)
-  	{
+    {
       if ( is_null($value) )
         $sql .= "(`" . $key . "` is NULL)";
       else
         $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
 
 
-  	  if($i != ($delete_conds_count-1))
-	    {
-	      $sql .= " AND ";
-	    }
+      if($i != ($delete_conds_count-1))
+      {
+        $sql .= " AND ";
+      }
 
-  	  $i++;
-  	}
+      $i++;
+    }
 
     $sql .= ")";
 
     if($debug == 1)
-  	{
-  	  echo "Votre requete SQL est <b> " . $sql . "</b><br/>";
-  	}
+    {
+      echo "Votre requete SQL est <b> " . $sql . "</b><br/>";
+    }
 
     $this->requete($base, $sql);
   }
