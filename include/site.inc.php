@@ -1001,7 +1001,7 @@ class site extends interfaceweb
                                   IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE()),true,false) as next
                                   FROM pl_gap
                                   INNER JOIN pl_gap_user USING(id_gap)
-                                  WHERE  id_planning='164' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
+                                  WHERE  pl_gap.id_planning='164' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
                                     OR (DAYOFWEEK(start_gap)=DAYOFWEEK(CURDATE()) AND HOUR(start_gap)>=HOUR(CURTIME())))
                                     AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0)
                                     OR (DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE())
@@ -1032,7 +1032,7 @@ class site extends interfaceweb
                                   IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE()),true,false) as next
                                   FROM pl_gap
                                   INNER JOIN pl_gap_user USING(id_gap)
-                                  WHERE  id_planning='166' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
+                                  WHERE  pl_gap.id_planning='166' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
                                     OR (DAYOFWEEK(start_gap)=DAYOFWEEK(CURDATE()) AND HOUR(start_gap)>=HOUR(CURTIME())))
                                     AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0)
                                     OR (DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE())
@@ -1063,7 +1063,7 @@ class site extends interfaceweb
                                   IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE()),true,false) as next
                                   FROM pl_gap
                                   INNER JOIN pl_gap_user USING(id_gap)
-                                  WHERE  id_planning='165' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
+                                  WHERE  pl_gap.id_planning='165' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
                                     OR (DAYOFWEEK(start_gap)=DAYOFWEEK(CURDATE()) AND HOUR(start_gap)>=HOUR(CURTIME())))
                                     AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0)
                                     OR (DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE())

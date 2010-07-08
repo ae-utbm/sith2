@@ -138,10 +138,7 @@ class requete {
     {
       $this->errmsg = mysql_error($base->dbh);
       if( $GLOBALS["taiste"] )
-      {
         echo "<p>Erreur lors du traitement de votre demande : ".$this->errmsg."</p>\n";
-        echo "Votre requete SQL est <b> " . $req_sql . "</b><br/>";
-      }
       $this->lines = -1;
       return;
     }
