@@ -58,5 +58,5 @@ $gene = new genealogie ();
 $gene->generate_filiation_utl ($id, $site->db);
 $gene->generate ();
 
-//$gene->destroy ();
+$gene->destroy ();
 ?>
