@@ -101,7 +101,7 @@ class genealogie
     $sql = new requete ($this->db, $req);
     $rs = $sql->get_row ();
     $this->surnom = $rs[0];
-    $nom = utf8_decode($rs[1] . "\\n" . $rs[0]);
+    $nom = $rs[1] . "\\n" . $rs[0];
 
     $this->get_childs ($this->id_utl, $nom, 3);
 
@@ -150,7 +150,7 @@ class genealogie
       {
   /* recuperation du surnom */
   $infos = $sql->get_row();
-  $nom_child = utf8_decode($infos[1] . "\\n" . $infos[0]);
+  $nom_child = $infos[1] . "\\n" . $infos[0];
   $id_child  = $infos[2];
   $this->write_on_conf ($nom, $nom_child);
   if (!in_array($id_child, $this->explored))
@@ -191,19 +191,19 @@ class genealogie
     }
 
     /* tunage sauce AE */
-    //$img_wmarked = new img_watermark (imagecreatefrompng($this->png_file));
-    //$img_wmarked->save_image($this->png_file);
-    //$img_wmarked->destroy();
+    $img_wmarked = new img_watermark (imagecreatefrompng($this->png_file));
+    $img_wmarked->save_image($this->png_file);
+    $img_wmarked->destroy();
 
     header("Pragma: public");
     header("Expires: 0");
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     header("Content-Type: image/png");
     header("Content-Disposition: inline; filename=".
-     basename($this->png_file));
+    basename($this->png_file));
     readfile($this->png_file);
 
-    //$this->destroy ();
+    $this->destroy ();
   }
   /*
    * destruction propre
