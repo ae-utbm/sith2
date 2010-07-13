@@ -47,7 +47,7 @@ if ( !$site->user->is_valid() )
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     header("Content-Type: image/gif");
     header("Content-Disposition: inline; filename=".
-	   basename("/images/na.gif"));
+    basename("/images/na.gif"));
     readfile("/var/www/ae/www/images/na.gif");
     exit ();
 }
@@ -58,5 +58,5 @@ $gene = new genealogie ();
 $gene->generate_filiation_utl ($id, $site->db);
 $gene->generate ();
 
-$gene->destroy ();
+//$gene->destroy ();
 ?>
