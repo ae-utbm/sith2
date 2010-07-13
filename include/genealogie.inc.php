@@ -178,8 +178,6 @@ class genealogie
    */
   function generate ()
   {
-    print_r($this->out_conf);
-    exit();
     file_put_contents ($this->conf_file, $this->out_conf);
 
     /* appel du binaire */
@@ -187,15 +185,15 @@ class genealogie
      " " . $this->png_file);
 
     if (!file_exists ($this->png_file))
-      {
-  $this->destroy ();
-  return;
-      }
+    {
+      $this->destroy ();
+      return;
+    }
 
     /* tunage sauce AE */
-    $img_wmarked = new img_watermark (imagecreatefrompng($this->png_file));
-    $img_wmarked->save_image($this->png_file);
-    $img_wmarked->destroy();
+    //$img_wmarked = new img_watermark (imagecreatefrompng($this->png_file));
+    //$img_wmarked->save_image($this->png_file);
+    //$img_wmarked->destroy();
 
     header("Pragma: public");
     header("Expires: 0");
