@@ -54,7 +54,7 @@ class genealogie
   var $explored;
 
   function genealogie ($name = "genealogie",
-		       $vspace = "1.2")
+           $vspace = "1.2")
   {
     /* nom */
     $this->name = $name;
@@ -140,8 +140,7 @@ class genealogie
                    = `parrains`.`id_utilisateur_fillot`
       WHERE `parrains`.`id_utilisateur` = ". $id;
 
-    $sql = new requete ($this->db,
-			$req);
+    $sql = new requete ($this->db, $req);
 
     /* condition de sortie */
     if ($sql->lines == 0)
@@ -149,18 +148,18 @@ class genealogie
 
     for ($i = 0; $i < $sql->lines; $i++)
       {
-	/* recuperation du surnom */
-	$infos = $sql->get_row();
-	$nom_child = utf8_decode($infos[1] . "\\n" . $infos[0]);
-	$id_child  = $infos[2];
-	$this->write_on_conf ($nom, $nom_child);
-	if (!in_array($id_child, $this->explored))
-	  {
-	    $this->explored[] = $id_child;
-	    //$this->write_on_conf ($nom, $nom_child);
-	    /* descente recursive dans la genealogie */
-	    $this->get_childs($id_child, $nom_child, $rank-1);
-	  }
+  /* recuperation du surnom */
+  $infos = $sql->get_row();
+  $nom_child = utf8_decode($infos[1] . "\\n" . $infos[0]);
+  $id_child  = $infos[2];
+  $this->write_on_conf ($nom, $nom_child);
+  if (!in_array($id_child, $this->explored))
+    {
+      $this->explored[] = $id_child;
+      //$this->write_on_conf ($nom, $nom_child);
+      /* descente recursive dans la genealogie */
+      $this->get_childs($id_child, $nom_child, $rank-1);
+    }
       }
     return;
   }
@@ -179,16 +178,18 @@ class genealogie
    */
   function generate ()
   {
+    print_r($this->out_conf);
+    exit();
     file_put_contents ($this->conf_file, $this->out_conf);
 
     /* appel du binaire */
     exec ("/usr/share/php5/exec/genealog.sh " . $this->conf_file .
-		 " " . $this->png_file);
+     " " . $this->png_file);
 
     if (!file_exists ($this->png_file))
       {
-	$this->destroy ();
-	return;
+  $this->destroy ();
+  return;
       }
 
     /* tunage sauce AE */
@@ -201,7 +202,7 @@ class genealogie
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     header("Content-Type: image/png");
     header("Content-Disposition: inline; filename=".
-	   basename($this->png_file));
+     basename($this->png_file));
     readfile($this->png_file);
 
     $this->destroy ();
