@@ -203,7 +203,7 @@ class genealogie
      basename($this->png_file));
     readfile($this->png_file);
 
-    $this->destroy ();
+    //$this->destroy ();
   }
   /*
    * destruction propre
