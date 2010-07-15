@@ -478,7 +478,6 @@ if ( ereg("^settypeprod=([0-9]*)$",$_REQUEST["action"],$regs) )
     if ( $produit->is_valid() )
         $produit->modifier_typeprod ($typeprod->id);
   }
-  $_REQUEST["page"] = "produits";
 }
 
 if ( $_REQUEST["page"] == "produits" )
@@ -537,7 +536,7 @@ if ( $_REQUEST["page"] == "produits" )
 
  $tbl = new sqltable(
    "lstproduits",
-   $section_name, $req, "admin.php",
+   $section_name, $req, "admin.php?page=produits",
    "id_produit",
    array(
    "nom_typeprod"=>"Type",
