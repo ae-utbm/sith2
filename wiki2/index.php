@@ -36,10 +36,6 @@ $conf['bookmarks']=true;
 $site = new site();
 $site->set_side_boxes("left",array("calendrier","connexion"));
 
-/* temporairement, si t'es pas logué tu lis pas */
-if (!$site->user->is_valid())
-  $site->error_forbidden();
-
 $wiki = new wiki($site->db,$site->dbrw);
 
 $site->add_css("css/doku.css");
