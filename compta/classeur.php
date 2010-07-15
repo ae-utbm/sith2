@@ -313,7 +313,7 @@ elseif ( $_REQUEST["action"] == "delete" && ($op->is_valid()))
 {
   if ( $op->id_op_liee && !$site->user->is_in_group("compta_admin") )
     $Erreur = "Vous ne pouvez pas supprimer cette opération car elle est liée à une autre opération. Seuls les administrateurs sont habilités à faire une telle opération.";
-  elseif(is_sure("", "Suppression de l'opération"))
+  elseif($site->is_sure("", "Suppression de l'opération"))
     $op->delete();
 }
 elseif ( $_REQUEST["action"] == "done" && ($op->is_valid()))
