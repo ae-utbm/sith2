@@ -484,8 +484,26 @@ if ( ereg("^settypeprod=([0-9]*)$",$_REQUEST["action"],$regs) )
 if ( $_REQUEST["page"] == "produits" )
 {
 
+  if ( $_REQUEST["action"] == "arch" )
+  {
+    foreach($_REQUEST["id_produits"] as $id)
+    {
+      $produit->load_by_id($id);
+      if ( $produit->is_valid() )
+         $produit->archiver();
+    }
+  }
+  elseif ( $_REQUEST["action"] == "unarch" )
+  {
+    foreach($_REQUEST["id_produits"] as $id)
+    {
+      $produit->load_by_id($id);
+      if ( $produit->is_valid() )
+         $produit->dearchiver();
+    }
+  }
 
-  $batch = array();
+  $batch = array("arch"=>"Archiver","unarch"=>"Desarchiver");
 
  $req = new requete($site->db,
   "SELECT `id_typeprod`,`nom_typeprod` " .
