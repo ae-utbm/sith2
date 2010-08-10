@@ -110,13 +110,13 @@ if ( $_REQUEST["page"] == "process" )
     {
       require_once($topdir."include/entities/group.inc.php");
       $groups = enumerates_groups($site->db);
-      $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$photo->id_groupe]);
+      $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$photo->id_groupe]." : ".get_description($photo->id_groupe));
     }
     elseif ( ($cat->droits_acces & 1) == 0 )
     {
       require_once($topdir."include/entities/group.inc.php");
       $groups = enumerates_groups($site->db);
-      $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$cat->id_groupe]);
+      $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$cat->id_groupe]." : ".get_description($cat->id_groupe));
     }
 
 
