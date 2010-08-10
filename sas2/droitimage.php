@@ -140,7 +140,7 @@ if ( $_REQUEST["page"] == "process" )
     $cts->add($subcts,false,true,"photoinfo");
     $cts->puts("<div class=\"clearboth\"></div>");
 
-    $cts->add_paragraph("Note : L'ensemble des personnes pouvant voir cette photo peut varier selon les cas d'un groupe très restreint (membres d'une promo, d'un club...) à l'ensemble des personnes passant sur le site, même non connectées. Néanmoins, dans la majorité des cas, l'accès est limité aux cotisants (qu'ils soient étudiants, anciens étudiants, enseignants ou personels administratifs de l'utbm).");
+    $cts->add_paragraph("Note : L'ensemble des personnes pouvant voir cette photo peut varier selon les cas d'un groupe très restreint (membres d'une promo, d'un club...) à l'ensemble des personnes passant sur le site, même non connectées. Néanmoins, dans la majorité des cas, l'accès est limité aux cotisants (qu'ils soient étudiants, anciens étudiants, enseignants ou personnels administratifs de l'utbm).");
 
 
 
@@ -171,7 +171,7 @@ $site->start_page("sas","Droit à l'image");
 $cts = new contents("Droit à l'image");
 
 $cts->add_paragraph("Il est nécessaire que vous accordiez votre droit à l'image pour que les photos sur lesquelles vous apparaissez soient visibles. Vous pouvez choisir de l'accorder automatiquement ou individuellement pour chaque photo.");
-$cts->add_paragraph("L'ensemble des personnes pouvant voir ces photos peut varier selon les cas d'un groupe très restreint (membres d'une promo, d'un club...) à l'ensemble des personnes passant sur le site, même non connectées. Néanmoins, dans la majorité des cas, l'accès est limité aux cotisants (qu'ils soient étudiants, anciens étudiants, enseignants ou personels administratifs de l'utbm).");
+$cts->add_paragraph("L'ensemble des personnes pouvant voir ces photos peut varier selon les cas d'un groupe très restreint (membres d'une promo, d'un club...) à l'ensemble des personnes passant sur le site, même non connectées. Néanmoins, dans la majorité des cas, l'accès est limité aux cotisants (qu'ils soient étudiants, anciens étudiants, enseignants ou personnels administratifs de l'utbm).");
 
 $frm = new form("auto","droitimage.php",false,"POST","Accord systèmatique");
 
