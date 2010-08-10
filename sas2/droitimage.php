@@ -137,9 +137,10 @@ if ( $_REQUEST["page"] == "process" )
     $frm->add_submit("set","Valider");
     $subcts->add($frm,true);
 
-    $cts->add_info("Note : L'ensemble des personnes pouvant voir cette photo peut varier selon les cas d'un groupe très restreint (membres d'une promo, d'un club...) à l'ensemble des personnes passant sur le site, même non connectées. Néanmoins, dans la majorité des cas, l'accès est limité aux cotisants (qu'ils soient étudiants, anciens étudiants, enseignants ou personels administratifs de l'utbm).");
-
     $cts->add($subcts,false,true,"photoinfo");
+
+    $cts->add_paragraph("Note : L'ensemble des personnes pouvant voir cette photo peut varier selon les cas d'un groupe très restreint (membres d'une promo, d'un club...) à l'ensemble des personnes passant sur le site, même non connectées. Néanmoins, dans la majorité des cas, l'accès est limité aux cotisants (qu'ils soient étudiants, anciens étudiants, enseignants ou personels administratifs de l'utbm).");
+
     $cts->puts("<div class=\"clearboth\"></div>");
 
 
