@@ -454,7 +454,7 @@ class comptoir extends stdentity
     if ( !$client->is_valid() )
       return false;
 
-    if ( ! ($client->ae || $client->assidu || $client -> amicale) )
+    if ( !$client->cotisant )
       return false;
 
     if ( $client->is_in_group("cpt_bloque") )
@@ -646,7 +646,7 @@ class comptoir extends stdentity
            $association)
   {
 
-    if ( ! ($client->ae || $client->assidu || $client -> amicale) )
+    if ( !$client->cotisant )
       return false;
 
     if ( $client->is_in_group("cpt_bloque") )

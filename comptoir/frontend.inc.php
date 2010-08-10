@@ -58,7 +58,7 @@ if ( $_REQUEST["action"] == "logclient" && count($site->comptoir->operateurs))
   }
   elseif ( !$client->is_valid() )
     $Erreur = "Client inconnu";
-  elseif ( ! ($client->ae || $client->assidu || $client -> amicale) )
+  elseif ( !$client->cotisant )
     $Erreur = "Cotisation AE non renouvelée";
   elseif ( $client->is_in_group("cpt_bloque") )
     $Erreur = "Compte bloqué : prendre contact avec un responsable. Ceci est probablement du à une dette au BDF.";
@@ -204,7 +204,7 @@ else if ( $_REQUEST["action"] == "recharge" && count($site->comptoir->operateurs
     $RechargementErreur = "Etudiant inconnu";
   elseif ( !$GLOBALS["svalid_call"] )
     $RechargementErreur = "Ignoré";
-  elseif ( ! ($client->ae || $client->assidu || $client -> amicale) )
+  elseif ( !$client->cotisant )
     $RechargementErreur = "Cotisation AE non renouvelée";
   elseif ( $client->is_in_group("cpt_bloque") )
     $RechargementErreur = "Compte bloqué : prendre contact avec un responsable. Ceci est probablement du à une dette au BDF.";
@@ -258,7 +258,7 @@ else if ( $_REQUEST["page"] == "confirmrech" && count($site->comptoir->operateur
   }
   elseif ( !$client->is_valid() )
     $RechargementErreur = "Etudiant inconnu";
-  elseif ( ! ($client->ae || $client->assidu || $client -> amicale) )
+  elseif ( !$client->cotisant )
     $RechargementErreur = "Cotisation AE non renouvelée";
   else if ( $client->is_in_group("cpt_bloque") )
     $RechargementErreur = "Compte bloqué : prendre contact avec un responsable. Ceci est probablement du à une dette au BDF.";

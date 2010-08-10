@@ -61,7 +61,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
 
   // Pour accdéder aux fiches matmatronch faut être cotisant, ou être utbm
   // ou vouloir consulter sa propre fiche
-  if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae && !$site->user->assidu)
+  if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->cotisant)
     $site->error_forbidden("matmatronch","group",10001);
 
   // Si la fiche n'est pas public, et qu'on ne peut pas l'éditer,
@@ -1095,6 +1095,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
   $frm->add_checkbox("ae","ae",$user->ae,true);
   $frm->add_checkbox("assidu","assidu",$user->assidu,true);
   $frm->add_checkbox("amicale","amicale",$user->amicale,true);
+  $frm->add_checkbox("crous","crous",$user->crous,true);
   $frm->add_checkbox("utbm","utbm",$user->utbm, !$user->email_utbm);
   $frm->add_checkbox("etudiant","etudiant",$user->etudiant);
   $frm->add_checkbox("ancien_etudiant","ancien_etudiant",$user->ancien_etudiant);
@@ -1141,7 +1142,7 @@ else
 
   $cts->add($info);
 
-  if ( $site->user->id == $user->id && !$user->ae && !$user->assidu && !$user->amicale)
+  if ( $site->user->id == $user->id && !$user->cotisant )
   {
     $cts->add_title(2, "Cotisation AE");
     $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_non_ae.png\">" .
@@ -1216,7 +1217,7 @@ else
   }
 
   /* l'onglet AE */
-  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") ) && ($user->ae || $user->assidu || $user->amicale) )
+  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") ) && $user->cotisant )
   {
     $cts->add_title(2, "Cotisation AE");
 
@@ -1247,9 +1248,14 @@ else
         $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_ae.png\">&nbsp;&nbsp;" .
                             "Cotisant(e) par Assidu jusqu'au " .
                             HumanReadableDate($res['date_fin_cotis'], null, false) . " $year !");
-      if ($user->amicale)
+      elseif ($user->amicale)
         $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_ae.png\">&nbsp;&nbsp;" .
                             "Cotisant(e) par l'Amicale jusqu'au " .
+                            HumanReadableDate($res['date_fin_cotis'], null, false) . " $year !");
+
+      elseif ($user->crous)
+        $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_ae.png\">&nbsp;&nbsp;" .
+                            "Cotisant(e) CROUS jusqu'au " .
                             HumanReadableDate($res['date_fin_cotis'], null, false) . " $year !");
 
       if ( $can_edit )

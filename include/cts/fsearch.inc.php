@@ -139,7 +139,7 @@ class fsearch extends stdcontents
     $sqlpattern = mysql_real_escape_string($pattern);
 
     // Utilisateurs
-    if ( $site->user->is_valid() && $site->user->ae )
+    if ( $site->user->is_valid() && $site->user->cotisant )
     {
 
       if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_asso_role ( 27, 1 ) && !$site->user->is_in_group("visu_cotisants") )

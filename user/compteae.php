@@ -196,7 +196,7 @@ if ( $user->type!="srv" )
 
   $cts->add_title(2,"Carte AE");
 
-  if ( !$user->ae && !$user->assidu && !$user->amicale )
+  if ( !$user->cotisant )
   {
     $cts->add_paragraph("Remarque: Cotisation AE non renouvelée, ce compte n'est plus utilisable.");
 

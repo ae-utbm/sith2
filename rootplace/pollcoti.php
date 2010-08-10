@@ -63,6 +63,14 @@ $req = new requete($site->dbrw,"UPDATE `utilisateurs` SET `amicale_utl`='1' " .
 
 $cts->add_paragraph($req->lines." utilisateurs de plus sont désormais cotisants Amicale");
 
+$req = new requete($site->dbrw,"UPDATE `utilisateurs` SET `crous_utl`='1' " .
+    "WHERE `crous_utl`='0' AND EXISTS(SELECT * FROM `ae_cotisations` " .
+      "WHERE `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+      "AND type_cotis = '8' " .
+      "AND `date_fin_cotis` > NOW())");
+
+$cts->add_paragraph($req->lines." utilisateurs de plus sont désormais cotisants CROUS");
+
 
 $req = new requete($site->dbrw,"UPDATE `utilisateurs` SET `ae_utl`='0' " .
     "WHERE `ae_utl`='1' AND NOT EXISTS(SELECT * FROM `ae_cotisations` " .
@@ -78,7 +86,7 @@ $req = new requete($site->dbrw,"UPDATE `utilisateurs` SET `assidu_utl`='0' " .
       "AND type_cotis = '5' " .
       "AND `date_fin_cotis` > NOW())");
 
-$cts->add_paragraph($req->lines." utilisateurs ne sont plus cotisants");
+$cts->add_paragraph($req->lines." utilisateurs ne sont plus cotisants Assidu");
 
 $req = new requete($site->dbrw,"UPDATE `utilisateurs` SET `amicale_utl`='0' " .
     "WHERE `amicale_utl`='1' AND NOT EXISTS(SELECT * FROM `ae_cotisations` " .
@@ -86,7 +94,15 @@ $req = new requete($site->dbrw,"UPDATE `utilisateurs` SET `amicale_utl`='0' " .
       "AND type_cotis = '6' " .
       "AND `date_fin_cotis` > NOW())");
 
-$cts->add_paragraph($req->lines." utilisateurs ne sont plus cotisants");
+$cts->add_paragraph($req->lines." utilisateurs ne sont plus cotisants Amicale");
+
+$req = new requete($site->dbrw,"UPDATE `utilisateurs` SET `crous_utl`='0' " .
+    "WHERE `crous_utl`='1' AND NOT EXISTS(SELECT * FROM `ae_cotisations` " .
+      "WHERE `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+      "AND type_cotis = '8' " .
+      "AND `date_fin_cotis` > NOW())");
+
+$cts->add_paragraph($req->lines." utilisateurs ne sont plus cotisants CROUS");
 
 
 $site->add_contents($cts);

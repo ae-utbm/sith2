@@ -128,6 +128,8 @@ class cotisation extends stdentity
       $type_cotis_txt = "assidu_utl";
     elseif($type_cotis == 6)
       $type_cotis_txt = "amicale_utl";
+    elseif($type_cotis == 8)
+      $type_cotis_txt = "crous_utl";
     else
       $type_cotis_txt = "ae_utl";
 

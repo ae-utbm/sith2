@@ -128,8 +128,9 @@ function add_new_form($id = null)
               4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2",
               5 => "Cotisation par Assidu, 4€, jusqu'au $date2",
               6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2",
-              7 => "Cotisation inter UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire")
-      ,1);
+              7 => "Cotisation inter UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire",
+              8 => "Cotisation CROUS, 4€, jusqu'au $date2",
+      ),1);
   $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
   $sub_frm_cotiz->add_info("&nbsp;");
 
@@ -235,7 +236,7 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
   }
   else
   {
-    if ( $user->ae || $user->assidu || $user->amicale )
+    if ( $user->cotisant )
     {
       global $site;
       $req = new requete($site->db,
@@ -292,10 +293,15 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     } elseif ( $_REQUEST["cotiz"] == 6 ) {
       $date_fin = strtotime($date2);
       $prix_paye = 400;
-    }
-    elseif ( $_REQUEST["cotiz"] == 7 ) {
+    } elseif ( $_REQUEST["cotiz"] == 7 ) {
       $date_fin = strtotime($date1);
       $prix_paye = 0;
+    } elseif ( $_REQUEST["cotiz"] == 8 ) {
+      $date_fin = strtotime($date2);
+      $prix_paye = 400;
+    } else {
+      $list->add("Le type de cotisation n'est pas valide");
+      $site->add_contents($info);
     }
 
     $cotisation->load_lastest_by_user ( $user->id );
@@ -485,8 +491,9 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                   4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2",
                   5 => "Cotisation par Assidu, 4€, jusqu'au $date2",
                   6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2",
-                  7 => "Cotisation inter UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire")
-          ,1);
+                  7 => "Cotisation inter UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire",
+                  8 => "Cotisation CROUS, 4€, jusqu'au $date2",
+          ),1);
       $frm->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
       $frm->add_checkbox("a_pris_cadeau","Cadeau distribué",false);

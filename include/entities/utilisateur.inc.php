@@ -72,6 +72,8 @@ class utilisateur extends stdentity
   var $ae;
   var $assidu;
   var $amicale;
+  var $crous;
+  var $cotisant;
   var $modere;
 
   var $droit_image;
@@ -391,6 +393,8 @@ class utilisateur extends stdentity
     $this->ae = $row['ae_utl'];
     $this->assidu = $row['assidu_utl'];
     $this->amicale = $row['amicale_utl'];
+    $this->crous = $row['crous_utl'];
+    $this->cotisant = $this->ae || $this->assidu || $this->amicale || $this->crous;
     $this->modere = $row['modere_utl'];
     $this->droit_image = $row['droit_image_utl'];
     $this->id_licence_default_sas = $row['id_licence_default_sas'];
@@ -631,7 +635,10 @@ class utilisateur extends stdentity
     if ( $this->assidu )
       $this->groupes[10011] = "amicale-membres";
 
-    if ( $this->ae || $this->amicale || $this->assidu )
+    if ( $this->crous )
+      $this->groupes[10013] = "crous-membres";
+
+    if ( $this->cotisant)
       $this->groupes[10012] = "cotisants-tous";
 
     $req = new requete($this->db,
@@ -1156,6 +1163,7 @@ class utilisateur extends stdentity
     $this->ae = false;
     $this->assidu = false;
     $this->amicale = false;
+    $this->crous = false;
     $this->utbm = $_utbm;
     $this->etudiant = $_etudiant;
     $this->ancien_etudiant = false;
@@ -1182,6 +1190,7 @@ class utilisateur extends stdentity
                               "ae_utl"=>false,
                               "assidu_utl"=>false,
                               "amicale_utl"=>false,
+                              "crous_utl"=>false,
                               "modere_utl"=> $this->modere,
                               "montant_compte"=> 0,
                               "publique_utl"=> $this->publique,
@@ -1360,6 +1369,7 @@ class utilisateur extends stdentity
                              "ae_utl"=>false,
                              "assidu_utl"=>false,
                              "amicale_utl"=>false,
+                             "crous_utl"=>false,
                              "modere_utl"=> $this->modere,
                              "montant_compte"=> 0,
                              "publique_utl"=> $this->publique,
@@ -2327,6 +2337,7 @@ L'équipe info AE";
       "utilisateurs.ae_utl"=>"or",
       "utilisateurs.assidu_utl"=>"or",
       "utilisateurs.amicale_utl"=>"or",
+      "utilisateurs.crous_utl"=>"or",
       "utl_etu_utbm.email_utbm"=>"validutbm");
 
     // Fusion par fusion
