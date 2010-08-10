@@ -83,8 +83,6 @@ if ( $_REQUEST["page"] == "process" )
   $site->start_page("sas","Droit à l'image",true);
   $cts = new contents("Droit à l'image");
 
-
-
   if ( $sql->lines == 1)
   {
     $photo->_load($sql->get_row());
@@ -114,6 +112,12 @@ if ( $_REQUEST["page"] == "process" )
       $groups = enumerates_groups($site->db);
       $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$photo->id_groupe]);
     }
+    elseif ( ($cat->droits_acces & 1) == 0 )
+    {
+      require_once($topdir."include/entities/group.inc.php");
+      $groups = enumerates_groups($site->db);
+      $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$cat->id_groupe]);
+    }
 
 
     $frm = new form("droitphoto","droitimage.php?page=process",false,"POST","Votre souhait");
@@ -132,6 +136,8 @@ if ( $_REQUEST["page"] == "process" )
 
     $frm->add_submit("set","Valider");
     $subcts->add($frm,true);
+
+    $cts->add_info("Note : L'ensemble des personnes pouvant voir cette photo peut varier selon les cas d'un groupe très restreint (membres d'une promo, d'un club...) à l'ensemble des personnes passant sur le site, même non connectées. Néanmoins, dans la majorité des cas, l'accès est limité aux cotisants (qu'ils soient étudiants, anciens étudiants, enseignants ou personels administratifs de l'utbm).");
 
     $cts->add($subcts,false,true,"photoinfo");
     $cts->puts("<div class=\"clearboth\"></div>");
@@ -162,6 +168,9 @@ if ( isset($_REQUEST["setdroit"]) )
 
 $site->start_page("sas","Droit à l'image");
 $cts = new contents("Droit à l'image");
+
+$cts->add_paragraph("Il est nécessaire que vous accordiez votre droit à l'image pour que les photos sur lesquelles vous apparaissez soient visibles. Vous pouvez choisir de l'accorder automatiquement ou individuellement pour chaque photo.");
+$cts->add_paragraph("L'ensemble des personnes pouvant voir ces photos peut varier selon les cas d'un groupe très restreint (membres d'une promo, d'un club...) à l'ensemble des personnes passant sur le site, même non connectées. Néanmoins, dans la majorité des cas, l'accès est limité aux cotisants (qu'ils soient étudiants, anciens étudiants, enseignants ou personels administratifs de l'utbm).");
 
 $frm = new form("auto","droitimage.php",false,"POST","Accord systèmatique");
 
