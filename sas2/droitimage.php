@@ -90,6 +90,7 @@ if ( $_REQUEST["page"] == "process" )
 
     $cat = new catphoto($site->db);
     $catpr = new catphoto($site->db);
+    $groupe = new group($site->db);
     $cat->load_by_id($photo->id_catph);
     $path = $cat->get_html_link()." / ".$photo->get_html_link();
     $catpr->load_by_id($cat->id_catph_parent);
@@ -111,13 +112,13 @@ if ( $_REQUEST["page"] == "process" )
     {
       require_once($topdir."include/entities/group.inc.php");
       $groups = enumerates_groups($site->db);
-      $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$photo->id_groupe]." : ".get_description($photo->id_groupe));
+      $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$photo->id_groupe]." : ".$groupe->get_description($photo->id_groupe));
     }
     elseif ( ($cat->droits_acces & 1) == 0 )
     {
       require_once($topdir."include/entities/group.inc.php");
       $groups = enumerates_groups($site->db);
-      $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$cat->id_groupe]." : ".get_description($cat->id_groupe));
+      $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$cat->id_groupe]." : ".$groupe->get_description($cat->id_groupe));
     }
 
 
