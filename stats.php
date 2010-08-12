@@ -901,7 +901,7 @@ if ($_REQUEST["view"] == "actifs" )
 
     $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,200);
     while ($row = $req->get_row())
-      $cam->data($row['count'], utf8_decode($row['rle'] ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
+      $cam->data($row['count'], utf8_decode($row['rle']!=null ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
 
     $cam->png_render();
     $cam->destroy_graph();
