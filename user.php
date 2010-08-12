@@ -943,6 +943,12 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
                                 "schedule" => "Format iCal"),
                           array(), array(), false), true);
 
+  if ($site->user->id == $user->id)
+    $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
+                        ."value=\"+ Ajouter un emploi du temps\" "
+                        ."onclick=\"edt.add();\" "
+                        ."name=\"add_edt\" id=\"add_edt\"/>");
+
   /**
    * Affichage des CV
    */
