@@ -77,7 +77,7 @@ if (($_REQUEST["view"] == "cotisants" ) && isset($_REQUEST['bananas']) && ($_REQ
   "WHERE `date_fin_cotis` >= fin_semestre ".
   "AND `date_cotis` <= CONCAT( fin_semestre, ' 00:00:00' ) ".
   "GROUP BY `fin_semestre` ".
-  "ORDER BY fin_semestre DESC"
+  "ORDER BY fin_semestre"
   );
 
   while ($row = $req->get_row())
