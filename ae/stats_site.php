@@ -119,7 +119,7 @@ if ( $_REQUEST["action"] == "browser" )
   $i=1;
   while($row=$req->get_row())
   {
-    $cam->data($row['visites'], $row['os']);
+    $cam->data($row['visites'], $row['browser']);
     if($i==1)
     {
       if($color[0]!=0)
