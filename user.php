@@ -907,6 +907,7 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
 {
   require_once($topdir."pedagogie/include/pedag_user.inc.php");
   require_once($topdir."pedagogie/include/pedagogie.inc.php");
+  $site->add_js("pedagogie/pedagogie.js");
   $p_user = new pedag_user($site->db);
   $p_user->load_by_id($user->id);
 
