@@ -40,7 +40,8 @@ if(!$site->user->is_in_group ("gestion_ae"))
 {
   $tabs = array(array("","stats.php", "Informations"),
                 array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
-                array("sas","stats.php?view=sas", "SAS")
+                array("sas","stats.php?view=sas", "SAS"),
+                array("actifs","stats.php?view=actifs", "Membres actifs")
                 );
   if($site->user->is_asso_role (27,2))
     $tabs[]=array("matmatronch","stats.php?view=matmatronch", "Matmatronch");
@@ -54,6 +55,7 @@ else
                 array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
                 array("matmatronch","stats.php?view=matmatronch", "Matmatronch"),
                 array("sas","stats.php?view=sas", "SAS"),
+                array("actifs","stats.php?view=actifs", "Membres actifs"),
                 array("forum","stats.php?view=forum", "Forum"),
                 array("comptoirs","stats.php?view=comptoirs", "Comptoirs"),
                 array("elections","stats.php?view=elections", "Élections")
@@ -802,6 +804,88 @@ elseif ( $_REQUEST["view"] == "elections" )
     exit();
   }
   $cts->add($cts2,true);
+}
+if ($_REQUEST["view"] == "actifs" )
+{
+  if (!$site->user->is_in_group("gestion_ae"))
+    exit();
+
+  $graph1 = $graph2 = false;
+  if (isset($_REQUEST['bananas']) && ($_REQUEST['bananas'] == "cuitastoujours"))
+    $graph1 = true;
+  elseif (isset($_REQUEST['bananas']) && ($_REQUEST['bananas'] == "cuitasencore"))
+    $graph2 = true;
+
+  $cts2 = new contents("Personnes actives");
+  $cts2->add_paragraph("<center><img src=\"./stats.php?view=cotisants&bananas=cuitastoujours\" alt=\"Personnes actives par postes\" /></center>");
+
+  if (!$graph2)
+  {
+    $req = new requete($site->db,
+    "SELECT IF((role <10 AND ROLE >=2), 2, role) rle, COUNT(*) c1, COUNT(DISTINCT id_utilisateur) c2 ".
+    "FROM `asso_membre` ".
+    "LEFT JOIN `asso` USING ( `id_asso` ) ".
+    "LEFT JOIN `asso` asso_p ON ( `asso_p`.`id_asso` = `asso`.`id_asso_parent` ) ".
+    "WHERE date_fin IS NULL ".
+    "AND (`asso_p`.`id_asso_parent`=1 OR `asso`.`id_asso_parent` =1) ".
+    "GROUP BY `rle`"
+    );
+
+    if ($graph1)
+    {
+      $datas = array("Poste" => array("Avec double compte", "Sans double compte"));
+      while ($row = $req->get_row())
+        $datas[$GLOBALS['ROLEASSO'][$row['rle']]] = array($row['c1'], $row['c2']);
+
+      $hist = new histogram($datas, "Top 10");
+      $hist->png_render();
+      $hist->destroy();
+
+      exit();
+    }
+    else
+    {
+      $tbl = new sqltable(
+        "statsresp",
+        "Personnes actives", $req, "",
+        "role",
+        array("rle"=>"Role","c1"=>"Avec double compte","c2"=>"Sans double compte"),
+        array(), array(),
+        array("rle"=>$GLOBALS['ROLEASSO'] )
+        );
+
+      $cts2->add($tbl,true);
+    }
+  }
+  $cts->add($cts2,true);
+
+  if ($graph2)
+  {
+    $req = new requete($site->db,
+    "SELECT IF((role <10 AND ROLE >=2), 2, role) rle, COUNT(DISTINCT id_utilisateur) count ".
+    "FROM `asso_membre` ".
+    "LEFT JOIN `utilisateurs` USING (`id_utilisateur`) ".
+    "LEFT JOIN `asso` USING ( `id_asso` ) ".
+    "LEFT JOIN `asso` asso_p ON ( `asso_p`.`id_asso` = `asso`.`id_asso_parent` ) ".
+    "WHERE date_fin IS NULL ".
+    "AND (`asso_p`.`id_asso_parent`=1 OR `asso`.`id_asso_parent` =1) ".
+    "AND `ae_utl` = '1' ".
+    "GROUP BY `rle`"
+    );
+
+    $cam=new camembert();
+    while ($row = $req->get_row())
+      $cam->data($row['count'], $GLOBALS['ROLEASSO'][$row['rle']]);
+
+    $cam->png_render();
+    $cam->destroy_graph();
+
+    exit();
+  }
+  $cts2 = new contents("Parts d'actifs parmis les cotisants");
+  $cts2->add_paragraph("<center><img src=\"./stats.php?view=actifs&bananas=cuitasencore\" alt=\"Personnes actives parmis les cotisants\" /></center>");
+  $cts->add($cts2,true);
+
 }
 else
 {
