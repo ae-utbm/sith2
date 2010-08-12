@@ -808,6 +808,14 @@ elseif ( $_REQUEST["view"] == "elections" )
 if ($_REQUEST["view"] == "actifs" )
 {
   require_once($topdir. "include/entities/asso.inc.php");
+
+  $roleasso_short = array(
+    ROLEASSO_PRESIDENT=>"Responsable",
+    ROLEASSO_MEMBREBUREAU=>"Bureau",
+    ROLEASSO_MEMBREACTIF=>"membre actif",
+    ROLEASSO_MEMBRE=>"Curieux"
+  );
+
   if (!$site->user->is_in_group("gestion_ae"))
     exit();
 
@@ -839,7 +847,7 @@ if ($_REQUEST["view"] == "actifs" )
     {
       $datas = array("Poste" => "Avec double compte");
       while ($row = $req->get_row())
-        $datas[utf8_decode($GLOBALS['ROLEASSO100'][$row['rle']])] = $row['c1'];
+        $datas[utf8_decode($roleasso_short[$row['rle']])] = $row['c1'];
 
       $hist = new histogram($datas, "Personnes actives avec double compte");
       $hist->png_render();
@@ -851,7 +859,7 @@ if ($_REQUEST["view"] == "actifs" )
     {
       $datas = array("Poste" => "Sans double compte");
       while ($row = $req->get_row())
-        $datas[utf8_decode($GLOBALS['ROLEASSO100'][$row['rle']])] = $row['c2'];
+        $datas[utf8_decode($roleasso_short[$row['rle']])] = $row['c2'];
 
       $hist = new histogram($datas, "Personnes actives sans double compte");
       $hist->png_render();
@@ -892,7 +900,7 @@ if ($_REQUEST["view"] == "actifs" )
 
     $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,200);
     while ($row = $req->get_row())
-      $cam->data($row['count'], utf8_decode($GLOBALS['ROLEASSO100'][$row['rle']]));
+      $cam->data($row['count'], utf8_decode($roleasso_short[$row['rle']]));
 
     $cam->png_render();
     $cam->destroy_graph();
