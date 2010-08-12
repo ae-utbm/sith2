@@ -807,6 +807,7 @@ elseif ( $_REQUEST["view"] == "elections" )
 }
 if ($_REQUEST["view"] == "actifs" )
 {
+  require_once($topdir. "include/entities/asso.inc.php");
   if (!$site->user->is_in_group("gestion_ae"))
     exit();
 
