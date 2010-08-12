@@ -41,8 +41,10 @@ var edt = {
   },
 
   /* pour l instant juste une redirection */
-  add: function(){
-    document.location.href="edt.php?action=new" ;
+  add: function(path){
+    if (typeof path == "undefined")
+      path = "";
+    document.location.href=path+"edt.php?action=new" ;
   },
 
   select_uv: function(optionelt){

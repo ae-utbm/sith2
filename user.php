@@ -947,7 +947,7 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
   if ($site->user->id == $user->id)
     $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                         ."value=\"+ Ajouter un emploi du temps\" "
-                        ."onclick=\"edt.add();\" "
+                        ."onclick=\"edt.add('pedagogie/');\" "
                         ."name=\"add_edt\" id=\"add_edt\"/>");
 
   /**
