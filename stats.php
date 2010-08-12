@@ -62,7 +62,42 @@ else
 
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
-if ( $_REQUEST["view"] == "cotisants" )
+if (($_REQUEST["view"] == "cotisants" ) && isset($_REQUEST['bananas']) && ($_REQUEST['bananas'] == "cuitasaussi"))
+{
+  if (!$site->user->is_in_group("gestion_ae"))
+    exit();
+
+  $datas = array("années" => "Cotisants");
+
+  $req = new requete($site->db,
+  "SELECT COUNT( DISTINCT `id_utilisateur` ) nbcotis, `fin_semestre` ".
+  "FROM `ae_cotisations` , ( ".
+    "SELECT `date_fin_cotis` fin_semestre FROM `ae_cotisations` ".
+    "GROUP BY `date_fin_cotis`)semestres ".
+  "WHERE `date_fin_cotis` >= fin_semestre ".
+  "AND `date_cotis` <= CONCAT( fin_semestre, ' 00:00:00' ) ".
+  "GROUP BY `fin_semestre` ".
+  "ORDER BY fin_semestre DESC"
+  );
+
+  while ($row = $req->get_row())
+  {
+    $date = explode('-', $row['fin_semestre']);
+    if (($date[1] == '08') && ($date[2] == '15'))
+      $semestre = 'P'.substr($date[0], 2);
+    elseif (($date[1] == '02') && ($date[2] == '15'))
+      $semestre = 'A'.substr(($date[0]-1), 2);
+
+    $datas[$semestre] = $row['nbcotis'];
+  }
+
+  $hist = new histogram($datas, "Top 10");
+  $hist->png_render();
+  $hist->destroy();
+
+  exit();
+}
+elseif ( $_REQUEST["view"] == "cotisants" )
 {
   if (!$site->user->is_in_group ("gestion_ae"))
     $site->error_forbidden("none","group",9);
@@ -74,7 +109,12 @@ if ( $_REQUEST["view"] == "cotisants" )
   list($cotisants) = $req->get_row();
 
   if ( $site->user->is_in_group("gestion_ae") )
-    $cts->add_paragraph("Cotisants : $cotisants, ".round($cotisants*100/$total,1)." % des inscrits hors anciens");
+  {
+    $cts2 = new contents("Évolution du nombre de cotisants");
+    $cts2->add_paragraph("<center><img src=\"./stats.php?view=cotisants&bananas=cuitasaussi\" alt=\"Évolution du nombre de cotisants\" /></center>");
+    $cts2->add_paragraph("Cotisants ce semestre : $cotisants, ".round($cotisants*100/$total,1)." % des inscrits hors anciens");
+    $cts->add($cts2,true);
+  }
 
   $req = new requete($site->db,"SELECT ROUND(COUNT(*)*100/$cotisants,1) AS `count`, `mode_paiement_cotis` FROM `ae_cotisations` WHERE `date_fin_cotis` > NOW() GROUP BY `mode_paiement_cotis` ORDER BY `count` DESC");
 
