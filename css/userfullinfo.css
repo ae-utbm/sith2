@@ -1,7 +1,7 @@
 /*
  * (c) Copyright 2006 Julien Etelain. All rights reserved.
  *
- * Released under the terms on the GNU General Public License version 2.0. 
+ * Released under the terms on the GNU General Public License version 2.0.
  * PROVIDED WITHOUT ANY WARRANTY
  * See COPYING for all terms.
  */
@@ -135,6 +135,14 @@ div.userfullinfo p.promo img
   left:0px;
 }
 
+div.userfullinfo p.trombi
+{
+  position:absolute;
+  top:240px;
+  left:0px;
+  margin:0;
+}
+
 div.userfullinfo p.citation
 {
   position:absolute;
@@ -158,7 +166,7 @@ div.userfullinfo p.departement
   height:37px;
   background : url("../images/mmt/utbm.jpg") top left no-repeat;
   margin:0;
-  
+
 }
 
 div.userfullinfo p.departement span.filiere
@@ -168,7 +176,7 @@ div.userfullinfo p.departement span.filiere
   top:23px;
   left:50px;
   width:200px;
-  
+
   font-weight:normal;
 }
 
@@ -206,7 +214,7 @@ div.userfullinfo p.telportable
   left:0px;
   top: 195px;
   padding-left:20px;
-  padding-top:3px;  
+  padding-top:3px;
   background : url("../images/mmt/usr_mobile.png") top left no-repeat;
   margin:0;
 }

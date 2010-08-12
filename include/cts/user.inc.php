@@ -573,12 +573,20 @@ class userinfov2 extends stdcontents
 
     if ( $user->promo_utbm > 0 )
     {
-      $this->buffer .= "<p class=\"promo\">Promo ".sprintf("%02d",$user->promo_utbm)."<br />\n";
-      if ( $display == "full" && file_exists($topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png") )
-        $this->buffer .= "<img src=\"".$topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png\" alt=\"Promo ".sprintf("%02d",$user->promo_utbm)."\" />\n";
-      if ($view_trombi)
-        $this->buffer .= "<a href=\"".$topdir."trombi/index.php?id_utilisateur=".$user->id."\">Voir sa fiche sur le trombinoscope de promo</a>";
+      $this->buffer .= "<p class=\"promo\">";
+      if ($dispay == "full")
+      {
+        $this->buffer .= "Promo ".sprintf("%02d",$user->promo_utbm)."\n";
+        if (file_exists($topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png"))
+          $this->buffer .= "<img src=\"".$topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png\" alt=\"Promo ".sprintf("%02d",$user->promo_utbm)."\" />\n";
+      }
+      else
+        $this->buffer .= "<a href=\"".$topdir."trombi/index.php?id_utilisateur=".$user->id."\">Promo ".sprintf("%02d",$user->promo_utbm)."</a>\n";
       $this->buffer .= "</p>\n";
+
+      if ($full && $view_trombi)
+        $this->buffer .= "<p class=\"trombi\"><a href=\"".$topdir."trombi/index.php?id_utilisateur=".$user->id."\">".
+        "Voir sa fiche sur le trombinoscope de promo</a></p>";
     }
 
     if ( $user->tel_maison )
