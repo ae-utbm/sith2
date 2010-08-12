@@ -45,133 +45,33 @@ function dec2hex($val)
 
 if ( $_REQUEST["action"] == "os" )
 {
-  $color=array(255=>0,1=>0,2=>0);
-  $_color="#FF0000";
-  $inc=50;
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
   $cam=new camembert(600,500,array(),2,20,0,0,0,0,0,10,150);
-  $i=1;
   while($row=$req->get_row())
-  {
     $cam->data($row['visites'], $row['os']);
-    if($i==1)
-    {
-      if($color[0]!=0)
-      {
-        $color[0]=$color[0]-$inc;
-        if($color[0]<0)
-          $color[0]=0;
-      }
-      elseif($color[1]!=0)
-      {
-        $color[1]=$color[1]-$inc;
-        if($color[1]<0)
-          $color[1]=0;
-      }
-      elseif($color[2]!=0)
-      {
-        $color[2]=$color[2]-$inc;
-        if($color[2]<0)
-          $color[2]=0;
-      }
-      else
-        $i=0;
-      $_color=dec2hex($color);
-    }
-    if($i==0)
-    {
-      if($color[2]!=255)
-      {
-        $color[2]=$color[2]+$inc;
-        if($color[2]>255)
-          $color[2]=255;
-      }
-      elseif($color[0]!=255)
-      {
-        $color[0]=$color[0]+$inc;
-        if($color[0]>255)
-          $color[0]=255;
-      }
-      elseif($color[1]!=255)
-      {
-        $color[1]=$color[1]+$inc;
-        if($color[1]>255)
-          $color[1]=255;
-      }
-      else
-      {
-        $color[0]=$color[0]-$inc;
-        $i=1;
-      }
-      $_color=dec2hex($color);
-    }
-  }
   $cam->png_render();
   exit();
 }
 if ( $_REQUEST["action"] == "browser" )
 {
-  $color=array(255=>0,1=>0,2=>0);
-  $_color="#FF0000";
-  $inc=50;
   $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
   $cam=new camembert(600,500,array(),2,20,0,0,0,0,0,10,150);
-  $i=1;
   while($row=$req->get_row())
-  {
     $cam->data($row['visites'], $row['browser']);
-    if($i==1)
-    {
-      if($color[0]!=0)
-      {
-        $color[0]=$color[0]-$inc;
-        if($color[0]<0)
-          $color[0]=0;
-      }
-      elseif($color[1]!=0)
-      {
-        $color[1]=$color[1]-$inc;
-        if($color[1]<0)
-          $color[1]=0;
-      }
-      elseif($color[2]!=0)
-      {
-        $color[2]=$color[2]-$inc;
-        if($color[2]<0)
-          $color[2]=0;
-      }
-      else
-        $i=0;
-      $_color=dec2hex($color);
-    }
-    if($i==0)
-    {
-      if($color[2]!=255)
-      {
-        $color[2]=$color[2]+$inc;
-        if($color[2]>255)
-          $color[2]=255;
-      }
-      elseif($color[0]!=255)
-      {
-        $color[0]=$color[0]+$inc;
-        if($color[0]>255)
-          $color[0]=255;
-      }
-      elseif($color[1]!=255)
-      {
-        $color[1]=$color[1]+$inc;
-        if($color[1]>255)
-          $color[1]=255;
-      }
-      else
-      {
-        $color[0]=$color[0]-$inc;
-        $i=1;
-      }
-      $_color=dec2hex($color);
-    }
-  }
+  $cam->png_render();
+  exit();
+}
+if ( $_REQUEST["action"] == "pages" )
+{
+  $req = new requete($site->db,"
+        SELECT SUBSTRING_INDEX( page, '/', 2 ) dir, SUM( visites ) sum_visites
+        FROM `stats_page`
+        GROUP BY dir
+        ORDER BY sum_visites DESC
+        LIMIT 30");
+  $cam=new camembert(600,500,array(),2,20,0,0,0,0,0,10,150);
+  while($row=$req->get_row())
+    $cam->data($row['sum_visites'], $row['dir']);
   $cam->png_render();
   exit();
 }
