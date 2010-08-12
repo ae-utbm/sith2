@@ -812,8 +812,8 @@ if ($_REQUEST["view"] == "actifs" )
   $roleasso_short = array(
     ROLEASSO_PRESIDENT=>"Responsable",
     ROLEASSO_MEMBREBUREAU=>"Bureau",
-    ROLEASSO_MEMBREACTIF=>"membre actif",
-    ROLEASSO_MEMBRE=>"Curieux"
+    ROLEASSO_MEMBREACTIF=>"Membre actif",
+    ROLEASSO_MEMBRE=>"Membre"
   );
 
   if (!$site->user->is_in_group("gestion_ae"))
@@ -895,12 +895,13 @@ if ($_REQUEST["view"] == "actifs" )
         "WHERE (`asso_p`.`id_asso_parent`=1 OR `asso`.`id_asso_parent` =1 OR `asso`.`id_asso` IS NULL) ".
         "AND `ae_utl` = '1' ".
         "GROUP BY `id_utilisateur`) roles ".
-      "GROUP BY `rle`"
+      "GROUP BY `rle` ".
+      "ORDER BY rle DESC"
     );
 
     $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,200);
     while ($row = $req->get_row())
-      $cam->data($row['count'], utf8_decode($roleasso_short[$row['rle']]));
+      $cam->data($row['count'], utf8_decode($row['rle'] ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
 
     $cam->png_render();
     $cam->destroy_graph();
