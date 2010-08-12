@@ -811,16 +811,19 @@ if ($_REQUEST["view"] == "actifs" )
   if (!$site->user->is_in_group("gestion_ae"))
     exit();
 
-  $graph1 = $graph2 = false;
+  $graph1 = $graph2 = $graph3 = false;
   if (isset($_REQUEST['bananas']) && ($_REQUEST['bananas'] == "cuitastoujours"))
     $graph1 = true;
-  elseif (isset($_REQUEST['bananas']) && ($_REQUEST['bananas'] == "cuitasencore"))
+  if (isset($_REQUEST['bananas']) && ($_REQUEST['bananas'] == "cuitaspourlavie"))
     $graph2 = true;
+  elseif (isset($_REQUEST['bananas']) && ($_REQUEST['bananas'] == "cuitasencore"))
+    $graph3 = true;
 
   $cts2 = new contents("Personnes actives");
-  $cts2->add_paragraph("<center><img src=\"./stats.php?view=cotisants&bananas=cuitastoujours\" alt=\"Personnes actives par postes\" /></center>");
+  $cts2->add_paragraph("<center><img src=\"./stats.php?view=actifs&bananas=cuitastoujours\" alt=\"Personnes actives par postes\" /></center>");
+  $cts2->add_paragraph("<center><img src=\"./stats.php?view=actifs&bananas=cuitaspourlavie\" alt=\"Personnes actives par postes\" /></center>");
 
-  if (!$graph2)
+  if (!$graph3)
   {
     $req = new requete($site->db,
     "SELECT IF((role <10 AND ROLE >=2), 2, role) rle, COUNT(*) c1, COUNT(DISTINCT id_utilisateur) c2 ".
@@ -834,11 +837,23 @@ if ($_REQUEST["view"] == "actifs" )
 
     if ($graph1)
     {
-      $datas = array("Poste" => array("Avec double compte", "Sans double compte"));
+      $datas = array("Poste" => "Avec double compte");
       while ($row = $req->get_row())
-        $datas[$GLOBALS['ROLEASSO'][$row['rle']]] = array($row['c1'], $row['c2']);
+        $datas[$GLOBALS['ROLEASSO'][$row['rle']]] = $row['c1'];
 
-      $hist = new histogram($datas, "Top 10");
+      $hist = new histogram($datas, "Personnes actives avec double compte");
+      $hist->png_render();
+      $hist->destroy();
+
+      exit();
+    }
+    elseif ($graph2)
+    {
+      $datas = array("Poste" => "Sans double compte");
+      while ($row = $req->get_row())
+        $datas[$GLOBALS['ROLEASSO'][$row['rle']]] = $row['c2'];
+
+      $hist = new histogram($datas, "Personnes actives sans double compte");
       $hist->png_render();
       $hist->destroy();
 
@@ -860,7 +875,7 @@ if ($_REQUEST["view"] == "actifs" )
   }
   $cts->add($cts2,true);
 
-  if ($graph2)
+  if ($graph3)
   {
     $req = new requete($site->db,
     "SELECT IF((role <10 AND ROLE >=2), 2, role) rle, COUNT(DISTINCT id_utilisateur) count ".
@@ -874,7 +889,7 @@ if ($_REQUEST["view"] == "actifs" )
     "GROUP BY `rle`"
     );
 
-    $cam=new camembert();
+    $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
     while ($row = $req->get_row())
       $cam->data($row['count'], $GLOBALS['ROLEASSO'][$row['rle']]);
 
