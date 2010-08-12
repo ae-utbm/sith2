@@ -223,7 +223,8 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
       while ( $row = $req->get_row() )
       {
         $user->_load_all($row);
-        $gal->add_item(new userinfov2($user, "small", false, "user.php", true));
+        $same_promo = ($user->promo_utbm == $site->user->promo_utbm);
+        $gal->add_item(new userinfov2($user, "small", false, "user.php", $same_promo));
       }
 
       $cts->add($gal);
@@ -329,7 +330,8 @@ elseif ( $_REQUEST["action"] == "searchedt" )
       while ( $row = $req->get_row() )
       {
         $user->_load_all($row);
-        $gal->add_item(new userinfov2($user, "small", false, "user.php", true));
+        $same_promo = ($user->promo_utbm == $site->user->promo_utbm);
+        $gal->add_item(new userinfov2($user, "small", false, "user.php", $same_promo));
       }
 
       $cts->add($gal);
