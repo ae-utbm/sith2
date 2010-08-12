@@ -1142,7 +1142,8 @@ else
 
   $user->load_all_extra();
 
-  $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
+  $same_promo = ($user->promo_utbm == $site->user->promo_utbm);
+  $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"), "user.php", $same_promo);
 
   if ( $can_edit )
     $info->set_toolbox(new toolbox(array("user.php?id_utilisateur=".$user->id."&page=edit"=>"Modifier")));

@@ -398,7 +398,7 @@ class userinfov2 extends stdcontents
    * @param $display "small" (listing), "full" (fiche utilisateur), "summary" (comptoirs)
    * @param $admin En mode "full" affiche ou nom les liens d'administration sur l'utilisateur
    */
-  function userinfov2 ( $user, $display = "small", $admin = false, $urldest="user.php" )
+  function userinfov2 ( $user, $display = "small", $admin = false, $urldest="user.php", $view_trombi=false )
   {
     global $topdir, $UserBranches;
     $sub=substr_count($urldest, "/");
@@ -573,10 +573,11 @@ class userinfov2 extends stdcontents
 
     if ( $user->promo_utbm > 0 )
     {
-      $this->buffer .= "<p class=\"promo\"><a href=\"".$topdir."trombi/index.php?id_utilisateur=".
-    $user->id."\">Promo ".sprintf("%02d",$user->promo_utbm) . "</a>";
+      $this->buffer .= "<p class=\"promo\">Promo ".sprintf("%02d",$user->promo_utbm);
       if ( $display == "full" && file_exists($topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png") )
         $this->buffer .= "<img src=\"".$topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png\" alt=\"Promo ".sprintf("%02d",$user->promo_utbm)."\" />\n";
+      if ($view_trombi)
+        $this->buffer .= "<a href=\"".$topdir."trombi/index.php?id_utilisateur=".$user->id."\">Voir sa fiche sur le trombinoscope de promo</a>";
       $this->buffer .= "</p>\n";
     }
 
