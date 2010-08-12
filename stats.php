@@ -878,7 +878,7 @@ if ($_REQUEST["view"] == "actifs" )
         array("rle"=>$GLOBALS['ROLEASSO100'] )
         );
 
-      $cts2->add($tbl,true);
+      $cts2->add($tbl);
     }
   }
   $cts->add($cts2,true);
@@ -899,7 +899,7 @@ if ($_REQUEST["view"] == "actifs" )
       "ORDER BY rle DESC"
     );
 
-    $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,200);
+    $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,220);
     while ($row = $req->get_row())
       $cam->data($row['count'], utf8_decode($row['rle']!=null ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
 
