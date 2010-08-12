@@ -839,7 +839,7 @@ if ($_REQUEST["view"] == "actifs" )
     {
       $datas = array("Poste" => "Avec double compte");
       while ($row = $req->get_row())
-        $datas[$GLOBALS['ROLEASSO'][$row['rle']]] = $row['c1'];
+        $datas[utf8_decode($GLOBALS['ROLEASSO100'][$row['rle']])] = $row['c1'];
 
       $hist = new histogram($datas, "Personnes actives avec double compte");
       $hist->png_render();
@@ -851,7 +851,7 @@ if ($_REQUEST["view"] == "actifs" )
     {
       $datas = array("Poste" => "Sans double compte");
       while ($row = $req->get_row())
-        $datas[$GLOBALS['ROLEASSO'][$row['rle']]] = $row['c2'];
+        $datas[utf8_decode($GLOBALS['ROLEASSO100'][$row['rle']])] = $row['c2'];
 
       $hist = new histogram($datas, "Personnes actives sans double compte");
       $hist->png_render();
@@ -867,7 +867,7 @@ if ($_REQUEST["view"] == "actifs" )
         "role",
         array("rle"=>"Role","c1"=>"Avec double compte","c2"=>"Sans double compte"),
         array(), array(),
-        array("rle"=>$GLOBALS['ROLEASSO'] )
+        array("rle"=>$GLOBALS['ROLEASSO100'] )
         );
 
       $cts2->add($tbl,true);
@@ -878,20 +878,21 @@ if ($_REQUEST["view"] == "actifs" )
   if ($graph3)
   {
     $req = new requete($site->db,
-    "SELECT IF((role <10 AND ROLE >=2), 2, role) rle, COUNT(DISTINCT id_utilisateur) count ".
-    "FROM `asso_membre` ".
-    "LEFT JOIN `utilisateurs` USING (`id_utilisateur`) ".
-    "LEFT JOIN `asso` USING ( `id_asso` ) ".
-    "LEFT JOIN `asso` asso_p ON ( `asso_p`.`id_asso` = `asso`.`id_asso_parent` ) ".
-    "WHERE date_fin IS NULL ".
-    "AND (`asso_p`.`id_asso_parent`=1 OR `asso`.`id_asso_parent` =1) ".
-    "AND `ae_utl` = '1' ".
-    "GROUP BY `rle`"
+      "SELECT rle, COUNT(DISTINCT id_utilisateur) count FROM ( ".
+        "SELECT IF((MAX(role) <10 AND MAX(ROLE) >=2), 2, MAX(role)) rle, `utilisateurs`.`id_utilisateur` ".
+        "FROM `utilisateurs` ".
+        "LEFT JOIN `asso_membre` ON (`utilisateurs`.`id_utilisateur` = `asso_membre`.`id_utilisateur` AND date_fin IS NULL) ".
+        "LEFT JOIN `asso` USING ( `id_asso` ) ".
+        "LEFT JOIN `asso` asso_p ON ( `asso_p`.`id_asso` = `asso`.`id_asso_parent` ) ".
+        "WHERE (`asso_p`.`id_asso_parent`=1 OR `asso`.`id_asso_parent` =1 OR `asso`.`id_asso` IS NULL) ".
+        "AND `ae_utl` = '1' ".
+        "GROUP BY `id_utilisateur`) roles ".
+      "GROUP BY `rle`"
     );
 
-    $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
+    $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,200);
     while ($row = $req->get_row())
-      $cam->data($row['count'], $GLOBALS['ROLEASSO'][$row['rle']]);
+      $cam->data($row['count'], utf8_decode($GLOBALS['ROLEASSO100'][$row['rle']]));
 
     $cam->png_render();
     $cam->destroy_graph();
