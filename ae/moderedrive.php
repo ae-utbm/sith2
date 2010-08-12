@@ -107,8 +107,8 @@ $tbl = new sqltable("modfolders",
 $cts->add($tbl,true);
 
 $req = new requete($site->db,"SELECT d_file.* " .
-        ", `utilisateurs`.`id_utilisateur` ".
-        ", CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` ".
+        ", COALESCE(`utilisateurs`.`id_utilisateur`, -1) ".
+        ", COALESCE(CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`, '')) AS `nom_utilisateur` ".
         "FROM d_file " .
         "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
         "WHERE " .
