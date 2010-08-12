@@ -574,7 +574,7 @@ class userinfov2 extends stdcontents
     if ( $user->promo_utbm > 0 )
     {
       $this->buffer .= "<p class=\"promo\">";
-      if ($dispay == "full")
+      if ($display == "full")
       {
         $this->buffer .= "Promo ".sprintf("%02d",$user->promo_utbm)."\n";
         if (file_exists($topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png"))
@@ -584,7 +584,7 @@ class userinfov2 extends stdcontents
         $this->buffer .= "<a href=\"".$topdir."trombi/index.php?id_utilisateur=".$user->id."\">Promo ".sprintf("%02d",$user->promo_utbm)."</a>\n";
       $this->buffer .= "</p>\n";
 
-      if ($full && $view_trombi)
+      if (($display == "full") && $view_trombi)
         $this->buffer .= "<p class=\"trombi\"><a href=\"".$topdir."trombi/index.php?id_utilisateur=".$user->id."\">".
         "Voir sa fiche sur le trombinoscope de promo</a></p>";
     }
