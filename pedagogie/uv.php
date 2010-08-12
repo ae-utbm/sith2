@@ -317,7 +317,7 @@ if(isset($_REQUEST['id']))
             array("", "pedagogie/uv.php?id=".$uv->id, "Informations générales"),
             array("commentaires", "pedagogie/uv.php?id=".$uv->id."&view=commentaires", "Commentaires"),
             array("suivi", "pedagogie/uv.php?id=".$uv->id."&view=suivi", "Séances & Élèves"),
-            array("ressources", "pedagogie/uv.php?id=".$uv->id."&view=ressources", "Ressources")
+            //array("ressources", "pedagogie/uv.php?id=".$uv->id."&view=ressources", "Ressources")
           );
   $cts->add(new tabshead($tabs, $_REQUEST['view']));
 
