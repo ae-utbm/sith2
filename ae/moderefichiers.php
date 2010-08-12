@@ -49,24 +49,24 @@ if (isset($_REQUEST['mod_file_submit']))
       && ($file->modere == true))
     {
       $site->add_contents(new error("erreur",
-				    "Ce fichier a d&eacute;j&agrave; &eacute;t&eacute; modere, vous ne ".
-				    "pouvez donc plus y apporter de modifications"));
+            "Ce fichier a d&eacute;j&agrave; &eacute;t&eacute; modere, vous ne ".
+            "pouvez donc plus y apporter de modifications"));
       $site->end_page ();
       exit();
     }
   /* droits verifies */
   $ret = $file->modify ($_REQUEST['id_fichier'],
-			$_REQUEST['titre'],
-			$_REQUEST['cat'],
-			$_REQUEST['comment'],
-			$_REQUEST['public'] == 1 ? 1 : 0);
+      $_REQUEST['titre'],
+      $_REQUEST['cat'],
+      $_REQUEST['comment'],
+      $_REQUEST['public'] == 1 ? 1 : 0);
 
   if ($ret == true)
     $site->add_contents (new contents ("Modification  du fichier",
-				       "<p>Fichier modifie avec succes</p>"));
+               "<p>Fichier modifie avec succes</p>"));
   else
     $site->add_contents (new error ("Modification du fichier",
-				    "<p>Une erreur est survenue lors de la modification</p>"));
+            "<p>Une erreur est survenue lors de la modification</p>"));
   $site->end_page();
   exit ();
 }
@@ -77,14 +77,14 @@ if (!isset($_REQUEST['action']))
 {
   /* explications */
   $site->add_contents (new contents("Modération des fichiers",
-				    "<p>Sur cette page, vous ".
-				    "allez pouvoir modérer les fichiers ".
-				    "selon votre niveau d'acces<br/><br/>".
-				    "Les modérateurs du site peuvent ".
-				    "supprimer tout fichier, moderé ou non; ".
-				    "les utilisateurs ayant posté un fichier".
-				    " qui n'a pas encore été moderé peuvent ".
-				    "le supprimer.</p>"));
+            "<p>Sur cette page, vous ".
+            "allez pouvoir modérer les fichiers ".
+            "selon votre niveau d'acces<br/><br/>".
+            "Les modérateurs du site peuvent ".
+            "supprimer tout fichier, moderé ou non; ".
+            "les utilisateurs ayant posté un fichier".
+            " qui n'a pas encore été moderé peuvent ".
+            "le supprimer.</p>"));
 
   /* l'equipe de moderation doit moderer les fichiers en attente */
   if ($site->user->is_in_group ("moderateur_site"))
@@ -98,27 +98,27 @@ if (!isset($_REQUEST['action']))
 
               FROM `fichiers`
               INNER JOIN `fichiers_cat` ON `fichiers_cat`.`id_catfch` =
-	`fichiers`.`id_catfch`
-              INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur` =
-	`fichiers`.`id_utilisateur`
+  `fichiers`.`id_catfch`
+              LEFT JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur` =
+  `fichiers`.`id_utilisateur`
               WHERE `modere_fichier` = 0";
 
       $req = new requete($site->db, $sql);
       /* liste pour la moderation */
       $tbl = new sqltable("filemod_list",
-			  "Fichiers en attente de moderation",
-			  $req,
-			  "moderefichiers.php?filemod=1",
-			  "id_fichier",
-			  array("titre_fichier"=>"Titre",
-				"nom_utilisateur"=>"Auteur",
-				"mime_fichier"=>"Type",
-				"commentaire_fichier"=>"Commentaire"),
-			  array("done" => "Accepter",
-				"delete" => "Supprimer"),
-			  array("done" => "Accepter",
-				"delete" => "Supprimer"),
-			  array());
+        "Fichiers en attente de moderation",
+        $req,
+        "moderefichiers.php?filemod=1",
+        "id_fichier",
+        array("titre_fichier"=>"Titre",
+        "nom_utilisateur"=>"Auteur",
+        "mime_fichier"=>"Type",
+        "commentaire_fichier"=>"Commentaire"),
+        array("done" => "Accepter",
+        "delete" => "Supprimer"),
+        array("done" => "Accepter",
+        "delete" => "Supprimer"),
+        array());
       $site->add_contents ($tbl);
     }
 
@@ -134,7 +134,7 @@ if (!isset($_REQUEST['action']))
   if (!$site->user->is_in_group ("moderateur_site"))
     {
       $sql = $sql ." WHERE `id_utilisateur` = ". $site->user->id .
-	" AND `modere_fichier` = 1";
+  " AND `modere_fichier` = 1";
       $titre = "Vos fichiers en attente de moderation";
     }
 
@@ -145,16 +145,16 @@ if (!isset($_REQUEST['action']))
 
   /* liste complete des fichiers */
   $tbl = new sqltable("file_list",
-		      $titre,
-		      $req,
-		      "moderefichiers.php?filelist=1",
-		      "id_fichier",
-		      array("titre_fichier"=>"Titre",
-			    "mime_fichier"=>"Type",
-			    "commentaire_fichier"=>"Commentaire"),
-		      array("edit" => "Editer", "delete" => "Supprimer"),
-		      array("delete" => "Supprimer"),
-		      array());
+          $titre,
+          $req,
+          "moderefichiers.php?filelist=1",
+          "id_fichier",
+          array("titre_fichier"=>"Titre",
+          "mime_fichier"=>"Type",
+          "commentaire_fichier"=>"Commentaire"),
+          array("edit" => "Editer", "delete" => "Supprimer"),
+          array("delete" => "Supprimer"),
+          array());
 
   $site->add_contents ($tbl);
 }
@@ -172,48 +172,48 @@ else
 
       /* verif droits */
       if ((!$site->user->is_in_group("moderateur_site"))
-	  && ($file->auteur != $site->user->id))
-	error_403 ();
+    && ($file->auteur != $site->user->id))
+  error_403 ();
 
       if ((!$site->user->is_in_group("moderateur_site"))
-	  && ($file->modere == true))
-	$site->add_contents(new error("erreur",
-				      "Ce fichier a d&eacute;j&agrave; &eacute;t&eacute; mod&eacute;r&eacute;, vous ne ".
-				      "pouvez donc plus y apporter de modifications"));
+    && ($file->modere == true))
+  $site->add_contents(new error("erreur",
+              "Ce fichier a d&eacute;j&agrave; &eacute;t&eacute; mod&eacute;r&eacute;, vous ne ".
+              "pouvez donc plus y apporter de modifications"));
       /* modification autorisee */
       else
-	{
-	  $mod = new form ("mod_file",
-			   "moderefichiers.php",
-			   true,
-			   "Modification d'un fichier");
-	  $mod->add_hidden ("id_fichier", $file->id);
-	  $mod->add_text_field ("titre",
-				"titre du fichier",
-				$file->titre);
-	  $mod->add_checkbox ("public",
-			      "statut public",
-			      $file->public == 1 ? true : false);
-	  /* categories */
-	  $req = new requete ($site->db,
-			      "SELECT * FROM `fichiers_cat`");
-	  while ($rs = $req->get_row ())
-	    $cats[$rs[0]] = $rs[1];
+  {
+    $mod = new form ("mod_file",
+         "moderefichiers.php",
+         true,
+         "Modification d'un fichier");
+    $mod->add_hidden ("id_fichier", $file->id);
+    $mod->add_text_field ("titre",
+        "titre du fichier",
+        $file->titre);
+    $mod->add_checkbox ("public",
+            "statut public",
+            $file->public == 1 ? true : false);
+    /* categories */
+    $req = new requete ($site->db,
+            "SELECT * FROM `fichiers_cat`");
+    while ($rs = $req->get_row ())
+      $cats[$rs[0]] = $rs[1];
 
-	  $mod->add_select_field ("cat",
-				  "categorie",
-				  $cats,
-				  $file->id_cat);
-	  $mod->add_text_area ("comment",
-			       "Commentaires",
-			       $file->comment,
-			       80,
-			       5,
-			       false);
-	  $mod->add_submit("mod_file_submit",
-			   "Modifier");
-	  $site->add_contents ($mod);
-	}
+    $mod->add_select_field ("cat",
+          "categorie",
+          $cats,
+          $file->id_cat);
+    $mod->add_text_area ("comment",
+             "Commentaires",
+             $file->comment,
+             80,
+             5,
+             false);
+    $mod->add_submit("mod_file_submit",
+         "Modifier");
+    $site->add_contents ($mod);
+  }
     }
 
   /* suppression */
@@ -222,36 +222,36 @@ else
       $file = new file ($site->db, $site->dbrw);
       /* il peut y avoir plusieurs fichiers a supprimer d'un coup */
       if (isset($_REQUEST['id_fichier']))
-	$ids[] =  $_REQUEST['id_fichier'];
+  $ids[] =  $_REQUEST['id_fichier'];
       else
-	$ids = $_REQUEST['id_fichiers'];
+  $ids = $_REQUEST['id_fichiers'];
 
       foreach ($ids as $id)
-	{
-	  $file->load_by_id ($id);
+  {
+    $file->load_by_id ($id);
 
-	  /* verification droits */
-	  if ((!$site->user->is_in_group("moderateur_site"))
-	      && ($file->auteur != $site->user->id))
-	    error_403 ();
+    /* verification droits */
+    if ((!$site->user->is_in_group("moderateur_site"))
+        && ($file->auteur != $site->user->id))
+      error_403 ();
 
-	  if ((!$site->user->is_in_group("moderateur_site"))
-	      && ($file->modere == true))
-	    $site->add_contents(new error("erreur",
-					  "Ce fichier a d&eacute;j&agrave; &eacute;t&eacute; mod&eacute;r&eacute;, vous ne ".
-					  "pouvez donc plus le suppimer"));
-	  else
-	    {
-	      $ret = $file->delete_file ();
-	      if ($ret == true)
-		$site->add_contents (new contents ("Suppression du fichier",
-						   "<p>Fichier supprime avec succes</p>"));
-	      else
-		$site->add_contents (new error ("Suppression du fichier",
-						"<p>Une erreur est survenue lors de ".
-						"la suppression</p>"));
-	    }
-	}
+    if ((!$site->user->is_in_group("moderateur_site"))
+        && ($file->modere == true))
+      $site->add_contents(new error("erreur",
+            "Ce fichier a d&eacute;j&agrave; &eacute;t&eacute; mod&eacute;r&eacute;, vous ne ".
+            "pouvez donc plus le suppimer"));
+    else
+      {
+        $ret = $file->delete_file ();
+        if ($ret == true)
+    $site->add_contents (new contents ("Suppression du fichier",
+               "<p>Fichier supprime avec succes</p>"));
+        else
+    $site->add_contents (new error ("Suppression du fichier",
+            "<p>Une erreur est survenue lors de ".
+            "la suppression</p>"));
+      }
+  }
       $site->end_page();
       exit ();
     }
@@ -260,43 +260,43 @@ else
     {
       $file = new file($site->db, $site->dbrw);
       if (!$site->user->is_in_group ("moderateur_site"))
-	error_403 ();
+  error_403 ();
       if (isset($_REQUEST['id_fichier']))
-	$ids[] =  $_REQUEST['id_fichier'];
+  $ids[] =  $_REQUEST['id_fichier'];
       else
-	$ids = $_REQUEST['id_fichiers'];
+  $ids = $_REQUEST['id_fichiers'];
 
       foreach ($ids as $id)
-	{
-	  $file->load_by_id($id);
-	  $title = $file->titre;
+  {
+    $file->load_by_id($id);
+    $title = $file->titre;
 
-	  if ($_REQUEST['action'] == "delete")
-	    {
-	      $ret = $file->delete_file();
+    if ($_REQUEST['action'] == "delete")
+      {
+        $ret = $file->delete_file();
 
-	      if ($ret == true)
-		$site->add_contents (new contents ("Suppression du fichier",
-						   "<p>Fichier $title supprime avec succes</p>"));
-	      else
-		$site->add_contents (new error ("Suppression du fichier",
-						"<p>Une erreur est survenue lors de ".
-						"la suppression de $title</p>"));
-	    }
-	  /* accepte en moderation */
-	  if ($_REQUEST['action'] == "done")
-	    {
-	      $ret = $file->modere();
-	      if ($ret == true)
-		$site->add_contents (new contents ("Moderation du fichier",
-						   "<p>Fichier $title modere avec succes</p>"));
-	      else
-		$site->add_contents (new error ("Modereation du fichier",
-						"<p>Une erreur est survenue lors de ".
-						"la moderation de $title</p>"));
+        if ($ret == true)
+    $site->add_contents (new contents ("Suppression du fichier",
+               "<p>Fichier $title supprime avec succes</p>"));
+        else
+    $site->add_contents (new error ("Suppression du fichier",
+            "<p>Une erreur est survenue lors de ".
+            "la suppression de $title</p>"));
+      }
+    /* accepte en moderation */
+    if ($_REQUEST['action'] == "done")
+      {
+        $ret = $file->modere();
+        if ($ret == true)
+    $site->add_contents (new contents ("Moderation du fichier",
+               "<p>Fichier $title modere avec succes</p>"));
+        else
+    $site->add_contents (new error ("Modereation du fichier",
+            "<p>Une erreur est survenue lors de ".
+            "la moderation de $title</p>"));
 
-	    }
-	}
+      }
+  }
     }
 }
 
