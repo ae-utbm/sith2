@@ -581,7 +581,12 @@ class userinfov2 extends stdcontents
           $this->buffer .= "<img src=\"".$topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png\" alt=\"Promo ".sprintf("%02d",$user->promo_utbm)."\" />\n";
       }
       else
-        $this->buffer .= "<a href=\"".$topdir."trombi/index.php?id_utilisateur=".$user->id."\">Promo ".sprintf("%02d",$user->promo_utbm)."</a>\n";
+      {
+        if ($view_trombi)
+          $this->buffer .= "<a href=\"".$topdir."trombi/index.php?id_utilisateur=".$user->id."\">Promo ".sprintf("%02d",$user->promo_utbm)."</a>\n";
+        else
+          $this->buffer .= "Promo ".sprintf("%02d",$user->promo_utbm)."\n";
+      }
       $this->buffer .= "</p>\n";
 
       if (($display == "full") && $view_trombi)
