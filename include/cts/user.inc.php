@@ -586,7 +586,7 @@ class userinfov2 extends stdcontents
 
       if (($display == "full") && $view_trombi)
         $this->buffer .= "<p class=\"trombi\"><a href=\"".$topdir."trombi/index.php?id_utilisateur=".$user->id."\">".
-        "Voir sa fiche sur le trombinoscope de promo</a></p>";
+        "Voir sur le trombinoscope</a></p>";
     }
 
     if ( $user->tel_maison )
