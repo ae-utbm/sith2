@@ -784,7 +784,7 @@ div.article a
 }
 div.article h1
 {
-  margin: 0 0  8 0;
+  margin: 0;
   padding: 0.5em;
   font-size: 100%;
   font-weight:normal;
@@ -1051,7 +1051,7 @@ div.article div.tabs
   height:20px;
   overflow:hidden;
   padding-left:0px;
-  margin: -8 10  10 -8;
+  margin: 0 10  10 -8;
   text-transform:lowercase;
 }
 div.article
