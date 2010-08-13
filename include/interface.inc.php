@@ -88,19 +88,20 @@ class interfaceweb
               array("article.php?name=presentation:activites","Activités et clubs"),
               array("activites.php?view=trombino","Responsables des clubs"),
              ) ),
-        array ("services", "article.php?name=services", "Services" ),
-        //array ("pg", "pgae.php", "Petit géni"),
-        array ("e-boutic", "e-boutic/", "E-boutic"),
         array ("matmatronch", "matmatronch/", "Matmatronch"),
+        array ("wiki", "wiki2/", "Wiki"),
         array ("sas", "sas2/", "SAS"),
         array ("forum", "forum2/", "Forum"),
-        array ("wiki", "wiki2/", "Wiki"),
+        array ("services", "article.php?name=services", "Services" ),
+        //array ("pg", "pgae.php", "Petit géni"),
+        //e-boutic -> services
+        //array ("e-boutic", "e-boutic/", "E-boutic"),
         array ("fichiers", "d.php", "Fichiers",
            array (
               array ("d.php", "Fichiers de l'AE" ),
               array ("asso.php", "Fichiers des associations et des clubs" )
              ) ),
-        array ("liens","article.php?name=liens","Liens"));
+        array ("liens","article.php?name=liens","Partenaires"));
 
   /** Constructeur
    * @param $db instance de la base de donnée pour la lecture

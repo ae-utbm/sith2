@@ -300,6 +300,9 @@ class site extends interfaceweb
     if ( isset($_REQUEST["fetch"]) )
       return;
 
+    if ($section == "e-boutic")
+      $section = "services";
+
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
     $this->add_box("calendrier",new calendar($this->db));
