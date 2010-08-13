@@ -443,7 +443,7 @@ div.sectionlinks
   padding-top: 0.25em;
   padding-bottom: 0.25em;
   text-align: center;
-  border-bottom: 1px solid #DD9900;
+  background-color:#DD9900;
 }
 
 div.sectionlinks a
