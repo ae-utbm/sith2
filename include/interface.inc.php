@@ -79,7 +79,7 @@ class interfaceweb
   var $alternate;
 
   var $tab_array = array (array ("accueil", "index.php", "Accueil"),
-        array ("presentation", "article.php?name=presentation", "Présentation",
+        array ("presentation", "article.php?name=presentation", "L'AE",
            array (
               array("article.php?name=presentation","Présentation"),
               array("article.php?name=presentation:services","Services quotidiens"),
