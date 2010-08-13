@@ -586,7 +586,7 @@ div.contents:after
 /*Articles*/
 div.page
 {
-  margin-top: 2em;
+  margin: 0;
   padding: 0;
   width: auto;
 }
@@ -785,7 +785,7 @@ div.article a
 }
 div.article h1
 {
-  margin: -15 0  8 -8;
+  margin: 0  8 ;
   padding: 0.5em;
   font-size: 100%;
   font-weight:normal;
