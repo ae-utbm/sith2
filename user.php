@@ -1112,7 +1112,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
 
 
   $req = new requete($site->db,
-                     "SELECT `groupe`.`id_groupe`, `groupe`.`nom_groupe`, `utl_groupe`.`id_utilisateur` ".
+                     "SELECT `groupe`.`id_groupe`, `groupe`.`nom_groupe`, `groupe`.`description_groupe``utl_groupe`.`id_utilisateur` ".
                      "FROM `groupe` " .
                      "LEFT JOIN `utl_groupe` ON (`groupe`.`id_groupe`=`utl_groupe`.`id_groupe`" .
                      " AND `utl_groupe`.`id_utilisateur`='".$user->id."' ) " .
