@@ -89,7 +89,10 @@ div#logo
 {
   float:left;
   display:block-inline;
-  height: 80px;
+}
+div#logo img
+{
+  height:160px;
 }
 
 /*Listes non ordonnées. TODO: Verifier le rendu sous IE et FF dans les boites et les articles*/
