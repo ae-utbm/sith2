@@ -141,11 +141,12 @@ if ( $_REQUEST["action"] == "info" )
     if ( !$user_a->is_valid() || !$user_b->is_valid() )
         $site->error_not_found("rd");
 
-  $site->start_page("rd","galaxy");
-  $cts = new contents("<a href=\"galaxy.php\">Galaxy</a> : Score ".
-  "<a href=\"galaxy.php?id_utilisateur=".$user_a->id."\">".$user_a->prenom . " " . $user_a->nom."</a>".
-  " - <a href=\"galaxy.php?id_utilisateur=".$user_b->id."\">".$user_b->prenom . " " . $user_b->nom."</a>");
-  $cts->add_title(2,"Cacul du score \"galaxy\"");
+  $site->start_page("matmatronch","galaxy");
+  $cts = new contents($user_a->prenom." ".$user_a->nom);
+  $tabs = $user_a->get_tabs($site->user);
+  $cts->add(new tabshead($tabs,"galaxy"));
+
+  $cts->add_title(2,"Cacul du score \"galaxy\" : ".$user_a->get_html_link()." - ".$user_b->get_html_link());
 
   $total=0;
 
@@ -214,9 +215,10 @@ elseif ( isset($_REQUEST["id_utilisateur"]) )
     if ( !$user->is_valid() )
         $site->error_not_found("rd");
 
-  $site->start_page("rd","galaxy");
-  $cts = new contents("<a href=\"galaxy.php\">Galaxy</a> : ".
-  "<a href=\"galaxy.php?id_utilisateur=".$user->id."\">".$user->prenom . " " . $user->nom."</a>");
+  $site->start_page("matmatronch","galaxy");
+  $cts = new contents($user->prenom." ".$user->nom);
+  $tabs = $user->get_tabs($site->user);
+  $cts->add(new tabshead($tabs,"galaxy"));
 
   $req = new requete($site->db,"SELECT rx_star,ry_star FROM galaxy_star WHERE id_star='".mysql_real_escape_string($user->id)."'");
 
@@ -334,8 +336,8 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 }
 
 
-$site->start_page("rd","galaxy - ae r&d");
-$cts = new contents("galaxy");
+$site->start_page("matmatronch","Galaxy");
+$cts = new contents("Galaxy");
 
 $site->add_css("css/galaxy.css");
 $site->add_js("js/galaxy.js");
