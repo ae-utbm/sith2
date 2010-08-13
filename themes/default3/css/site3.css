@@ -537,7 +537,7 @@ p.text-footer
 
 /*----------------------------------------------*/
 
-/* Boite conteneur------------------------------TODO: Verifier l'interet */
+/* Boite conteneur------------------------------ */
 div.contents
 {
   text-align:left;
@@ -546,7 +546,7 @@ div.contents
   margin:auto;
   margin-top:0;
   margin-bottom:40px;
-  padding-top : 0.5em;
+  padding-top:2em;
   border:0;
   padding: 0 0 0 0;
   background-color:#fff;
@@ -806,7 +806,7 @@ div.article div.level2
 {
   margin-left:0.2em;
   font-family: arial, sans-serif;
-  border: 1px solid #000;
+  border: 1px solid #666666;
 }
 div.article h3
 {
