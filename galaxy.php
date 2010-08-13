@@ -308,7 +308,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)
     WHERE a.id_star='".mysql_real_escape_string($user->id)."'
     AND a.id_star!=b.id_star
-    AND b.id_star=id_utilisateur
+    AND b.id_star=`utilisateurs`.`id_utilisateur`
     AND POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2) < 4
     ORDER BY 1");
 
