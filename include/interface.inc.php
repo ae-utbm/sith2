@@ -337,6 +337,7 @@ class interfaceweb
       if(!defined('NOTAE'))
       {
         $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+        $i++;
         if($this->user->ae)
         {
           $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." €</a>';";
