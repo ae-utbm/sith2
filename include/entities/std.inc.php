@@ -132,6 +132,10 @@ abstract class stdentity
       return "<a id=\"$ref\" onmouseover=\"show_tooltip('$ref','$wwwtopdir','$class','".$this->id."');\" onmouseout=\"hide_tooltip('$ref');\" href=\"".$wwwtopdir.$GLOBALS["entitiescatalog"][$class][3]."?".$GLOBALS["entitiescatalog"][$class][0]."=".$this->id."\">".
       "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"\" /> ".
       htmlentities($this->get_display_name(),ENT_COMPAT,"UTF-8")."</a>";
+    elseif ($this->can_describe() )
+      return "<a href=\"".$wwwtopdir.$GLOBALS["entitiescatalog"][$class][3]."?".$GLOBALS["entitiescatalog"][$class][0]."=".$this->id."\" title=\"".$this->get_description()."\">".
+      "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"\" /> ".
+      htmlentities($this->get_display_name(),ENT_COMPAT,"UTF-8")."</a>";
     else
       return "<a href=\"".$wwwtopdir.$GLOBALS["entitiescatalog"][$class][3]."?".$GLOBALS["entitiescatalog"][$class][0]."=".$this->id."\">".
       "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"\" /> ".
