@@ -440,6 +440,7 @@ div.sectionlinks
 {
   width:980px;
   margin: 0 auto 0 auto;
+  margin-bottom: 0.25em;
   padding-top: 0.25em;
   padding-bottom: 0.25em;
   text-align: center;
