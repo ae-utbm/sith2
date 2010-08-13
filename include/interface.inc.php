@@ -211,7 +211,7 @@ class interfaceweb
     if(!defined('NOTAE'))
     {
       $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
-      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default2/css/site2.css?".filemtime($wwwtopdir . "themes/default2/css/site2.css")."\" title=\"AE2-NEW2\" />\n";
+      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($wwwtopdir . "themes/default2/css/site2.css")."\" title=\"AE2-NEW2\" />\n";
     }
     else
     {
@@ -219,7 +219,7 @@ class interfaceweb
       if(isset($this->css))
         $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . $this->css."?".filemtime($wwwtopdir . $this->css)."\" title=\"AE2-NEW2\" />\n";
       else
-        $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default2/css/site2.css?".filemtime($wwwtopdir . "themes/default2/css/site2.css")."\" title=\"AE2-NEW2\" />\n";
+        $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($wwwtopdir . "themes/default2/css/site2.css")."\" title=\"AE2-NEW2\" />\n";
     }
     foreach ( $this->extracss as $url )
       if(file_exists(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")))
