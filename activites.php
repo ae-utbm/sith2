@@ -29,7 +29,7 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 
 $site = new site ();
 
-$site->start_page("none","Activités");
+$site->start_page("presentation","Activités");
 
 $cts = new contents("Responsables des clubs");
 if ($site->user->is_in_group("gestion_ae"))

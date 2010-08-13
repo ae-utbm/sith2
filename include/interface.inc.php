@@ -81,9 +81,12 @@ class interfaceweb
   var $tab_array = array (array ("accueil", "index.php", "Accueil"),
         array ("presentation", "article.php?name=presentation", "Présentation",
            array (
-              array ("article.php?name=presentation", "L'AE" ),
-              array ("asso.php", "Associations et clubs" ),
-              array ("article.php?name=presentation:services", "Services quotidiens" )
+              array("presentation","article.php?name=presentation","Présentation"),
+              array("services","article.php?name=presentation:services","Services quotidiens"),
+              array("carteae","article.php?name=presentation:carteae","La carte AE"),
+              array("siteae","article.php?name=presentation:siteae","Le site AE"),
+              array("siteae","article.php?name=presentation:siteae","Activités et clubs"),
+              array("siteae","article.php?name=presentation:siteae","Responsables des clubs"),
              ) ),
         array ("services", "article.php?name=services", "Services" ),
         //array ("pg", "pgae.php", "Petit géni"),

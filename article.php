@@ -130,6 +130,14 @@ if ( $page->section )
 
 if( $section == "presentation" )
   $site->add_css("css/presentation.css");
+  $tabs = array(
+    array("presentation","article.php?name=presentation","Présentation"),
+    array("services","article.php?name=presentation:services","Services quotidiens"),
+    array("carteae","article.php?name=presentation:carteae","La carte AE"),
+    array("siteae","article.php?name=presentation:siteae","Le site AE"),
+    array("siteae","article.php?name=presentation:siteae","Activités et clubs"),
+    array("siteae","article.php?name=presentation:siteae","Responsables des clubs"),
+    );
 
 if ( $page->is_right($site->user,DROIT_ECRITURE) )
 {
