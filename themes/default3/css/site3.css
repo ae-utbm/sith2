@@ -92,7 +92,7 @@ div#logo
 }
 div#logo img
 {
-  height:160px;
+  height:100%;
 }
 
 /*Listes non ordonnées. TODO: Verifier le rendu sous IE et FF dans les boites et les articles*/
