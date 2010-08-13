@@ -53,7 +53,7 @@ if ( $tag->is_valid() )
 $site = new site();
 
 //if (!$site->user->id || !$site->user->utbm)
-if (!$site->user->is_in_group("root"))
+if (!$site->user->is_in_group("taiste"))
   $site->error_forbidden();
 
 $site->start_page ("none", "Planet AE ");
