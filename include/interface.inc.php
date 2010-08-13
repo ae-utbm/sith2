@@ -101,7 +101,8 @@ class interfaceweb
               array ("d.php", "Fichiers de l'AE" ),
               array ("asso.php", "Fichiers des associations et des clubs" )
              ) ),
-        array ("liens","article.php?name=liens","Partenaires"));
+        array ("liens","article.php?name=liens","Partenaires"),
+        array ("aide","article.php?name=docs:index","Aide"));
 
   /** Constructeur
    * @param $db instance de la base de donnée pour la lecture
