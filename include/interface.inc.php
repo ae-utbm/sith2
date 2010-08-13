@@ -336,7 +336,7 @@ class interfaceweb
       $i=0;
       if(!defined('NOTAE'))
       {
-        $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+        $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Mes informations</a>';";
         $i++;
         if($this->user->ae)
         {
