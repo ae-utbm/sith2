@@ -336,15 +336,14 @@ class interfaceweb
       $i=0;
       if(!defined('NOTAE'))
       {
+        $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
         if($this->user->ae)
         {
-          $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
+          $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." €</a>';";
           $i++;
         }
-        if($i==0)
-          $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
-        else
-          $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+        $i++;
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/outils.php\">Mes outils</a>';";
         $i++;
         if($this->user->utbm)
         {
@@ -364,8 +363,6 @@ class interfaceweb
           $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>';";
         else
           $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>';";
-        $i++;
-        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/outils.php\">Mes outils</a>';";
         $i++;
       }
       $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
