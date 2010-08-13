@@ -1,9 +1,9 @@
-@import url("/themes/default/css/site.css");
+@import url("/themes/default3/css/site3.css");
 
 p.footer
 {
   margin-top:2em;
-  padding-bottom:2em;  
+  padding-bottom:2em;
   font-size:10px;
   color:#c0c0c0;
   text-align:center;
