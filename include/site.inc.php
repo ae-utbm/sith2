@@ -399,7 +399,7 @@ class site extends interfaceweb
       if ( $carte->etat_vie_carte == CETAT_ATTENTE &&
         !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $this->user->id .".identity.jpg") )
       {
-        $elements[] = "<a href=\"".$topdir."user.php?page=edit&open=photo#setphotos\"><b>Vous devez ajouter une photo</b> pour que votre carte AE soit imprimée.</a>";
+        $elements[] = "<a href=\"".$topdir."user.php?see=photos&page=edit\"><b>Vous devez ajouter une photo</b> pour que votre carte AE soit imprimée.</a>";
       }
       elseif ($carte->etat_vie_carte == CETAT_AU_BUREAU_AE )
       {
