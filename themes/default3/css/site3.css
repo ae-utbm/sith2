@@ -798,13 +798,14 @@ div.article h1
   text-transform:uppercase;
   background-color: #FF8800;
 }
-div.article h1 div.icon
+div.article h1 img.icon
 {
   display: none;
 }
 div.article h1 a
 {
   color: #FFFFFF;
+  text-decoration:none;
 }
 div.article h2
 {
