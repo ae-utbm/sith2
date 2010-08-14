@@ -1056,7 +1056,7 @@ div.article div.tabs
   height:20px;
   overflow:hidden;
   padding-left:0px;
-  margin: 0 10  10 -8;
+  margin: 0 0 10 0;
   text-transform:lowercase;
 }
 div.article
