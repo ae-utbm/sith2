@@ -451,7 +451,7 @@ div.sectionlinks
   background-color:#774499;
   height:13px;
 }
-div.sectionlinks a
+div.sectionlinks a, div.sectionlinks span
 {
   padding-right: 1em;
   padding-left: 1em;

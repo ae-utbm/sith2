@@ -519,7 +519,7 @@ class interfaceweb
         elseif(!empty($entry[0]))
           $this->buffer .= "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>";
         else
-          $this->buffer .= $entry[1];
+          $this->buffer .= "<span>".$entry[1]."</span>";
       }
 
       $this->buffer .= "</div>\n";
