@@ -13,17 +13,17 @@ div.forumsection, div.forumsujetsliste
 div.forumsection h2
 {
   /*background:#FFF1C5;*/
-  background:#EEAC00;
+  background:#EE1177;
   border:0px;
   font-size:15px;
   margin:0px;
   padding:5px;
-  
+
 }
 
 div.forumsection div.forumitem, div.forumsujetsliste div.forumsujet
 {
-  border:1px solid #d8e7f3; 
+  border:1px solid #d8e7f3;
   padding:5px;
   position:relative;
   overflow:hidden;
@@ -170,7 +170,7 @@ div.fmsgsliste
 
 div.fmsgentry
 {
-  border:1px solid #d8e7f3; 
+  border:1px solid #d8e7f3;
   /*padding:5px;*/
   /*padding-left:160px;*/
   position:relative;
@@ -233,7 +233,7 @@ div.fmsgentry div.auteur p.fuimg
 div.fmsgentry div.auteur p.fuimg img
 {
   width:100px;
-  
+
 }
 /*
 div.fmsgentry.nonlu div.auteur
@@ -245,12 +245,12 @@ div.fmsgentry.nonlu div.auteur
 div.fmsgentry h2.frmt
 {
   font-size:12px;
-  
+
   margin:0px;
-  
+
   border:0;
-  
-  padding-top:5px;  
+
+  padding-top:5px;
   padding-left:280px;
 }
 
@@ -309,22 +309,22 @@ div.fmsgentry.nonlu div.signature
 /*
 div.fmsgentry.nonlu div.signature *
 {
-  color:#FFFFFF;  
+  color:#FFFFFF;
 }
 */
 div.sujetcontext
 {
   margin-left:150px;
-  margin-right:150px;  
-  margin-bottom:20px;  
+  margin-right:150px;
+  margin-bottom:20px;
   border:1px solid #d8e7f3;
   padding:5px;
 }
 
 .tabs_bottom
 {
-  position:relative;  
-  
+  position:relative;
+
 }
 
 div.article p.frmgeneral
@@ -369,7 +369,7 @@ div.article p.frmtools
 {
   margin:20px;
   margin-left:10px;
-  
+
 }
 
 div.article p.frmtools img
@@ -430,7 +430,7 @@ div.cita div.cits
   margin-top:2px;
   padding: 4px;
   text-align: justify;
-  background-color: #ecf4fe; 
+  background-color: #ecf4fe;
 }
 
 
