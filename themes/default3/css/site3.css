@@ -779,7 +779,7 @@ div.box p
 div.article
 {
   background: white;
-  padding: 20 0 0 10;
+  padding: 20 0 10 10;
   margin-bottom: 10px;
   clear: both;
   position:relative;
