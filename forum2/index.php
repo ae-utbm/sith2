@@ -53,16 +53,6 @@ if($site->user->is_in_group("ban_forum"))
 }
 
 
-$cts = new contents();
-$cts->cssclass="liner";
-if ( $site->user->is_valid() )
-  $cts->buffer = "<p class=\"center\">Connecté en tant que ".($site->user->surnom!=null ? $site->user->surnom : $site->user->alias )." - <a href=\"../user.php?page=edit\">Mon profil</a> - <a href=\"search.php?page=unread\">Messages non lus</a></p>";
-else
-  $cts->buffer = "<p class=\"center\">Non connecté - <a href=\"../index.php\">Se connecter</a> - <a href=\"../newaccount.php\">Creer un compte</a></p>";
-$site->add_contents($cts);
-unset($cts);
-
-
 $forum = new forum($site->db,$site->dbrw);
 $pforum = new forum($site->db);
 $sujet = new sujet($site->db,$site->dbrw);
@@ -555,10 +545,10 @@ if ( $sujet->is_valid() )
         $_auteur=new utilisateur($site->db,$site->dbrw);
         $_auteur->load_by_id($message->id_utilisateur);
         if(!is_null($_auteur->id)){
-				  $req = new requete($site->db, "SELECT * FROM `utl_etu_utbm` WHERE `id_utilisateur` =".$_auteur->id." ;");
+          $req = new requete($site->db, "SELECT * FROM `utl_etu_utbm` WHERE `id_utilisateur` =".$_auteur->id." ;");
           $_auteur->_load_extras($req->get_row());
           $_auteur="=".($_auteur->surnom!=null ? $_auteur->surnom : $_auteur->alias);
-				}
+        }
       }
 
       $rpltext = "[quote".$_auteur."]".$message->contenu . "[/quote]";

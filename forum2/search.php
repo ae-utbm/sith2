@@ -17,15 +17,6 @@ require_once($topdir . "include/cts/forum.inc.php");
 $site = new site ();
 $site->add_css("css/forum.css");
 
-$cts = new contents();
-$cts->cssclass="liner";
-if ( $site->user->is_valid() )
-  $cts->buffer = "<p class=\"center\">Connecté en tant que ".($site->user->surnom!=null ? $site->user->surnom : $site->user->alias )." - <a href=\"../user.php?page=edit\">Mon profil</a> - <a href=\"search.php?page=unread\">Messages non lus</a></p>";
-else
-  $cts->buffer = "<p class=\"center\">Non connecté - <a href=\"../index.php\">Se connecter</a> - <a href=\"../newaccount.php\">Creer un compte</a></p>";
-$site->add_contents($cts);
-unset($cts);
-
 $forum = new forum($site->db);
 $forum->load_by_id(1);
 

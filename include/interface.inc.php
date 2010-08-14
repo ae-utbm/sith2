@@ -91,7 +91,12 @@ class interfaceweb
         array ("matmatronch", "matmatronch/", "Matmatronch"),
         array ("wiki", "wiki2/", "Wiki"),
         array ("sas", "sas2/", "SAS"),
-        array ("forum", "forum2/", "Forum"),
+        "forum" => array ("forum", "forum2/", "Forum",
+          array(
+            array("", "Non connecté"),
+            array("../connect.php", "Se connecter"),
+            array("../newaccount.php", "Creer un compte"),
+          ) ),
         array ("services", "article.php?name=services", "Services" ),
         //array ("pg", "pgae.php", "Petit géni"),
         //e-boutic -> services
@@ -511,8 +516,10 @@ class interfaceweb
       {
         if ( !strncmp("http://",$entry[0],7) )
           $this->buffer .= "<a href=\"".$entry[0]."\">".$entry[1]."</a>";
-        else
+        elseif(!empty($entry[0]))
           $this->buffer .= "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>";
+        else
+          $this->buffer .= $entry[1];
       }
 
       $this->buffer .= "</div>\n";
