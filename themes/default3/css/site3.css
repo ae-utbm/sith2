@@ -798,6 +798,14 @@ div.article h1
   text-transform:uppercase;
   background-color: #FF8800;
 }
+div.article h1 div.icon
+{
+  display: none;
+}
+div.article h1 a
+{
+  color: #FFFFFF;
+}
 div.article h2
 {
   font-size: 120%;
