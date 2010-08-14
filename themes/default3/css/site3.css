@@ -779,7 +779,7 @@ div.box p
 div.article
 {
   background: white;
-  padding: 20 0 0 20;
+  padding: 20 0 10 10;
   margin-bottom: 10px;
   clear: both;
   position:relative;
@@ -797,6 +797,7 @@ div.article h1
   color: #FFFFFF;
   text-transform:uppercase;
   background-color: #FF8800;
+  margin-bottom:10;
 }
 div.article h1 img.icon
 {
@@ -1070,7 +1071,7 @@ div.article div.tabs
 }
 div.article h1 + div.tabs
 {
-  margin: 0 0 10 0;
+  margin: -10 0 10 0;
 }
 div.article
 {
