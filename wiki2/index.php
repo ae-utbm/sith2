@@ -83,6 +83,11 @@ function build_asso_htmlpath ( $fullpath )
   return $buffer;
 }
 
+// Casse toi de là toi !
+if (isset($_REQUEST["name"]) && (substr($_REQUEST["name"], 0, 9) == "articles:"))
+  $site->redirect('/article.php?name='.substr($_REQUEST["name"], 9));
+
+
 // Creation d'une page
 if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
 {
