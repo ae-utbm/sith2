@@ -1089,7 +1089,7 @@ div.article div.tabs span.selected a, div.article div.tabs span a:hover
 div.article div.tabs_top, div.article div.tabs_bottom
 {
   clear:both;
-  background:#EEAC00;
+  background:#EE1177;
   padding-left:10px;
   margin-top:7px;
   margin-bottom:7px;
@@ -1119,15 +1119,15 @@ div.article div.tabs_top a.selected, div.article div.tabs_top a:hover, div.artic
   background:#ffffff;
   color:#000000;
   text-decoration:none;
-  /*border-left:1px solid #EEAC00;
-  border-right:1px solid #EEAC00;*/
+  /*border-left:1px solid #EE1177;
+  border-right:1px solid #EE1177;*/
 }
 
 /*Onglets légés, utilisé notamment dans le carnet d'adresse--------------------------*/
 div.article div.tabs_lg
 {
   clear:both;
-  background:#EEAC00;
+  background:#EE1177;
   padding-left:10px;
   margin-top:7px;
   margin-bottom:7px;
@@ -1164,7 +1164,7 @@ div.article div.subtab
   padding-bottom:4px;
   margin-bottom:4px;
   text-align: center;
-  border-bottom: 1px solid #EEAC00;
+  border-bottom: 1px solid #EE1177;
   font-size: 11px;
 }
 div.article div.subtab a
