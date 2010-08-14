@@ -81,7 +81,7 @@ class site extends interfaceweb
 
     if ($this->user->is_valid())
       $this->tab_array["forum"][3] = array(
-         array("", "Connecté en tant que ".($site->user->surnom!=null ? $site->user->surnom : $site->user->alias )),
+         array("", "Connecté en tant que ".$site->user->prenom." ".$site->user->nom ),
          array("../user.php?page=edit", "Mon profil"),
          array("search.php?page=unread", "Messages non lus"),
          );
