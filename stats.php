@@ -805,7 +805,7 @@ elseif ( $_REQUEST["view"] == "elections" )
   }
   $cts->add($cts2,true);
 }
-if ($_REQUEST["view"] == "actifs" )
+elseif ($_REQUEST["view"] == "actifs" )
 {
   require_once($topdir. "include/entities/asso.inc.php");
 
