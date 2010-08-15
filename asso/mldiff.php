@@ -65,27 +65,35 @@ if ( $asso->is_mailing_allowed() )
     {
       if ($_REQUEST['action'] = "subscribe")
       {
-        $email = mysql_real_escape_string($_REQUEST['email']);
+        $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $_REQUEST['email']));
+        $email = mysql_real_escape_string($email);
+        die($ml.' '.$email);
         $asso->_ml_subscribe ($this->db, $ml, $email);
       }
       if ($_REQUEST['action'] = "subscribes")
       {
         foreach($_REQUEST['email'] as $email)
         {
+          $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $email));
           $email = mysql_real_escape_string($email);
+          die($ml.' '.$email);
           $asso->_ml_subscribe ($this->db, $ml, $email);
         }
       }
       if ($_REQUEST['action'] = "unsubscribe")
       {
-        $email = mysql_real_escape_string($_REQUEST['email']);
+        $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $_REQUEST['email']));
+        $email = mysql_real_escape_string($email);
+        die($ml.' '.$email);
         $asso->_ml_unsubscribe ($this->db, $ml, $email);
       }
       if ($_REQUEST['action'] = "unsubscribes")
       {
         foreach($_REQUEST['email'] as $email)
         {
+          $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $email));
           $email = mysql_real_escape_string($email);
+          die($ml.' '.$email);
           $asso->_ml_unsubscribe ($this->db, $ml, $email);
         }
       }
@@ -175,7 +183,7 @@ if ( $asso->is_mailing_allowed() )
 
     $cts2 = new contents($ml);
 
-    $cts2->add(new sqltable("mldiff_".$ml, "membres inscrits à la mailin-list",
+    $cts2->add(new sqltable("mldiff_".$ml, "membres inscrits à la mailing-list",
       $tab_member, "mldiff.phpid_asso=".$asso->id."&ml=".$ml, "id_utilisateur",
       array("nom_utilisateur"=>"Utilisateur", "email"=>"Email"),
       array(), array(), array()
