@@ -95,8 +95,8 @@ if ( $asso->is_mailing_allowed() )
     }
   }
 
-  $cts->add_paragraph("Cette page permet de voir les inscrits aux mailing-lists du club et de corriger les éventuelles erreurs. Avant de désinscrire des membres de la mailing-list, vérifiez bien qu'ils sont inscrits par erreur ou que la politique du club est de ne pas accepter les non membres sur la mailing-list.");
-  $cts->add_paragraph("Les modifications sur cette page peuvent mettre quelques minutes à être effectué, merci de ne pas répèter inutilement des demandes d'inscription ou de desinscription.");
+  $cts->add_paragraph("Cette page permet de voir les inscrits aux mailing-lists du club et de corriger les éventuelles erreurs. Avant de désinscrire des membres de la mailing-list, vérifiez bien qu'ils soient inscrits par erreur ou que la politique du club est de ne pas accepter les non-membres sur la mailing-list.");
+  $cts->add_paragraph("Les modifications sur cette page peuvent mettre quelques minutes à être effectué, merci de ne pas répéter inutilement des demandes d'inscription ou de desinscription.");
 
   // On affiche les inscrits aux ml
   foreach($asso->get_exist_ml() as $ml)
