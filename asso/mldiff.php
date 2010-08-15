@@ -65,7 +65,7 @@ if ( $asso->is_mailing_allowed() )
     {
       if ($_REQUEST['action'] == "subscribe")
       {
-        $user->load_by_id($_REQUEST['id_utilisateurs']);
+        $user->load_by_id($_REQUEST['id_utilisateur']);
         die('subscribe : '.$ml.' '.$user->email);
         $asso->_ml_subscribe ($this->db, $ml, $user->email);
       }
