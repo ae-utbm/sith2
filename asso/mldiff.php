@@ -89,6 +89,7 @@ if ( $asso->is_mailing_allowed() )
       }
       if ($_REQUEST['action'] = "unsubscribes")
       {
+        print_r($_REQUEST);
         foreach($_REQUEST['emails'] as $email)
         {
           $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $email));
