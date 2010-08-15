@@ -67,34 +67,34 @@ if ( $asso->is_mailing_allowed() )
       {
         $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $_REQUEST['email']));
         $email = mysql_real_escape_string($email);
-        die($ml.' '.$email);
+        die('subscribe : '.$ml.' '.$email);
         $asso->_ml_subscribe ($this->db, $ml, $email);
       }
-      if ($_REQUEST['action'] = "subscribes")
+      elseif ($_REQUEST['action'] = "subscribes")
       {
         foreach($_REQUEST['emails'] as $email)
         {
           $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $email));
           $email = mysql_real_escape_string($email);
-          die($ml.' '.$email);
+          die('subscribes : '.$ml.' '.$email);
           $asso->_ml_subscribe ($this->db, $ml, $email);
         }
       }
-      if ($_REQUEST['action'] = "unsubscribe")
+      elseif ($_REQUEST['action'] = "unsubscribe")
       {
         $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $_REQUEST['email']));
         $email = mysql_real_escape_string($email);
-        die($ml.' '.$email);
+        die('unsubscribe : '.$ml.' '.$email);
         $asso->_ml_unsubscribe ($this->db, $ml, $email);
       }
-      if ($_REQUEST['action'] = "unsubscribes")
+      elseif ($_REQUEST['action'] = "unsubscribes")
       {
         print_r($_REQUEST);
         foreach($_REQUEST['emails'] as $email)
         {
           $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $email));
           $email = mysql_real_escape_string($email);
-          die($ml.' '.$email);
+          die('unsubscribes : '.$ml.' '.$email);
           $asso->_ml_unsubscribe ($this->db, $ml, $email);
         }
       }
