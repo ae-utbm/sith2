@@ -67,21 +67,21 @@ if ( $asso->is_mailing_allowed() )
       if ($_REQUEST['action'] == "subscribe")
       {
         $user->load_by_id($_REQUEST['id_utilisateur']);
-        $asso->_ml_subscribe ($this->db, $ml, $user->email);
+        $asso->_ml_subscribe ($site->db, $ml, $user->email);
       }
       elseif ($_REQUEST['action'] == "subscribes")
       {
         foreach($_REQUEST['id_utilisateurs'] as $id_utilisateur)
         {
           $user->load_by_id($id_utilisateur);
-          $asso->_ml_subscribe ($this->db, $ml, $user->email);
+          $asso->_ml_subscribe ($site->db, $ml, $user->email);
         }
       }
       elseif ($_REQUEST['action'] == "unsubscribe")
       {
         $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $_REQUEST['email']));
         $email = mysql_real_escape_string($email);
-        $asso->_ml_unsubscribe ($this->db, $ml, $email);
+        $asso->_ml_unsubscribe ($site->db, $ml, $email);
       }
       elseif ($_REQUEST['action'] == "unsubscribes")
       {
@@ -89,7 +89,7 @@ if ( $asso->is_mailing_allowed() )
         {
           $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $email));
           $email = mysql_real_escape_string($email);
-          $asso->_ml_unsubscribe ($this->db, $ml, $email);
+          $asso->_ml_unsubscribe ($site->db, $ml, $email);
         }
       }
     }
@@ -124,7 +124,7 @@ if ( $asso->is_mailing_allowed() )
         "WHERE `date_fin` IS NULL " .
         "AND `id_asso`='".$asso->id."' " .
         ($role ? "AND `asso_membre`.`role` >= '".$role."' " : "").
-        "ORDER BY `role` DESC, `desc_role`", true);
+        "ORDER BY `role` DESC, `desc_role`");
 
       while($row = $req->get_row())
         $asso_user_ids[] = $row['id_utilisateur'];
@@ -170,7 +170,7 @@ if ( $asso->is_mailing_allowed() )
         "AND `asso_membre`.`id_asso`='".$asso->id."' " .
         ($role ? "AND `asso_membre`.`role` >= '".$role."' " : "").
         "AND `id_utilisateur` NOT IN (".implode(', ', $user_ids).") ".
-        "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ", true);
+        "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
 
       while($row = $req->get_row())
         $tab_nonml[] = array(
