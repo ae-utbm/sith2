@@ -249,9 +249,8 @@ if ( $_REQUEST['page'] == 'delete' )
   $site->allow_only_logged_users("forum");
   if ( $message->is_valid() )
   {
-    /* pas de confirmation à la suppression */
     if (($forum->is_admin($site->user))
-        || ($message->id_utilisateur == $site->user->id))
+        || ($message->id_utilisateur == $site->user->id) && is_sure())
     {
       $message_initial = new message($site->db);
       $message_initial->load_initial_of_sujet($sujet->id);
