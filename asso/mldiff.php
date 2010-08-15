@@ -49,11 +49,12 @@ $cts->add(new tabshead($asso->get_tabs($site->user),"mebs"));
 
 $subtabs = array();
 $subtabs[] = array("mailing","asso/mailing.php?id_asso=".$asso->id,"Mailing aux membres");
+$subtabs[] = array("mldiff","asso/mldiff.php?id_asso=".$asso->id,"Gérer les mailings-lists");
 $subtabs[] = array("trombino","asso/membres.php?view=trombino&id_asso=".$asso->id,"Trombino (membres actuels)");
 $subtabs[] = array("vcards","asso/membres.php?action=getallvcards&id_asso=".$asso->id,"Télécharger les vCard (membres actuels)");
 $subtabs[] = array("anciens","asso/membres.php?view=anciens&id_asso=".$asso->id,"Anciens membres");
 
-$cts->add(new tabshead($subtabs,"mailing","","subtab"));
+$cts->add(new tabshead($subtabs,"mldiff","","subtab"));
 
 if ( $asso->is_mailing_allowed() )
 {
@@ -94,7 +95,10 @@ if ( $asso->is_mailing_allowed() )
     }
   }
 
-  // On affiche les inscrits à la ml
+  $cts->add_paragraph("Cette page permet de voir les inscrits aux mailing-lists du club et de corriger les éventuelles erreurs. Avant de désinscrire des membres de la mailing-list, vérifiez bien qu'ils sont inscrits par erreur ou que la politique du club est de ne pas accepter les non membres sur la mailing-list.");
+  $cts->add_paragraph("Les modifications sur cette page peuvent mettre quelques minutes à être effectué, merci de ne pas répèter inutilement des demandes d'inscription ou de desinscription.");
+
+  // On affiche les inscrits aux ml
   foreach($asso->get_exist_ml() as $ml)
   {
     $user_ids = array();
