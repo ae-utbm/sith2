@@ -184,13 +184,13 @@ if ( $asso->is_mailing_allowed() )
     $cts2 = new contents($ml);
 
     $cts2->add(new sqltable("mldiff_".$ml, "membres inscrits à la mailing-list",
-      $tab_member, "mldiff.phpid_asso=".$asso->id."&ml=".$ml, "id_utilisateur",
+      $tab_member, "mldiff.php?id_asso=".$asso->id."&ml=".$ml, "id_utilisateur",
       array("nom_utilisateur"=>"Utilisateur", "email"=>"Email"),
       array(), array(), array()
     ), true);
 
     $cts2->add(new sqltable("mldiff_".$ml, "membres du club non inscrits à la mailing-list",
-      $tab_nonml, "mldiff.phpid_asso=".$asso->id."&ml=".$ml, "id_utilisateur",
+      $tab_nonml, "mldiff.php?id_asso=".$asso->id."&ml=".$ml, "id_utilisateur",
       array("nom_utilisateur"=>"Utilisateur", "email"=>"Email"),
       array("subscribe"=>"Inscrire à la mailing-list"),
       array("subscribes"=>"Inscrire à la mailing-list"),
@@ -198,7 +198,7 @@ if ( $asso->is_mailing_allowed() )
     ), true);
 
     $cts2->add(new sqltable("mldiff_".$ml, "non membres inscrits à la mailing-list",
-      $tab_nonmember, "mldiff.phpid_asso=".$asso->id."&ml=".$ml, "email",
+      $tab_nonmember, "mldiff.php?id_asso=".$asso->id."&ml=".$ml, "email",
       array("nom_utilisateur"=>"Utilisateur", "email"=>"Email"),
       array("unsubscribe"=>"Désinscrire de la mailing-list"),
       array("unsubscribes"=>"Désinscrire de la mailing-list"),
@@ -206,7 +206,7 @@ if ( $asso->is_mailing_allowed() )
     ), true);
 
     $cts2->add(new sqltable("mldiff_".$ml, "non membres inscrits à la mailing-list et sans compte ae",
-      $tab_foreign, "mldiff.phpid_asso=".$asso->id."&ml=".$ml, "email",
+      $tab_foreign, "mldiff.php?id_asso=".$asso->id."&ml=".$ml, "email",
       array("email"=>"Email"),
       array("unsubscribe"=>"Désinscrire de la mailing-list"),
       array("unsubscribes"=>"Désinscrire de la mailing-list"),
