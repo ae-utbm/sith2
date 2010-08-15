@@ -164,7 +164,7 @@ if ( $asso->is_mailing_allowed() )
         "AND `asso_membre`.`id_asso`='".$asso->id."' " .
         ($role ? "AND `asso_membre`.`role` >= '".$role."' " : "").
         "AND `id_utilisateur` NOT IN (".implode(', ', $user_ids).") ".
-        "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
+        "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ", true);
 
       while($row = $req->get_row())
         $tab_nonml[] = array(
