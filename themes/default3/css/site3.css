@@ -1174,7 +1174,7 @@ div.article div.tabs_lg a.selected, div.article div.tabs_lg a:hover
 div.article div.subtab
 {
   padding:0;
-  margin:0;
+  margin:-10 0 4;
   padding-bottom:4px;
   margin-bottom:4px;
   text-align: center;
