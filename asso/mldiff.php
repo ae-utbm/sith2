@@ -160,7 +160,7 @@ if ( $asso->is_mailing_allowed() )
         "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
         "FROM `asso_membre` " .
         "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
-        "WHERE `asso_membre`.`date_fin` IS NOT NULL " .
+        "WHERE `asso_membre`.`date_fin` IS NULL " .
         "AND `asso_membre`.`id_asso`='".$asso->id."' " .
         ($role ? "AND `asso_membre`.`role` >= '".$role."' " : "").
         "AND `id_utilisateur` NOT IN (".implode(', ', $user_ids).") ".
