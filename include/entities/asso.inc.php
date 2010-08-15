@@ -96,6 +96,8 @@ class asso extends stdentity
 
   var $hidden;
 
+  var $mailings_lists=null;
+
   public $distinct_benevole=false;
 
 
@@ -741,6 +743,27 @@ class asso extends stdentity
         return $asso_pending[1];
     }
     return 0;
+  }
+
+  function get_exist_ml()
+  {
+    if ($mailings_lists != null)
+      return $mailings_lists;
+
+    exec("/usr/lib/mailman/bin/list_lists -b | grep '^".$this->nom_unix."\.'", $mailings_lists, $ret);
+    if ($ret != 0)
+      $mailings_lists = array();
+
+    return $mailings_lists;
+  }
+
+  function get_subscribed_email($mailing_list)
+  {
+    exec("/usr/lib/mailman/bin/list_members ".$mailing_list, $emails, $ret);
+    if ($ret != 0)
+      $emails = array();
+
+    return $emails;
   }
 }
 
