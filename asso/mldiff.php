@@ -65,19 +65,17 @@ if ( $asso->is_mailing_allowed() )
     {
       if ($_REQUEST['action'] == "subscribe")
       {
-        $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $_REQUEST['email']));
-        $email = mysql_real_escape_string($email);
-        die('subscribe : '.$ml.' '.$email);
-        $asso->_ml_subscribe ($this->db, $ml, $email);
+        $user->load_by_id($_REQUEST['id_utilisateurs']);
+        die('subscribe : '.$ml.' '.$user->email);
+        $asso->_ml_subscribe ($this->db, $ml, $user->email);
       }
       elseif ($_REQUEST['action'] == "subscribes")
       {
-        foreach($_REQUEST['emails'] as $email)
+        foreach($_REQUEST['id_utilisateurs'] as $id_utilisateur)
         {
-          $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $email));
-          $email = mysql_real_escape_string($email);
-          die('subscribes : '.$ml.' '.$email);
-          $asso->_ml_subscribe ($this->db, $ml, $email);
+          $user->load_by_id($id_utilisateur);
+          die('subscribes : '.$ml.' '.$user->email);
+          $asso->_ml_subscribe ($this->db, $ml, $user->email);
         }
       }
       elseif ($_REQUEST['action'] == "unsubscribe")
@@ -89,7 +87,6 @@ if ( $asso->is_mailing_allowed() )
       }
       elseif ($_REQUEST['action'] == "unsubscribes")
       {
-        print_r($_REQUEST);
         foreach($_REQUEST['emails'] as $email)
         {
           $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $email));
