@@ -72,7 +72,7 @@ if ( $asso->is_mailing_allowed() )
       }
       if ($_REQUEST['action'] = "subscribes")
       {
-        foreach($_REQUEST['email'] as $email)
+        foreach($_REQUEST['emails'] as $email)
         {
           $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $email));
           $email = mysql_real_escape_string($email);
@@ -89,7 +89,7 @@ if ( $asso->is_mailing_allowed() )
       }
       if ($_REQUEST['action'] = "unsubscribes")
       {
-        foreach($_REQUEST['email'] as $email)
+        foreach($_REQUEST['emails'] as $email)
         {
           $email = str_replace(' [dot] ', '.', str_replace(' [at] ', '@', $email));
           $email = mysql_real_escape_string($email);
