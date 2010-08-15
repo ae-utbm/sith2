@@ -32,7 +32,7 @@ $asso = new asso($site->db,$site->dbrw);
 $asso->load_by_id($_REQUEST["id_asso"]);
 $user = new utilisateur($site->db);
 
-if (!$asso->id->is_valid())
+if (!$asso->is_valid())
 {
   $site->error_not_found();
   exit();
