@@ -249,8 +249,11 @@ if ( $_REQUEST['page'] == 'delete' )
   $site->allow_only_logged_users("forum");
   if ( $message->is_valid() )
   {
-    if ((($forum->is_admin($site->user))
-        || ($message->id_utilisateur == $site->user->id)) && $site->is_sure("", "Supprimer le message ".$message->id." ?", 1))
+    $user = new utilisateur($site->db);
+    $user->load_by_id($message->id_utilisateur);
+
+    if ((($forum->is_admin($site->user)) || ($message->id_utilisateur == $site->user->id))
+      && $site->is_sure("", "Suppression du message ".$message->id." de ".$user->prenom." ".$user->nom." du ".human_date($message->date).".", 1))
     {
       $message_initial = new message($site->db);
       $message_initial->load_initial_of_sujet($sujet->id);
