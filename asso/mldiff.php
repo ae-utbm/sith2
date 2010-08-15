@@ -157,7 +157,7 @@ if ( $asso->is_mailing_allowed() )
     {
       $req = new requete($site->db,
         "SELECT `utilisateurs`.`id_utilisateur`, " .
-        "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+        "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
         "FROM `asso_membre` " .
         "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
         "WHERE `asso_membre`.`date_fin` IS NOT NULL " .
