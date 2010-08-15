@@ -56,7 +56,9 @@ $subtabs[] = array("anciens","asso/membres.php?view=anciens&id_asso=".$asso->id,
 
 $cts->add(new tabshead($subtabs,"mldiff","","subtab"));
 
-if ( $asso->is_mailing_allowed() )
+if ($site->get_param("backup_server",true))
+  $cts->add_paragraph("Le système fonctionne actuellement sur le serveur de secours, il est impossible d'administrer les mailings-lists");
+elseif ( $asso->is_mailing_allowed() )
 {
   if (in_array($_REQUEST['action'], array("subscribe", "subscribes", "unsubscribe", "unsubscribes")))
   {
