@@ -613,7 +613,7 @@ class interfaceweb
       }
 
       if ( $cts->title )
-        if (get_class($cts) == "wikicontents")
+        if (get_class($cts) == "wiki")
           $this->buffer .= "<h1 class=\"dokutitle\">".$cts->title."</h1>\n";
         else
           $this->buffer .= "<h1>".$cts->title."</h1>\n";
