@@ -375,8 +375,8 @@ div#fsearchbox input
 #important div.body
 {
   background: none;
-  padding:15 15 9 9;
-  margin: -6 -6 0 0;
+  padding:13 13 9 9;
+  margin: -4 -4 0 0;
   border:0;
   text-align:left;
   background-image: url("../images/important.png");
