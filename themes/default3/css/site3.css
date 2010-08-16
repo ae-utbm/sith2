@@ -375,8 +375,8 @@ div#fsearchbox input
 #important div.body
 {
   background: none;
-  padding:15 9 9 15;
-  margin: -6 0 0 -6;
+  padding:15 15 9 9;
+  margin: -6 -6 0 0;
   border:0;
   text-align:left;
   background:#FF0000;
