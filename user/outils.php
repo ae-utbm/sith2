@@ -127,6 +127,14 @@ elseif($site->user->is_in_group("root") || $site->user->is_in_group("moderateur_
   $board->add($sublist,true);
 }
 
+//Autre
+$req = new requete($site->db,"SELECT `id_depot` FROM `svn_member_depot` WHERE `id_utilisateur`='".$site->user->id);
+if($req->lines != 0)
+{
+  $sublist = new itemlist("Autre","boxlist");
+  $sublist->add("<a href=\"".$topdir."user/svn.php\">Mes SVN</a>");
+}
+
 $cts->add($board);
 $site->add_contents($cts);
 $site->end_page();

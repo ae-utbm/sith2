@@ -33,8 +33,8 @@ $site = new site ();
 
 $site->allow_only_logged_users("");
 
-$site->start_page("none","Utilisateur / SVN");
-$cts = new contents("<a href=\"./\">Utilisateur</a> / SVN");
+$site->start_page("none","Ma boite à outils / SVN");
+$cts = new contents("<a href=\"outils.php\">Ma boite à outils</a> / SVN");
 
 /*
 if(empty($site->user->alias))
