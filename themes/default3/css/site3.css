@@ -365,7 +365,10 @@ div#fsearchbox input
   right: 0px;
   width:345px;
   height:54px;
-  padding:0;
+  padding : 9px;
+  background: #555555;
+  text-size: 10px;
+  color : black;
   margin:0;
   border:0;
   overflow:hidden;
