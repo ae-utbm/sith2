@@ -67,7 +67,7 @@ $req = new requete($site->db, "SELECT `id_file` ".
                               ") as datetime ".
                               "FROM `d_file_lock` ".
                               "INNER JOIN `d_file` USING(`id_file`) ".
-                              "WHERE `id_utilisateur`='".$site->user->id."'");
+                              "WHERE `d_file_lock`.`id_utilisateur`='".$site->user->id."'");
 if($req->lines>0)
 {
   $cts->add(new sqltable( "emprunts_fichiers"
