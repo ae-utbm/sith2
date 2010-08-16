@@ -65,7 +65,6 @@ body
   background-image: url("../images/global-top.png");
   background-repeat: no-repeat;
   background-position: top;
-  background:#00ff00;
 }
 html,body
 {
@@ -79,7 +78,6 @@ div#site
   padding:0;
   margin:0;
   min-height:100%;
-  background:#ff0000;
 }
 div#header
 {
@@ -498,7 +496,6 @@ div.emptysectionlinks
   margin:0;
   padding:0;
   color:#ffffff;
-  background:#0000ff;
   border-bottom: #FFDD22 solid 5px;
 }
 #endsitelinks
