@@ -382,8 +382,8 @@ div#fsearchbox input
 }
 #important a.logo
 {
-  width:76px;
-  height:76px;
+  width:0;
+  height:0;
   float:left;
 }
 
