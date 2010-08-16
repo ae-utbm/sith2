@@ -2249,8 +2249,9 @@ div.calendar td.event1 a, div.calendar td.event2 a, div.calendar td.event3 a
 }
 div.calendar td.active
 {
-  border: 2px #774499 outset;
   font-weight: bold;
+  color: black;
+  border: 2px solid #774499;
 }
 div.calendar td.active a
 {
