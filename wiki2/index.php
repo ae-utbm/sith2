@@ -393,7 +393,7 @@ else
 //$cts->add_paragraph($path,"wikipath");
 
 //$cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
-$cts->puts("<h1 class=\"dokutitle\">".$title."</h1>\n");
+$cts->puts("<h1 class=\"dokutitle\">".htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8")."</h1>\n");
 
 //$site->add_box("wiki",$side);
 
