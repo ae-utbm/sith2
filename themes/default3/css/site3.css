@@ -365,7 +365,7 @@ div#fsearchbox input
   right: 0px;
   width:345px;
   height:36px;
-  padding : 9px;
+  padding : 0 9 9 9; /* pourquoi 0 top ? */
   background: #555555;
   text-size: 10px;
   color : black;
