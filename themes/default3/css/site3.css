@@ -379,6 +379,9 @@ div#fsearchbox input
   margin:0;
   border:0;
   text-align:left;
+  background-image: url("../images/important.png");
+  background-repeat: no-repeat;
+  background-position: top right;
 }
 #important a.logo
 {
