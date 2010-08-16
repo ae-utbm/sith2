@@ -300,8 +300,7 @@ class interfaceweb
         $this->buffer .= $important. "\n";
         $this->buffer .= "</div></div>\n";
       }
-      else
-        $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" alt=\"Logo AE\"/></a></div>\n";
+      $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" alt=\"Logo AE\"/></a></div>\n";
     }
     if(isset($this->logo))
       $this->buffer .= "<div id=\"logo\"><img src=\"" . $wwwtopdir ."images/".$this->logo."\" alt=\"Logo\"/></div>\n";
