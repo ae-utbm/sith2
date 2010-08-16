@@ -362,7 +362,7 @@ div#fsearchbox input
 {
   position: absolute;
   top: 40px;
-  right: 6px;
+  right: 0;
   width:345px;
   height:54px;
   background: #555555;
@@ -379,7 +379,6 @@ div#fsearchbox input
   margin: -6 -6 0 0;
   border:0;
   text-align:left;
-  background:#FF0000;
   background-image: url("../images/important.png");
   background-repeat: no-repeat;
   background-position: top right;
