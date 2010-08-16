@@ -364,8 +364,7 @@ div#fsearchbox input
   top: 40px;
   right: 0px;
   width:345px;
-  height:36px;
-  padding : 0 9 9 9; /* pourquoi 0 top ? */
+  height:54px;
   background: #555555;
   text-size: 10px;
   color : black;
@@ -376,15 +375,10 @@ div#fsearchbox input
 #important div.body
 {
   background: none;
-  padding:0;
+  padding:9px;
   margin:0;
   border:0;
   text-align:left;
-  padding-top:15px;
-  margin-left:88px;
-  padding-right:25px;
-  padding-bottom:20px;
-  max-height:80px;
 }
 #important a.logo
 {
