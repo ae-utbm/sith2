@@ -79,13 +79,6 @@ class site extends interfaceweb
 
     $timing["site::site"] += microtime(true);
 
-    if ($this->user->is_valid())
-      $this->tab_array["forum"][3] = array(
-         array("", "Connecté en tant que ".$site->user->prenom." ".$site->user->nom ),
-         array("../user.php?page=edit", "Mon profil"),
-         array("search.php?page=unread", "Messages non lus"),
-         );
-
     /*
      * LEs css du site ae restent sur le site ae
      */

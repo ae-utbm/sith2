@@ -91,12 +91,7 @@ class interfaceweb
         array ("matmatronch", "matmatronch/", "Matmatronch"),
         array ("wiki", "wiki2/", "Wiki"),
         array ("sas", "sas2/", "SAS"),
-        "forum" => array ("forum", "forum2/", "Forum",
-          array(
-            array("", "Non connecté"),
-            array("../connect.php", "Se connecter"),
-            array("../newaccount.php", "Creer un compte"),
-          ) ),
+        array ("forum", "forum2/", "Forum"),
         array ("services", "article.php?name=services", "Services" ),
         //array ("pg", "pgae.php", "Petit géni"),
         //e-boutic -> services
