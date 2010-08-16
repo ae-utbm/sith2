@@ -128,7 +128,7 @@ elseif($site->user->is_in_group("root") || $site->user->is_in_group("moderateur_
 }
 
 //Autre
-$req = new requete($site->db,"SELECT `id_depot` FROM `svn_member_depot` WHERE `id_utilisateur`='".$site->user->id);
+$req = new requete($site->db,"SELECT `id_depot` FROM `svn_member_depot` WHERE `id_utilisateur`='".$site->user->id."'");
 if($req->lines != 0)
 {
   $sublist = new itemlist("Autre","boxlist");
