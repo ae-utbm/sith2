@@ -368,20 +368,21 @@ div#fsearchbox input
   background: #555555;
   text-size: 10px;
   color : black;
+  padding:0;
   margin:0;
   border:0;
-  overflow:hidden;
 }
 #important div.body
 {
   background: none;
-  padding:12 9 9 12;
-  margin: -3 0 0 -3;
+  padding:15 9 9 15;
+  margin: -6 0 0 -6;
   border:0;
   text-align:left;
   background-image: url("../images/important.png");
   background-repeat: no-repeat;
   background-position: top right;
+  overflow:hidden;
 }
 #important a.logo
 {
