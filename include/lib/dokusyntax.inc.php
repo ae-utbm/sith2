@@ -313,6 +313,8 @@ class dokusyntax
       $headline  .= '</h'.$hl['level'].'>';
       $headline  .= '<div class="level'.$hl['level'].'">';
 
+      die($headline);
+
       if($hl['level'] <= $conf['maxtoclevel'])
       {
         $content[]  = array('id'    => 'h_'.$uid.'_'.$cnt,
