@@ -133,6 +133,7 @@ if($req->lines != 0)
 {
   $sublist = new itemlist("Autre","boxlist");
   $sublist->add("<a href=\"".$topdir."user/svn.php\">Mes SVN</a>");
+  $board->add($sublist,true);
 }
 
 $cts->add($board);
