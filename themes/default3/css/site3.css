@@ -797,16 +797,16 @@ div.article h1
   font-weight:normal;
   color: #FFFFFF;
   text-transform:uppercase;
-  background:#dd0000;
+  background-color: #FF8800;
   margin-bottom:10;
 }
 div.article h1 + h1
 {
   margin-top:-10;
 }
-div.article h1:first-child
+div.article h1.dokutitle
 {
-  background-color: #FF8800;
+  background:#dd0000;
 }
 div.article h1 img.icon
 {
