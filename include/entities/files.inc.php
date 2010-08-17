@@ -656,7 +656,7 @@ class dfile extends fs
     if ($req->lines <= 1)
       $this->delete_file();
 
-    new delete($this->dbrw,"d_file_rev",array("id_file"=>$this->id, "id_rev_file_last"=>$this->id_rev_file));
+    new delete($this->dbrw,"d_file_rev",array("id_file"=>$this->id, "id_rev_file"=>$this->id_rev_file));
 
     $req = new requete($this->db,"SELECT MAX(id_rev_file) max_id_rev_file ".
       "FROM d_file_rev ".
@@ -667,7 +667,7 @@ class dfile extends fs
 
     $sql = new update ($this->dbrw, "d_file",
       array("id_ref_file_last"=>$this->id_rev_file),
-      array("id_file"=>$this->id, "id_ref_file_last"=>$row['max_id_rev_file']));
+      array("id_file"=>$this->id, "id_rev_file_last"=>$row['max_id_rev_file']));
 
       $f = $this->get_real_filename();
       if ( file_exists($f))
