@@ -110,9 +110,11 @@ $req = new requete($site->db,"SELECT d_file.* " .
         ", `utilisateurs`.`id_utilisateur` ".
         ", CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` ".
         "FROM d_file " .
-        "LEFT JOIN `utilisateurs` USING(`id_utilisateur`) ".
-        "WHERE " .
-        "modere_file='0'");
+        "LEFT JOIN `d_file_rev` ON ( `d_file`.`id_file` = `d_file_rev`.`id_file` ".
+          "AND `d_file`.`id_rev_file_last` = `d_file_rev`.`id_rev_file` ) ".
+        "LEFT JOIN `d_file_rev` USING(`id_utilisateur`) ".
+        "LEFT JOIN `utilisateurs` ON ( `utilisateurs`.`id_utilisateur` = `id_utilisateur_rev_file` ) ".
+        "WHERE modere_file='0' ");
 
 $tbl = new sqltable("modfolders",
         "Fichiers à modérer",
