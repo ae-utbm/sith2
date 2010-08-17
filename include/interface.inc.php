@@ -291,7 +291,7 @@ class interfaceweb
     if(!defined('NOTAE'))
     {
       $important=$this->get_param('box.Important');
-      $important="Miaou ? Miaou miaou ? Miaou miaou, miaou miaou miaou ! Miaooooouuu !";
+      $important="Miaou ? Miaou miaou ? Miaou miaou, miaou miaou miaou ! Miaooooouuu ! Oulalah, au secours ! ce texte est beaucoup trop long, il va forcément dépaser de la boîte...";
       if(!empty($important) && $important!="<p />")
       {
         $this->buffer .= "<div class=\"box\" id=\"important\">\n";
