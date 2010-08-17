@@ -76,7 +76,7 @@ elseif ( $_REQUEST["action"] == "filedelete")
   {
     $fl->load_by_id($id);
     if ( $fl->id > 0 )
-      $fl->delete_file();
+      $fl->delete_file_rev();
   }
 }
 

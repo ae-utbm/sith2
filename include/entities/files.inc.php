@@ -645,6 +645,31 @@ class dfile extends fs
   }
 
   /**
+   * Supprime la révision du fichier
+   */
+  function delete_file_rev()
+  {
+    $req = new requete($this->db,"SELECT id_rev_file ".
+      "FROM d_file_rev ".
+      "WHERE id_file='".mysql_real_escape_string($this->id)."'");
+
+    if ($req->lines <= 1)
+      $this->delete_file();
+
+    $req = new requete($this->db,"SELECT id_rev_file ".
+      "FROM d_file_rev ".
+      "WHERE id_file='".mysql_real_escape_string($this->id)."' ".
+      "AND `id_rev_file` = '".$this->id_rev_file."'");
+
+      $f = $this->get_real_filename();
+      if ( file_exists($f))
+        unlink($f);
+
+    $this->load_by_id($this->id);
+    $this->generate_thumbs();
+  }
+
+  /**
    * Supprime le fichier. fs support.
    */
   function delete()
