@@ -105,6 +105,10 @@ elseif ( $asso->is_mailing_allowed() )
   {
     $user_ids = array();
     $asso_user_ids = array();
+    $tab_member = array();
+    $tab_nonmemeber = array();
+    $tab_nonforeign = array();
+    $tab_nonml = array();
 
     // On détermine le groupe d'utilisateurs associés, si possible
     $asso_ml = true;
