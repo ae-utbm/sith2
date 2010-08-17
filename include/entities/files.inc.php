@@ -654,19 +654,19 @@ class dfile extends fs
       "WHERE id_file='".mysql_real_escape_string($this->id)."'");
 
     if ($req->lines <= 1)
-      $this->delete_file();
+      return $this->delete_file();
 
     new delete($this->dbrw,"d_file_rev",array("id_file"=>$this->id, "id_rev_file"=>$this->id_rev_file));
 
     $req = new requete($this->db,"SELECT MAX(id_rev_file) max_id_rev_file ".
       "FROM d_file_rev ".
       "WHERE id_file='".mysql_real_escape_string($this->id)."' ".
-      "GROUP BY id_rev_file");
+      "GROUP BY id_file");
 
     $row = $req->get_row();
 
     $sql = new update ($this->dbrw, "d_file",
-      array("id_rev_file_last"=>$this->$row['max_id_rev_file']),
+      array("id_rev_file_last"=>$row['max_id_rev_file']),
       array("id_file"=>$this->id));
 
       $f = $this->get_real_filename();
