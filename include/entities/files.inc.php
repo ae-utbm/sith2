@@ -663,7 +663,7 @@ class dfile extends fs
       "WHERE id_file='".mysql_real_escape_string($this->id)."' ".
       "GROUP BY id_rev_file");
 
-    $row = $reg->get_row();
+    $row = $req->get_row();
 
     $sql = new update ($this->dbrw, "d_file",
       array("id_ref_file_last"=>$this->id_rev_file),
