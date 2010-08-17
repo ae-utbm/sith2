@@ -375,6 +375,7 @@ div#fsearchbox input
 }
 #important div.body
 {
+  background: none;
   padding:9 25 7 54;
   margin:0;
   border:0;
