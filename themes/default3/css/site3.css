@@ -365,23 +365,20 @@ div#fsearchbox input
   right: 0;
   width:345px;
   height:54px;
-  background: #555555;
   text-size: 10px;
   color : black;
+  background-image: url("../images/important.png");
+  background-repeat: no-repeat;
+  border:0;
   padding:0;
   margin:0;
-  border:0;
 }
 #important div.body
 {
-  background: none;
   padding:9 25 7 54;
   margin:0;
-  width:327px;
-  height:36px;
   border:0;
   text-align:left;
-  background-image: url("../images/important.png");
   overflow:hidden;
 }
 #important a.logo
