@@ -112,7 +112,6 @@ $req = new requete($site->db,"SELECT d_file.* " .
         "FROM d_file " .
         "LEFT JOIN `d_file_rev` ON ( `d_file`.`id_file` = `d_file_rev`.`id_file` ".
           "AND `d_file`.`id_rev_file_last` = `d_file_rev`.`id_rev_file` ) ".
-        "LEFT JOIN `d_file_rev` USING(`id_utilisateur`) ".
         "LEFT JOIN `utilisateurs` ON ( `utilisateurs`.`id_utilisateur` = `id_utilisateur_rev_file` ) ".
         "WHERE modere_file='0' ");
 
