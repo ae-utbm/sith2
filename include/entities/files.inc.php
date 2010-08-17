@@ -666,8 +666,8 @@ class dfile extends fs
     $row = $req->get_row();
 
     $sql = new update ($this->dbrw, "d_file",
-      array("id_rev_file_last"=>$this->id_rev_file),
-      array("id_file"=>$this->id, "id_rev_file_last"=>$row['max_id_rev_file']));
+      array("id_rev_file_last"=>$this->$row['max_id_rev_file']),
+      array("id_file"=>$this->id));
 
       $f = $this->get_real_filename();
       if ( file_exists($f))
