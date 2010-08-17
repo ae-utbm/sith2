@@ -375,15 +375,13 @@ div#fsearchbox input
 #important div.body
 {
   background: none;
-  padding:13 13 9 9;
-  margin: -4 -4 0 0;
+  padding:9 25 7 54;
+  margin:0;
   width:327px;
   height:36px;
   border:0;
   text-align:left;
   background-image: url("../images/important.png");
-  background-repeat: no-repeat;
-  background-position: top right;
   overflow:hidden;
 }
 #important a.logo
