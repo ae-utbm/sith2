@@ -665,18 +665,17 @@ class dfile extends fs
 
     $row = $req->get_row();
 
+    /* Si le fichier a pu être modifié c'est qu'il était modéré dans sa
+     * version précédente (ou que c'est un modérateur qui l'a modifié)
+     */
+    $this->modere=false;
     $sql = new update ($this->dbrw, "d_file",
-      array("id_rev_file_last"=>$row['max_id_rev_file']),
+      array("id_rev_file_last"=>$row['max_id_rev_file'], "modere_file"=>"1"),
       array("id_file"=>$this->id));
 
       $f = $this->get_real_filename();
       if ( file_exists($f))
         unlink($f);
-
-    /* Si le fichier a pu être modifié c'est qu'il était modéré dans sa
-     * version précédente (ou que c'est un modérateur qui l'a modifié)
-     */
-    $this->modere=false;
 
     $this->load_by_id($this->id);
     $this->generate_thumbs();

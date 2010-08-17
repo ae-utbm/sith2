@@ -126,7 +126,7 @@ $tbl = new sqltable("modfolders",
         "nom_utilisateur"=>"Auteur"),
         array(),
         array("filemodere" => "Accepter",
-        "filedelete" => "Supprimer"),
+        "filedelete" => "Supprimer / Revenir à la version précédente"),
         array());
 
 $cts->add($tbl,true);
