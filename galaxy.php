@@ -222,11 +222,18 @@ elseif ( isset($_REQUEST["id_utilisateur"]) )
 
   $req = new requete($site->db,"SELECT rx_star,ry_star FROM galaxy_star WHERE id_star='".mysql_real_escape_string($user->id)."'");
 
-  if ( !$user->publique && !$can_edit )
-    $cts->add_paragraph("Non présent dans galaxy : profil non publique.");
+  if ( !$user->publique )
+  {
+    $cts->add_paragraph("C'est utilisateur n'est pas présent dans galaxy car son profil n'est pas publique.");
+    if ($user->id==$site->user->id)
+      $cts->add_paragraph("Pour apparaitre dans galaxy, vous devez rendre votre profil publique ".
+          "<a href=\"http://ae.utbm.fr/taiste/user.php?id_utilisateur=".$$site->user->id."&page=edit\">en éditant votre fiche Matmatronch</a>.".
+          "Vous serez alors automatiquement intégré à galaxy à condition d'être lié à d'autres utilisateurs.");
+  }
   elseif ( $req->lines == 0 )
   {
-    $cts->add_paragraph("Non présent dans galaxy");
+    $cts->add_paragraph("C'est utilisateur n'est pas présent dans galaxy.");
+    $cts->add_paragraph("Deux raisons peuvent expliquer cela : soit cet utilisateur n'a pas assez de liens avec les autres pour que son ajout ait un sens, soit le profil de cet utilisateur n'est pas publique ou a été rendu publique récemment.");
   }
   else
   {
