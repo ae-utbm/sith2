@@ -81,7 +81,7 @@ div#site
 }
 /* Internet explorer... */
 /*\*/
-  html div#site {
+*  html div#site {
   height: 100%;
 }
 /**/
