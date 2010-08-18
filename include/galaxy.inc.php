@@ -522,7 +522,7 @@ class galaxy
     }
 
     $req = new requete($this->db, "SELECT ".
-    "rx_star, ry_star, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+    "rx_star, ry_star, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom ".
     "FROM  galaxy_star ".
     "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star)".
     "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)");
@@ -581,7 +581,7 @@ class galaxy
         imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, $this->star_color($img,$row['sum_tense_star']) );
 
       $req = new requete($this->db, "SELECT ".
-      "rx_star, ry_star, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+      "rx_star, ry_star, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom ".
       "FROM  galaxy_star ".
       "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
       "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)".
@@ -618,7 +618,7 @@ class galaxy
         imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, $this->star_color($img,$row['sum_tense_star']) );
 
       $req = new requete($this->db, "SELECT ".
-      "rx_star, ry_star, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+      "rx_star, ry_star, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom ".
       "FROM  galaxy_star ".
       "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
       "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)".
@@ -638,7 +638,7 @@ class galaxy
         imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, $this->star_color($img,$row['sum_tense_star']) );
 
       $req = new requete($this->db, "SELECT ".
-      "rx_star, ry_star, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+      "rx_star, ry_star, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom ".
       "FROM  galaxy_star ".
       "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
       "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)".

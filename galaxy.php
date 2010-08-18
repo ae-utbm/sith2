@@ -275,7 +275,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 
     $req = new requete($site->db,
     "SELECT length_link, ideal_length_link,
-    tense_link, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
+    tense_link, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom_utilisateur,
     utilisateurs.id_utilisateur
     FROM galaxy_link
     INNER JOIN utilisateurs ON ( id_star_a=id_utilisateur)
@@ -283,7 +283,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     WHERE id_star_b='".mysql_real_escape_string($user->id)."'
     UNION
     SELECT length_link, ideal_length_link,
-    tense_link, COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
+    tense_link, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom_utilisateur,
     utilisateurs.id_utilisateur
     FROM galaxy_link
     INNER JOIN utilisateurs ON ( id_star_b=id_utilisateur)
@@ -304,7 +304,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 
     $req = new requete($site->db,
     "SELECT SQRT(POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2)) AS dist,
-    COALESCE(surnom_utbm, alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
+    COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom_utilisateur,
     utilisateurs.id_utilisateur
     FROM galaxy_star AS a, galaxy_star AS b, utilisateurs
     INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)
