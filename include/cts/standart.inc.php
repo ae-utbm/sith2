@@ -358,7 +358,7 @@ class form extends stdcontents
     if ( $fast_clean )
       $this->buffer .= " onfocus=\"if(this.value=='$value')this.value=''\" onblur=\"if(this.value=='')this.value='$value'\"";
     if ( $size )
-      $this->buffer .= " size=\"$size\" maxlenght=\"$size\"";
+      $this->buffer .= " size=\"$size\" maxlength=\"$size\"";
 
     if (!$enabled)
       $this->buffer .= " DISABLED";

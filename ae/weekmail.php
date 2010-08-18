@@ -272,7 +272,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
       $ln[]='<input type="checkbox" class="chkbox" name="id_news['.$id_news.']" value="'.$id_news.'"/>';//case à cocher
       $ln[]='<a href="?page=modere&id_news='.$id_news.'">'.$titre.'</a>';
       $ln[]=$mod;
-      $ln[]='<input type="text" name="'.$id_news.'_rank" value="'.$rank.'" size="3" maxlenght="3" />';//rank field
+      $ln[]='<input type="text" name="'.$id_news.'_rank" value="'.$rank.'" size="3" maxlength="3" />';//rank field
       $table->add_row($ln);
     }
     $frm->puts($table->html_render ());

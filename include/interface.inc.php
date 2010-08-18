@@ -257,12 +257,12 @@ class interfaceweb
     $this->buffer .= "<body>\n";
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";
-    $this->buffer .= "<div id=\"dropmenudiv\" onMouseover=\"clearhidemenu()\" onMouseout=\"dynamichide(event)\"></div>\n";
+    $this->buffer .= "<div id=\"dropmenudiv\" onmouseover=\"clearhidemenu()\" onmouseout=\"dynamichide(event)\"></div>\n";
     if(!$this->user->is_valid())
     {
       $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:none\"></div>\n";
       $this->buffer .= '<div id="passwordbox" style="display:none">';
-      $this->buffer .= '<img id="close" src="'.$topdir.'images/actions/delete.png" onClick="hideConnexionBox()" alt="Fermer" ';
+      $this->buffer .= '<img id="close" src="'.$topdir.'images/actions/delete.png" onclick="hideConnexionBox()" alt="Fermer" ';
       $this->buffer .= 'title="Fermer" />';
       $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
       $jsoch = "javascript:switchSelConnection(this);";
@@ -310,11 +310,11 @@ class interfaceweb
     {
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
-      $this->buffer .= "menu_utilisateur[0]='<a class=\"firstdropdown\" href=\"".$topdir."connect.php\" onClick=\"return showConnexionBox()\">Connexion</a>';";
+      $this->buffer .= "menu_utilisateur[0]='<a class=\"firstdropdown\" href=\"".$topdir."connect.php\" onclick=\"return showConnexionBox()\">Connexion</a>';";
       $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."password.php\">Mot de passe perdu</a>';";
       $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
       $this->buffer .= "</script>";
-      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onMouseout=\"delayhidemenu()\">\n";
+      $this->buffer .= "<div id='login' onmouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onmouseout=\"delayhidemenu()\">\n";
         $this->buffer .= "<a href='".$topdir."connect.php'>Identification</a>\n";
     }
     elseif($this->user->type=="srv" )
@@ -324,7 +324,7 @@ class interfaceweb
       $i=0;
       $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
       $this->buffer .= "</script>";
-      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onMouseout=\"delayhidemenu()\">\n";
+      $this->buffer .= "<div id='login' onmouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onmouseout=\"delayhidemenu()\">\n";
       $this->buffer .= "<a href=\"".$topdir."boutique-utbm/suivi.php\">Suivi commandes</a>\n";
     }
     else
@@ -370,7 +370,7 @@ class interfaceweb
       }
       $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
       $this->buffer .= "</script>";
-      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onMouseout=\"delayhidemenu()\">\n";
+      $this->buffer .= "<div id='login' onmouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onmouseout=\"delayhidemenu()\">\n";
       $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">".$this->user->prenom." ".$this->user->nom."</a>";
     }
     $this->buffer .= "</div>\n";
@@ -465,7 +465,7 @@ class interfaceweb
         }
 
         $this->buffer .= "</script>";
-        $this->buffer .= "<div id='assos' onMouseover=\"dropdownmenu(this, event, menu_assos, '150px')\" onMouseout='delayhidemenu()'>\n";
+        $this->buffer .= "<div id='assos' onmouseover=\"dropdownmenu(this, event, menu_assos, '150px')\" onmouseout='delayhidemenu()'>\n";
         $this->buffer .= "Gestion assos/clubs";
         $this->buffer .= "</div>\n";
       }

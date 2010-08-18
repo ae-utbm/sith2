@@ -430,11 +430,11 @@ class dokusyntax
           return $file->get_html_link();
         }
         if ( !isset($match[2]) || $match[2] == "/download" )
-          $link = "http://ae.utbm.fr/d.php?action=download&id_file=".$match[1];
+          $link = "http://ae.utbm.fr/d.php?action=download&amp;id_file=".$match[1];
         elseif ( $match[2] == "/preview" )
-          $link = "http://ae.utbm.fr/d.php?action=download&download=preview&id_file=".$match[1];
+          $link = "http://ae.utbm.fr/d.php?action=download&amp;download=preview&amp;id_file=".$match[1];
         elseif ( $match[2] == "/thumb" )
-          $link = "http://ae.utbm.fr/d.php?action=download&download=thumb&id_file=".$match[1];
+          $link = "http://ae.utbm.fr/d.php?action=download&amp;download=thumb&amp;id_file=".$match[1];
         elseif ( $match[2] == "/info" )
           $link = "http://ae.utbm.fr/d.php?id_file=".$match[1];
       }
