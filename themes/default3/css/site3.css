@@ -243,7 +243,7 @@ div#headermenu
 {
   position:absolute;
   overflow:hidden;
-  display:block-inline;
+  display:inline-block;
   top:0;
   right:0;
   margin:0;
@@ -286,7 +286,7 @@ div#fsearchbox input
 #dropmenudiv, #assos, #login
 {
   float:left;
-  font:normal 10px;
+  font:normal 10px verdana, arial, sans-serif;
   width:155px;
   background-color: #555555;
   color:#ffffff;
@@ -333,7 +333,7 @@ div#fsearchbox input
 }
 #dropmenudiv a
 {
-  font: 9px;
+  font-size: 9px;
   font-weight:bold;
   width:155px;
   color:#fff;
@@ -368,7 +368,7 @@ div#fsearchbox input
   right: 0;
   width:345px;
   height:54px;
-  text-size: 10px;
+  font-size: 10px;
   color : black;
   background-image: url("../images/important.png");
   background-repeat: no-repeat;
@@ -380,7 +380,7 @@ div#fsearchbox input
 #important div.body
 {
   background: none;
-  padding:9 25 7 54;
+  padding:9px 25px 7px 54px;
   margin:0;
   border:0;
   text-align:left;
@@ -401,7 +401,6 @@ div.tabsv2
   margin-top:15px;
   background : #555555;
   height:36px;
-  padding:auto;
   padding-left:0;
   margin-bottom:0;
 }
@@ -418,7 +417,7 @@ div.tabsv2 span a
   width:95px;
   height:10px;
   margin:0;
-  padding: 13 0;
+  padding:13px 0px;
   text-transform:lowercase;
 }
 div.tabsv2 span.selected a
@@ -659,8 +658,7 @@ div.box h1 a
 {
   cursor:move;
   color: #ffffff;
-  font : verdana;
-  font-size: 10px;
+  font: 10px verdana;
   text-decoration:none;
   font-style: normal;
 }
@@ -684,7 +682,7 @@ div.box p
 {
   margin: 0px;
   padding-bottom: 5px;
-  font-style: verdana 12px;
+  font:12px verdana;
 }
 div.box div.body div.fastsearch h2
 {
@@ -710,7 +708,7 @@ div.box ul
   margin-bottom: 0.25em;
   padding-left: 15px;
   list-style: none;
-  font-size:12px normal verdana;
+  font:normal 12px verdana;
   color:#555555;
 }
 div.box ul li:before
@@ -776,7 +774,7 @@ div.box p
 div.article
 {
   background: white;
-  padding: 20 0 10 10;
+  padding: 20px 0 10px 10px;
   margin-bottom: 10px;
   clear: both;
   position:relative;
@@ -794,11 +792,11 @@ div.article h1
   color: #FFFFFF;
   text-transform:uppercase;
   background-color: #FF8800;
-  margin-bottom:10;
+  margin-bottom:10px;
 }
 div.article h1 + h1
 {
-  margin-top:-10;
+  margin-top:-10px;
 }
 div.article h1.wikititle
 {
@@ -1071,12 +1069,12 @@ div.article div.tabs
   height:20px;
   overflow:hidden;
   padding-left:0px;
-  margin: 20 0 10 0;
+  margin: 20px 0 10px 0;
   text-transform:lowercase;
 }
 div.article h1 + div.tabs
 {
-  margin: -10 0 10 0;
+  margin: -10px 0 10px 0;
 }
 div.article
 {
@@ -1179,7 +1177,7 @@ div.article div.tabs_lg a.selected, div.article div.tabs_lg a:hover
 div.article div.subtab
 {
   padding:0;
-  margin:-10 0 4;
+  margin:-10px 0 4px;
   padding-bottom:4px;
   margin-bottom:4px;
   text-align: center;
