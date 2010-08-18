@@ -222,7 +222,9 @@ elseif ( isset($_REQUEST["id_utilisateur"]) )
 
   $req = new requete($site->db,"SELECT rx_star,ry_star FROM galaxy_star WHERE id_star='".mysql_real_escape_string($user->id)."'");
 
-  if ( $req->lines == 0 )
+  if ( !$user->publique && !$can_edit )
+    $cts->add_paragraph("Non présent dans galaxy : profil non publique.");
+  elseif ( $req->lines == 0 )
   {
     $cts->add_paragraph("Non présent dans galaxy");
   }

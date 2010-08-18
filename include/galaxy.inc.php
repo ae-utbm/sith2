@@ -82,6 +82,10 @@ class galaxy
     "FROM `sas_personnes_photos` AS `p1` ".
     "JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photo ".
     "AND p1.id_utilisateur != p2.id_utilisateur ) ".
+    "LEFT JOIN utilisateurs usr1 ON (p1.id_utilisateur = usr1.id_utilisateur) ".
+    "LEFT JOIN utilisateurs usr2 ON (p2.id_utilisateur = usr1.id_utilisateur) ".
+    "WHERE usr1.publique_utl != '0' ".
+    "AND usr2.publique_utl != '0' ".
     "GROUP BY p1.id_utilisateur, p2.id_utilisateur");
 
     while ( $row = $req->get_row() )
@@ -95,7 +99,11 @@ class galaxy
     // b- Parrainage : n pt / relation parrain-fillot
     $req = new requete($this->db, "SELECT id_utilisateur as u1, id_utilisateur_fillot as u2 ".
     "FROM `parrains` ".
-    "GROUP BY id_utilisateur, id_utilisateur_fillot");
+    "LEFT JOIN utilisateurs usr1 ON (parrains.id_utilisateur = usr1.id_utilisateur) ".
+    "LEFT JOIN utilisateurs usr2 ON (id_utilisateur_fillot = usr1.id_utilisateur) ".
+    "WHERE usr1.publique_utl != '0' ".
+    "AND usr2.publique_utl != '0' ".
+    "GROUP BY parrains.id_utilisateur, id_utilisateur_fillot");
     while ( $row = $req->get_row() )
     {
       $a = min($row['u1'],$row['u2']);
@@ -117,6 +125,10 @@ class galaxy
   AND a.id_asso = b.id_asso
   AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) >= ".GALAXY_SCORE_1PTJOURSASSO."
   )
+  LEFT JOIN utilisateurs usr1 ON (a.id_utilisateur = usr1.id_utilisateur)
+  LEFT JOIN utilisateurs usr2 ON (b.id_utilisateur = usr1.id_utilisateur)
+  WHERE usr1.publique_utl != '0'
+  AND usr2.publique_utl != '0'
   GROUP BY a.id_utilisateur,b.id_utilisateur
   ORDER BY a.id_utilisateur,b.id_utilisateur");
 
