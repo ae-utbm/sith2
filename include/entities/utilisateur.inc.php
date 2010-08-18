@@ -873,7 +873,7 @@ class utilisateur extends stdentity
                               'role_utbm' => $this->role,
                               'departement_utbm' => $this->departement,
                               'filiere_utbm' => $this->filiere,
-                              'surnom_utbm' => $this->surnom,
+                              'surnom_utbm' => (!empty($this->surnom) ? $this->surnom : null),
                               'promo_utbm' => $this->promo_utbm,
                               'date_diplome_utbm'=> ($this->date_diplome_utbm!=NULL)?date("Y-m-d H:i:s",$this->date_diplome_utbm):NULL),
                         array( 'id_utilisateur' => $this->id));
