@@ -333,8 +333,7 @@ div#fsearchbox input
 }
 #dropmenudiv a
 {
-  font:normal 9px verdana, arial, sans-serif;
-  font-weight:bold;
+  font:bold 10px verdana, arial, sans-serif;
   width:155px;
   color:#fff;
   display: block;
