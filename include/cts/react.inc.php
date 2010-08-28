@@ -49,12 +49,12 @@ class reactonforum extends stdcontents
 
 
     $conds = array();
-	  foreach ($params as $key => $value)
-	  {
-	    if ( is_null($value) )
-	      $conds []= "(`frm_sujet`.`" . $key . "` is NULL)";
-	    else
-	      $conds []= "(`frm_sujet`.`" . $key . "`='" . mysql_escape_string($value) . "')";
+    foreach ($params as $key => $value)
+    {
+      if ( is_null($value) )
+        $conds []= "(`frm_sujet`.`" . $key . "` is NULL)";
+      else
+        $conds []= "(`frm_sujet`.`" . $key . "`='" . mysql_escape_string($value) . "')";
     }
 
     $sqlconds = implode(" AND ",$conds);
@@ -68,7 +68,7 @@ class reactonforum extends stdcontents
         "WHERE ((droits_acces_forum & 0x1) OR " .
         "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
         "(id_groupe_admin IN ($grps)) OR " .
-        "((droits_acces_forum & 0x100) AND id_utilisateur='".$user->id."')) ".
+        "((droits_acces_forum & 0x100) AND frm_sujet.id_utilisateur='".$user->id."')) ".
         "AND $sqlconds");
     }
     else
@@ -102,8 +102,8 @@ class reactonforum extends stdcontents
     }
 
     $context = "";
-	  foreach ($params as $key => $value)
-	    $context .= " &amp;".$key."=".urlencode($value);
+    foreach ($params as $key => $value)
+      $context .= " &amp;".$key."=".urlencode($value);
 
     $id_forum = 3;
 
