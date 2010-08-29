@@ -701,7 +701,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       array(2=>"Permettre à tous les membres de l'AE, de l'utbm ou anciens de l'utbm de voir mon profil",
             1=>"Limiter l'accès à mon profil aux membres de l'AE",
             0=>"Ne pas rendre mon profil publique"),
-      $user->publique );
+      $user->publique, -1, false, array(), false );
 
     $frm->add_checkbox ( "publique_mmtpapier", "Autoriser la publication de mon profil dans le matmatronch papier.", $user->publique_mmtpapier );
 
