@@ -182,7 +182,7 @@ if (isset($_REQUEST['getinfodepts']))
 }
 
 $site = new site ();
-$site->start_page("services","Carte de France de l'AE");
+$site->start_page("matmatronch","Carte de France de l'AE");
 
 /*cts 1 : liste des gens */
 $cts = new contents("", "");
