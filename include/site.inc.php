@@ -521,7 +521,7 @@ class site extends interfaceweb
       }
     }
 
-    if ( $this->user->date_maj > 1283115400 )
+    if ( $this->user->date_maj < 1283115400 )
         $elements[] = "<a href=\"".$topdir."majprofil.php\"><b>La politique d'accès aux fiches Matmatronch a changé : choisissez qui peut accéder à votre fiche.</b></a>";
 
     if (  is_null($this->user->date_maj) )
