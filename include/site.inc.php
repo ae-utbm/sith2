@@ -521,10 +521,14 @@ class site extends interfaceweb
       }
     }
 
+    if ( $this->user->date_maj > 1283115400 )
+        $elements[] = "<a href=\"".$topdir."majprofil.php\"><b>La politique d'accès aux fiches Matmatronch a changé : choisissez qui peut accéder à votre fiche.</b></a>";
+
     if (  is_null($this->user->date_maj) )
         $elements[] = "<b>Vous n'avez pas r&eacute;cemment mis &agrave; jour votre fiche Matmatronch</b> : <a href=\"".$topdir."majprofil.php\">La mettre &agrave; jour</a>";
     elseif ( (time() - $this->user->date_maj) > (6*30*24*60*60) )
         $elements[] = "<b>Vous n'avez pas mis &agrave; jour votre fiche Matmatronch depuis ".round((time() - $this->user->date_maj)/(24*60*60))." jours !</b> : <a href=\"".$topdir."majprofil.php\">La mettre &agrave; jour</a>";
+
 
     if( $this->user->is_in_group("sas_admin") && (!$this->get_param("closed.sas",false) && is_dir("/var/www/ae/accounts/sas")) )
     {
