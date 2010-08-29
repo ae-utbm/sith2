@@ -153,7 +153,7 @@ if (isset($_REQUEST['getinfodepts']))
                                  INNER JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
                                  INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville`
                                  WHERE `loc_ville`.`cpostal_ville` LIKE '".$cp."'
-                                 AND   `publique_utl` = '2'
+                                 AND `publique_utl`>='".($site->user->cotisant ? '1' : '2')."'
                                  ORDER BY RAND()
                                  LIMIT 10");
 
