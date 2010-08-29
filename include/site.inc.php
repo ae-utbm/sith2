@@ -521,7 +521,11 @@ class site extends interfaceweb
       }
     }
 
-    if ( $this->user->date_maj < 1283115400 )
+    /* À partir de septembre 2010, possibilité d'avoir une fiche accessible
+     * par les utbm non cotisants.
+     * Alerte pour ceux qui n'ont pas modifié leur fiche matmatronch depuis
+     */
+    if ( $this->user->date_maj < 1283382000 ) // 02/09/2010
         $elements[] = "<a href=\"".$topdir."user.php?page=edit#__publique_2\"><b>La politique d'accès aux fiches Matmatronch a changé : choisissez qui peut accéder à votre fiche.</b></a>";
 
     if (  is_null($this->user->date_maj) )
