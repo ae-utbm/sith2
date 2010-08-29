@@ -14,11 +14,11 @@ $site = new site ();
 
 $site->allow_only_logged_users("matmatronch");
 
-if ( !$site->user->ae )
+if ( !$site->user->ae && !$site->user->utbm )
 {
   $site->start_page("matmatronch","MatMaTronch");
   $cts = new contents("Accès limité");
-  $cts->add_paragraph("L'accès à la recherche avancée du matmatronch est réservée aux cotisants AE.");
+  $cts->add_paragraph("L'accès à la recherche avancée du matmatronch est réservée aux membres de l'utbm.");
   $site->add_contents($cts);
   $site->end_page();
   exit();
