@@ -139,11 +139,16 @@ class fsearch extends stdcontents
     $sqlpattern = mysql_real_escape_string($pattern);
 
     // Utilisateurs
-    if ( $site->user->is_valid() && $site->user->cotisant )
+    if ( $site->user->is_valid() && ($site->user->cotisant || $site->user->utbm))
     {
 
       if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_asso_role ( 27, 1 ) && !$site->user->is_in_group("visu_cotisants") )
-        $force_sql = "AND `publique_utl`='1'";
+      {
+        if ($site->user->cotisant)
+          $force_sql = "AND `publique_utl`>='1'";
+        else
+          $force_sql = "AND `publique_utl`='2'";
+      }
       else
         $force_sql = "";
 

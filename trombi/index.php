@@ -72,7 +72,7 @@ if (isset($_REQUEST['id_utilisateur']))
   if ($user->id != $site->user->id && !$site->user->utbm && !$site->user->ae)
     $site->error_forbidden("matmatronch","group",10001);
 
-  if (!$user->publique && !$can_edit)
+  if ( (($user->publique == 0) || ($user->publique == 1 && !$site->user->cotisant)) && !$can_edit )
     $site->error_forbidden("matmatronch","private");
 
   if ($user->promo_utbm != $site->user->promo_utbm)
@@ -400,7 +400,7 @@ if($_REQUEST["view"] == "listing")
                         WHERE
                                `promo_utbm`='" . $site->user->promo_utbm . "'
                         AND
-                               `publique_utl`='1'
+                               `publique_utl`>='".($site->user->cotisant ? '1' : '2')."'
                         ORDER BY
                                `nom_utl`
                         ASC");
@@ -424,7 +424,7 @@ if($_REQUEST["view"] == "listing")
                     ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
                     ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
                     ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
-                    ."AND `publique_utl`='1' "
+                    ."AND `publique_utl`>='".($site->user->cotisant ? '1' : '2')."' "
                     ."ORDER BY `nom_utl`, `prenom_utl` ASC "
                     ."LIMIT ".$st." , ".$npp."");
   if ($req->lines == 0)
@@ -727,4 +727,3 @@ $site->add_contents($cts);
 $site->end_page ();
 
 ?>
-

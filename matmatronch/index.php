@@ -167,8 +167,10 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
     else
       $params.= "&inclus_nutbm";
 
-    if ( !$is_admin && !$site->user->is_in_group("visu_cotisants"))
-      $elements[] = "`publique_utl`='1'";
+    if ( !$is_admin && !$site->user->is_in_group("visu_cotisants") && $site->user->cotisant)
+      $elements[] = "`publique_utl`>='1'";
+    elseif ( !$is_admin && !$site->user->is_in_group("visu_cotisants"))
+      $elements[] = "`publique_utl`>='2'";
 
     $req = new requete($site->db,"SELECT COUNT(`utilisateurs`.`id_utilisateur`) " .
         "FROM `utilisateurs` " .

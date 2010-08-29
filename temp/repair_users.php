@@ -94,7 +94,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         //droit_image(true or false)
         $user->droit_image=true;
         //publique
-        $user->publique=true; //nazi :P
+        $user->publique=1; //nazi :P
         //publique_mmtpapier
         $user->publique_mmtpapier=true; //nazi aussi :P
         //signature_utl

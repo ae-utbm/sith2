@@ -67,8 +67,8 @@ if ( isset($_REQUEST['id_utilisateur']) )
   // Si la fiche n'est pas public, et qu'on ne peut pas l'éditer,
   // cela veut dire que l'on est i admin, ni l'utilisateur en question
   // donc on a pas le droit de la consulter
-  if ( !$user->publique && !$can_edit )
-    $site->error_forbidden("mat11matronch","private");
+  if ( (($user->publique == 0) || ($user->publique == 1 && !$site->user->cotisant)) && !$can_edit )
+    $site->error_forbidden("matmatronch","private");
 
 }
 else
@@ -164,7 +164,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     $user->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
     $user->date_maj = time();
 
-    $user->publique = isset($_REQUEST["publique"]);
+    $user->publique = $_REQUEST["publique"];
     $user->publique_mmtpapier = isset($_REQUEST["publique_mmtpapier"]);
 
     $user->signature = $_REQUEST['signature'];
@@ -697,7 +697,12 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     //signature
     $frm->add_text_area("signature","Signature (forum)",$user->signature);
 
-    $frm->add_checkbox ( "publique", "Rendre mon profil public : Apparaitre dans le matmatronch en ligne.", $user->publique );
+    $frm->add_radiobox_field ( "publique", "Publicité de mon profil",
+      array(2=>"Permettre à tous les membres de l'AE, de l'utbm ou anciens de l'utbm de voir mon profil",
+            1=>"Limiter l'accès à mon profil aux membres de l'AE",
+            0=>"Ne pas rendre mon profil publique"),
+      $user->publique );
+
     $frm->add_checkbox ( "publique_mmtpapier", "Autoriser la publication de mon profil dans le matmatronch papier.", $user->publique_mmtpapier );
 
     $frm->add_submit("save","Enregistrer");

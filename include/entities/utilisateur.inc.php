@@ -1168,7 +1168,7 @@ class utilisateur extends stdentity
     $this->etudiant = $_etudiant;
     $this->ancien_etudiant = false;
     $this->modere = false;
-    $this->publique = true;
+    $this->publique = 2;
     $this->publique_mmtpapier = true;
 
     $sql = new insert ($this->dbrw,
@@ -1345,7 +1345,7 @@ class utilisateur extends stdentity
     if ($date_naissance)
       $this->date_naissance = $date_naissance;
 
-    $this->publique = true;
+    $this->publique = 2;
     $this->publique_mmtpapier = true;
 
     $this->droit_image = $droit_image;
