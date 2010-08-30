@@ -984,8 +984,8 @@ div.toolbox
   padding-top: 5px;
   padding-bottom: 5px;
   font-size: 10px;
-  background: #afc7e0;
-  border:1px solid white;
+  background: #ff8800;
+  border-left:1px solid #d00;
 }
 div.toolbox a
 {
@@ -997,7 +997,7 @@ div.toolbox a
 }
 div.toolbox a:hover
 {
-  background:white;
+  background:#d00;
   text-decoration:none;
 }
 
