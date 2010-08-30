@@ -982,7 +982,7 @@ div.toolbox
   position:relative;
   top:1px;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   font-size: 10px;
   background: #ff8800;
 }
@@ -991,7 +991,7 @@ div.toolbox a
   font-size: 10px;
   height: 12px
   color:black;
-  padding: 5px 10px;
+  padding: 5px 10px 1px;
   margin-left:-1px;
 }
 div.toolbox a:hover
