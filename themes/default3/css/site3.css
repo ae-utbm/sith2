@@ -334,8 +334,8 @@ div#fsearchbox input
   color:#fff;
   display: block;
   text-indent: 3px;
-  margin:0 0 4px 0;
-  padding: 4px 0 4px 4px;
+  margin: 0;
+  padding: 0;
   text-decoration: none;
   text-transform:lowercase;
   height:20px;
