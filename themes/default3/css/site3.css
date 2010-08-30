@@ -2253,15 +2253,15 @@ div.calendar td.active a
 }
 div.calendar td.event1
 {
-  background: #3388CC;
+  background: #3388cc;
 }
 div.calendar td.event2
 {
-  background: #f574b0;
+  background: #95c1e4;
 }
 div.calendar td.event3
 {
-  background: #fbc8e0;
+  background: #d3e6f3;
 }
 div.tinycal_box
 {
@@ -2303,7 +2303,7 @@ dl.event
   list-style: none;
   display: none;
   padding:0;
-  /*left:10px;*/
+  left:10px;
 }
 dl.event dt
 {
