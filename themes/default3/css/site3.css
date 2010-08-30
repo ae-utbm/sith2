@@ -306,10 +306,6 @@ div#fsearchbox input
   font-weight:bold;
   text-transform:lowercase;
 }
-#assos:hover, #login:hover
-{
-  color:#3388cc;
-}
 #login a, #assos a
 {
   text-decoration:none;
