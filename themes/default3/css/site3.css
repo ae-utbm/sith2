@@ -1058,8 +1058,7 @@ table.ctstable
 /*Onglets au sein d'un article--------------------------------------------------*/
 div.article div.tabs
 {
-  background:white;
-  color:black;
+  background:#dd0000;
   height:20px;
   overflow:hidden;
   padding-left:0px;
