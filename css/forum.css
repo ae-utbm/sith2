@@ -32,6 +32,10 @@ div.forumsection div.forumitem, div.forumsujetsliste div.forumsujet
   margin:3px;
 }
 
+div.forumsujetsliste div.forumsujet {
+  border:1px solid #d8e7f3;
+}
+
 div.forumsection h2, div.forumsection p.description
 {
   padding-right:240px;
