@@ -485,7 +485,7 @@ div.emptysectionlinks
   background :#ccc;
   height:60px;
   font-size:12px;
-  padding-top: 40px;
+  padding:0;
   color:#ffffff;
   text-decoration:none;
   /* border-bottom: #FFDD22 solid 5px; */
