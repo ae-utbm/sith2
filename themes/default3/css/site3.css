@@ -486,6 +486,7 @@ div.emptysectionlinks
   margin:0;
   padding:0;
   color:#ffffff;
+  text-decoration:none;
   /* border-bottom: #FFDD22 solid 5px; */
 }
 #endsitelinks
@@ -509,8 +510,6 @@ div.emptysectionlinks
 #endsitelinks a
 {
   margin-left:10px;
-  text-decoration:none;
-  font-size:10px;
   color:#555;
 }
 #endsitelinks a:hover
