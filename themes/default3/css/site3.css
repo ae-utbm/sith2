@@ -983,12 +983,11 @@ div.toolbox
   top:1px;
   padding-top: 5px;
   padding-bottom: 5px;
-  font-size: 11px;
   background: #ff8800;
 }
 div.toolbox a
 {
-  font-size: 10px;
+  font-size: 11px;
   line-height: 13px;
   color:white;
   padding: 5px 10px;
