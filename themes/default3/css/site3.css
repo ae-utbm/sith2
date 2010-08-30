@@ -787,7 +787,7 @@ div.article h1
   margin: 0;
   padding: 0.5em;
   font-size: 100%;
-  font-weight:normal;
+  font-weight: bold;
   color: #FFFFFF;
   text-transform:uppercase;
   background-color: #FF8800;
@@ -1090,7 +1090,7 @@ div.article div.tabs span a
   padding-left:8px;
   padding-right:8px;
   font-size:12px;
-  font-weight:normal;
+  font-weight:bold;
   font-family: arial, sans-serif;
   color:#fff;
 }
