@@ -978,7 +978,7 @@ img.fiche_image
 /*Toolbox (boite d'outils associé à un stdcontents)(défini entre le titre et le contenu)*/
 div.toolbox
 {
-  height: 16px;
+  height: 14px;
   float: right;
   position:relative;
   top:1px;
