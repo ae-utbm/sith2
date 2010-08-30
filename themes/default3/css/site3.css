@@ -483,13 +483,13 @@ div.emptysectionlinks
   bottom:0;
   clear: both;
   width:50%;
-  background :#555555;
+  background :#dddddd;
   height:30px;
   font-size:10px;
   margin:0;
   padding:0;
-  color:#ffffff;
-  border-bottom: #FFDD22 solid 5px;
+  color:#555;
+  /* border-bottom: #FFDD22 solid 5px; */
 }
 #endsitelinks
 {
