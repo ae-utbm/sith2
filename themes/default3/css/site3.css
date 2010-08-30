@@ -2312,7 +2312,7 @@ dl.event dt
   margin:0;
   border:0;
   border-top:1px solid white;
-  color: white;
+  color: black;
   font-size:12px;
   font-weight:bold;
 }
@@ -2322,7 +2322,7 @@ dl.event dd
   padding-top:2px;
   margin:0;
   border:0;
-  color: white;
+  color: black;
 }
 dl.event .e1
 {
