@@ -483,12 +483,12 @@ div.emptysectionlinks
   bottom:0;
   clear: both;
   width:50%;
-  background :#dddddd;
+  background :#ccc;
   height:30px;
   font-size:10px;
   margin:0;
   padding:0;
-  color:#555;
+  color:#ffffff;
   /* border-bottom: #FFDD22 solid 5px; */
 }
 #endsitelinks
@@ -514,12 +514,12 @@ div.emptysectionlinks
   margin-left:10px;
   text-decoration:none;
   font-size:10px;
-  color:#ffffff;
+  color:#555;
 }
 #endsitelinks a:hover
 {
   text-decoration: none;
-  color:#ffDD22;
+  color:#774499;
 }
 div.important p
 {
