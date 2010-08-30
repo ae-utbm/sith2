@@ -2239,8 +2239,7 @@ div.calendar td a
 }
 div.calendar td.event1 a, div.calendar td.event2 a, div.calendar td.event3 a
 {
-  color:white;
-  font-weight: bold;
+  color:black;
 }
 div.calendar td.active
 {
