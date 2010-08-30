@@ -2207,6 +2207,7 @@ div.calendarhead td.weekday
   width: 14%;
   text-align: center;
   font-size: 80%;
+  font-weight: bold;
   color: #fff;
   background:#3388CC;
 }
