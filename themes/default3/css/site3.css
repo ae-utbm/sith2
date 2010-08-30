@@ -990,6 +990,7 @@ div.toolbox
 div.toolbox a
 {
   font-size: 10px;
+  line-height: 12px
   color:black;
   padding: 5px 10px;
   border-left:1px solid white;
