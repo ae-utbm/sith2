@@ -990,7 +990,7 @@ div.toolbox a
 {
   font-size: 10px;
   color:black;
-  padding: 5px 10px -2px;
+  padding: 5px 10px;
   margin-left:-1px;
 }
 div.toolbox a:hover
