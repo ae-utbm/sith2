@@ -2238,11 +2238,11 @@ div.calendar td.event1 a, div.calendar td.event2 a, div.calendar td.event3 a
 div.calendar td.active
 {
   font-weight: bold;
-  border: 2px solid #86df81;
+  border: 2px solid white;
 }
 div.calendar td.active a
 {
-  color: #86df81;
+  color:white;
 }
 div.calendar td.event1
 {
