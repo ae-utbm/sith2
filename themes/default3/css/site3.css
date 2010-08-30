@@ -1059,7 +1059,7 @@ table.ctstable
 div.article div.tabs
 {
   background:#888;
-  height:20px;
+  height:24px;
   overflow:hidden;
   padding-left:0px;
   margin: 20px 0 10px 0;
@@ -1075,6 +1075,7 @@ div.article
 }
 div.article div.tabs span a
 {
+  height:24px;
   float:left;
   line-height:12px;
   margin-right:0px;
