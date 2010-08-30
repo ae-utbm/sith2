@@ -978,8 +978,10 @@ img.fiche_image
 /*Toolbox (boite d'outils associé à un stdcontents)(défini entre le titre et le contenu)*/
 div.toolbox
 {
+  height: 30px;
   float: right;
   position:relative;
+  top:1px;
   padding-top: 5px;
   padding-bottom: 5px;
   font-size: 10px;
