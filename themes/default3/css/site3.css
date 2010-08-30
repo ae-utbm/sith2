@@ -340,6 +340,10 @@ div#fsearchbox input
   text-transform:lowercase;
   height:20px;
 }
+#dropmenudiv a:last-child {
+  background-color: #dd0000;
+}
+
 #dropmenudiv a.firstdropdown:before
 {
   height: 8px;
