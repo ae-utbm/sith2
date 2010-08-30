@@ -334,7 +334,7 @@ div#fsearchbox input
   display: block;
   text-indent: 3px;
   margin: 0;
-  padding: 2px 0 2px 4px;
+  padding: 4px 0 0 4px;
   text-decoration: none;
   text-transform:lowercase;
   height:20px;
