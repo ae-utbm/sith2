@@ -2217,7 +2217,7 @@ div.calendar
   padding: 0px;
   margin-top:-6px;
   width:200px;
-  color: white;
+  color: black;
   font-weight: normal;
   background:#fff;
 }
@@ -2312,8 +2312,9 @@ dl.event dt
   margin:0;
   border:0;
   border-top:1px solid white;
-  font-size:10px;
-  font-weight:normal;
+  color: white;
+  font-size:12px;
+  font-weight:bold;
 }
 dl.event dd
 {
