@@ -481,9 +481,9 @@ div.emptysectionlinks
   clear: both;
   width:auto;
   background :#ccc;
-  height:30px;
+  height:60px;
   font-size:12px;
-  margin:0 auto 25px auto;
+  margin:0 auto 0 auto;
   padding:0;
   color:#ffffff;
   text-decoration:none;
