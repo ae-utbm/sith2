@@ -989,7 +989,7 @@ div.toolbox
 div.toolbox a
 {
   font-size: 10px;
-  height: 13px;
+  line-height: 13px;
   color:white;
   padding: 5px 10px;
   margin-left:-1px;
