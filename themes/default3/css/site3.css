@@ -545,6 +545,7 @@ div.contents
   padding: 0 0 0 0;
   background-color:#fff;
   display:block;
+  min-height: 500px;
 }
 div.contents:after
 {
