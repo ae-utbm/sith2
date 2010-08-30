@@ -2245,15 +2245,15 @@ div.calendar td.active
 {
   font-weight: bold;
   color: black;
-  border: 2px solid #774499;
+  border: 2px solid #ff8800;
 }
 div.calendar td.active a
 {
-  color:#774499;
+  color:#ff8800;
 }
 div.calendar td.event1
 {
-  background: #ee1177;
+  background: #3388CC;
 }
 div.calendar td.event2
 {
