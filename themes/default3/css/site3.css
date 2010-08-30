@@ -411,6 +411,7 @@ div.tabsv2 span a
   float:left;
   color:#ffffff;
   font-size:12px;
+  font-weight:bold;
   text-align:center;
   line-height:12px;
   width:95px;
@@ -422,14 +423,12 @@ div.tabsv2 span a
 div.tabsv2 span.selected a
 {
   color:#FFFFFF;
-  font-weight:normal;
   background : #774499;
   text-decoration:none;
 }
 div.tabsv2 span a:hover
 {
   color:#FFFFFF;
-  font-weight:normal;
   background : #3388CC;
   text-decoration:none;
 }
@@ -1098,7 +1097,6 @@ div.article div.tabs span.selected a, div.article div.tabs span a:hover
 {
   background:#ff8800;
   color:#fff;
-  font-weight: bold;
   text-decoration:none;
 }
 
