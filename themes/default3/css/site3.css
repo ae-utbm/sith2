@@ -479,6 +479,7 @@ div.emptysectionlinks
 #endsite
 {
   position: absolute;
+  bottom: 0;
   clear: both;
   width:auto;
   background :#ccc;
