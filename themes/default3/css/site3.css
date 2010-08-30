@@ -479,7 +479,7 @@ div.emptysectionlinks
 #endsite
 {
   clear: both;
-  width:50%;
+  width:auto;
   background :#ccc;
   height:30px;
   font-size:12px;
