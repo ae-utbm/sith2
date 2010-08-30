@@ -479,13 +479,12 @@ div.emptysectionlinks
 #endsite
 {
   position: absolute;
-  bottom: 0;
   clear: both;
   width:auto;
   background :#ccc;
   height:60px;
   font-size:12px;
-  margin:0 auto 0 auto;
+  margin:0 40px 0 auto;
   padding:0;
   color:#ffffff;
   text-decoration:none;
