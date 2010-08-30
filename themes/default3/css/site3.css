@@ -989,9 +989,8 @@ div.toolbox
 div.toolbox a
 {
   font-size: 10px;
-  height: 12px
   color:black;
-  padding: 5px 10px 1px;
+  padding: 5px 10px -2px;
   margin-left:-1px;
 }
 div.toolbox a:hover
