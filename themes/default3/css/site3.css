@@ -480,6 +480,7 @@ div.emptysectionlinks
 {
   position: relative;
   bottom: 50px;
+  text-align: center;
   clear: both;
   width:auto;
   background :#ccc;
