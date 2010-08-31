@@ -479,7 +479,7 @@ div.emptysectionlinks
 #endsite
 {
   position: relative;
-  /* bottom: 40px; */
+  bottom: 40px;
   clear: both;
   width:auto;
   background :#ccc;
@@ -487,7 +487,7 @@ div.emptysectionlinks
   padding:0;
   color:#ffffff;
   text-decoration:none;
-  margin: 40px auto 0 auto;
+  margin: 0 auto 0 auto;
   /* border-bottom: #FFDD22 solid 5px; */
 }
 #endsitelinks
