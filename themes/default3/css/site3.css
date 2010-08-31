@@ -479,7 +479,7 @@ div.emptysectionlinks
 #endsite
 {
   position: relative;
-  bottom: 40px;
+  /* bottom: 40px; */
   clear: both;
   width:auto;
   background :#ccc;
