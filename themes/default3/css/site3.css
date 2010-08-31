@@ -478,9 +478,8 @@ div.emptysectionlinks
 /*Bas du site avec barre d'informations------------------------------------------*/
 #endsite
 {
-  position: relative;
-  bottom: 50px;
-  text-align: center;
+  position: absolute;
+  bottom: -40px;
   clear: both;
   width:auto;
   background :#ccc;
