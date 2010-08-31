@@ -478,8 +478,8 @@ div.emptysectionlinks
 /*Bas du site avec barre d'informations------------------------------------------*/
 #endsite
 {
-  position: absolute;
-  bottom: -40px;
+  position: relative;
+  bottom: 40px;
   clear: both;
   width:auto;
   background :#ccc;
@@ -493,8 +493,8 @@ div.emptysectionlinks
 #endsitelinks
 {
   padding: 0px;
-  text-align:left;
-  margin:10px auto 0 auto;
+  text-align:center;
+  margin:0 auto 0 auto;
 }
 #endsitelinks .endlinksblock
 {
