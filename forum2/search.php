@@ -148,7 +148,7 @@ elseif ( $_REQUEST["page"] == "starred" )
           CONCAT(premier_auteur.prenom_utl,' ',premier_auteur.nom_utl)
         ) AS `nom_utilisateur_premier_auteur`, " .
       "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, " .
-      "IF(frm_sujet.id_message_dernier < frm_sujet_utilisateur.id_message_dernier_lu,1,0) AS `nonlu`, " .
+      "IF(frm_sujet.id_message_dernier > frm_sujet_utilisateur.id_message_dernier_lu,1,0) AS `nonlu`, " .
       "titre_forum AS `soustitre_sujet`, " .
       "0 AS `etoile` " .
       "FROM frm_sujet " .
