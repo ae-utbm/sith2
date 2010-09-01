@@ -96,6 +96,7 @@ class interfaceweb
             array("forum2/index.php", "Sommaire"),
             array("forum2/search.php?page=unread", "Messages non lus"),
             array("forum2/search.php", "Recherche"),
+            array("forum2/search.php?page=starred", "Favoris"),
           )  ),
         array ("services", "article.php?name=services", "Services" ),
         //array ("pg", "pgae.php", "Petit géni"),

@@ -176,7 +176,6 @@ elseif ( $_REQUEST["page"] == "starred" )
 
   $req = new requete($site->db,$query);
 
-  $cts->add_title(2,"Sujets favoris");
   if ( $req->lines > 0 )
   {
     $rows = array();

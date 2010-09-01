@@ -1093,6 +1093,9 @@ if ( $forum->categorie )
       "</a> ".
       "<a href=\"search.php\">".
         "<img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher".
+      "</a> ".
+      "<a href=\"search.php?page=starred\">".
+        "<img src=\"".$wwwtopdir."images/icons/16/star.png\" class=\"icon\" alt=\"\" />Favoris".
       "</a>"
       ,"frmtools");
     else
