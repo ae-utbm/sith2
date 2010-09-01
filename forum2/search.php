@@ -127,6 +127,74 @@ if ( $_REQUEST["page"] == "unread" )
   $site->end_page();
   exit();
 }
+elseif ( $_REQUEST["page"] == "starred" )
+{
+  $site->allow_only_logged_users("forum");
+
+  $site->start_page("forum","Sujets favoris");
+
+  $cts = new contents($forum->get_html_link()." / <a href=\"search.php?page=starred\">Sujets favoris</a>");
+
+  $query = "SELECT frm_sujet.*, ".
+      "frm_message.date_message, " .
+      "frm_message.id_message, " .
+      "COALESCE(
+        dernier_auteur_etu_utbm.surnom_utbm,
+        CONCAT(dernier_auteur.prenom_utl,' ',dernier_auteur.nom_utl)
+      ) AS `nom_utilisateur_dernier_auteur`, " .
+      "dernier_auteur.id_utilisateur AS `id_utilisateur_dernier`, " .
+      "COALESCE(
+          premier_auteur_etu_utbm.surnom_utbm,
+          CONCAT(premier_auteur.prenom_utl,' ',premier_auteur.nom_utl)
+        ) AS `nom_utilisateur_premier_auteur`, " .
+      "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, " .
+      "1 AS `nonlu`, " .
+      "titre_forum AS `soustitre_sujet`, " .
+      "frm_sujet_utilisateur.etoile_sujet AS `etoile` " .
+      "FROM frm_sujet " .
+      "INNER JOIN frm_forum USING(id_forum) ".
+      "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
+      "LEFT JOIN utilisateurs AS `dernier_auteur` ON ( dernier_auteur.id_utilisateur=frm_message.id_utilisateur ) " .
+      "LEFT JOIN utilisateurs AS `premier_auteur` ON ( premier_auteur.id_utilisateur=frm_sujet.id_utilisateur ) ".
+      "LEFT JOIN utl_etu_utbm AS `dernier_auteur_etu_utbm` ON ( dernier_auteur_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) " .
+      "LEFT JOIN utl_etu_utbm AS `premier_auteur_etu_utbm` ON ( premier_auteur_etu_utbm.id_utilisateur=frm_sujet.id_utilisateur )" .
+      "LEFT JOIN frm_sujet_utilisateur ".
+        "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
+        "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
+      "WHERE ";
+
+  if ( !$forum->is_admin( $site->user ) )
+  {
+    $grps = $site->user->get_groups_csv();
+    $query .= "AND ((droits_acces_forum & 0x1) OR " .
+      "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
+      "(id_groupe_admin IN ($grps)) OR " .
+      "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
+  }
+
+  $query .= "AND frm_sujet_utilisateur.etoile_sujet='1' ";
+  $query .= "ORDER BY frm_message.date_message DESC ";
+
+  $req = new requete($site->db,$query);
+
+  $cts->add_title(2,"Sujets favoris");
+  if ( $req->lines > 0 )
+  {
+    $rows = array();
+    while ( $row = $req->get_row() )
+      $rows[] = $row;
+
+    $cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
+    $cts->add_paragraph("&nbsp;");
+  }
+  else
+    $cts->add_paragraph("Vous n'avez aucun sujet favoris.");
+
+  $site->add_contents($cts);
+
+  $site->end_page();
+  exit();
+}
 
 if ( isset($_REQUEST["pattern"] ) )
 {
