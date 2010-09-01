@@ -93,9 +93,9 @@ class interfaceweb
         array ("sas", "sas2/", "SAS"),
         array ("forum", "forum2/", "Forum",
           array(
-            array("forum/index.php", "Sommaire"),
-            array("forum/search.php?page=unread", "Messages non lus"),
-            array("forum/search.php", "Recherche"),
+            array("forum2/index.php", "Sommaire"),
+            array("forum2/search.php?page=unread", "Messages non lus"),
+            array("forum2/search.php", "Recherche"),
           )  ),
         array ("services", "article.php?name=services", "Services" ),
         //array ("pg", "pgae.php", "Petit géni"),
