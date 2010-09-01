@@ -240,7 +240,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
         continue;
 
       if($type == 'the'){
-        $sql = new requete($site->db, "SELECT `id_groupe` FROM `pedag_groupe` WHERE `id_uv` = $uv->id AND `type` = 'THE' AND semestre='".$semestre."'");
+        $sql = new requete($site->db, "SELECT `id_groupe` FROM `pedag_groupe` WHERE `id_uv` = $uv->id AND `type` = 'THE' AND semestre='".$semestre."'", 1);
         if(!$sql->is_success())
           continue;
         if($sql->lines == 0)
