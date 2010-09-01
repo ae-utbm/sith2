@@ -4,9 +4,10 @@
  *
  *
  */
-/* Copyright 2005,2006,2008
+/* Copyright 2005 - 2010
  * - Julien Etelain < julien at pmad dot net >
  * - Simon lopez < simon dot lopez at ayolo dot org >
+ * - Benjamin Collet < bcollet at oxynux dot org>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.

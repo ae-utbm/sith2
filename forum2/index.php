@@ -2,9 +2,10 @@
 /*
  * FORUM2
  *
- * Copyright 2007
+ * Copyright 2007 - 2010
  * - Julien Etelain < julien dot etelain at gmail dot com >
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
+ * - Benjamin Collet <bcollet at oxynux dot org>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr/
