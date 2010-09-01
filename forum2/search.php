@@ -161,7 +161,7 @@ elseif ( $_REQUEST["page"] == "starred" )
       "LEFT JOIN frm_sujet_utilisateur ".
         "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
         "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
-      "WHERE ";
+      "WHERE frm_sujet_utilisateur.etoile_sujet='1' ";
 
   if ( !$forum->is_admin( $site->user ) )
   {
@@ -172,7 +172,6 @@ elseif ( $_REQUEST["page"] == "starred" )
       "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
   }
 
-  $query .= "AND frm_sujet_utilisateur.etoile_sujet='1' ";
   $query .= "ORDER BY frm_message.date_message DESC ";
 
   $req = new requete($site->db,$query);
