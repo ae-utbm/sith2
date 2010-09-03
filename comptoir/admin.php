@@ -536,7 +536,7 @@ if ( $_REQUEST["page"] == "produits" )
 
  $tbl = new sqltable(
    "lstproduits",
-   $section_name, $req, "admin.php?page=produits",
+   $section_name, $req, "admin.php",
    "id_produit",
    array(
    "nom_typeprod"=>"Type",
