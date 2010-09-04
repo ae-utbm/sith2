@@ -156,14 +156,14 @@ elseif ( $_REQUEST['module']=="userfield" )
 
   if ( !$req || $req->errno != 0) // Si l'expression régulière envoyée par l'utilisateur est invalide, on évite l'erreur mysql
   {
-    $buffer .=  "<ul>\n";
-    $buffer .=  "<li>Recherche invalide.</li>\n";
-    $buffer .=  "</ul>\n";
+    $buffer .=  "<ul>";
+    $buffer .=  "<li>Recherche invalide.</li>";
+    $buffer .=  "</ul>";
     $buffer .=  "<div class=\"clearboth\"></div>";
     exit();
   }
 
-  $buffer .=  "<ul>\n";
+  $buffer .=  "<ul>";
 
   while ( list($id,$email) = $req->get_row() )
   {
@@ -176,9 +176,9 @@ elseif ( $_REQUEST['module']=="userfield" )
     else
       $buffer .=  $wwwtopdir."var/img/matmatronch/na.gif";
 
-    $buffer .=  "\" /></div><a href=\"#\" onclick=\"userselect_set_user('$wwwtopdir','".$_REQUEST["ref"]."',$id,'".addslashes(htmlspecialchars($email))."'); return false;\">".htmlspecialchars($email)."</a></li>\n";
+    $buffer .=  "\" /></div><a href=\"#\" onclick=\"userselect_set_user('$wwwtopdir','".$_REQUEST["ref"]."',$id,'".addslashes(htmlspecialchars($email))."'); return false;\">".htmlspecialchars($email)."</a></li>";
   }
-  $buffer .=  "</ul>\n";
+  $buffer .=  "</ul>";
   $buffer .=  "<div class=\"clearboth\"></div>";
 
   // si la requete a été trop longue on ne l'affiche pas !
