@@ -164,7 +164,7 @@ elseif ( $_REQUEST["action"] == "genonefact" )
 
   $date_facturation = date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
 
-  $titre = utf8_decode("Facture système carte AE");
+  $titre = "Facture système carte AE";
 
   $ref = $month;
 
