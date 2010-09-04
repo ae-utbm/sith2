@@ -329,7 +329,7 @@ class catphoto extends basedb
         else
           $req2 = new requete($this->db,
             "SELECT id_photo FROM `sas_photos` ".
-            "AND id_catph='".$row['id_catph']."' " .
+            "WHERE id_catph='".$row['id_catph']."' " .
             "AND droits_acquis =1 " .
             "AND (droits_acces_ph & 1) = 1 " .
             "ORDER BY date_prise_vue");
