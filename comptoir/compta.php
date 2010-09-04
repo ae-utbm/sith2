@@ -51,7 +51,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
   $pdf->AddPage();
   $pdf->SetFont('Arial','B',14);
 
-  $pdf->Image($topdir."./images/Ae-blanc.jpg", 10, 10, 75);
+  $pdf->Image($topdir."./images/Ae-blanc.jpg", 10, 10, 0, 20);
   $pdf->SetFont('Times','BI',22);
   $pdf->Cell(0, 18, date("d/m/Y"),'','','R');
   $pdf->Ln();
