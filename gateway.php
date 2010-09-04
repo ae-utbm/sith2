@@ -45,7 +45,6 @@ if ( $_REQUEST['module']=="fsearch" )
     exit();
   }
 
-  $results="";
   require_once($topdir. "include/cts/fsearch.inc.php");
   $fsearch = new fsearch ( $site );
   // si la requete a été trop longue on ne l'affiche pas !
@@ -127,6 +126,9 @@ elseif ( $_REQUEST['module']=="usersession" )
 }
 elseif ( $_REQUEST['module']=="userfield" )
 {
+  header("Content-Type: text/javascript; charset=UTF-8");
+  $buffer="";
+
   if ( !$site->user->is_valid() && !count($_SESSION["Comptoirs"])) exit();
 
   $pattern = mysql_real_escape_string($_REQUEST["pattern"]);
@@ -154,32 +156,37 @@ elseif ( $_REQUEST['module']=="userfield" )
 
   if ( !$req || $req->errno != 0) // Si l'expression régulière envoyée par l'utilisateur est invalide, on évite l'erreur mysql
   {
-    echo "<ul>\n";
-    echo "<li>Recherche invalide.</li>\n";
-    echo "</ul>\n";
-    echo "<div class=\"clearboth\"></div>";
+    $buffer .=  "<ul>\n";
+    $buffer .=  "<li>Recherche invalide.</li>\n";
+    $buffer .=  "</ul>\n";
+    $buffer .=  "<div class=\"clearboth\"></div>";
     exit();
   }
 
-
-  echo "<ul>\n";
+  $buffer .=  "<ul>\n";
 
   while ( list($id,$email) = $req->get_row() )
   {
-    echo "<li><div class=\"imguser\"><img src=\"";
+    $buffer .=  "<li><div class=\"imguser\"><img src=\"";
 
     if (file_exists($topdir."var/img/matmatronch/".$id.".identity.jpg"))
-      echo $wwwtopdir."var/img/matmatronch/".$id.".identity.jpg";
+      $buffer .=  $wwwtopdir."var/img/matmatronch/".$id.".identity.jpg";
     elseif (file_exists($topdir."var/img/matmatronch/".$id.".jpg"))
-      echo $wwwtopdir."var/img/matmatronch/".$id.".jpg";
+      $buffer .=  $wwwtopdir."var/img/matmatronch/".$id.".jpg";
     else
-      echo $wwwtopdir."var/img/matmatronch/na.gif";
+      $buffer .=  $wwwtopdir."var/img/matmatronch/na.gif";
 
-    echo "\" /></div><a href=\"#\" onclick=\"userselect_set_user('$wwwtopdir','".$_REQUEST["ref"]."',$id,'".addslashes(htmlspecialchars($email))."'); return false;\">".htmlspecialchars($email)."</a></li>\n";
+    $buffer .=  "\" /></div><a href=\"#\" onclick=\"userselect_set_user('$wwwtopdir','".$_REQUEST["ref"]."',$id,'".addslashes(htmlspecialchars($email))."'); return false;\">".htmlspecialchars($email)."</a></li>\n";
   }
-  echo "</ul>\n";
-  echo "<div class=\"clearboth\"></div>";
-  exit();
+  $buffer .=  "</ul>\n";
+  $buffer .=  "<div class=\"clearboth\"></div>";
+
+  // si la requete a été trop longue on ne l'affiche pas !
+  echo "if ( ".$_REQUEST['userselect_sequence']." > userselect_actual_sequence ) {\n";
+  echo "  userselect_actual_sequence=".$_REQUEST['userselect_sequence'].";\n";
+  echo "  var content = document.getElementById('".$_REQUEST['ref']."_result');\n";
+  echo "  content.innerHTML ='".addslashes($buffer)."';\n";
+  echo "}\n";
 }
 elseif ( $_REQUEST['module']=="userinfo" )
 {

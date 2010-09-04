@@ -28,7 +28,7 @@
  * **RAPPEL** Ce fichier est sous licence GNU GPL. Vous pouvez le ré-utiliser
  * sur votre site internet, mais il doit rester sous licence GNU GPL même si
  * vous le modifiez. Si vous ré-utilisez des sources de gateway.php, ces sources
- * étant sous la même licence, elles devront aussi rester sous GNU GPL. 
+ * étant sous la même licence, elles devront aussi rester sous GNU GPL.
  * Pour plus d'information : http://www.gnu.org/
  *
  * @author Julien Etelain
@@ -49,7 +49,7 @@
  * Charge des données HTML depuis le serveur dans un element de la page de
  * manière asynchrone.
  * @param name id de l'element de la page dont le contenu sera remplacé par
- *             le résultat de la requête 
+ *             le résultat de la requête
  * @param page URL à la quelle la requête sera envoyée
  * @param data paramètres à passer en GET ("param1=value1&param2=value2")
  * @return true si la requête a été bien envoyée, false sinon
@@ -61,21 +61,21 @@ function openInContents( name, page, data)
     var XhrObj = new ActiveXObject("Microsoft.XMLHTTP") ;
   else
     var XhrObj = new XMLHttpRequest();
-  
+
   if ( !XhrObj ) return false;
 
   var content = document.getElementById(name);
-  
+
   XhrObj.open("GET", page+"?"+data);
 
   XhrObj.onreadystatechange = function()
   {
     if (XhrObj.readyState == 4 && XhrObj.status == 200)
       content.innerHTML = XhrObj.responseText ;
-  }    
+  }
 
   XhrObj.send(null);
-  
+
   return true;
 }
 
@@ -93,9 +93,9 @@ function evalCommand( page, data )
     var XhrObj = new ActiveXObject("Microsoft.XMLHTTP") ;
   else
     var XhrObj = new XMLHttpRequest();
- 
+
   if ( !XhrObj ) return false;
-      
+
   XhrObj.open("GET", page+"?"+data);
 
   XhrObj.onreadystatechange = function()
@@ -104,15 +104,15 @@ function evalCommand( page, data )
     {
       eval(XhrObj.responseText);
     }
-  }    
+  }
 
   XhrObj.send(null);
-  
+
   return true;
 }
 
 /**
- * Définit un élément dans la variable $_SESSION["usersession"] du coté du 
+ * Définit un élément dans la variable $_SESSION["usersession"] du coté du
  * serveur.
  * $_SESSION["usersession"] est mémorisé si l'utilisateur est connecté.
  * @param topdir Chemin vers la racine du site (pour trouver le script gateway.php)
@@ -155,15 +155,15 @@ function fsearch_keyup(event)
       return false;
     }
   }
-  
+
   var obj = document.getElementById('fsearchpattern');
-    
+
   if ( !obj ) return false;
-    
+
   fsearch_sequence=fsearch_sequence+1;
-    
+
   evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
-  
+
   return true;
 }
 
@@ -231,35 +231,40 @@ function userselect_set_user(topdir, ref,id,nom)
   obj2.style.display = 'block';
   obj3.style.display = 'none';
   obj4.style.display = 'none';
-  
+
   obj6.innerHTML="changer";
 
   obj5.value=id;
   obj2.innerHTML="<img src=\""+topdir+"images/icons/16/user.png\" class=\"icon\" alt=\"\" /> "+nom;
   obj4.innerHTML="";
   openInContents( ref + "_currentuser", topdir + "gateway.php", "module=userinfo&targettopdir=" + topdir + "&id_utilisateur=" + id );
-  
+
 }
 
 /**
- * Champ de selection d'utilisateur par recherche : Lancement de la recherche 
+ * Champ de selection d'utilisateur par recherche : Lancement de la recherche
  * lors de la saisie dans le champ de recherche
  *
  * @ingroup display_cts_js
  * @deprecated fsfield gère mieu les saisies claviers
  */
+var userselect_sequence=0;
+var userselect_actual_sequence=0;
+
 function userselect_keyup(event,ref,topdir)
 {
   if ( event != null )
     if ( event.ctrlKey || event.keyCode == 27 || event.keyCode == 13  )
       return false;
-  
+
   var obj = document.getElementById(ref+'_field');
-      
+
   if ( !obj ) return false;
-    
-  openInContents( ref + "_result", topdir + "gateway.php", "module=userfield&topdir="+topdir+"&pattern="+obj.value+"&ref="+ref );
-  
+
+  userselect_sequence=userselect_sequence+1;
+
+  evalCommand( topdir + "gateway.php", "module=userfield&pattern="+obj.value+"&ref="+ref );
+
   return true;
 }
 
@@ -317,7 +322,7 @@ function fsfield_sel ( topdir, field, id, title, iconfile )
 {
   // Bloque les reponses pas encore données par le serveur (évite que la boite re-aparaisse après avoir choisi l'élément)
   fsfield_current_sequence[field] = fsfield_sequence[field];
-  
+
   var obj1 = document.getElementById(field+"_fieldbox");
   var obj2 = document.getElementById(field+"_static");
   var obj4 = document.getElementById(field+"_result");
@@ -335,9 +340,9 @@ function fsfield_sel ( topdir, field, id, title, iconfile )
 }
 
 /**
- * Champ de selection par recherche : Lancement de la recherche lors de la 
+ * Champ de selection par recherche : Lancement de la recherche lors de la
  * saisie dans le champ de recherche.
- * 
+ *
  * @ingroup display_cts_js
  */
 function fsfield_keyup ( event, topdir, field, myclass, constraints )
@@ -349,7 +354,7 @@ function fsfield_keyup ( event, topdir, field, myclass, constraints )
   var obj = document.getElementById(field + '_field');
 
   if ( !obj ) return false;
-    
+
   fsfield_sequence[field] = fsfield_sequence[field]+1;
   if(typeof(constraints) == 'object')
   {
@@ -371,7 +376,7 @@ function fsfield_keyup ( event, topdir, field, myclass, constraints )
   }
   else
   {
-    evalCommand( topdir + "gateway.php", 
+    evalCommand( topdir + "gateway.php",
       "module=fsfield"+
       "&topdir="+topdir+
       "&pattern="+obj.value+
@@ -383,10 +388,10 @@ function fsfield_keyup ( event, topdir, field, myclass, constraints )
 }
 
 /*
- * Entities : Tooltip 
+ * Entities : Tooltip
  * @see gateway.php
  */
- 
+
 var tooltip_active='';
 var tooltip_element = document.createElement("div");
 
@@ -423,7 +428,7 @@ function show_tooltip ( ref, topdir, myclass, id )
 {
   document.body.appendChild(tooltip_element);
 
-  
+
   tooltip_active = ref;
   setTimeout("go_tooltip('" + ref + "','" + topdir + "','" + myclass + "','" + id + "')", 1000);
 }
@@ -436,12 +441,12 @@ function go_tooltip ( ref, topdir, myclass, id )
 {
   if ( tooltip_active != ref )
     return;
-    
+
   if (window.ActiveXObject)
     var XhrObj = new ActiveXObject("Microsoft.XMLHTTP") ;
   else
     var XhrObj = new XMLHttpRequest();
-  
+
   if ( !XhrObj ) return false;
 
   XhrObj.open("GET", topdir+"gateway.php?module=entinfo&topdir="+topdir+"&class="+myclass+"&id="+id);
@@ -460,7 +465,7 @@ function go_tooltip ( ref, topdir, myclass, id )
         tooltip_element.style.display = 'block';
       }
     }
-  }    
+  }
 
   XhrObj.send(null);
   return true;
@@ -480,7 +485,7 @@ function hide_tooltip ( ref )
  * Entities : Explorer Field
  *
  */
- 
+
 /**
  * Champ de selection par exploration  : Ouvre / Ferme l'arbre de selection
  * @ingroup display_cts_js
@@ -517,7 +522,7 @@ function exfield_toggle ( topdir, field, myclass )
 function exfield_explore ( topdir, field, myclass, eclass, eid )
 {
   var obj = document.getElementById(field+"_"+eclass+"_"+eid);
-  
+
   if ( obj.innerHTML != "" )
     obj.innerHTML = "";
   else
@@ -530,13 +535,13 @@ function exfield_explore ( topdir, field, myclass, eclass, eid )
  */
 function exfield_select ( topdir, field, myclass, id, title, iconfile )
 {
-  
+
   var obj2 = document.getElementById(field+"_static");
   var obj4 = document.getElementById(field+"_result");
   var obj5 = document.getElementById(field+"_id");
   var obj6 = document.getElementById(field+"_button");
   var obj7 = document.getElementById(field+"_"+myclass+"_root");
-  
+
   obj2.style.display = 'block';
   obj4.style.display = 'none';
   obj6.innerHTML="changer";
