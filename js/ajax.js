@@ -263,7 +263,7 @@ function userselect_keyup(event,ref,topdir)
 
   userselect_sequence=userselect_sequence+1;
 
-  evalCommand( topdir + "gateway.php", "module=userfield&pattern="+obj.value+"&ref="+ref );
+  evalCommand( topdir + "gateway.php", "module=userfield&userselect_sequence="+userselect_sequence+"&pattern="+obj.value+"&ref="+ref );
 
   return true;
 }
