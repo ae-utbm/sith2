@@ -158,8 +158,9 @@ elseif ( $_REQUEST["action"] == "genonefact" )
        'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
 
   $facturing_infos = array ('name' => $asso->nom,
-       'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
-       'logo' => "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
+       'addr' => explode("\n",utf8_decode($asso->adresse_postale)));
+  if(file_exists("/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg"))
+    $facturing_infos['logo'] = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg";
 
   $date_facturation = date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
 
