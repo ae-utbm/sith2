@@ -1403,7 +1403,7 @@ class utilisateur extends stdentity
       }
     }
 
-    if (strtoupper($nom_ecole) == "UTBM")
+    if (CheckEmail($emailutbm,1))
     {
       $this->promo_utbm = $promo;
       $this->semestre = $semestre;
