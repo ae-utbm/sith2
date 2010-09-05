@@ -114,7 +114,7 @@ function add_new_form($id = null)
 
   $sub_frm_ident->add_text_field("prenom","Prénom","",true);
 
-  $sub_frm_ident->add_text_field("emailutbm","Adresse e-mail (UTBM si possible)","",true,false,false,true);
+  $sub_frm_ident->add_text_field("emailutbm","e-mail (UTBM si possible)","",true,false,false,true);
 
   $frm->add($sub_frm_ident);
   $frm->add_info("&nbsp;");
