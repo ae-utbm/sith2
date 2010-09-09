@@ -41,7 +41,6 @@ if(!$site->user->is_in_group ("gestion_ae"))
   $tabs = array(array("","stats.php", "Informations"),
                 array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
                 array("sas","stats.php?view=sas", "SAS"),
-                array("actifs","stats.php?view=actifs", "Membres actifs")
                 );
   if($site->user->is_asso_role (27,2))
     $tabs[]=array("matmatronch","stats.php?view=matmatronch", "Matmatronch");
