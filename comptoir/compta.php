@@ -33,6 +33,7 @@ if ( !$site->user->is_valid() )
 }
 
 $site->fetch_proprio_comptoirs();
+print_r($site->proprio_comptoirs);
 $comptoirs = array_merge(array(0=>"-"),$site->proprio_comptoirs);
 
 if ( !count($site->proprio_comptoirs) && !$site->user->is_in_group("gestion_ae") )
