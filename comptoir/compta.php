@@ -33,7 +33,7 @@ if ( !$site->user->is_valid() )
 }
 
 $site->fetch_proprio_comptoirs();
-$comptoirs = array_merge(array(0=>"-"),$site->proprio_comptoirs);
+$comptoirs = array(0=>"-") + $site->proprio_comptoirs;
 
 if ( !count($site->proprio_comptoirs) && !$site->user->is_in_group("gestion_ae") )
   $site->error_forbidden();
@@ -189,8 +189,6 @@ $frm->add_datetime_field("debut","Date et heure de début");
 $frm->add_datetime_field("fin","Date et heure de fin");
 $frm->add_entity_select("id_assocpt", "Association", $site->db, "assocpt",$_REQUEST["id_assocpt"],true);
 $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit",$_REQUEST["id_typeprod"],true);
-print_r($comptoirs);
-print_r($_REQUEST["id_comptoir"]);
 $frm->add_select_field("id_comptoir","Comptoir", $comptoirs,$_REQUEST["id_comptoir"]);
 $frm->add_entity_select("id_produit", "Produit", $site->db, "produit",$_REQUEST["id_produit"],true);
 $frm->add_submit("valid","Voir");
