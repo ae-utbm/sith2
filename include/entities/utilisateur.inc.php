@@ -1816,7 +1816,7 @@ L'équipe info AE";
                        "WHERE `asso_membre`.`id_utilisateur`='".intval($this->id)."' " .
                        "AND `asso_membre`.`date_fin` is NULL " .
                        "AND `asso_membre`.`role`>='".intval($role)."' " .
-                       "ORDER BY `asso`.`nom_asso`");
+                       "ORDER BY `asso`.`nom_asso`", 1);
 
     while ( list($id,$value) = $req->get_row() ) $assos[$id] = $value;
 
@@ -1830,6 +1830,7 @@ L'équipe info AE";
   function get_assos_csv ( $role=0 )
   {
     $assos = $this->get_assos($role);
+    print_r($assos);
 
     $csv ="";
     foreach ( $assos as $id => $n )
@@ -1841,6 +1842,7 @@ L'équipe info AE";
     if ( empty($csv) ) // Pour éviter tout un tas de bugs
       return "0";
 
+    print_r($csv);
     return $csv;
   }
 
