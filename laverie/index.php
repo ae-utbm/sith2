@@ -40,6 +40,7 @@ require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/entities/salle.inc.php");
 require_once($topdir. "include/entities/jeton.inc.php");
 require_once($topdir. "include/entities/machine.inc.php");
+require_once($topdir. "include/entities/page.inc.php");
 
 require_once($topdir. "comptoir/include/comptoirs.inc.php");
 require_once($topdir. "comptoir/include/venteproduit.inc.php");
