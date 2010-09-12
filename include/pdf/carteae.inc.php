@@ -71,7 +71,19 @@ class pdfcarteae extends FPDF
      */
 
 
-    $this->pos = array (
+    $this->pos[1] = array (
+      "photo" => array ("x"=>6.0,"y"=>7.8,"w"=>24.0,"h"=>33.0),
+      "cbar" => array ("x"=>5,"y"=>4.2,"w"=>67,"h"=>25),
+      "front" =>
+        array (
+          "nom" => array ("x"=>51,"y"=>6,"w"=>27,"h"=>4.5),
+          "prenom" => array ("x"=>51,"y"=>10.5,"w"=>27,"h"=>4.5),
+          "surnom" => array ("x"=>51,"y"=>15,"w"=>27,"h"=>4.5),
+          "semestres" => array ("x"=>51,"y"=>19.5,"w"=>27,"h"=>4.5)
+        )
+      );
+
+    $this->pos[2] = array (
       "photo" => array ("x"=>4.1,"y"=>7.8,"w"=>26,8,"h"=>36,8),
       "cbar" => array ("x"=>5,"y"=>4,2,"w"=>67,"h"=>25),
       "front" =>
@@ -82,6 +94,9 @@ class pdfcarteae extends FPDF
           "semestres" => array ("x"=>51,"y"=>34.5,"w"=>27,"h"=>4.5)
         )
       );
+
+    $this->pos[3] = $this->pos[2];
+    $this->pos[4] = $this->pos[1];
 
     $this->SetAutoPageBreak(false);
 
@@ -97,14 +112,14 @@ class pdfcarteae extends FPDF
     $src = "../var/img/matmatronch/".$infos['id'].".identity.jpg";
 
     $this->Image($src,
-        $x+$this->pos['photo']['x'],
-        $y+$this->pos['photo']['y'],
-        $this->pos['photo']['w'],
-        $this->pos['photo']['h']);
+        $x+$this->pos[$infos['type_carte']]['photo']['x'],
+        $y+$this->pos[$infos['type_carte']]['photo']['y'],
+        $this->pos[$infos['type_carte']]['photo']['w'],
+        $this->pos[$infos['type_carte']]['photo']['h']);
 
     $this->SetFont('Arial','',8);
 
-    foreach ( $this->pos['front'] as $name => $pos )
+    foreach ( $this->pos[$infos['type_carte']]['front'] as $name => $pos )
     {
       $this->SetXY($x+$pos['x'],$y+$pos['y']);
       $this->Cell($pos['w'],$pos['h'],utf8_decode($infos[$name]));
@@ -115,12 +130,12 @@ class pdfcarteae extends FPDF
   {
     $this->Image($this->img_back[$infos['type_carte']],$x,$y,$this->width,$this->height);
 
-    $cbar = new PDF_C128AObject($this->pos['cbar']['w'], $this->pos['cbar']['h'],
+    $cbar = new PDF_C128AObject($this->pos[$infos['type_carte']][$infos['type_carte']]['cbar']['w'], $this->pos['cbar']['h'],
             BCS_ALIGN_CENTER | BCS_DRAW_TEXT,
             $infos['cbar'],
             &$this,
-            $x+$this->pos['cbar']['x'],
-            $y+$this->pos['cbar']['y']
+            $x+$this->pos[$infos['type_carte']]['cbar']['x'],
+            $y+$this->pos[$infos['type_carte']]['cbar']['y']
             );
 
     $cbar->DrawObject(0.25);
