@@ -73,13 +73,13 @@ class pdfcarteae extends FPDF
 
     $this->pos[1] = array (
       "photo" => array ("x"=>6.0,"y"=>7.8,"w"=>24.0,"h"=>33.0),
-      "cbar" => array ("x"=>5,"y"=>4.2,"w"=>67,"h"=>25),
+      "cbar" => array ("x"=>5,"y"=>4,2,"w"=>67,"h"=>25),
       "front" =>
         array (
-          "nom" => array ("x"=>45,"y"=>15,"w"=>27,"h"=>4.5),
-          "prenom" => array ("x"=>45,"y"=>19.5,"w"=>27,"h"=>4.5),
-          "surnom" => array ("x"=>45,"y"=>24,"w"=>27,"h"=>4.5),
-          "semestres" => array ("x"=>45,"y"=>28.5,"w"=>27,"h"=>4.5)
+          "nom" => array ("x"=>42,"y"=>15,"w"=>27,"h"=>4),
+          "prenom" => array ("x"=>42,"y"=>19,"w"=>27,"h"=>4),
+          "surnom" => array ("x"=>42,"y"=>23,"w"=>27,"h"=>4),
+          "semestres" => array ("x"=>42,"y"=>27,"w"=>27,"h"=>4)
         )
       );
 
@@ -130,7 +130,7 @@ class pdfcarteae extends FPDF
   {
     $this->Image($this->img_back[$infos['type_carte']],$x,$y,$this->width,$this->height);
 
-    $cbar = new PDF_C128AObject($this->pos[$infos['type_carte']][$infos['type_carte']]['cbar']['w'], $this->pos['cbar']['h'],
+    $cbar = new PDF_C128AObject($this->pos[$infos['type_carte']]['cbar']['w'], $this->pos[$infos['type_carte']]['cbar']['h'],
             BCS_ALIGN_CENTER | BCS_DRAW_TEXT,
             $infos['cbar'],
             &$this,
