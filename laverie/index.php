@@ -321,7 +321,7 @@ $site->start_page("services","Laverie");
 $cts = new contents("<a href=\"index.php\">Laverie</a>");
 
 $page = new page($site->db);
-$page->load_by_pagename("activites:".$asso->nom_unix);
+$page->load_by_pagename("activites:laverie");
 $cts->add($page->get_contents());
 
 $frm = new form("searchmc","index.php",false,"POST","Reserver un creneau");
