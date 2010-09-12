@@ -317,6 +317,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
 }
 
 
+$site->add_css("css/doku.css");
 $site->start_page("services","Laverie");
 $cts = new contents("<a href=\"index.php\">Laverie</a>");
 
