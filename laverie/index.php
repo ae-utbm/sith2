@@ -330,7 +330,8 @@ $frm->add_hidden("action","searchmc");
 $frm->add_select_field("id_salle","Lieu",$salles, $_REQUEST["id_salle"]);
 $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sechage",1=>"Lavage seulement",2=>"Sechage seulement"));
 $frm->add_submit("search","Rechercher un créneau");
-$cts->add($frm,true);
+$cts->add_title("Rechercher un créneau", 1);
+$cts->add($frm);
 
 $sql = new requete($site->db,"SELECT id_creneau, debut_creneau, fin_creneau, lettre, type, mc_machines.loc AS id_salle, nom_jeton
       FROM mc_creneaux
@@ -356,7 +357,8 @@ $tbl = new sqltable("lstcrfutur",
   array(),
   array("type"=>$GLOBALS['types_machines'],"id_salle"=>$salles) );
 
-$cts->add($tbl,true);
+$cts->add_title("Liste des créneaux réservés", 1);
+$cts->add($tbl);
 
 //TODO: liste des jetons empruntés ?
 
