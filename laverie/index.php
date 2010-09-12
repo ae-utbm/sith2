@@ -324,14 +324,16 @@ $cts = new contents("<a href=\"index.php\">Laverie</a>");
 $page = new page($site->db);
 $page->load_by_pagename("activites:laverie");
 $cts->add($page->get_contents());
+$cts>add_paragraph();
+
+$cts->add_title(1, "Réservation de créneaux");
 
 $frm = new form("searchmc","index.php",false,"POST","Reserver un creneau");
 $frm->add_hidden("action","searchmc");
 $frm->add_select_field("id_salle","Lieu",$salles, $_REQUEST["id_salle"]);
 $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sechage",1=>"Lavage seulement",2=>"Sechage seulement"));
 $frm->add_submit("search","Rechercher un créneau");
-$cts->add_title(1, "Rechercher un créneau");
-$cts->add($frm);
+$cts->add($frm, true);
 
 $sql = new requete($site->db,"SELECT id_creneau, debut_creneau, fin_creneau, lettre, type, mc_machines.loc AS id_salle, nom_jeton
       FROM mc_creneaux
@@ -357,8 +359,7 @@ $tbl = new sqltable("lstcrfutur",
   array(),
   array("type"=>$GLOBALS['types_machines'],"id_salle"=>$salles) );
 
-$cts->add_title(1, "Liste des créneaux réservés");
-$cts->add($tbl);
+$cts->add($tbl, true);
 
 //TODO: liste des jetons empruntés ?
 
