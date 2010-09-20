@@ -53,10 +53,10 @@ class pdfcarteae extends FPDF
 
     $this->img_front[1] = $topdir."images/carteae/ae-front-A2010.png";
     $this->img_back[1] = $topdir."images/carteae/ae-back-A2010.png";
-    $this->img_front[2] = $topdir."images/carteae/assidu-front-A2009.png";
-    $this->img_back[2] = $topdir."images/carteae/assidu-back-A2009.png";
-    $this->img_front[3] = $topdir."images/carteae/amicale-front-A2009.png";
-    $this->img_back[3] = $topdir."images/carteae/amicale-back-A2009.png";
+    $this->img_front[2] = $topdir."images/carteae/assidu-front-A2010.png";
+    $this->img_back[2] = $topdir."images/carteae/assidu-back-A2010.png";
+    $this->img_front[3] = $topdir."images/carteae/amicale-front-A2010.png";
+    $this->img_back[3] = $topdir."images/carteae/amicale-back-A2010.png";
     $this->img_front[4] = $topdir."images/carteae/crous-front-A2010.png";
     $this->img_back[4] = $topdir."images/carteae/crous-back-A2010.png";
 
@@ -83,20 +83,7 @@ class pdfcarteae extends FPDF
         )
       );
 
-    $this->pos[2] = array (
-      "photo" => array ("x"=>4.1,"y"=>7.8,"w"=>26,8,"h"=>36,8),
-      "cbar" => array ("x"=>5,"y"=>4,2,"w"=>67,"h"=>25),
-      "front" =>
-        array (
-          "nom" => array ("x"=>51,"y"=>21,"w"=>27,"h"=>4.5),
-          "prenom" => array ("x"=>51,"y"=>25.5,"w"=>27,"h"=>4.5),
-          "surnom" => array ("x"=>51,"y"=>30,"w"=>27,"h"=>4.5),
-          "semestres" => array ("x"=>51,"y"=>34.5,"w"=>27,"h"=>4.5)
-        )
-      );
-
-    $this->pos[3] = $this->pos[2];
-    $this->pos[4] = $this->pos[1];
+    $this->pos[4] = $this->pos[3] = $this->pos[2] = $this->pos[1];
 
     $this->SetAutoPageBreak(false);
 
