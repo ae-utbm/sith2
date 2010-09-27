@@ -1230,11 +1230,11 @@ else
   }
 
   /* l'onglet AE */
-  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") ) && $user->cotisant )
+  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") || sizeof($site->user->get_assos(7)) > 0) && $user->cotisant )
   {
     $cts->add_title(2, "Cotisation AE");
 
-    if ( !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg"))
+    if ($can_edit && !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg"))
       $cts->add_paragraph("<img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION</b>: " .
                           "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id.
                           "\">Photo d'identit&eacute; non pr&eacute;sente !</a>");
