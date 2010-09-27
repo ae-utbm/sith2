@@ -440,7 +440,7 @@ class aecms extends site
       $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
 
     if ( file_exists($basedir."/specific/custom.css") )
-      $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "specific/custom.css\" />\n";
+      $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "specific/custom.css?\"".filemtime($basedir."/specific/custom.css")." />\n";
 
     foreach ( $this->rss as $title => $url )
       $this->buffer.="<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
