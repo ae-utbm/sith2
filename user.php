@@ -1229,6 +1229,8 @@ else
       array()), true);
   }
 
+  print_r($site->user->get_assos(7, true));
+
   /* l'onglet AE */
   if ( ($can_edit || $site->user->is_in_group("visu_cotisants") || sizeof($site->user->get_assos(7, true)) > 0) && $user->cotisant )
   {
