@@ -721,6 +721,25 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
             ),true);
 
   $cts->add($mcts);
+
+  $req = new requete($site->db,"SELECT `publique_utl`, COUNT(*) total, ".
+                              "SUM(IF(`date_maj_utl` > '2010-09-01' OR `publique_utl` = '2', 1, 0 )) `apres_chg` ".
+                              "FROM `utilisateurs` ".
+                              "GROUP BY `publique_utl`");
+
+
+  $mcts->add(new sqltable("public_levels",
+                          "Accès aux fiches matmatronch", $req, "stats.php",
+                          "publique_utl",
+                          array("publique_utl" => "Niveau d'accès",
+                                "total"=>"Toutes les fiches",
+                                "apres_chg"=>"Fiches mises à jour depuis le 01/09/2010"),
+                          array(),
+                          array(),
+                          array("publique_utl"=>array(0=> "Fiches privées", 1=>"Fiches accessibles aux membres de l'ae", 2=>"Fiches accessibles aux membred de l'ae/utbm"))
+            ),true);
+
+  $cts->add($mcts);
 }
 elseif ( $_REQUEST["view"] == "elections" )
 {
