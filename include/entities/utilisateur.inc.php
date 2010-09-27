@@ -1815,9 +1815,9 @@ L'équipe info AE";
                         "FROM  `asso_membre` ".
                         "INNER JOIN  `asso` ON  `asso`.`id_asso` =  `asso_membre`.`id_asso` ".
                         "LEFT JOIN  `asso`  `asso_p` ON  `asso_p`.`id_asso` =  `asso`.`id_asso_parent` ".
-                        "WHERE  `asso_membre`.`id_utilisateur` =  '3458' ".
+                        "WHERE  `asso_membre`.`id_utilisateur` =  '".intval($this->id)."' ".
                         "AND  `asso_membre`.`date_fin` IS NULL ".
-                        "AND  `asso_membre`.`role` >=  '0' ".
+                        "AND  `asso_membre`.`role` >=  '".intval($role)."' ".
                         "AND (`asso`.`id_asso` = '1' OR `asso_p`.`id_asso` = '1' OR `asso_p`.`id_asso_parent` = '1') ".
                         "ORDER BY  `asso`.`nom_asso`");
     else
