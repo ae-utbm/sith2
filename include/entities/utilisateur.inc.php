@@ -1806,17 +1806,29 @@ L'équipe info AE";
    * @param $role Role minimum (=0 par défaut)
    * @return la liste associative des ids avec le nom des associations. La liste vide si aucune.
    */
-  function get_assos ( $role = 0)
+  function get_assos ( $role = 0, $onlyAe = false)
   {
     $assos=array();
-    $req = new requete($this->db,
-                       "SELECT `asso`.`id_asso`, `asso`.`nom_asso` " .
-                       "FROM `asso_membre` " .
-                       "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
-                       "WHERE `asso_membre`.`id_utilisateur`='".intval($this->id)."' " .
-                       "AND `asso_membre`.`date_fin` is NULL " .
-                       "AND `asso_membre`.`role`>='".intval($role)."' " .
-                       "ORDER BY `asso`.`nom_asso`");
+    if ($onlyAe)
+      $req = new requete($this->db,
+                        "SELECT  `asso`.`id_asso` ,  `asso`.`nom_asso` ".
+                        "FROM  `asso_membre` ".
+                        "INNER JOIN  `asso` ON  `asso`.`id_asso` =  `asso_membre`.`id_asso` ".
+                        "LEFT JOIN  `asso`  `asso_p` ON  `asso_p`.`id_asso` =  `asso`.`id_asso_parent` ".
+                        "WHERE  `asso_membre`.`id_utilisateur` =  '3458' ".
+                        "AND  `asso_membre`.`date_fin` IS NULL ".
+                        "AND  `asso_membre`.`role` >=  '0' ".
+                        "AND (`asso`.`id_asso` = '1' OR `asso_p`.`id_asso` = '1' OR `asso_p`.`id_asso_parent` = '1') ".
+                        "ORDER BY  `asso`.`nom_asso`");
+    else
+      $req = new requete($this->db,
+                         "SELECT `asso`.`id_asso`, `asso`.`nom_asso` " .
+                         "FROM `asso_membre` " .
+                         "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
+                         "WHERE `asso_membre`.`id_utilisateur`='".intval($this->id)."' " .
+                         "AND `asso_membre`.`date_fin` is NULL " .
+                         "AND `asso_membre`.`role`>='".intval($role)."' " .
+                         "ORDER BY `asso`.`nom_asso`");
 
     while ( list($id,$value) = $req->get_row() ) $assos[$id] = $value;
 

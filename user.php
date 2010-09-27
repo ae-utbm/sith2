@@ -1230,7 +1230,7 @@ else
   }
 
   /* l'onglet AE */
-  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") || sizeof($site->user->get_assos(7)) > 0) && $user->cotisant )
+  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") || sizeof($site->user->get_assos(7, true)) > 0) && $user->cotisant )
   {
     $cts->add_title(2, "Cotisation AE");
 
