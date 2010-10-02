@@ -110,7 +110,7 @@ if ( $req->lines > 0 )
     $sublist->add("<a href=\"".$topdir."ae/com.php\">Équipe com</a>");
 
   while ( list($id,$nom) = $req->get_row() )
-    $sublist->add("<a href=\"".$topdir."comptoir/bureau.php?id_asso=$id\">$nom</a>");
+    $sublist->add("<a href=\"".$topdir."asso.php?id_asso=$id\">$nom</a>");
 
   $board->add($sublist,true);
 }
