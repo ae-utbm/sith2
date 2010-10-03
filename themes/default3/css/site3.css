@@ -59,12 +59,12 @@
 body
 {
   /*background: #CCCCCC;*/
-  background: #0188C0;
+  background: #0187BF;
   margin: 0;
   padding: 0;
   /* border-top: #22CCDD solid 5px; */
   /*background-image: url("../images/global-top.png");*/
-  background-image: url("../images/fond-congres.jpeg");
+  background-image: url("../images/fond-congres.png");
   background-repeat: no-repeat;
   background-position: top;
 }
@@ -485,7 +485,7 @@ div.emptysectionlinks
   clear: both;
   width:auto;
   /*background :#CCCCCC;*/
-  background :#0188C0;
+  background :#0187BF;
   height:60px;
   padding:0;
   color:#ffffff;
