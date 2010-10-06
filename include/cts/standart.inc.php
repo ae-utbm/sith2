@@ -346,7 +346,7 @@ class form extends stdcontents
    * @param $required  Précise si le champ est obligatoire
    * @param $size    Taille du champ
    */
-  function add_text_field ( $name, $title, $value = "", $required = false , $size = false, $fast_clean = false, $enabled = true, $text_after = null)
+  function add_text_field ( $name, $title, $value = "", $required = false , $size = false, $fast_clean = false, $enabled = true, $text_after = null, $id = false)
   {
     if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];
 
@@ -355,6 +355,10 @@ class form extends stdcontents
     $this->_render_name($name,$title,$required);
 
     $this->buffer .= "<div class=\"formfield\"><input type=\"text\" name=\"$name\" value=\"".htmlentities($value,ENT_COMPAT,"UTF-8"). "\"";
+    if ( $id )
+    {
+      $this->buffer .= " id=\"".$id."\"";
+    }
     if ( $fast_clean )
       $this->buffer .= " onfocus=\"if(this.value=='$value')this.value=''\" onblur=\"if(this.value=='')this.value='$value'\"";
     if ( $size )
@@ -1688,11 +1692,13 @@ class subformoption extends subformcheck
 class table extends stdcontents
 {
   var $tclass;
+  var $tid;
 
-  function table ( $title=false, $class= false )
+  function table ( $title=false, $class= false, $id=false )
   {
     $this->title = $title;
     $this->tclass = $class;
+    $this->tid = $id;
   }
 
   function set_head ( $heads )
@@ -1700,15 +1706,36 @@ class table extends stdcontents
 
   }
 
-  function add_row ( $row, $class=false )
+  function add_row ( $row, $class=false, $id=false )
   {
 
     $this->buffer .= "<tr";
     if ( $class )
       $this->buffer .= " class=\"$class\"";
+    if ( $id )
+      $this->buffer .= " id=\"$id\"";
     $this->buffer .= ">\n";
     foreach ( $row as $cell )
-      $this->buffer .= "  <td>".$cell."</td>\n";
+    {
+      if ( !is_array($cell) )
+      {
+        $this->buffer .= "  <td>".$cell."</td>\n";
+      }
+      else
+      {
+        $this->buffer .= "  <td";
+        if ( $cell[1] )
+        {
+          $this->buffer .= " class=\"".$cell[1]."\"";
+        }
+        if ( $cell[2] )
+        {
+          $this->buffer .= " id=\"".$cell[2]."\"";
+        }
+
+        $this->buffer .= ">".$cell[0]."</td>\n";
+      }
+    }
     $this->buffer .= "</tr>\n";
   }
 
@@ -1720,6 +1747,7 @@ class table extends stdcontents
   function html_render ()
   {
     $buf = "<table";
+    if ( $this->tid ) $buf .= " id=\"$this->tid\"";
     if ( $this->tclass ) $buf .= " class=\"".$this->tclass."\"";
     return $buf.">\n".$this->buffer."</table>\n";
   }

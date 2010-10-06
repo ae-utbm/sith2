@@ -8,9 +8,10 @@
  *  Classe comptoir.
 */
 
-/* Copyright 2005,2006,2008
+/* Copyright 2005,2006,2008,2010
  * - Julien Etelain <julien CHEZ pmad POINT net>
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
+ * - Cyrille Platteau <6pour5 CHEZ gmail POINT com>
  *
  * Ce fichier fait partie du site de l'Association des étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -32,6 +33,7 @@
  */
 
 require_once($topdir . "comptoir/include/facture.inc.php");
+require_once($topdir . "comptoir/include/cts/product.inc.php");
 
 /**
  * Renvoie le premier élément d'un tableau
@@ -308,14 +310,24 @@ class comptoir extends stdentity
       $this->mode = $_SESSION["Comptoirs"][$this->id]["mode"];
 
       if ( $this->mode == "book" )
+      {
         if ( count($_SESSION["Comptoirs"][$this->id]["panier"]) > 0 )
+        {
+          $arrayWithNewKeys = array();
           foreach($_SESSION["Comptoirs"][$this->id]["panier"] as $pid)
           {
             $bk = new livre($this->db);
             $bk->load_by_id($pid);
             if ( $bk->is_valid() && $bk->id_salle == $this->id_salle )
+            {
+              $arrayWithNewKeys[] = $pid;
               $this->panier[] = $bk;
+            }
           }
+
+          $_SESSION["Comptoirs"][$this->id]["panier"] = $arrayWithNewKeys;
+        }
+      }
 
       return true;
     }
@@ -326,18 +338,23 @@ class comptoir extends stdentity
 
     /* on parse le panier du client */
     if ( count($_SESSION["Comptoirs"][$this->id]["panier"]) > 0 )
-    foreach($_SESSION["Comptoirs"][$this->id]["panier"] as $pid)
     {
-      $Prod = new produit ($this->db);
-      $Prod->load_by_id ($pid);
-      if ($Prod->is_valid())
+      $arrayWithNewKeys = array();
+      foreach($_SESSION["Comptoirs"][$this->id]["panier"] as $pid)
       {
-        $VenteProd = new venteproduit ($this->db,$this->dbrw);
-        if ($VenteProd->charge ($Prod,$this))
+        $Prod = new produit ($this->db);
+        $Prod->load_by_id ($pid);
+        if ($Prod->is_valid())
         {
-          $this->panier[] = $VenteProd;
+          $VenteProd = new venteproduit ($this->db,$this->dbrw);
+          if ($VenteProd->charge ($Prod,$this))
+          {
+            $arrayWithNewKeys[] = $pid;
+            $this->panier[] = $VenteProd;
+          }
         }
       }
+      $_SESSION["Comptoirs"][$this->id]["panier"] = $arrayWithNewKeys;
     }
     return true;
   }
@@ -586,6 +603,38 @@ class comptoir extends stdentity
   }
 
   /**
+   * Enlève un article du panier
+   * en mode "book" enleve un livre
+   *
+   * @param prod un objet de type produit ou livre (en mode "book")
+   * @return true si succès, false sinon
+   */
+  function enleve_panier ($prod)
+  {
+    if (!count($this->operateurs))
+      return false;
+
+    if (!$this->client->is_valid())
+      return false;
+
+    if ( count($this->panier) == 0 )
+      return false;
+
+    $key = array_search($prod->id, $_SESSION["Comptoirs"][$this->id]["panier"]);
+
+    if ($key!==FALSE)
+    {
+      if ( $this->mode != "book" )
+        $this->panier[$key]->debloquer($this->client,1);
+
+      unset($this->panier[$key]);
+      unset($_SESSION["Comptoirs"][$this->id]["panier"][$key]);
+    }
+
+    return $key!==FALSE;
+  }
+
+  /**
    * Procède à la vente du contenu du panier au client
    *
    * @return un tableau associatif de type
@@ -728,6 +777,35 @@ class comptoir extends stdentity
     $_SESSION["Comptoirs"][$this->id]["mode"] = $mode;
   }
 
+  /**
+   * Récupère tous les produits disponibles à la vente dans ce comptoir.
+   */
+  function getAvailableProducts ($user = false)
+  {
+    $strRequest = "SELECT `cpt_produits`.`id_produit` ".
+           "FROM `cpt_mise_en_vente` ".
+           "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` = `cpt_mise_en_vente`.`id_produit` " .
+           "WHERE `cpt_mise_en_vente`.`id_comptoir` = '".intval($this->id)."' ".
+           "AND (`cpt_produits`.`date_fin_produit` IS NULL OR `cpt_produits`.`date_fin_produit`>NOW()) ".
+           "ORDER BY `cpt_produits`.`id_typeprod`, `cpt_produits`.`nom_prod`";
+
+    $req = new requete($this->db, $strRequest);
+
+    $products = array();
+
+    for ($i=0; $i<$req->lines; $i++)
+    {
+      $product = new produit($this->db,$this->dbrw);
+      $row = $req->get_row();
+      $product->load_by_id($row['id_produit']);
+      if (!$user || $product->can_be_sold($user))
+      {
+        $products[] = $product;
+      }
+    }
+
+    return $products;
+  }
 }
 
 ?>
