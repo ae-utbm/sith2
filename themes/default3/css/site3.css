@@ -58,13 +58,10 @@
 }
 body
 {
-  /*background: #CCCCCC;*/
-  background: #0187BF;
+  background: #CCCCCC;
   margin: 0;
   padding: 0;
-  /* border-top: #22CCDD solid 5px; */
-  /*background-image: url("../images/global-top.png");*/
-  background-image: url("../images/fond-congres.png");
+  background-image: url("../images/global-top.png");
   background-repeat: no-repeat;
   background-position: top;
 }
@@ -484,14 +481,12 @@ div.emptysectionlinks
   bottom: 40px;
   clear: both;
   width:auto;
-  /*background :#CCCCCC;*/
   background :transparent;
   height:60px;
   padding:0;
   color:#ffffff;
   text-decoration:none;
   margin: 0 auto 0 auto;
-  /* border-bottom: #FFDD22 solid 5px; */
 }
 #endsitelinks
 {
