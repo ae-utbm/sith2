@@ -1,48 +1,27 @@
 idNumberPre = "nbProd";
 idPricePre = "priceProd";
+idTabsList = "productsTabs";
 
 var total;
 var currentBalance;
 var newProducts = new Array();
-/*
-function addProduct(barCode) {
-	var found = false;
-	var i = newProducts.length - 1;
+var tabsId = new Array();
 
-	while (!found && i>0)
+function getTabsId()
+{
+	if (tabsId.length==0)
 	{
-		if (newProducts[i] == "-"+barCode)
+		ulTabs = document.getElementById(idTabsList);
+
+		for (i=0;i<ulTabs.childNodes.length;i++)
 		{
-			newProducts[i]="";
-			found = true;
+			tabsId.push(ulTabs.childNodes.item(i).firstChild.id);
 		}
 	}
 
-	if (!found)
-	{
-		newProducts[] = barCode;
-	}
+	return tabsId;
 }
 
-function removeProduct(barCode) {
-	var found = false;
-	var i = newProducts.length - 1;
-
-	while (!found && i>0)
-	{
-		if (newProducts[i] == barCode)
-		{
-			newProducts[i]="";
-			found = true;
-		}
-	}
-
-	if (!found)
-	{
-		newProducts[] = "-"+barCode;
-	}
-}
-*/
 function getTotal() {
 	if (typeof(total)=='undefined')
 	{
@@ -79,14 +58,10 @@ function getCurrentBalance() {
 	return currentBalance;
 }
 
-//currentCart = new Cart();
-
-function multiClass(eltId) {
-	list = document.getElementById('productsTabs');
-	arrLinkId = new Array('typeProd1','typeProd2','typeProd3','typeProd4','typeProd6','typeProd7','typeProd8','typeProd12','typeProd27');
-	intNbLinkElt = new Number(arrLinkId.length);
-	strContent = new String();
-	for (i=0; i<intNbLinkElt; i++) {
+function changeActiveTab(eltId) {
+	var arrLinkId = getTabsId();
+	var strContent = new String();
+	for (i=0; i<arrLinkId.length; i++) {
 		strContent = arrLinkId[i]+"Contents";
 		if ( arrLinkId[i] == eltId ) {
 			document.getElementById(arrLinkId[i]).className = "typeProdTab current";
@@ -99,45 +74,6 @@ function multiClass(eltId) {
 
 	return false;
 }
-
-/*
-function Cart() { 
-	var total;
-	var currentBalance;
-	var cart = new Array();
-
-	this.addProduct = function(barCode, name, price) {
-		if (isBalanceEnough(price))
-		{
-			total += price;
-		}
-		else
-		{
-			alert('Solde insuffisant');
-		}
-	}
-
-	var isBalanceEnough = function(price) { 
-        	return ((total+price) <= currentBalance); 
-	}
-
-	var getTotal = function() {
-		if (total == undefined)
-		{
-			total = Math.round(parseFloat(document.getElementById('priceTotal').firstChild.nodeValue.replace(',', '.'))*100);
-		}
-		return total;
-	}
-
-	var getCurrentBalance = function() {
-		if (currentBalance == undefined)
-		{
-			currentBalance = Math.round(parseFloat(document.getElementById('soldeCourant').firstChild.nodeValue.replace(',', '.'))*100);
-		}
-		return currentBalance;
-	}
-}
-*/
 
 function increase(code_barre, price)
 {
@@ -304,4 +240,3 @@ function isProductCanBeAdded(price)
 {
 	return ((getTotal()+price)<=getCurrentBalance());
 }
-

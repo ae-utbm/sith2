@@ -46,14 +46,14 @@ class productinfo extends stdcontents
   /**
    * Génère une fiche pour un produit
    */
-  function productinfo ( $product, $barman=false, $comptoir_id=0, $sales=false)
+  function productinfo ( $product, $barman=false, $sales=false)
   {
     global $topdir;
 
     $prix = $product->obtenir_prix($barman);
 
     $this->title = $product->nom;
-$this->buffer .= "<a href=\"#\" title=\"Ajouter 1 ".$product->nom." au panier\" onclick=\"return addToCart('$product->code_barre', '".addslashes($product->nom)."', $prix);\">";
+    $this->buffer .= "<a href=\"#\" title=\"Ajouter 1 ".$product->nom." au panier\" onclick=\"return addToCart('$product->code_barre', '".addslashes($product->nom)."', $prix);\">"."\n";
     $this->buffer .= "<div id=\"product".$product->id."\" class=\"productinfo\">\n";
 
       $this->buffer .= "<h3>". $product->nom . "</h3>\n";
@@ -63,35 +63,9 @@ $this->buffer .= "<a href=\"#\" title=\"Ajouter 1 ".$product->nom." au panier\" 
 
       $this->buffer .= "<div class=\"photo\" style=\"float: left;\">";
 
-      if ($product->id && file_exists($topdir."var/img/matmatronch/".$product->id_file.".identity.jpg"))
+      if ($product->id_file)
       {
-        $date_prise_vue = "";
-        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$product->id.".identity.jpg", 0, true);
-        if ( $exif["FILE"]["FileDateTime"] )
-          $date_prise_vue = $exif["FILE"]["FileDateTime"];
-          $size = getimagesize($topdir."var/img/matmatronch/".$product->id.".identity.jpg");
-
-          /* laissons une marge de 50px */
-          $width = $size[0] + 50;
-          $height = $size[1] + 75;
-          $this->buffer .= "<a href=\"javascript:openMatmatronch('".
-            $product->id."','".$width."','".$height."')\"><img src=\"".$topdir."var/img/matmatronch/".$product->id.".identity.jpg?".$date_prise_vue."\" alt=\"\" class=\"fiche_image\" title=\"Cliquez pour agrandir l'image\" alt=\"Cliquez pour agrandir l'image\"/></a>\n";
-
-      }
-      elseif ( $product->id && file_exists($topdir."var/img/matmatronch/".$product->id.".jpg"))
-      {
-        $date_prise_vue = "";
-        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$product->id.".jpg", 0, true);
-        if ( $exif["FILE"]["FileDateTime"] )
-          $date_prise_vue = $exif["FILE"]["FileDateTime"];
-        $size = getimagesize($topdir."var/img/matmatronch/".$product->id.".jpg");
-
-        /* laissons une marge de 50px */
-        $width = $size[0] + 50;
-        $height = $size[1] + 75;
-        $this->buffer .= "<a href=\"javascript:openMatmatronch('". $topdir. "','".
-          $product->id."','".$width."','".$height."')\"><img src=\"".$topdir."var/img/matmatronch/".$product->id.".jpg?".$date_prise_vue."\" alt=\"\" class=\"fiche_image\" title=\"Cliquez pour agrandir l'image\" alt=\"Cliquez pour agrandire l'image\"/></a>\n";
-
+          $this->buffer .= "<img src=\"".$wwwtopdir."d.php?id_file=".$product->id_file."&amp;action=download&amp;download=preview\" alt=\"\" class=\"fiche_image\" title=\"".$produit->nom."\" alt=\"".$produit->nom."\"/>\n";
       }
       else
         $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image\" />\n";
@@ -106,7 +80,7 @@ $this->buffer .= "<a href=\"#\" title=\"Ajouter 1 ".$product->nom." au panier\" 
 
     $this->buffer .= "</p>";
     $this->buffer .= "</div>\n";
-$this->buffer .= "</a>";
+    $this->buffer .= "</a>";
   }
 }
 ?>

@@ -557,7 +557,7 @@ else if ( $site->comptoir->client->id > 0 )
         $typeProd->load_by_id($currentId_type);
 
         $cts->puts("<li>");
-        $cts->puts("<a href=\"#\" id=\"typeProd".$typeProd->id."\" class=\"".$tabClass."\" onclick=\"return multiClass(this.id);\" title=\"".$typeProd->nom."\">".$typeProd->nom."</a>");
+        $cts->puts("<a href=\"#\" id=\"typeProd".$typeProd->id."\" class=\"".$tabClass."\" onclick=\"return changeActiveTab(this.id);\" title=\"".$typeProd->nom."\">".$typeProd->nom."</a>");
         $cts->puts("</li>");
 
         if ( $currentProductIndex==0 )
@@ -584,7 +584,7 @@ else if ( $site->comptoir->client->id > 0 )
         $cts->puts("</div>\n");
         $cts->puts("<div id=\"typeProd".$currentId_type."Contents\"class=\"products hide\">\n");
       }
-      $cts->add(new productinfo($product, $site->comptoir->prix_barman, $site->comptoir->id, false));
+      $cts->add(new productinfo($product, $site->comptoir->prix_barman, false));
       $i++;
     }
     $cts->puts("</div>\n");
