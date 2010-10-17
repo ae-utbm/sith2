@@ -791,7 +791,7 @@ class utilisateur extends stdentity
 
     $fragment = '('.$fragment.' OR ('.$id_groupe.' = '.array_search('ae_membres', $this->groupes).' AND '.$date_field.' <= '.$derniere_cotiz.'))';
 
-    return fragment;
+    return $fragment;
   }
 
   /* Extra infos management */
