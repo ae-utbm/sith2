@@ -419,7 +419,7 @@ class sujetforum extends stdcontents
       if ( isset($_COOKIE["nosecret"]) && $_COOKIE["nosecret"] == 1 )
       {
         $msg_uid .= "nsc";
-        $cache = new cachedcontents($uid);
+        $cache = new cachedcontents($msg_uid);
         if (! $cache->is_cached())
           $row['contenu_message'] = nosecret($row['contenu_message']);
       }
