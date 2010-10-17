@@ -790,6 +790,8 @@ class utilisateur extends stdentity
       $this->load_groups();
 
     $fragment = '('.$fragment.' OR ('.$id_groupe.' = '.array_search('ae_membres', $this->groupes).' AND '.$date_field.' <= '.$derniere_cotiz.'))';
+
+    return fragment;
   }
 
   /* Extra infos management */
