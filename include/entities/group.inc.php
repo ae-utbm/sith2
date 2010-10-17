@@ -319,6 +319,8 @@ class group extends stdentity
 
   function get_type_desc()
   {
+    global $types_groupes;
+
     if (array_key_exists($this->type, $types_groupes))
       return $types_groupes[$this->type];
     else
