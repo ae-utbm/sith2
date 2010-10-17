@@ -1117,24 +1117,37 @@ elseif ( ($_REQUEST["view"]=="groups") &&
 
 
   $req = new requete($site->db,
-                     "SELECT `groupe`.`id_groupe`, `groupe`.`nom_groupe`, `groupe`.`description_groupe`, `utl_groupe`.`id_utilisateur` ".
+                     "SELECT `groupe`.`id_groupe`, `groupe`.`type_groupe`, `groupe`.`nom_groupe`, `groupe`.`description_groupe`, `utl_groupe`.`id_utilisateur` ".
                      "FROM `groupe` " .
                      "LEFT JOIN `utl_groupe` ON (`groupe`.`id_groupe`=`utl_groupe`.`id_groupe`" .
                      " AND `utl_groupe`.`id_utilisateur`='".$user->id."' ) " .
-                     "ORDER BY `groupe`.`nom_groupe`");
+                     "ORDER BY `groupe`.`type_groupe` DESC, `groupe`.`nom_groupe`");
 
   $frm = new form("setgroups","user.php?view=groups&id_utilisateur=".$user->id,true,"POST","Groupes");
   $frm->add_hidden("action","setgroups");
   $grp = new group($site->db);
 
+  $lastType = -1;
   while ( $row=$req->get_row())
   {
     $grp->_load($row);
+
+    if ($grp->type != $lastType)
+    {
+      if ($lastType >= 0)
+        $frm->add($subfrm);
+
+      $lastType = $grp->type;
+      $subfrm = new subform($grp->get_type_desc());
+    }
+
     if ( ($row["id_groupe"] == 7 || $row["id_groupe"] == 46 || $row["id_groupe"] == 47) && !$site->user->is_in_group("root") )
-      $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="",true);
+      $subfrm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="",true);
     else
-      $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="");
+      $subfrm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="");
   }
+  if ($lastType >= 0)
+    $frm->add($subfrm);
 
   $frm->add_submit("save","Enregistrer");
   $cts->add($frm,true);

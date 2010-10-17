@@ -93,6 +93,7 @@ class group extends stdentity
     $this->id = $row['id_groupe'];
     $this->nom = $row['nom_groupe'];
     $this->description = $row['description_groupe'];
+    $this->type = $row['type_groupe'];
   }
 
   /**
@@ -310,6 +311,31 @@ class group extends stdentity
       return "cotisants à l'AE y compris par ASSIDU, l'amicale et le CROUS";
 
     return trim($this->description);
+  }
+
+  function get_type_desc()
+  {
+    global $topdir;
+
+    if ( $this->id == 100 )
+      return "Membres du bureau AE";
+
+    if ( $this->id == 80 )
+      return "Membres des bureau clubs";
+
+    if ( $this->id == 60 )
+      return "Modérateurs";
+
+    if ( $this->id == 40 )
+      return "Utilisateurs bannis";
+
+    if ( $this->id == 20 )
+      return "Équipe info";
+
+    if ( $this->type == 0 )
+      return "Groupes divers";
+
+    return "Groupes non classés";
   }
 
 }
