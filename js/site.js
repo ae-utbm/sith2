@@ -971,6 +971,8 @@ if (window.addEventListener) {
       };
     }, true);
 
+    rightKey = "39";
+    leftKey = "37";
     window.addEventListener("keydown", function(e){
       if ((e.key == leftKey) || (e.key == rightKey))
       {
