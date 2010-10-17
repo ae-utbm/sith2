@@ -974,9 +974,9 @@ if (window.addEventListener) {
     rightKey = "39";
     leftKey = "37";
     window.addEventListener("keydown", function(e){
-      if ((e.key == leftKey) || (e.key == rightKey))
+      if ((e.keyCode == leftKey) || (e.keyCode == rightKey))
       {
-        if (e.key == leftKey)
+        if (e.keyCode == leftKey)
           linkDiv = document.getElementById('prev');
         else
           linkDiv = document.getElementById('back');
