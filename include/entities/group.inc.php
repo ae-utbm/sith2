@@ -317,19 +317,19 @@ class group extends stdentity
   {
     global $topdir;
 
-    if ( $this->id == 100 )
+    if ( $this->type == 100 )
       return "Membres du bureau AE";
 
-    if ( $this->id == 80 )
+    if ( $this->type == 80 )
       return "Membres des bureau clubs";
 
-    if ( $this->id == 60 )
+    if ( $this->type == 60 )
       return "Modérateurs";
 
-    if ( $this->id == 40 )
+    if ( $this->type == 40 )
       return "Utilisateurs bannis";
 
-    if ( $this->id == 20 )
+    if ( $this->type == 20 )
       return "Équipe info";
 
     if ( $this->type == 0 )
