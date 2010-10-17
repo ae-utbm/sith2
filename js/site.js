@@ -987,5 +987,5 @@ if (window.addEventListener) {
             eval('(function(){'+fct+'})()');
         }
       }
-    }
+    }, true);
 };
