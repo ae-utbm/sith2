@@ -1138,7 +1138,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
         $frm->add($subfrm);
 
       $lastType = $grp->type;
-      $subfrm = new subform($grp->get_type_desc(), true);
+      $subfrm = new subform($grp->type, $grp->get_type_desc());
     }
 
     if ( ($row["id_groupe"] == 7 || $row["id_groupe"] == 46 || $row["id_groupe"] == 47) && !$site->user->is_in_group("root") )
