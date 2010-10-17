@@ -156,7 +156,7 @@ if ( $_REQUEST["action"] == "addgroup" && $site->user->is_in_group("root"))
     $Error = "Un nom est requis.";
   else
   {
-    $grp->add_group($_REQUEST["nom"],$_REQUEST["description"]);
+    $grp->add_group($_REQUEST["nom"],$_REQUEST["description"],$_REQUEST['type']);
     _log($site->dbrw,"Ajout d'un groupe","Ajout du groupe ". $_REQUEST["nom"] ."(". $_REQUEST["description"] .")","Groupes",$site->user);
   }
 }
@@ -201,6 +201,7 @@ if ( $site->user->is_in_group("root") )
   if ( $Error )
     $frm->error($Error);
   $frm->add_text_field("nom","Nom (unix)","",true);
+  $frm->add_select_field("type","Type",$types_groupes);
   $frm->add_text_field("description","Description","");
   $frm->add_submit("valide","Ajouter");
   $cts->add($frm,true);

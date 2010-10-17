@@ -37,6 +37,8 @@
  * Les ids 10000 à 49999 sont réservés pour ces groupes.
  */
 
+$types_groupes = array(100 => "Membres du bureau AE", 80 => "Membres des bureau clubs", 60 => "Modérateurs", 40 => "Utilisateurs bannis", 20 => "Équipe info", 0 => "Groupes divers");
+
 /**
  * Classe gérant les groupes
  */
@@ -101,17 +103,19 @@ class group extends stdentity
    * @param $nom Nom du groupe (unix)
    * @param $description Description du groupe
    */
-  function add_group ( $nom, $description )
+  function add_group ( $nom, $description, $type=0 )
   {
 
     $this->nom = $nom;
     $this->description = $description;
+    $this->type = $type;
 
     $sql = new insert ($this->dbrw,
         "groupe",
         array(
           "nom_groupe" => $this->nom,
-          "description_groupe" => $this->description
+          "description_groupe" => $this->description,
+          "type_groupe" => $this->type
           )
         );
 
@@ -315,27 +319,10 @@ class group extends stdentity
 
   function get_type_desc()
   {
-    global $topdir;
-
-    if ( $this->type == 100 )
-      return "Membres du bureau AE";
-
-    if ( $this->type == 80 )
-      return "Membres des bureau clubs";
-
-    if ( $this->type == 60 )
-      return "Modérateurs";
-
-    if ( $this->type == 40 )
-      return "Utilisateurs bannis";
-
-    if ( $this->type == 20 )
-      return "Équipe info";
-
-    if ( $this->type == 0 )
-      return "Groupes divers";
-
-    return "Groupes non classés";
+    if (array_key_exists($this->type, $types_groupes))
+      return $types_groupes[$this->type];
+    else
+      return "Groupes non classés";
   }
 
 }
