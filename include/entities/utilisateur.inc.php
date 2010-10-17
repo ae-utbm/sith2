@@ -777,6 +777,7 @@ class utilisateur extends stdentity
    */
   function get_grps_authorization_fragment ($date_field, $grps, $id_groupe)
   {
+    require_once($topdir."include/entities/group.inc.php");
     $fragment = $id_groupe.' IN ('.$grps.')';
 
     if ($this->ae)
@@ -789,7 +790,7 @@ class utilisateur extends stdentity
     if ( is_null($this->groupes) )
       $this->load_groups();
 
-    $fragment = '('.$fragment.' OR ('.$id_groupe.' = '.array_search('ae_membres', $this->groupes).' AND '.$date_field.' <= '.$derniere_cotiz.'))';
+    $fragment = '('.$fragment.' OR ('.$id_groupe.' = '.array_search('ae-membres', enumerates_groups($this->db)).' AND '.$date_field.' <= '.$derniere_cotiz.'))';
 
     return $fragment;
   }
