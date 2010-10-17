@@ -198,7 +198,7 @@ class catphoto extends basedb
         "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='".$user->id."') OR " .
         "((droits_acces_ph & 0x100) AND sas_personnes_photos.id_utilisateur IS NOT NULL) ) " .
         "ORDER BY type_media_ph DESC, date_prise_vue " .
-        "$limit");
+        "$limit", 1);
 
   }
 
@@ -219,7 +219,7 @@ class catphoto extends basedb
         "((droits_acces_catph & 0x10) AND ".$user->get_grps_authorization_fragment('date_debut_catph', $grps, 'id_groupe').") OR " .
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_catph & 0x100) AND id_utilisateur='".$user->id."')) " .
-        "ORDER BY `date_debut_catph` DESC,`nom_catph`");
+        "ORDER BY `date_debut_catph` DESC,`nom_catph`", 1);
   }
 
   /**
@@ -312,7 +312,7 @@ class catphoto extends basedb
 
     $cats = array();
 
-    $req = new requete($this->db,$query);
+    $req = new requete($this->db,$query, 1);
 
     while ( $row = $req->get_row() )
     {
@@ -375,7 +375,7 @@ class catphoto extends basedb
         "(sas_cat_photos.id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_catph & 0x100) AND sas_cat_photos.id_utilisateur='".$user->id."')) " .
         "ORDER BY 1 DESC " .
-        "LIMIT 4");
+        "LIMIT 4", 1);
 
   }
 
@@ -631,7 +631,7 @@ class catphoto extends basedb
         "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='".$user->id."') OR " .
         "((droits_acces_ph & 0x100) AND p1.id_utilisateur IS NOT NULL) ) " .
         "ORDER BY $order " .
-        "$limit");
+        "$limit", 1);
 
   }
 
