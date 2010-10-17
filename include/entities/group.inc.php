@@ -37,7 +37,7 @@
  * Les ids 10000 à 49999 sont réservés pour ces groupes.
  */
 
-$types_groupes = array(100 => "Membres du bureau AE", 80 => "Membres des bureau clubs", 60 => "Modérateurs", 40 => "Utilisateurs bannis", 20 => "Équipe info", 0 => "Groupes divers");
+$types_groupes = array(100 => "Membres du bureau AE", 80 => "Membres des clubs", 60 => "Modérateurs", 50 => "Comptoirs", 40 => "Utilisateurs bannis", 20 => "Équipe info", 0 => "Groupes divers");
 
 /**
  * Classe gérant les groupes
