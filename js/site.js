@@ -970,4 +970,20 @@ if (window.addEventListener) {
         keys.shift();
       };
     }, true);
+
+    window.addEventListener("keydown", function(e){
+      if ((e.key == leftKey) || (e.key == rightKey))
+      {
+        if (e.key == leftKey)
+          linkDiv = document.getElementById('prev');
+        else
+          linkDiv = document.getElementById('back');
+        if (linkDiv != null)
+        {
+          fct = linkDiv.getElementsByTagName('a')[0].getAttributeNode("onclick").value
+          if (fct != null)
+            eval('(function(){'+fct+'})()');
+        }
+      }
+    }
 };
