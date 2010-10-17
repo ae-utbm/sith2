@@ -587,7 +587,7 @@ class catphoto extends basedb
     // Droit de lecture de toutes les catégories pour les utilisateurs qui ont déjà été à l'AE.
     print_r($result);
     $derniere_cotiz = false;
-    if (!$result && ($dernier_cotiz = $user->date_derniere_cotiz_a_lae ()) && $required == DROIT_LECTURE && $this->id_groupe && (($required & ($this->droits_acces >> 4)) == $required)) {
+    if (!$result && ($dernier_cotiz = $user->date_derniere_cotiz_a_lae ()) && ($required == DROIT_LECTURE) && ($this->id_groupe == 10000) && (($required & ($this->droits_acces >> 4)) == $required)) {
       print_r($dernier_cotiz);
       $date_derniere_cotiz = strtotime($dernier_cotiz);
       if ($date_derniere_cotiz >= $date_debut)
