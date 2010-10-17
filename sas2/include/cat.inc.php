@@ -192,7 +192,7 @@ class catphoto extends basedb
         "WHERE " .
         "id_catph='".$id_cat."'$filter AND " .
         "((((droits_acces_ph & 0x1) OR " .
-        "((droits_acces_ph & 0x10) AND ".$user->get_grps_authorization_fragment('date_debut_catph', $grps, 'id_groupe').")) " .
+        "((droits_acces_ph & 0x10) AND ".$user->get_grps_authorization_fragment('date_prise_vue', $grps, 'id_groupe').")) " .
           "AND droits_acquis='1' AND modere_ph='1' ) OR " .
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='".$user->id."') OR " .
