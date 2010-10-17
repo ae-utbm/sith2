@@ -777,6 +777,7 @@ class utilisateur extends stdentity
    */
   function get_grps_authorization_fragment ($date_field, $grps, $id_groupe)
   {
+    global $topdir;
     require_once($topdir."include/entities/group.inc.php");
     $fragment = $id_groupe.' IN ('.$grps.')';
 
