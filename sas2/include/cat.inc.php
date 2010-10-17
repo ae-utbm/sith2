@@ -198,7 +198,7 @@ class catphoto extends basedb
         "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='".$user->id."') OR " .
         "((droits_acces_ph & 0x100) AND sas_personnes_photos.id_utilisateur IS NOT NULL) ) " .
         "ORDER BY type_media_ph DESC, date_prise_vue " .
-        "$limit", 1);
+        "$limit");
 
   }
 
@@ -219,7 +219,7 @@ class catphoto extends basedb
         "((droits_acces_catph & 0x10) AND ".$user->get_grps_authorization_fragment('date_debut_catph', $grps, 'id_groupe').") OR " .
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_catph & 0x100) AND id_utilisateur='".$user->id."')) " .
-        "ORDER BY `date_debut_catph` DESC,`nom_catph`", 1);
+        "ORDER BY `date_debut_catph` DESC,`nom_catph`");
   }
 
   /**
@@ -312,7 +312,7 @@ class catphoto extends basedb
 
     $cats = array();
 
-    $req = new requete($this->db,$query, 1);
+    $req = new requete($this->db,$query);
 
     while ( $row = $req->get_row() )
     {
@@ -371,11 +371,11 @@ class catphoto extends basedb
         "sas_cat_photos.* " .
         "FROM sas_cat_photos WHERE" .
         "((droits_acces_catph & 0x1) OR " .
-        "((droits_acces_catph & 0x10) AND sas_cat_photos.id_groupe IN ($grps)) OR " .
+        "((droits_acces_catph & 0x10) AND ".$user->get_grps_authorization_fragment('date_debut_catph', $grps, 'id_groupe').") OR " .
         "(sas_cat_photos.id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_catph & 0x100) AND sas_cat_photos.id_utilisateur='".$user->id."')) " .
         "ORDER BY 1 DESC " .
-        "LIMIT 4", 1);
+        "LIMIT 4");
 
   }
 
@@ -585,10 +585,8 @@ class catphoto extends basedb
           return false;
 
     // Droit de lecture de toutes les catégories pour les utilisateurs qui ont déjà été à l'AE.
-    print_r($result);
     $derniere_cotiz = false;
     if (!$result && ($dernier_cotiz = $user->date_derniere_cotiz_a_lae ()) && ($required == DROIT_LECTURE) && ($this->id_groupe == 10000) && (($required & ($this->droits_acces >> 4)) == $required)) {
-      print_r($dernier_cotiz);
       $date_derniere_cotiz = strtotime($dernier_cotiz);
       if ($date_derniere_cotiz >= $date_debut)
         return true;
@@ -631,7 +629,7 @@ class catphoto extends basedb
         "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='".$user->id."') OR " .
         "((droits_acces_ph & 0x100) AND p1.id_utilisateur IS NOT NULL) ) " .
         "ORDER BY $order " .
-        "$limit", 1);
+        "$limit");
 
   }
 
