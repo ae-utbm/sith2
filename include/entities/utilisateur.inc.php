@@ -791,7 +791,7 @@ class utilisateur extends stdentity
     if ( is_null($this->groupes) )
       $this->load_groups();
 
-    $fragment = '('.$fragment.' OR ('.$id_groupe.' = '.array_search('ae-membres', enumerates_groups($this->db)).' AND '.$date_field.' <= '.$derniere_cotiz.'))';
+    $fragment = '('.$fragment.' OR ('.$id_groupe.' = '.array_search('ae-membres', enumerates_groups($this->db)).' AND ('.$date_field.' <= '.$derniere_cotiz.' OR '.$date_field.' IS NULL)))';
 
     return $fragment;
   }
