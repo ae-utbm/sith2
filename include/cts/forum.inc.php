@@ -414,19 +414,26 @@ class sujetforum extends stdcontents
       $this->buffer .= "</div>\n";
       $this->buffer .= "<div class=\"fmsg\">\n";
 
+      $msg_uid = "msg".$row['id_message'];
+
       if ( isset($_COOKIE["nosecret"]) && $_COOKIE["nosecret"] == 1 )
-        $row['contenu_message'] = nosecret($row['contenu_message']);
+      {
+        $msg_uid .= "nsc";
+        $cache = new cachedcontents($uid);
+        if (! $cache->is_cached())
+          $row['contenu_message'] = nosecret($row['contenu_message']);
+      }
 
       if ( $row['syntaxengine_message'] == "bbcode" )
       //  $this->buffer .= bbcode($row['contenu_message']);
       {
-        $cts = cachedcontents::autocache("msg".$row['id_message'],new bbcontents("",$row['contenu_message'],false));
+        $cts = cachedcontents::autocache($msg_uid,new bbcontents("",$row['contenu_message'],false));
         $this->buffer .= $cts->html_render();
       }
       elseif ( $row['syntaxengine_message'] == "doku" )
       //  $this->buffer .= doku2xhtml($row['contenu_message']);
       {
-        $cts = cachedcontents::autocache("msg".$row['id_message'],new wikicontents("",$row['contenu_message'],false));
+        $cts = cachedcontents::autocache($msg_uid,new wikicontents("",$row['contenu_message'],false));
         $this->buffer .= $cts->html_render();
       }
       elseif ( $row['syntaxengine_message'] == "plain" )
