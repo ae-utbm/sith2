@@ -279,7 +279,7 @@ if ( isset($_REQUEST["pattern"] ) )
   $sql .= "ORDER BY date_message DESC ";
   $sql .= "LIMIT 50";
 
-  $req = new requete($site->db,$sql,1);
+  $req = new requete($site->db,$sql);
 
 
   $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
@@ -295,23 +295,24 @@ if ( isset($_REQUEST["pattern"] ) )
 
     while ( $row = $req->get_row() )
     {
-      if (($row['id_groupe'] == 7) && (!$row['droits_acces_forum'] & 0x1) && (!$site->user->is_in_group("root")))
-        continue;
-
-      if (   $id_sujet!=$row['id_sujet'] )
+      if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($site->user->is_in_group("root")))
       {
-        if ( !is_null($id_sujet) )
-          $cts->buffer .= "</ul>";
-        $cts->buffer .=
-        "<li class=\"sujet\"><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
-        "<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
-        $row['titre_sujet']."</b></a></li>";
-        $cts->buffer .= "<ul class=\"frmmessagesres\">";
+
+        if (   $id_sujet!=$row['id_sujet'] )
+        {
+          if ( !is_null($id_sujet) )
+            $cts->buffer .= "</ul>";
+          $cts->buffer .=
+          "<li class=\"sujet\"><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
+          "<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
+          $row['titre_sujet']."</b></a></li>";
+          $cts->buffer .= "<ul class=\"frmmessagesres\">";
+        }
+
+        $cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";
+
+        $id_sujet=$row['id_sujet'];
       }
-
-      $cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";
-
-      $id_sujet=$row['id_sujet'];
     }
     if ( !is_null($id_sujet) )
       $cts->buffer .= "</ul>";
