@@ -82,8 +82,8 @@ if ( $_REQUEST["page"] == "unread" )
       "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, " .
       "1 AS `nonlu`, " .
       "titre_forum AS `soustitre_sujet`, " .
-      "frm_sujet_utilisateur.etoile_sujet AS `etoile` " .
-      "frm_forum.droits_acces_forum ".
+      "frm_sujet_utilisateur.etoile_sujet AS `etoile`, " .
+      "frm_forum.droits_acces_forum, ".
       "frm_forum.id_groupe ".
       "FROM frm_sujet " .
       "INNER JOIN frm_forum USING(id_forum) ".
@@ -184,8 +184,8 @@ elseif ( $_REQUEST["page"] == "starred" )
       "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, " .
       "IF(frm_sujet.id_message_dernier > frm_sujet_utilisateur.id_message_dernier_lu,1,0) AS `nonlu`, " .
       "titre_forum AS `soustitre_sujet`, " .
-      "0 AS `etoile` " .
-      "frm_forum.droits_acces_forum ".
+      "0 AS `etoile`, " .
+      "frm_forum.droits_acces_forum, ".
       "frm_forum.id_groupe ".
       "FROM frm_sujet " .
       "INNER JOIN frm_forum USING(id_forum) ".
@@ -264,7 +264,7 @@ if ( isset($_REQUEST["pattern"] ) )
   $sql .= "LIMIT 50";
   */
 
-  $sql = "SELECT MATCH (titre_message,contenu_message,id_groupe,droits_acces_forum) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') AS deg, frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
+  $sql = "SELECT MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') AS deg, frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message, frm_forum.id_groupe, frm_forum.droits_acces_forum ".
          "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) INNER JOIN frm_forum USING (id_forum) WHERE ";
   $sql .= "MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
 
