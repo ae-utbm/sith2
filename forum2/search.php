@@ -130,7 +130,10 @@ if ( $_REQUEST["page"] == "unread" )
     $cts->add_title(2,"Sujets favoris avec des messages non lus");
     $rows = array();
     while ( $row = $req->get_row() )
-      $rows[] = $row;
+    {
+      if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($user->is_in_group("root")))
+        $rows[] = $row;
+    }
 
     $cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
     $cts->add_paragraph("&nbsp;");
@@ -142,8 +145,11 @@ if ( $_REQUEST["page"] == "unread" )
   {
     $cts->add_title(2,"Sujets avec des messages non lus");
     $rows = array();
+    {
     while ( $row = $req->get_row() )
-      $rows[] = $row;
+      if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($user->is_in_group("root")))
+        $rows[] = $row;
+    }
 
     $cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
   }
@@ -206,7 +212,10 @@ elseif ( $_REQUEST["page"] == "starred" )
   {
     $rows = array();
     while ( $row = $req->get_row() )
-      $rows[] = $row;
+    {
+      if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($user->is_in_group("root")))
+        $rows[] = $row;
+    }
 
     $cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
     $cts->add_paragraph("&nbsp;");
@@ -251,14 +260,22 @@ if ( isset($_REQUEST["pattern"] ) )
   $sql .= "LIMIT 50";
   */
 
-  $sql = "SELECT MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') AS deg, frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
-         "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
+  $sql = "SELECT MATCH (titre_message,contenu_message,id_groupe,droits_acces_forum) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') AS deg, frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
+         "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) INNER JOIN frm_forum USING (id_forum) WHERE ";
   $sql .= "MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
+
+  if ( !$forum->is_admin( $site->user ) )
+  {
+    $grps = $site->user->get_groups_csv();
+    $sql .= "AND ((droits_acces_forum & 0x1) OR " .
+      "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
+      "(id_groupe_admin IN ($grps)) OR " .
+      "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
+  }
   $sql .= "ORDER BY date_message DESC ";
   $sql .= "LIMIT 50";
 
   $req = new requete($site->db,$sql);
-
 
 
   $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
@@ -274,6 +291,9 @@ if ( isset($_REQUEST["pattern"] ) )
 
     while ( $row = $req->get_row() )
     {
+      if (($row['id_groupe'] == 7) && (!$row['droits_acces_forum'] & 0x1) && (!$user->is_in_group("root")))
+        continue;
+
       if (   $id_sujet!=$row['id_sujet'] )
       {
         if ( !is_null($id_sujet) )

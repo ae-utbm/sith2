@@ -96,7 +96,7 @@ class forum extends basedb
 
   function is_admin ( &$user )
   {
-    if ( $user->is_in_group("moderateur_forum") )
+    if (( $user->is_in_group("moderateur_forum")) && ($this->id_groupe_admin != 7))
       return true;
 
     if ( !is_null($this->id_asso) )
@@ -287,7 +287,10 @@ class forum extends basedb
     $rows = array();
 
     while ( $row = $req->get_row() )
-      $rows[] = $row;
+    {
+      if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($user->is_in_group("root")))
+        $rows[] = $row;
+    }
 
     return $rows;
   }
