@@ -149,7 +149,7 @@ if ( $_REQUEST["page"] == "unread" )
     $rows = array();
     {
     while ( $row = $req->get_row() )
-      if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($user->is_in_group("root")))
+      if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($site->user->is_in_group("root")))
         $rows[] = $row;
     }
 
@@ -217,7 +217,7 @@ elseif ( $_REQUEST["page"] == "starred" )
     $rows = array();
     while ( $row = $req->get_row() )
     {
-      if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($user->is_in_group("root")))
+      if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($site->user->is_in_group("root")))
         $rows[] = $row;
     }
 
@@ -295,7 +295,7 @@ if ( isset($_REQUEST["pattern"] ) )
 
     while ( $row = $req->get_row() )
     {
-      if (($row['id_groupe'] == 7) && (!$row['droits_acces_forum'] & 0x1) && (!$user->is_in_group("root")))
+      if (($row['id_groupe'] == 7) && (!$row['droits_acces_forum'] & 0x1) && (!$site->user->is_in_group("root")))
         continue;
 
       if (   $id_sujet!=$row['id_sujet'] )
