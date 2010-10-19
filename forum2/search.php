@@ -83,6 +83,8 @@ if ( $_REQUEST["page"] == "unread" )
       "1 AS `nonlu`, " .
       "titre_forum AS `soustitre_sujet`, " .
       "frm_sujet_utilisateur.etoile_sujet AS `etoile` " .
+      "frm_forum.droits_acces_forum ".
+      "frm_forum.id_groupe ".
       "FROM frm_sujet " .
       "INNER JOIN frm_forum USING(id_forum) ".
       "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
@@ -183,6 +185,8 @@ elseif ( $_REQUEST["page"] == "starred" )
       "IF(frm_sujet.id_message_dernier > frm_sujet_utilisateur.id_message_dernier_lu,1,0) AS `nonlu`, " .
       "titre_forum AS `soustitre_sujet`, " .
       "0 AS `etoile` " .
+      "frm_forum.droits_acces_forum ".
+      "frm_forum.id_groupe ".
       "FROM frm_sujet " .
       "INNER JOIN frm_forum USING(id_forum) ".
       "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
@@ -275,7 +279,7 @@ if ( isset($_REQUEST["pattern"] ) )
   $sql .= "ORDER BY date_message DESC ";
   $sql .= "LIMIT 50";
 
-  $req = new requete($site->db,$sql);
+  $req = new requete($site->db,$sql,1);
 
 
   $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
