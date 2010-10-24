@@ -66,6 +66,7 @@ blockquote {
 
 pre {
   font-size: 120%;
+  font-family: monospace;
   padding: 0.5em;
   border: 1px dashed #8cacbb;
   color: #000;
