@@ -57,7 +57,7 @@ function nosecret_findname ( $matches )
   if ( isset($GLOBALS["nosecret_cache"][$key]) )
     return $matches[1].$GLOBALS["nosecret_cache"][$key].$matches[3];
 
-  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace(" ", "", str_replace("[","",$matches[2]))))."([`\\\\\']?)";
+  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[2])))."([`\\\\\']?)";
 
   $sql = "SELECT `alias_utl`, prenom_utl, nom_utl, utilisateurs.id_utilisateur  " .
           "FROM `utilisateurs` " .
@@ -94,7 +94,7 @@ function nosecret_findname ( $matches )
  */
 function nosecret ( $text )
 {
-  return preg_replace_callback("`([^a-zA-Z0-9]|^)([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9]*_[bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9_]*)([^a-zA-Z0-9]| _$)`","nosecret_findname",$text);
+  return preg_replace_callback("`([^a-zA-Z0-9]|^)([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9]*_[bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9_]*)([^a-zA-Z0-9]|$)`","nosecret_findname",$text);
 }
 
 
