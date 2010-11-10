@@ -2587,6 +2587,14 @@ http://ae.utbm.fr";
     else
       return false;
   }
+
+  function get_surnom_or_alias()
+  {
+    if ( $this->surnom )
+      return $this->surnom;
+
+    return $this->alias;
+  }
 }
 
 ?>

@@ -48,35 +48,35 @@ class message extends stdentity
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `frm_message`
-				WHERE `id_message` = '" .
-		       mysql_real_escape_string($id) . "'
-				LIMIT 1");
+        WHERE `id_message` = '" .
+           mysql_real_escape_string($id) . "'
+        LIMIT 1");
 
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
 
-		$this->id = null;
-		return false;
+    $this->id = null;
+    return false;
   }
 
   function load_initial_of_sujet ( $id_sujet )
   {
     $req = new requete($this->db, "SELECT * FROM `frm_message`
-				WHERE `id_sujet` = '".mysql_real_escape_string($id_sujet) . "'
-		    ORDER BY id_message
-				LIMIT 1");
+        WHERE `id_sujet` = '".mysql_real_escape_string($id_sujet) . "'
+        ORDER BY id_message
+        LIMIT 1");
 
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
 
-		$this->id = null;
-		return false;
+    $this->id = null;
+    return false;
   }
 
   function _load ( $row )
@@ -116,19 +116,19 @@ class message extends stdentity
               "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur
             ));
 
-		if ( $req )
-		{
-			$this->id = $req->get_id();
+    if ( $req )
+    {
+      $this->id = $req->get_id();
 
       $sujet->update_last_message($forum);
       $forum->update_last_sujet();
 
       $sujet->set_user_read ( $id_utilisateur, $this->id );
 
-		  return true;
-		}
+      return true;
+    }
 
-		$this->id = null;
+    $this->id = null;
     return false;
   }
 
@@ -180,14 +180,14 @@ class message extends stdentity
   }
 
   /**
-	* Permet de faire des remplacements au moment du commit
-	*/
-	function commit_replace($text,$user)
-	{
-	  $text = preg_replace("/(\n|^)\/me\s/","\n* ".$user->alias." ",$text);
+  * Permet de faire des remplacements au moment du commit
+  */
+  function commit_replace($text,$user)
+  {
+    $text = preg_replace("/(\n|^)\/me\s/","\n* ".$user->get_surnom_or_alias()." ",$text);
 
-	  return $text;
-	}
+    return $text;
+  }
 
 }
 
