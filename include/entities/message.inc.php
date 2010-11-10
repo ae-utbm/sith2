@@ -139,8 +139,11 @@ class message extends stdentity
     if ( $forum->id != $sujet->id_forum || $sujet->id != $this->id_sujet )
       return;
 
+    // On fait expirer le cache du message : version normale puis la version passée au nosecret
     require_once($topdir."include/cts/cached.inc.php");
     $cache = new cachedcontents("msg".$this->id);
+    $cache->expire();
+    $cache = new cachedcontents("msg".$this->id."nsc");
     $cache->expire();
 
     $this->titre = $titre;
