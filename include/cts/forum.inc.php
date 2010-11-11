@@ -54,12 +54,12 @@ function nosecret_findname ( $matches )
   if ( preg_match("`^__([a-zA-z0-9]*)__$`",$matches[2]) )
     return $matches[1];
 
-  $key = strtolower($matches[2]);
+  $key = strtolower($matches[3]);
 
   if ( isset($GLOBALS["nosecret_cache"][$key]) )
     return $matches[1].$GLOBALS["nosecret_cache"][$key].$matches[3];
 
-  $sqlpattern = mysql_real_escape_string(str_replace(" ", " ?", str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[2]))))."([`\\\\\']?)";
+  $sqlpattern = mysql_real_escape_string(str_replace(" ", " ?", str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[3]))))."([`\\\\\']?)";
 
   $sql = "SELECT `alias_utl`, prenom_utl, nom_utl, utilisateurs.id_utilisateur  " .
           "FROM `utilisateurs` " .
@@ -76,18 +76,18 @@ function nosecret_findname ( $matches )
   $req = new requete($site->db,$sql);
 
   if ( !$req || $req->lines == 0 )
-    $result=$matches[2];
+    $result=$matches[3];
   else
   {
     $values=array();
     while ( $row = $req->get_row() )
       $values[] = $row[0]." : ".$row['prenom_utl']." ".$row['nom_utl'];
-    $result=$matches[2]."(".implode(", ",$values).")";
+    $result=$matches[3]."(".implode(", ",$values).")";
   }
 
   $GLOBALS["nosecret_cache"][$key]=$result;
 
-  return $matches[1].$result.$matches[3];
+  return $matches[1].$result.$matches[4];
 }
 
 /**
@@ -96,7 +96,7 @@ function nosecret_findname ( $matches )
  */
 function nosecret ( $text )
 {
-  return preg_replace_callback("`([^a-zA-Z0-9]|^)(([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9]_|_[bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9]|_ ?_)([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9_]| _)*)([^a-zA-Z0-9]|$)`","nosecret_findname",$text);
+  return preg_replace_callback("`([^a-zA-Z0-9]|^)([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9]*_([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9_]| _)*)([^a-zA-Z0-9]|$)`","nosecret_findname",$text);
 }
 
 
