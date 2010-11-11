@@ -370,7 +370,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     if(!is_null($weekmail->id_header) && $weekmail->id_header>0)
       $file->load_by_id($weekmail->id_header);
     if($file->is_valid() && getimagesize($file->get_real_filename()))
-      $site->add_contents(new image('header',$file->get_real_filename()));
+      $site->add_contents(new image('header',$file->get_url()));
     else
       $file = new dfile($site->db);
     $frm = new form('custom', '?', false, 'post', 'Personalisation du weekmail');
