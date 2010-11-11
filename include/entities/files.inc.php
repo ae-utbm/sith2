@@ -561,6 +561,31 @@ class dfile extends fs
   }
 
   /**
+   * Donne l'url du fichier.
+   */
+  function get_url()
+  {
+    global $wwwtopdir;
+    return $wwwtopdir."d.php?id_file=".$this->id."&amp;action=download";
+  }
+  /**
+   * Donne l'url de l'aperçu.
+   */
+  function get_preview_url()
+  {
+    global $wwwtopdir;
+    return $wwwtopdir."d.php?id_file=".$this->id."&amp;action=download&amp;download=preview";
+  }
+  /**
+   * Donne l'url de l'aperçu.
+   */
+  function get_thumb_url()
+  {
+    global $wwwtopdir;
+    return $wwwtopdir."d.php?id_file=".$this->id."&amp;action=download&amp;download=thumb";
+  }
+
+  /**
    * Donne le nom de la version écran sur le serveur.
    * Les fichiers ne doivent pas être accessibles depuis l'exterieur.
    */

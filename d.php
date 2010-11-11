@@ -387,7 +387,7 @@ if ( $file->is_valid() )
 
     $actions = array();
 
-  $filename = $file->get_thumb_filename();
+  $filename = $file->get_thumb_url();
   if ( !file_exists($filename) )
     $filename = $topdir."images/icons/128/".$file->get_icon_name();
   else
