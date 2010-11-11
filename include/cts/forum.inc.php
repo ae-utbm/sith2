@@ -49,6 +49,8 @@ function nosecret_findname ( $matches )
 {
   global $site;
 
+  print_r($matches);
+
   if ( preg_match("`^__([a-zA-z0-9]*)__$`",$matches[2]) )
     return $matches[1];
 
