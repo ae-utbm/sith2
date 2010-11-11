@@ -387,13 +387,14 @@ if ( $file->is_valid() )
 
     $actions = array();
 
-  $filename = $file->get_thumb_url();
+  $filename = $file->get_thumb_filename();
   if ( !file_exists($filename) )
     $filename = $topdir."images/icons/128/".$file->get_icon_name();
   else
     $actions[] = "<a href=\"d.php?id_file=".$file->id."&amp;action=download&amp;download=preview\">Aperçu</a>";
 
-  $cts->add(new image("Miniature",$filename,"imgright"));
+  $thumburl = $file->get_thumb_filename();
+  $cts->add(new image("Miniature",$thumburl,"imgright"));
   $cts->add( new wikicontents ("Description",$file->description),true );
 
   $actions[] = "<a href=\"d.php?id_file=".$file->id."&amp;action=download\">T&eacute;l&eacute;charger</a>";
