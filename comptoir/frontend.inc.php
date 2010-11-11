@@ -74,7 +74,7 @@ if ( $_REQUEST["action"] == "logclient" && count($site->comptoir->operateurs))
 else if ( ($_REQUEST["action"] == "vente" || $_REQUEST["action"] == "ventefin" || $_REQUEST["action"] == "venteann" || $_REQUEST["action"] == "venteanc")
   && count($site->comptoir->operateurs) )
 {
-
+  $ok = true;
   if ( !strcasecmp($_REQUEST["code_barre"],"FIN") || isset($_REQUEST['ventefin']) )
   {
     if ( $site->comptoir->mode == "book" )
@@ -99,7 +99,6 @@ else if ( ($_REQUEST["action"] == "vente" || $_REQUEST["action"] == "ventefin" |
     else
     {
       // on gere les produits ajoutes via javascript
-      $ok = true;
       $strBarCodes = $_REQUEST["nouveaux_produits"];
 
       $arrayBarCode = explode(";", $strBarCodes);
@@ -125,15 +124,13 @@ else if ( ($_REQUEST["action"] == "vente" || $_REQUEST["action"] == "ventefin" |
 
           if ( $produit->id > 0 )
           {
-            $ok = $ok & $site->comptoir->ajout_pannier($produit);
+            $ok = $ok & $site->comptoir->ajout_pannier($produit, $err);
+            if (!empty($err) && empty($Erreur))
+              $Erreur = $err;
           }
         }
       }
-      if ( !$ok )
-      {
-        $Erreur = "Solde ou stock insuffisant";
-      }
-      else
+      if ($ok)
       {
         list($client,$vendus) = $site->comptoir->vendre_panier();
 
@@ -159,25 +156,28 @@ else if ( ($_REQUEST["action"] == "vente" || $_REQUEST["action"] == "ventefin" |
 
     if ( $bk->id > 0 )
     {
-    if ( $bk->id_salle != $site->comptoir->id_salle )
-      $Erreur = "Livre/BD venant d'un autre lieu !!";
-    else
-    {
-      $emp->load_by_objet($bk->id);
-      if ( $emp->id > 0 )
-      {
-        $emp->back_objet($bk->id);
-        $message = "Livre/BD marquée comme restituée";
-      }
+      if ( $bk->id_salle != $site->comptoir->id_salle )
+        $Erreur = "Livre/BD venant d'un autre lieu !!";
       else
-        $site->comptoir->ajout_pannier($bk);
-    }
+      {
+        $emp->load_by_objet($bk->id);
+        if ( $emp->id > 0 )
+        {
+          $emp->back_objet($bk->id);
+          $message = "Livre/BD marquée comme restituée";
+        }
+        else
+        {
+          $ok = $ok & $site->comptoir->ajout_pannier($bk, $err);
+          if (!empty($err) && empty($Erreur))
+            $Erreur = $err;
+        }
+      }
     }
   }
   else
   {
     $num = 1;
-    $ok = true;
     $cbar = $_REQUEST["code_barre"];
     $produit = new produit($site->db);
 
@@ -192,10 +192,11 @@ else if ( ($_REQUEST["action"] == "vente" || $_REQUEST["action"] == "ventefin" |
     if ( $produit->id > 0 )
     {
       for ( $i = 0 ; $i<$num ; $i++ )
-        $ok = $ok & $site->comptoir->ajout_pannier($produit);
-
-      if ( !$ok )
-        $Erreur = "Solde ou stock insuffisant";
+      {
+        $ok = $ok & $site->comptoir->ajout_pannier($produit, $err);
+        if (!empty($err) && empty($Erreur))
+          $Erreur = $err;
+      }
     }
     else
     {
@@ -217,13 +218,16 @@ else if ( ($_REQUEST["action"] == "vente" || $_REQUEST["action"] == "ventefin" |
             $message = "Livre/BD marqué comme restituée";
           }
           else
-            $site->comptoir->ajout_pannier($bk);
+          {
+            $ok = $ok & $site->comptoir->ajout_pannier($bk, $err);
+            if (!empty($err) && empty($Erreur))
+              $Erreur = $err;
+          }
         }
       }
     }
 
     // on gere les produits ajoutes via javascript
-    $ok = true;
     $strBarCodes = $_REQUEST["nouveaux_produits"];
 
     $arrayBarCode = explode(";", $strBarCodes);
@@ -249,13 +253,12 @@ else if ( ($_REQUEST["action"] == "vente" || $_REQUEST["action"] == "ventefin" |
 
         if ( $produit->id > 0 )
         {
-          $ok = $ok & $site->comptoir->ajout_pannier($produit);
+          $ok = $ok & $site->comptoir->ajout_pannier($produit, $err);
+          if (!empty($err) && empty($Erreur))
+            $Erreur = $err;
         }
       }
     }
-
-    if ( !$ok )
-      $Erreur = "Solde ou stock insuffisant";
   }
 }
 /*

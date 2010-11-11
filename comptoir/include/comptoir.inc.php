@@ -552,20 +552,30 @@ class comptoir extends stdentity
    * en mode "book" ajoute un libre
    *
    * @param prod un objet de type produit ou livre (en mode "book")
+   * @param error the error message
    * @return true si succès, false sinon
    */
-  function ajout_pannier ($prod)
+  function ajout_pannier ($prod, &$error)
   {
     if (!count($this->operateurs))
+    {
+      $error = "Pas de vendeur connecté";
       return false;
+    }
 
     if ( !$this->client->is_valid() < 0)
+    {
+      $error = "Client non valide";
       return false;
+    }
 
     if ( $this->mode == "book" )
     {
       if ( $prod->id <= 0 || $prod->id_salle != $this->id_salle )
+      {
+        $error = "Produit invalide ou utilisé dans le mauvais lieux";
         return false;
+      }
 
       $this->panier[] = $prod;
       $_SESSION["Comptoirs"][$this->id]["panier"][] = $prod->id;
@@ -582,16 +592,25 @@ class comptoir extends stdentity
                 $max --;
       }
       if ( $max <= 0 )
-        return;
+      {
+        $error = "Limite de vente par personne atteinte";
+        return false;
+      }
     }
 
     if (!$this->client->credit_suffisant($this->calcule_somme () + $prod->obtenir_prix ($this->prix_barman,$this->client)))
+    {
+      $error = "Solde insuffisant";
       return false;
+    }
 
     $vp = new venteproduit($this->db,$this->dbrw);
 
     if (!$vp->charge($prod,$this))
+    {
+      $error = "Stock insuffisant";
       return false;
+    }
 
     $vp->bloquer($this->client);
 
