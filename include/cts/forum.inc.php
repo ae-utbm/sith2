@@ -94,7 +94,7 @@ function nosecret_findname ( $matches )
  */
 function nosecret ( $text )
 {
-  return preg_replace_callback("`([^a-zA-Z0-9]|^)([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9]*_([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9_\-]| _)*)([^a-zA-Z0-9]|$)`","nosecret_findname",$text);
+  return preg_replace_callback("`([^a-zA-Z0-9]|^)([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9\-]*_([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9_\-]| _)*)([^a-zA-Z0-9]|$)`","nosecret_findname",$text);
 }
 
 
