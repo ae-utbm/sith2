@@ -977,9 +977,9 @@ if (window.addEventListener) {
       if ((e.keyCode == leftKey) || (e.keyCode == rightKey))
       {
         if (e.keyCode == leftKey)
-          linkDiv = document.getElementById('prev');
-        else
           linkDiv = document.getElementById('back');
+        else
+          linkDiv = document.getElementById('next');
         if (linkDiv != null)
         {
           fct = linkDiv.getElementsByTagName('a')[0].getAttributeNode("onclick").value
