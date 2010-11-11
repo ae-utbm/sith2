@@ -389,11 +389,13 @@ if ( $file->is_valid() )
 
   $filename = $file->get_thumb_filename();
   if ( !file_exists($filename) )
-    $filename = $topdir."images/icons/128/".$file->get_icon_name();
+    $thumburl = $topdir."images/icons/128/".$file->get_icon_name();
   else
+  {
+    $thumburl = $file->get_thumb_filename();
     $actions[] = "<a href=\"d.php?id_file=".$file->id."&amp;action=download&amp;download=preview\">Aperçu</a>";
+  }
 
-  $thumburl = $file->get_thumb_filename();
   $cts->add(new image("Miniature",$thumburl,"imgright"));
   $cts->add( new wikicontents ("Description",$file->description),true );
 
