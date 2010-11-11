@@ -72,6 +72,9 @@ class userinfo extends stdcontents
     require_once($topdir . "include/entities/ville.inc.php");
     require_once($topdir . "include/entities/pays.inc.php");
 
+    if (!isset($this->surnom))
+      $user->load_all_extra();
+
     $this->title = $user->prenom." ".$user->nom;
 
     $ville = new ville($user->db);
