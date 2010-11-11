@@ -436,10 +436,13 @@ else if ( $site->comptoir->client->id > 0 )
     $frm->puts('<input type="submit" class="isubmit" value="Annuler commande" name="venteanc" id="venteanc" />'."\n");
     $cts->add($frm);
 
+    // bouton "annuler le dernier produit", marche uniquement pour les produits ajoutés au clavier
+    /*
     $frm = new form ("venteann","?id_comptoir=".$site->comptoir->id);
     $frm->add_hidden("action","venteann");
     $frm->puts('<input type="submit" class="isubmit" value="Annuler dernier" name="venteann" id="venteann" />'."\n");
     $cts->add($frm);
+    */
 
     $frm = new form ("ventefin","?id_comptoir=".$site->comptoir->id);
     $frm->add_hidden("action","ventefin");
