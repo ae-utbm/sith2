@@ -65,7 +65,7 @@ class productinfo extends stdcontents
 
       if ($product->id_file)
       {
-          $this->buffer .= "<img src=\"".$wwwtopdir."d.php?id_file=".$product->id_file."&amp;action=download&amp;download=preview\" alt=\"\" class=\"fiche_image\" title=\"".$produit->nom."\" alt=\"".$produit->nom."\"/>\n";
+          $this->buffer .= "<img src=\"".$wwwtopdir."../d.php?id_file=".$product->id_file."&amp;action=download&amp;download=preview\" alt=\"\" class=\"fiche_image\" title=\"".$produit->nom."\" alt=\"".$produit->nom."\"/>\n";
       }
       else
         $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image\" />\n";
