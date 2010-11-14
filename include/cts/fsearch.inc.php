@@ -280,6 +280,7 @@ class fsearch extends stdcontents
       "SELECT *, (SELECT date_debut_eve FROM nvl_dates WHERE nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle ORDER BY date_debut_eve LIMIT 1) AS `date_debut_eve` " .
       "FROM `nvl_nouvelles` " .
       "WHERE titre_nvl REGEXP '".$sqlpattern."' " .
+      "AND modere_nvl ='1' " .
       "ORDER BY date_nvl " .
       "DESC LIMIT 3");
 

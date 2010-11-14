@@ -169,6 +169,8 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
 
 if ( $news->id > 0 )
 {
+  if ((!$can_edit) && (!$news->modere))
+    $site->error_forbidden("accueil");
 
   $site->start_page ("accueil", $news->titre);
   $site->set_side_boxes("right",array("calendrier","lastnews"),"news_left");
