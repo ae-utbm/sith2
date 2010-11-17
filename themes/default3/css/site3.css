@@ -61,7 +61,8 @@ body
   background: #CCCCCC;
   margin: 0;
   padding: 0;
-  background-image: url("../images/global-top.png");
+  /* background-image: url("../images/global-top.png"); */
+  background-image: url("../images/fond-gala2010.jpg");
   background-repeat: no-repeat;
   background-position: top;
 }
