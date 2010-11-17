@@ -58,7 +58,8 @@
 }
 body
 {
-  background: #CCCCCC;
+  /*background: #CCCCCC*/;
+  background: #4B1D1D;
   margin: 0;
   padding: 0;
   /* background-image: url("../images/global-top.png"); */
