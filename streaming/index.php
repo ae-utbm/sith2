@@ -25,11 +25,11 @@
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 
-/* on défini des variables simples et efficaces */
+/*
 $rdd=array("title"=>"remise des diplômes",
            "intro"=>"Cette année, afin de faire participer les personnes non-conviées à la cérémonie de la Remise des Diplômes de l'<a href='http://www.utbm.fr'>Université de Technologie de Belfort-Montbéliard</a>, nous avons mis en place un service expérimental de diffusion de la cérémonie en direct.",
-           "date"=>"samedi 21 novembre 2009",
-           "h-debut"=>"15h",
+           "date"=>"samedi 20 novembre 2010",
+           "h-debut"=>"14h",
            "h-fin"=>"18h",
            "lieu"=>"à l'Axone de Montbéliard",
            "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<br /> <img src=\"utprod.png\" alt=\"UTBM Production\" title=\"UTBM Production\" /> <img src=\"logos_rdd.gif\" alt=\"partenaires\ title=\"partenaires\" />",
@@ -61,7 +61,6 @@ $ff1j=array("title"=>"Festival du film d'un jour",
               "photo"=>"photo_congres.png",
               "type"=>"La retransmission"
           );
-*/
 $congres=array("title"=>"Congrès industriel 2009",
                 "intro"=>"
 Mercredi 7 octobre er jeudi 8 octobre se déroule le Congrès industriel à Sevenans. Durant ces deux jours, venez rencontrer les <a href='http://ae.utbm.fr/d.php?action=download&id_file=4524'>entreprises</a> et assister aux <a href='http://ae.utbm.fr/d.php?action=download&id_file=4522'>conférences</a>.",
@@ -77,6 +76,7 @@ Mercredi 7 octobre er jeudi 8 octobre se déroule le Congrès industriel à Seve
             );
 
 $event=$rdd;
+*/
 
 $site = new site ();
 
@@ -84,10 +84,10 @@ $site->set_side_boxes("left",array());
 $site->set_side_boxes("right",array());
 
 
-$site->start_page("none","Les étoiles du libre");
+$site->start_page("none","Remise des diplômes 2010");
 
 $cts = new contents("Présentation");
-$cts->add_paragraph("Grâce au travail d'UTBM-Productions pendant la conférence, nous vous offrons en direct les images montées afin de profiter, chez vous, de la conférence. Nous remercions l'ensemble des bénévoles et partenaires.");
+$cts->add_paragraph("Grâce au travail de l'équipe informatique de l'Association des Étudiants et d'UTBM-Productions pendant la conférence, nous vous offrons en direct les images montées afin de profiter chez vous de la conférence. Nous remercions l'ensemble des bénévoles et partenaires.");
 $site->add_contents($cts);
 
 $cts = new contents("Suivre en direct");
