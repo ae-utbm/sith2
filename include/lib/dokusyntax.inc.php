@@ -1126,7 +1126,7 @@ class dokusyntax
     libxml_use_internal_errors(true);
     $dom = new DOMDocument;
 
-    if (!$dom->loadHTML($reponse))
+    if (!$dom->loadHTMLFile($reponse))
       return '';
     else
     {
