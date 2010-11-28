@@ -1106,8 +1106,8 @@ class dokusyntax
       return '';
 
     $session = curl_init($oembed_url);
-    curl_setopt ($session, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($session);
+    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+    $reponse = curl_exec($session);
     $error = curl_error($session);
     curl_close($session);
 
@@ -1124,19 +1124,12 @@ class dokusyntax
 
   function get_oembed_url($url)
   {
-    print $url;
     $session = curl_init($url);
-    curl_setopt ($session, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($session);
-    if (empty($reponse))
-      print "aa";
+    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($session, CURLOPT_FOLLOWLOCATION, true);
+    $reponse = curl_exec($session);
     $error = curl_error($session);
     curl_close($session);
-
-    if (empty($reponse))
-      print "bb";
-
-    print_r($reponse);
 
     if ( !empty($error) )
       return '';
