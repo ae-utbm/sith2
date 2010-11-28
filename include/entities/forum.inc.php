@@ -413,6 +413,33 @@ class forum extends basedb
 
   }
 
+  function get_modere_info($id_message)
+  {
+    $query = "SELECT frm_modere_info.*,
+            CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) alias_utl
+            FROM frm_modere_info
+            LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=frm_modere_info.id_utilisateur )
+            WHERE id_message='".$id_message."'";
+    $req = new requete($this->db,$query);
+
+    $rows = array();
+
+    while ( $row = $req->get_row() )
+    {
+      $message = human_date(strtotime($row['date_message']))." : ";
+      if ($row['modere_action'] == 'DELETE')
+        $message = "message supprimé par ".$row['alias_utl'];
+      elseif ($row['modere_action'] == 'UNDELETE')
+        $message = "message rétabli par ".$row['alias_utl'];
+      elseif ($row['modere_action'] == 'EDIT')
+        $message = "message modifié par ".$row['alias_utl'];
+
+      $rows[] = $row;
+    }
+
+    return $rows;
+  }
+
 
 }
 

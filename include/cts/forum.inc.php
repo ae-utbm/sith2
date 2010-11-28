@@ -453,7 +453,7 @@ class sujetforum extends stdcontents
       else // text
         $this->buffer .= nl2br(htmlentities($row['contenu_message'],ENT_NOQUOTES,"UTF-8"));
 
-      if ($row['frm_modere_info'] && ($forum->is_admin($user)))
+      if ($row['msg_modere_info'] && ($forum->is_admin($user)))
       {
         $modere_info = $forum->get_modere_info($row['id_message']);
         foreach($modere_info as $info)
