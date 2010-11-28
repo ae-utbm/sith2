@@ -301,7 +301,7 @@ if ( $_REQUEST['page'] == 'undelete' )
     $user = new utilisateur($site->db);
     $user->load_by_id($message->id_utilisateur);
 
-      if ($user->is_in_group("moderateur_forum")
+      if ($site->user->is_in_group("moderateur_forum")
       && $site->is_sure("", "Rétablir le message ".$message->id." de ".$user->prenom." ".$user->nom." du ".human_date($message->date).".", 1))
     {
       $ret =$message->undelete($forum, $sujet, $site->user->id);
