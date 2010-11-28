@@ -1130,6 +1130,8 @@ class dokusyntax
     $error = curl_error($session);
     curl_close($session);
 
+    print_r($reponse);
+
     if ( !empty($error) )
       return '';
     else
