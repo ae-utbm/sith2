@@ -1135,12 +1135,13 @@ class dokusyntax
       return '';
     else
     {
-      $xml = simplexml_load_string($reponse);
-      print_r($xml);
+      $dom = new DOMDocument;
+      $dom->loadHTMLFile($url);
+      $xml = simplexml_import_dom($dom);
 
       foreach($xml->head->link as $lnk)
       {
-        if (($lnk['rel'] == "alternate") && ($lnk['type'] == "application/json+oembed"))
+        if (($lnk['rel'] == "alternate") && ($lnk['type'] == "application/xml+oembed"))
           return $lnk['href'];
       }
     }
