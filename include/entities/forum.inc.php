@@ -428,11 +428,11 @@ class forum extends basedb
     {
       $message = human_date(strtotime($row['date_message']))." : ";
       if ($row['modere_action'] == 'DELETE')
-        $message = "message supprimé par ".$row['alias_utl'];
+        $message .= "message supprimé par ".$row['alias_utl'];
       elseif ($row['modere_action'] == 'UNDELETE')
-        $message = "message rétabli par ".$row['alias_utl'];
+        $message .= "message rétabli par ".$row['alias_utl'];
       elseif ($row['modere_action'] == 'EDIT')
-        $message = "message modifié par ".$row['alias_utl'];
+        $message .= "message modifié par ".$row['alias_utl'];
 
       $rows[] = $message;
     }
