@@ -426,7 +426,7 @@ class forum extends basedb
 
     while ( $row = $req->get_row() )
     {
-      $message = human_date(strtotime($row['date_message']))." : ";
+      $message = human_date(strtotime($row['modere_date']))." : ";
       if ($row['modere_action'] == 'DELETE')
         $message .= "message supprimé par ".$row['alias_utl'];
       elseif ($row['modere_action'] == 'UNDELETE')
