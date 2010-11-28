@@ -1050,12 +1050,6 @@ class dokusyntax
     $sizes=trim($sizes);
     $params=trim($params);
     $url=trim($url);
-    if(empty($sizes) && empty($params))
-    {
-      $oembed_content = $this->oembed_fetch($url, 400);
-      if (!empty($oembed_content))
-        return $oembed_content;
-    }
     if(!preg_match("/^(http:\/\/)?([^\/]+)/i",$url))
       return '';
     $sizes=trim($sizes);
@@ -1077,6 +1071,12 @@ class dokusyntax
     {
       $x=400;
       $y=300;
+    }
+    if(empty($params))
+    {
+      $oembed_content = $this->oembed_fetch($url, $x);
+      if (!empty($oembed_content))
+        return $oembed_content;
     }
 
     $ret='<div class="externflash media'.$format['align'].'">';
@@ -1123,7 +1123,7 @@ class dokusyntax
     return $xml->html;
   }
 
-  function get_oembed_url($url, $maxwidth)
+  function get_oembed_url($url)
   {
     // Pour les plus courants on retourne direct l'url
     if(preg_match('/http\:\/\/.*\.youtube\.[^.]*\//',$url))
