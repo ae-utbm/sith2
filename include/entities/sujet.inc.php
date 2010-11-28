@@ -206,7 +206,7 @@ class sujet extends stdentity
   /**
    * Supprime le sujet et tous les éléments dépendants
    */
-  function delete ( &$forum )
+  function delete ( &$forum, $id_utilisateur )
   {
     if ( $forum->id != $this->id_forum )
       return;

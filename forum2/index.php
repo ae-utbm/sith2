@@ -262,7 +262,7 @@ if ( $_REQUEST['page'] == 'delete' )
       if ( $message_initial->id == $message->id ) // La supression du message initial, entraine la supression du sujet
         $sujet->delete($forum);
       else
-        $ret =$message->delete($forum, $sujet, $site->user);
+        $ret =$message->delete($forum, $sujet, $site->user->id);
 
       $cts = new contents("Suppression d'un message",
         "Message supprimé avec succès.");
@@ -282,7 +282,7 @@ if ( $_REQUEST['page'] == 'delete' )
         || ($sujet->id_utilisateur == $site->user->id))
         && $site->is_sure("", "Suppression du sujet ".$sujet->id." de ".$user->prenom." ".$user->nom." du ".human_date($sujet->date).". Ceci est irréversible.", 1))
     {
-      $ret =$sujet->delete($forum);
+      $ret =$sujet->delete($forum, $site->user->id);
       $cts = new contents("Suppression d'un sujet",
         "Sujet supprimé avec succès.");
     }
@@ -304,7 +304,7 @@ if ( $_REQUEST['page'] == 'undelete' )
       if ($user->is_in_group("moderateur_forum")
       && $site->is_sure("", "Rétablir le message ".$message->id." de ".$user->prenom." ".$user->nom." du ".human_date($message->date).".", 1))
     {
-      $ret =$message->undelete($forum, $sujet, $site->user);
+      $ret =$message->undelete($forum, $sujet, $site->user->id);
 
       $cts = new contents("Suppression d'un message",
         "Message supprimé avec succès.");
@@ -490,7 +490,7 @@ if ( $sujet->is_valid() )
               $sujet,
               $_REQUEST['title'],
               $text,
-              $_REQUEST['synengine'], $site->user);
+              $_REQUEST['synengine'], $site->user->id);
         $cts = new contents("Modification d'un message", "Message modifié");
       }
       else
@@ -512,7 +512,7 @@ if ( $sujet->is_valid() )
               $sujet,
               $_REQUEST['titre'],
               $text,
-              $_REQUEST['synengine'], $site->user);
+              $_REQUEST['synengine'], $site->user->id);
 
       $type=SUJET_NORMAL;
       $date_fin_annonce=null;
