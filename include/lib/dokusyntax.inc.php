@@ -1126,8 +1126,6 @@ class dokusyntax
                      'curl_error' => '',
                      'http_code' => '',
                      'last_url' => '');
-    print_r("plop");
-    print_r($response);
     if ( !empty($error) )
       return 'Une erreur s\'est produite :/';
     else
@@ -1137,7 +1135,6 @@ class dokusyntax
       $result['body'] = substr( $response, $header_size );
       $result['http_code'] = curl_getinfo($session, CURLINFO_HTTP_CODE);
       $result['last_url'] = curl_getinfo($session, CURLINFO_EFFECTIVE_URL);
-      print_r($result);
       list($header,  $result['header']) = explode("\n\n",  $result['header'], 2);
       $matches = array();
       preg_match('/'.$begin.'(.*?)'.$end.'/', $result['body'], $matches);
