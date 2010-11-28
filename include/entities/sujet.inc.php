@@ -225,7 +225,7 @@ class sujet extends stdentity
     new delete($this->dbrw,"frm_sujet",array("id_sujet"=>$this->id));
     new update($this->dbrw,"frm_message",array("msg_supprime"=>1, "msg_modere_info"=>1), array("id_message"=>$this->id));
     new delete($this->dbrw,"frm_sujet_utilisateur",array("id_sujet"=>$this->id));
-    new insert($this->dbrw,"frm_modere_info", array("id_message"=>id_message, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"DELETE"));
+    new insert($this->dbrw,"frm_modere_info", array("id_message"=>$id_message, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"DELETEFIRST"));
 
     $this->id = null;
 
