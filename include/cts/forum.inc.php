@@ -368,7 +368,7 @@ class sujetforum extends stdcontents
   $this->buffer .= "<a href=\"./?id_message=".
     $row['id_message']."#msg".$row['id_message']."\">";
 
-        if (!$row['msg_supprime'])
+        if ($row['msg_supprime'])
         {
           if ( $row['titre_message'] )
             $this->buffer .= "<h2 class=\"frmt\">Message supprimé: ".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";
