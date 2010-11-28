@@ -1052,7 +1052,7 @@ class dokusyntax
     $url=trim($url);
     if(empty($sizes) && empty($params))
     {
-      $oembed_content = $this->oembed_fetch($url);
+      $oembed_content = $this->oembed_fetch($url, 400);
       if (!empty($oembed_content))
         return $oembed_content;
     }
@@ -1096,12 +1096,15 @@ class dokusyntax
     return $ret.'</object></div>'.chr(13);
   }
 
-  function oembed_fetch($url)
+  function oembed_fetch($url, $maxwidth=False)
   {
     $oembed_url = $this->get_oembed_url($url);
 
     if (empty($oembed_url))
       return '';
+
+    if ($maxwidth)
+      $oembed_url .= "&maxwidth=".$maxwidth;
 
     $session = curl_init($oembed_url);
     curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
@@ -1120,8 +1123,16 @@ class dokusyntax
     return $xml->html;
   }
 
-  function get_oembed_url($url)
+  function get_oembed_url($url, $maxwidth)
   {
+    // Pour les plus courants on retourne direct l'url
+    if(preg_match('/http\:\/\/.*\.youtube\.[^.]*\//',$url))
+      return "http://www.youtube.com/oembed?format=xml&url=".$url;
+    elseif(preg_match('/http\:\/\/.*\.dailymotion.[^.]*\//',$url))
+      return "http://www.dailymotion.com/services/oembed?format=xml&url=".$url;
+    elseif(preg_match('/http\:\/\/.*\.vimeo.[^.]*\//',$url))
+      return "http://vimeo.com/api/oembed.xml?url=".$url;
+
     // Mais ta gueule !
     libxml_use_internal_errors(true);
     $dom = new DOMDocument;
