@@ -214,7 +214,7 @@ class sujet extends stdentity
     if ( !$this->dbrw ) return;
 
     // get first message id
-    $query = "SELECT frm_message.id_message, ".
+    $query = "SELECT frm_message.id_message FROM frm_message ".
         "WHERE id_sujet='".$this->id."' " .
         "ORDER BY frm_message.id_message ".
         "LIMIT 1";
