@@ -434,7 +434,7 @@ class forum extends basedb
       elseif ($row['modere_action'] == 'EDIT')
         $message = "message modifié par ".$row['alias_utl'];
 
-      $rows[] = $row;
+      $rows[] = $message;
     }
 
     return $rows;
