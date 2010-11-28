@@ -1136,7 +1136,7 @@ class dokusyntax
     else
     {
       $dom = new DOMDocument;
-      $dom->loadHTMLFile($url);
+      $dom->loadHTML($reponse);
       $xml = simplexml_import_dom($dom);
 
       foreach($xml->head->link as $lnk)
