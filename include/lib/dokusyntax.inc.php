@@ -1126,6 +1126,8 @@ class dokusyntax
                      'curl_error' => '',
                      'http_code' => '',
                      'last_url' => '');
+    print_r("plop");
+    print_r($response);
     if ( !empty($error) )
       return 'Une erreur s\'est produite :/';
     else
