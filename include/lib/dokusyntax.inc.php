@@ -1052,7 +1052,7 @@ class dokusyntax
     $url=trim($url);
     if(empty($sizes) && empty($params))
     {
-      $oembed_content = oembed_fetch($url);
+      $oembed_content = $this->oembed_fetch($url);
       if (!empty($oembed_content))
         return $oembed_content;
     }
@@ -1098,7 +1098,7 @@ class dokusyntax
 
   function oembed_fetch($url)
   {
-    $oembed_url = get_oembed_url($url);
+    $oembed_url = $this->get_oembed_url($url);
 
     if (empty($oembed_url))
       return '';
