@@ -1124,11 +1124,17 @@ class dokusyntax
 
   function get_oembed_url($url)
   {
+    print $url;
     $session = curl_init($url);
     curl_setopt ($session, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($session);
+    if (empty($reponse))
+      print "aa";
     $error = curl_error($session);
     curl_close($session);
+
+    if (empty($reponse))
+      print "bb";
 
     print_r($reponse);
 
