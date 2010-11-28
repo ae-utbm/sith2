@@ -1136,7 +1136,7 @@ class dokusyntax
     {
       $xml = simplexml_load_string($reponse);
 
-      foreach($xml->head[0]->link as $lnk)
+      foreach($xml->head->link as $lnk)
       {
         if (($lnk['rel'] == "alternate") && ($lnk['type'] == "application/json+oembed"))
           return $lnk['href'];
