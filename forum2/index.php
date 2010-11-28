@@ -262,7 +262,7 @@ if ( $_REQUEST['page'] == 'delete' )
       if ( $message_initial->id == $message->id ) // La supression du message initial, entraine la supression du sujet
         $sujet->delete($forum);
       else
-        $ret =$message->delete($forum, $sujet);
+        $ret =$message->delete($forum, $sujet, $site->user);
 
       $cts = new contents("Suppression d'un message",
         "Message supprimé avec succès.");
@@ -275,8 +275,12 @@ if ( $_REQUEST['page'] == 'delete' )
   }
   elseif ( $sujet->is_valid() )
   {
-    if (($forum->is_admin($site->user))
+    $user = new utilisateur($site->db);
+    $user->load_by_id($sujet->id_utilisateur);
+
+    if ((($forum->is_admin($site->user))
         || ($sujet->id_utilisateur == $site->user->id))
+        && $site->is_sure("", "Suppression du sujet ".$sujet->id." de ".$user->prenom." ".$user->nom." du ".human_date($sujet->date).". Ceci est irréversible.", 1))
     {
       $ret =$sujet->delete($forum);
       $cts = new contents("Suppression d'un sujet",
@@ -285,6 +289,29 @@ if ( $_REQUEST['page'] == 'delete' )
     else
       $cts = new contents("Suppression d'un Sujet",
         "Vous n'avez pas les autorisations nécessaires pour supprimer ce sujet.");
+
+    $site->add_contents($cts);
+  }
+}
+if ( $_REQUEST['page'] == 'undelete' )
+{
+  $site->allow_only_logged_users("forum");
+  if ( $message->is_valid() )
+  {
+    $user = new utilisateur($site->db);
+    $user->load_by_id($message->id_utilisateur);
+
+      if ($user->is_in_group("moderateur_forum")
+      && $site->is_sure("", "Rétablir le message ".$message->id." de ".$user->prenom." ".$user->nom." du ".human_date($message->date).".", 1))
+    {
+      $ret =$message->undelete($forum, $sujet, $site->user);
+
+      $cts = new contents("Suppression d'un message",
+        "Message supprimé avec succès.");
+    }
+    else
+      $cts = new contents("Suppression d'un message",
+        "Vous n'avez pas les autorisations nécessaires pour rétablir ce message.");
 
     $site->add_contents($cts);
   }

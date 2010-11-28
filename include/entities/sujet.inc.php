@@ -62,18 +62,18 @@ class sujet extends stdentity
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `frm_sujet`
-				WHERE `id_sujet` = '" .
-		       mysql_real_escape_string($id) . "'
-				LIMIT 1");
+        WHERE `id_sujet` = '" .
+           mysql_real_escape_string($id) . "'
+        LIMIT 1");
 
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
 
-		$this->id = null;
-		return false;
+    $this->id = null;
+    return false;
   }
 
   function _load($row)
@@ -141,14 +141,14 @@ class sujet extends stdentity
               "id_sondage"=>$this->id_sondage
             ));
 
-		if ( $req )
-		{
-			$this->id = $req->get_id();
-			$this->auto_user_star($forum,true);
-		  return true;
-		}
+    if ( $req )
+    {
+      $this->id = $req->get_id();
+      $this->auto_user_star($forum,true);
+      return true;
+    }
 
-		$this->id = null;
+    $this->id = null;
     return false;
   }
   //      $forum->update_last_sujet();
@@ -212,9 +212,21 @@ class sujet extends stdentity
       return;
 
     if ( !$this->dbrw ) return;
+
+    // get first message id
+    $query = "SELECT frm_message.id_message, ".
+        "WHERE id_sujet='".$this->id."' " .
+        "ORDER BY frm_message.id_message ".
+        "LIMIT 1";
+    $req = new requete($this->db,$query);
+    $row = $req->get_row();
+    $id_message = $row['id_message'];
+
     new delete($this->dbrw,"frm_sujet",array("id_sujet"=>$this->id));
-    new delete($this->dbrw,"frm_message",array("id_sujet"=>$this->id));
+    new update($this->dbrw,"frm_message",array("msg_supprime"=>1, "msg_modere_info"=>1), array("id_message"=>$this->id));
     new delete($this->dbrw,"frm_sujet_utilisateur",array("id_sujet"=>$this->id));
+    new insert($this->dbrw,"frm_modere_info", array("id_message"=>id_message, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"DELETE"));
+
     $this->id = null;
 
     $forum->update_last_sujet();
@@ -232,8 +244,8 @@ class sujet extends stdentity
       return;
 
     $req = new requete($this->db,
-  		"SELECT `id_utilisateur` FROM `asso_membre` " .
-  		"WHERE `asso_membre`.`date_fin` IS NULL AND `asso_membre`.`id_asso`='".$forum->id_asso."' ");
+      "SELECT `id_utilisateur` FROM `asso_membre` " .
+      "WHERE `asso_membre`.`date_fin` IS NULL AND `asso_membre`.`id_asso`='".$forum->id_asso."' ");
 
     while ( list($id_utilisateur) = $req->get_row() )
     {
@@ -248,14 +260,15 @@ class sujet extends stdentity
   /**
    * Met à jour le dernier message posté et le nombre de messages
    */
-	function update_last_message ( &$forum )
+  function update_last_message ( &$forum )
   {
     $req = new requete($this->db,
       "SELECT id_message ".
       "FROM `frm_message` ".
-		  "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ".
-		  "ORDER BY `date_message` DESC ".
-		  "LIMIT 1");
+      "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ".
+      "AND msg_supprime = '0' ".
+      "ORDER BY `date_message` DESC ".
+      "LIMIT 1");
 
     if ( $req->lines == 0 )
     {
@@ -268,7 +281,7 @@ class sujet extends stdentity
     $req = new requete($this->db,
       "SELECT COUNT(*) ".
       "FROM `frm_message` ".
-		  "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ");
+      "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ");
 
     list($this->nb_messages) = $req->get_row();
 
@@ -281,14 +294,14 @@ class sujet extends stdentity
   function get_user_infos ( $id_utilisateur )
   {
     $req = new requete($this->db, "SELECT id_message_dernier_lu, etoile_sujet FROM `frm_sujet_utilisateur`
-				WHERE `id_sujet` = '".mysql_real_escape_string($this->id) . "'
-		    AND `id_utilisateur` = '".mysql_real_escape_string($id_utilisateur) . "'
-				LIMIT 1");
+        WHERE `id_sujet` = '".mysql_real_escape_string($this->id) . "'
+        AND `id_utilisateur` = '".mysql_real_escape_string($id_utilisateur) . "'
+        LIMIT 1");
 
-		if ( $req->lines == 0 )
-		  return null;
+    if ( $req->lines == 0 )
+      return null;
 
-		return $req->get_row();
+    return $req->get_row();
   }
 
   /**
@@ -304,7 +317,7 @@ class sujet extends stdentity
     if ( is_null($row) )
       return null;
 
-		return $row['id_message_dernier_lu'];
+    return $row['id_message_dernier_lu'];
   }
 
   /**
@@ -353,7 +366,7 @@ class sujet extends stdentity
     }
   }
 
-  function get_messages ( &$user, $st, $npp, $order = 'ASC' )
+  function get_messages ( &$user, $st, $npp, $order = 'ASC', $isAdmin = false )
   {
     if ($order != 'ASC')
       $order = 'DESC';
@@ -371,17 +384,47 @@ class sujet extends stdentity
         "LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=frm_message.id_utilisateur ) " .
         "LEFT JOIN utl_etu_utbm ON ( utl_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) " .
         "WHERE id_sujet='".$this->id."' " .
+        ($isAdmin ? "" : "AND msg_supprime='0' ").
         "ORDER BY frm_message.id_message $order ".
         "LIMIT $st, $npp";
 
     $req = new requete($this->db,$query);
 
-	  $rows = array();
+    $rows = array();
 
-	  while ( $row = $req->get_row() )
-	    $rows[] = $row;
+    while ( $row = $req->get_row() )
+      $rows[] = $row;
 
-	  return $rows;
+    return $rows;
+  }
+
+  function get_modere_info($id_message)
+  {
+    $query = "SELECT frm_modere_info.*,
+            CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) alias_utl
+            FROM frm_modere_info
+            LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=frm_modere_info.id_utilisateur )
+            WHERE id_message='".$id_message."'";
+    $req = new requete($this->db,$query);
+
+    $rows = array();
+
+    while ( $row = $req->get_row() )
+    {
+      $message = human_date(strtotime($row['date_message']))." : ";
+      if ($row['modere_action'] == 'DELETE')
+        $message = "message supprimé par ".$row['alias_utl'];
+      elseif ($row['modere_action'] == 'UNDELETE')
+        $message = "message rétabli par ".$row['alias_utl'];
+      elseif ($row['modere_action'] == 'EDIT')
+        $message = "message modifié par ".$row['alias_utl'];
+
+      $rows[] = $row;
+    }
+
+    return $rows;
+
+
   }
 
 }

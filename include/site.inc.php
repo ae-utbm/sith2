@@ -943,6 +943,7 @@ class site extends interfaceweb
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$this->user->id."')) ";
     }
+    $query .= "AND msg_supprime='0' ";
 
     $query_fav = $query."AND frm_sujet_utilisateur.etoile_sujet='1' ";
     $query_fav .= "ORDER BY frm_message.date_message DESC ";

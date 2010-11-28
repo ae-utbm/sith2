@@ -309,7 +309,7 @@ class sujetforum extends stdcontents
     else
       $last_read = null;
 
-    $rows = $sujet->get_messages ( $user, $start, $npp, $order );
+    $rows = $sujet->get_messages ( $user, $start, $npp, $order, $forum->is_admin($user));
 
     $this->buffer .= "<div class=\"fmsgsliste\">\n";
 
@@ -332,7 +332,11 @@ class sujetforum extends stdcontents
       ( is_null($last_read) || $last_read < $row['id_message'] ) &&
       ( is_null($user->tout_lu_avant) || $t > $user->tout_lu_avant ) )
       {
-        $this->buffer .= "<div class=\"fmsgentry nonlu\" id=\"msg".$row['id_message']."\">\n";
+        if ($row['msg_supprime'])
+          $this->buffer .= "<div class=\"fmsgentry deleted\" id=\"msg".$row['id_message']."\">\n";
+          else
+            $this->buffer .= "<div class=\"fmsgentry nonlu\" id=\"msg".$row['id_message']."\">\n";
+
         if ( $firstunread )
         {
           $firstunread=false;
@@ -352,7 +356,9 @@ class sujetforum extends stdcontents
       }
       else
       {
-        if ( $n )
+        if ($row['msg_supprime'])
+          $this->buffer .= "<div class=\"fmsgentry deleted\" id=\"msg".$row['id_message']."\">\n";
+        elseif ( $n )
           $this->buffer .= "<div class=\"fmsgentry pair\" id=\"msg".$row['id_message']."\">\n";
         else
           $this->buffer .= "<div class=\"fmsgentry\" id=\"msg".$row['id_message']."\">\n";
@@ -389,11 +395,16 @@ class sujetforum extends stdcontents
           $this->buffer .= " | <a href=\"?page=edit&amp;id_sujet=".$sujet->id."\">Modifier</a> | ".
              "<a href=\"?page=delete&amp;id_sujet=".$sujet->id."&amp;spage=$spage\">Supprimer</a>";
         }
-        else
+        elseif (!$row['msg_supprime'])
         {
           $spage = ceil($start/$npp);
           $this->buffer .= " | <a href=\"?page=edit&amp;id_message=".$row['id_message']."\">Modifier</a> | ".
              "<a href=\"?page=delete&amp;id_message=".$row['id_message']."&amp;spage=$spage\">Supprimer</a>";
+        }
+        elseif ($user->is_in_group("moderateur_forum"))
+        {
+          $spage = ceil($start/$npp);
+           "<a href=\"?page=undelete&amp;id_message=".$row['id_message']."&amp;spage=$spage\">Rétablir</a>";
         }
       }
 
@@ -441,6 +452,13 @@ class sujetforum extends stdcontents
 
       else // text
         $this->buffer .= nl2br(htmlentities($row['contenu_message'],ENT_NOQUOTES,"UTF-8"));
+
+      if ($row['frm_modere_info'] && ($forum->is_admin($user)))
+      {
+        $modere_info = $forum->get_modere_info($row['id_message']);
+        foreach($modere_info as $info)
+          $this->buffer .= "<div class=\"modereinfo\">".$info."</div>\n";
+      }
 
       if ( !is_null($row['signature_utl']) )
       {

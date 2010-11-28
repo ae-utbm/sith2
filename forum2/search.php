@@ -276,6 +276,7 @@ if ( isset($_REQUEST["pattern"] ) )
       "(id_groupe_admin IN ($grps)) OR " .
       "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
   }
+  $sql .= "AND msg_supprime='0' ";
   $sql .= "ORDER BY date_message DESC ";
   $sql .= "LIMIT 50";
 

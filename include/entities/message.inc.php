@@ -156,9 +156,12 @@ class message extends stdentity
               "titre_message"=>$this->titre,
               "contenu_message"=>$this->contenu,
               "syntaxengine_message"=>$this->syntaxengine,
-              "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur
+              "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur,
+              "msg_modere_info"=>1,
             ),
             array("id_message"=>$this->id) );
+
+    new insert($this->dbrw,"frm_modere_info", array("id_message"=>$this->id, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"EDIT"));
   }
 
   function set_modere ( $id_utilisateur )
@@ -169,14 +172,25 @@ class message extends stdentity
         array("id_message"=>$this->id) );
   }
 
-  function delete ( &$forum, &$sujet )
+  function delete ( &$forum, &$sujet, $id_utilisateur )
   {
     if ( $forum->id != $sujet->id_forum || $sujet->id != $this->id_sujet )
       return;
 
-    new delete($this->dbrw,"frm_message",array("id_message"=>$this->id));
+    new update($this->dbrw,"frm_message",array("msg_supprime"=>1, "msg_modere_info"=>1), array("id_message"=>$this->id));
+    new insert($this->dbrw,"frm_modere_info", array("id_message"=>$this->id, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"DELETE"));
 
-    $this->id = null;
+    $sujet->update_last_message($forum);
+    $forum->update_last_sujet();
+  }
+
+  function undelete ( &$forum, &$sujet, $id_utilisateur )
+  {
+    if ( $forum->id != $sujet->id_forum || $sujet->id != $this->id_sujet )
+      return;
+
+    new update($this->dbrw,"frm_message",array("msg_supprime"=>0, "msg_modere_info"=>1), array("id_message"=>$this->id));
+    new insert($this->dbrw,"frm_modere_info", array("id_message"=>$this->id, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"UNDELETE"));
 
     $sujet->update_last_message($forum);
     $forum->update_last_sujet();
