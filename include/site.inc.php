@@ -1269,7 +1269,7 @@ class site extends interfaceweb
       $this->add_contents(new contents("Salle invalide","<p>Il n'est pas possible d'accèder à cette page depuis ce poste. En cas de problème, demandez à un administrateur de corriger la salle associée à ce poste.</p>"));
 
     else
-      $this->add_contents(new contents("Accés refusé","<p>Vos droits sont insuffisant pour accéder à cette page.</p>"));
+      $this->add_contents(new contents("Accés refusé","<p>Vos droits sont insuffisants pour accéder à cette page.</p>"));
     $this->end_page();
     exit();
   }
