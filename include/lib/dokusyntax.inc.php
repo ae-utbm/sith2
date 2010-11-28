@@ -1135,6 +1135,7 @@ class dokusyntax
     else
     {
       $xml = simplexml_load_string($reponse);
+      print_r($xml);
 
       foreach($xml->head->link as $lnk)
       {
