@@ -196,6 +196,16 @@ div.fmsgentry.pair
   background:#eff7ff;
 }
 
+div.fmsgentry.deleted
+{
+  background:#ffefef;
+}
+
+div.fmsgentry div.modereinfo
+{
+  backgroud:#ffffdf;
+}
+
 div.fmsgentry div.auteur
 {
   background:#d8e7f3;

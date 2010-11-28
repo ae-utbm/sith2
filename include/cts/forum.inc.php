@@ -404,7 +404,7 @@ class sujetforum extends stdcontents
         elseif ($user->is_in_group("moderateur_forum"))
         {
           $spage = ceil($start/$npp);
-           $this->buffer .= "<a href=\"?page=undelete&amp;id_message=".$row['id_message']."&amp;spage=$spage\">Rétablir</a>";
+           $this->buffer .= " | <a href=\"?page=undelete&amp;id_message=".$row['id_message']."&amp;spage=$spage\">Rétablir</a>";
         }
       }
 
