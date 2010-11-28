@@ -1134,7 +1134,7 @@ class dokusyntax
 
       foreach($xml->head->link as $lnk)
       {
-        if (($lnk['rel'] == "alternate") && ($lnk['type'] == "application/xml+oembed"))
+        if (($lnk['rel'] == "alternate") && ($lnk['type'] == "text/xml+oembed"))
           return $lnk['href'];
       }
     }
