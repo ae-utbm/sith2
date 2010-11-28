@@ -373,7 +373,7 @@ class sujetforum extends stdcontents
           if ( $row['titre_message'] )
             $this->buffer .= "<h2 class=\"frmt\">Message supprimé: ".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";
           else
-            $this->buffer .= "<h2 class=\"frmt\">>Message supprimé</h2>\n";
+            $this->buffer .= "<h2 class=\"frmt\">Message supprimé</h2>\n";
         }
         else
         {
