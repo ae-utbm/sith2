@@ -132,7 +132,7 @@ class message extends stdentity
     return false;
   }
 
-  function update ( &$forum, &$sujet, $titre, $contenu, $syntaxengine )
+  function update ( &$forum, &$sujet, $titre, $contenu, $syntaxengine, $id_utilisateur )
   {
     global $topdir;
 

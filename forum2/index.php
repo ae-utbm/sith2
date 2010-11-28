@@ -490,7 +490,7 @@ if ( $sujet->is_valid() )
               $sujet,
               $_REQUEST['title'],
               $text,
-              $_REQUEST['synengine']);
+              $_REQUEST['synengine'], $site->user);
         $cts = new contents("Modification d'un message", "Message modifié");
       }
       else
@@ -512,7 +512,7 @@ if ( $sujet->is_valid() )
               $sujet,
               $_REQUEST['titre'],
               $text,
-              $_REQUEST['synengine']);
+              $_REQUEST['synengine'], $site->user);
 
       $type=SUJET_NORMAL;
       $date_fin_annonce=null;
