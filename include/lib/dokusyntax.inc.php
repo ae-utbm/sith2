@@ -1099,8 +1099,6 @@ class dokusyntax
   function oembed_fetch($url)
   {
     $oembed_url = $this->get_oembed_url($url);
-    print $oembed_url;
-    return "";
 
     if (empty($oembed_url))
       return '';
@@ -1124,19 +1122,14 @@ class dokusyntax
 
   function get_oembed_url($url)
   {
-    $session = curl_init($url);
-    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($session, CURLOPT_FOLLOWLOCATION, true);
-    $reponse = curl_exec($session);
-    $error = curl_error($session);
-    curl_close($session);
+    // Mais ta gueule !
+    libxml_use_internal_errors(true);
+    $dom = new DOMDocument;
 
-    if ( !empty($error) )
+    if (!$dom->loadHTML($reponse))
       return '';
     else
     {
-      $dom = new DOMDocument;
-      $dom->loadHTML($reponse);
       $xml = simplexml_import_dom($dom);
 
       foreach($xml->head->link as $lnk)
