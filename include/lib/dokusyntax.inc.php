@@ -1052,25 +1052,9 @@ class dokusyntax
     $url=trim($url);
     if(empty($sizes) && empty($params))
     {
-      if(preg_match('/http\:\/\/www\.dailymotion\.com\//',$url) || preg_match('/http\:\/\/dailymotion\.com\//',$url))
-      {
-        return $this->stdvideofetch($url,'\<textarea (.*?)\>','\<\/textarea\>','&');
-      }
-      elseif(preg_match('/http\:\/\/www\.vimeo\.com\//',$url) || preg_match('/http\:\/\/vimeo\.com\//',$url))
-      {
-        $url=str_replace('http://www.vimeo.com/','',$url);
-        $url=str_replace('http://vimeo.com/','',$url);
-        $url='http://vimeo.com/moogaloop/load/clip:'.$url.'/embed?param_md5=0&param_context_id=undefined&param_force_embed=1&param_clip_id='.$url.'&param_show_portrait=0&param_color=00ADEF&param_multimoog=&param_server=vimeo.com&param_show_title=1&param_autoplay=0&param_show_byline=1&param_fullscreen=1&param_context=undefined&context=undefined&context_id=undefined';
-        return $this->stdvideofetch($url,'\<embed_code\>\<\!\[CDATA\[','\]\]\>\<\/embed_code\>');
-      }
-      elseif(preg_match('/http:\/\/video\.google\.(fr|com)/',$url))
-      {
-        return $this->stdvideofetch($url,'\<textarea rows\=\"4\" style\=\"width\:100\%\;\" onclick\=\"this\.select\(\)\;\"\>','\<\/textarea\>','&');
-      }
-      elseif(preg_match('/http\:\/\/www\.youtube\.com\//',$url) || preg_match('/http\:\/\/youtube\.com\//',$url))
-      {
-        return $this->stdvideofetch($url,'\<input id=\"embed\_code\" name\=\"embed\_code\" type\=\"text\" value\=\"','\" onClick(.*?)readonly \/\>','&');
-      }
+      $oembed_content = oembed_fetch($url);
+      if (!empty($oembed_content))
+        return $oembed_content;
     }
     if(!preg_match("/^(http:\/\/)?([^\/]+)/i",$url))
       return '';
@@ -1112,53 +1096,51 @@ class dokusyntax
     return $ret.'</object></div>'.chr(13);
   }
 
-  function stdvideofetch($url,$begin,$end,$first=false)
+  function oembed_fetch($url)
   {
-    $session = curl_init($url);
-    curl_setopt($session, CURLOPT_HEADER, true);
-    curl_setopt($session, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.9) Gecko/20071025 Firefox/2.0.0.9');
-    curl_setopt($session, CURLOPT_FOLLOWLOCATION, false);
-    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+    $oembed_url = get_oembed_url($url);
+
+    if (empty($oembed_url))
+      return '';
+
+    $session = curl_init($oembed_url);
     $response = curl_exec($session);
     $error = curl_error($session);
-    $result = array( 'header' => '',
-                     'body' => '',
-                     'curl_error' => '',
-                     'http_code' => '',
-                     'last_url' => '');
-    if ( !empty($error) )
-      return 'Une erreur s\'est produite :/';
-    else
-    {
-      $header_size = curl_getinfo($session,CURLINFO_HEADER_SIZE);
-      $result['header'] = substr($response, 0, $header_size);
-      $result['body'] = substr( $response, $header_size );
-      $result['http_code'] = curl_getinfo($session, CURLINFO_HTTP_CODE);
-      $result['last_url'] = curl_getinfo($session, CURLINFO_EFFECTIVE_URL);
-      list($header,  $result['header']) = explode("\n\n",  $result['header'], 2);
-      $matches = array();
-      preg_match('/'.$begin.'(.*?)'.$end.'/', $result['body'], $matches);
-      foreach($matches as $match)
-      {
-        if(!preg_match('/'.$begin.'/',$match) && !preg_match('/'.$end.'/',$match))
-        {
-          if(!$first)
-          {
-            curl_close($session);
-            return html_entity_decode($match,ENT_COMPAT,'UTF-8');
-          }
-          elseif($first && $match{0}==$first)
-          {
-            curl_close($session);
-            return html_entity_decode($match,ENT_COMPAT,'UTF-8');
-          }
-        }
-      }
-    }
     curl_close($session);
-    return 'Impossible de récupérer la vidéo :/';
+
+    if ( !empty($error) )
+      return 'Impossible de récupérer le fichier oEmbed de la vidéo.';
+
+    $xml = simplexml_load_string($reponse);
+
+    if (empty($xml->html))
+      return 'Fichier oEmbed non supporté.';
+
+    return $xml->html;
   }
 
+  function get_oembed_url($url)
+  {
+    $session = curl_init($url);
+    $response = curl_exec($session);
+    $error = curl_error($session);
+    curl_close($session);
+
+    if ( !empty($error) )
+      return '';
+    else
+    {
+      $xml = simplexml_load_string($reponse);
+
+      foreach($xml->head[0]->link as $lnk)
+      {
+        if (($lnk['rel'] == "alternate") && ($lnk['type'] == "application/json+oembed"))
+          return $lnk['href'];
+      }
+    }
+
+    return '';
+  }
 
   function alignment($texte)
   {
