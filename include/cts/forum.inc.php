@@ -368,10 +368,20 @@ class sujetforum extends stdcontents
   $this->buffer .= "<a href=\"./?id_message=".
     $row['id_message']."#msg".$row['id_message']."\">";
 
-        if ( $row['titre_message'] )
-          $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";
+        if (!$row['msg_supprime'])
+        {
+          if ( $row['titre_message'] )
+            $this->buffer .= "<h2 class=\"frmt\">Message supprimé: ".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";
+          else
+            $this->buffer .= "<h2 class=\"frmt\">>Message supprimé</h2>\n";
+        }
         else
-          $this->buffer .= "<h2 class=\"frmt\">&nbsp;</h2>\n";
+        {
+          if ( $row['titre_message'] )
+            $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";
+          else
+            $this->buffer .= "<h2 class=\"frmt\">&nbsp;</h2>\n";
+        }
       }
 
       $this->buffer .= "<p class=\"date\">".human_date($t)."</p>\n";
