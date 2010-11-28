@@ -1099,6 +1099,8 @@ class dokusyntax
   function oembed_fetch($url)
   {
     $oembed_url = $this->get_oembed_url($url);
+    print $oembed_url;
+    return "";
 
     if (empty($oembed_url))
       return '';
@@ -1121,6 +1123,7 @@ class dokusyntax
 
   function get_oembed_url($url)
   {
+    return "wtf";
     $session = curl_init($url);
     $response = curl_exec($session);
     $error = curl_error($session);
