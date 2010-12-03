@@ -31,8 +31,6 @@ $page = new page ($site->db,$site->dbrw);
 
 $section = CMS_PREFIX."accueil";
 
-$wwwtopdir = "../";
-
 if ( $site->is_user_admin() )
 {
   // Droits par défaut
