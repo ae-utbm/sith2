@@ -287,8 +287,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   $frm->add_info("Pour une question de type liste ou bouton radio, complétez impérativement le champ \"Réponses possibles\".");
   $frm->add_info("Formatage du champ \"Réponses possibles\" : valeur_1|La valeur 1;valeur_2|La valeur 2;...;valeur_z|La dernière valeur");
 
-  $req = new requete($site->db,
-		     "SELECT * FROM `cpg_question` WHERE `id_campagne` =".$cpg->id);
+  $req = new requete($site->db, "SELECT * FROM `cpg_question` WHERE `id_campagne` =".$cpg->id);
   $n = 0;
   while ( $row = $req->get_row() )
     {
@@ -308,13 +307,13 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
 
 
 }elseif(isset($_REQUEST["editcpg"]) &&
-	isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) &&
-	isset($_REQUEST["end_date"]) &&
-	isset($_REQUEST["description"]) &&
-	isset($_REQUEST["id_asso"]) &&
-	isset($_REQUEST["id_groupe"]) &&
-	isset($_REQUEST["questions"])
-	)
+    isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) &&
+    isset($_REQUEST["end_date"]) &&
+    isset($_REQUEST["description"]) &&
+    isset($_REQUEST["id_asso"]) &&
+    isset($_REQUEST["id_groupe"]) &&
+    isset($_REQUEST["questions"])
+    )
 {
   $cts=new contents();
   $nb_remove_question = 0;
@@ -373,7 +372,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   }elseif($nb_remove_question > 1){
     $cts->add_paragraph($nb_remove_question." questions ont &eacute;t&eacute; supprim&eacute;es ! ");
   }
-  $cts->add_paragraph("Campagne modifi&eacute;e avec succ&egrave ! ");
+  $cts->add_paragraph("Campagne modifi&eacute;e avec succ&egrave;s ! ");
   $site->add_contents($cts);
 
 
