@@ -58,10 +58,8 @@
 }
 body
 {
-  /* background: #CCCCCC; */
-  /*background-image: url("../images/global-top.png"); */
-  background: #fff;
-  background-image: url("../images/fond_noel_candidatures.jpg");
+  background: #CCCCCC;
+  background-image: url("../images/global-top.png");
   margin: 0;
   padding: 0;
   background-repeat: no-repeat;
