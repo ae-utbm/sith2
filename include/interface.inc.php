@@ -516,6 +516,9 @@ class interfaceweb
 
       foreach ( $links as $entry )
       {
+        if (($entry[0] == "forum2/admin/") && (!$this->user->is_in_group('root') && !$this->user->is_in_group('moderateur_forum')))
+          continue;
+
         if ( !strncmp("http://",$entry[0],7) )
           $this->buffer .= "<a href=\"".$entry[0]."\">".$entry[1]."</a>";
         elseif(!empty($entry[0]))
