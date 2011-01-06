@@ -46,7 +46,7 @@ $forum = new forum($site->db,$site->dbrw);
 if( $_REQUEST["action"]=="new")
 {
   $forum->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],false);
-  if ($forum->create($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['categorie'], $_REQUEST['$id_forum_parent'], $_REQUEST['$id_asso'], $_REQUEST['$ordre']))
+  if ($forum->create($_REQUEST['titre'], $_REQUEST['description'], isset($_REQUEST['categorie']), $_REQUEST['$id_forum_parent'], $_REQUEST['$id_asso'], $_REQUEST['$ordre']))
   {
     $cts->add_title(2,"Nouveau forum");
     $cts->add_paragraph("Nouveau forum créé : <a href\"../index.php?id_forum=".$forum->id."\">".$titre."</a>.");
