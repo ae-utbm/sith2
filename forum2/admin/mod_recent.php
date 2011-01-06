@@ -1,7 +1,7 @@
 <?php
 
-/* Copyright 2008
- * - Simon Lopez < simon dot lopez at ayolo dot org >
+/* Copyright 2011
+ * - Mathieu Briand < briandmathieu at hyprua dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -25,7 +25,6 @@
 $topdir='../../';
 require_once($topdir .'include/site.inc.php');
 require_once($topdir .'include/cts/sqltable.inc.php');
-require_once($topdir .'include/cts/tree.inc.php');
 $site = new site();
 
 if ( !$site->user->is_in_group('root')
@@ -33,33 +32,33 @@ if ( !$site->user->is_in_group('root')
    )
   $site->error_forbidden('none','group',7);
 
-$site->start_page('none','Administration du forum');
+$site->start_page('forum','Administration du forum');
 $cts = new contents("Administration");
-$_REQUEST['view']='lstforums';
 $tabs = array(array('','forum2/admin/index.php','Accueil'),
               array('users','forum2/admin/users.php','Utilisateurs'),
-              array('lstforums','forum2/admin/list_forum.php','Liste des forums'),
               array('addforums','forum2/admin/add_forum.php','Ajout de forum'),
-              array('updforums','forum2/admin/update_forum.php','Modifier un forum'),
-              array('movforums','forum2/admin/move_forum.php','Déplacer un forum')
+              array('modrecent','forum2/admin/mod_recent.php','Historique de modération'),
              );
-$cts->add(new tabshead($tabs,$_REQUEST['view']));
+$cts->add(new tabshead($tabs,'modrecent'));
 
-$req = new requete($site->db,
-                   'SELECT `forum1`.`id_forum` as idx_forum'.
-                   ', `forum1`.`titre_forum` as `admin_forum`'.
-                   ', `forum2`.`id_forum` as `id_forum_parent` '.
-                   'FROM `frm_forum` as `forum1` '.
-                   'LEFT JOIN `frm_forum`as `forum2` '.
-                   'ON `forum1`.`id_forum_parent`=`forum2`.`id_forum` '.
-                   'ORDER BY `forum2`.`id_forum`, `forum1`.`titre_forum`');
-$cts->add(new treects("Forums",
-                      $req,
-                      0,
-                      "idx_forum",
-                      "id_forum_parent",
-                      "admin_forum"
-                      ));
+$req = new requete ($site->db, "SELECT `frm_modere_info` . * , `frm_sujet`.`titre_sujet` , ".
+  "CONCAT( `utilisateurs`.`prenom_utl` , ' ', `utilisateurs`.`nom_utl` ) AS `nom_utilisateur` ".
+  "FROM `frm_modere_info` ".
+  "LEFT JOIN utilisateurs USING ( id_utilisateur ) ".
+  "LEFT JOIN frm_message USING ( id_message ) ".
+  "LEFT JOIN frm_sujet USING ( id_sujet ) ".
+  "WHERE DATEDIFF( NOW( ) , `modere_date` ) < '60' ".
+  "ORDER BY modere_date;");
+
+$tbl = new sqltable("modrecent",
+  "Actions de modtération récentes", $req, "../",
+  "id_utilisateur",
+  array("nom_utilisateur"=>"Utilisateur","modere_action"=>"Action","modere_date"=>"Date","titre_sujet"=>"Sujet","url_message"=>"Message"),
+  array("view"),
+  array(),
+  array("modere_action"=>array('DELETE'=>"Message supprimé", 'UNDELETE'=>"Message rétabli", 'EDIT'=>"Message modifié")));
+
+$cts->add($tbl);
 
 $site->add_contents($cts);
 $site->end_page();

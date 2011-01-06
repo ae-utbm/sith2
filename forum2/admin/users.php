@@ -32,17 +32,14 @@ if ( !$site->user->is_in_group('root')
    )
   $site->error_forbidden('none','group',7);
 
-$site->start_page('none','Administration du forum');
-$cts = new contents("Administration/Utilisateurs");
-$_REQUEST['view']='users';
+$site->start_page('forum','Administration du forum');
+$cts = new contents("Administration");
 $tabs = array(array('','forum2/admin/index.php','Accueil'),
               array('users','forum2/admin/users.php','Utilisateurs'),
-              array('lstforums','forum2/admin/list_forum.php','Liste des forums'),
               array('addforums','forum2/admin/add_forum.php','Ajout de forum'),
-              array('updforums','forum2/admin/update_forum.php','Modifier un forum'),
-              array('movforums','forum2/admin/move_forum.php','Déplacer un forum')
+              array('modrecent','forum2/admin/mod_recent.php','Historique de modération'),
              );
-$cts->add(new tabshead($tabs,$_REQUEST['view']));
+$cts->add(new tabshead($tabs,'users'));
 
 if($_REQUEST['action']=='ban')
 {
