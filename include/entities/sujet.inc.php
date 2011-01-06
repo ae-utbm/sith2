@@ -191,7 +191,7 @@ class sujet extends stdentity
 
   function move_to ( &$forum_old, &$forum_new )
   {
-    if ( $forum_old->id != $sujet->id_forum )
+    if ( $forum_old->id != $this->id_forum )
       return;
 
     $this->id_forum=$forum_new->id;
