@@ -545,7 +545,7 @@ if ( $sujet->is_valid() )
           $dst_forum->load_by_id($_REQUEST['id_dst_forum']);
           $src_forum = new forum($site->db);
           $src_forum->load_by_id($message->id_forum);
-          $message->move_to($dst_forum);
+          $sujet->move_to($dst_forum);
         }
       }
 
