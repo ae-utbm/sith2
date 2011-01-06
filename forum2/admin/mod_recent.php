@@ -52,9 +52,9 @@ $req = new requete ($site->db, "SELECT `frm_modere_info` . * , `frm_sujet`.`titr
 
 $tbl = new sqltable("modrecent",
   "Actions de modtération récentes", $req, "../",
-  "id_utilisateur",
-  array("nom_utilisateur"=>"Utilisateur","modere_action"=>"Action","modere_date"=>"Date","titre_sujet"=>"Sujet","url_message"=>"Message"),
-  array("view"),
+  "id_message",
+  array("nom_utilisateur"=>"Utilisateur","modere_action"=>"Action","modere_date"=>"Date","titre_sujet"=>"Sujet"),
+  array("forum"),
   array(),
   array("modere_action"=>array('DELETE'=>"Message supprimé", 'UNDELETE'=>"Message rétabli", 'EDIT'=>"Message modifié")));
 
