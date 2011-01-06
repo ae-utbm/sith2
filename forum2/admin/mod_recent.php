@@ -54,7 +54,7 @@ $tbl = new sqltable("modrecent",
   "Actions de modtération récentes", $req, "../",
   "id_message",
   array("nom_utilisateur"=>"Utilisateur","modere_action"=>"Action","modere_date"=>"Date","titre_sujet"=>"Sujet"),
-  array("forum"),
+  array("view"=>"Voir le message"),
   array(),
   array("modere_action"=>array('DELETE'=>"Message supprimé", 'UNDELETE'=>"Message rétabli", 'EDIT'=>"Message modifié")));
 

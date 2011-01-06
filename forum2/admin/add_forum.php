@@ -83,9 +83,7 @@ else
   $cts->add($frm);
 }
 
-
-
-
+$site->add_contents($cts);
 $site->end_page();
 
 ?>
