@@ -1,6 +1,7 @@
 <?php
 
-/* Copyright 2011
+/* Copyright 2008, 2011
+ * - Remy BURNEY < rburney <point> utbm <at> gmail <dot> com >
  * - Mathieu Briand < briandmathieu at hyprua dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -49,7 +50,7 @@ if( $_REQUEST["action"]=="new")
   if ($forum->create($_REQUEST['titre'], $_REQUEST['description'], isset($_REQUEST['categorie']), $_REQUEST['id_forum_parent'], $_REQUEST['id_asso'], $_REQUEST['ordre']))
   {
     $cts->add_title(2,"Nouveau forum");
-    $cts->add_paragraph("Nouveau forum créé : <a href\"../index.php?id_forum=".$forum->id."\">".$titre."</a>.");
+    $cts->add_paragraph("Nouveau forum créé : <a href\"../index.php?id_forum=".$forum->id."\">".$_REQUEST['titre']."</a>.");
   }
   else
   {

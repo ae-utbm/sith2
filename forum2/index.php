@@ -437,7 +437,14 @@ if ( $sujet->is_valid() )
     /**
      * @todo : edition des metas données
      */
+    $forum_cats = array();
+    $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
+    $req = new requete($site->db, $sql);
+    while( list($value,$name) = $req->get_row()){
+      $forum_cats[$value] = $name;
+    }
 
+    $frm->add_select_field('id_dst_forum', 'Forum : ', $forum_cats, $sujet->id_forum);
     $frm->add_text_field("titre", "Titre : ", $sujet->titre,true,80);
     $frm->add_text_field("soustitre","Sous-titre du message (optionel) : ",$sujet->soustitre,false,80);
 
@@ -531,6 +538,15 @@ if ( $sujet->is_valid() )
 
         elseif ( $type == SUJET_ANNONCESITE )
           $date_fin_annonce=$_REQUEST["date_fin_announce_site"];
+
+        if ($_REQUEST['id_dst_forum'] != $message->id_forum)
+        {
+          $dst_forum = new forum($site->db);
+          $dst_forum->load_by_id($_REQUEST['id_dst_forum']);
+          $src_forum = new forum($site->db);
+          $src_forum->load_by_id($message->id_forum);
+          $message->move_to($dst_forum);
+        }
       }
 
       $sujet->update ($_REQUEST["titre"], $_REQUEST["soustitre"],
