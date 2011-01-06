@@ -543,9 +543,8 @@ if ( $sujet->is_valid() )
         {
           $dst_forum = new forum($site->db);
           $dst_forum->load_by_id($_REQUEST['id_dst_forum']);
-          $src_forum = new forum($site->db);
-          $src_forum->load_by_id($message->id_forum);
-          $sujet->move_to($src_forum, $dst_forum);
+          $sujet->move_to($forum, $dst_forum);
+          $forum = dst_forum;
         }
       }
 
