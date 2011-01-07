@@ -235,8 +235,6 @@ elseif ( $_REQUEST["page"] == "starred" )
 
 if ( isset($_REQUEST["pattern"] ) )
 {
-  print_r($_REQUEST);
-
   $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
 
   $url = "search.php?pattern=".$_REQUEST["pattern"];
@@ -323,7 +321,7 @@ if ( isset($_REQUEST["pattern"] ) )
 
     $sql .= "GROUP BY frm_sujet.id_sujet ORDER BY frm_last_message.date_message DESC ";
 
-    $req = new requete($site->db,$sql, 1);
+    $req = new requete($site->db,$sql);
 
     if ( $req->lines > 0 )
     {
@@ -342,15 +340,20 @@ if ( isset($_REQUEST["pattern"] ) )
   }
   else
   {
-
-    $sql = "SELECT frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message, frm_forum.id_groupe, frm_forum.droits_acces_forum ".
-           "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) INNER JOIN frm_forum USING (id_forum) ";
+    $sql = "SELECT frm_sujet.*, frm_message.*, frm_forum.id_groupe, frm_forum.droits_acces_forum ".
+            "COALESCE( utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)) AS alias_utl, " .
+            "utilisateurs.id_utilisateur, utilisateurs.signature_utl " .
+            "FROM frm_message " .
+            "INNER JOIN frm_sujet USING ( id_sujet ) ".
+            "INNER JOIN frm_forum USING (id_forum) ".
+            "LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=frm_message.id_utilisateur ) ".
+            "LEFT JOIN utl_etu_utbm ON ( utl_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) ";
 
     $sql .= $sql_conds;
     $sql .= "ORDER BY date_message DESC ";
     $sql .= "LIMIT 50";
 
-    $req = new requete($site->db,$sql, 1);
+    $req = new requete($site->db,$sql);
 
     $id_sujet=null;
 
@@ -358,29 +361,118 @@ if ( isset($_REQUEST["pattern"] ) )
 
     if ( $req->lines > 0 )
     {
+      $n=0;
+      $i=0;
       while ( $row = $req->get_row() )
       {
+        $i++;
         if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($site->user->is_in_group("root")))
         {
           if ( $id_sujet!=$row['id_sujet'] )
           {
-            if ( !is_null($id_sujet) )
-              $cts_res->buffer .= "</ul>";
-            $cts_res->buffer .=
-            "<li class=\"sujet\"><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
-            "<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
-            $row['titre_sujet']."</b></a></li>";
-            $cts_res->buffer .= "<ul class=\"frmmessagesres\">";
+            $cts_res->add_title(2, "<a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
+              "<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> ".$row['titre_sujet']."</a>");
           }
 
-          $cts_res->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";
+          if ( $i == $req->lines )
+            $this->buffer .= "<div id=\"lastmessage\"></div>";
 
-          $id_sujet=$row['id_sujet'];
+          $t = strtotime($row['date_message']);
+
+          if ($row['msg_supprime'])
+            $this->buffer .= "<div class=\"fmsgentry deleted\" id=\"msg".$row['id_message']."\">\n";
+          elseif ( $n )
+            $this->buffer .= "<div class=\"fmsgentry pair\" id=\"msg".$row['id_message']."\">\n";
+          else
+            $this->buffer .= "<div class=\"fmsgentry\" id=\"msg".$row['id_message']."\">\n";
+          $n=($n+1)%2;
+
+          /* permalink */
+          $this->buffer .= "<a href=\"./?id_message=".
+          $row['id_message']."#msg".$row['id_message']."\">";
+
+          if ($row['msg_supprime'])
+          {
+            if ( $row['titre_message'] )
+              $this->buffer .= "<h2 class=\"frmt\">Message supprimé: ".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";
+            else
+              $this->buffer .= "<h2 class=\"frmt\">Message supprimé</h2>\n";
+          }
+          else
+          {
+            if ( $row['titre_message'] )
+              $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";
+            else
+              $this->buffer .= "<h2 class=\"frmt\">&nbsp;</h2>\n";
+          }
+
+          $this->buffer .= "<p class=\"date\">".human_date($t)."</p>\n";
+          $this->buffer .= "</a>";
+
+
+          $this->buffer .= "<div class=\"auteur\">\n";
+
+          $this->buffer .= "<p class=\"funame\"><a href=\"#top\"><img src=\"".$topdir."images/forum/top.png\" /></a>&nbsp;&nbsp;<a href=\"".$wwwtopdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['alias_utl'],ENT_NOQUOTES,"UTF-8")."</a></p>\n";
+
+          $img=null;
+          if (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg"))
+            $img = $wwwtopdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
+
+          if ( !is_null($img) )
+            $this->buffer .= "<p class=\"fuimg\"><img src=\"".htmlentities($img,ENT_NOQUOTES,"UTF-8")."\" /></p>\n";
+
+          $this->buffer .= "</div>\n";
+          $this->buffer .= "<div class=\"fmsg\">\n";
+
+          $msg_uid = "msg".$row['id_message'];
+
+          if ( isset($_COOKIE["nosecret"]) && $_COOKIE["nosecret"] == 1 )
+          {
+            $msg_uid .= "nsc";
+            $cache = new cachedcontents($msg_uid);
+            if (! $cache->is_cached())
+              $row['contenu_message'] = nosecret($row['contenu_message']);
+          }
+
+          if ( $row['syntaxengine_message'] == "bbcode" )
+          //  $this->buffer .= bbcode($row['contenu_message']);
+          {
+            $cts = cachedcontents::autocache($msg_uid,new bbcontents("",$row['contenu_message'],false));
+            $this->buffer .= $cts->html_render();
+          }
+          elseif ( $row['syntaxengine_message'] == "doku" )
+          //  $this->buffer .= doku2xhtml($row['contenu_message']);
+          {
+            $cts = cachedcontents::autocache($msg_uid,new wikicontents("",$row['contenu_message'],false));
+            $this->buffer .= $cts->html_render();
+          }
+          elseif ( $row['syntaxengine_message'] == "plain" )
+            $this->buffer .= "<pre>".htmlentities($row['contenu_message'],ENT_NOQUOTES,"UTF-8")."</pre>";
+
+          else // text
+            $this->buffer .= nl2br(htmlentities($row['contenu_message'],ENT_NOQUOTES,"UTF-8"));
+
+          if ($row['msg_modere_info'] && ($forum->is_admin($user)))
+          {
+            $modere_info = $forum->get_modere_info($row['id_message']);
+            foreach($modere_info as $info)
+              $this->buffer .= "<div class=\"modereinfo\">".$info."</div>\n";
+          }
+
+          if ( !is_null($row['signature_utl']) )
+          {
+            $this->buffer .= "<div class=\"signature\">\n";
+            //$this->buffer .= doku2xhtml($row['signature_utl']);
+            $cts = cachedcontents::autocache("sig".$row['id_utilisateur'],new wikicontents("",$row['signature_utl'],false));
+            $this->buffer .= $cts->html_render();
+            $this->buffer .= "</div>\n";
+          }
+
+          $this->buffer .= "</div>\n";
+          $this->buffer .= "<div class=\"clearboth\"></div>\n";
+          $this->buffer .= "</div>\n";
         }
       }
-      if ( !is_null($id_sujet) )
-        $cts_res->buffer .= "</ul>";
-      $cts_res->buffer .= "</ul>";
     }
     else
       $cts_res->add_paragraph("Aucun résultat trouvé.");
