@@ -310,7 +310,7 @@ if ( isset($_REQUEST["pattern"] ) )
         "FROM frm_message " .
         "LEFT JOIN frm_sujet USING (id_sujet) ".
         "INNER JOIN frm_forum USING(id_forum) ".
-        "LEFT JOIN frm_last_message ON ( frm_last_message.id_message = frm_sujet.id_message_dernier ) " .
+        "LEFT JOIN frm_message ON ( frm_last_message.id_message = frm_sujet.id_message_dernier ) frm_last_message " .
         "LEFT JOIN utilisateurs AS `dernier_auteur` ON ( dernier_auteur.id_utilisateur=frm_last_message.id_utilisateur ) " .
         "LEFT JOIN utilisateurs AS `premier_auteur` ON ( premier_auteur.id_utilisateur=frm_sujet.id_utilisateur ) ".
         "LEFT JOIN utl_etu_utbm AS `dernier_auteur_etu_utbm` ON ( dernier_auteur_etu_utbm.id_utilisateur=frm_last_message.id_utilisateur ) " .
