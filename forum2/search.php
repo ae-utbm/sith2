@@ -261,7 +261,7 @@ if ( isset($_REQUEST["pattern"] ) )
   if (!isset($_REQUEST['include_deleted']) || (!$site->user->is_in_group('root') && !$site->user->is_in_group('moderateur_forum')))
   {
     $url .= "&msg_supprime";
-    $sql_conds .= "AND msg_supprime='0' ";
+    $sql_conds .= "AND frm_message.msg_supprime='0' ";
   }
   if ($_REQUEST['begin_date'])
   {
@@ -402,7 +402,7 @@ else
     "WHERE ((droits_acces_forum & 0x1) OR " .
     "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
     "(id_groupe_admin IN ($grps)) OR " .
-    "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
+    "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ".
     "ORDER BY titre_forum";
 }
 
