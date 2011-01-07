@@ -235,96 +235,167 @@ elseif ( $_REQUEST["page"] == "starred" )
 
 if ( isset($_REQUEST["pattern"] ) )
 {
-  /*$pattern = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$_REQUEST["pattern"]);
-  $pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
-  $pattern = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern);
-  $pattern = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$pattern);
-  $pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
-  $pattern = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
-  $sqlpattern = mysql_real_escape_string($pattern);
+  print_r($_REQUEST);
 
-  $sql = "SELECT frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
-         "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
+  $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
 
-  $first=true;
+  $url = "search.php?pattern=".$_REQUEST["pattern"];
 
-  $words = explode(" ",$sqlpattern);
-  foreach ( $words as $word )
+  if (isset($_REQUEST['intitle']))
+    $url .= "&intitle";
+
+  if (isset($_REQUEST['regex']))
   {
-    if ( $first )
-      $first=false;
+    $url .= "&regexp";
+    if (isset($_REQUEST['intitle']))
+      $sql_conds = "WHERE (titre_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."' OR contenu_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."') ";
     else
-      $sql .= " AND ";
-
-    $sql .= "(contenu_message REGEXP '$word' OR titre_sujet REGEXP '$word' OR soustitre_sujet REGEXP '$word')";
-
+      $sql_conds = "WHERE contenu_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."' ";
   }
-
-  $sql .= " ORDER BY frm_message.id_message DESC ";
-  $sql .= "LIMIT 50";
-  */
-
-  $sql = "SELECT MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') AS deg, frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message, frm_forum.id_groupe, frm_forum.droits_acces_forum ".
-         "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) INNER JOIN frm_forum USING (id_forum) WHERE ";
-  $sql .= "MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
+  else
+  {
+    if (isset($_REQUEST['intitle']))
+      $sql_conds = "WHERE MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
+    else
+      $sql_conds = "WHERE MATCH (contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
+  }
 
   if ( !$forum->is_admin( $site->user ) )
   {
     $grps = $site->user->get_groups_csv();
-    $sql .= "AND ((droits_acces_forum & 0x1) OR " .
+    $sql_conds .= "AND ((droits_acces_forum & 0x1) OR " .
       "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
       "(id_groupe_admin IN ($grps)) OR " .
       "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
   }
-  $sql .= "AND msg_supprime='0' ";
-  $sql .= "ORDER BY date_message DESC ";
-  $sql .= "LIMIT 50";
 
-  $req = new requete($site->db,$sql);
+  if (!isset($_REQUEST['include_deleted']) || (!$site->user->is_in_group('root') && !$site->user->is_in_group('moderateur_forum')))
+  {
+    $url .= "&msg_supprime";
+    $sql_conds .= "AND msg_supprime='0' ";
+  }
+  if ($_REQUEST['begin_date'])
+  {
+    $url .= "&begin_date=".$_REQUEST['begin_date'];
+    $sql_conds .= "AND frm_message.date_message > '".date("Y-m-d H:i",$_REQUEST['begin_date'])."' ";
+  }
+  if ($_REQUEST['end_date'])
+  {
+    $url .= "&end_date=".$_REQUEST['end_date'];
+    $sql_conds .= "AND frm_message.date_message < '".date("Y-m-d H:i",$_REQUEST['end_date'])."' ";
+  }
+  if ($_REQUEST['id_utilisateur'])
+  {
+    $url .= "&id_utilisateur=".$_REQUEST['id_utilisateur'];
+    $sql_conds .= "AND frm_message.id_utilisateur =  '".mysql_real_escape_string($_REQUEST['id_utilisateur'])."' ";
+  }
+  if ($_REQUEST['id_forum'])
+  {
+    $url .= "&id_forum=".$_REQUEST['id_forum'];
+    $sql_conds .= "AND frm_sujet.id_forum = '".mysql_real_escape_string($_REQUEST['id_forum'])."' ";
+  }
 
+  $url .= "&display_type=".$_REQUEST['display_type'];
+  $cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a> / <a href=\"".urlencode($url)."\">".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
 
-  $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
+  if ($_REQUEST['display_type'] == "sujets")
+  {
+    $sql = "SELECT frm_sujet.*, ".
+        "frm_message.date_message, " .
+        "frm_message.id_message, " .
+        "COALESCE(
+          dernier_auteur_etu_utbm.surnom_utbm,
+          CONCAT(dernier_auteur.prenom_utl,' ',dernier_auteur.nom_utl)
+        ) AS `nom_utilisateur_dernier_auteur`, " .
+        "dernier_auteur.id_utilisateur AS `id_utilisateur_dernier`, " .
+        "COALESCE(
+            premier_auteur_etu_utbm.surnom_utbm,
+            CONCAT(premier_auteur.prenom_utl,' ',premier_auteur.nom_utl)
+          ) AS `nom_utilisateur_premier_auteur`, " .
+        "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, " .
+        "IF(frm_sujet.id_message_dernier > frm_sujet_utilisateur.id_message_dernier_lu,1,0) AS `nonlu`, " .
+        "titre_forum AS `soustitre_sujet`, " .
+        "frm_sujet_utilisateur.etoile_sujet AS etoile, " .
+        "frm_forum.droits_acces_forum, ".
+        "frm_forum.id_groupe ".
+        "FROM frm_sujet " .
+        "INNER JOIN frm_forum USING(id_forum) ".
+        "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
+        "LEFT JOIN utilisateurs AS `dernier_auteur` ON ( dernier_auteur.id_utilisateur=frm_message.id_utilisateur ) " .
+        "LEFT JOIN utilisateurs AS `premier_auteur` ON ( premier_auteur.id_utilisateur=frm_sujet.id_utilisateur ) ".
+        "LEFT JOIN utl_etu_utbm AS `dernier_auteur_etu_utbm` ON ( dernier_auteur_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) " .
+        "LEFT JOIN utl_etu_utbm AS `premier_auteur_etu_utbm` ON ( premier_auteur_etu_utbm.id_utilisateur=frm_sujet.id_utilisateur )" .
+        "LEFT JOIN frm_sujet_utilisateur ".
+          "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
+          "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ";
 
-  $cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a> / <a href=\"search.php?pattern=".urlencode($_REQUEST["pattern"])."\">".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
+    $sql .= $sql_conds;
 
+    $sql .= "ORDER BY frm_message.date_message DESC ";
 
-  //$cts->add(new sujetslist($rows, $site->user, "./", null, null, false));
+    $req = new requete($site->db,$query, 1);
+
+    if ( $req->lines > 0 )
+    {
+      $rows = array();
+      while ( $row = $req->get_row() )
+      {
+        if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($site->user->is_in_group("root")))
+          $rows[] = $row;
+      }
+
+      $cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
+      $cts->add_paragraph("&nbsp;");
+    }
+    else
+      $cts->add_paragraph("Aucun résultat trouvé.");
+  }
+  else
+  {
+
+    $sql = "SELECT frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message, frm_forum.id_groupe, frm_forum.droits_acces_forum ".
+           "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) INNER JOIN frm_forum USING (id_forum) ";
+
+    $sql .= $sql_conds;
+    $sql .= "ORDER BY date_message DESC ";
+    $sql .= "LIMIT 50";
+
+    $req = new requete($site->db,$sql, 1);
 
     $id_sujet=null;
 
     $cts->buffer .= "<ul class=\"frmsujetres\">";
 
-    while ( $row = $req->get_row() )
+    if ( $req->lines > 0 )
     {
-      if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($site->user->is_in_group("root")))
+      while ( $row = $req->get_row() )
       {
-
-        if (   $id_sujet!=$row['id_sujet'] )
+        if (($row['id_groupe'] != 7) || ($row['droits_acces_forum'] & 0x1) || ($site->user->is_in_group("root")))
         {
-          if ( !is_null($id_sujet) )
-            $cts->buffer .= "</ul>";
-          $cts->buffer .=
-          "<li class=\"sujet\"><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
-          "<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
-          $row['titre_sujet']."</b></a></li>";
-          $cts->buffer .= "<ul class=\"frmmessagesres\">";
+          if ( $id_sujet!=$row['id_sujet'] )
+          {
+            if ( !is_null($id_sujet) )
+              $cts->buffer .= "</ul>";
+            $cts->buffer .=
+            "<li class=\"sujet\"><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
+            "<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
+            $row['titre_sujet']."</b></a></li>";
+            $cts->buffer .= "<ul class=\"frmmessagesres\">";
+          }
+
+          $cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";
+
+          $id_sujet=$row['id_sujet'];
         }
-
-        $cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";
-
-        $id_sujet=$row['id_sujet'];
       }
-    }
-    if ( !is_null($id_sujet) )
+      if ( !is_null($id_sujet) )
+        $cts->buffer .= "</ul>";
       $cts->buffer .= "</ul>";
-    $cts->buffer .= "</ul>";
-
-
-
+    }
+    else
+      $cts->add_paragraph("Aucun résultat trouvé.");
+  }
   $site->add_contents($cts);
-
-  $site->end_page();
-  exit();
 
 }
 
@@ -332,8 +403,26 @@ $site->start_page("forum","Recherche");
 
 $cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a>");
 
-$frm = new form("frmsearch",$wwwtopdir."forum2/search.php");
-$frm->add_text_field("pattern","");
+$forum_cats = array(null=>"(Tous)");
+$sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
+$req = new requete($site->db, $sql);
+while( list($value,$name) = $req->get_row()){
+  $forum_cats[$value] = $name;
+}
+
+$frm = new form("frmsearch",$wwwtopdir."forum2/search.php", true);
+$frm->add_text_field("pattern","Recherche");
+$frm->add_checkbox("regex", "Utiliser une expression régulière");
+$frm->add_checkbox("intitle", "Rechercher dans le titre des messages");
+$frm->add_user_fieldv2 ("id_utilisateur", "Auteur");
+$frm->add_date_field("begin_date", "Posté après");
+$frm->add_date_field("end_date", "Posté avant");
+$frm->add_select_field('id_forum', 'Forum : ', $forum_cats);
+
+if ($site->user->is_in_group('root') || $site->user->is_in_group('moderateur_forum'))
+  $frm->add_checkbox("include_deleted", "Rechercher dans les messages supprimés");
+
+$frm->add_radiobox_field("display_type", "Type d'affichage", array("messages"=>"Afficher les messages", "sujets"=>"Afficher les sujets"), "messages");
 $frm->add_submit("search","Rechercher");
 $frm->set_focus("pattern");
 $cts->add($frm);
