@@ -310,7 +310,7 @@ if ( isset($_REQUEST["pattern"] ) )
         "FROM frm_message " .
         "LEFT JOIN frm_sujet USING (id_sujet) ".
         "INNER JOIN frm_forum USING(id_forum) ".
-        "LEFT JOIN frm_message ON ( frm_last_message.id_message = frm_sujet.id_message_dernier ) frm_last_message " .
+        "LEFT JOIN frm_message frm_last_message ON ( frm_last_message.id_message = frm_sujet.id_message_dernier ) " .
         "LEFT JOIN utilisateurs AS `dernier_auteur` ON ( dernier_auteur.id_utilisateur=frm_last_message.id_utilisateur ) " .
         "LEFT JOIN utilisateurs AS `premier_auteur` ON ( premier_auteur.id_utilisateur=frm_sujet.id_utilisateur ) ".
         "LEFT JOIN utl_etu_utbm AS `dernier_auteur_etu_utbm` ON ( dernier_auteur_etu_utbm.id_utilisateur=frm_last_message.id_utilisateur ) " .
@@ -421,7 +421,7 @@ $frm->add_date_field("end_date", "Posté avant");
 $frm->add_select_field('id_forum', 'Forum : ', $forum_cats);
 
 if ($site->user->is_in_group('root') || $site->user->is_in_group('moderateur_forum'))
-  $frm->add_checkbox("include_deleted", "Rechercher dans les messages supprimés", true);
+  $frm->add_checkbox("include_deleted", "Rechercher dans les messages supprimés", (!isset($_REQUEST["pattern"]) || isset($_REQUEST["include_deleted"])));
 
 $frm->add_radiobox_field("display_type", "Type d'affichage", array("messages"=>"Afficher les messages", "sujets"=>"Afficher les sujets"), "messages");
 $frm->add_submit("search","Rechercher");
