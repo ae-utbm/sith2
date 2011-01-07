@@ -244,10 +244,10 @@ if ( isset($_REQUEST["pattern"] ) )
   if (isset($_REQUEST['regex']))
   {
     $url .= "&regexp";
-    $sql_conds = "WHERE (titre_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."' OR contenu_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."') ";
+    $sql_conds = "WHERE (frm_message.titre_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."' OR contenu_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."') ";
   }
   else
-    $sql_conds = "WHERE MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
+    $sql_conds = "WHERE MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
 
   if ( !$forum->is_admin( $site->user ) )
   {
