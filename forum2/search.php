@@ -357,8 +357,6 @@ if ( isset($_REQUEST["pattern"] ) )
 
     $id_sujet=null;
 
-    $buffer = "<ul class=\"frmsujetres\">";
-
     if ( $req->lines > 0 )
     {
       $n=0;
@@ -374,6 +372,8 @@ if ( isset($_REQUEST["pattern"] ) )
               "<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> ".$row['titre_sujet']."</a>");
             $id_sujet = $row['id_sujet'];
           }
+
+          $buffer = "";
 
           if ( $i == $req->lines )
             $buffer .= "<div id=\"lastmessage\"></div>";
@@ -472,9 +472,9 @@ if ( isset($_REQUEST["pattern"] ) )
           $buffer .= "</div>\n";
           $buffer .= "<div class=\"clearboth\"></div>\n";
           $buffer .= "</div>\n";
+          $cts_res->puts($buffer);
         }
       }
-      $cts_res->puts($buffer);
     }
     else
       $cts_res->add_paragraph("Aucun résultat trouvé.");
