@@ -33,6 +33,7 @@ require_once($topdir . "include/entities/asso.inc.php");
 require_once($topdir . "include/entities/forum.inc.php");
 require_once($topdir . "include/entities/sujet.inc.php");
 require_once($topdir . "include/entities/message.inc.php");
+require_once($topdir . "include/entities/utilisateur.inc.php");
 
 require_once($topdir . "include/entities/news.inc.php");
 require_once($topdir . "include/entities/sondage.inc.php");
@@ -507,7 +508,7 @@ while( list($value,$name) = $req->get_row()){
 $frm = new form("frmsearch",$wwwtopdir."forum2/search.php", true);
 $frm->add_text_field("pattern","Recherche");
 $frm->add_checkbox("regex", "Utiliser une expression régulière");
-$frm->add_user_fieldv2("id_utilisateur", "Auteur");
+$frm->add_entity_smartselect("id_utilisateur", "Auteur", new utilisateur($site->db));
 $frm->add_date_field("begin_date", "Posté après");
 $frm->add_date_field("end_date", "Posté avant");
 $frm->add_select_field('id_forum', 'Forum : ', $forum_cats);
