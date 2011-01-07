@@ -290,8 +290,8 @@ if ( isset($_REQUEST["pattern"] ) )
   if ($_REQUEST['display_type'] == "sujets")
   {
     $sql = "SELECT frm_sujet.*, ".
-        "frm_message.date_message, " .
-        "frm_message.id_message, " .
+        "frm_last_message.date_message, " .
+        "frm_last_message.id_message, " .
         "COALESCE(
           dernier_auteur_etu_utbm.surnom_utbm,
           CONCAT(dernier_auteur.prenom_utl,' ',dernier_auteur.nom_utl)
@@ -310,9 +310,10 @@ if ( isset($_REQUEST["pattern"] ) )
         "FROM frm_message " .
         "LEFT JOIN frm_sujet USING (id_sujet) ".
         "INNER JOIN frm_forum USING(id_forum) ".
-        "LEFT JOIN utilisateurs AS `dernier_auteur` ON ( dernier_auteur.id_utilisateur=frm_message.id_utilisateur ) " .
+        "LEFT JOIN frm_last_message ON ( frm_last_message.id_message = frm_sujet.id_message_dernier ) " .
+        "LEFT JOIN utilisateurs AS `dernier_auteur` ON ( dernier_auteur.id_utilisateur=frm_last_message.id_utilisateur ) " .
         "LEFT JOIN utilisateurs AS `premier_auteur` ON ( premier_auteur.id_utilisateur=frm_sujet.id_utilisateur ) ".
-        "LEFT JOIN utl_etu_utbm AS `dernier_auteur_etu_utbm` ON ( dernier_auteur_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) " .
+        "LEFT JOIN utl_etu_utbm AS `dernier_auteur_etu_utbm` ON ( dernier_auteur_etu_utbm.id_utilisateur=frm_last_message.id_utilisateur ) " .
         "LEFT JOIN utl_etu_utbm AS `premier_auteur_etu_utbm` ON ( premier_auteur_etu_utbm.id_utilisateur=frm_sujet.id_utilisateur )" .
         "LEFT JOIN frm_sujet_utilisateur ".
           "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
@@ -320,7 +321,7 @@ if ( isset($_REQUEST["pattern"] ) )
 
     $sql .= $sql_conds;
 
-    $sql .= "ORDER BY frm_message.date_message DESC ";
+    $sql .= "GROUP BY frm_sujet.id_sujet ORDER BY frm_last_message.date_message DESC ";
 
     $req = new requete($site->db,$sql, 1);
 
@@ -414,7 +415,7 @@ while( list($value,$name) = $req->get_row()){
 $frm = new form("frmsearch",$wwwtopdir."forum2/search.php", true);
 $frm->add_text_field("pattern","Recherche");
 $frm->add_checkbox("regex", "Utiliser une expression régulière");
-$frm->add_user_fieldv2 ("id_utilisateur", "Auteur");
+$frm->add_user_fieldv2("id_utilisateur", "Auteur");
 $frm->add_date_field("begin_date", "Posté après");
 $frm->add_date_field("end_date", "Posté avant");
 $frm->add_select_field('id_forum', 'Forum : ', $forum_cats);
