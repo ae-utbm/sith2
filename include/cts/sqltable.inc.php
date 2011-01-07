@@ -63,8 +63,9 @@ class sqltable extends stdcontents
    * @param $enumerated valeurs des champs énumérés ($enumerated[id] = array(0=>"truc"))
    * @param $htmlentitize indique si les entrées du tableau doivent être passées par la fonction htmlentities()
    * @param $hilight ids des éléments sélectionnés
+   * @param $anchor permet de spécifier un emplacement dans la page de destination (%url%%anchor%%id%)
    **/
-  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array(), $htmlentitize = true, $fjs=true, $hilight=array())
+  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array(), $htmlentitize = true, $fjs=true, $hilight=array(), $anchor="")
   {
     global $topdir,$wwwtopdir;
 
@@ -74,6 +75,7 @@ class sqltable extends stdcontents
     $this->id_field = $id_field;
     $this->id_name = $id_field;
     $this->page = $page;
+    $this->anchor = $anchor;
 
     if ( strstr($page,"?"))
       $this->get_page = $page."&";
@@ -309,10 +311,15 @@ class sqltable extends stdcontents
 
   function generate_hlink ( $action, $id )
   {
-    if ( !$action )
-      return htmlentities($this->get_page.$this->id_name."=".$id);
-    else
-      return htmlentities($this->get_page.$this->id_name."=".$id."&action=".$action);
+    $url = $this->get_page.$this->id_name."=".$id;
+
+    if ( $action )
+      $url .= "&action=".$action;
+
+    if ($anchor)
+      $url .= $anchor.$id;
+
+    return htmlentities($url);
   }
 
 
