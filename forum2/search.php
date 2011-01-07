@@ -241,24 +241,13 @@ if ( isset($_REQUEST["pattern"] ) )
 
   $url = "search.php?pattern=".$_REQUEST["pattern"];
 
-  if (isset($_REQUEST['intitle']))
-    $url .= "&intitle";
-
   if (isset($_REQUEST['regex']))
   {
     $url .= "&regexp";
-    if (isset($_REQUEST['intitle']))
-      $sql_conds = "WHERE (titre_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."' OR contenu_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."') ";
-    else
-      $sql_conds = "WHERE contenu_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."' ";
+    $sql_conds = "WHERE (titre_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."' OR contenu_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."') ";
   }
   else
-  {
-    if (isset($_REQUEST['intitle']))
-      $sql_conds = "WHERE MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
-    else
-      $sql_conds = "WHERE MATCH (contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
-  }
+    $sql_conds = "WHERE MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
 
   if ( !$forum->is_admin( $site->user ) )
   {
@@ -333,7 +322,7 @@ if ( isset($_REQUEST["pattern"] ) )
 
     $sql .= "ORDER BY frm_message.date_message DESC ";
 
-    $req = new requete($site->db,$query, 1);
+    $req = new requete($site->db,$sql, 1);
 
     if ( $req->lines > 0 )
     {
@@ -403,8 +392,20 @@ $site->start_page("forum","Recherche");
 
 $cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a>");
 
+if ($site->user->is_in_group('root') || $site->user->is_in_group('moderateur_forum'))
+  $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
+else
+{
+  $grps = $site->user->get_groups_csv();
+  $sql = "SELECT id_forum, titre_forum FROM frm_forum ".
+    "WHERE ((droits_acces_forum & 0x1) OR " .
+    "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
+    "(id_groupe_admin IN ($grps)) OR " .
+    "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
+    "ORDER BY titre_forum";
+}
+
 $forum_cats = array(null=>"(Tous)");
-$sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
 $req = new requete($site->db, $sql);
 while( list($value,$name) = $req->get_row()){
   $forum_cats[$value] = $name;
@@ -413,14 +414,13 @@ while( list($value,$name) = $req->get_row()){
 $frm = new form("frmsearch",$wwwtopdir."forum2/search.php", true);
 $frm->add_text_field("pattern","Recherche");
 $frm->add_checkbox("regex", "Utiliser une expression régulière");
-$frm->add_checkbox("intitle", "Rechercher dans le titre des messages");
 $frm->add_user_fieldv2 ("id_utilisateur", "Auteur");
 $frm->add_date_field("begin_date", "Posté après");
 $frm->add_date_field("end_date", "Posté avant");
 $frm->add_select_field('id_forum', 'Forum : ', $forum_cats);
 
 if ($site->user->is_in_group('root') || $site->user->is_in_group('moderateur_forum'))
-  $frm->add_checkbox("include_deleted", "Rechercher dans les messages supprimés");
+  $frm->add_checkbox("include_deleted", "Rechercher dans les messages supprimés", true);
 
 $frm->add_radiobox_field("display_type", "Type d'affichage", array("messages"=>"Afficher les messages", "sujets"=>"Afficher les sujets"), "messages");
 $frm->add_submit("search","Rechercher");
