@@ -316,8 +316,8 @@ class sqltable extends stdcontents
     if ( $action )
       $url .= "&action=".$action;
 
-    if ($anchor)
-      $url .= $anchor.$id;
+    if ($this->anchor)
+      $url .= $this->anchor.$id;
 
     return htmlentities($url);
   }
