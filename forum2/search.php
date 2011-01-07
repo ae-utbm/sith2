@@ -285,7 +285,7 @@ if ( isset($_REQUEST["pattern"] ) )
   }
 
   $url .= "&display_type=".$_REQUEST['display_type'];
-  $cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a> / <a href=\"".urlencode($url)."\">".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
+  $cts_res = new contents("Résultats de la recherche");
 
   if ($_REQUEST['display_type'] == "sujets")
   {
@@ -334,11 +334,11 @@ if ( isset($_REQUEST["pattern"] ) )
           $rows[] = $row;
       }
 
-      $cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
-      $cts->add_paragraph("&nbsp;");
+      $cts_res->add(new sujetslist($rows, $site->user, "./", null, null,true));
+      $cts_res->add_paragraph("&nbsp;");
     }
     else
-      $cts->add_paragraph("Aucun résultat trouvé.");
+      $cts_res->add_paragraph("Aucun résultat trouvé.");
   }
   else
   {
@@ -354,7 +354,7 @@ if ( isset($_REQUEST["pattern"] ) )
 
     $id_sujet=null;
 
-    $cts->buffer .= "<ul class=\"frmsujetres\">";
+    $cts_res->buffer .= "<ul class=\"frmsujetres\">";
 
     if ( $req->lines > 0 )
     {
@@ -365,33 +365,31 @@ if ( isset($_REQUEST["pattern"] ) )
           if ( $id_sujet!=$row['id_sujet'] )
           {
             if ( !is_null($id_sujet) )
-              $cts->buffer .= "</ul>";
-            $cts->buffer .=
+              $cts_res->buffer .= "</ul>";
+            $cts_res->buffer .=
             "<li class=\"sujet\"><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
             "<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
             $row['titre_sujet']."</b></a></li>";
-            $cts->buffer .= "<ul class=\"frmmessagesres\">";
+            $cts_res->buffer .= "<ul class=\"frmmessagesres\">";
           }
 
-          $cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";
+          $cts_res->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";
 
           $id_sujet=$row['id_sujet'];
         }
       }
       if ( !is_null($id_sujet) )
-        $cts->buffer .= "</ul>";
-      $cts->buffer .= "</ul>";
+        $cts_res->buffer .= "</ul>";
+      $cts_res->buffer .= "</ul>";
     }
     else
-      $cts->add_paragraph("Aucun résultat trouvé.");
+      $cts_res->add_paragraph("Aucun résultat trouvé.");
   }
-  $site->add_contents($cts);
-
 }
 
 $site->start_page("forum","Recherche");
 
-$cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a>");
+$cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a> / <a href=\"".urlencode($url)."\">".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
 
 if ($site->user->is_in_group('root') || $site->user->is_in_group('moderateur_forum'))
   $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
@@ -429,6 +427,7 @@ $frm->set_focus("pattern");
 $cts->add($frm);
 
 $site->add_contents($cts);
+$site->add_contents($cts_res);
 
 $site->end_page();
 exit();
