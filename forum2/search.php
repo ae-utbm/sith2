@@ -240,12 +240,15 @@ if ( isset($_REQUEST["pattern"] ) )
 
   $url = "search.php?pattern=".urlencode($_REQUEST["pattern"]);
 
+  /*
+  // Pauvre mysql... trop lourd pour lui...
   if (isset($_REQUEST['regex']))
   {
-    $url .= "&regexp";
+    $url .= "&regex";
     $sql_conds = "WHERE (frm_message.titre_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."' OR contenu_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."') ";
   }
   else
+    */
     $sql_conds = "WHERE MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
 
   if ( !$forum->is_admin( $site->user ) )
@@ -507,7 +510,7 @@ while( list($value,$name) = $req->get_row()){
 
 $frm = new form("frmsearch",$wwwtopdir."forum2/search.php", true);
 $frm->add_text_field("pattern","Recherche");
-$frm->add_checkbox("regex", "Utiliser une expression régulière");
+//$frm->add_checkbox("regex", "Utiliser une expression régulière");
 $frm->add_entity_smartselect("id_utilisateur", "Auteur", new utilisateur($site->db), true, false);
 $frm->add_date_field("begin_date", "Posté après");
 $frm->add_date_field("end_date", "Posté avant");
