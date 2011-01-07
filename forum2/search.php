@@ -237,7 +237,7 @@ if ( isset($_REQUEST["pattern"] ) )
 {
   $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
 
-  $url = "search.php?pattern=".$_REQUEST["pattern"];
+  $url = "search.php?pattern=".urlencode($_REQUEST["pattern"]);
 
   if (isset($_REQUEST['regex']))
   {
@@ -483,7 +483,7 @@ if ( isset($_REQUEST["pattern"] ) )
 
 $site->start_page("forum","Recherche");
 
-$cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a> / <a href=\"".urlencode($url)."\">".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
+$cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a> / <a href=\"".$url."\">".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
 
 if ($site->user->is_in_group('root') || $site->user->is_in_group('moderateur_forum'))
   $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
