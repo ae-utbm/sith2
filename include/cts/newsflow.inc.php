@@ -203,7 +203,7 @@ abstract class newslister extends stdcontents
            "&amp;titre_sujet=".urlencode($row['titre_nvl']).
            "\">Réactions</a>";
 
-        $this->puts("<li class=\"nvlitm nvl$n\"><img src=\"$img\" alt=\"\" class=\"nvlicon\" /><a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\" class=\"nvltitre\">".$row['titre_nvl']."</a> <span class=\"when\">$when</span><br/><span class=\"div\">".doku2xhtml($row['resume_nvl'])."</div><div class=\"clearboth\"></div></li>\n");
+        $this->puts("<li class=\"nvlitm nvl$n\"><img src=\"$img\" alt=\"\" class=\"nvlicon\" /><a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\" class=\"nvltitre\">".$row['titre_nvl']."</a> <span class=\"when\">$when</span><br/><span class=\"nvlresume\">".doku2xhtml($row['resume_nvl'])."</span><div class=\"clearboth\"></div></li>\n");
         $n = ($n+1)%2;
       }
       $this->puts("</ul></div>\n");
