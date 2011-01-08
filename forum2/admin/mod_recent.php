@@ -30,7 +30,7 @@ $site = new site();
 if ( !$site->user->is_in_group('root')
      && !$site->user->is_in_group('moderateur_forum')
    )
-  $site->error_forbidden('none','group',7);
+  $site->error_forbidden("forum",'group',7);
 
 $site->start_page('forum','Administration du forum');
 $cts = new contents("Administration");

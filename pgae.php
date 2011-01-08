@@ -33,7 +33,7 @@ require_once($topdir. "include/catalog.inc.php");
 require_once($topdir."include/cts/board.inc.php");
 
 $site = new site ();
-$site->start_page ("maintenance", "Petit géni");
+$site->start_page ("services", "Petit géni");
 $cts = new contents();
 $cts->add_title(2, "Petit géni : c'est repartit !");
 $cts->add_paragraph("Le petit géni est actuellement en reconstruction, la nouvelle version sera bientôt disponible. En attendant, pour toutes questions ou renseignements, merci de contacter l'équipe à l'adresse suivante: petit [dot] geni [at] utbm [dot] fr");

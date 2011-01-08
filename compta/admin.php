@@ -27,10 +27,10 @@ require_once("include/comptes.inc.php");
 
 $site = new sitecompta();
 
-$site->allow_only_logged_users("none");
+$site->allow_only_logged_users("services");
 
 if ( !$site->user->is_in_group("compta_admin") )
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 
 
 if ($_REQUEST['action'] == "addcptasso")
@@ -49,7 +49,7 @@ if ($_REQUEST['action'] == "addcptasso")
 
 
 
-$site->start_page ("none",
+$site->start_page ("accueil",
        "Administration de la compta");
 
 

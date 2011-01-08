@@ -46,7 +46,7 @@ if ( isset($_REQUEST["connect"]) && $_REQUEST["username"] != "" )
 
 
 
-$site->start_page("Bienvenue");
+$site->start_page("accueil");
 
 $home = new icontents();
 
@@ -177,26 +177,26 @@ if ( $site->user->id > 1 )
 
     $home->add_title(2,"Comptoirs");
 
-		$req = new requete ($site->dbrw,
-					 "UPDATE `cpt_tracking` SET `closed_time`='".date("Y-m-d H:i:s")."'
-					  WHERE `activity_time` <= '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
-					  AND `closed_time` IS NULL");
+    $req = new requete ($site->dbrw,
+           "UPDATE `cpt_tracking` SET `closed_time`='".date("Y-m-d H:i:s")."'
+            WHERE `activity_time` <= '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
+            AND `closed_time` IS NULL");
 
-		$req = new requete ($site->dbrw,
-					 "SELECT MAX(activity_time),id_comptoir
-					  FROM `cpt_tracking`
-					  WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
-					  AND `closed_time` IS NULL
-					  GROUP BY id_comptoir");
+    $req = new requete ($site->dbrw,
+           "SELECT MAX(activity_time),id_comptoir
+            FROM `cpt_tracking`
+            WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
+            AND `closed_time` IS NULL
+            GROUP BY id_comptoir");
 
     while ( list($act,$id) = $req->get_row() )
       $activity[$id]=strtotime($act);
 
-		$req = new requete ($site->dbrw,
-					 "SELECT id_comptoir, nom_cpt
-					  FROM cpt_comptoir
-					  WHERE type_cpt='0' AND id_comptoir != '4'
-					  ORDER BY nom_cpt");
+    $req = new requete ($site->dbrw,
+           "SELECT id_comptoir, nom_cpt
+            FROM cpt_comptoir
+            WHERE type_cpt='0' AND id_comptoir != '4'
+            ORDER BY nom_cpt");
 
     $home->puts("<p>");
 

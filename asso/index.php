@@ -37,12 +37,12 @@ if ( isset($_REQUEST["id_asso"]) )
   $asso->load_by_id($_REQUEST["id_asso"]);
   if ( $asso->id < 1 )
   {
-    $site->error_not_found();
+    $site->error_not_found("presentation");
     exit();
   }
 
   if ( !$site->user->is_in_group("gestion_ae") && !$asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU) )
-    $site->error_forbidden();
+    $site->error_forbidden("presentation");
 
   $site->start_page("presentation",$asso->nom);
 

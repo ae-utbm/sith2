@@ -26,21 +26,21 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
 
-$site->start_page("none","Réinitialisation de votre mot de passe");
+$site->start_page("accueil","Réinitialisation de votre mot de passe");
 $cts = new contents("Réinitialisation de votre mot de passe");
 
 if ( isset($_REQUEST["email"]) )
 {
-	$user = new utilisateur($site->db,$site->dbrw);
+  $user = new utilisateur($site->db,$site->dbrw);
 
-	$user->load_by_email($_REQUEST["email"]);
+  $user->load_by_email($_REQUEST["email"]);
 
-	if ( $user->is_valid() )
-	{
-		$pass = genere_pass(10);
+  if ( $user->is_valid() )
+  {
+    $pass = genere_pass(10);
 
-		$user->invalidate();
-		$user->change_password($pass);
+    $user->invalidate();
+    $user->change_password($pass);
 
     $user->send_autopassword_email($_REQUEST["email"],$pass);
 /*
@@ -59,34 +59,34 @@ personnelles\".
 
 L'équipe info AE";
 
-		$ret = mail($_REQUEST["email"], "[Site AE] Réinitialisation du mot de passe", $body);
-		*/
+    $ret = mail($_REQUEST["email"], "[Site AE] Réinitialisation du mot de passe", $body);
+    */
 
-		$cts->add_paragraph("Un nouveau mot de passe vous a été envoyé par " .
-				"courrier électronique. Dans ce courrier électronique, vous " .
-				"trouverez une adresse Web permettant de valider ce nouveau " .
-				"mot de passe.");
-		$form = 0;
-	}
-	else
-	{
-		$cts->add_paragraph("<b>Adresse e-mail inconnue</b>, veuillez la corriger.");
-		$form = 1;
-	}
+    $cts->add_paragraph("Un nouveau mot de passe vous a été envoyé par " .
+        "courrier électronique. Dans ce courrier électronique, vous " .
+        "trouverez une adresse Web permettant de valider ce nouveau " .
+        "mot de passe.");
+    $form = 0;
+  }
+  else
+  {
+    $cts->add_paragraph("<b>Adresse e-mail inconnue</b>, veuillez la corriger.");
+    $form = 1;
+  }
 }
 else
 {
-	$cts->add_paragraph("Ce formulaire vous permet de réinitialiser votre mot de " .
-			"passe en vous en renvoyant un nouveau par e-mail.");
-	$form = 1;
+  $cts->add_paragraph("Ce formulaire vous permet de réinitialiser votre mot de " .
+      "passe en vous en renvoyant un nouveau par e-mail.");
+  $form = 1;
 }
 
 if ( $form )
 {
-	$frm = new form("lostpassword","password.php",true);
-	$frm->add_text_field("email","Adresse e-mail","",true);
-	$frm->add_submit("submit","Envoyer");
-	$cts->add($frm);
+  $frm = new form("lostpassword","password.php",true);
+  $frm->add_text_field("email","Adresse e-mail","",true);
+  $frm->add_submit("submit","Envoyer");
+  $cts->add($frm);
 }
 
 $list = new itemlist("Voir aussi");

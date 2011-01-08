@@ -51,14 +51,14 @@ if ( $_REQUEST["get"] == "real.ram" )
 }
 if ( $_REQUEST["get"] == "info" )
 {
-	header("Content-Type: text/html; charset=utf-8");
+  header("Content-Type: text/html; charset=utf-8");
   echo htmlentities($GLOBALS["streaminfo"]["title"], ENT_NOQUOTES, "UTF-8").
        " - ". htmlentities($GLOBALS["streaminfo"]["artist"], ENT_NOQUOTES, "UTF-8");
   exit();
 }
 if ( $_REQUEST["get"] == "popup" )
 {
-	header("Content-Type: text/html; charset=utf-8");
+  header("Content-Type: text/html; charset=utf-8");
 
   if ( !$GLOBALS["streaminfo"]["mp3"] )
   {
@@ -66,16 +66,16 @@ if ( $_REQUEST["get"] == "popup" )
     exit();
   }
 
-	echo "<html>\n";
-	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	echo "<title>Superflux - Lecteur web</title>\n";
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/superflux.css\" />\n";
-	echo "<script type=\"text/javascript\" src=\"js/site.js\"></script>\n";
-	echo "<script type=\"text/javascript\" src=\"js/ajax.js\"></script>\n";
-	echo "<script type=\"text/javascript\" src=\"js/superflux.js\"></script>\n";
-	echo "</head>\n";
-	echo "<body>\n";
+  echo "<html>\n";
+  echo "<head>\n";
+  echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+  echo "<title>Superflux - Lecteur web</title>\n";
+  echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/superflux.css\" />\n";
+  echo "<script type=\"text/javascript\" src=\"js/site.js\"></script>\n";
+  echo "<script type=\"text/javascript\" src=\"js/ajax.js\"></script>\n";
+  echo "<script type=\"text/javascript\" src=\"js/superflux.js\"></script>\n";
+  echo "</head>\n";
+  echo "<body>\n";
 
   echo "<h1>Superflux</h1>";
   echo "<p id=\"ecoute\">Actuellement</p>";
@@ -104,12 +104,12 @@ if ( $_REQUEST["get"] == "popup" )
     echo "<object classid=\"CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95\"
     codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701\"
     type=\"application/x-oleobject\" width=\"250\" height=\"60\">
-    							<param name=\"filename\" value=\"".$GLOBALS["streaminfo"]["mp3"]."\">
-    							<param name=\"autostart\" value=\"1\">
-    							<embed width=\"250\" height=\"60\" src=\"".$GLOBALS["streaminfo"]["mp3"]."\"
-    							autostart=\"1\" type=\"application/x-mplayer2\"
-    							pluginspage=\"http://www.microsoft.com/Windows/MediaPlayer/download/default.asp\">
-    							</embed></object>";
+                  <param name=\"filename\" value=\"".$GLOBALS["streaminfo"]["mp3"]."\">
+                  <param name=\"autostart\" value=\"1\">
+                  <embed width=\"250\" height=\"60\" src=\"".$GLOBALS["streaminfo"]["mp3"]."\"
+                  autostart=\"1\" type=\"application/x-mplayer2\"
+                  pluginspage=\"http://www.microsoft.com/Windows/MediaPlayer/download/default.asp\">
+                  </embed></object>";
   }
   else if ( $plug == "real" )
   {
@@ -128,11 +128,11 @@ if ( $_REQUEST["get"] == "popup" )
       $vlcStream = $GLOBALS["streaminfo"]["ogg"];
 
     echo "<object classid=\"clsid:E23FE9C6-778E-49D4-B537-38FCDE4887D8\"
-					codebase=\"http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab\"
-					id=\"stream\" type=\"application/x-oleobject\" width=\"1\" height=\"1\">
-			<param name=\"autoplay\" value=\"true\" />
-			<param name=\"src\" value=\"$vlcStream\" />
-			<embed type=\"application/x-vlc-plugin\"
+          codebase=\"http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab\"
+          id=\"stream\" type=\"application/x-oleobject\" width=\"1\" height=\"1\">
+      <param name=\"autoplay\" value=\"true\" />
+      <param name=\"src\" value=\"$vlcStream\" />
+      <embed type=\"application/x-vlc-plugin\"
          name=\"stream\"
          autoplay=\"yes\" loop=\"yes\" width=\"1\" height=\"1\"
          target=\"$vlcStream\" /></object><br />VLC :
@@ -165,8 +165,8 @@ if ( $_REQUEST["get"] == "popup" )
   }
   echo "</ul>";
 
-	echo "</body>\n";
-	echo "</html>\n";
+  echo "</body>\n";
+  echo "</html>\n";
 
   exit();
 }
@@ -175,7 +175,7 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site();
 
-$site->start_page("stream","Streaming");
+$site->start_page("services","Streaming");
 
 $cts = new contents("Superflux, la webradio");
 

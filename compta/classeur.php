@@ -29,7 +29,7 @@ require_once($topdir . "include/cts/sqltable.inc.php");
 
 $site = new sitecompta();
 
-$site->allow_only_logged_users("none");
+$site->allow_only_logged_users("services");
 
 
 $op    = new operation($site->db,$site->dbrw);
@@ -67,7 +67,7 @@ $cpbc->load_by_id($cptasso->id_cptbc);
 $asso->load_by_id($cptasso->id_asso);
 
 if ( !$site->user->is_in_group("compta_admin") && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) )
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 
 $site->set_current($asso->id,$asso->nom,$cla->id,$cla->nom,$cpbc->nom);
 
@@ -155,7 +155,7 @@ if ( $_REQUEST["action"] == "newop" && $GLOBALS["svalid_call"] )
         $type_mouvement = $opstd->type_mouvement;
 
       /* CODE DUPLIQUE PLUS LOIN */
-      $site->start_page ("none", "Classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
+      $site->start_page ("services", "Classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
 
       $frm = new form("newopjum","classeur.php?id_classeur=".$cla->id,true,"POST","Opération jumelée");
       $frm->add_hidden("action","newoplinked");
@@ -274,7 +274,7 @@ else if ( $_REQUEST["action"] == "newoplinked" && ($op->is_valid()) && $GLOBALS[
       $type_mouvement = $opstd->type_mouvement;
 
     /* CODE DUPLIQUE PLUS HAUT */
-    $site->start_page ("none", "Classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
+    $site->start_page ("services", "Classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
     $frm = new form("newopjum","classeur.php?id_classeur=".$cla->id,true,"POST","Opération jumelée");
     $frm->add_hidden("action","newoplinked");
     $frm->add_hidden("id_op",$op->id);
@@ -426,7 +426,7 @@ elseif ( $_REQUEST["action"] == "newbudget" )
 
 
 
-$site->start_page ("none", "Classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
+$site->start_page ("services", "Classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
 
 $req = new requete ( $site->db, "SELECT " .
     "`cpta_operation`.`op_effctue`, " .

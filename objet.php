@@ -52,7 +52,7 @@ if ( isset($_REQUEST["id_objet"]) )
   $objet->load_by_id($_REQUEST["id_objet"]);
   if ( $objet->id < 1 )
   {
-    $site->error_not_found();
+    $site->error_not_found("services");
     exit();
   }
   $can_admin=false;
@@ -344,7 +344,7 @@ if ( isset($_REQUEST["id_asso"]))
 
 if ( !($asso_gest->id > 0 && $asso_gest->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU)) &&
   !$site->user->is_in_group("gestion_ae")  )
-  $site->error_forbidden("none","group",9);
+  $site->error_forbidden("services","group",9);
 
 if ( $_REQUEST["action"] == "addobjet" )
 {

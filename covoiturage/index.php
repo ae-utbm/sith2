@@ -41,13 +41,13 @@ $site->start_page ("services", "Covoiturage - Accueil");
 
 if ($site->user->id <= 0)
 {
-  $site->error_forbidden();
+  $site->error_forbidden("services");
   exit();
 
 }
 
 $accueil = new contents("Accueil - Covoiturage",
-			"Bienvenue sur le système de covoiturage de l'AE.<br/><br/>");
+      "Bienvenue sur le système de covoiturage de l'AE.<br/><br/>");
 
 
 /* "Mes trajets proposés" */
@@ -77,20 +77,20 @@ if ($sql->lines)
 
 
       if ($trajet->has_expired())
-	$mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom .
-	  " / " . $trajet->ville_arrivee->nom . "<b> - TRAJET EXPIRE (cliquez pour ajouter une date)</b></a>";
+  $mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom .
+    " / " . $trajet->ville_arrivee->nom . "<b> - TRAJET EXPIRE (cliquez pour ajouter une date)</b></a>";
       else
-	{
-	  $str = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom .
-	    " / " . $trajet->ville_arrivee->nom;
+  {
+    $str = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom .
+      " / " . $trajet->ville_arrivee->nom;
 
-	  if ($trajet->has_pending_steps())
-	    $str .= "<b> - ETAPES EN ATTENTE DE VALIDATION !</b>";
+    if ($trajet->has_pending_steps())
+      $str .= "<b> - ETAPES EN ATTENTE DE VALIDATION !</b>";
 
-	  $str .= "</a>";
+    $str .= "</a>";
 
-	  $mytrj[] = $str;
-	}
+    $mytrj[] = $str;
+  }
     }
 
   if (count($mytrj) > 0)
@@ -130,26 +130,26 @@ if ($req->lines > 0)
   while ($rs = $req->get_row())
     {
       if ($rs['accepted_etape'] == 2)
-	$state = "Refusé";
+  $state = "Refusé";
       else if ($rs['accepted_etape'] == 1)
-	$state = "Acceptée";
+  $state = "Acceptée";
       else if ($rs['accepted_etape'] == 3)
-	$state = "DATE DE TRAJET SUPPRIMEE";
+  $state = "DATE DE TRAJET SUPPRIMEE";
       else
-	$state = "En attente";
+  $state = "En attente";
 
 
       $trajet->load_by_id($rs['id_trajet']);
 
       $desc = "Trajet ".$trajet->ville_depart->nom." / ".
-	$trajet->ville_arrivee->nom;
+  $trajet->ville_arrivee->nom;
 
       $date = HumanReadableDate($rs['trajet_date'], "", false, true);
 
       $stepsarr[] = array("id" => $rs['id_etape'].','.$rs['id_trajet'].','.$rs['trajet_date'],
-			  "description" => $desc,
-			  "date" => $date ,
-			  "state" => $state);
+        "description" => $desc,
+        "date" => $date ,
+        "state" => $state);
 
     }
 
@@ -157,13 +157,13 @@ if ($req->lines > 0)
   $accueil->add_title(2, "Mes étapes");
 
   $accueil->add_paragraph("Cette partie liste les étapes sur les trajets que vous ".
-			  "souhaitez rejoindre, ainsi que l'état d'acceptation des étapes");
+        "souhaitez rejoindre, ainsi que l'état d'acceptation des étapes");
 
   $accueil->add(new sqltable("mysteps", "Mes étapes", $stepsarr, "./details.php", "id",
-			     array("description" => "Description du trajet",
-				   "date" => "Date",
-				   "state" => "Etat de la demande"),
-			     array("delete" => "supprimer", "view" => "Voir"), array()));
+           array("description" => "Description du trajet",
+           "date" => "Date",
+           "state" => "Etat de la demande"),
+           array("delete" => "supprimer", "view" => "Voir"), array()));
 
 } // fin "mes étapes"
 

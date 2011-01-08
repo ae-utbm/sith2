@@ -40,7 +40,7 @@ require_once($topdir."include/entities/books.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_syscarteae") )
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
 if ( $_REQUEST["action"] == "genfact" )
 {
@@ -209,7 +209,7 @@ elseif ( $_REQUEST["action"] == "genonefact" )
   exit();
 }
 
-$site->start_page("none","Système carte AE");
+$site->start_page("services","Système carte AE");
 
 $cts = new contents("Système carte AE");
 

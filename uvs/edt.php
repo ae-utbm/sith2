@@ -51,11 +51,11 @@ $site->add_contents($cts);
 
 if (!$site->user->utbm)
 {
-	$site->error_forbidden("none","reservedutbm");
+  $site->error_forbidden("services","reservedutbm");
 }
 if (!$site->user->is_valid())
 {
-	$site->error_forbidden();
+  $site->error_forbidden("services");
 }
 
 $edt = new edt($site->db, $site->dbrw);
@@ -64,8 +64,8 @@ if($_REQUEST['showincts'] == 1)
 {
   $cts = new contents("","");
   $cts->add_paragraph("<center><img src=\"./edt.php?render=1&semestre=".
-		      $_REQUEST['semestre']."&id=". $_REQUEST['id']
-		      ."\" alt=\"emploi du temps\" /></center>");
+          $_REQUEST['semestre']."&id=". $_REQUEST['id']
+          ."\" alt=\"emploi du temps\" /></center>");
 
   echo "<h1>Emploi du temps - semestre " .
     htmlentities($_REQUEST['semestre'])."</h1>\n";
@@ -99,7 +99,7 @@ if (isset($_REQUEST['delete']))
 {
   $semestre = $_REQUEST['semestre'];
   $edt->delete_edt($site->user->id,
-		   $semestre);
+       $semestre);
 }
 
 $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
@@ -107,8 +107,8 @@ $path .= "/" . " Emploi du temps";
 $cts = new contents($path);
 
 $cts->add_paragraph("Sur cette page vous pouvez gérer vos emplois du temps.".
-		    "<br/><a href=\"#\" onClick=\"javascript:alert('Fonction indisponible pour le moment')\">Ajouter un emploi du temps</a>");
-/*		    "<br/><a href=\"./create.php\">Ajouter un emploi du temps</a>"); */
+        "<br/><a href=\"#\" onClick=\"javascript:alert('Fonction indisponible pour le moment')\">Ajouter un emploi du temps</a>");
+/*        "<br/><a href=\"./create.php\">Ajouter un emploi du temps</a>"); */
 
 
 $cts->add_paragraph("<h2>Vos emplois du temps disponibles</h2><br/>");
@@ -147,15 +147,15 @@ else
   while ($rs = $req->get_row())
     {
       if (!$first)
-	$first = $rs['semestre_grp'];
+  $first = $rs['semestre_grp'];
 
       $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."', '".$site->user->id."')\">".
-	"Emploi du temps du semestre ".$rs['semestre_grp'].
-	"</a> | <a href=\"".$topdir."uvs/edt_ical.php?semestre=".$rs['semestre_grp']."&id=".$site->user->id."\">iCal</a> | ".
-	"<a href=\"#\" onClick=\"javascript:alert('Fonction indisponible pour le moment')\">Editer</a> | ".
-/*	"<a href=\"./edit.php?semestre=".$rs['semestre_grp']."\">Editer</a> | ". */
-	"<a href=\"#\" onClick=\"javascript:alert('Fonction indisponible pour le moment')\">Supprimer</a>";
-/*	"<a href=\"\" onClick=\"javascript:if(confirm('Etes vous sûr de souhaiter supprimer cet emploi du temps ?')) window.location = './edt.php?delete&semestre=".$rs['semestre_grp']."'\">Supprimer</a>"; */
+  "Emploi du temps du semestre ".$rs['semestre_grp'].
+  "</a> | <a href=\"".$topdir."uvs/edt_ical.php?semestre=".$rs['semestre_grp']."&id=".$site->user->id."\">iCal</a> | ".
+  "<a href=\"#\" onClick=\"javascript:alert('Fonction indisponible pour le moment')\">Editer</a> | ".
+/*  "<a href=\"./edit.php?semestre=".$rs['semestre_grp']."\">Editer</a> | ". */
+  "<a href=\"#\" onClick=\"javascript:alert('Fonction indisponible pour le moment')\">Supprimer</a>";
+/*  "<a href=\"\" onClick=\"javascript:if(confirm('Etes vous sûr de souhaiter supprimer cet emploi du temps ?')) window.location = './edt.php?delete&semestre=".$rs['semestre_grp']."'\">Supprimer</a>"; */
     }
   $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
   $cts->add($itemlst);
@@ -186,4 +186,3 @@ $site->add_contents($cts2);
 $site->end_page();
 
 ?>
-

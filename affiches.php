@@ -45,7 +45,7 @@ if ( isset($_REQUEST["id_affiche"]) )
   $affiche->load_by_id($_REQUEST["id_affiche"]);
   if ( $affiche->id < 1 )
   {
-    $site->error_not_found();
+    $site->error_not_found("services");
     exit();
   }
 
@@ -239,7 +239,7 @@ if ( !$site->user->is_valid() )
 
 $file = new dfile($site->db, $site->dbrw);
 
-$site->start_page ("none", "Accueil affiches");
+$site->start_page ("services", "Accueil affiches");
 
 $suitable = false;
 

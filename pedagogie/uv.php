@@ -34,7 +34,7 @@ require_once("include/pedag_user.inc.php");
 require_once("include/cts/pedagogie.inc.php");
 
 $site = new site();
-$site->allow_only_logged_users();
+$site->allow_only_logged_users("services");
 $site->add_js("pedagogie/pedagogie.js");
 $site->add_css("css/pedagogie.css");
 $site->start_page("services", "AE Pédagogie");

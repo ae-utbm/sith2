@@ -26,7 +26,7 @@ require_once("include/mosaic.inc.php");
 
 $site = new sas();
 if ( !$site->user->is_in_group("sas_admin") )
-  $site->error_forbidden("none","group","sas_admin");
+  $site->error_forbidden("sas","group","sas_admin");
 
 $site->allow_only_logged_users("sas");
 

@@ -34,7 +34,7 @@ require_once($topdir. "include/entities/group.inc.php");
 $site = new sitecomptoirs();
 // Session requise
 if ( !$site->user->is_valid() )
- $site->error_forbidden();
+ $site->error_forbidden("services");
 
 function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock = -1 )
 {
@@ -55,7 +55,7 @@ function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock
 $site->fetch_admin_comptoirs();
 
 if ( !count($site->admin_comptoirs) && !$site->user->is_in_group("gestion_ae") )
- $site->error_forbidden();
+ $site->error_forbidden("services");
 
 $site->set_admin_mode();
 
@@ -73,7 +73,7 @@ if ( isset($_REQUEST["id_comptoir"]) )
 {
  $comptoir->load_by_id($_REQUEST["id_comptoir"]);
  if ( !isset($site->admin_comptoirs[$comptoir->id]) )
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 }
 
 if ( isset($_REQUEST["id_assocpt"]) )

@@ -37,7 +37,7 @@ if ( isset($_REQUEST["vcf"]) )
   exit();
 }
 
-$site->start_page("Bienvenue");
+$site->start_page("accueil");
 
 $fiche = new icontents();
 

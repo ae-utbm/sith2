@@ -31,8 +31,8 @@ require_once($topdir."include/entities/folder.inc.php");
 
 $site = new site ();
 if (!$site->user->is_in_group ("moderateur_site"))
-  $site->error_forbidden();
-$site->start_page("none","Weekmail");
+  $site->error_forbidden("accueil");
+$site->start_page("accueil","Weekmail");
 $cts = new contents('<a href="./index.php">gestion ae</a> / <a href="?">Weekmail</a>');
 $list = new itemlist("Outils");
 $list->add("<a href=\"?page=modere\">Modérer</a>");

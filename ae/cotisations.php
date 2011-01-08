@@ -40,7 +40,7 @@ require_once($topdir. "include/entities/partenariat_utl.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") )
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 
 if (date("m-d") < "02-15")
 {
@@ -71,7 +71,7 @@ $partenariats = array(1=> "Ce cotisant vient d'ouvrir un compte à la Société 
                       2=> "Ce cotisant est à la SMEREB",
                       );
 
-$site->start_page ("none", "Gestion des cotisations");
+$site->start_page ("services", "Gestion des cotisations");
 
 function add_search_form()
 {
@@ -231,7 +231,7 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
 
   if ( $user->id < 0 )
   {
-    $site->error_not_found();
+    $site->error_not_found("services");
     exit();
   }
   else
@@ -449,7 +449,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
     $user->load_by_id($res['id_utl']);
     if ( $user->id < 0 )
     {
-      $site->error_not_found();
+      $site->error_not_found("services");
       exit();
     }
 
@@ -595,7 +595,7 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
   $user->load_by_id($_REQUEST['id_utilisateur']);
   if ( $user->id < 0 )
   {
-    $site->error_not_found();
+    $site->error_not_found("services");
     exit();
   }
 

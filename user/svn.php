@@ -33,7 +33,7 @@ $site = new site ();
 
 $site->allow_only_logged_users("");
 
-$site->start_page("none","Ma boite à outils / SVN");
+$site->start_page("accueil","Ma boite à outils / SVN");
 $cts = new contents("<a href=\"outils.php\">Ma boite à outils</a> / SVN");
 
 /*

@@ -27,7 +27,7 @@ require_once($topdir . "include/graph.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae"))
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
 function dec2hex($val)
 {
@@ -114,7 +114,7 @@ if (isset($_REQUEST['start']))
 }
 
 
-$site->start_page ("none", "statistiques du site");
+$site->start_page ("accueil", "statistiques du site");
 
 $cts = new contents("Classement");
 

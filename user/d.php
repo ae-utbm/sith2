@@ -29,9 +29,9 @@ require_once($topdir."include/cts/sqltable.inc.php");
 
 $site = new site ();
 
-$site->allow_only_logged_users("");
+$site->allow_only_logged_users("fichiers");
 
-$site->start_page("none","Fichiers empruntés");
+$site->start_page("fichiers","Fichiers empruntés");
 
 if(isset($_REQUEST['action']) && $_REQUEST['action']=='res')
 {

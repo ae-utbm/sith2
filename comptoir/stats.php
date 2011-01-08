@@ -42,7 +42,7 @@ $site->fetch_proprio_comptoirs();
 $comptoirs = array(0=>"-") + $site->proprio_comptoirs;
 
 if ( !count($site->proprio_comptoirs) && !$site->user->is_in_group("gestion_ae") )
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 
 $site->set_admin_mode();
 

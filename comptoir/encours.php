@@ -27,7 +27,7 @@ require_once("include/defines.inc.php");
 $site = new site();
 
 if ( !$site->user->is_valid() )
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 
 if ( isset($_REQUEST['id_utilisateur']) )
 {
@@ -35,7 +35,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
   $user->load_by_id($_REQUEST["id_utilisateur"]);
   if ( $user->id < 0 )
   {
-    $site->error_not_found();
+    $site->error_not_found("services");
     exit();
   }
 }

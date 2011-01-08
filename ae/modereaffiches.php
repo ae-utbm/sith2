@@ -34,9 +34,9 @@ require_once($topdir."include/entities/files.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("moderateur_site"))
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
-$site->start_page ("none", "Modération des affiches");
+$site->start_page ("services", "Modération des affiches");
 
 /*suppression via la sqltable */
 if ((isset($_REQUEST['id_affiche']))

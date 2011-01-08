@@ -30,7 +30,7 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_valid() )
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
 $cpg = new campagne($site->db,$site->dbrw);
 
@@ -114,7 +114,7 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
         $values=explode(";",$question["reponses"]);
         foreach($values as $value)
         {
-	  $keys=array();
+          $keys=array();
           $value=explode("|", $value, 2);
           $keys[$value[0]]=$value[1];
           $frm->add_radiobox_field( "reponses[$id]", "", $keys, "", false, false );

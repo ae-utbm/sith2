@@ -31,7 +31,7 @@ require_once($topdir. "include/entities/group.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("root") && !$site->user->is_in_group("gestion_ae"))
-  $site->error_forbidden("none","group",1);
+  $site->error_forbidden("accueil","group",1);
 
 $grp = new group ( $site->db,$site->dbrw);
 
@@ -40,7 +40,7 @@ if ( isset($_REQUEST["id_groupe"]) )
   $grp->load_by_id($_REQUEST["id_groupe"]);
   if ( $grp->id < 1 )
   {
-    $site->error_not_found();
+    $site->error_not_found("accueil");
     exit();
   }
 }
@@ -111,7 +111,7 @@ if (  $grp->id > 0)
         $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes systèmes.";
     }
   }
-  $site->start_page("none","Groupe");
+  $site->start_page("accueil","Groupe");
 
   $cts = new contents("<a href=\"group.php\">Groupes</a> / ".$grp->get_html_link());
   $cts->add_paragraph($grp->description);
@@ -161,7 +161,7 @@ if ( $_REQUEST["action"] == "addgroup" && $site->user->is_in_group("root"))
   }
 }
 
-$site->start_page("none","Groupes");
+$site->start_page("accueil","Groupes");
 $cts = new contents("Groupes");
 
 $req = new requete($site->db,

@@ -30,7 +30,7 @@ $asso = new asso($site->db,$site->dbrw);
 $asso->load_by_id($_REQUEST["id_asso"]);
 if ( $asso->id < 1 )
 {
-  $site->error_not_found();
+  $site->error_not_found("presentation");
   exit();
 }
 
@@ -53,7 +53,7 @@ while ( $asso_parent->id > 0 )
 }
 
 /*if( !$site->user->ae && !$can_admin )
-  $site->error_forbidden("none","reserveAE");*/
+  $site->error_forbidden("presentation","reserveAE");*/
 
 if ( $_REQUEST["action"]=="getallvcards" && !$limited )
 {

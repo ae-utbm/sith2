@@ -33,7 +33,7 @@ require_once($topdir . "include/graph.inc.php");
 require_once($topdir."include/cts/progressbar.inc.php");
 $site = new site ();
 
-$site->start_page("none","Statistiques");
+$site->start_page("presentation","Statistiques");
 $cts = new contents("Statistiques");
 
 if(!$site->user->is_in_group ("gestion_ae"))
@@ -101,7 +101,7 @@ if (($_REQUEST["view"] == "cotisants" ) && isset($_REQUEST['bananas']) && ($_REQ
 elseif ( $_REQUEST["view"] == "cotisants" )
 {
   if (!$site->user->is_in_group ("gestion_ae"))
-    $site->error_forbidden("none","group",9);
+    $site->error_forbidden("presentation","group",9);
 
   $req = new requete($site->db,"SELECT COUNT(*) FROM `utilisateurs` WHERE `ancien_etudiant_utl`='0'");
   list($total) = $req->get_row();
@@ -411,7 +411,7 @@ elseif ( $_REQUEST["view"] == "sas" )
 elseif ( $_REQUEST["view"] == "forum" )
 {
   if (!$site->user->is_in_group ("gestion_ae"))
-    $site->error_forbidden("none","group",9);
+    $site->error_forbidden("presentation","group",9);
 
   if (isset($_REQUEST['toptenimg']))
     {
@@ -655,7 +655,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 elseif ( $_REQUEST["view"] == "matmatronch" )
 {
   if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_asso_role(27,2))
-    $site->error_forbidden();
+    $site->error_forbidden("presentation");
 
   $mcts = new contents("Matmatronch");
 
@@ -743,7 +743,7 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
 elseif ( $_REQUEST["view"] == "elections" )
 {
   if (!$site->user->is_in_group ("gestion_ae"))
-    $site->error_forbidden("none","group",9);
+    $site->error_forbidden("presentation","group",9);
 
   $histo=false;
   $histo2=false;

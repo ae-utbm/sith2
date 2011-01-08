@@ -28,8 +28,8 @@ require_once($topdir . "include/entities/weekmail.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
 
 $site = new site();
-$site->allow_only_logged_users('asso');
-$site->start_page("weekmail",'Weekmail');
+$site->allow_only_logged_users('services');
+$site->start_page("services",'Weekmail');
 // On récupère les asso dont le gus est au moins secrétaire
 $req = new requete($site->db,
                    'SELECT `nom_asso`, `id_asso` '.

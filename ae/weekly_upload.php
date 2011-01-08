@@ -27,9 +27,9 @@ require_once($topdir. "include/site.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("moderateur_site"))
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
-$site->start_page ("none", "Planning / Photo de la semaine");
+$site->start_page ("accueil", "Planning / Photo de la semaine");
 
 $cts = new contents("Attention");
 $cts->add_paragraph("La validité d'une photo de la semaine, de même que celle du planning est de UNE ".

@@ -33,7 +33,7 @@ require_once($topdir. "include/cts/planning.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") )
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
 $emp = new emprunt ( $site->db, $site->dbrw );
 $asso = new asso($site->db);

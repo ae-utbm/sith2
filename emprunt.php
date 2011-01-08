@@ -41,7 +41,7 @@ if ( isset($_REQUEST["id_emprunt"]) )
   $emp->load_by_id($_REQUEST["id_emprunt"]);
   if ( $emp->id < 1 && !isset($_REQUEST["valid"]) )
   {
-    $site->error_not_found();
+    $site->error_not_found("services");
     exit();
   }
   elseif ( $emp->id > 0 )
@@ -54,7 +54,7 @@ if ( isset($_REQUEST["id_emprunt"]) )
       $can_edit = $can_edit || $asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU);
 
     if ( !$can_edit )
-      $site->error_forbidden();
+      $site->error_forbidden("services");
   }
 }
 

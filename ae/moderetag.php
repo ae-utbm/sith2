@@ -29,7 +29,7 @@ require_once($topdir . "include/entities/tag.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("moderateur_site"))
-  $site->error_forbidden("none","group",8);
+  $site->error_forbidden("accueil","group",8);
 
 if ( $_REQUEST["action"] == "modere" )
 {
@@ -50,7 +50,7 @@ elseif ( $_REQUEST["action"] == "delete" )
   }
 }
 
-$site->start_page ("none", "Modération des tags");
+$site->start_page ("accueil", "Modération des tags");
 
 $cts = new contents("Modération des tags");
 
@@ -58,14 +58,14 @@ $req = new requete($site->db,"SELECT * FROM tag WHERE modere_tag='0' ORDER BY no
 
 
 $tbl = new sqltable ("moderetag_list",
-		"",
-		$req,
-		"moderetag.php",
-		"id_tag",
-		array ("nom_tag" => "Tag"),
-		array (),
-		array ("modere"=>"Accepter","delete" => "Refuser"),
-		array ());
+    "",
+    $req,
+    "moderetag.php",
+    "id_tag",
+    array ("nom_tag" => "Tag"),
+    array (),
+    array ("modere"=>"Accepter","delete" => "Refuser"),
+    array ());
 
 $cts->add ($tbl);
 $site->add_contents ($cts);

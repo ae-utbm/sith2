@@ -31,9 +31,9 @@ require_once($topdir."include/cts/board.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("moderateur_site") )
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
-$site->start_page("none","Tâches courantes Com` AE");
+$site->start_page("accueil","Tâches courantes Com` AE");
 
 $cts = new contents("Tâches courantes de la Com` AE");
 

@@ -29,7 +29,7 @@ require_once($topdir . "include/cts/sqltable.inc.php");
 
 $site = new sitecompta();
 
-$site->allow_only_logged_users("none");
+$site->allow_only_logged_users("services");
 
 $cla   = new classeur_compta($site->db);
 $cptasso = new compte_asso($site->db);
@@ -41,14 +41,14 @@ if ( isset($_REQUEST["id_efact"]) )
 {
   $efact->load_by_id($_REQUEST["id_efact"]);
   if ( !$efact->is_valid() )
-    $site->error_forbidden();
+    $site->error_forbidden("services");
   $cla->load_by_id($efact->id_classeur);
 }
 else
 {
   $cla->load_by_id($_REQUEST["id_classeur"]);
   if ( !$cla->is_valid() )
-    $site->error_forbidden();
+    $site->error_forbidden("services");
 }
 
 $cptasso->load_by_id($cla->id_cptasso);
@@ -56,7 +56,7 @@ $cpbc->load_by_id($cptasso->id_cptbc);
 $asso->load_by_id($cptasso->id_asso);
 
 if ( !$site->user->is_in_group("compta_admin") && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) )
-	$site->error_forbidden();
+  $site->error_forbidden("services");
 
 if ( $_REQUEST["action"] == "create" && $GLOBALS["svalid_call"] )
 {
@@ -95,13 +95,13 @@ elseif ( $_REQUEST["action"] == "pdf" )
   require_once ($topdir . "include/pdf/facture_pdf.inc.php");
 
   $facturing_infos = array ('name' => "Association des Etudiants de l'UTBM",
-  			 'addr' => array("6 Boulevard Anatole France",
-  				"90000 BELFORT"),
-  			 'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
+         'addr' => array("6 Boulevard Anatole France",
+          "90000 BELFORT"),
+         'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
 
   $factured_infos = array ('name' => utf8_decode($efact->nom_facture),
-  			 'addr' => explode("\n",utf8_decode($efact->adresse_facture)),
-  			 false);
+         'addr' => explode("\n",utf8_decode($efact->adresse_facture)),
+         false);
 
   $date_facturation = date("d/m/Y",$efact->date);
 
@@ -112,30 +112,30 @@ elseif ( $_REQUEST["action"] == "pdf" )
   $lines=array();
 
   $req = new requete($site->db,"SELECT * ".
-  	    "FROM cpta_facture_ligne ".
-  	    "WHERE id_efact='".mysql_real_escape_string($efact->id)."'");
+        "FROM cpta_facture_ligne ".
+        "WHERE id_efact='".mysql_real_escape_string($efact->id)."'");
 
   while ($row = $req->get_row ())
   {
     $lines[] = array('nom' => utf8_decode($row['designation_ligne_efact']),
-  		   'quantite' => intval($row['quantite_ligne_efact']),
-  		   'prix' => $row['prix_unit_ligne_efact'],
-  		   'sous_total' => intval($row['quantite_ligne_efact']) * $row['prix_unit_ligne_efact']);
+         'quantite' => intval($row['quantite_ligne_efact']),
+         'prix' => $row['prix_unit_ligne_efact'],
+         'sous_total' => intval($row['quantite_ligne_efact']) * $row['prix_unit_ligne_efact']);
   }
 
   $fact_pdf = new facture_pdf ($facturing_infos,
-  			     $factured_infos,
-  			     $date_facturation,
-  			     $titre,
-  			     $ref,
-  			     $lines);
+             $factured_infos,
+             $date_facturation,
+             $titre,
+             $ref,
+             $lines);
 
   $fact_pdf->renderize ();
 
   exit();
 }
 
-$site->start_page ("none", "Classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
+$site->start_page ("services", "Classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
 
 $cts = new contents("<a href=\"./\">Compta</a> / ".$cpbc->get_html_link()." / ".$cptasso->get_html_link()." / ".$cla->get_html_link());
 
@@ -146,14 +146,14 @@ $cts->add(new tabshead(array(
   "","","subtab"));
 
 $tabsentries = array (
-		array( false, "compta/classeur.php?id_classeur=".$cla->id, "Opérations" ),
-		array( false, "compta/classeur.php?id_classeur=".$cla->id."&page=new", "Ajouter" ),
+    array( false, "compta/classeur.php?id_classeur=".$cla->id, "Opérations" ),
+    array( false, "compta/classeur.php?id_classeur=".$cla->id."&page=new", "Ajouter" ),
     array( true, "compta/classeur.php?id_classeur=".$cla->id."&view=factures", "Factures" ),
-		array( false, "compta/classeur.php?id_classeur=".$cla->id."&view=budget", "Budget" ),
-		array( false, "compta/classeur.php?id_classeur=".$cla->id."&view=types", "Bilan/nature" ),
-		array( false, "compta/classeur.php?id_classeur=".$cla->id."&view=actors", "Bilan/personne" ),
-		array( false, "compta/classeur.php?id_classeur=".$cla->id."&view=blcpt", "Bilan comptable" )
-		);
+    array( false, "compta/classeur.php?id_classeur=".$cla->id."&view=budget", "Budget" ),
+    array( false, "compta/classeur.php?id_classeur=".$cla->id."&view=types", "Bilan/nature" ),
+    array( false, "compta/classeur.php?id_classeur=".$cla->id."&view=actors", "Bilan/personne" ),
+    array( false, "compta/classeur.php?id_classeur=".$cla->id."&view=blcpt", "Bilan comptable" )
+    );
 
 $cts->add(new tabshead($tabsentries,true));
 
@@ -196,23 +196,23 @@ else
   $cts->add($frm,true);
 
   $req = new requete($site->db,"SELECT num_ligne_efact, designation_ligne_efact, prix_unit_ligne_efact/100 as `sum_unit`, quantite_ligne_efact, prix_unit_ligne_efact*quantite_ligne_efact/100 as `montant` ".
-  	    "FROM cpta_facture_ligne ".
-  	    "WHERE id_efact='".mysql_real_escape_string($efact->id)."'");
+        "FROM cpta_facture_ligne ".
+        "WHERE id_efact='".mysql_real_escape_string($efact->id)."'");
 
   $cts->add(new sqltable(
-  		"lstlignes",
-  		"Lignes", $req, "efact.php?id_efact=".$efact->id,
-  		"num_ligne_efact",
-  		array(
-  			"designation_ligne_efact"=>"Designation",
-  			"sum_unit"=>"Prix unitaire",
-  			"quantite_ligne_efact"=>"Quantité",
-  			"montant"=>""
-  			),
-  		array("delete"=>"Supprimer","edit"=>"Editer"),
-  		array("deletes"=>"Supprimer"),
-  		array()
-  		),true);
+      "lstlignes",
+      "Lignes", $req, "efact.php?id_efact=".$efact->id,
+      "num_ligne_efact",
+      array(
+        "designation_ligne_efact"=>"Designation",
+        "sum_unit"=>"Prix unitaire",
+        "quantite_ligne_efact"=>"Quantité",
+        "montant"=>""
+        ),
+      array("delete"=>"Supprimer","edit"=>"Editer"),
+      array("deletes"=>"Supprimer"),
+      array()
+      ),true);
 
   $frm = new form("addline","efact.php?id_efact=".$efact->id,false,"POST","Ajouter une ligne");
   $frm->add_hidden("action","addline");

@@ -33,11 +33,11 @@ require_once($topdir . "include/entities/ville.inc.php");
 
 $site = new site();
 
-$site->start_page ("Covoiturage", "Creation d'un trajet");
+$site->start_page ("services", "Creation d'un trajet");
 $accueil = new contents("Covoiturage",
-			"<p>Bienvenue sur la page du covoiturage, "
-			."<br/><strong>AE-UTBM - Recherche & Dev.".
-			"</strong></p>");
+      "<p>Bienvenue sur la page du covoiturage, "
+      ."<br/><strong>AE-UTBM - Recherche & Dev.".
+      "</strong></p>");
 
 $site->add_contents ($accueil);
 
@@ -65,8 +65,8 @@ $ville = new ville($site->db);
 
 /* formulaire */
 $frm = new form ("trip",
-		 "trajet.php",
-		 true);
+     "trajet.php",
+     true);
 
 if (!isset($_SESSION['trajet']['start']))
 {
@@ -99,15 +99,15 @@ if (!isset($_SESSION['trajet']['stop']))
 }
 
 $frm->add_submit ("submit",
-		  "Envoyer");
+      "Envoyer");
 
 $frm->add_submit ("reset",
-		  "Effacer le trajet");
+      "Effacer le trajet");
 
 
 /* carte */
 $carte = new contents ("Trajet",
-		       "<img src=\"./generate.php\" alt=\"carte\" />");
+           "<img src=\"./generate.php\" alt=\"carte\" />");
 
 
 

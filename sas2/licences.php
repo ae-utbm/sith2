@@ -34,7 +34,7 @@ require_once($topdir."include/cts/sqltable.inc.php");
 $site = new sas();
 $site->add_css("css/sas.css");
 
-$site->start_page("none","Information sur les licences");
+$site->start_page("sas","Information sur les licences");
 
 if(isset($_REQUEST['id_licence']))
 {
@@ -42,7 +42,7 @@ if(isset($_REQUEST['id_licence']))
   if($licence->load_by_id($_REQUEST['id_licence']))
   {
     $cts = new contents($licence->titre);
-    
+
     $cts->add_paragraph($licence->desc);
     if(!is_null($licence->url))
       $cts->add_paragraph("Plus d'information <a href='".$licence->url."'>ici</a>");

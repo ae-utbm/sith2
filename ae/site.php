@@ -37,10 +37,10 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("moderateur_site"))
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
 /* else */
-$site->start_page ("none", "Gestion du site");
+$site->start_page ("accueil", "Gestion du site");
 
 /* objets graphiques de base */
 

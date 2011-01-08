@@ -76,7 +76,7 @@ Le site AE
   exit();
 }
 
-$site->start_page("","Propriété intellectuelle");
+$site->start_page("accueil","Propriété intellectuelle");
 $cts = new contents("Propriété intellectuelle");
 $cts->add_paragraph("<b>Formulaire de déclaration de violation des droits de propriété intellectuelle</b>");
 $cts->add_paragraph("Merci de bien vouloir remplir ce formulaire, tous les champs sont obligatoires !");

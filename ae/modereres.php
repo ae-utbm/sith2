@@ -36,7 +36,7 @@ require_once($topdir. "include/cts/planning.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("bdf-bureau") )
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 
 $sfilter='';
 $filter='';
@@ -124,7 +124,7 @@ elseif ( $_REQUEST["action"] == "info")
   if (isset($_REQUEST["notes"]))
     $resa->set_notes($_REQUEST["notes"]);
 
-  $site->start_page("none","Moderation des reservations de salle");
+  $site->start_page("services","Moderation des reservations de salle");
 
   $cts = new contents("Reservation n°".$resa->id);
 
@@ -174,7 +174,7 @@ elseif ( $_REQUEST["action"] == "info")
   exit();
 }
 
-$site->start_page("none","Moderation des reservations de salle");
+$site->start_page("services","Moderation des reservations de salle");
 
 
 if($site->user->is_in_group("gestion_ae"))

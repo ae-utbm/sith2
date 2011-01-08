@@ -30,17 +30,17 @@ $asso  = new asso($site->db);
 $libelle = new compta_libelle($site->db,$site->dbrw);
 
 if ( !$site->user->is_valid() )
-	$site->error_forbidden();
+  $site->error_forbidden("services");
 
 $asso->load_by_id($_REQUEST["id_asso"]);
 if( $asso->id < 1 )
 {
-  $site->error_not_found();
+  $site->error_not_found("services");
   exit();
 }
 
 if ( !$site->user->is_in_group("compta_admin") && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) )
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 
 $site->set_current($asso->id,$asso->nom,null,null,null);
 
@@ -69,11 +69,11 @@ elseif ( $_REQUEST["action"] == "edit" )
 
   if( $libelle->id < 1 )
   {
-    $site->error_not_found();
+    $site->error_not_found("services");
     exit();
   }
 
-  $site->start_page ("none", "Etiquette ".$asso->nom );
+  $site->start_page ("services", "Etiquette ".$asso->nom );
 
   $frm = new form ("save","libelle.php?id_asso=".$asso->id,true,"POST","Edition");
   $frm->add_hidden("action","save");
@@ -92,7 +92,7 @@ elseif ( $_REQUEST["action"] == "edit" )
 }
 
 
-$site->start_page ("none", "Etiquettes ".$asso->nom );
+$site->start_page ("services", "Etiquettes ".$asso->nom );
 
 $cts = new contents("Etiquettes ".$asso->nom );
 

@@ -165,7 +165,7 @@ if ( $salle->is_valid() )
     }
     else if ( $_REQUEST["allweeks"] )
     {
-      $site->start_page("none","Reservation ".$salle->nom);
+      $site->start_page("services","Reservation ".$salle->nom);
       $cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link()." / ".$salle->get_html_link());
       $cts->add(new tabshead($tabs,"res"));
       $cts->add_paragraph("Selectionnez les dates à réserver.");
@@ -215,7 +215,7 @@ if ( $salle->is_valid() )
 
   if ( $_REQUEST["action"] == "reservation" && $salle->reservable )
   {
-    $site->start_page("none","Reservation ".$salle->nom);
+    $site->start_page("services","Reservation ".$salle->nom);
     $cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link()." / ".$salle->get_html_link());
 
     $cts->add(new tabshead($tabs,"res"));
@@ -250,7 +250,7 @@ if ( $salle->is_valid() )
     exit();
   }
 
-  $site->start_page("none","Salle ".$salle->nom);
+  $site->start_page("services","Salle ".$salle->nom);
 
   $cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link()." / ".$salle->get_html_link());
 
@@ -384,7 +384,7 @@ if ( $salle->is_valid() )
   exit();
 }
 
-$site->start_page("none","Salles");
+$site->start_page("services","Salles");
 
 $cts = new contents("Salles");
 

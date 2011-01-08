@@ -40,7 +40,7 @@ if ( isset($_REQUEST["id_election"]))
   $elec->load_by_id($_REQUEST["id_election"]);
   if ( $elec->id < 1 )
   {
-    $site->error_not_found();
+    $site->error_not_found("accueil");
     exit();
   }
 
@@ -58,9 +58,9 @@ if ( isset($_REQUEST["id_election"]))
   if ( $_REQUEST["page"] == "results" )
   {
     if ( $elec->fin >= time() /*&& !$site->user->is_in_group("gestion_ae")*/ )
-      $site->error_forbidden("none");
+      $site->error_forbidden("accueil");
 
-    $site->start_page("main","Resultats: ".$elec->nom);
+    $site->start_page("accueil","Resultats: ".$elec->nom);
 
     $cts = new contents("Resultats: ".$elec->nom);
 
@@ -154,7 +154,7 @@ if ( isset($_REQUEST["id_election"]))
   }
 
 
-  $site->start_page("main","Election: ".$elec->nom);
+  $site->start_page("accueil","Election: ".$elec->nom);
 
   $cts = new contents("Election: ".$elec->nom);
 
@@ -172,7 +172,7 @@ if ( isset($_REQUEST["id_election"]))
   }
   elseif( !$site->user->is_valid() )
   {
-    $site->allow_only_logged_users("main");
+    $site->allow_only_logged_users("accueil");
   }
   elseif ( !$site->user->is_in_group_id($elec->id_groupe) )
   {
@@ -264,7 +264,7 @@ if ( isset($_REQUEST["id_election"]))
   exit();
 }
 
-$site->start_page("main","Elections");
+$site->start_page("accueil","Elections");
 
 $cts = new contents("Elections");
 

@@ -34,7 +34,7 @@ $user = new utilisateur($site->db);
 
 if (!$asso->is_valid())
 {
-  $site->error_not_found();
+  $site->error_not_found("presentation");
   exit();
 }
 

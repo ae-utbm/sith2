@@ -36,7 +36,7 @@ $comptoirs = array_merge(array(0=>"-"),$site->proprio_comptoirs);
 $comptoirs[-42]='Bureau beflort+Machines';
 
 if ( !count($site->proprio_comptoirs) && !$site->user->is_in_group("gestion_ae") )
-        $site->error_forbidden();
+        $site->error_forbidden("services");
 
 $TypesPaiementsFull[-1]="--";
 

@@ -35,9 +35,9 @@ require_once($topdir . "include/entities/lieu.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("moderateur_site"))
-	$site->error_forbidden();
+  $site->error_forbidden("accueil");
 
-$site->start_page ("none", "Modération des nouvelles");
+$site->start_page ("accueil", "Modération des nouvelles");
 
 /*suppression via la sqltable */
 if ((isset($_REQUEST['id_nouvelle']))
@@ -49,7 +49,7 @@ if ((isset($_REQUEST['id_nouvelle']))
   $news->delete ();
 
   $site->add_contents (new contents("Suppression",
-				    "<p>Suppression eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
+            "<p>Suppression eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
 }
 
 /* moderation */
@@ -66,7 +66,7 @@ if ((isset($_REQUEST['id_nws']))
     $news->load_by_id ($id);
     $news->delete ();
     $site->add_contents (new contents("Suppression",
-					"<p>Suppression eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
+          "<p>Suppression eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
   }
   /* accepte en moderation */
   if (isset($_REQUEST['accept']))
@@ -77,25 +77,25 @@ if ((isset($_REQUEST['id_nws']))
     $news->load_by_id($id);
 
     $news->save_news(
-			     $_REQUEST['id_asso'],
-			     $_REQUEST['nws_title'],
-			     $_REQUEST['nws_sum'],
-			     $_REQUEST['nws_cts'],
-			     true,$site->user->id,$_REQUEST['type'],$lieu->id,$news->id_canal);
+           $_REQUEST['id_asso'],
+           $_REQUEST['nws_title'],
+           $_REQUEST['nws_sum'],
+           $_REQUEST['nws_cts'],
+           true,$site->user->id,$_REQUEST['type'],$lieu->id,$news->id_canal);
 
-		        $site->add_contents (new contents("Mod&eacute;ration",
-					"<p>Mod&eacute;ration eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
+            $site->add_contents (new contents("Mod&eacute;ration",
+          "<p>Mod&eacute;ration eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
 
-		if ( isset($_REQUEST["dfile"]))
-		{
-			$fl = new dfile($site->db,$site->dbrw);
-			foreach($_REQUEST["dfile"]as $id=>$chk)
-			{
-				$fl->load_by_id($id);
-				$fl->set_modere();
-			}
+    if ( isset($_REQUEST["dfile"]))
+    {
+      $fl = new dfile($site->db,$site->dbrw);
+      foreach($_REQUEST["dfile"]as $id=>$chk)
+      {
+        $fl->load_by_id($id);
+        $fl->set_modere();
+      }
 
-		}
+    }
   }
 }
 
@@ -111,25 +111,25 @@ if (isset($_REQUEST['id_nouvelle']) &&
   $news->load_by_id ($_REQUEST['id_nouvelle']);
 
   $site->add_contents(new contents ("Aper&ccedil;u de la nouvelle :",
-			   "<p>Dans le cadre ci-dessous, vous allez avoir un ".
-			   "aper&ccedil;u de la nouvelle</p>"));
+         "<p>Dans le cadre ci-dessous, vous allez avoir un ".
+         "aper&ccedil;u de la nouvelle</p>"));
 
   $site->add_contents ($news->get_contents ());
 
   /* on affiche un formulaire d'edition */
   $form = new form ("edit_nws",
-		    "moderenews.php?id_nws=".$_REQUEST['id_nouvelle'].
-		    "&action=mod",
-		    true,
-		    "post",
-		    "Edition de \"".$news->titre."\"");
+        "moderenews.php?id_nws=".$_REQUEST['id_nouvelle'].
+        "&action=mod",
+        true,
+        "post",
+        "Edition de \"".$news->titre."\"");
 
   $form->add_select_field ("type",
-			   "Type de nouvelle", array( 3 => "Appel/concours",
+         "Type de nouvelle", array( 3 => "Appel/concours",
                                           1 => "Évenement ponctuel",
                                           2 => "Séance hebdomadaire",
                                           0 => "Info/résultat")
-			   ,$news->type);
+         ,$news->type);
 
   $form->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$news->id_asso,true);
   $form->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$news->id_lieu,true);
@@ -143,21 +143,21 @@ if (isset($_REQUEST['id_nouvelle']) &&
   /* contenu */
   $form->add_text_area ("nws_cts","Contenu :",$news->contenu,80,10,true);
 
-	$matches=null;
-	preg_match_all("`\(\(dfile:\/\/([0-9]+)(\/thumb|\/preview)?\|(.*)\)\)`U",$news->contenu,$matches);
+  $matches=null;
+  preg_match_all("`\(\(dfile:\/\/([0-9]+)(\/thumb|\/preview)?\|(.*)\)\)`U",$news->contenu,$matches);
 
-	if ( count($matches[1]) )
-	{
-		$fl = new dfile($site->db);
-		foreach($matches[1] as $id)
-		{
-			$fl->load_by_id($id);
-			if ( !$fl->modere )
-			{
-				$form->add_checkbox("dfile|".$fl->id,"Accepter de m&ecirc;me l'image contenue dans la nouvelle : ".$fl->get_html_link(),true);
-			}
-		}
-	}
+  if ( count($matches[1]) )
+  {
+    $fl = new dfile($site->db);
+    foreach($matches[1] as $id)
+    {
+      $fl->load_by_id($id);
+      if ( !$fl->modere )
+      {
+        $form->add_checkbox("dfile|".$fl->id,"Accepter de m&ecirc;me l'image contenue dans la nouvelle : ".$fl->get_html_link(),true);
+      }
+    }
+  }
 
   $form->add_submit("accept", "Accepter");
   $form->add_submit("delete", "Supprimer");
@@ -184,7 +184,7 @@ else
                                               `utilisateurs`.`nom_utl`) AS `nom_utilisateur`
 
                                 FROM `nvl_nouvelles`
-			        LEFT JOIN `asso` ON
+              LEFT JOIN `asso` ON
                                            `asso`.`id_asso` =
                                            `nvl_nouvelles`.`id_asso`
                                 INNER JOIN `utilisateurs` ON
@@ -194,22 +194,22 @@ else
                                 WHERE `modere_nvl`='0' ORDER BY `date_nvl`");
 
   $modhelp = new contents("Mod&eacute;ration des nouvelles",
-			  "<p>Sur cette page, vous pouvez mod&eacute;rer ".
-			  "les nouvelles</p>");
+        "<p>Sur cette page, vous pouvez mod&eacute;rer ".
+        "les nouvelles</p>");
 
 
   $tabl = new sqltable ("moderenews_list",
-			"Nouvelles en attente de mod&eacute;ration",
-			$req,
-			"moderenews.php",
-			"id_nouvelle",
-			array ("titre_nvl" => "Titre",
-			       "nom_utilisateur" => "Auteur",
-			       "date_nvl" => "Date"),
-			array ("edit" => "moderer",
-			       "delete" => "supprimer"),
-			array (),
-			array ());
+      "Nouvelles en attente de mod&eacute;ration",
+      $req,
+      "moderenews.php",
+      "id_nouvelle",
+      array ("titre_nvl" => "Titre",
+             "nom_utilisateur" => "Auteur",
+             "date_nvl" => "Date"),
+      array ("edit" => "moderer",
+             "delete" => "supprimer"),
+      array (),
+      array ());
 
   $modhelp->add ($tabl);
   $site->add_contents ($modhelp);

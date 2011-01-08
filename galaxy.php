@@ -31,7 +31,7 @@ require_once($topdir. "include/galaxy.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 
 $site = new site ();
-$site->allow_only_logged_users("rd");
+$site->allow_only_logged_users("matmatronch");
 
 if ( !$site->user->utbm && !$site->user->ae )
   $site->error_forbidden("matmatronch","group",10001);
@@ -48,7 +48,7 @@ if ( !$ready )
 {
   if ( $_REQUEST["action"] == "area_image" || $_REQUEST["action"] == "area_html"  )
     exit();
-  $site->fatal_partial();
+  $site->fatal_partial("matmatronch");
   exit();
 }
 
@@ -139,7 +139,7 @@ if ( $_REQUEST["action"] == "info" )
   $user_b->load_by_id($_REQUEST["id_utilisateur"]);
 
     if ( !$user_a->is_valid() || !$user_b->is_valid() )
-        $site->error_not_found("rd");
+        $site->error_not_found("matmatronch");
 
   $site->start_page("matmatronch","galaxy");
   $cts = new contents($user_a->prenom." ".$user_a->nom);

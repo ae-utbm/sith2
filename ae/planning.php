@@ -31,7 +31,7 @@ require_once($topdir."include/entities/files.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae"))
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
 if ($_REQUEST['action'] == "pdf")
 {
@@ -58,7 +58,7 @@ if ($_REQUEST['action'] == "pdf")
   exit();
 }
 
-$site->start_page("none", "Génération d'un planning de la semaine");
+$site->start_page("accueil", "Génération d'un planning de la semaine");
 
 /* Deuxième formulaire : on choisit les évènements
  */

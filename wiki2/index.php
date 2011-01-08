@@ -294,7 +294,7 @@ $can_edit = $site->user->is_valid() && $wiki->is_right($site->user,DROIT_ECRITUR
 $is_admin = $wiki->is_admin($site->user);
 
 if ( !$wiki->is_right($site->user,DROIT_LECTURE) )
-  $site->error_forbidden("none","group",$wiki->id_groupe);
+  $site->error_forbidden("wiki","group",$wiki->id_groupe);
 
 
 if ( $_REQUEST["action"] == "lockrenew" && $can_edit )

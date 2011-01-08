@@ -29,7 +29,7 @@ require_once($topdir . "include/entities/cotisation.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae"))
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
 if ( $_REQUEST["action"] == "pdf" )
 {
@@ -63,7 +63,7 @@ if ( $_REQUEST["action"] == "pdf" )
 }
 
 
-$site->start_page ("none", "Cartes AE");
+$site->start_page ("accueil", "Cartes AE");
 
 $cts = new contents("Cartes AE");
 

@@ -30,9 +30,9 @@ require_once($topdir."include/cts/board.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("compta_admin") )
-  $site->error_forbidden();
+  $site->error_forbidden("accueil");
 
-$site->start_page("none","Tâches courantes des trésoriers AE");
+$site->start_page("accueil","Tâches courantes des trésoriers AE");
 
 $cts = new contents("Tâches courantes des trésoriers AE");
 

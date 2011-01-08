@@ -46,7 +46,7 @@ $site->start_page("services", "AE - Pédagogie");
 
 if (! $site->user->is_in_group("gestion_ae"))
 {
-  $site->error_forbidden();
+  $site->error_forbidden("services");
   exit();
 
 }

@@ -48,7 +48,7 @@ require_once($topdir. "comptoir/include/venteproduit.inc.php");
 $site = new site();
 $site->add_css("css/weekplanning.css");
 
-$site->allow_only_logged_users();
+$site->allow_only_logged_users("services");
 
 if(!$site->user->ae && !$site->user->is_in_group("gestion_machines") )
   $site->error_forbidden("services","Service réservé aux cotisants AE");

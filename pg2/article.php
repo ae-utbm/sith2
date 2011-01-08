@@ -58,7 +58,7 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
     foreach ($site->tab_array as $entry)
       $sections[$entry[0]] = $entry[2];
 
-    $site->start_page("none","Nouveau");
+    $site->start_page("pg","Nouveau");
     $frm = new form("newarticle","article.php",true,"POST","Nouvelle page");
     if ( isset($Erreur) )
       $frm->error($Erreur);
@@ -92,7 +92,7 @@ if ( isset($_REQUEST["name"]) )
 
 if ( !$page->is_valid() )
 {
-  $site->start_page("none","Erreur");
+  $site->start_page("pg","Erreur");
 
   $err = new error("Page inconnue","Merci de vérifier le lien que vous avez emprunté");
 

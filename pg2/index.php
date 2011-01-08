@@ -252,10 +252,10 @@ if ( $fiche->is_valid() )
 
       $sfrm = new subform("adresse","Addresse");
       $sfrm->add_text_field("numrue","Numéro dans la rue",$fiche->numrue);
-  	  $sfrm->add_entity_smartselect ("id_typerue","Type de la rue", $typerue);
+      $sfrm->add_entity_smartselect ("id_typerue","Type de la rue", $typerue);
       $sfrm->add_text_field("nom_rue","Nom de la rue",$rue->nom);
-  	  $sfrm->add_entity_smartselect ("id_ville","Ville", $ville,false,true,array("pg_ville"=>1));
-  	  $frm->addsub($sfrm);
+      $sfrm->add_entity_smartselect ("id_ville","Ville", $ville,false,true,array("pg_ville"=>1));
+      $frm->addsub($sfrm);
 
       $sfrm = new subform("pos","Positiion");
       $sfrm->add_geo_field("lat","Latidue","lat",$fiche->lat);
@@ -263,7 +263,7 @@ if ( $fiche->is_valid() )
       $frm->addsub($sfrm);
 
       $sfrm = new subform("adm","Coordonnées administratives");
-  	  $sfrm->add_entity_smartselect ("id_entreprise","Entreprise", $ent);
+      $sfrm->add_entity_smartselect ("id_entreprise","Entreprise", $ent);
       $sfrm->add_text_area("adressepostal","Adresse postale complète",$fiche->adressepostal);
       $frm->addsub($sfrm);
 
@@ -297,7 +297,7 @@ if ( $fiche->is_valid() )
       array("deletearretbus"=>"Enlever"),array(), array()));
     $frm = new form("addarretbus","index.php?page=edit&id_pgfiche=".$fiche->id,false);
     $frm->add_hidden("action","addarretbus");
-  	$frm->add_entity_smartselect ("id_arretbus","Arret de bus", new arretbus($site->db));
+    $frm->add_entity_smartselect ("id_arretbus","Arret de bus", new arretbus($site->db));
     $frm->add_submit("editfiche","Ajouter");
     $cts->add($frm);
 
@@ -311,7 +311,7 @@ if ( $fiche->is_valid() )
       array("deleteextrapgcategory"=>"Enlever"),array(), array()));
     $frm = new form("addextrapgcategory","index.php?page=edit&id_pgfiche=".$fiche->id,false);
     $frm->add_hidden("action","addextrapgcategory");
-  	$frm->add_entity_smartselect ("id_pgcategory","Catégorie", new pgcategory($site->db));
+    $frm->add_entity_smartselect ("id_pgcategory","Catégorie", new pgcategory($site->db));
     $frm->add_text_field("titre","Titre");
     $frm->add_text_field("soustitre","Sous-Titre");
     $frm->add_submit("addextrapgcategory","Ajouter");
@@ -327,7 +327,7 @@ if ( $fiche->is_valid() )
       array("deletetarif"=>"Enlever"),array(), array()));
     $frm = new form("addtarif","index.php?page=edit&id_pgfiche=".$fiche->id,false);
     $frm->add_hidden("action","addtarif");
-  	$frm->add_entity_smartselect ("id_typetarif","Type", new typetarif($site->db));
+    $frm->add_entity_smartselect ("id_typetarif","Type", new typetarif($site->db));
     $frm->add_price_field("min_tarif","Prix minimum");
     $frm->add_price_field("max_tarif","Prix maximum");
     $frm->add_text_field("commentaire","Commentaire");
@@ -443,10 +443,10 @@ elseif ( $category->is_valid() && ($category->id != 1 || $site->is_admin()) )
 
     $sfrm = new subform("adresse","Addresse");
     $sfrm->add_text_field("numrue","Numéro dans la rue",$fiche->numrue);
-	  $sfrm->add_entity_smartselect ("id_typerue","Type de la rue", $typerue);
+    $sfrm->add_entity_smartselect ("id_typerue","Type de la rue", $typerue);
     $sfrm->add_text_field("nom_rue","Nom de la rue",$rue->nom);
-	  $sfrm->add_entity_smartselect ("id_ville","Ville", $ville,false,true,array("pg_ville"=>1));
-	  $frm->addsub($sfrm);
+    $sfrm->add_entity_smartselect ("id_ville","Ville", $ville,false,true,array("pg_ville"=>1));
+    $frm->addsub($sfrm);
 
     $sfrm = new subform("pos","Positiion");
     $sfrm->add_geo_field("lat","Latidue","lat",$fiche->lat);
@@ -454,7 +454,7 @@ elseif ( $category->is_valid() && ($category->id != 1 || $site->is_admin()) )
     $frm->addsub($sfrm);
 
     $sfrm = new subform("adm","Coordonnées administratives");
-	  $sfrm->add_entity_smartselect ("id_entreprise","Entreprise", $ent);
+    $sfrm->add_entity_smartselect ("id_entreprise","Entreprise", $ent);
     $sfrm->add_text_area("adressepostal","Adresse postale complète",$fiche->adressepostal);
     $frm->addsub($sfrm);
 

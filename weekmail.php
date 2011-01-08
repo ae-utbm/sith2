@@ -48,7 +48,7 @@ if(
   exit();
 }
 
-$site->start_page ("none", "Weekmail");
+$site->start_page ("accueil", "Weekmail");
 $site->add_contents(new contents('Pas de weekmail.','Aucun weekmail n\'a été trouvé.'));
 $site->end_page();
 

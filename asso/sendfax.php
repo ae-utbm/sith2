@@ -39,17 +39,17 @@ $asso = new asso($site->db,$site->dbrw);
 $asso->load_by_id($_REQUEST["id_asso"]);
 if ( $asso->id < 1 )
 {
-  $site->error_not_found();
+  $site->error_not_found("services");
   exit();
 }
 
 if ((!$site->user->is_in_group("gestion_ae"))
     && (!$asso->is_member_role($site->user->id,ROLEASSO_PRESIDENT)))
 {
-  $site->error_forbidden();
+  $site->error_forbidden("presentation");
 }
 
-$site->start_page("Presentation", $asso->nom);
+$site->start_page("presentation", $asso->nom);
 
 if (isset($_POST['sendfaxsbmt']))
 {
@@ -59,11 +59,11 @@ if (isset($_POST['sendfaxsbmt']))
   $ret = $fax->send_fax(false);
   if ($ret)
     $cts = new contents("Etat d'envoi du fax",
-			"Fax envoyé, sous réserve d'acceptation du fichier ".
-			"PDF par les serveurs de notre fournisseur.");
+      "Fax envoyé, sous réserve d'acceptation du fichier ".
+      "PDF par les serveurs de notre fournisseur.");
   else
     $cts = new contents("Etat d'envoi du fax",
-			"<b>Echec de l'envoi du fax</b>");
+      "<b>Echec de l'envoi du fax</b>");
 
   $site->add_contents($cts);
   $site->end_page();
@@ -76,27 +76,27 @@ if (isset($_POST['preparefaxsbmt']))
   $fax = new fax($site->db, $site->dbrw);
 
   $fax->create_instance($site->user->id,
-			$_POST['numdest'],
-			$_FILES['mypdf'],
-			$asso->id);
+      $_POST['numdest'],
+      $_FILES['mypdf'],
+      $asso->id);
 
   $cts = new contents("Vérification",
-		      "Veuillez entrer la série de caractères contenue ".
-		      "dans l'image ci-dessous :");
+          "Veuillez entrer la série de caractères contenue ".
+          "dans l'image ci-dessous :");
 
   $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" /><br /><a href=\"".$fax->captchaaudio."\"><br />Version Audio</a>");
 
   $frm = new form("sendfax",
-		  "sendfax.php",
-		  true,
-		  "POST");
+      "sendfax.php",
+      true,
+      "POST");
 
   $frm->add_hidden("faxinstanceid", $fax->id);
   $frm->add_hidden("id_asso", $asso->id);
 
   $frm->add_text_field("captcha",
-		       "Captcha : ",
-		       "");
+           "Captcha : ",
+           "");
 
   $frm->add_submit("sendfaxsbmt", "Envoyer");
 
@@ -109,17 +109,17 @@ if (isset($_POST['preparefaxsbmt']))
 }
 
 $cts = new contents("Envoi de fax",
-		    "Par cette page, vous pouvez addresser des fax ".
-		    "via notre fournisseur d'accès.<br/>".
-		    "Veuillez entrer un fichier PDF, ainsi que le numéro".
-		    " du destinataire. Une vérification anti-robot vous ".
-		    "sera demandée sur la page suivante.");
+        "Par cette page, vous pouvez addresser des fax ".
+        "via notre fournisseur d'accès.<br/>".
+        "Veuillez entrer un fichier PDF, ainsi que le numéro".
+        " du destinataire. Une vérification anti-robot vous ".
+        "sera demandée sur la page suivante.");
 
 
 $frm = new form("preparefax",
-		"sendfax.php",
-		true,
-		"POST");
+    "sendfax.php",
+    true,
+    "POST");
 
 $frm->add_text_field("numdest","Numéro du destinataire : ");
 $frm->add_file_field("mypdf", "Fichier PDF : ", true);

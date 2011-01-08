@@ -35,14 +35,14 @@ $asso = new asso($site->db,$site->dbrw);
 $asso->load_by_id($_REQUEST["id_asso"]);
 if ( $asso->id < 1 )
 {
-  $site->error_not_found();
+  $site->error_not_found("presentation");
   exit();
 }
 if ( !$site->user->is_in_group("gestion_ae") && !$asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU) )
-  $site->error_forbidden();
+  $site->error_forbidden("presentation");
 
 
-$site->start_page("campagne","Campagnes de recrutement");
+$site->start_page("presentation","Campagnes de recrutement");
 
 $cts = new contents($asso->get_html_path());
 $cts->add(new tabshead($asso->get_tabs($site->user),"cpg"));
@@ -320,7 +320,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
 
   $cpg->load_by_id($_REQUEST["id_campagne"]);
   if( $cpg->id == NULL){
-    $site->error_not_found();
+    $site->error_not_found("presentation");
     exit();
   }
   $cpg->update_campagne($_REQUEST["nom"],$_REQUEST["description"],$cpg->date,$_REQUEST["end_date"]);

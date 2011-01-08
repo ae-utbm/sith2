@@ -127,7 +127,7 @@ if ( $lieu->is_valid() )
   }
 
 
-  $site->start_page("none",$lieu->nom);
+  $site->start_page("services",$lieu->nom);
 
   $cts = new contents("<a href=\"loc.php\">Lieux</a> / ".$path);
   $cts->add_paragraph("Ville: ".$ville->get_html_link());
@@ -151,24 +151,24 @@ if ( $lieu->is_valid() )
   // - Catégories du SAS
 
   $sql = new requete($site->db,"SELECT MIN(nvl_dates.date_debut_eve) AS date, COUNT(nvl_dates.id_nouvelle) AS cnt, nvl_nouvelles.* FROM nvl_nouvelles " .
-  			"LEFT JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-  			"WHERE id_lieu='".$lieu->id."' AND modere_nvl='1' " .
-  			"GROUP BY nvl_dates.id_nouvelle ".
-  			"ORDER BY 1 DESC");
+        "LEFT JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+        "WHERE id_lieu='".$lieu->id."' AND modere_nvl='1' " .
+        "GROUP BY nvl_dates.id_nouvelle ".
+        "ORDER BY 1 DESC");
 
   if ( $sql->lines > 0 )
   {
     $lst = new itemlist("Nouvelles liées à ce lieu");
-  	while ( $row = $sql->get_row() )
-  	{
-  	  if ( is_null($row['date']) )
-  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");
-  	  elseif ( $row["cnt"] == 1 )
-  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");
-  	  else
-  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))." (ainsi que d'autres dates ensuite)</span>");
-  	}
-  	$cts->add($lst,true);
+    while ( $row = $sql->get_row() )
+    {
+      if ( is_null($row['date']) )
+        $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");
+      elseif ( $row["cnt"] == 1 )
+        $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");
+      else
+        $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))." (ainsi que d'autres dates ensuite)</span>");
+    }
+    $cts->add($lst,true);
   }
 
   if ( $site->user->is_in_group("gestion_ae") )
@@ -192,21 +192,21 @@ if ( $lieu->is_valid() )
 }
 elseif ( $ville->is_valid() )
 {
-  $site->start_page("none","Lieux");
+  $site->start_page("services","Lieux");
 
   $cts = new contents($ville->nom);
   if (isset($_REQUEST['level']))
     {
       if ($_REQUEST['level'] == 1)
-	$cts->add_paragraph("Echelle: Mondiale");
+  $cts->add_paragraph("Echelle: Mondiale");
       if ($_REQUEST['level'] == 2)
-	$cts->add_paragraph("Echelle: Continentale");
+  $cts->add_paragraph("Echelle: Continentale");
       if ($_REQUEST['level'] == 3)
-	$cts->add_paragraph("Echelle: Nationale");
+  $cts->add_paragraph("Echelle: Nationale");
       if ($_REQUEST['level'] == 4)
-	$cts->add_paragraph("Echelle: France / Régionale");
+  $cts->add_paragraph("Echelle: France / Régionale");
       if ($_REQUEST['level'] == 5)
-	$cts->add_paragraph("Echelle: France / Départementale");
+  $cts->add_paragraph("Echelle: France / Départementale");
 
     }
 
@@ -224,7 +224,7 @@ elseif ( $ville->is_valid() )
 }
 elseif ( $pays->is_valid() )
 {
-  $site->start_page("none","Lieux");
+  $site->start_page("services","Lieux");
 
   $cts = new contents($pays->nom);
   $map = new gmap("map");
@@ -238,7 +238,7 @@ elseif ( $pays->is_valid() )
 }
 
 
-$site->start_page("none","Lieux");
+$site->start_page("services","Lieux");
 
 $cts = new contents("Gestion des lieux");
 

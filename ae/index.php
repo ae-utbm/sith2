@@ -30,9 +30,9 @@ require_once($topdir."include/cts/board.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") )
-  $site->error_forbidden("none","group","gestion_ae");
+  $site->error_forbidden("accueil","group","gestion_ae");
 
-$site->start_page("none","Tâches courantes AE");
+$site->start_page("accueil","Tâches courantes AE");
 
 $cts = new contents("Tâches courantes AE");
 

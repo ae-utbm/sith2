@@ -81,7 +81,7 @@ $asso->load_by_id($_REQUEST["id_asso"]);
 
 if ( $asso->id < 1 )
 {
-  $site->error_not_found();
+  $site->error_not_found("services");
   exit();
 }
 

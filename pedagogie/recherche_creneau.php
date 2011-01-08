@@ -30,8 +30,8 @@ $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\
 $path .= " / "."<a href=\"./recherche_creneau.php\">Recherche de crénaux libres communs</a>";
 
 $site = new site ();
-$site->allow_only_logged_users();
-$site->start_page("none", "Recherche de créneaux libres communs");
+$site->allow_only_logged_users("services");
+$site->start_page("services", "Recherche de créneaux libres communs");
 
 $cts = new contents($path);
 

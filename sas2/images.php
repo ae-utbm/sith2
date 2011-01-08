@@ -54,7 +54,7 @@ else if ( ereg("^/(.*)$",$_SERVER["argv"][0]) )
 }
 else
 {
-  $site->error_not_found();
+  $site->error_not_found("sas");
   exit();
 }
 

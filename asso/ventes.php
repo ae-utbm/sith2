@@ -39,12 +39,12 @@ $site->allow_only_logged_users("presentation");
 $asso->load_by_id($_REQUEST["id_asso"]);
 if ( $asso->id < 1 )
 {
-  $site->error_not_found();
+  $site->error_not_found("services");
   exit();
 }
 
 if ( !$site->user->is_in_group("gestion_ae") && !$asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU) )
-  $site->error_forbidden();
+  $site->error_forbidden("presentation");
 
 if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
 {

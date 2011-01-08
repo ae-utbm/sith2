@@ -29,7 +29,7 @@ $site = new sitecomptoirs();
 $comptoir = new comptoir($site->db);
 $comptoir->load_by_id($_REQUEST["id_comptoir"]);
 if ( $comptoir->id < 1 )
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 
 
 $site->start_page("services","Activité sur le comptoir ".$comptoir->nom);

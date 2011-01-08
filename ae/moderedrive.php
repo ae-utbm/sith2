@@ -36,7 +36,7 @@ require_once($topdir."include/entities/folder.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("moderateur_site") )
-  $site->error_forbidden();
+  $site->error_forbidden("fichiers");
 
 
 if ( $_REQUEST["action"] == "foldermodere")
@@ -80,7 +80,7 @@ elseif ( $_REQUEST["action"] == "filedelete")
   }
 }
 
-$site->start_page("none","Modération des fichiers");
+$site->start_page("fichiers","Modération des fichiers");
 $cts = new contents("Modération");
 
 $req = new requete($site->db,"SELECT d_folder.* " .

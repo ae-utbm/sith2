@@ -31,11 +31,11 @@ require_once($topdir. "include/cts/user.inc.php");
 
 $site = new site;
 
-$site->start_page ("none", "FIMU 2010 - Inscriptions des bénévoles");
+$site->start_page ("accueil", "FIMU 2010 - Inscriptions des bénévoles");
 
 $cts = new contents("Festival International de Musique Universitaire");
 
-$site->error_forbidden("none","reserved");
+$site->error_forbidden("accueil","reserved");
 
 if ( $site->user->is_valid() )
 {

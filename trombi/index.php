@@ -50,7 +50,7 @@ $site->add_css("css/userfullinfo.css");
 $site->add_css("css/trombicomment.css");
 
 if (!$site->user->id)
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 
 
 $is_user_moderator = ( $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role ( 27, 1 ) );
@@ -96,7 +96,7 @@ if ( $_REQUEST["page"]  == "edit" )
     $cmt->load_by_id($_REQUEST["id_commentaire"]);
     if ( $cmt->id < 1 )
     {
-      $site->error_not_found();
+      $site->error_not_found("services");
       exit();
     }
 
@@ -130,7 +130,7 @@ elseif ( $_REQUEST["page"]  == "del" )
     $cmt->load_by_id($_REQUEST["id_commentaire"]);
     if ( $cmt->id < 1 )
     {
-      $site->error_not_found();
+      $site->error_not_found("services");
       exit();
     }
 
@@ -194,7 +194,7 @@ elseif ( ($_REQUEST["action"] == "moderate") && ($is_user_moderator) )
 }
 
 
-$site->start_page ("none", "Trombi Promo ".sprintf("%02d",$site->user->promo_utbm));
+$site->start_page ("matmatronch", "Trombi Promo ".sprintf("%02d",$site->user->promo_utbm));
 
 $tabs = array(array("","trombi/index.php", "Informations"),
               //array("board","trombi/index.php?view=board", "Messages"),

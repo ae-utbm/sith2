@@ -106,14 +106,14 @@ if ($_REQUEST['action'] == 'delete')
   }
   else
   {
-    $site->error_not_found();
+    $site->error_not_found("services");
     exit();
   }
 } // fin suppresion d'étapes
 
 if (($trajet->id <= 0) || (! in_array($datetrj, $trajet->dates)))
 {
-  $site->error_not_found();
+  $site->error_not_found("services");
   exit();
 }
 
@@ -137,8 +137,8 @@ if (isset($_REQUEST['add_step_sbmt']))
       if($etape['etat']==1 || $etape['id']==$steps[count($steps) - 1]['id'])
       {
         $v = new ville($site->db);
-	$v->load_by_id($etape['ville']);
-	$etapes[]=$v;
+  $v->load_by_id($etape['ville']);
+  $etapes[]=$v;
       }
     }
 

@@ -49,11 +49,11 @@ $site->start_page("services", "Emploi du temps");
 /* protection d'usage */
 if (!$site->user->utbm)
 {
-  $site->error_forbidden("none","reservedutbm");
+  $site->error_forbidden("services","reservedutbm");
 }
 if (!$site->user->is_valid())
 {
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 }
 
 

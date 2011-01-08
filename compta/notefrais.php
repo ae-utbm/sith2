@@ -28,7 +28,7 @@ require_once($topdir . "include/cts/sqltable.inc.php");
 
 $site = new sitecompta();
 
-$site->allow_only_logged_users("none");
+$site->allow_only_logged_users("services");
 $notefrais = new notefrais($site->db,$site->dbrw);
 $asso = new asso($site->db);
 
@@ -61,7 +61,7 @@ if ( $notefrais->is_valid() )
   if ( !$site->user->is_in_group("compta_admin")
        && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER)
        && $site->user->id != $notefrais->id_utilisateur )
-    $site->error_forbidden("none","group");
+    $site->error_forbidden("services","group");
 
   $user = new utilisateur($site->db);
   $user->load_by_id($notefrais->id_utilisateur);
@@ -88,7 +88,7 @@ if ( $notefrais->is_valid() )
   }
   elseif ( $_REQUEST["action"] == "edit" && !$notefrais->valide )
   {
-    $site->start_page ("none", "Note de frais" );
+    $site->start_page ("services", "Note de frais" );
 
     $cts = new contents("<a href=\"notefrais.php\">Note de frais</a> / N°".$notefrais->id);
 
@@ -117,7 +117,7 @@ if ( $notefrais->is_valid() )
     exit();
   }
 
-  $site->start_page ("none", "Note de frais" );
+  $site->start_page ("services", "Note de frais" );
 
   $cts = new contents("<a href=\"notefrais.php\">Note de frais</a> / N°".$notefrais->id);
 
@@ -179,7 +179,7 @@ if ( $notefrais->is_valid() )
 if ( isset($_REQUEST["id_asso"]) )
   $asso->load_by_id($_REQUEST["id_asso"]);
 
-$site->start_page ("none", "Note de frais" );
+$site->start_page ("services", "Note de frais" );
 
 $cts = new contents("<a href=\"notefrais.php\">Note de frais</a>");
 

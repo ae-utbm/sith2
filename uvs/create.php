@@ -54,11 +54,11 @@ $edt = new edt($site->db, $site->dbrw);
 
 if (!$site->user->utbm)
 {
-  $site->error_forbidden("none","reservedutbm");
+  $site->error_forbidden("services","reservedutbm");
 }
 if (!$site->user->is_valid())
 {
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 }
 /** STEP 3 : on enregistre les infos saisies */
 if ($_REQUEST['step'] == 3)
@@ -78,101 +78,101 @@ if ($_REQUEST['step'] == 3)
 
       $id_uv = $rs['id_uv'];
       if (isset($value['C']))
-	{
-	  $cts->add_paragraph("<h4>$uv : Séance de cours</h4><br/>");
-	  $value['C']['freq'] == '1' ? $sem = 'AB' : $sem = $value['C']['semaine'];
+  {
+    $cts->add_paragraph("<h4>$uv : Séance de cours</h4><br/>");
+    $value['C']['freq'] == '1' ? $sem = 'AB' : $sem = $value['C']['semaine'];
 
-	  /* l'utilisateur a selectionné une séance de cours existante */
-	  if ($value['C']['selectlst'] > 0)
-	    {
-	      $edt->assign_etu_to_grp($site->user->id, $value['C']['selectlst'], $sem);
-	      $cts->add_paragraph("Séance ajoutée à l'emploi du temps avec succès !");
-	    }
-	  else
-	    {
+    /* l'utilisateur a selectionné une séance de cours existante */
+    if ($value['C']['selectlst'] > 0)
+      {
+        $edt->assign_etu_to_grp($site->user->id, $value['C']['selectlst'], $sem);
+        $cts->add_paragraph("Séance ajoutée à l'emploi du temps avec succès !");
+      }
+    else
+      {
 
-	      $ret = $edt->create_grp($id_uv,
-				      "C",
-				      $value['C']['numgrp'],
-				      $value['C']['hdeb'] . ":" . $value['C']['mdeb'].':00',
-				      $value['C']['hfin'] . ":" . $value['C']['mfin'].':00',
-				      $value['C']['jour'],
-				      $value['C']['freq'] == 0 ? 1 : $value['C']['freq'], /* une seance sera par défaut hebdomadaire */
-				      $semestre,
-				      $value['C']['salle']);
+        $ret = $edt->create_grp($id_uv,
+              "C",
+              $value['C']['numgrp'],
+              $value['C']['hdeb'] . ":" . $value['C']['mdeb'].':00',
+              $value['C']['hfin'] . ":" . $value['C']['mfin'].':00',
+              $value['C']['jour'],
+              $value['C']['freq'] == 0 ? 1 : $value['C']['freq'], /* une seance sera par défaut hebdomadaire */
+              $semestre,
+              $value['C']['salle']);
 
-	      if ($ret >=0)
-		{
-		  $edt->assign_etu_to_grp($site->user->id, $ret, $sem);
-		  $cts->add_paragraph("Séance créée et ajoutée à l'emploi du temps avec succès !");
-		}
-	    }
-	}
+        if ($ret >=0)
+    {
+      $edt->assign_etu_to_grp($site->user->id, $ret, $sem);
+      $cts->add_paragraph("Séance créée et ajoutée à l'emploi du temps avec succès !");
+    }
+      }
+  }
 
       if (isset($value['TD']))
-	{
-	  $cts->add_paragraph("<h4>$uv : Séance de TD</h4><br/>");
-	  $value['TD']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TD']['semaine'];
+  {
+    $cts->add_paragraph("<h4>$uv : Séance de TD</h4><br/>");
+    $value['TD']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TD']['semaine'];
 
-	  if ($value['TD']['selectlst'] > 0)
-	    {
-	      $edt->assign_etu_to_grp($site->user->id, $value['TD']['selectlst'], $sem);
-	      $cts->add_paragraph("Séance ajoutée à l'emploi du temps avec succès !");
-	    }
+    if ($value['TD']['selectlst'] > 0)
+      {
+        $edt->assign_etu_to_grp($site->user->id, $value['TD']['selectlst'], $sem);
+        $cts->add_paragraph("Séance ajoutée à l'emploi du temps avec succès !");
+      }
 
-	  else
-	    {
+    else
+      {
 
-	      $ret = $edt->create_grp($id_uv,
-				      "TD",
-				      $value['TD']['numgrp'],
-				      $value['TD']['hdeb'] . ":" . $value['TD']['mdeb'].':00',
-				      $value['TD']['hfin'] . ":" . $value['TD']['mfin'].':00',
-				      $value['TD']['jour'],
-				      $value['TD']['freq'],
-				      $semestre,
-				      $value['TD']['salle']);
+        $ret = $edt->create_grp($id_uv,
+              "TD",
+              $value['TD']['numgrp'],
+              $value['TD']['hdeb'] . ":" . $value['TD']['mdeb'].':00',
+              $value['TD']['hfin'] . ":" . $value['TD']['mfin'].':00',
+              $value['TD']['jour'],
+              $value['TD']['freq'],
+              $semestre,
+              $value['TD']['salle']);
 
-	      if ($ret >=0)
-		{
-		  $edt->assign_etu_to_grp($site->user->id, $ret, $sem);
-		  $cts->add_paragraph("Séance créée et ajoutée à l'emploi du temps avec succès !");
-		}
-	    }
-	}
+        if ($ret >=0)
+    {
+      $edt->assign_etu_to_grp($site->user->id, $ret, $sem);
+      $cts->add_paragraph("Séance créée et ajoutée à l'emploi du temps avec succès !");
+    }
+      }
+  }
 
       if (isset($value['TP']))
-	{
-	  $cts->add_paragraph("<h4>$uv : Séance de TP</h4><br/>");
-	  $value['TP']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TP']['semaine'];
+  {
+    $cts->add_paragraph("<h4>$uv : Séance de TP</h4><br/>");
+    $value['TP']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TP']['semaine'];
 
 
-	  if ($value['TP']['selectlst'] > 0)
-	    {
-	      $value['TP']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TP']['semaine'];
-	      $edt->assign_etu_to_grp($site->user->id, $value['TP']['selectlst'], $sem);
-	      $cts->add_paragraph("Séance ajoutée à l'emploi du temps avec succès !");
-	    }
+    if ($value['TP']['selectlst'] > 0)
+      {
+        $value['TP']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TP']['semaine'];
+        $edt->assign_etu_to_grp($site->user->id, $value['TP']['selectlst'], $sem);
+        $cts->add_paragraph("Séance ajoutée à l'emploi du temps avec succès !");
+      }
 
-	  else
-	    {
-	      $ret = $edt->create_grp($id_uv,
-				      "TP",
-				      $value['TP']['numgrp'],
-				      $value['TP']['hdeb'] . ":" . $value['TP']['mdeb'].':00',
-				      $value['TP']['hfin'] . ":" . $value['TP']['mfin'].':00',
-				      $value['TP']['jour'],
-				      $value['TP']['freq'],
-				      $semestre,
-				      $value['TP']['salle']);
+    else
+      {
+        $ret = $edt->create_grp($id_uv,
+              "TP",
+              $value['TP']['numgrp'],
+              $value['TP']['hdeb'] . ":" . $value['TP']['mdeb'].':00',
+              $value['TP']['hfin'] . ":" . $value['TP']['mfin'].':00',
+              $value['TP']['jour'],
+              $value['TP']['freq'],
+              $semestre,
+              $value['TP']['salle']);
 
-	      if ($ret >=0)
-		{
-		  $edt->assign_etu_to_grp($site->user->id, $ret, $sem);
-		  $cts->add_paragraph("Séance créée et ajoutée à l'emploi du temps avec succès !");
-		}
-	    }
-	}
+        if ($ret >=0)
+    {
+      $edt->assign_etu_to_grp($site->user->id, $ret, $sem);
+      $cts->add_paragraph("Séance créée et ajoutée à l'emploi du temps avec succès !");
+    }
+      }
+  }
       }
     }
 
@@ -180,7 +180,7 @@ if ($_REQUEST['step'] == 3)
 
 
   $site->add_contents(new contents("Emploi du temps graphique", "<center>".
-				   "<img src=\"./edt.php?render=1\" alt=\"Emploi du temps\" /></center>"));
+           "<img src=\"./edt.php?render=1\" alt=\"Emploi du temps\" /></center>"));
 
   unset($_SESSION['edu_uv_subscr']);
 
@@ -196,8 +196,8 @@ if ($_REQUEST['step'] == 2)
   $cts = new contents("Renseignement sur les séances", "");
   if (count($_SESSION['edu_uv_subscr']) == 0)
     $cts->add_paragraph("Vous n'avez pas sélectionné d'UV à <a href=\"./create.php\">l'étape 1</a>".
-			". Merci de recommencer cette étape ".
-			"avant de remplir les différentes informations sur les formats horaires");
+      ". Merci de recommencer cette étape ".
+      "avant de remplir les différentes informations sur les formats horaires");
   else
     {
       $lst = new itemlist("Liste des UVs", false, $_SESSION['edu_uv_subscr']);
@@ -206,7 +206,7 @@ if ($_REQUEST['step'] == 2)
       $frm = new form('frm', 'create.php?step=3');
 
       $frm->puts(
-		 "<script language=\"javascript\">
+     "<script language=\"javascript\">
 function togglesellist(obj, uv, type)
 {
   sellist = document.getElementsByName('uv[' +uv+ '][' +type+ '][semaine]')[0];
@@ -285,109 +285,109 @@ function toggleknownseance(obj, uv,type)
 
       /* horaires */
       for ($i = 0; $i < 24; $i++)
-	{
-	  $tmp = sprintf("%02d", $i);
-	  $hours[$tmp] = $tmp;
-	}
+  {
+    $tmp = sprintf("%02d", $i);
+    $hours[$tmp] = $tmp;
+  }
 
       for ($i = 0; $i < 60; $i++)
-	{
-	  $tmp = sprintf("%02d", $i);
-	  $minut[$tmp] = $tmp;
-	}
+  {
+    $tmp = sprintf("%02d", $i);
+    $minut[$tmp] = $tmp;
+  }
 
   $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
       foreach($_SESSION['edu_uv_subscr'] as $uv)
-	{
-	  $frm->puts("<h1>$uv</h1>");
-	  $req = new requete($site->db, "SELECT `cours_uv`, `td_uv`, `tp_uv`, `id_uv`
+  {
+    $frm->puts("<h1>$uv</h1>");
+    $req = new requete($site->db, "SELECT `cours_uv`, `td_uv`, `tp_uv`, `id_uv`
   FROM   `edu_uv`
   WHERE `code_uv` = '".mysql_real_escape_string($uv) . "'");
- 	  $rs = $req->get_row();
-	  $c    = $rs['cours_uv'];
-	  $td   = $rs['td_uv'];
-	  $tp   = $rs['tp_uv'];
-	  $iduv = $rs['id_uv'];
+     $rs = $req->get_row();
+    $c    = $rs['cours_uv'];
+    $td   = $rs['td_uv'];
+    $tp   = $rs['tp_uv'];
+    $iduv = $rs['id_uv'];
 
-	  if (($c==0) && ($td == 0) && ($tp == 0))
-	    $frm->puts("<b>UV hors emploi du temps. En conséquence, elle n'apparaitra pas sur l'Emploi du temps.</b>");
+    if (($c==0) && ($td == 0) && ($tp == 0))
+      $frm->puts("<b>UV hors emploi du temps. En conséquence, elle n'apparaitra pas sur l'Emploi du temps.</b>");
 
-	  /* cours */
-	  if ($c == 1)
-	    {
-	      $frm->puts("<h2>Cours</h2>");
+    /* cours */
+    if ($c == 1)
+      {
+        $frm->puts("<h2>Cours</h2>");
 
-	      $req = new requete($site->db,
-				"SELECT `id_uv_groupe`, `numero_grp`, `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
+        $req = new requete($site->db,
+        "SELECT `id_uv_groupe`, `numero_grp`, `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
   FROM `edu_uv_groupe`
   WHERE `id_uv` = $iduv AND `type_grp` = 'C' AND `semestre_grp` = '".$semestre."'");
 
-	      if ($req->lines <= 0)
-		$frm->puts("<p>Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
-			   "en renseigner les caractéristiques<br/></p>");
-	      else
-		{
-		  $sccours = array(-1 => "--");
-		  while ($rs = $req->get_row())
-		    $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp']." du ".
-		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
-		  $frm->add_select_field("uv[$uv][C][selectlst]",
+        if ($req->lines <= 0)
+    $frm->puts("<p>Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
+         "en renseigner les caractéristiques<br/></p>");
+        else
+    {
+      $sccours = array(-1 => "--");
+      while ($rs = $req->get_row())
+        $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp']." du ".
+          $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
+      $frm->add_select_field("uv[$uv][C][selectlst]",
                                          'Séances de cours connues',
                                          $sccours,
                                          false,
                                          "", false, true,
                                          "javascript:toggleknownseance(this, '".$uv."', 'C')");
-		}
-	      add_seance_form($frm, $uv, 'C');
-	    }
+    }
+        add_seance_form($frm, $uv, 'C');
+      }
 
-	  /* td */
-	  if ($td == 1)
-	    {
-	      $frm->puts("<h2>TD</h2>");
+    /* td */
+    if ($td == 1)
+      {
+        $frm->puts("<h2>TD</h2>");
 
-	      $req = new requete($site->db,
-				"SELECT `id_uv_groupe`, `numero_grp`,  `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
+        $req = new requete($site->db,
+        "SELECT `id_uv_groupe`, `numero_grp`,  `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
   FROM `edu_uv_groupe`
   WHERE `id_uv` = $iduv AND `type_grp` = 'TD' AND `semestre_grp` = '".$semestre."'");
-	      if ($req->lines <= 0)
-		$frm->puts("<p>Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
-				    "en renseigner les caractéristiques<br/></p>");
-	      else
-		{
-		  $sctd = array(-1 => "--");
-		  while ($rs = $req->get_row())
-		    $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'] . " du ".
-		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
-		  $frm->add_select_field("uv[$uv][TD][selectlst]",
+        if ($req->lines <= 0)
+    $frm->puts("<p>Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
+            "en renseigner les caractéristiques<br/></p>");
+        else
+    {
+      $sctd = array(-1 => "--");
+      while ($rs = $req->get_row())
+        $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'] . " du ".
+          $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
+      $frm->add_select_field("uv[$uv][TD][selectlst]",
                                          'Séances de TD connues',
                                          $sctd,
                                          false,
                                          "", false, true,
                                          "javascript:toggleknownseance(this, '".$uv."', 'TD')");
-		}
-	      add_seance_form($frm, $uv, 'TD');
-	    }
+    }
+        add_seance_form($frm, $uv, 'TD');
+      }
 
 
-	  /* tp */
-	  if ($tp == 1)
-	    {
-	      $frm->puts("<h2>TP</h2>");
-	      $req = new requete($site->db,
-				"SELECT `id_uv_groupe`, `numero_grp`,  `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
+    /* tp */
+    if ($tp == 1)
+      {
+        $frm->puts("<h2>TP</h2>");
+        $req = new requete($site->db,
+        "SELECT `id_uv_groupe`, `numero_grp`,  `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
   FROM `edu_uv_groupe`
   WHERE `id_uv` = $iduv AND `type_grp` = 'TP' AND `semestre_grp` = '".$semestre."'");
-	      if ($req->lines <= 0)
-		$frm->puts("<p>Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
-			       "en renseigner les caractéristiques<br/></p>");
-	      else
-		{
-		  $sctp = array(-1 => "--");
-		  while ($rs = $req->get_row())
-		    $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp']. " du ".
-		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
+        if ($req->lines <= 0)
+    $frm->puts("<p>Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
+             "en renseigner les caractéristiques<br/></p>");
+        else
+    {
+      $sctp = array(-1 => "--");
+      while ($rs = $req->get_row())
+        $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp']. " du ".
+          $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
 
                       $frm->add_select_field("uv[$uv][TP][selectlst]",
                                              'Séances de TP connues',
@@ -396,12 +396,12 @@ function toggleknownseance(obj, uv,type)
                                              "", false, true,
                                              "javascript:toggleknownseance(this, '".$uv."', 'TP')");
 
-		}
-	      add_seance_form($frm, $uv, 'TP');
+    }
+        add_seance_form($frm, $uv, 'TP');
 
-	    }
-	  $frm->puts("<br/>");
-	} // fin foreach
+      }
+    $frm->puts("<br/>");
+  } // fin foreach
       $frm->add_submit("step2_sbmt", "Envoyer");
       $cts->add($frm);
     } // else
@@ -421,45 +421,45 @@ function add_seance_form($formcts, $uv, $type)
 
   /* numéro groupe */
   $formcts->add_text_field("uv[$uv][$type][numgrp]",
-			   'Numéro de groupe',
-			   '1', false, 1);
+         'Numéro de groupe',
+         '1', false, 1);
   /* jour */
   global $jour;
   $formcts->add_select_field("uv[$uv][$type][jour]",
-			     'jour',
-			     $jour);
+           'jour',
+           $jour);
 
   /* horaires debut / fin */
   global $hours, $minut;
   $formcts->add_select_field("uv[$uv][$type][hdeb]",
-			     'Heure de début', $hours);
+           'Heure de début', $hours);
 
   $formcts->add_select_field("uv[$uv][$type][mdeb]",
-			     'Minutes de début', $minut);
+           'Minutes de début', $minut);
 
 
   $formcts->add_select_field("uv[$uv][$type][hfin]",
-			     'Heure de fin', $hours);
+           'Heure de fin', $hours);
 
   $formcts->add_select_field("uv[$uv][$type][mfin]",
-			     'Minutes de fin', $minut);
+           'Minutes de fin', $minut);
 
   $formcts->add_select_field("uv[$uv][$type][freq]",
-			     'Fréquence',
-			     array("0" => "--",
+           'Fréquence',
+           array("0" => "--",
                                    "1" => "Hebdomadaire",
-				   "2" => "Bimensuelle"),
-			     false,
-			     "",
-			     false,
-			     true,
-			     "javascript:togglesellist(this, '".$uv."', '".$type."')");
+           "2" => "Bimensuelle"),
+           false,
+           "",
+           false,
+           true,
+           "javascript:togglesellist(this, '".$uv."', '".$type."')");
 
   $formcts->add_select_field("uv[$uv][$type][semaine]",
-			     'Semaine',
-			     array("AB" => "Toutes les semaines",
+           'Semaine',
+           array("AB" => "Toutes les semaines",
                                    "A" => "Semaine A",
-				   "B" => "Semaine B"));
+           "B" => "Semaine B"));
 
   $formcts->add_text_field("uv[$uv][$type][salle]",
                            'salle <b>sans espace, ex : "P103")</b>',
@@ -485,7 +485,7 @@ if (isset($_REQUEST['modform']))
     exit();
 
   $rq = new requete($site->db,
-		    "SELECT
+        "SELECT
                                 `code_uv`
                                 , `cours_uv`
                                 , `td_uv`
@@ -496,7 +496,7 @@ if (isset($_REQUEST['modform']))
                                 `id_uv` = " . $uv);
   $res = $rq->get_row();
 
-  ($res['cours_uv'] == 1) ?	$cours = true : $cours = false;
+  ($res['cours_uv'] == 1) ?  $cours = true : $cours = false;
   ($res['td_uv'] == 1)    ? $td = true    : $td = false;
   ($res['tp_uv'] == 1)    ? $tp = true    : $tp = false;
 
@@ -504,10 +504,10 @@ if (isset($_REQUEST['modform']))
   echo "<p>A l'aide de ce formulaire, vous pouvez modifier le format horaire de l'UV ".$res['code_uv']."</p>";
 
   $moduv = new form("moduv",
-		    "create.php",
-		    false,
-		    "post",
-		    "Modification d'une UV");
+        "create.php",
+        false,
+        "post",
+        "Modification d'une UV");
   $moduv->add_hidden('modifyuv', 1);
   $moduv->add_hidden('mod_iduv', $uv);
   $moduv->add_checkbox('mod_cours', 'Cours', $cours);
@@ -535,11 +535,11 @@ if (isset($_REQUEST['modifyuv']))
   $uv = intval($_REQUEST['mod_iduv']);
 
   $rq = new update($site->dbrw,
-		   'edu_uv',
-		   array ('cours_uv' => $c,
-			  'td_uv' => $td,
-			  'tp_uv' => $tp),
-		   array ('id_uv' => $uv));
+       'edu_uv',
+       array ('cours_uv' => $c,
+        'td_uv' => $td,
+        'tp_uv' => $tp),
+       array ('id_uv' => $uv));
 
   if ($rq->lines  == 1)
     $retmod = true;
@@ -592,13 +592,13 @@ if (isset($_REQUEST['refreshlistuv']))
       echo "<ul>\n";
 
       foreach($_SESSION['edu_uv_subscr'] as $key => $value)
-	{
-	  echo "<li>".$value."</li>\n";
-	}
+  {
+    echo "<li>".$value."</li>\n";
+  }
       echo "</ul>\n";
 
       echo "<p><b>passer à ".
-	"<a href=\"./create.php?step=2\">la deuxième étape</a></b>\n";
+  "<a href=\"./create.php?step=2\">la deuxième étape</a></b>\n";
     }
   else
     echo "<b>Vous n'avez pour l'instant selectionné aucune UV.</b>";
@@ -621,8 +621,8 @@ $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 $edt->load_by_etu_semestre($site->user->id, $semestre);
 
 $cts = new contents("Emploi du temps",
-		    "Sur cette page, vous allez pouvoir ".
-		    "créer votre emploi du temps.");
+        "Sur cette page, vous allez pouvoir ".
+        "créer votre emploi du temps.");
 if (count($edt->edt_arr) > 0)
 {
   $cts->add_paragraph("Il semblerait que vous ayez déjà saisi votre
@@ -671,7 +671,7 @@ $cts->add_title(2, "Sélection des UVs");
 $selectuv = new form("seluv", "create.php", true, "post", "Sélection des  UVs");
 
 $rq = new requete($site->db,
-		  "SELECT
+      "SELECT
                             `id_uv`
                             , `code_uv`
                             , `intitule_uv`
@@ -689,15 +689,15 @@ if ($rq->lines > 0)
     {
       $format_h = array();
       if ($rs['cours_uv'] == 1)
-	$format_h[] = "Cours";
+  $format_h[] = "Cours";
       if ($rs['td_uv'] == 1)
-	$format_h[] =  "TD";
+  $format_h[] =  "TD";
       if ($rs['tp_uv'] == 1)
-	$format_h[] = "TP";
+  $format_h[] = "TP";
       if (count($format_h) == 0)
-	$format_h = "HET";
+  $format_h = "HET";
       else
-	$format_h = implode(" / ", $format_h);
+  $format_h = implode(" / ", $format_h);
 
       $uvs[$rs['id_uv']] = $rs['code_uv'] . " - " . $rs['intitule_uv'] . " - " . $format_h;
     }
@@ -767,9 +767,9 @@ if (is_array($_SESSION['edu_uv_subscr']))
       $uvs .= "<ul>\n";
 
       foreach($_SESSION['edu_uv_subscr'] as $key => $value)
-	{
-	  $uvs .= "<li>".$value."</li>\n";
-	}
+  {
+    $uvs .= "<li>".$value."</li>\n";
+  }
       $uvs .= "</ul>\n";
     }
 

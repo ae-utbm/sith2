@@ -48,7 +48,7 @@ while ( list($id,$nom) = ($row = $req->get_row()) )
   $comptoirs[$id] = $nom;
 
 if ( !count($comptoirs) && !$site->user->is_in_group("gestion_ae") )
-  $site->error_forbidden();
+  $site->error_forbidden("services");
 
 
 $conds = array();

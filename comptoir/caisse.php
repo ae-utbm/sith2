@@ -36,7 +36,7 @@ require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/localisation.inc.php");
 
 $site = new sitecomptoirs(true );
-$site->start_page("releves","Releves de caisses");
+$site->start_page("services","Releves de caisses");
 
 $caisse = new CaisseComptoir($site->db,$site->dbrw);
 

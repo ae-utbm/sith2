@@ -84,7 +84,7 @@ $site->set_side_boxes("left",array());
 $site->set_side_boxes("right",array());
 
 
-$site->start_page("none","Remise des diplômes 2010");
+$site->start_page("accueil","Remise des diplômes 2010");
 
 $cts = new contents("Présentation");
 $cts->add_paragraph("Grâce au travail de l'équipe informatique de l'Association des Étudiants et d'UTBM-Productions pendant la conférence, nous vous offrons en direct les images montées afin de profiter chez vous de la conférence. Nous remercions l'ensemble des bénévoles et partenaires.");

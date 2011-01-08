@@ -32,7 +32,7 @@ require_once("include/cts/edt_render.inc.php");
 
 $site = new site();
 $site->add_js("pedagogie/pedagogie.js");
-$site->allow_only_logged_users();
+$site->allow_only_logged_users("services");
 
 $site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db);

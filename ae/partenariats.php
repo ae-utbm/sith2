@@ -33,10 +33,10 @@ $partenaires=array(1=>"Société Générale", 2=>"SMEREB");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") )
-  $site->error_forbidden("none","group","gestion_ae");
+  $site->error_forbidden("services","group","gestion_ae");
 
 $site->add_js("js/sqltable2.js");
-$site->start_page("utl_partenariats","Partenariats en attente");
+$site->start_page("services","Partenariats en attente");
 $partenariat = new Partenariat($site->db, $site->dbrw);
 
 if ($_REQUEST['action'] == "add")

@@ -41,7 +41,7 @@ $asso = new asso($site->db,$site->dbrw);
 
 if ( !isset($_REQUEST["id_asso"]) )
 {
-  $site->error_not_found();
+  $site->error_not_found("presentation");
   exit();
 }
 
@@ -50,7 +50,7 @@ $asso_parent = new asso($site->db);
 $asso->load_by_id($_REQUEST["id_asso"]);
 if ( $asso->id < 1 )
 {
-  $site->error_not_found();
+  $site->error_not_found("presentation");
   exit();
 }
 
@@ -136,8 +136,8 @@ foreach ( $cats as $row )
 }
 
 $sql = new requete($site->db,"SELECT nvl_dates.*,nvl_nouvelles.* FROM nvl_dates " .
-			"INNER JOIN nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-			"WHERE nvl_nouvelles.id_asso='".$asso->id."'");
+      "INNER JOIN nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+      "WHERE nvl_nouvelles.id_asso='".$asso->id."'");
 
 while ( $row = $sql->get_row() )
 {
@@ -147,14 +147,14 @@ while ( $row = $sql->get_row() )
 }
 
 $req = new requete($site->db,
-		"SELECT `utilisateurs`.`id_utilisateur`, " .
-		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-		"`asso_membre`.`date_debut`, `asso_membre`.`role` " .
-		"FROM `asso_membre` " .
-		"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
-		"WHERE `asso_membre`.`id_asso`='".$asso->id."' " .
-		"AND `asso_membre`.`role` >= ".ROLEASSO_VICEPRESIDENT." ".
-		"ORDER BY `asso_membre`.`date_debut`, `asso_membre`.`desc_role`");
+    "SELECT `utilisateurs`.`id_utilisateur`, " .
+    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+    "`asso_membre`.`date_debut`, `asso_membre`.`role` " .
+    "FROM `asso_membre` " .
+    "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+    "WHERE `asso_membre`.`id_asso`='".$asso->id."' " .
+    "AND `asso_membre`.`role` >= ".ROLEASSO_VICEPRESIDENT." ".
+    "ORDER BY `asso_membre`.`date_debut`, `asso_membre`.`desc_role`");
 
 
 

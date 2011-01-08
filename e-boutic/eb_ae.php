@@ -53,7 +53,7 @@ if (isset($_POST['cart_modify']))
 
 $site = new eboutic ();
 
-$site->allow_only_logged_users();
+$site->allow_only_logged_users("services");
 
 $site->start_page ("e-boutic", "Etat du panier");
 

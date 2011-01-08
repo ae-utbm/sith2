@@ -28,10 +28,10 @@ require_once($topdir."include/cts/board.inc.php");
 
 
 $site = new site ();
-$site->allow_only_logged_users("");
+$site->allow_only_logged_users("accueil");
 
 $today = date("Y-m-d");
-$site->start_page("none","Ma boite à outils");
+$site->start_page("accueil","Ma boite à outils");
 $cts = new contents("Ma boite à outils");
 $board = new board();
 

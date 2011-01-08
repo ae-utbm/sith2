@@ -49,7 +49,7 @@ if ( isset($_REQUEST["id_nouvelle"]) )
   $news->load_by_id($_REQUEST["id_nouvelle"]);
   if ( $news->id < 1 )
     {
-      $site->error_not_found();
+      $site->error_not_found("accueil");
       exit();
     }
 
@@ -219,7 +219,7 @@ require_once($topdir."include/entities/folder.inc.php");
 
 $file = new dfile($site->db, $site->dbrw);
 
-$site->start_page ("none", "Accueil Nouvelles");
+$site->start_page ("accueil", "Accueil Nouvelles");
 
 $suitable = false;
 

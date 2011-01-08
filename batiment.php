@@ -35,7 +35,7 @@ $bat = new batiment($site->db,$site->dbrw);
 $bat->load_by_id($_REQUEST["id_batiment"]);
 if ( $bat->id < 1 )
 {
-  $site->error_not_found();
+  $site->error_not_found("services");
   exit();
 }
 $sitebat->load_by_id($bat->id_site);
@@ -50,7 +50,7 @@ if ( $_REQUEST["action"] == "addsalle" )
   }
 }
 
-$site->start_page("none","Batiment ".$bat->nom);
+$site->start_page("services","Batiment ".$bat->nom);
 $cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link());
 $cts->add_paragraph("Site : ".$sitebat->get_html_link());
 $cts->add_paragraph("Voir aussi : <a href=\"sitebat.php\">Autre sites</a>");
