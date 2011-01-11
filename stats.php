@@ -799,7 +799,7 @@ elseif ( $_REQUEST["view"] == "elections" )
 
     $part = round(($vot/$cot)*100,1);
     if($histo)
-      $datas[$i]=max($part, 100);
+      $datas[$i]=min($part, 100);
     if($histo2)
       $datas[$i]=$vot;
     $prog = new progressbar($part);
