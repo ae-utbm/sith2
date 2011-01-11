@@ -762,7 +762,7 @@ elseif ( $_REQUEST["view"] == "elections" )
          ", date_debut ".
          ", date_fin ".
          "FROM vt_election ".
-         "WHERE id_groupe=10000 ".
+         "WHERE id_groupe IN (10000,10012) ".
          "ORDER BY date_debut, date_fin");
   if($histo)
     $datas = array(0=>"Participation en pourcentage");
