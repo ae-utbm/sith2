@@ -240,16 +240,21 @@ if ( isset($_REQUEST["pattern"] ) )
 
   $url = "search.php?pattern=".urlencode($_REQUEST["pattern"]);
 
-  /*
-  // Pauvre mysql... trop lourd pour lui...
-  if (isset($_REQUEST['regex']))
+  if ( !empty($_REQUEST["pattern"]) )
   {
-    $url .= "&regex";
-    $sql_conds = "WHERE (frm_message.titre_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."' OR contenu_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."') ";
+    /*
+    // Pauvre mysql... trop lourd pour lui...
+    if (isset($_REQUEST['regex']))
+    {
+      $url .= "&regex";
+      $sql_conds = "WHERE (frm_message.titre_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."' OR contenu_message REGEXP '".mysql_real_escape_string($_REQUEST["pattern"])."') ";
+    }
+    else
+      */
+      $sql_conds = "WHERE MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
   }
   else
-    */
-    $sql_conds = "WHERE MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
+    $sql_conds = "WHERE 1 ";
 
   if ( !$forum->is_admin( $site->user ) )
   {
