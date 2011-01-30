@@ -48,7 +48,7 @@ $req = new requete ($site->db, "SELECT `frm_modere_info` . * , `frm_sujet`.`titr
   "LEFT JOIN frm_message USING ( id_message ) ".
   "LEFT JOIN frm_sujet USING ( id_sujet ) ".
   "WHERE DATEDIFF( NOW( ) , `modere_date` ) < '30' ".
-  "ORDER BY modere_date;");
+  "ORDER BY modere_date DESC;");
 
 $tbl = new sqltable("modrecent",
   "Actions de modtération récentes", $req, "../",
