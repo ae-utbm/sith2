@@ -204,11 +204,12 @@ div.fmsgentry.deleted
 div.fmsgentry div.modereinfo
 {
   background:#ffffbf;
-  padding:0.4em 1em;
+  padding:0.2em 0.5em;
   margin:0.3em;
   border-width: 1px;
   border-style: dotted;
   border-color:#eccc20;
+  font-size: 0.3em;
 }
 
 div.fmsgentry div.auteur
