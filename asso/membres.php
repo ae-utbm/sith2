@@ -276,9 +276,11 @@ elseif ( $_REQUEST["view"] == "anciens" )
     "`asso_membre`.`desc_role`, " .
     "`asso_membre`.`date_debut`," .
     "`asso_membre`.`date_fin`, " .
+    "`utl_etu_utbm`.`surnom_utbm`, " .
     "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
     "FROM `asso_membre` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+    "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
     "WHERE `asso_membre`.`date_fin` IS NOT NULL " .
     "AND `asso_membre`.`id_asso`='".$asso->id."' " .
     "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
@@ -287,7 +289,7 @@ elseif ( $_REQUEST["view"] == "anciens" )
       "listresp",
       "Anciens", $req, "membres.php?id_asso=".$asso->id,
       "id_membership",
-      array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Du","date_fin"=>"Au"),
+      array("nom_utilisateur"=>"Utilisateur","surnom"=>"Surnom","role"=>"Role","desc_role"=>"Role","date_debut"=>"Du","date_fin"=>"Au"),
       $can_admin?array("delete"=>"Supprimer"):array(),
       $can_admin?array("deletes"=>"Supprimer"):array(),
       array("role"=>$GLOBALS['ROLEASSO'] )
