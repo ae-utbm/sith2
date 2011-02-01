@@ -289,7 +289,7 @@ elseif ( $_REQUEST["view"] == "anciens" )
       "listresp",
       "Anciens", $req, "membres.php?id_asso=".$asso->id,
       "id_membership",
-      array("nom_utilisateur"=>"Utilisateur","surnom"=>"Surnom","role"=>"Role","desc_role"=>"Role","date_debut"=>"Du","date_fin"=>"Au"),
+      array("nom_utilisateur"=>"Utilisateur","surnom_utbm"=>"Surnom","role"=>"Role","desc_role"=>"Role","date_debut"=>"Du","date_fin"=>"Au"),
       $can_admin?array("delete"=>"Supprimer"):array(),
       $can_admin?array("deletes"=>"Supprimer"):array(),
       array("role"=>$GLOBALS['ROLEASSO'] )
