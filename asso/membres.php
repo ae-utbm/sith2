@@ -344,9 +344,11 @@ else
     "`asso_membre`.`role`, " .
     "`asso_membre`.`desc_role`, " .
     "`asso_membre`.`date_debut`, " .
+    "`utl_etu_utbm`.`surnom_utbm`, " .
     "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
     "FROM `asso_membre` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+    "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
     "WHERE `asso_membre`.`date_fin` IS NULL " .
     "AND `asso_membre`.`id_asso`='".$asso->id."' " .
     "AND `asso_membre`.`role` > '".ROLEASSO_MEMBREACTIF."' ".
@@ -357,7 +359,7 @@ else
       "listresp",
       "Bureau / Equipe", $req, "membres.php?id_asso=".$asso->id,
       "id_membership",
-      array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"),
+      array("nom_utilisateur"=>"Utilisateur","surnom_utbm"=>"Surnom","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"),
       $can_admin?array("ancien"=>"Marquer comme ancien","delete"=>"Supprimer"):array(),
       $can_admin?array("anciens"=>"Marquer comme ancien","deletes"=>"Supprimer"):array(),
       array("role"=>$GLOBALS['ROLEASSO'] )
@@ -374,9 +376,11 @@ else
           "`asso_membre`.`role`, " .
     "`asso_membre`.`desc_role`, " .
     "`asso_membre`.`date_debut`, " .
+    "`utl_etu_utbm`.`surnom_utbm`, " .
       "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
       "FROM `asso_membre` " .
       "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
       "WHERE `asso_membre`.`date_fin` IS NULL " .
       "AND `asso_membre`.`id_asso`='".$asso->id."' " .
       "AND `asso_membre`.`role` = '".ROLEASSO_MEMBREACTIF."' ".
@@ -388,7 +392,7 @@ else
            "listmebm",
            "Bénévoles", $req, "membres.php?id_asso=".$asso->id,
            "id_membership",
-            array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"),
+            array("nom_utilisateur"=>"Utilisateur","surnom_utbm"=>"Surnom","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"),
             $can_admin?array("ancien"=>"Marquer comme ancien","delete"=>"Supprimer"):array(),
             $can_admin?array("anciens"=>"Marquer comme ancien","deletes"=>"Supprimer"):array(),
             array("role"=>$GLOBALS['ROLEASSO'] )
@@ -405,9 +409,11 @@ else
         "`asso_membre`.`role`, " .
     "`asso_membre`.`desc_role`, " .
     "`asso_membre`.`date_debut`, " .
+    "`utl_etu_utbm`.`surnom_utbm`, " .
     "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
     "FROM `asso_membre` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+    "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
     "WHERE `asso_membre`.`date_fin` IS NULL " .
     "AND `asso_membre`.`id_asso`='".$asso->id."' " .
     "AND `asso_membre`.`role` <= '".$members_role."' ".
@@ -419,7 +425,7 @@ else
          "listmebm",
          "Membres", $req, "membres.php?id_asso=".$asso->id,
          "id_membership",
-          array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"),
+          array("nom_utilisateur"=>"Utilisateur","surnom_utbm"=>"Surnom","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"),
           $can_admin?array("ancien"=>"Marquer comme ancien","delete"=>"Supprimer"):array(),
           $can_admin?array("anciens"=>"Marquer comme ancien","deletes"=>"Supprimer"):array(),
           array("role"=>$GLOBALS['ROLEASSO'] )
