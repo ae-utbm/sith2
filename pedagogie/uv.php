@@ -299,13 +299,10 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
     $site->redirect('uv.php');
 
   if ($admin || ($com->id_utilisateur == $author->id))
-    $site->redirect('uv.php');
-
-  $com->remove();
+    $com->remove();
 }
 else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
 {
-  echo "prout";
   require_once("include/uv_comment.inc.php");
   $user = new pedag_user($site->db);
   $user->load_by_id($site->user->id);
@@ -315,9 +312,7 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
     $site->redirect('uv.php');
 
   if ($admin || ($com->id_utilisateur == $author->id))
-    $site->redirect('uv.php');
-
-  $com->update(null, null, $_REQUEST['generale'], $_REQUEST['utilite'], $_REQUEST['interet'], $_REQUEST['enseignement'], $_REQUEST['travail'], $_REQUEST['content']);
+    $com->update(null, null, $_REQUEST['generale'], $_REQUEST['utilite'], $_REQUEST['interet'], $_REQUEST['enseignement'], $_REQUEST['travail'], $_REQUEST['content']);
 }
 
 /***********************************************************************
