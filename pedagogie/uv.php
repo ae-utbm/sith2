@@ -1,7 +1,8 @@
 <?
-/* Copyright 2007
+/* Copyright 2007,2010
  * - Manuel Vonthron < manuel DOT vonthron AT acadis DOT org >
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
+ * - Mathieu Briand <briandmathieu AT hyprua DOT org>
  *
  * Ce fichier fait partie du site de l'Association des étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -21,8 +22,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-
-print_r($_REQUEST);
 
 $topdir = "../";
 
@@ -405,7 +404,6 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
 
     $cts->puts("<div id=\"add_comment_".$uv->id."\" style=\"display: none;\" class=\"add_comment_form\">");
     $frm = new form("new_comment_".$uv->id, "uv.php?action=new_comment", true, "POST");
-    $frm->add_dokuwiki_toolbar("new_comment_".$uv->id);
     $frm->add_hidden("id", $uv->id);
     $frm->add_info("Cette section ayant pour but d'aider les étudiants ".
           "dans leurs choix d'UV, merci de ne pas mettre des notes à la va-vite ".
@@ -416,6 +414,7 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
     $frm->add_select_field('travail','Charge de travail', $VAL_TRAVAIL, 2);
     $frm->add_select_field('enseignement','Qualité de l\'enseignement', $VAL_ENSEIGNEMENT, 2);
     $frm->add_select_field('generale','<b>Note générale</b>', $VAL_GENERALE, 2);
+    $frm->add_dokuwiki_toolbar("new_comment_".$uv->id);
     $frm->add_text_area("content", "Contenu", false, 80, 10, true);
     $frm->add_submit("send", "Enregistrer");
     $cts->add($frm);
@@ -478,7 +477,6 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
     /** formulaire d'ajout */
 
     $frm = new form("new_comment_".$uv->id, "uv.php?view=commentaires", true, "POST");
-    $frm->add_dokuwiki_toolbar("new_comment_".$uv->id);
     $frm->add_hidden("action", "editcomm");
     $frm->add_hidden("id", $uv->id);
     $frm->add_hidden("id_com", $com->id);
@@ -491,6 +489,7 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
     $frm->add_select_field('travail','Charge de travail', $VAL_TRAVAIL, $com->note_travail);
     $frm->add_select_field('enseignement','Qualité de l\'enseignement', $VAL_ENSEIGNEMENT, $com->note_enseignement);
     $frm->add_select_field('generale','<b>Note générale</b>', $VAL_GENERALE, $com->note_generale);
+    $frm->add_dokuwiki_toolbar("new_comment_".$uv->id);
     $frm->add_text_area("content", "Contenu", $com->content, 80, 10, true);
     $frm->add_submit("send", "Enregistrer");
     $cts->add($frm);

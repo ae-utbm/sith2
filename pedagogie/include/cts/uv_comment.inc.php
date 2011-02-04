@@ -96,7 +96,7 @@ class uvcomment extends stdcontents
       $links = array();
 
       /* l'auteur peut toujours décider de supprimer son message */
-      if ($user->id == $comment->id_utilisateur){
+      if ($admin || ($user->id == $author->id)){
           $links[] = "<a href=\"".$page."?action=editcomm&id=".
             $comment->id."\">Editer</a>";
           $links[] = "<a href=\"".$page."?action=deletecomm&id=".
@@ -185,6 +185,10 @@ class uv_comment_box extends stdcontents
     static $n = 0;
     $parity = ($n++ % 2);
 
+    /* TODO : meme remarque concernant
+     * l'éventuelle mise en place d'un groupe de modérateurs
+     */
+    $admin = $user->is_in_group("gestion_ae");
 
     if ($comment->valid != 1)
       $extra = "abuse";
