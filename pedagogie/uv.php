@@ -301,6 +301,7 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
 
   // lalala...
   $_REQUEST['id'] = $com->id_uv;
+  $_REQUEST['view'] = "commentaires";
 
   if ($admin || ($com->id_utilisateur == $site->user->id))
     $com->remove();
@@ -364,7 +365,7 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
           );
   $view = $_REQUEST['view'];
   if ($view == "editcomm") $view = "commentaires";
-  $cts->add(new tabshead($tabs, $_REQUEST['view']));
+  $cts->add(new tabshead($tabs, $view));
 
   /**
    * onglet commentaires
