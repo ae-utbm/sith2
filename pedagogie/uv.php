@@ -22,6 +22,7 @@
  * 02111-1307, USA.
  */
 
+print_r($_REQUEST);
 
 $topdir = "../";
 
@@ -304,6 +305,7 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
 }
 else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
 {
+  echo "prout";
   require_once("include/uv_comment.inc.php");
   $user = new pedag_user($site->db);
   $user->load_by_id($site->user->id);
@@ -491,7 +493,7 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
     $frm->add_select_field('travail','Charge de travail', $VAL_TRAVAIL, $com->note_travail);
     $frm->add_select_field('enseignement','Qualité de l\'enseignement', $VAL_ENSEIGNEMENT, $com->note_enseignement);
     $frm->add_select_field('generale','<b>Note générale</b>', $VAL_GENERALE, $com->note_generale);
-    $frm->add_text_area("content", "Contenu", $com->content, false, 80, 10, true);
+    $frm->add_text_area("content", "Contenu", $com->content, 80, 10, true);
     $frm->add_submit("send", "Enregistrer");
     $cts->add($frm);
   }else{
