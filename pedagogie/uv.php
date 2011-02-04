@@ -292,6 +292,19 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_comment')
 }
 else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
 {
+  require_once("include/uv_comment.inc.php");
+  $user = new pedag_user($site->db);
+  $user->load_by_id($site->user->id);
+
+  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+  if(!$com->is_valid())
+    $site->redirect('uv.php');
+
+  if ($admin || ($com->id_utilisateur == $site->user->id))
+    $com->remove();
+}
+else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
+{
   echo "aa";
   require_once("include/uv_comment.inc.php");
   $user = new pedag_user($site->db);
@@ -307,21 +320,8 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
 
   echo "cc";
   if ($admin || ($com->id_utilisateur == $site->user->id))
-    $com->remove();
-  echo "dd";
-}
-else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
-{
-  require_once("include/uv_comment.inc.php");
-  $user = new pedag_user($site->db);
-  $user->load_by_id($site->user->id);
-
-  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
-  if(!$com->is_valid())
-    $site->redirect('uv.php');
-
-  if ($admin || ($com->id_utilisateur == $site->user->id))
     $com->update(null, null, $_REQUEST['generale'], $_REQUEST['utilite'], $_REQUEST['interet'], $_REQUEST['enseignement'], $_REQUEST['travail'], $_REQUEST['content']);
+  echo "dd";
 }
 
 /***********************************************************************
