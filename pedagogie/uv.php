@@ -42,6 +42,8 @@ $site->start_page("services", "AE Pédagogie");
 
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 
+$admin = $user->is_in_group("gestion_ae");
+
 /* compatibilite sqltable bleh */
 if(isset($_REQUEST['id_uv']))
   $_REQUEST['id'] = $_REQUEST['id_uv'];
@@ -298,7 +300,7 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
   if(!$com->is_valid())
     $site->redirect('uv.php');
 
-  if ($admin || ($com->id_utilisateur == $author->id))
+  if ($admin || ($com->id_utilisateur == $site->user->id))
     $com->remove();
 }
 else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
@@ -311,7 +313,7 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
   if(!$com->is_valid())
     $site->redirect('uv.php');
 
-  if ($admin || ($com->id_utilisateur == $author->id))
+  if ($admin || ($com->id_utilisateur == $site->user->id))
     $com->update(null, null, $_REQUEST['generale'], $_REQUEST['utilite'], $_REQUEST['interet'], $_REQUEST['enseignement'], $_REQUEST['travail'], $_REQUEST['content']);
 }
 
@@ -470,7 +472,7 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
     if(!$com->is_valid())
       $site->redirect('uv.php');
 
-    if ($admin || ($com->id_utilisateur == $author->id))
+    if (!$admin && ($com->id_utilisateur != $site->user->id))
       $site->redirect('uv.php');
 
     /** formulaire d'ajout */
