@@ -292,16 +292,23 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_comment')
 }
 else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
 {
+  echo "aa";
   require_once("include/uv_comment.inc.php");
   $user = new pedag_user($site->db);
   $user->load_by_id($site->user->id);
 
+  echo "bb";
   $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+
+  echo $com->id;
+
   if(!$com->is_valid())
     $site->redirect('uv.php');
 
+  echo "cc";
   if ($admin || ($com->id_utilisateur == $site->user->id))
     $com->remove();
+  echo "dd";
 }
 else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
 {
