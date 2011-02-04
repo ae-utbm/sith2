@@ -175,7 +175,7 @@ class uv_comment extends stdentity
     if($note_travail)   $data["note_travail"] = intval($note_travail);
     if($content)        $data["content"] = $content;
 
-    $sql = new update($this->dbrw, "pedag_uv_commentaire", array("id_commentaire" => $this->id), $data, 1);
+    $sql = new update($this->dbrw, "pedag_uv_commentaire", $data, array("id_commentaire" => $this->id));
     return $sql->is_success();
   }
 
@@ -186,8 +186,8 @@ class uv_comment extends stdentity
 
   public function set_valid($val=true){
     $sql = new update($this->dbrw, "pedag_resultat",
-                      array("id_commentaire" => $this->id),
-                      array("valid" => $val));
+                      array("valid" => $val),
+                      array("id_commentaire" => $this->id));
     return $sql->is_success();
   }
 

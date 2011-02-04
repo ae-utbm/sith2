@@ -305,23 +305,16 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
 }
 else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
 {
-  echo "aa";
   require_once("include/uv_comment.inc.php");
   $user = new pedag_user($site->db);
   $user->load_by_id($site->user->id);
 
-  echo "bb";
   $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
-
-  echo $com->id;
-
   if(!$com->is_valid())
     $site->redirect('uv.php');
 
-  echo "cc";
   if ($admin || ($com->id_utilisateur == $site->user->id))
     $com->update(null, null, $_REQUEST['generale'], $_REQUEST['utilite'], $_REQUEST['interet'], $_REQUEST['enseignement'], $_REQUEST['travail'], $_REQUEST['content']);
-  echo "dd";
 }
 
 /***********************************************************************
@@ -484,8 +477,9 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
 
     /** formulaire d'ajout */
 
-    $frm = new form("new_comment_".$uv->id, "uv.php?action=editcomm", true, "POST");
+    $frm = new form("new_comment_".$uv->id, "uv.php?view=commentaires", true, "POST");
     $frm->add_dokuwiki_toolbar("new_comment_".$uv->id);
+    $frm->add_hidden("action", "editcomm");
     $frm->add_hidden("id", $uv->id);
     $frm->add_hidden("id_com", $com->id);
     $frm->add_info("Cette section ayant pour but d'aider les étudiants ".
