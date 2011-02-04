@@ -287,6 +287,36 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_comment')
   else
     $site->redirect('uv.php?id='.$uv->id.'&view=commentaires');
 }
+else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
+{
+  require_once("include/uv_comment.inc.php");
+  $user = new pedag_user($site->db);
+  $user->load_by_id($site->user->id);
+
+  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+  if(!$com->is_valid())
+    $site->redirect('uv.php');
+
+  if ($admin || ($com->id_utilisateur == $author->id))
+    $site->redirect('uv.php');
+
+  $com->remove();
+}
+else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
+{
+  require_once("include/uv_comment.inc.php");
+  $user = new pedag_user($site->db);
+  $user->load_by_id($site->user->id);
+
+  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+  if(!$com->is_valid())
+    $site->redirect('uv.php');
+
+  if ($admin || ($com->id_utilisateur == $author->id))
+    $site->redirect('uv.php');
+
+  $com->update(null, null, $_REQUEST['generale'], $_REQUEST['utilite'], $_REQUEST['interet'], $_REQUEST['enseignement'], $_REQUEST['travail'], $_REQUEST['content']);
+}
 
 /***********************************************************************
  * Affichage detail UV
@@ -362,6 +392,7 @@ if(isset($_REQUEST['id']))
 
     $cts->puts("<div id=\"add_comment_".$uv->id."\" style=\"display: none;\" class=\"add_comment_form\">");
     $frm = new form("new_comment_".$uv->id, "uv.php?action=new_comment", true, "POST");
+    $frm->add_dokuwiki_toolbar("new_comment_".$uv->id);
     $frm->add_hidden("id", $uv->id);
     $frm->add_info("Cette section ayant pour but d'aider les étudiants ".
           "dans leurs choix d'UV, merci de ne pas mettre des notes à la va-vite ".
@@ -417,6 +448,39 @@ if(isset($_REQUEST['id']))
 
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'ressources'){
     $cts->add_paragraph("Bientôt ;)");
+  }
+  else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'editcomm')
+  {
+    require_once("include/uv_comment.inc.php");
+    $user = new pedag_user($site->db);
+    $user->load_by_id($site->user->id);
+
+    $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+    if(!$com->is_valid())
+      $site->redirect('uv.php');
+
+    if ($admin || ($com->id_utilisateur == $author->id)){
+      $site->redirect('uv.php');
+
+    /** formulaire d'ajout */
+
+    $frm = new form("new_comment_".$uv->id, "uv.php?action=editcomm", true, "POST");
+    $frm->add_dokuwiki_toolbar("new_comment_".$uv->id);
+    $frm->add_hidden("id", $uv->id);
+    $frm->add_hidden("id_com", $com->id);
+    $frm->add_info("Cette section ayant pour but d'aider les étudiants ".
+          "dans leurs choix d'UV, merci de ne pas mettre des notes à la va-vite ".
+          "sans la moindre phrase et d'être constructif dans vos commentaires. <br />".
+          "Tout message offensant pourra se voir supprimé.");
+    $frm->add_select_field('interet','Intéret de l\'UV (pour un ingénieur)', $VAL_INTERET, $com->note_interet);
+    $frm->add_select_field('utilite','Utilité de l\'UV', $VAL_UTILITE, $com->note_utilite);
+    $frm->add_select_field('travail','Charge de travail', $VAL_TRAVAIL, $com->note_travail);
+    $frm->add_select_field('enseignement','Qualité de l\'enseignement', $VAL_ENSEIGNEMENT, $com->note_enseignement);
+    $frm->add_select_field('generale','<b>Note générale</b>', $VAL_GENERALE, $com->note_generale);
+    $frm->add_text_area("content", "Contenu", $com->content, false, 80, 10, true);
+    $frm->add_submit("send", "Enregistrer");
+    $cts->add($frm);
+  }
   }else{
     require_once($topdir."include/cts/board.inc.php");
     $uv->load_extra();

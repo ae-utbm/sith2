@@ -209,11 +209,11 @@ class uv_comment_box extends stdcontents
     $links = array();
 
     /* l'auteur peut toujours décider de supprimer son message */
-    if ($user->id == $author->id){
-        $links[] = "<a href=\"".$page."?action=editcomm&id=".
-          $author->id."\">Editer</a>";
-        $links[] = "<a href=\"".$page."?action=deletecomm&id=".
-          $author->id."\">Supprimer</a>";
+    if ($admin || ($user->id == $author->id)){
+        $links[] = "<a href=\"".$page."?view=editcomm&id_com=".
+          $comment->id."\">Editer</a>";
+        $links[] = "<a href=\"".$page."?action=deletecomm&id_com=".
+          $comment->id."\">Supprimer</a>";
       }
     /* sinon, n'importe qui peut signaler un abus */
     /* sous reserve que ce ne soit pas deja le cas ... */
