@@ -299,6 +299,9 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
   if(!$com->is_valid())
     $site->redirect('uv.php');
 
+  // lalala...
+  $_REQUEST['id'] = $com->id_uv;
+
   if ($admin || ($com->id_utilisateur == $site->user->id))
     $com->remove();
 }

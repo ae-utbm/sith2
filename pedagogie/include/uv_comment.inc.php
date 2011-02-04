@@ -161,9 +161,7 @@ class uv_comment extends stdentity
                       $note_generale=null, $note_utilite=null, $note_interet=null, $note_enseignement=null, $note_travail=null,
                       $content=null){
 
-    echo "bleh";
     if(func_num_args() < 1) return false;
-    echo "bloh";
 
     $data = array();
     if($id_uv)          $data["id_uv"] = intval($id_uv);
