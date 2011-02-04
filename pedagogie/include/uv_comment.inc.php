@@ -101,7 +101,7 @@ class uv_comment extends stdentity
    * élevées, on les détache et on les met en avant.
    */
   var $eval_comment;
-  
+
   public function load_by_id($id){
     $sql = new requete($this->db, "SELECT * FROM `pedag_uv_commentaire`
                                     WHERE `id_commentaire` = ".$id." LIMIT 1");
@@ -115,14 +115,14 @@ class uv_comment extends stdentity
     $this->id = $row['id_commentaire'];
     $this->id_uv = $row['id_uv'];
     $this->id_utilisateur = $row['id_utilisateur'];
-    
+
     $this->note_generale = $row['note_generale'];
     $this->note_utilite = $row['note_utilite'];
     $this->note_interet = $row['note_interet'];
     $this->note_enseignement = $row['note_enseignement'];
     $this->note_travail = $row['note_travail'];
-    
-    $this->content = stripslashes(nl2br($row['content']));
+
+    $this->content = $row['content'];
     $this->date = $row['date'];
     $this->valid = $row['valid'];
     $this->eval_comment = $row['eval_comment'];
@@ -133,27 +133,27 @@ class uv_comment extends stdentity
   public function add($id_uv, $id_utilisateur,
                       $note_generale, $note_utilite, $note_interet, $note_enseignement, $note_travail,
                       $content){
-    if(!uv::exists($this->db, $id_uv)) 
+    if(!uv::exists($this->db, $id_uv))
       throw new Exception("Invalid UV id ".$id_uv);
 
     if($date == null)
       $date = date("Y-m-d H:i:s");
 
-    $data = array("id_uv" => intval($id_uv), 
+    $data = array("id_uv" => intval($id_uv),
                   "id_utilisateur" => intval($id_utilisateur),
                   "note_generale" => intval($note_generale),
                   "note_utilite" => intval($note_utilite),
                   "note_interet" => intval($note_interet),
                   "note_enseignement" => intval($note_enseignement),
                   "note_travail" => intval($note_travail),
-                  "content" => mysql_real_escape_string($content),
+                  "content" => $content,
                   "date" => $date);
 
     $sql = new insert($this->dbrw, "pedag_uv_commentaire", $data);
 
     if($sql->is_success())
       return $this->load_by_id($sql->get_id());
-    else 
+    else
       return false;
   }
 
@@ -171,7 +171,7 @@ class uv_comment extends stdentity
     if($note_enseignement)  $data["note_enseignement"] = intval($note_enseignement);
     if($note_travail)   $data["note_travail"] = intval($note_travail);
     if($content)        $data["content"] = mysql_real_escape_string($content);
-    
+
     $sql = new update($this->dbrw, "pedag_uv_commentaire", array("id_commentaire" => $this->id), $data);
     return $sql->is_success();
   }
@@ -182,22 +182,22 @@ class uv_comment extends stdentity
   }
 
   public function set_valid($val=true){
-    $sql = new update($this->dbrw, "pedag_resultat", 
+    $sql = new update($this->dbrw, "pedag_resultat",
                       array("id_commentaire" => $this->id),
                       array("valid" => $val));
     return $sql->is_success();
   }
-  
+
   /**
    * Alias de la fonction update
    * destinee a deplacer un commentaire vers une autre UV notamment
-   * si qqun a mis a une UV type XE03 alors qu'on souhaite les regrouper 
+   * si qqun a mis a une UV type XE03 alors qu'on souhaite les regrouper
    * dans LE03
    */
   public function move($id_new_uv){
     return $this->update($id_new_uv);
   }
-  
+
   public function is_valid(){
     return $this->valid;
   }
