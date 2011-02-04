@@ -321,9 +321,21 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
 /***********************************************************************
  * Affichage detail UV
  */
-if(isset($_REQUEST['id']))
+if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
 {
-  $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
+  if ($_REQUEST['id'])
+    $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
+  else
+  {
+    require_once("include/uv_comment.inc.php");
+    $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+
+    if(!$com->is_valid())
+      $site->redirect('uv.php');
+
+    $uv = new uv($site->db, $site->dbrw, $com->id_uv);
+  }
+
   if(!$uv->is_valid())
     $site->redirect('./');
 
