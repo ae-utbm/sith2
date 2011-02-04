@@ -160,7 +160,10 @@ class uv_comment extends stdentity
   public function update($id_uv=null, $id_utilisateur=null,
                       $note_generale=null, $note_utilite=null, $note_interet=null, $note_enseignement=null, $note_travail=null,
                       $content=null){
+
+    echo "bleh";
     if(func_num_args() < 1) return false;
+    echo "bloh";
 
     $data = array();
     if($id_uv)          $data["id_uv"] = intval($id_uv);
@@ -170,9 +173,9 @@ class uv_comment extends stdentity
     if($note_interet)   $data["note_interet"] = intval($note_interet);
     if($note_enseignement)  $data["note_enseignement"] = intval($note_enseignement);
     if($note_travail)   $data["note_travail"] = intval($note_travail);
-    if($content)        $data["content"] = mysql_real_escape_string($content);
+    if($content)        $data["content"] = $content;
 
-    $sql = new update($this->dbrw, "pedag_uv_commentaire", array("id_commentaire" => $this->id), $data);
+    $sql = new update($this->dbrw, "pedag_uv_commentaire", array("id_commentaire" => $this->id), $data, 1);
     return $sql->is_success();
   }
 
