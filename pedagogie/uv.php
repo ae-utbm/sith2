@@ -361,6 +361,8 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
             array("suivi", "pedagogie/uv.php?id=".$uv->id."&view=suivi", "Séances & Élèves"),
             //array("ressources", "pedagogie/uv.php?id=".$uv->id."&view=ressources", "Ressources")
           );
+  $view = $_REQUEST['view'];
+  if ($view == "editcomm") $view = "commentaires";
   $cts->add(new tabshead($tabs, $_REQUEST['view']));
 
   /**
@@ -471,7 +473,7 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
     if(!$com->is_valid())
       $site->redirect('uv.php');
 
-    if ($admin || ($com->id_utilisateur == $author->id)){
+    if ($admin || ($com->id_utilisateur == $author->id))
       $site->redirect('uv.php');
 
     /** formulaire d'ajout */
@@ -492,7 +494,6 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
     $frm->add_text_area("content", "Contenu", $com->content, false, 80, 10, true);
     $frm->add_submit("send", "Enregistrer");
     $cts->add($frm);
-  }
   }else{
     require_once($topdir."include/cts/board.inc.php");
     $uv->load_extra();
