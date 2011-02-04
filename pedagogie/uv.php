@@ -42,7 +42,7 @@ $site->start_page("services", "AE Pédagogie");
 
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 
-$admin = $user->is_in_group("gestion_ae");
+$admin = $site->user->is_in_group("gestion_ae");
 
 /* compatibilite sqltable bleh */
 if(isset($_REQUEST['id_uv']))
