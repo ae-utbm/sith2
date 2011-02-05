@@ -106,12 +106,12 @@ class uvcomment extends stdcontents
       /* sous reserve que ce ne soit pas deja le cas ... */
 
       else if (($comment->valid == 1) && !$admin)
-        $links[] = "<a href=\"".$page."?action=reportabuse&id=".$comment->id."\">Signaler un abus</a>";
+        $links[] = "<a href=\"".$page."?action=reportabuse&id_com=".$comment->id."\">Signaler un abus</a>";
 
       if ($comment->valid == 0)
       {
         if ($admin)
-          $links[] = "<a href=\"".$page."?action=validcomm&id=".$comment->id."\">Valider le commentaire</a>";
+          $links[] = "<a href=\"".$page."?action=validcomm&id_com=".$comment->id."\">Valider le commentaire</a>";
         else
           $links[] = "Ce commentaire a été signalé";
       }
@@ -235,12 +235,12 @@ class uv_comment_box extends stdcontents
     /* sous reserve que ce ne soit pas deja le cas ... */
 
     else if (($comment->valid == 1) && !$admin)
-      $links[] = "<a href=\"?action=reportabuse&id=".$comment->id."\">Signaler un abus</a>";
+      $links[] = "<a href=\"?action=reportabuse&id_com=".$comment->id."\">Signaler un abus</a>";
 
     if ($comment->valid == 0)
     {
       if ($admin)
-        $links[] = "<a href=\"".$page."?action=validcomm&id=".$comment->id."\">Valider le commentaire</a>";
+        $links[] = "<a href=\"".$page."?action=validcomm&id_com=".$comment->id."\">Valider le commentaire</a>";
       else
         $links[] = "Ce commentaire a été signalé";
     }
