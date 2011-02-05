@@ -130,6 +130,9 @@ class utilisateur extends stdentity
   var $_grps;
   var $vol;
 
+  // Permet de ne faire qu'une fois le load_extra
+  var $extra_loaded;
+
   function utilisateur ( &$db, &$dbrw = null )
   {
     $this->stdentity($db,$dbrw);
@@ -372,6 +375,7 @@ class utilisateur extends stdentity
 
   function _load ( $row )
   {
+    $this->extra_loaded = false;
     $this->id = $row['id_utilisateur'];
     $this->type = $row['type_utl'];
     $this->nom = $row['nom_utl'];
@@ -423,6 +427,7 @@ class utilisateur extends stdentity
 
   function _load_extras($row)
   {
+    $this->extra_loaded = true;
     if ( $this->etudiant || $this->ancien_etudiant )
     {
       $this->citation = $row["citation"];
@@ -801,6 +806,9 @@ class utilisateur extends stdentity
    */
   function load_all_extra ()
   {
+    if ($this->extra_loaded)
+      return;
+
     $req = new requete($this->db,
                        "SELECT `utl_etu`.*, `utl_etu_utbm`.*, `utl_extra`.*, ".
                        "`utl_etu`.`id_ville` AS `id_ville_parents`, ".
@@ -1952,6 +1960,8 @@ L'équipe info AE";
 
   function get_html_extended_info()
   {
+    $this->load_all_extra();
+
     $buffer = "<b>".htmlentities($this->prenom." ".$this->nom,ENT_COMPAT,"UTF-8")."</b>";
 
     if ( $this->surnom )
