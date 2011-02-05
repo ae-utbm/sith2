@@ -143,6 +143,9 @@ class requete {
       return;
     }
 
+    if ($GLOBALS["taiste"] && (strncasecmp(trim($req_sql), $req_sql, 1) != 0))
+      echo "<p>Pas de cochonneries en début de requête s'il vous plait !</p>\n";
+
     if(strncasecmp($req_sql, "SELECT",6) == 0)
       $this->lines =  mysql_num_rows ($this->result);
     else
