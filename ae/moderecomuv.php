@@ -47,7 +47,7 @@ $req = new requete($site->db,"
 $modhelp = new contents("Mod&eacute;ration des commentaires d'uv",
       "<p>Sur cette page, vous pouvez voir les commentaires d'uv signalés comme étant abusifs.</p>");
 echo $req->lines;
-print_r($req->result);
+print_r(mysql_fetch_assoc($req->result));
 
 $tabl = new sqltable ("moderecomuv_list",
     "Commentaires en attente de mod&eacute;ration",
