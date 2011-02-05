@@ -319,6 +319,39 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
   if ($admin || ($com->id_utilisateur == $site->user->id))
     $com->update(null, null, $_REQUEST['generale'], $_REQUEST['utilite'], $_REQUEST['interet'], $_REQUEST['enseignement'], $_REQUEST['travail'], $_REQUEST['content']);
 }
+else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'reportabuse'))
+{
+  require_once("include/uv_comment.inc.php");
+  $user = new pedag_user($site->db);
+  $user->load_by_id($site->user->id);
+
+  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+  if(!$com->is_valid())
+    $site->redirect('uv.php');
+
+  $com->set_valid(0);
+
+  // lalala...
+  $_REQUEST['id'] = $com->id_uv;
+  $_REQUEST['view'] = "commentaires";
+}
+else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'validcomm'))
+{
+  require_once("include/uv_comment.inc.php");
+  $user = new pedag_user($site->db);
+  $user->load_by_id($site->user->id);
+
+  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+  if(!$com->is_valid())
+    $site->redirect('uv.php');
+
+  if ($admin)
+    $com->set_valid(0);
+
+  // lalala...
+  $_REQUEST['id'] = $com->id_uv;
+  $_REQUEST['view'] = "commentaires";
+}
 
 /***********************************************************************
  * Affichage detail UV

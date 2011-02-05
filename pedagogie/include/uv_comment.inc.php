@@ -90,8 +90,11 @@ class uv_comment extends stdentity
   var $note_travail;
 
   var $content;
+
   var $date;
+  // 0 : signalé, 1 : normal, 2 : validé par un modérateur
   var $valid;
+
   /**
    * eval_comment est une evaluation du commentaire
    * il ne s'agit pas de trier par nombres de votes des commentaires
@@ -182,7 +185,7 @@ class uv_comment extends stdentity
     return $sql->is_success();
   }
 
-  public function set_valid($val=true){
+  public function set_valid($val=1){
     $sql = new update($this->dbrw, "pedag_resultat",
                       array("valid" => $val),
                       array("id_commentaire" => $this->id));
@@ -197,10 +200,6 @@ class uv_comment extends stdentity
    */
   public function move($id_new_uv){
     return $this->update($id_new_uv);
-  }
-
-  public function is_valid(){
-    return $this->valid;
   }
 }
 

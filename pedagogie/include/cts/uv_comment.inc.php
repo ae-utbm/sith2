@@ -105,14 +105,26 @@ class uvcomment extends stdcontents
       /* sinon, n'importe qui peut signaler un abus */
       /* sous reserve que ce ne soit pas deja le cas ... */
 
-      else if ($comment->valid != 1)
+      else if (($comment->valid == 1) && !$admin)
         $links[] = "<a href=\"".$page."?action=reportabuse&id=".$comment->id."\">Signaler un abus</a>";
+
+      if ($comment->valid == 0)
+      {
+        if ($admin)
+          $links[] = "<a href=\"".$page."?action=validcomm&id=".$comment->id."\">Valider le commentaire</a>";
+        else
+          $links[] = "Ce commentaire a été signalé";
+      }
+      else if ($comment->valid == 2)
+        $links[] = "Ce commentaire a été validé";
 
       /* mise en "quarantaine" par un admin
        * (demande de modération)
        */
+      /* Commenté par matou : et concrètement, ça sert à quoi ?
       if (($admin) && ($user->id != $comment->id_utilisateur))
         $links[] = "<a href=\"".$page."?action=quarantine&id=".$comment->id."\">Mise en modération</a>";
+      */
 
       $this->buffer .= implode(" | ", $links);
 
@@ -222,14 +234,26 @@ class uv_comment_box extends stdcontents
     /* sinon, n'importe qui peut signaler un abus */
     /* sous reserve que ce ne soit pas deja le cas ... */
 
-    else if ($comment->valid != 1)
+    else if (($comment->valid == 1) && !$admin)
       $links[] = "<a href=\"?action=reportabuse&id=".$comment->id."\">Signaler un abus</a>";
+
+    if ($comment->valid == 0)
+    {
+      if ($admin)
+        $links[] = "<a href=\"".$page."?action=validcomm&id=".$comment->id."\">Valider le commentaire</a>";
+      else
+        $links[] = "Ce commentaire a été signalé";
+    }
+    else if ($comment->valid == 2)
+      $links[] = "Ce commentaire a été validé";
 
     /* mise en "quarantaine" par un admin
      * (demande de modération)
      */
+    /* Commenté par matou : et concrètement, ça sert à quoi ?
     if (($admin) && ($user->id != $comment->id_utilisateur))
       $links[] = "<a href=\"?action=quarantine&id=".$comment->id."\">Mise en modération</a>";
+    */
 
     $this->buffer .= implode(" | ", $links);
 

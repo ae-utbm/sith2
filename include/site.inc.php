@@ -427,6 +427,9 @@ class site extends interfaceweb
       $req = new requete($this->db,"SELECT COUNT(*) FROM `aff_affiches`  WHERE `modere_aff`='0' ");
       list($nbaffiches) = $req->get_row();
 
+      $req = new requete($this->db,"SELECT COUNT(*) FROM `pedag_uv_commentaire`valid`='0' ");
+      list($nbcomsignales) = $req->get_row();
+
       if ( $nbnews > 0 )
         $elements[] = "<a href=\"".$topdir."ae/moderenews.php\"><b>$nbnews nouvelle(s)</b> à modérer</b></a>";
 
@@ -438,6 +441,9 @@ class site extends interfaceweb
 
       if ( $nbaffiches > 0 )
         $elements[] = "<a href=\"".$topdir."ae/modereaffiches.php\"><b>$nbaffiches affiche(s)</b> à modérer</b></a>";
+
+      if ( $nbcomsignales > 0 )
+        $elements[] = "<a href=\"".$topdir."ae/moderecomuv.php\"><b>$nbcomsignales commentaire(s)</b> d'UV abusifs signalés</b></a>";
     }
 
     if ( $this->user->is_in_group("gestion_salles") )
