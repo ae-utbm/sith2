@@ -346,7 +346,7 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'validcomm'))
     $site->redirect('uv.php');
 
   if ($admin)
-    $com->set_valid(0);
+    $com->set_valid(2);
 
   // lalala...
   $_REQUEST['id'] = $com->id_uv;
