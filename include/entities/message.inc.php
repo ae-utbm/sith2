@@ -161,7 +161,10 @@ class message extends stdentity
             ),
             array("id_message"=>$this->id) );
 
-    new insert($this->dbrw,"frm_modere_info", array("id_message"=>$this->id, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"EDIT"));
+    if ($id_utilisateur == $this->id_utilisateur)
+      new insert($this->dbrw,"frm_modere_info", array("id_message"=>$this->id, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"AUTOEDIT"));
+    else
+      new insert($this->dbrw,"frm_modere_info", array("id_message"=>$this->id, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"EDIT"));
   }
 
   function set_modere ( $id_utilisateur )
@@ -178,7 +181,11 @@ class message extends stdentity
       return;
 
     new update($this->dbrw,"frm_message",array("msg_supprime"=>1, "msg_modere_info"=>1), array("id_message"=>$this->id));
-    new insert($this->dbrw,"frm_modere_info", array("id_message"=>$this->id, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"DELETE"));
+
+    if ($id_utilisateur == $this->id_utilisateur)
+      new insert($this->dbrw,"frm_modere_info", array("id_message"=>$this->id, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"AUTODELETE"));
+    else
+      new insert($this->dbrw,"frm_modere_info", array("id_message"=>$this->id, "id_utilisateur"=>$id_utilisateur, "modere_action"=>"DELETE"));
 
     $sujet->update_last_message($forum);
     $forum->update_last_sujet();

@@ -41,13 +41,17 @@ $tabs = array(array('','forum2/admin/index.php','Accueil'),
              );
 $cts->add(new tabshead($tabs,'modrecent'));
 
-$req = new requete ($site->db, "SELECT `frm_modere_info` . * , `frm_sujet`.`titre_sujet` , ".
+$cts->add_paragraph("<a href=\"?showall\">Afficher les auto-modérations</a>");
+
+$req = new requete ($site->db, "SELECT `frm_modere_info` . * , ".
+  "COALESCE( `frm_sujet`.`titre_sujet` , `frm_message`.`titre_message` ) titre_sujet , ".
   "CONCAT( `utilisateurs`.`prenom_utl` , ' ', `utilisateurs`.`nom_utl` ) AS `nom_utilisateur` ".
   "FROM `frm_modere_info` ".
   "LEFT JOIN utilisateurs USING ( id_utilisateur ) ".
   "LEFT JOIN frm_message USING ( id_message ) ".
   "LEFT JOIN frm_sujet USING ( id_sujet ) ".
   "WHERE DATEDIFF( NOW( ) , `modere_date` ) < '30' ".
+  (isset($_REQUEST['showall']) ? "" : " AND `modere_action` IN ('DELETE', 'UNDELETE', 'EDIT', 'DELETEFIRST')").
   "ORDER BY modere_date DESC;");
 
 $tbl = new sqltable("modrecent",
@@ -56,7 +60,7 @@ $tbl = new sqltable("modrecent",
   array("nom_utilisateur"=>"Utilisateur","modere_action"=>"Action","modere_date"=>"Date","titre_sujet"=>"Sujet"),
   array("view"=>"Voir le message"),
   array(),
-  array("modere_action"=>array('DELETE'=>"Message supprimé", 'UNDELETE'=>"Message rétabli", 'EDIT'=>"Message modifié")),
+  array("modere_action"=>array('DELETE'=>"Message supprimé", 'UNDELETE'=>"Message rétabli", 'EDIT'=>"Message modifié", 'AUTODELETE'=>"Message supprimé par l'utilisateur", 'AUTOEDIT'=>"Message modifié par l'utilisateur", 'DELETEFIRST'=>"Sujet supprimé")),
   true, true, array(), "#msg");
 
 $cts->add($tbl);
