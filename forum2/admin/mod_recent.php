@@ -41,7 +41,10 @@ $tabs = array(array('','forum2/admin/index.php','Accueil'),
              );
 $cts->add(new tabshead($tabs,'modrecent'));
 
-$cts->add_paragraph("<a href=\"?showall\">Afficher les auto-modérations</a>");
+if (isset($_REQUEST['showall']))
+  $cts->add_paragraph("<a href=\"mod_recent.php\">Ne pas afficher les auto-modérations</a>");
+else
+  $cts->add_paragraph("<a href=\"?showall\">Afficher les auto-modérations</a>");
 
 $req = new requete ($site->db, "SELECT `frm_modere_info` . * , ".
   "COALESCE( `frm_sujet`.`titre_sujet` , `frm_message`.`titre_message` ) titre_sujet , ".

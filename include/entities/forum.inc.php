@@ -433,8 +433,17 @@ class forum extends basedb
         $message .= "message rétabli par ".$row['alias_utl'];
       elseif ($row['modere_action'] == 'EDIT')
         $message .= "message modifié par ".$row['alias_utl'];
+      elseif ($row['modere_action'] == 'AUTOEDIT')
+        $message .= "message modifié par l'auteur";
+      elseif ($row['modere_action'] == 'AUTODELETE')
+        $message .= "message supprimé par l'auteur";
 
-      $rows[] = $message;
+      if (strncasecmp($row['modere_action'], 'AUTO', 4) != 0)
+        $type = "modereinfo_auto";
+      else
+        $type = "modereinfo";
+
+      $rows[] = array($type, $message);
     }
 
     return $rows;

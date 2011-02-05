@@ -204,11 +204,21 @@ div.fmsgentry.deleted
 div.fmsgentry div.modereinfo
 {
   background:#ffffbf;
+  border-color:#eccc20;
+}
+
+div.fmsgentry div.modereinfo_auto
+{
+  background:#bfffbf;
+  border-color:#60cc20;
+}
+
+div.fmsgentry div.modereinfo, div.fmsgentry div.modereinfo_auto
+{
   padding:0.2em 0.5em;
   margin:0.3em;
   border-width: 1px;
   border-style: dotted;
-  border-color:#eccc20;
   font-size: 0.8em;
 }
 

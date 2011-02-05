@@ -466,7 +466,7 @@ if ( isset($_REQUEST["pattern"] ) )
           {
             $modere_info = $forum->get_modere_info($row['id_message']);
             foreach($modere_info as $info)
-              $buffer .= "<div class=\"modereinfo\">".$info."</div>\n";
+              $buffer .= "<div class=\"".$info[0]."\">".$info[1]."</div>\n";
           }
 
           if ( !is_null($row['signature_utl']) )
