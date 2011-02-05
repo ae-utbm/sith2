@@ -438,14 +438,13 @@ class forum extends basedb
       elseif ($row['modere_action'] == 'AUTODELETE')
         $message .= "message supprimé par l'auteur";
 
-      if (strncasecmp($row['modere_action'], 'AUTO', 4) != 0)
+      if (strncasecmp($row['modere_action'], 'AUTO', 4) == 0)
         $type = "modereinfo_auto";
       else
         $type = "modereinfo";
 
       $rows[] = array($type, $message);
     }
-    print_r($modere_info);
 
     return $rows;
   }
