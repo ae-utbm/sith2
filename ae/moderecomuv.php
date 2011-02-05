@@ -41,17 +41,17 @@ $req = new requete($site->db,"
       FROM `pedag_uv_commentaire`
       LEFT JOIN `pedag_uv` USING (`id_uv`)
       LEFT JOIN `utilisateurs` USING (`id_utilisateur`)
-      WHERE `valid`=0
+      WHERE `valid`='0'
       ORDER BY `code`");
 
-$modhelp = new contents("Mod&eacute;ration des affiches",
+$modhelp = new contents("Mod&eacute;ration des commentaires d'uv",
       "<p>Sur cette page, vous pouvez voir les commentaires d'uv signalés comme étant abusifs.</p>");
-
+echo $req->lines;
 
 $tabl = new sqltable ("moderecomuv_list",
     "Commentaires en attente de mod&eacute;ration",
     $req,
-    "moderecomuv.php",
+    "pedagogie/uv.php?view=commentaires",
     "id_commentaire",
     array ("code" => "UV",
            "nom_utilisateur" => "Auteur"),
