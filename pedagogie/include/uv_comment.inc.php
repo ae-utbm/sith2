@@ -166,7 +166,7 @@ class uv_comment extends stdentity
 
     if(func_num_args() < 1) return false;
 
-    $data = array();
+    $data = array('valid'=>1);
     if($id_uv)          $data["id_uv"] = intval($id_uv);
     if($id_utilisateur) $data["id_utilisateur"] = intval($id_utilisateur);
     if($note_generale)  $data["note_generale"] = intval($note_generale);
