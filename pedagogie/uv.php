@@ -295,7 +295,7 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'deletecomm'))
   $user = new pedag_user($site->db);
   $user->load_by_id($site->user->id);
 
-  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_commentaire']);
   if(!$com->is_valid())
     $site->redirect('uv.php');
 
@@ -312,7 +312,7 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'editcomm'))
   $user = new pedag_user($site->db);
   $user->load_by_id($site->user->id);
 
-  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_commentaire']);
   if(!$com->is_valid())
     $site->redirect('uv.php');
 
@@ -325,7 +325,7 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'reportabuse'))
   $user = new pedag_user($site->db);
   $user->load_by_id($site->user->id);
 
-  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_commentaire']);
   if(!$com->is_valid())
     $site->redirect('uv.php');
 
@@ -341,7 +341,7 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'validcomm'))
   $user = new pedag_user($site->db);
   $user->load_by_id($site->user->id);
 
-  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+  $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_commentaire']);
   if(!$com->is_valid())
     $site->redirect('uv.php');
 
@@ -356,14 +356,14 @@ else if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'validcomm'))
 /***********************************************************************
  * Affichage detail UV
  */
-if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
+if(isset($_REQUEST['id']) || isset($_REQUEST['id_commentaire']))
 {
   if ($_REQUEST['id'])
     $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
   else
   {
     require_once("include/uv_comment.inc.php");
-    $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+    $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_commentaire']);
 
     if(!$com->is_valid())
       $site->redirect('uv.php');
@@ -504,7 +504,7 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
     $user = new pedag_user($site->db);
     $user->load_by_id($site->user->id);
 
-    $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_com']);
+    $com = new uv_comment($site->db, $site->dbrw, $_REQUEST['id_commentaire']);
     if(!$com->is_valid())
       $site->redirect('uv.php');
 
@@ -516,7 +516,7 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_com']))
     $frm = new form("new_comment_".$uv->id, "uv.php?view=commentaires", true, "POST");
     $frm->add_hidden("action", "editcomm");
     $frm->add_hidden("id", $uv->id);
-    $frm->add_hidden("id_com", $com->id);
+    $frm->add_hidden("id_commentaire", $com->id);
     $frm->add_info("Cette section ayant pour but d'aider les étudiants ".
           "dans leurs choix d'UV, merci de ne pas mettre des notes à la va-vite ".
           "sans la moindre phrase et d'être constructif dans vos commentaires. <br />".

@@ -106,12 +106,12 @@ class uvcomment extends stdcontents
       /* sous reserve que ce ne soit pas deja le cas ... */
 
       else if (($comment->valid == 1) && !$admin)
-        $links[] = "<a href=\"".$page."?action=reportabuse&id_com=".$comment->id."\">Signaler un abus</a>";
+        $links[] = "<a href=\"".$page."?action=reportabuse&id_commentaire=".$comment->id."\">Signaler un abus</a>";
 
       if ($comment->valid == 0)
       {
         if ($admin)
-          $links[] = "<a href=\"".$page."?action=validcomm&id_com=".$comment->id."\">Valider le commentaire</a>";
+          $links[] = "<a href=\"".$page."?action=validcomm&id_commentaire=".$comment->id."\">Valider le commentaire</a>";
         else
           $links[] = "Ce commentaire a été signalé";
       }
@@ -226,21 +226,21 @@ class uv_comment_box extends stdcontents
 
     /* l'auteur peut toujours décider de supprimer son message */
     if ($admin || ($user->id == $author->id)){
-        $links[] = "<a href=\"".$page."?view=editcomm&id_com=".
+        $links[] = "<a href=\"".$page."?view=editcomm&id_commentaire=".
           $comment->id."\">Editer</a>";
-        $links[] = "<a href=\"".$page."?action=deletecomm&id_com=".
+        $links[] = "<a href=\"".$page."?action=deletecomm&id_commentaire=".
           $comment->id."\">Supprimer</a>";
       }
     /* sinon, n'importe qui peut signaler un abus */
     /* sous reserve que ce ne soit pas deja le cas ... */
 
     else if (($comment->valid == 1) && !$admin)
-      $links[] = "<a href=\"?action=reportabuse&id_com=".$comment->id."\">Signaler un abus</a>";
+      $links[] = "<a href=\"?action=reportabuse&id_commentaire=".$comment->id."\">Signaler un abus</a>";
 
     if ($comment->valid == 0)
     {
       if ($admin)
-        $links[] = "<a href=\"".$page."?action=validcomm&id_com=".$comment->id."\">Valider le commentaire</a>";
+        $links[] = "<a href=\"".$page."?action=validcomm&id_commentaire=".$comment->id."\">Valider le commentaire</a>";
       else
         $links[] = "Ce commentaire a été signalé";
     }
