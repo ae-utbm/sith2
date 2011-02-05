@@ -445,6 +445,7 @@ class forum extends basedb
 
       $rows[] = array($type, $message);
     }
+    print_r($modere_info);
 
     return $rows;
   }
