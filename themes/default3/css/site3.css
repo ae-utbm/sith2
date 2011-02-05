@@ -471,10 +471,10 @@ div.emptysectionlinks
 /* Un message d'avertissement situé sous la barre de menu*/
 p.matmatronch_warning
 {
-  width:100%;
-  margin: 0 auto;
-  padding: 1em 1em;
-  text-align: center;
+  width:700px;
+  margin: 0 auto !important;
+  padding: 0.3em 0 !important;
+  text-align: center !important;
   background:#ff6f6f;
 }
 
