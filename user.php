@@ -1160,10 +1160,8 @@ else
 
   $user->load_all_extra();
 
-  if ($user->publique == 0)
-  {
+  if (($user->publique == 0) && ($site->user->id != $user->id))
     $cts->add_paragraph("Attention, fiche matmatronch privée : les informations présentes sur cette page ne doivent pas être communiquées.", "matmatronch_warning");
-  }
 
   $same_promo = ($user->promo_utbm == $site->user->promo_utbm);
   $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"), "user.php", $same_promo);
