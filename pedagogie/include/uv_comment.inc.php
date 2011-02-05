@@ -186,7 +186,7 @@ class uv_comment extends stdentity
   }
 
   public function set_valid($val=1){
-    $sql = new update($this->dbrw, "pedag_resultat",
+    $sql = new update($this->dbrw, "pedag_uv_commentaire",
                       array("valid" => $val),
                       array("id_commentaire" => $this->id));
     return $sql->is_success();
