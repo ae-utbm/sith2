@@ -35,8 +35,7 @@ $site->start_page ("services", "Modération des commentaires d'uv");
 
 
 /* presentation des affiches en attente de moderation */
-$req = new requete($site->db,"
-      SELECT `id_commentaire`, `code`,
+$req = new requete($site->db, "SELECT `id_commentaire`, `code`,
         CONCAT(`utilisateurs`.`prenom_utl`, ' ', `utilisateurs`.`nom_utl`) AS `nom_utilisateur`
       FROM `pedag_uv_commentaire`
       LEFT JOIN `pedag_uv` USING (`id_uv`)
@@ -46,8 +45,6 @@ $req = new requete($site->db,"
 
 $modhelp = new contents("Mod&eacute;ration des commentaires d'uv",
       "<p>Sur cette page, vous pouvez voir les commentaires d'uv signalés comme étant abusifs.</p>");
-echo $req->lines;
-print_r(mysql_fetch_assoc($req->result));
 
 $tabl = new sqltable ("moderecomuv_list",
     "Commentaires en attente de mod&eacute;ration",
