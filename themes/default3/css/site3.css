@@ -469,12 +469,11 @@ div.emptysectionlinks
 }
 
 /* Un message d'avertissement situé sous la barre de menu*/
-p.matamatronch_warning
+p.matmatronch_warning
 {
-  width:980px;
-  margin: 0 auto 0 auto;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  width:80%;
+  margin: 0 auto;
+  padding-top: 1em 1em;
   text-align: justify;
   background:#ffefef;
 }

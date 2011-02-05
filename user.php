@@ -1162,7 +1162,7 @@ else
 
   if ($user->publique == 0)
   {
-    $cts->add_paragraph("Attention, fiche matmatronch privée : les informations présentes sur cette page ne doivent pas être communiquées.", "matamatronch_warning");
+    $cts->add_paragraph("Attention, fiche matmatronch privée : les informations présentes sur cette page ne doivent pas être communiquées.", "matmatronch_warning");
   }
 
   $same_promo = ($user->promo_utbm == $site->user->promo_utbm);
