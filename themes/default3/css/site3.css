@@ -468,6 +468,17 @@ div.emptysectionlinks
   background: white;
 }
 
+/* Un message d'avertissement situé sous la barre de menu*/
+p.matamatronch_warning
+{
+  width:980px;
+  margin: 0 auto 0 auto;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  text-align: justify;
+  background:#ffefef;
+}
+
 /*----------------------------------------------*/
 
 /*FOOTER BAS DU SITE...........................*/

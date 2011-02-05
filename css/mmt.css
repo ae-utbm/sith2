@@ -281,12 +281,3 @@ div.gallery div.galitem
   top: 10px;
 }
 
-p.matamatronch_warning
-{
-  width:980px;
-  margin: 0 auto 0 auto;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  text-align: justify;
-  background:#ffefef;
-}
