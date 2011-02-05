@@ -427,7 +427,7 @@ class site extends interfaceweb
       $req = new requete($this->db,"SELECT COUNT(*) FROM `aff_affiches`  WHERE `modere_aff`='0' ");
       list($nbaffiches) = $req->get_row();
 
-      $req = new requete($this->db,"SELECT COUNT(*) FROM `pedag_uv_commentaire`valid`='0' ");
+      $req = new requete($this->db,"SELECT COUNT(*) FROM `pedag_uv_commentaire` WHERE `valid`='0' ");
       list($nbcomsignales) = $req->get_row();
 
       if ( $nbnews > 0 )
