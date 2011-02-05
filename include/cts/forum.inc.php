@@ -466,13 +466,8 @@ class sujetforum extends stdcontents
       if ($row['msg_modere_info'] && ($forum->is_admin($user)))
       {
         $modere_info = $forum->get_modere_info($row['id_message']);
-        print_r($modere_info);
-        echo "aa<br /><br />\n";
         foreach($modere_info as $info)
-        {
-          print_r($info);
-          $buffer .= "<div class=\"".$info[0]."\">".$info[1]."</div>\n";
-        }
+          $this->buffer .= "<div class=\"".$info[0]."\">".$info[1]."</div>\n";
       }
 
       if ( !is_null($row['signature_utl']) )
