@@ -42,7 +42,7 @@ $req = new requete($site->db,"
       LEFT JOIN `pedag_uv` USING (`id_uv`)
       LEFT JOIN `utilisateurs` USING (`id_utilisateur`)
       WHERE `valid`='0'
-      ORDER BY `code`");
+      ORDER BY `code`", 1);
 
 $modhelp = new contents("Mod&eacute;ration des commentaires d'uv",
       "<p>Sur cette page, vous pouvez voir les commentaires d'uv signalés comme étant abusifs.</p>");
