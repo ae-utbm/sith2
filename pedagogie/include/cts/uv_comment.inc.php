@@ -73,7 +73,7 @@ class uvcomment extends stdcontents
       $parity = (($i %2) == 0);
 
       /* commentaire "abusé" */
-      if ($comment->valid == 1)
+      if ($comment->valid == 0)
         $extra = "abuse";
       else if ($parity)
         $extra = "pair";
@@ -202,7 +202,7 @@ class uv_comment_box extends stdcontents
      */
     $admin = $user->is_in_group("gestion_ae");
 
-    if ($comment->valid != 1)
+    if ($comment->valid == 0)
       $extra = "abuse";
     else if ($parity)
       $extra = "pair";
