@@ -109,6 +109,7 @@ if ( $_REQUEST["page"] == "unread" )
   if ( !$forum->is_admin( $site->user ) )
   {
     $grps = $site->user->get_groups_csv();
+    $query .= "AND frm_message.msg_supprime='0' ";
     $query .= "AND ((droits_acces_forum & 0x1) OR " .
       "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
       "(id_groupe_admin IN ($grps)) OR " .
