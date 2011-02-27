@@ -128,7 +128,7 @@ function add_new_form($id = null)
               4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2",
               5 => "Cotisation par Assidu, 4€, jusqu'au $date2",
               6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2",
-              7 => "Cotisation inter UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire",
+              7 => "Cotisation réseau UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire",
               8 => "Cotisation CROUS, 4€, jusqu'au $date2",
       ),1);
   $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
