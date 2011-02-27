@@ -130,7 +130,7 @@ else if ( isset($_REQUEST["id_asso"]) )
         $dest_full = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg";
 
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 80x80 $dest_small"));
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 48x48 -bordercolor 'graya(50%, 0.0)' -border 24 -gravity center -crop 48x48+0+0 +repage $dest_icon"));
+        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 48x48 -bordercolor white -border 24 -background white -gravity center -crop 48x48+0+0 +repage $dest_icon"));
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -background white $dest_full"));
       }
       else
