@@ -289,7 +289,6 @@ div#fsearchbox input
   width:155px;
   background-color: #555555;
   color:#ffffff;
-  text-transform:lowercase;
 }
 #login, #assos
 {
@@ -303,12 +302,10 @@ div#fsearchbox input
   width:155px;
   cursor: pointer;
   font-weight:bold;
-  text-transform:lowercase;
 }
 #login a, #assos a
 {
   text-decoration:none;
-  text-transform:lowercase;
   font-weight:bold;
   color:#ffffff;
 }
