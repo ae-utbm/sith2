@@ -53,6 +53,7 @@ if(isset($_POST['action'])
     if (!$zip->extractTo (OUTPUT_DIR))
       die ('Impossible d\'extraire l\'archive à '.$_FILES['zipeuh']['tmp_name']);
     $zip->close ();
+    $rotation = $_POST['rotate'];
 
     $h = opendir(OUTPUT_DIR);
     while ($f=readdir($h))
@@ -77,9 +78,9 @@ if(isset($_POST['action'])
           $id = $user->id;
 
           if ($avatar)
-            exec("/usr/share/php5/exec/convert ".OUTPUT_DIR.$f." -rotate +90 -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
+            exec("/usr/share/php5/exec/convert ".OUTPUT_DIR.$f." -rotate ".$rotate." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
           else
-            exec("/usr/share/php5/exec/convert ".OUTPUT_DIR.$f." -rotate +90 -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
+            exec("/usr/share/php5/exec/convert ".OUTPUT_DIR.$f." -rotate ".$rotate." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
         }
       }
       // Delete temp img
@@ -93,6 +94,7 @@ $cts = new contents("Administration/Import massif de photos matmatronch");
 $frm = new form("photos","?",true,"POST","Et paf les photos");
 $frm->add_hidden("action","bloubiboulga");
 $frm->add_text_field ( "zipeuh", 'Nom du fichier (à balancer dans /var/www/ae/www/var/tmp/)', '', true);
+$frm->add_text_field ( "rotate", 'Rotation à appliquer en degré', '+90', true);
 $frm->add_checkbox ( "carteae", "Les boulets qui ont fait les photos ont utilisé les numéros de carte AE" );
 $frm->add_submit("paff","Et paf!");
 $cts->add($frm,true);
