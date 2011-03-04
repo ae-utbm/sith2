@@ -29,7 +29,7 @@ require_once($topdir."include/entities/todoitem.inc.php");
 
 $site = new site ();
 
-if ( !$site->user->is_in_group("gestionae") )
+if ( !$site->user->is_in_group("gestion_ae") )
   $site->error_forbidden("none","group",7);
 
 $site->add_js("js/sqltable2.js");
