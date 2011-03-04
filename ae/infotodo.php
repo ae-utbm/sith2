@@ -62,7 +62,7 @@ $tbl->add_column_entity ('id_user_assignee', 'Assigné à', array('nom_utilisate
 $tbl->set_sql ($site->db, 'id_task', $sql);
 $cts->add ($tbl);
 
-$site->add ($cts);
+$site->add_contents ($cts);
 $site->end_page();
 
 ?>
