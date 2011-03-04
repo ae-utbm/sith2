@@ -57,8 +57,8 @@ if (!empty ($where))
     $sql .= ' WHERE '.implode(' AND ', $where);
 
 $tbl = new sqltable2 ('todos', 'Liste TODO', 'infotodo.php');
-$tbl->add_column_entity ('id_user_reporter', 'Reporter', array('nom_utilisateur', 'id_user_reporter'));
-$tbl->add_column_entity ('id_user_assignee', 'Assigné à', array('nom_utilisateur', 'id_user_assignee'));
+$tbl->add_column_entity ('id_user_reporter', 'Reporter', array('nom_utilisateur_reporter'));
+$tbl->add_column_entity ('id_user_assignee', 'Assigné à', array('nom_utilisateur_assignee'));
 $tbl->set_sql ($site->db, 'id_task', $sql);
 $cts->add ($tbl);
 
