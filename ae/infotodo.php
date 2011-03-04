@@ -38,7 +38,7 @@ $site->start_page("none","TODO list");
 
 $cts = new contents ('Foo');
 $frmfilter = new form('filter', '?', false, 'GET', 'Filter');
-$frmfilter->add_select_field('etat', 'Etat', array('' => 'Tout', 'new' => 'Nouveau', 'resolu' => 'Résolu', 'encours', 'En cours'), '');
+$frmfilter->add_select_field('etat', 'Etat', array('' => 'Tout', 'new' => 'Nouveau', 'resolu' => 'Résolu', 'encours' => 'En cours'), '');
 $frmfilter->add_checkbox ('onlyme', 'Uniquement ceux assigné à moi');
 $frmfilter->add_submit ('submit', 'Filtrer');
 $cts->add ($frmfilter, false);
@@ -57,8 +57,8 @@ if (!empty ($where))
     $sql .= ' WHERE '.implode(' AND ', $where);
 
 $tbl = new sqltable2 ('todos', 'Liste TODO', 'infotodo.php');
-$tbl->add_column_entity ('id_user_reporter', 'Reporter', array('nom_utilisateur'));
-$tbl->add_column_entity ('id_user_assignee', 'Assigné à', array('nom_utilisateur'));
+$tbl->add_column_entity ('id_user_reporter', 'Reporter', array('nom_utilisateur', 'id_user_reporter'));
+$tbl->add_column_entity ('id_user_assignee', 'Assigné à', array('nom_utilisateur', 'id_user_assignee'));
 $tbl->set_sql ($site->db, 'id_task', $sql);
 $cts->add ($tbl);
 
