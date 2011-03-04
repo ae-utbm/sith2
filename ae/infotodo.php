@@ -45,14 +45,14 @@ $cts->add ($frmfilter, false);
 
 $where = array();
 if (isset ($_REQUEST['onlyme']) && $_REQUEST['onlyme'])
-    $where[] = '"id_user_assignee" = '.$site->user;
+    $where[] = '`id_user_assignee` = '.$site->user;
 if (isset ($_REQUEST['etat'])) {
     $etats = array('new' => 0, 'resolu' => 4, 'encours' => 3);
     if (array_key_exists ($_REQUEST['etat'], $etats))
         $where[] = $etats[$_REQUEST['etat']];
 }
 
-$sql = 'SELECT * FROM "ae_info_todo" ORDERBY "priority", "date_deadline", "date_submitted"';
+$sql = 'SELECT * FROM `ae_info_todo` ORDERBY `priority`, `date_deadline`, `date_submitted`';
 if (!empty ($where))
     $sql .= ' WHERE '.implode(' AND ', $where);
 
