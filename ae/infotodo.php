@@ -52,7 +52,7 @@ if (isset ($_REQUEST['etat'])) {
         $where[] = $etats[$_REQUEST['etat']];
 }
 
-$sql = 'SELECT * FROM `ae_info_todo` ORDERBY `priority`, `date_deadline`, `date_submitted`';
+$sql = 'SELECT * FROM ae_info_todo ORDER BY priority, date_deadline, date_submitted';
 if (!empty ($where))
     $sql .= ' WHERE '.implode(' AND ', $where);
 
