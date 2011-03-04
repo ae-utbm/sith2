@@ -60,7 +60,9 @@ $tbl = new sqltable2 ('todos', 'Liste TODO', 'infotodo.php');
 $tbl->add_column_entity ('id_user_reporter', 'Reporter', array('nom_utilisateur'));
 $tbl->add_column_entity ('id_user_assignee', 'Assigné à', array('nom_utilisateur'));
 $tbl->set_sql ($site->db, 'id_task', $sql);
+$cts->add ($tbl);
 
+$site->add ($cts);
 $site->end_page();
 
 ?>
