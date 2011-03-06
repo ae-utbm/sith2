@@ -50,11 +50,6 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'nouveau') {
     $util_assignee->load_by_id ($todo->id_user_assignee);
     $asso_concerne = new asso ($site->db);
     $asso_concerne->load_by_id ($todo->id_asso_concerned);
-    echo $todo->id_user_reporter;
-    echo $todo->id_user_assignee;
-    echo $util_reporter->get_display_name ();
-    echo $util_assignee->get_display_name ();
-    echo $todo->todo;
 
     $frm = new form ('details', '?', false, 'POST', 'TODO');
     $frm->add_hidden ('id_task', $id_task);

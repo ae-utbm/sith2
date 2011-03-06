@@ -62,8 +62,8 @@ class todoitem extends stdentity
     function _load ($row)
     {
         $this->id_task = $row['id_task'];
-        $this->id_user_reporter = $row['id_user_reporter'];
-        $this->id_user_assignee = $row['id_user_assignee'];
+        $this->id_user_reporter = $row['id_utilisateur_reporter'];
+        $this->id_user_assignee = $row['id_utilisateur_assignee'];
         $this->id_asso_concerned = $row['id_asso_concerned'];
         $this->date_submitted = $row['date_submitted'];
         $this->priority = $row['priority'];
