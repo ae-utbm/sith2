@@ -41,6 +41,11 @@ class todoitem extends stdentity
     var $desc;
     var $todo;
 
+    function todoitem ( &$db, &$dbrw = null )
+    {
+        $this->stdentity ($db,$dbrw);
+    }
+
     function load_by_id ($id)
     {
         $req = new requete($this->db, 'SELECT * FROM `'.TODO_TABLE.'` WHERE `id_task` = '.$id.' LIMIT 1');

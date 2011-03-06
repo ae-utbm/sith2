@@ -41,14 +41,14 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'nouveau') {
 
 } else if (isset ($_REQUEST['id_task']) && isset ($_REQUEST['action']) && $_REQUEST['action'] == 'detail') {
     $idtask = $_REQUEST['id_task'];
-    $todo = new todoitem ();
+    $todo = new todoitem ($site->db);
     $todo->load_by_id ($idtask);
 
-    $util_reporter = new utilisateur ();
+    $util_reporter = new utilisateur ($site->db);
     $util_reporter->load_by_id ($todo->id_user_reporter);
-    $util_assignee = new utilisateur ();
+    $util_assignee = new utilisateur ($site->db);
     $util_assignee->load_by_id ($todo->id_user_assignee);
-    $asso_concerne = new asso ();
+    $asso_concerne = new asso ($site->db);
     $asso_concerne->load_by_id ($todo->id_asso_concerned);
 
     $frm = new form ('details', '?', false, 'POST', 'TODO');
