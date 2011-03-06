@@ -44,6 +44,9 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'nouveau') {
     $todo = new todoitem ($site->db);
     $todo->load_by_id ($idtask);
 
+    echo $todo->todo;
+    echo htmlentities($todo->todo,ENT_NOQUOTES,"UTF-8");
+
     $util_reporter = new utilisateur ($site->db);
     $util_reporter->load_by_id ($todo->id_user_reporter);
     $util_assignee = new utilisateur ($site->db);
@@ -58,7 +61,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'nouveau') {
     $frm->add_entity_smartselect ('utilisateur_assignee', 'Assigné à', $util_reporter);
     $frm->add_entity_smartselect ('asso_concerned', 'Asso lié', $asso_concerne);
     $frm->add_date_field ('date_deadline', 'Deadline', strtotime ($todo->date_deadline));
-    $frm->add_date_field ('date_submitted', 'Soumis le', strtotime ($todo->date_submitted), $enabled = false);
+    $frm->add_date_field ('date_submitted', 'Soumis le', strtotime ($todo->date_submitted), false, false);
     $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
     $frm->add_text_field ('desc', 'Description', $todo->desc);
