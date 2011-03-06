@@ -24,6 +24,7 @@
 define('TODO_TABLE', 'ae_info_todo');
 
 $todo_status = array ('New', 'WontFix', 'Invalid', 'InProgress', 'Fixed');
+$todo_priorities = array ('Invalid', 'Low', 'Med', 'High', 'Critical', 'OMG');
 
 class todoitem extends stdentity
 {
@@ -36,6 +37,9 @@ class todoitem extends stdentity
     var $priority;
     var $enh_or_bug;
     var $status;
+
+    var $desc;
+    var $todo;
 
     function load_by_id ($id)
     {
@@ -60,5 +64,7 @@ class todoitem extends stdentity
         $this->priority = $row['priority'];
         $this->enh_or_bug = $row['enh_or_bug'];
         $this->status = $row['status'];
+        $this->desc = $row['description'];
+        $this->todo = $row['todo'];
     }
 }

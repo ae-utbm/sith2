@@ -61,6 +61,12 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'detail') {
     $frm->add_date_field ('date_submitted', 'Soumis le', strtotime ($todo->date_submitted), $enabled = false);
     $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
+    $frm->add_text_field ('desc', 'Description', $todo->desc);
+    $frm->add_text_area ('todo', 'Todo', $todo->todo);
+
+    $cts = new contents ('Détail');
+    $cts->add ($frm);
+    $site->add_contents ($cts);
 } else {
     $cts = new contents ('TODO');
     $frmfilter = new form('filter', '?', false, 'GET', 'Filter');
