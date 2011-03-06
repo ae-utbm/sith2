@@ -63,8 +63,8 @@ $tbl->add_column_entity ('id_user_assignee', 'Assigné à', array('nom_utilisate
 $tbl->set_sql ($site->db, 'id_task', $sql);*/
 
 $tbl = new sqltable ('infotodo', 'Liste des tâches', $req, 'infotodo.php', 'id_task',
-                     array('nom_utilisateur_reporter' => array('Demandeur','nom_utilisateur'),
-                           'nom_utilisateur_assignee' => array('Assigné à', 'nom_utilisateur'),
+                     array('nom_utilisateur_reporter' => 'Demandeur',
+                           'nom_utilisateur_assignee' => 'Assigné à',
                            'nom_asso_concerned' => array('Club associé', 'nom_asso'),
                            'date_deadline' => 'Deadline',
                            'date_submitted' => 'Date soumission',
