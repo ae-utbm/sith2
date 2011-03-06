@@ -71,7 +71,9 @@ $tbl = new sqltable ('infotodo', 'Liste des tâches', $sql, 'infotodo.php', 'id_
                            'enh_or_bug' => 'Type',
                            'status' => 'Statut',
                            'description' => 'Description'),
-                     array('detail', 'Détails'));
+                     array('detail', 'Détails'),
+                     array(),
+                     array());
 $cts->add ($tbl);
 
 $site->add_contents ($cts);
