@@ -53,6 +53,7 @@ if (isset ($_REQUEST['etat'])) {
 }
 
 $sql = 'SELECT * FROM ae_info_todo ORDER BY priority, date_deadline, date_submitted';
+$req = new requete($site->db, $sql);
 if (!empty ($where))
     $sql .= ' WHERE '.implode(' AND ', $where);
 
@@ -61,7 +62,7 @@ $tbl->add_column_entity ('id_user_reporter', 'Reporter', array('nom_utilisateur_
 $tbl->add_column_entity ('id_user_assignee', 'Assigné à', array('nom_utilisateur_assignee'));
 $tbl->set_sql ($site->db, 'id_task', $sql);*/
 
-$tbl = new sqltable ('infotodo', 'Liste des tâches', $sql, 'infotodo.php', 'id_task',
+$tbl = new sqltable ('infotodo', 'Liste des tâches', $req, 'infotodo.php', 'id_task',
                      array('nom_utilisateur_reporter' => 'Demandeur',
                            'nom_utilisateur_assignee' => 'Assigné à',
                            'nom_asso_concerned' => 'Club associé',
