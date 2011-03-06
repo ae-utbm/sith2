@@ -26,14 +26,14 @@ $topdir="../";
 require_once($topdir."include/site.inc.php");
 require_once($topdir."include/cts/user.inc.php");
 require_once($topdir."include/entities/todoitem.inc.php");
-require_once($topdir."include/cts/sqltable2.inc.php");
+require_once($topdir."include/cts/sqltable.inc.php");
 
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") )
   $site->error_forbidden("none","group",7);
 
-$site->add_js("js/sqltable2.js");
+//$site->add_js("js/sqltable2.js");
 $site->start_page("none","TODO list");
 
 $cts = new contents ('Foo');
@@ -56,10 +56,22 @@ $sql = 'SELECT * FROM ae_info_todo ORDER BY priority, date_deadline, date_submit
 if (!empty ($where))
     $sql .= ' WHERE '.implode(' AND ', $where);
 
-$tbl = new sqltable2 ('todos', 'Liste TODO', 'infotodo.php');
+/*$tbl = new sqltable2 ('todos', 'Liste TODO', 'infotodo.php');
 $tbl->add_column_entity ('id_user_reporter', 'Reporter', array('nom_utilisateur_reporter'));
 $tbl->add_column_entity ('id_user_assignee', 'Assigné à', array('nom_utilisateur_assignee'));
-$tbl->set_sql ($site->db, 'id_task', $sql);
+$tbl->set_sql ($site->db, 'id_task', $sql);*/
+
+$tbl = new sqltable ('infotodo', 'Liste des tâches', $sql, 'infotodo.php', 'id_task',
+                     array('nom_utilisateur_reporter' => 'Demandeur',
+                           'nom_utilisateur_assignee' => 'Assigné à',
+                           'nom_asso_concerned' => 'Club associé',
+                           'date_deadline' => 'Deadline',
+                           'date_submitted' => 'Date soumission',
+                           'priority' => 'Priorité',
+                           'enh_or_bug' => 'Type',
+                           'status' => 'Statut',
+                           'description' => 'Description'),
+                     array('detail', 'Détails'));
 $cts->add ($tbl);
 
 $site->add_contents ($cts);
