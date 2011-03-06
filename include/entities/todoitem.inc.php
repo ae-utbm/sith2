@@ -70,6 +70,6 @@ class todoitem extends stdentity
         $this->enh_or_bug = $row['enh_or_bug'];
         $this->status = $row['status'];
         $this->desc = $row['description'];
-        $this->todo = $row['todo'];
+        $this->todo = utf8_decode ($row['todo']);
     }
 }
