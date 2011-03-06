@@ -37,7 +37,7 @@ if ( !$site->user->is_in_group("gestion_ae") )
 
 $site->start_page("none","TODO list");
 
-if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'detail') {
+if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'nouveau') {
 
 } else if (isset ($_REQUEST['id_task']) && isset ($_REQUEST['action']) && $_REQUEST['action'] == 'detail') {
     $idtask = $_REQUEST['id_task'];
