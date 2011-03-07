@@ -21,6 +21,8 @@
  * 02111-1307, USA.
  */
 
+require_once($topdir."include/mysql.inc.php");
+
 define('TODO_TABLE', 'ae_info_todo');
 
 $todo_status = array ('New', 'WontFix', 'Invalid', 'InProgress', 'Fixed');
@@ -83,7 +85,7 @@ class todoitem extends stdentity
     function update ()
     {
         if ($this->id_task == -1) {
-            $insert = new insertion ($this->dbrw, TODO_TABLE,
+            $insert = new insert ($this->dbrw, TODO_TABLE,
                                      array ('id_utilisateur_reporter' => $this->id_user_reporter,
                                             'id_utilisateur_assignee' => $this->id_user_assignee,
                                             'id_asso_concerned' => $this->id_asso_concerned,
