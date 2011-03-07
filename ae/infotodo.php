@@ -54,7 +54,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
 }
 
 if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
-    $idtask = isset ($_REQUEST['id_task']) ? intval($_REQUEST['id_task']) : -1;
+    $idtask = isset ($_GET['id_task']) ? intval($_GET['id_task']) : -1;
 
     $todo = new todoitem ($site->db);
     $util_reporter = new utilisateur ($site->db);
