@@ -868,7 +868,7 @@ class interfaceweb
         else if (is_array($val))
         {
           foreach ( $val as $k => $v )
-            $frm->add_hidden('magicform['.$key.']['.$k.']',$v);
+            $frm->add_hidden($key.'['.$k.']',$v);
         }
         else
           $frm->add_hidden($key,$val);
@@ -879,7 +879,7 @@ class interfaceweb
         if (is_array($val))
         {
           foreach ( $val as $k => $v )
-            $frm->add_hidden('magicform['.$key.']['.$k.']',$v);
+            $frm->add_hidden($key.'['.$k.']',$v);
         }
         else
           $frm->add_hidden($key,$val);
