@@ -94,7 +94,7 @@ class todoitem extends stdentity
                                             'status' => $this->status,
                                             'description' => $this->desc,
                                             'todo' => $this->todo
-                                            ));
+                                            ), 1);
         } else {
             $update = new update ($this->dbrw, 'ae_info_todo',
                                   array ('id_utilisateur_reporter' => $this->id_user_reporter,
@@ -108,7 +108,7 @@ class todoitem extends stdentity
                                          'description' => $this->desc,
                                          'todo' => $this->todo
                                          ),
-                                  array ('id_task' => $this->id_task));
+                                  array ('id_task' => $this->id_task), 1);
         }
     }
 }
