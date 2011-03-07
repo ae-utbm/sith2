@@ -89,9 +89,9 @@ $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.ph
                               "code_7" => "UV 7"),
                         array("view" => "Voir détails",
                               "print" => "Format imprimable",
-                              "schedule" => "Export iCal"
-                              /*"edit" => "Éditer",*/
-                              /*"delete" => "Supprimer"*/),
+                              "schedule" => "Export iCal",
+                              "edit" => "Éditer",
+                              "delete" => "Supprimer"),
                         array(), array(), false), true);
 $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."value=\"+ Ajouter un emploi du temps\" "
