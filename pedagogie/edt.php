@@ -70,9 +70,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     /* on a dit un seul emploi du temps par semestre */
     if(in_array($sem, $user->get_edt_list()) && ($site->is_sure("", "Attention, vous avez déjà un emploi du temps
         d'enregistré pour le semestre <a href=\"edt.php?semestre=$sem&action=view&id_utilisateur=".$user->id."\">$sem</a>.
-        Il n'est possible de n'en faire qu'un seul par semestre. Voulez-vous supprimer l'emploi du temps actuel ?"))){
+        Il n'est possible de n'en faire qu'un seul par semestre. Vous allez supprimer l'emploi du temps actuel."))){
       $user->delete_edt($sem);
     }
+
+    print_r($_REQUEST);
 
     $cts->add_paragraph("Vous ajoutez un emploi du temps pour le semestre <b>$sem</b>");
     $cts->add_paragraph("Pour chacune de vos UV, choisissez à présent
