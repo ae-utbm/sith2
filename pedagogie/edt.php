@@ -72,7 +72,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
         d'enregistré pour le semestre <a href=\"edt.php?semestre=$sem&action=view&id_utilisateur=".$user->id."\">$sem</a>.
         Il n'est possible de n'en faire qu'un seul par semestre. Vous allez supprimer l'emploi du temps actuel."))){
       $user->delete_edt($sem);
-      $site->redirect('edt.php');
     }
 
     $cts->add_paragraph("Vous ajoutez un emploi du temps pour le semestre <b>$sem</b>");

@@ -867,6 +867,8 @@ class interfaceweb
           $frm->add_hidden($key,htmlspecialchars($val));
         else
           $frm->add_hidden($key,$val);
+
+        echo $key;
       }
     foreach ( $_GET as $key => $val )
       if ( $key != "magicform" )
