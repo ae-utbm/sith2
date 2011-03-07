@@ -88,8 +88,8 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
 } else {
     $cts = new contents ('TODO');
     $frmfilter = new form('filter', '?', false, 'GET', 'Filter');
-    $frmfilter->add_select_field('etat', 'Etat', array('' => 'Tout', 'new' => 'Nouveau', 'resolu' => 'Résolu', 'encours' => 'En cours'), '');
-    $frmfilter->add_checkbox ('onlyme', 'Uniquement ceux assigné à moi');
+    $frmfilter->add_select_field('etat', 'Etat', array('' => 'Tout', 'new' => 'Nouveau', 'resolu' => 'Résolu', 'encours' => 'En cours'), isset ($_REQUEST['etat']) ? $_REQUEST['etat'] : '');
+    $frmfilter->add_checkbox ('onlyme', 'Uniquement ceux assigné à moi', isset ($_REQUEST['onlyme']) ? $_REQUEST['onlyme'] : false);
     $frmfilter->add_submit ('submit', 'Filtrer');
     $cts->add ($frmfilter, false);
 
