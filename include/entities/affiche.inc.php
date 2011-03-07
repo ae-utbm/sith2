@@ -429,9 +429,9 @@ class affiche extends stdentity
       $file->load_by_id(5958);
       $fichier = $file->id.'.'.$file->id_rev_file;
       print "  <affiche>\n";
-      print "    <horaire>".$row['horaires_aff']."</horaire>\n";
+      print "    <horaire>0</horaire>\n";
       print "    <fichier>".$fichier."</fichier>\n";
-      print "    <frequence>".$row['frequence_aff']."</frequence>\n";
+      print "    <frequence>1</frequence>\n";
       print "  </affiche>\n";
     }
 
