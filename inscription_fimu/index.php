@@ -88,7 +88,7 @@ if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_insc
         Merci de contacter les authorités compétentes ");
 
 }
-else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("test")))
+else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("gestion_fimu")))
 {
 
 //  $tbl = new itemlist("Liste des personnes s'étant inscrites pour le FIMU via le site de l'AE", false);
@@ -211,13 +211,13 @@ else
   $frm->allow_only_one_usage();
 
   $subfrm = new form("fimu_inscr", "index.php", true, "POST", "Disponibilités");
-    $subfrm->add_info("Il est fortement souhaitable que vous soyez disponible 3 jours consécutifs minimum");
-    $subfrm->add_checkbox("jour1", "Jeudi 20 Mai");
-    $subfrm->add_checkbox("jour2", "Vendredi 21 Mai");
-  $subfrm->add_checkbox("jour3", "Samedi 22 Mai");
-    $subfrm->add_checkbox("jour4", "Dimanche 23 Mai");
-    $subfrm->add_checkbox("jour5", "Lundi 24 Mai");
-    $subfrm->add_checkbox("jour6", "Mardi 25 Mai");
+    //$subfrm->add_info("Il est fortement souhaitable que vous soyez disponible 3 jours consécutifs minimum");
+    $subfrm->add_checkbox("jour1", "Jeudi 9 Juin");
+    $subfrm->add_checkbox("jour2", "Vendredi 10 Mai");
+    $subfrm->add_checkbox("jour3", "Samedi 11 Juin");
+    $subfrm->add_checkbox("jour4", "Dimanche 12 Juin");
+    $subfrm->add_checkbox("jour5", "Lundi 13 Juin");
+    $subfrm->add_checkbox("jour6", "Mardi 14 Juin");
   $frm->add($subfrm);
 
   $subfrm = new form("fimu_inscr", "index.php", true, "POST", "<a href='http://ae.utbm.fr/article.php?name=fimu_info'>Souhaits de poste <img src='$topdir/images/tipp.png' /></a>");
