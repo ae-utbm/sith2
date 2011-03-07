@@ -44,6 +44,12 @@ class todoitem extends stdentity
     function todoitem ( &$db, &$dbrw = null )
     {
         $this->stdentity ($db,$dbrw);
+        $this->id_task = -1;
+        $this->priority = 0;
+        $this->status = 0;
+        $this->enh_or_bug = 0;
+        $this->desc = '';
+        $this->todo = '';
     }
 
     function load_by_id ($id)
@@ -66,10 +72,43 @@ class todoitem extends stdentity
         $this->id_user_assignee = $row['id_utilisateur_assignee'];
         $this->id_asso_concerned = $row['id_asso_concerned'];
         $this->date_submitted = $row['date_submitted'];
+        $this->date_deadline = $row['date_deadline'];
         $this->priority = $row['priority'];
         $this->enh_or_bug = $row['enh_or_bug'];
         $this->status = $row['status'];
         $this->desc = $row['description'];
-        $this->todo = $row['todo'];
+        $this->todo = utf8_decode ($row['todo']);
+    }
+
+    function update ()
+    {
+        if ($this->id_task == -1) {
+            $insert = new insertion ($this->dbrw, TODO_TABLE,
+                                     array ('id_utilisateur_reporter' => $this->id_user_reporter,
+                                            'id_utilisateur_assignee' => $this->id_user_assignee,
+                                            'id_asso_concerned' => $this->id_asso_concerned,
+                                            'date_submitted' => $this->date_submitted,
+                                            'date_deadline' => $this->date_deadline,
+                                            'priority' => $this->priority,
+                                            'enh_or_bug' => $this->enh_or_bug,
+                                            'status' => $this->status,
+                                            'description' => $this->desc,
+                                            'todo' => $this->todo
+                                            ));
+        } else {
+            $update = new update ($this->dbrw, 'ae_info_todo',
+                                  array ('id_utilisateur_reporter' => $this->id_user_reporter,
+                                         'id_utilisateur_assignee' => $this->id_user_assignee,
+                                         'id_asso_concerned' => $this->id_asso_concerned,
+                                         'date_submitted' => $this->date_submitted,
+                                         'date_deadline' => $this->date_deadline,
+                                         'priority' => $this->priority,
+                                         'enh_or_bug' => $this->enh_or_bug,
+                                         'status' => $this->status,
+                                         'description' => $this->desc,
+                                         'todo' => $this->todo
+                                         ),
+                                  array ('id_task' => $this->id_task));
+        }
     }
 }

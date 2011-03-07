@@ -37,31 +37,44 @@ if ( !$site->user->is_in_group("gestion_ae") )
 
 $site->start_page("none","TODO list");
 
-if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'nouveau') {
+if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
+    $todo = new todoitem ($site->db, $site->dbrw);
+    $todo->id_task = $_REQUEST['id_task'];
+    $todo->id_user_reporter = $_REQUEST['utilisateur_reporter'];
+    $todo->id_user_assignee = $_REQUEST['utilisateur_assignee'];
+    $todo->id_asso_concerned = $_REQUEST['asso_concerned'];
+    $todo->date_deadline = $_REQUEST['date_deadline'];
+    $todo->date_submitted = $_REQUEST['date_submitted'];
+    $todo->priority = $_REQUEST['priority'];
+    $todo->status = $_REQUEST['status'];
+    $todo->desc = $_REQUEST['desc'];
+    $todo->todo = $_REQUEST['todo'];
 
-} else if (isset ($_REQUEST['id_task']) && isset ($_REQUEST['action']) && $_REQUEST['action'] == 'detail') {
-    $idtask = $_REQUEST['id_task'];
+    $todo->update ();
+}
+
+if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
+    $idtask = isset ($_REQUEST['id_task']) ? $_REQUEST['id_task'] : -1;
+
     $todo = new todoitem ($site->db);
-    $todo->load_by_id ($idtask);
-
-    echo $todo->todo;
-    echo htmlentities($todo->todo,ENT_NOQUOTES,"UTF-8");
-
     $util_reporter = new utilisateur ($site->db);
-    $util_reporter->load_by_id ($todo->id_user_reporter);
     $util_assignee = new utilisateur ($site->db);
-    $util_assignee->load_by_id ($todo->id_user_assignee);
     $asso_concerne = new asso ($site->db);
-    $asso_concerne->load_by_id ($todo->id_asso_concerned);
+    if ($idtask != -1) {
+        $todo->load_by_id ($idtask);
+        $util_reporter->load_by_id ($todo->id_user_reporter);
+        $util_assignee->load_by_id ($todo->id_user_assignee);
+        $asso_concerne->load_by_id ($todo->id_asso_concerned);
+    }
 
     $frm = new form ('details', '?', false, 'POST', 'TODO');
     $frm->add_hidden ('id_task', $id_task);
-    $frm->add_hidden ('action', 'modif');
+    $frm->add_hidden ('action', 'commit');
     $frm->add_entity_smartselect ('utilisateur_reporter', 'Rapporteur', $util_reporter);
     $frm->add_entity_smartselect ('utilisateur_assignee', 'Assigné à', $util_reporter);
     $frm->add_entity_smartselect ('asso_concerned', 'Asso lié', $asso_concerne);
-    $frm->add_date_field ('date_deadline', 'Deadline', strtotime ($todo->date_deadline));
-    $frm->add_date_field ('date_submitted', 'Soumis le', strtotime ($todo->date_submitted), false, false);
+    $frm->add_date_field ('date_deadline', 'Deadline', $idtask == -1 ? time () : strtotime ($todo->date_deadline));
+    $frm->add_date_field ('date_submitted', 'Soumis le', $idtask == -1 ? time () : strtotime ($todo->date_submitted), false, false);
     $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
     $frm->add_text_field ('desc', 'Description', $todo->desc);
@@ -93,6 +106,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'nouveau') {
         $sql .= ' WHERE '.implode(' AND ', $where);
 
     $tblcts = new contents('TODO list');
+    $tblcts->add_paragraph ('<a href="?action=nouveau">Ajouter nouveau bug</a>');
     $tbl = new sqltable ('infotodo', 'Liste des tâches', $req, 'infotodo.php', 'id_task',
                          array('nom_utilisateur_reporter' => 'Demandeur',
                                'nom_utilisateur_assignee' => 'Assigné à',
