@@ -102,7 +102,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
             $where[] = $etats[$_REQUEST['etat']];
     }
 
-    $sql = 'SELECT ae_info_todo.*, asso.nom_asso, CONCAT(`utilisateurs`.`prenom_utl`,\' \',`utilisateurs`.`nom_utl`) as `nom_utilisateur_assignee` FROM ae_info_todo INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=ae_info_todo.id_utilisateur_assignee LEFT JOIN asso ON asso.id_asso=ae_info_todo.id_asso_concerned';
+    $sql = 'SELECT ae_info_todo.*, asso.nom_asso as `nom_asso_concerned`, CONCAT(`utilisateurs`.`prenom_utl`,\' \',`utilisateurs`.`nom_utl`) as `nom_utilisateur_assignee` FROM ae_info_todo INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=ae_info_todo.id_utilisateur_assignee LEFT JOIN asso ON asso.id_asso=ae_info_todo.id_asso_concerned';
     if (!empty ($where)) {
         if (count ($where) == 1)
             $sql .= ' WHERE '.$where[0];
