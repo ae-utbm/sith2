@@ -21,6 +21,7 @@
  * 02111-1307, USA.
  */
 
+$topdir = '../';
 require_once($topdir."include/mysql.inc.php");
 
 define('TODO_TABLE', 'ae_info_todo');
