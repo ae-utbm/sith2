@@ -102,15 +102,16 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
             $where[] = $etats[$_REQUEST['etat']];
     }
 
-    $sql = 'SELECT * FROM ae_info_todo ORDER BY priority DESC, date_deadline, date_submitted';
+    $sql = 'SELECT * FROM ae_info_todo';
     if (!empty ($where)) {
         if (count ($where) == 1)
             $sql .= ' WHERE '.$where[0];
         else
             $sql .= ' WHERE '.implode(' AND ', $where);
     }
+    $sql .=  ' ORDER BY priority DESC, date_deadline, date_submitted';
 
-    $req = new requete($site->db, $sql, 1);
+    $req = new requete($site->db, $sql);
 
     $tblcts = new contents('TODO list');
     $tblcts->add_paragraph ('<a href="?action=nouveau">Ajouter nouveau bug</a>');
