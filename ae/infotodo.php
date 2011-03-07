@@ -79,8 +79,10 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
     $frm->add_text_field ('desc', 'Description', $todo->desc);
     $frm->add_text_area ('todo', 'Todo', $todo->todo);
+    $frm->add_submit ('submit', 'Valider');
 
     $cts = new contents ('Détail');
+    $cts->add_paragraph ('<a href="infotodo.php">Retour à la liste</a>');
     $cts->add ($frm);
     $site->add_contents ($cts);
 } else {
