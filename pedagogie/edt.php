@@ -62,8 +62,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
         !isset($_REQUEST['uvlist_to']) || empty($_REQUEST['uvlist_to']))
       $site->redirect("edt.php?action=new");
 
-    print_r($_REQUEST);
-
     $path .= " / "."Ajouter un emploi du temps (Étape 2/2)";
     $cts = new contents($path);
 
@@ -74,9 +72,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
         d'enregistré pour le semestre <a href=\"edt.php?semestre=$sem&action=view&id_utilisateur=".$user->id."\">$sem</a>.
         Il n'est possible de n'en faire qu'un seul par semestre. Vous allez supprimer l'emploi du temps actuel."))){
       $user->delete_edt($sem);
+      $site->redirect('edt.php');
     }
-
-    print_r($_REQUEST);
 
     $cts->add_paragraph("Vous ajoutez un emploi du temps pour le semestre <b>$sem</b>");
     $cts->add_paragraph("Pour chacune de vos UV, choisissez à présent
