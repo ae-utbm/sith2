@@ -95,17 +95,22 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
 
     $where = array();
     if (isset ($_REQUEST['onlyme']) && $_REQUEST['onlyme'])
-        $where[] = '`id_user_assignee` = '.$site->user->id;
+        $where[] = 'id_user_assignee = '.$site->user->id;
     if (isset ($_REQUEST['etat'])) {
         $etats = array('new' => 0, 'resolu' => 4, 'encours' => 3);
         if (array_key_exists ($_REQUEST['etat'], $etats))
             $where[] = $etats[$_REQUEST['etat']];
     }
 
-    $sql = 'SELECT * FROM ae_info_todo ORDER BY priority, date_deadline, date_submitted';
-    $req = new requete($site->db, $sql);
-    if (!empty ($where))
-        $sql .= ' WHERE '.implode(' AND ', $where);
+    $sql = 'SELECT * FROM ae_info_todo ORDER BY priority DESC, date_deadline, date_submitted';
+    if (!empty ($where)) {
+        if (count ($where) == 1)
+            $sql .= ' WHERE '.$where[0];
+        else
+            $sql .= ' WHERE '.implode(' AND ', $where);
+    }
+
+    $req = new requete($site->db, $sql, 1);
 
     $tblcts = new contents('TODO list');
     $tblcts->add_paragraph ('<a href="?action=nouveau">Ajouter nouveau bug</a>');
