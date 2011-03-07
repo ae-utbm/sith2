@@ -58,7 +58,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
    */
   if(isset($_REQUEST['newedtstep1']))
   {
-    print_r($_REQUEST);
     if(!isset($_REQUEST['semestre'])  || empty($_REQUEST['semestre']) ||
         !isset($_REQUEST['uvlist_to']) || empty($_REQUEST['uvlist_to']))
       $site->redirect("edt.php?action=new");
