@@ -865,14 +865,25 @@ class interfaceweb
       {
         if($key=="__script__")
           $frm->add_hidden($key,htmlspecialchars($val));
+        else if (is_array($val))
+        {
+          foreach ( $val as $k => $v )
+            $frm->add_hidden('magicform['.$key.']['.$k.']',$v);
+        }
         else
           $frm->add_hidden($key,$val);
-
-        echo $key;
       }
     foreach ( $_GET as $key => $val )
       if ( $key != "magicform" )
-        $frm->add_hidden($key,$val);
+      {
+        if (is_array($val))
+        {
+          foreach ( $val as $k => $v )
+            $frm->add_hidden('magicform['.$key.']['.$k.']',$v);
+        }
+        else
+          $frm->add_hidden($key,$val);
+      }
 
     if ($level == 3) {
       $_uid = gen_uid();
