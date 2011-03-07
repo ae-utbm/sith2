@@ -61,15 +61,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     print_r($_REQUEST);
     if(!isset($_REQUEST['semestre'])  || empty($_REQUEST['semestre']) ||
         !isset($_REQUEST['uvlist_to']) || empty($_REQUEST['uvlist_to']))
-      die();
-      //$site->redirect("edt.php?action=new");
+      $site->redirect("edt.php?action=new");
 
     $path .= " / "."Ajouter un emploi du temps (Étape 2/2)";
     $cts = new contents($path);
 
     $sem = $_REQUEST['semestre'];
-
-    print_r($_REQUEST);
 
     /* on a dit un seul emploi du temps par semestre */
     if(in_array($sem, $user->get_edt_list()) && ($site->is_sure("", "Attention, vous avez déjà un emploi du temps
