@@ -40,6 +40,7 @@ $site->start_page("none","TODO list");
 if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo = new todoitem ($site->db, $site->dbrw);
     $todo->id_task = $_REQUEST['id_task'];
+    echo "Id tache".$_REQUEST['id_task'];
     $todo->id_user_reporter = $_REQUEST['utilisateur_reporter'];
     $todo->id_user_assignee = $_REQUEST['utilisateur_assignee'];
     $todo->id_asso_concerned = $_REQUEST['asso_concerned'];
