@@ -68,8 +68,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     }
 
     $frm = new form ('details', 'infotodo.php', false, 'POST', 'TODO');
-    echo 'Id tache: '.$id_task;
-    $frm->add_hidden ('id_task', $id_task);
+    $frm->add_hidden ('id_task', $idtask);
     $frm->add_hidden ('action', 'commit');
     $frm->add_entity_smartselect ('utilisateur_reporter', 'Rapporteur', $util_reporter);
     $frm->add_entity_smartselect ('utilisateur_assignee', 'Assigné à', $util_reporter);
