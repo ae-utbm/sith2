@@ -53,6 +53,7 @@ class todoitem extends stdentity
         $this->enh_or_bug = 0;
         $this->desc = '';
         $this->todo = '';
+        $this->date_submitted = $this->date_deadline = time();
     }
 
     function load_by_id ($id)
