@@ -62,6 +62,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
         !isset($_REQUEST['uvlist_to']) || empty($_REQUEST['uvlist_to']))
       $site->redirect("edt.php?action=new");
 
+    print_r($_REQUEST['uvlist_to']);
+
     $path .= " / "."Ajouter un emploi du temps (Étape 2/2)";
     $cts = new contents($path);
 
