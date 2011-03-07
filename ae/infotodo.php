@@ -95,7 +95,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
 
     $where = array();
     if (isset ($_REQUEST['onlyme']) && $_REQUEST['onlyme'])
-        $where[] = '`id_user_assignee` = '.$site->user;
+        $where[] = '`id_user_assignee` = '.$site->user->id;
     if (isset ($_REQUEST['etat'])) {
         $etats = array('new' => 0, 'resolu' => 4, 'encours' => 3);
         if (array_key_exists ($_REQUEST['etat'], $etats))
