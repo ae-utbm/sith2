@@ -211,7 +211,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   {
     $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=leave&id=$groupid';\" value=\"Se désinscrire\"/>");
     if($details['freq'] == 2)
-      $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=change_weekp&id=$groupid';\" value=\"Changer de semaine\"/>");
+      $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=change_weekp&id_group=$groupid&semestre=$semestre';\" value=\"Changer de semaine\"/>");
   }
   else{
     if($details['freq'] == 2){
