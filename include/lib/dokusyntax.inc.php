@@ -371,7 +371,7 @@ class dokusyntax
       }
       elseif( $item['level'] < $level[$k] )
       {
-        $ret .= "</li>\n";
+        $ret .= " t</li>\n";
         for (; $level[$k] > $item['level']; $k--)
           $ret .= "</ul>\n</li>\n";
       }
