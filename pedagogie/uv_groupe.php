@@ -142,7 +142,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'change_week')
 {
   $details = $uv->get_groups(null, null, $groupid, $user->id);
   $user->leave_uv_group($groupid);
-  if ($details['semaine'][0] == 'A')
+  if ($details[0]['semaine'] == 'A')
     $user->join_uv_group($groupid, 'B');
   else
     $user->join_uv_group($groupid, 'A');
