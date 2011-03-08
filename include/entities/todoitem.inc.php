@@ -81,7 +81,7 @@ class todoitem extends stdentity
         $this->enh_or_bug = $row['enh_or_bug'];
         $this->status = $row['status'];
         $this->desc = $row['description'];
-        $this->todo = utf8_encode ($row['todo']);
+        $this->todo = $row['todo'];
     }
 
     function update ()
@@ -97,7 +97,7 @@ class todoitem extends stdentity
                                             'enh_or_bug' => $this->enh_or_bug,
                                             'status' => $this->status,
                                             'description' => $this->desc,
-                                            'todo' => utf8_decode ($this->todo)
+                                            'todo' => html_entity_decode($this->todo, ENT_NOQUOTES, 'UTF-8')
                                             ));
         } else {
             $update = new update ($this->dbrw, TODO_TABLE,
@@ -110,7 +110,7 @@ class todoitem extends stdentity
                                          'enh_or_bug' => $this->enh_or_bug,
                                          'status' => $this->status,
                                          'description' => $this->desc,
-                                         'todo' => utf8_decode ($this->todo)
+                                         'todo' => html_entity_decode($this->todo, ENT_NOQUOTES, 'UTF-8')
                                          ),
                                   array ('id_task' => $this->id_task));
         }
