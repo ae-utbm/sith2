@@ -357,28 +357,33 @@ class dokusyntax
 
   function html_buildlist($data,$class,$func)
   {
-    $level = 0;
+    $level = array();
+    $k = 0;
     $opens = 0;
     $ret   = '';
+
+    $level[0] = 0;
     foreach ($data as $item)
     {
-      if( $item['level'] > $level )
+      if( $item['level'] > $level[$k] ){
         $ret .= "\n<ul class=\"$class\">\n";
-      elseif( $item['level'] < $level )
+        $k++;
+      }
+      elseif( $item['level'] < $level[$k] )
       {
         $ret .= "</li>\n";
-        for ($i=0; $i<($level - $item['level']); $i++)
+        for (; $level[$k] > $item['level']; $k--)
           $ret .= "</ul>\n</li>\n";
       }
       else
         $ret .= "</li>\n";
-      $level = $item['level'];
+      $level[$k] = $item['level'];
       $ret .= '<li class="level'.$item['level'].'">';
       $ret .= '<span class="li">';
       $ret .= $this->$func($item); //user function
       $ret .= '</span>';
     }
-    for ($i=0; $i < $level; $i++)
+    for (; $k > 0; $k--)
       $ret .= "</li></ul>\n";
     return $ret;
   }
