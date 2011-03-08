@@ -97,7 +97,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     if (isset ($_REQUEST['onlyme']) && $_REQUEST['onlyme'])
         $where[] = 'id_utilisateur_assignee='.$site->user->id;
     if (isset ($_REQUEST['etat'])) {
-        $etats = array('new' => 0, 'resolu' => 4, 'encours' => 3);
+        $etats = array('new' => 1, 'resolu' => 5, 'encours' => 4);
         if (array_key_exists ($_REQUEST['etat'], $etats))
             $where[] = 'ae_info_todo.status='.$etats[$_REQUEST['etat']];
     }
