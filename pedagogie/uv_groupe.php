@@ -141,6 +141,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'leave')
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'change_week')
 {
   $details = $uv->get_groups(null, null, $groupid, $user->id);
+  print_r($details);
   $user->leave_uv_group($groupid);
   if ($details['semaine'] == 'A')
     $user->join_uv_group($groupid, 'B');
@@ -211,7 +212,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
   {
     $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=leave&id=$groupid';\" value=\"Se désinscrire\"/>");
     if($details['freq'] == 2)
-      $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=change_weekp&id_group=$groupid&semestre=$semestre';\" value=\"Changer de semaine\"/>");
+      $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=change_weekp&id_groupe=$groupid&semestre=$semestre';\" value=\"Changer de semaine\"/>");
   }
   else{
     if($details['freq'] == 2){
