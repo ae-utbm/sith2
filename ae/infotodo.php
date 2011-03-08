@@ -47,6 +47,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo->date_submitted = $_REQUEST['date_submitted'];
     $todo->priority = $_REQUEST['priority'];
     $todo->status = $_REQUEST['status'];
+    $todo->enh_or_bug = $_REQUEST['type'];
     $todo->desc = $_REQUEST['desc'];
     $todo->todo = $_REQUEST['todo'];
 
@@ -77,6 +78,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     $frm->add_date_field ('date_submitted', 'Soumis le', $idtask == -1 ? time () : $todo->date_submitted, false, $idtask == -1);
     $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
+    $frm->add_select_field ('type', 'Type', $todo_types, $todo->enh_or_bug);
     $frm->add_text_field ('desc', 'Description', $todo->desc);
     $frm->add_text_area ('todo', 'Todo', $todo->todo, 80, 10);
     $frm->add_submit ('submit', 'Valider');
@@ -87,7 +89,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     $site->add_contents ($cts);
 } else {
     $cts = new contents ('TODO');
-    $frmfilter = new form('filter', '?', false, 'GET', 'Filter');
+    $frmfilter = new form('filter', '?', false, 'POST', 'Filter');
     $frmfilter->add_select_field('etat', 'Etat', array('' => 'Tout', 'new' => 'Nouveau', 'resolu' => 'Résolu', 'encours' => 'En cours'), isset ($_REQUEST['etat']) ? $_REQUEST['etat'] : '');
     $frmfilter->add_checkbox ('onlyme', 'Uniquement ceux assigné à moi', isset ($_REQUEST['onlyme']) ? $_REQUEST['onlyme'] : false);
     $frmfilter->add_submit ('submit', 'Filtrer');

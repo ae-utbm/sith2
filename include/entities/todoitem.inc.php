@@ -28,6 +28,7 @@ define('TODO_TABLE', 'ae_info_todo');
 
 $todo_status = array ('New', 'WontFix', 'Invalid', 'InProgress', 'Fixed');
 $todo_priorities = array ('Invalid', 'Low', 'Med', 'High', 'Critical', 'OMG');
+$todo_types = array ('Fonc', 'Bug');
 
 class todoitem extends stdentity
 {
