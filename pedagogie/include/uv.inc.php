@@ -463,14 +463,20 @@ class uv extends stdentity
    * Recuperation des infos de groupes
    * @param $type type des groupes recherches du style GROUP_TD ou null si tout
    * @param $semestre semestre visé
+   * @param $id_utilisateur utilisateur concerné
    * @return tableau des informations
    */
-  public function get_groups($type=null, $semestre=null, $idgroup=null){
+  public function get_groups($type=null, $semestre=null, $idgroup=null, $id_utilisateur=null){
     $sql = "SELECT *,
               `type`+0 as `type_num`
-            FROM `pedag_groupe`
-            LEFT JOIN `pedag_groupe_utl` USING (id_groupe, id_utilisateur)
-            WHERE `id_uv` = ".$this->id;
+            FROM `pedag_groupe` ";
+    if ($id_utilisateur != null)
+      $sql .= "LEFT JOIN `pedag_groupe_utl` USING (id_groupe)
+            WHERE `id_uv` = ".$this->id."
+            AND `id_utilisateur` = ".$id_utilisateur;
+    else
+      $sql .= "WHERE `id_uv` = ".$this->id;
+
     if($semestre)
       $sql .= "  AND `semestre` = '".$semestre."'";
     if($type)
