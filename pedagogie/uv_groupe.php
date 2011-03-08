@@ -143,10 +143,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'change_week')
   $details = $uv->get_groups(null, null, $groupid, $user->id);
   print_r($details);
   $user->leave_uv_group($groupid);
-  if ($details['semaine'] == 'A')
+  if ($details['semaine'][0] == 'A')
     $user->join_uv_group($groupid, 'B');
   else
     $user->join_uv_group($groupid, 'A');
+  $site->redirect("uv_groupe.php?id=".$groupid."&action=view");
 }
 
 /* ajout d'une nouvelle séance */
