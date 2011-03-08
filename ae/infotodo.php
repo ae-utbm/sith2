@@ -102,7 +102,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
             $where[] = $etats[$_REQUEST['etat']];
     }
 
-    $sql = 'SELECT ae_info_todo.*, asso.nom_asso as `nom_asso_concerned`, CONCAT(`utilisateurs`.`prenom_utl`,\' \',`utilisateurs`.`nom_utl`) as `nom_utilisateur_assignee` FROM ae_info_todo INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=ae_info_todo.id_utilisateur_assignee LEFT JOIN asso ON asso.id_asso=ae_info_todo.id_asso_concerned';
+    $sql = 'SELECT ae_info_todo.*, asso.nom_asso as nom_asso_concerned, CONCAT(utilisateurs.prenom_utl,\' \',utilisateurs.nom_utl) as nom_utilisateur_assignee, (SELECT status FROM ae_info_todo_codetxt WHERE id_code=ae_info_todo.status) as status_name, (SELECT priorities FROM ae_info_todo_codetxt WHERE id_code=ae_info_todo.status) as priority_name FROM ae_info_todo INNER JOIN utilisateurs ON utilisateurs.id_utilisateur=ae_info_todo.id_utilisateur_assignee LEFT JOIN asso ON asso.id_asso=ae_info_todo.id_asso_concerned';
     if (!empty ($where)) {
         if (count ($where) == 1)
             $sql .= ' WHERE '.$where[0];
@@ -121,9 +121,9 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
                                'nom_asso_concerned' => array('Club associé', 'nom_asso'),
                                'date_deadline' => 'Deadline',
                                'date_submitted' => 'Date soumission',
-                               'priority' => 'Priorité',
+                               'priority_name' => 'Priorité',
                                'enh_or_bug' => 'Type',
-                               'status' => 'Statut',
+                               'status_name' => 'Statut',
                                'description' => 'Description'),
                          array('detail' => 'Détails'),
                          array(),
