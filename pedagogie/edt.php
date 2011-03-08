@@ -404,6 +404,9 @@ if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'schedule' || $_REQUEST
 
   foreach($groups as $group)
   {
+    if ($group['type'] == "THE")
+      continue;
+
     $time_deb = mktime(substr($group['debut'], 0, 2), substr($group['debut'], 3, 2));
     $time_fin = mktime(substr($group['fin'], 0, 2), substr($group['fin'], 3, 2));
 
