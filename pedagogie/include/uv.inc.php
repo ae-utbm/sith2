@@ -469,6 +469,7 @@ class uv extends stdentity
     $sql = "SELECT *,
               `type`+0 as `type_num`
             FROM `pedag_groupe`
+            LEFT JOIN `pedag_groupe_utl` USING (id_groupe, id_utilisateur)
             WHERE `id_uv` = ".$this->id;
     if($semestre)
       $sql .= "  AND `semestre` = '".$semestre."'";

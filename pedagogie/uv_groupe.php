@@ -138,6 +138,15 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'leave')
     $user->leave_uv_group($groupid);
   $site->redirect("uv_groupe.php?id=$groupid&action=view");
 }
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'change_week')
+{
+  $details = $uv->get_groups(null, null, $groupid);
+  $user->leave_uv_group($groupid);
+  if ($details['semaine'] == 'A')
+    $user->join_uv_group($groupid, 'B');
+  else
+    $user->join_uv_group($groupid, 'A');
+}
 
 /* ajout d'une nouvelle séance */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
@@ -199,7 +208,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                          array("nom_utilisateur"=>"Élève", "semaine"=>"Semaine"),
                          array(), array()), true);
   if($user->is_attending_uv_group($groupid))
+  {
     $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=leave&id=$groupid';\" value=\"Se désinscrire\"/>");
+    if($details['freq'] == 2)
+      $cts->add_paragraph("<input type=\"button\" onclick=\"location.href='uv_groupe.php?action=change_weekp&id=$groupid';\" value=\"Changer de semaine\"/>");
+  }
   else{
     if($details['freq'] == 2){
       $buf = "<input type=\"button\" onclick=\"var f = document.getElementById('freq').value; location.href='uv_groupe.php?action=join&id=$groupid&freq='+f;\" value=\"S'inscrire\"/>";
