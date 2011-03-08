@@ -71,7 +71,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     $frm->add_hidden ('id_task', $idtask);
     $frm->add_hidden ('action', 'commit');
     $frm->add_entity_smartselect ('utilisateur_reporter', 'Rapporteur', $util_reporter);
-    $frm->add_entity_smartselect ('utilisateur_assignee', 'Assigné à', $util_reporter);
+    $frm->add_entity_smartselect ('utilisateur_assignee', 'Assigné à', $util_assignee);
     $frm->add_entity_smartselect ('asso_concerned', 'Asso lié', $asso_concerne);
     $frm->add_date_field ('date_deadline', 'Deadline', $idtask == -1 ? time () : $todo->date_deadline);
     $frm->add_date_field ('date_submitted', 'Soumis le', $idtask == -1 ? time () : $todo->date_submitted, false, false);
