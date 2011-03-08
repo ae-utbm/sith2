@@ -285,7 +285,7 @@ class interfaceweb
            false,
            true,
            $jsoch);
-      $frm->add_text_field("username","Utilisateur","prenom.nom","",35,true);
+      $frm->add_text_field("username","Utilisateur","prenom.nom","",20,true);
       $frm->add_password_field("password","Mot de passe","","",20);
       $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
       $frm->add_submit("connectbtn","Se connecter");
