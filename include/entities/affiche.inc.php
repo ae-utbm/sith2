@@ -426,7 +426,7 @@ class affiche extends stdentity
     }
     if ( $nbaff < 1 )
     {
-      $file->load_by_id(5958);
+      $file->load_by_id(7838);
       $fichier = $file->id.'.'.$file->id_rev_file;
       print "  <affiche>\n";
       print "    <horaire>0</horaire>\n";
