@@ -160,6 +160,13 @@ if ( !$folder->is_valid() )
 if ( !$folder->is_right($site->user,DROIT_LECTURE) )
   $site->error_forbidden($section,"group",$folder->id_groupe);
 
+if( isset($_REQUEST["undo_cut_file"]) ) {
+    unset( $_SESSION["d_clipboard"]["I".$_REQUEST['undo_cut_file']] );
+}
+
+if( isset($_REQUEST["undo_cut_folder"]) ) {
+    unset( $_SESSION["d_clipboard"]["O".$_REQUEST['undo_cut_folder']] );
+}
 
 if ( $_REQUEST["action"] == "cut" )
 {
