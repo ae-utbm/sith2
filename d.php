@@ -69,8 +69,17 @@ if ( isset($_REQUEST["id_file"]))
 }
 
 if( $_REQUEST['action'] == "accepter" && $site->user->is_in_groupe("moderateur_site") ) {
-  if( $file->id > 0 )
+  if( $file->id > 0 ) {
     $file->set_modere();
+
+    unset($file);
+
+    $file = new dfile($site->db, $site->dbrw);
+    $file->load_by_id($_REQUEST["id_file"]);
+
+    if( !$file->is_valid() )
+      $site->error_not_found($section);
+  }
 }
 
 if( $_REQUEST['action'] == "refuser" && $site->user->is_in_groupe("moderateur_site") ) {
