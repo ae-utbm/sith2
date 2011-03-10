@@ -295,12 +295,17 @@ elseif ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT
   }
 }
 
+// Pb rechargement page !!
+// Mettre au début, virer l'instance $file, en refaire une ??
 
 if( $_REQUEST['action'] == "accepter" && $site->user->is_in_groupe("moderateur_site") ) {
-
   if( $file->id > 0 )
     $file->set_modere();
+}
 
+if( $_REQUEST['action'] == "refuser" && $site->user->is_in_groupe("moderateur_site") ) {
+  if( $file->id > 0 )
+    $file->delete_file_rev();
 }
 
 
@@ -393,8 +398,8 @@ if ( $file->is_valid() )
     $mod_text = "<b>Attention : fichier non modéré.</b>";
 
     if( $site->user->is_in_group("moderateur_site") ) {
-      $mod_text .= "<br /><b><a href=\"d.php?id_file=".$file->id."&amp;action=accepter\">Accepteri ce fichier</a></b>";
-      $mod_text .= "<br /><b><a href=\"d.php?id_file=".$file->id."&amp;action=supprimer\">Supprimer / revenir à la version précédente</a></b>";
+      $mod_text .= "<br /><br /><b><a href=\"d.php?id_file=".$file->id."&amp;action=accepter\">Accepter ce fichier</a></b>";
+      $mod_text .= "<br /><b><a href=\"d.php?id_file=".$file->id."&amp;action=refuser\">Supprimer / revenir à la version précédente</a></b>";
     }
 
     $cts->add_paragraph($mod_text);
