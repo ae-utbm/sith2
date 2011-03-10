@@ -381,6 +381,8 @@ if ( $file->is_valid() )
   else
     $cts = new contents($path);
 
+  if( !$file->is_moderated() )
+    $cts->add_paragraph("<b>Attention : fichier non modéré.</b>");
 
   if ( isset($Notice) )
     $cts->add_paragraph("<b>$Notice</b>");
@@ -407,8 +409,6 @@ if ( $file->is_valid() )
     $actions[] = "<a href=\"d.php?id_file=".$file->id."&amp;action=delete\">Supprimer</a>";
   }
 
-  if( !$file->is_moderated() )
-    $actions[] = "Attention : fichier non modéré";
 
   $cts->add(new itemlist(false,false,$actions));
 
