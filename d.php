@@ -296,6 +296,14 @@ elseif ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT
 }
 
 
+if( $_REQUEST['action'] == "moderate" && $site->user->is_in_groupe("moderateur_site") ) {
+
+  if( $file->id > 0 )
+    $file->set_modere();
+
+}
+
+
 
 
 if ( $file->is_valid() )
