@@ -141,8 +141,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 
   $frm = new form("newuv", "uv.php?action=save", true, "post");
   $frm->add_text_field("code", "Code", "", true, 4, false, true, "(format XX00)");
-  $frm->add_text_field("intitule", "Intitulé", "", true);
-  $frm->add_text_field("responsable", "Responsable");
+  $frm->add_text_field("intitule", "Intitulé", "", true,40,false,true,null,false,128);
+  $frm->add_text_field("responsable", "Responsable","",false,25,false,true,null,false,64);
 
   $avail_type=array();
   foreach($_TYPE as $type=>$desc)
