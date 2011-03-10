@@ -346,7 +346,7 @@ class form extends stdcontents
    * @param $required  Précise si le champ est obligatoire
    * @param $size    Taille du champ
    */
-  function add_text_field ( $name, $title, $value = "", $required = false , $size = false, $fast_clean = false, $enabled = true, $text_after = null, $id = false)
+  function add_text_field ( $name, $title, $value = "", $required = false , $size = false, $fast_clean = false, $enabled = true, $text_after = null, $id = false, $max_lenght = false)
   {
     if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];
 
@@ -361,8 +361,12 @@ class form extends stdcontents
     }
     if ( $fast_clean )
       $this->buffer .= " onfocus=\"if(this.value=='$value')this.value=''\" onblur=\"if(this.value=='')this.value='$value'\"";
-    if ( $size )
-      $this->buffer .= " size=\"$size\" maxlength=\"$size\"";
+    if ( $size ) {
+      if( $max_lenght )
+        $this->buffer .= " size=\"$size\" maxlength=\"$max_lenght\"";
+      else
+        $this->buffer .= " size=\"$size\" maxlength=\"$size\"";
+    }
 
     if (!$enabled)
       $this->buffer .= " DISABLED";
