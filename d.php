@@ -68,7 +68,7 @@ if ( isset($_REQUEST["id_file"]))
 
 }
 
-if( $_REQUEST['action'] == "accepter" && $site->user->is_in_groupe("moderateur_site") ) {
+if( $_REQUEST['action'] == "accepter" && $site->user->is_in_group("moderateur_site") ) {
   if( $file->id > 0 ) {
     $file->set_modere();
 
@@ -82,7 +82,7 @@ if( $_REQUEST['action'] == "accepter" && $site->user->is_in_groupe("moderateur_s
   }
 }
 
-if( $_REQUEST['action'] == "refuser" && $site->user->is_in_groupe("moderateur_site") ) {
+if( $_REQUEST['action'] == "refuser" && $site->user->is_in_group("moderateur_site") ) {
   if( $file->id > 0 )
     $file->delete_file_rev();
 }
