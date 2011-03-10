@@ -68,6 +68,16 @@ if ( isset($_REQUEST["id_file"]))
 
 }
 
+if( $_REQUEST['action'] == "accepter" && $site->user->is_in_groupe("moderateur_site") ) {
+  if( $file->id > 0 )
+    $file->set_modere();
+}
+
+if( $_REQUEST['action'] == "refuser" && $site->user->is_in_groupe("moderateur_site") ) {
+  if( $file->id > 0 )
+    $file->delete_file_rev();
+}
+
 // "Exception"
 if ( $_REQUEST["action"] == "download" && $file->is_valid() )
 {
@@ -294,21 +304,6 @@ elseif ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT
     $file->set_tags($_REQUEST["tags"]);
   }
 }
-
-// Pb rechargement page !!
-// Mettre au début, virer l'instance $file, en refaire une ??
-
-if( $_REQUEST['action'] == "accepter" && $site->user->is_in_groupe("moderateur_site") ) {
-  if( $file->id > 0 )
-    $file->set_modere();
-}
-
-if( $_REQUEST['action'] == "refuser" && $site->user->is_in_groupe("moderateur_site") ) {
-  if( $file->id > 0 )
-    $file->delete_file_rev();
-}
-
-
 
 
 if ( $file->is_valid() )
