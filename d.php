@@ -407,6 +407,9 @@ if ( $file->is_valid() )
     $actions[] = "<a href=\"d.php?id_file=".$file->id."&amp;action=delete\">Supprimer</a>";
   }
 
+  if( !$file->is_moderated() )
+    $action[] = "Attention : fichier non modéré";
+
   $cts->add(new itemlist(false,false,$actions));
 
   if ($file->mime_type == "audio/mpeg" )

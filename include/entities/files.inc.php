@@ -770,6 +770,12 @@ class dfile extends fs
     return $uid;
   }
 
+  function is_moderated() {
+    if( isset($this->modere) && $this->modere == 1 )
+      return true;
+    return false;
+  }
+
   function get_lock()
   {
     $req = new requete($this->db,
