@@ -408,7 +408,7 @@ if ( $file->is_valid() )
   }
 
   if( !$file->is_moderated() )
-    $action[] = "Attention : fichier non modéré";
+    $actions[] = "Attention : fichier non modéré";
 
   $cts->add(new itemlist(false,false,$actions));
 
