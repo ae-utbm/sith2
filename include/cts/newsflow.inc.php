@@ -156,7 +156,7 @@ abstract class newslister extends stdcontents
       $this->puts("<div class=\"newsappel\" id=\"newsappel\">\n");
       $this->puts("<div id=\"hide_apples\">\n");
       $this->puts("<a href=\"#\" onclick=\"hide_with_cookies('newsappel', 'AE2_HIDE_APPLES'); return false;\">");
-      $this->puts("<img src=\"".$topdir."images/actions/delete.png\" alt=\"faire disparaire\" title=\"faire disparaire\"/>");
+      $this->puts("<img src=\"".$topdir."images/actions/delete.png\" alt=\"faire disparaitre\" title=\"faire disparaitre\"/>");
       $this->puts("</a>\n");
       $this->puts("</div>\n");
       $this->puts("<ul>\n");
