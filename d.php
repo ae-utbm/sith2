@@ -162,6 +162,9 @@ if ( !$folder->is_right($site->user,DROIT_LECTURE) )
 
 if( isset($_REQUEST["undo_cut_file"]) ) {
     unset( $_SESSION["d_clipboard"]["I".$_REQUEST['undo_cut_file']] );
+
+    if( empty($_SESSION["d_clipboard"]) )
+      unset( $_SESSION["d_clipboard"]);
 }
 
 if( isset($_REQUEST["undo_cut_folder"]) ) {
