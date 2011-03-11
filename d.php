@@ -702,13 +702,13 @@ if ( isset($_SESSION["d_clipboard"]) )
     {
       $inffile->load_by_id($id);
       $clip_txt = $inffile->get_html_link();
-      $clip_txt .= " <a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_file=".$id."\"><img src=\"./images/actions/delete.png\" alt=\"\" title=\"\" class=\"icon\" /></a>";
+      $clip_txt .= " <a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_file=".$id."\"><img src=\"./images/actions/delete.png\" alt=\"Annuler couper\" title=\"\" class=\"icon\" /></a>";
     }
     else
     {
       $inffolder->load_by_id($id);
       $clip_txt=$inffolder->get_html_link();
-      $clip_txt .= " <a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_folder=".$id."\"><img src=\"./images/actions/delete.png\" alt=\"\" title=\"\" class=\"icon\" /></a>";
+      $clip_txt .= " <a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_folder=".$id."\"><img src=\"./images/actions/delete.png\" alt=\"Annuler couper\" title=\"\" class=\"icon\" /></a>";
     }
     $lst->add($clip_txt);
   }
