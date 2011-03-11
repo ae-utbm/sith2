@@ -164,11 +164,14 @@ if( isset($_REQUEST["undo_cut_file"]) ) {
     unset( $_SESSION["d_clipboard"]["I".$_REQUEST['undo_cut_file']] );
 
     if( empty($_SESSION["d_clipboard"]) )
-      unset( $_SESSION["d_clipboard"]);
+      unset($_SESSION["d_clipboard"]);
 }
 
 if( isset($_REQUEST["undo_cut_folder"]) ) {
     unset( $_SESSION["d_clipboard"]["O".$_REQUEST['undo_cut_folder']] );
+
+    if( empty($_SESSION["d_clipboard"]) )
+      unset($_SESSION["d_clipboard"]);
 }
 
 if ( $_REQUEST["action"] == "cut" )
@@ -698,13 +701,16 @@ if ( isset($_SESSION["d_clipboard"]) )
     if ( $aid{0} == 'I' )
     {
       $inffile->load_by_id($id);
-      $lst->add($inffile->get_html_link());
+      $clip_txt = $inffile->get_html_link();
+      $clip_txt .= "<a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_file=".$id."\">Annuler</a>";
     }
     else
     {
       $inffolder->load_by_id($id);
-      $lst->add($inffolder->get_html_link());
+      $clip_txt=$inffolder->get_html_link();
+      $clip_txt .= "<a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_folder=".$id."\">Annuler</a>";
     }
+    $lst->add($clip_txt);
   }
 
   $cts->add($lst,true);
