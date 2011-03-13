@@ -102,6 +102,9 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
         $etats = array('new' => 1, 'resolu' => 5, 'encours' => 4);
         if (array_key_exists ($_REQUEST['etat'], $etats))
             $where[] = 'ae_info_todo.status='.$etats[$_REQUEST['etat']];
+    } else {
+        // Don't show fixed stuff by default
+        $where[] = 'ae_info_todo.status!=4';
     }
 
     $sql = 'SELECT ae_info_todo.*, asso.nom_asso as nom_asso_concerned, CONCAT(utilisateurs.prenom_utl,\' \',utilisateurs.nom_utl) as nom_utilisateur_assignee, (SELECT status_name FROM ae_info_todo_codetxt WHERE id_code=ae_info_todo.status-1) as status_name, (SELECT priority_name FROM ae_info_todo_codetxt WHERE id_code=ae_info_todo.priority) as priority_name, (SELECT be_name FROM ae_info_todo_codetxt WHERE ae_info_todo_codetxt.id_code=ae_info_todo.enh_or_bug) as be_name, (SELECT CONCAT(utilisateurs.prenom_utl,\' \',utilisateurs.nom_utl) FROM utilisateurs WHERE utilisateurs.id_utilisateur=ae_info_todo.id_utilisateur_reporter) as nom_utilisateur_reporter FROM ae_info_todo INNER JOIN utilisateurs ON utilisateurs.id_utilisateur=ae_info_todo.id_utilisateur_assignee LEFT JOIN asso ON asso.id_asso=ae_info_todo.id_asso_concerned';
