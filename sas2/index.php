@@ -680,7 +680,7 @@ elseif ( $_REQUEST["action"] == "emptyclpbrd" && isset($_SESSION["sas_clipboard"
 elseif( isset($_REQUEST["undo_cut_pic"]) ) {
   unset( $_SESSION["sas_clipboard"]["photos"][$_REQUEST["undo_cut_pic"]] );
 
-  if( empty($_SESSION["sas_clipboard"]) )
+  if( empty($_SESSION["sas_clipboard"]["photos"]) && empty($_SESSION["sas_clipboard"]["categories"]) )
     unset( $_SESSION["sas_clipboard"] );
 }
 
