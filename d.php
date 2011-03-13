@@ -160,6 +160,10 @@ if ( !$folder->is_valid() )
 if ( !$folder->is_right($site->user,DROIT_LECTURE) )
   $site->error_forbidden($section,"group",$folder->id_groupe);
 
+if( $_REQUEST["action"] == "emptyclpbrd" ) {
+  unset( $_SESSION["d_clipboard"] );
+}
+
 if( isset($_REQUEST["undo_cut_file"]) ) {
     unset( $_SESSION["d_clipboard"]["I".$_REQUEST['undo_cut_file']] );
 
@@ -693,6 +697,8 @@ if ( isset($_SESSION["d_clipboard"]) )
 
   if ( $folder->is_right($site->user,DROIT_AJOUTITEM) || $folder->is_right($site->user,DROIT_AJOUTCAT) )
     $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;action=paste\">Deplacer ici</a>");
+
+  $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;action=emptyclpbrd\">Vider le presse papier</a>");
 
   $lst = new itemlist("Contenu");
 
