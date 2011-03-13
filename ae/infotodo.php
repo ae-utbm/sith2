@@ -67,7 +67,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
         $util_assignee->load_by_id ($todo->id_user_assignee);
         $asso_concerne->load_by_id ($todo->id_asso_concerned);
     } else {
-        $util_reporter->load_by_id ($site->user);
+        $util_reporter = $site->user;
         $asso_ae = new asso ($site->db);
         $asso_ae->load_by_id (1);
         $util_assignee->load_by_id ($asso_ae->get_member_for_role (ROLEASSO_RESPINFO));

@@ -518,7 +518,7 @@ class asso extends stdentity
 
   function get_member_for_role ($role)
   {
-      $sql = 'SELECT id_utilisateur FROM `asso_membre` WHERE id_asso='.$this->id.' AND role = '.$role.' LIMIT 1';
+      $sql = 'SELECT id_utilisateur FROM `asso_membre` WHERE id_asso='.$this->id.' AND role = '.$role.' ORDER BY date_debut DESC LIMIT 1';
       $req = new requete ($this->db, $sql);
       $row = $req->get_row ();
 
