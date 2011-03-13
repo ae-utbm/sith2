@@ -522,7 +522,7 @@ class asso extends stdentity
       $req = new requete ($this->db, $sql);
       $row = $req->get_row ();
 
-      return $req['id_utilisateur'];
+      return $row['id_utilisateur'];
   }
 
   function get_tabs($user)
