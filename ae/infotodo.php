@@ -68,9 +68,8 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
         $asso_concerne->load_by_id ($todo->id_asso_concerned);
     } else {
         $util_reporter = $site->user;
-        $asso_ae = new asso ($site->db);
-        $asso_ae->load_by_id (1);
-        $util_assignee->load_by_id ($asso_ae->get_member_for_role (ROLEASSO_RESPINFO));
+        $asso_concerne->load_by_id (1);
+        $util_assignee->load_by_id ($asso_concerne->get_member_for_role (ROLEASSO_RESPINFO));
     }
 
     $frm = new form ('details', 'infotodo.php', false, 'POST', 'TODO');
