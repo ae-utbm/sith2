@@ -677,6 +677,12 @@ elseif ( $_REQUEST["action"] == "emptyclpbrd" && isset($_SESSION["sas_clipboard"
 {
   unset($_SESSION["sas_clipboard"]);
 }
+elseif( isset($_REQUEST["undo_cut_pic"]) ) {
+  unset( $_SESSION["sas_clipboard"]["photos"][$_REQUEST["undo_cut_pic"]] );
+
+  if( empty($_SESSION["sas_clipboard"]) )
+    unset( $_SESSION["sas_clipboard"] );
+}
 
 /*
  * Listing catégories
@@ -748,7 +754,10 @@ if ( isset($_SESSION["sas_clipboard"]) )
     foreach( $_SESSION["sas_clipboard"]["photos"] as $id )
     {
       $infphoto->load_by_id($id);
-      $lst->add($infphoto->get_html_link());
+      $clip_txt = $infphoto->get_html_link();
+      $clip_txt .= " - <a href=\"index.php?id_catph=".$cat->id."&amp;undo_cut_pic=".$id."\">retirer du presse papier</a>";
+
+      $lst->add($clip_txt);
     }
   }
 
