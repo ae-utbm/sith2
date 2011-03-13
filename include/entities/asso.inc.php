@@ -516,7 +516,14 @@ class asso extends stdentity
       $this->_ml_all_delta_user($id_utl,$prevrole,$newrole);
   }
 
+  function get_member_for_role ($role)
+  {
+      $sql = 'SELECT id_utilisateur FROM `asso_membre` WHERE id_asso='.$this->id.' AND role = '.$role.' LIMIT 1';
+      $req = new requete ($this->db, $sql);
+      $row = $req->get_row ();
 
+      return $req['id_utilisateur'];
+  }
 
   function get_tabs($user)
   {
