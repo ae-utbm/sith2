@@ -708,13 +708,13 @@ if ( isset($_SESSION["d_clipboard"]) )
     {
       $inffile->load_by_id($id);
       $clip_txt = $inffile->get_html_link();
-      $clip_txt .= " <a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_file=".$id."\"><img src=\"".$topdir."images/actions/decrease.png\" alt=\"Annuler couper\" title=\"Annuler couper\" class=\"icon\" /></a>";
+      $clip_txt .= "\t—\t<a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_file=".$id."\">retirer du presse papier</a>";
     }
     else
     {
       $inffolder->load_by_id($id);
       $clip_txt=$inffolder->get_html_link();
-      $clip_txt .= " <a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_folder=".$id."\"><img src=\"".$topdir."images/actions/decrease.png\" alt=\"Annuler couper\" title=\"Annuler couper\" class=\"icon\" /></a>";
+      $clip_txt .= "\t—\t<a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_folder=".$id."\">retirer du presse papier</a>";
     }
     $lst->add($clip_txt);
   }
