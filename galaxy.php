@@ -333,7 +333,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
       );
     $cts->add($tbl,true);
 
-    $cts->add_paragraph("Il est possible que de nombreuses personnes soient dans votre \"voisinnage\" par pur harsard. Cependant en général il s'agit soit de personnes liées soit de personnes avec un profil similaire.");
+    $cts->add_paragraph("Il est possible que de nombreuses personnes soient dans votre \"voisinage\" par pur hasard. Cependant en général il s'agit soit de personnes liées soit de personnes avec un profil similaire.");
   }
 
   $cts->add_title(2,"A propos de galaxy");
