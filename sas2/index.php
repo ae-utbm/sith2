@@ -761,7 +761,7 @@ if ( isset($_SESSION["sas_clipboard"]) )
     {
       $infphoto->load_by_id($id);
       $clip_txt = $infphoto->get_html_link();
-      $clip_txt .= " - <a href=\"index.php?id_catph=".$cat->id."&amp;undo_cut_pic=".$id."\">retirer du presse papier</a>";
+      $clip_txt .= " | <a href=\"index.php?id_catph=".$cat->id."&amp;undo_cut_pic=".$id."\">retirer du presse papier</a>";
 
       $lst->add($clip_txt);
     }
@@ -773,7 +773,7 @@ if ( isset($_SESSION["sas_clipboard"]) )
     {
       $infcat->load_by_id($id);
       $clip_txt = $infcat->get_html_link();
-      $clip_txt .= " - <a href=\"index.php?id_catph=".$cat->id."&amp;undo_cut_cat=".$id."\">retirer du presse papier</a>";
+      $clip_txt .= " | <a href=\"index.php?id_catph=".$cat->id."&amp;undo_cut_cat=".$id."\">retirer du presse papier</a>";
       $lst->add($clip_txt);
     }
   }
