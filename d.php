@@ -708,7 +708,7 @@ if ( isset($_SESSION["d_clipboard"]) )
     {
       $inffile->load_by_id($id);
       $clip_txt = $inffile->get_html_link();
-      $clip_txt .= " | <a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_file=".$id."\">retirer du presse papier</a>";
+      $clip_txt .= "\t|\t<a href=\"d.php?id_folder=".$folder->id."&amp;undo_cut_file=".$id."\">retirer du presse papier</a>";
     }
     else
     {
