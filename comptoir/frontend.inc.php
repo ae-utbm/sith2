@@ -145,7 +145,7 @@ else if ( ($_REQUEST["action"] == "vente" || $_REQUEST["action"] == "ventefin" |
   elseif ( !strcasecmp($_REQUEST["code_barre"],"ANN") || isset($_REQUEST['venteann']) )
     $site->comptoir->annule_dernier_produit();
 
-  elseif ( !strcasecmp($_REQUEST["code_barre"],"ANC") || isset($_REQUEST['venteanc']) )
+  elseif ( !strcasecmp($_REQUEST["code_barre"],"ANC") || isset($_REQUEST['venteanc']) || isset($_REQUEST['rechargeenfait']) )
     $site->comptoir->annule_pannier();
 
   elseif ( $site->comptoir->mode == "book" )
@@ -457,7 +457,7 @@ else if ( $site->comptoir->client->id > 0 )
     $frm = new form ("rechargeenfait", "?id_comptoir=".$site->comptoir->id.'#confirmrech');
     $frm->add_hidden("action","venteanc");
     $frm->add_hidden("utilisateur_recharge", $site->comptoir->client->id);
-    $frm->puts('<input type="submit" class="isubmit" value="Recharger compte" name="rechargeenfait" id="rechargeenfait" />'."\n");
+    $frm->puts('<input type="submit" class="isubmit" value="Recharge compte" name="rechargeenfait" id="rechargeenfait" />'."\n");
     $cts->add($frm);
   $cts->puts('</div>'."\n");
 
