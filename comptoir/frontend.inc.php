@@ -454,10 +454,10 @@ else if ( $site->comptoir->client->id > 0 )
     $frm->puts('<input type="submit" class="isubmit" value="Terminer commande" name="ventefin" id="ventefin" />'."\n");
     $cts->add($frm);
 
-    $frm = new form ("rechargeenfait", "?id_comptoir".$site->comptoir->id.'#confirmrech');
+    $frm = new form ("rechargeenfait", "?id_comptoir=".$site->comptoir->id.'#confirmrech');
     $frm->add_hidden("action","venteanc");
     $frm->add_hidden("utilisateur_recharge", $site->comptoir->client->id);
-    $frm->puts('<input type="submit" class="isubmit" value="Recharger son compte" name="rechargeenfait" id="rechargeenfait" />'."\n");
+    $frm->puts('<input type="submit" class="isubmit" value="Recharger compte" name="rechargeenfait" id="rechargeenfait" />'."\n");
     $cts->add($frm);
   $cts->puts('</div>'."\n");
 
