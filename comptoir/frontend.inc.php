@@ -676,10 +676,10 @@ else
     /*$frm->add_radiobox_field("id_typepaie","Mode de paiement",$TypesPaiements,PAIE_ESPECS,-1);
     $frm->add_select_field("id_banque","Banque",$Banques);*/
     $frm->add_text_field("code_bar_carte","Carte AE");
-    if (isset ($_REQUEST['utilisateur_recharge']) && !empty ($_REQUEST['utilisateur_recharge'])) {
+    if (isset ($_REQUEST['utilisateur_recharge'])) {
         $utilisateur_recharge = new utilisateur($site->db);
         $utilisateur_recharge->load_by_id (intval ($_REQUEST['utilisateur_recharge']));
-        $frm->add_user_fieldv2("id_utilisateur_rech","ou par Recherche", $utilisateur_recharge);
+        $frm->add_entity_smartselect("id_utilisateur_rech","ou par Recherche", $utilisateur_recharge);
     } else {
         $frm->add_user_fieldv2("id_utilisateur_rech","ou par Recherche");
     }
