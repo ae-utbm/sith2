@@ -453,6 +453,11 @@ else if ( $site->comptoir->client->id > 0 )
     $frm->set_event("onsubmit", "return checkBarCodeInput()");
     $frm->puts('<input type="submit" class="isubmit" value="Terminer commande" name="ventefin" id="ventefin" />'."\n");
     $cts->add($frm);
+
+    $frm = new form ("rechargeenfait", "?id_comptoir".$site->comptoir->id.'#confirmrech');
+    $frm->add_hidden("utilisateur_recharge", $site->comptoir->client->id);
+    $frm->puts('<input type="submit" class="isubmit" value="Recharger son compte" name="rechargeenfait" id="rechargeenfait" />'."\n");
+    $cts->add($frm);
   $cts->puts('</div>'."\n");
 
   $cts->puts('<div id="soldeCourant" class="hide">'.number_format($site->comptoir->client->montant_compte/100, 2).'</div>');
@@ -670,7 +675,13 @@ else
     /*$frm->add_radiobox_field("id_typepaie","Mode de paiement",$TypesPaiements,PAIE_ESPECS,-1);
     $frm->add_select_field("id_banque","Banque",$Banques);*/
     $frm->add_text_field("code_bar_carte","Carte AE");
-    $frm->add_user_fieldv2("id_utilisateur_rech","ou par Recherche");
+    if (isset ($_REQUEST['utilisateur_recharge']) && !empty ($_REQUEST['utilisateur_recharge'])) {
+        $utilisateur_recharge = new utilisateur($site->db);
+        $utilisateur_recharge->load_by_id (intval ($_REQUEST['utilisateur_recharge']));
+        $frm->add_user_fieldv2("id_utilisateur_rech","ou par Recherche", $utilisateur_recharge);
+    } else {
+        $frm->add_user_fieldv2("id_utilisateur_rech","ou par Recherche");
+    }
 
     $frm->add_submit("valid","valider");
     $cts->add($frm,true);
