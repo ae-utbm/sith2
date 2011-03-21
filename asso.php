@@ -248,7 +248,7 @@ else if ( isset($_REQUEST["id_asso"]) )
 
     }
     elseif ( $site->user->is_in_group("moderateur_site") )
-      $cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites:".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
+      $cts->add_paragraph("<a href=\"article.php?page=new&amp;name=activites:".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
 
     if ( $site->user->is_in_group("root") )
       $req = new requete($site->db,
