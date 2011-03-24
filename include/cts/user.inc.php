@@ -456,7 +456,7 @@ class userinfov2 extends stdcontents
 
     $this->buffer .= "<div class=\"photo\">";
     if ($display != "full")
-      $this->buffer .= "<a class=\"fiche\" href=\"".$topdir.$urldest."?id_utilisateur=".$user->id."\">";
+      $this->buffer .= "<a href=\"".$topdir.$urldest."?id_utilisateur=".$user->id."\">";
     $this->buffer .= "<img src=\"$img\" id=\"mmtphoto$numFiche\" class=\"$imgclass\" alt=\"Photo de ".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" />";
     if ($display != "full")
       $this->buffer .= "</a>\n";
