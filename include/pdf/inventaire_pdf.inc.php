@@ -22,8 +22,8 @@
  */
 
 
-define('FPDF_FONTPATH', '../font/');
-require_once ("../lib/fpdf.inc.php");
+define('FPDF_FONTPATH', $topdir. 'font/');
+require_once ($topdir. "lib/fpdf.inc.php");
 
 class inventaire_pdf extends FPDF
 {
