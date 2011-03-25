@@ -31,7 +31,7 @@ require_once($topdir. "include/cts/user.inc.php");
 
 $site = new site;
 
-$site->start_page ("accueil", "FIMU 2010 - Inscriptions des bénévoles");
+$site->start_page ("accueil", "FIMU 2011 - Inscriptions des bénévoles");
 
 $cts = new contents("Festival International de Musique Universitaire");
 
@@ -163,7 +163,7 @@ else
  */
 
   $intro = "
-  <b>25ème FIMU : les 11, 12 et 13 mai 2010</b>
+  <b>25ème FIMU : les 11, 12 et 13 Juin 2011</b>
 <br />
 <br />
   L'AE vous permet de vous inscrire en ligne pour être bénévole au FIMU 2011. Le formulaire suivant est la copie conforme de la feuille que vous pourrez trouver dans les points de distribution.
@@ -213,7 +213,7 @@ else
   $subfrm = new form("fimu_inscr", "index.php", true, "POST", "Disponibilités");
     //$subfrm->add_info("Il est fortement souhaitable que vous soyez disponible 3 jours consécutifs minimum");
     $subfrm->add_checkbox("jour1", "Jeudi 9 Juin");
-    $subfrm->add_checkbox("jour2", "Vendredi 10 Mai");
+    $subfrm->add_checkbox("jour2", "Vendredi 10 Juin");
     $subfrm->add_checkbox("jour3", "Samedi 11 Juin");
     $subfrm->add_checkbox("jour4", "Dimanche 12 Juin");
     $subfrm->add_checkbox("jour5", "Lundi 13 Juin");
