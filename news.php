@@ -334,8 +334,9 @@ if ( $suitable && isset($_REQUEST["submit"]) )
         }
     }
 
-  if ($site->user->is_in_group("moderateur_site"))
-    $news->validate($site->user->id);
+  if( isset($_REQUEST['automodere']) )
+    if ($site->user->is_in_group("moderateur_site") && $_REQUEST['automodere'])
+      $news->validate($site->user->id);
 
   unset($_REQUEST["dates"]);
   unset($_REQUEST["debut"]);
