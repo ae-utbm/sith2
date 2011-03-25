@@ -129,6 +129,8 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
   $frm->add_text_area ("resume","Resume",$news->resume);
   $frm->add_dokuwiki_toolbar('content');
   $frm->add_text_area ("content", "Contenu",$news->contenu,80,10,true);
+  if( $site->user->is_in_group("moderateur_site") )
+    $frm->add_checkbox("automodere", "<b>Auto-modération</b>", true);
 
   $frm->add_submit("valid","Enregistrer");
 
@@ -462,6 +464,9 @@ else
 $frm->add_file_field("affiche_file","Affiche");
 
 $frm->add_info("L'affiche sera automatiquement ajoutée en bas de la news.");
+
+if( $site->user->is_in_group("moderation_site") && $suitable )
+  $frm->add_checkbox("automodere", "<b>Auto-modération</b>", true);
 
 $frm->add_submit ("preview","Pr&eacute;visualiser");
 
