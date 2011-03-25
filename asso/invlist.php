@@ -20,11 +20,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-$topdir = "../../";
+$topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
-require_once($topdir. "include/pdf/inventaire_pdf.inc.pdf");
+require_once($topdir. "include/pdf/inventaire_pdf.inc.php");
 
 $site = new site ();
 
