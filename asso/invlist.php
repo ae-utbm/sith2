@@ -44,7 +44,7 @@ if (isset ($_REQUEST['id_asso'])) {
     $sql = 'SELECT inv_objet.nom_objet AS nom, salle.nom_salle AS lien, inv_objet.date_achat AS date, inv_objet.prix_objet AS prix'
         .'FROM inv_objet LEFT JOIN sl_salle on sl_salle.id_salle=inv_objet.id_salle'
         .'WHERE inv_objet.id_asso='.intval ($asso->id);
-    $req = new $requete ($site->db, $req);
+    $req = new requete ($site->db, $req);
     $lines = array ();
 
     while (($line = $req->get_row ()) != null)
