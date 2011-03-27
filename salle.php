@@ -313,6 +313,7 @@ if ( $salle->is_valid() )
       array(), array(), array()
       );
 
+    $cts->add_paragraph("<a href=\"asso/invlist.php?id_salle=".$salle->id."\">Imprimer relevés</a>");
     $cts->add($tbl);
 
   }
