@@ -99,6 +99,7 @@ if ( isset($_REQUEST["name"]) && ereg("^activites-(.*)$",$_REQUEST["name"],$regs
 
 if ( ereg("^activites:(.*)$", $page->nom,$regs ))
 {
+    echo 'Unix name :'.$regs[1].'\n';
   $asso = new asso($site->db);
   $asso->load_by_unix_name($regs[1]);
   if ( $asso->id > 0 )
