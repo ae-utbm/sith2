@@ -45,7 +45,7 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
 
   if ( $_REQUEST['action'] == "new" )
   {
-    if ( !$_REQUEST["name"] || !preg_match("#^([a-z0-9\-_:]+)$#",$_REQUEST["name"]) )
+    if ( !$_REQUEST["name"] || !preg_match("#^([a-z0-9\-_:\.]+)$#",$_REQUEST["name"]) )
       $Erreur = "Nom invalide";
     elseif ( !$_REQUEST["title"] || !$_REQUEST["texte"] )
       $Erreur = "Veuillez préciser un titre et/ou un contenu";
