@@ -61,25 +61,27 @@ class rssfeednews extends rssfeed
    */
   function output_news ( $req, &$ids )
   {
-  	if ( $req->lines == 0 ) return;
+    if ( $req->lines == 0 ) return;
 
-  	while ( $row = $req->get_row() )
-  	{
-  		echo "<item>\n";
-  		echo "<title>".htmlspecialchars($row["titre_nvl"],ENT_NOQUOTES,"UTF-8")."</title>\n";
-  		echo "<link>".$this->pubUrl."news.php?id_nouvelle=".$row["id_nouvelle"]."</link>\n";
-  		echo "<description>".htmlspecialchars($row["resume_nvl"],ENT_NOQUOTES,"UTF-8")."</description>\n";
-  		echo "<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_nvl"]))."</pubDate>\n";
-  		echo "<guid>http://ae.utbm.fr/news.php?id_nouvelle=".$row["id_nouvelle"]."</guid>\n";
+    while ( $row = $req->get_row() )
+    {
+        $wikicts = new wikicontents(false, $row["resume_nvl"], true);
 
-  		if ( !is_null($row["lat_geopoint"]) && !is_null($row["long_geopoint"]) )
-  		  echo "<georss:point>".sprintf("%.12F",$row['lat_geopoint']*360/2/M_PI)." ".
+        echo "<item>\n";
+        echo "<title>".htmlspecialchars($row["titre_nvl"],ENT_NOQUOTES,"UTF-8")."</title>\n";
+        echo "<link>".$this->pubUrl."news.php?id_nouvelle=".$row["id_nouvelle"]."</link>\n";
+        echo "<description>[CDATA[ ".htmlspecialchars($wikicts->buffer,ENT_NOQUOTES,"UTF-8")." ]]</description>\n";
+        echo "<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_nvl"]))."</pubDate>\n";
+        echo "<guid>http://ae.utbm.fr/news.php?id_nouvelle=".$row["id_nouvelle"]."</guid>\n";
+
+        if ( !is_null($row["lat_geopoint"]) && !is_null($row["long_geopoint"]) )
+          echo "<georss:point>".sprintf("%.12F",$row['lat_geopoint']*360/2/M_PI)." ".
       sprintf("%.12F",$row['long_geopoint']*360/2/M_PI)."</georss:point>\n";
 
-  		echo "</item>\n";
+        echo "</item>\n";
 
-		  $ids[] = $row["id_nouvelle"];
-  	}
+          $ids[] = $row["id_nouvelle"];
+    }
   }
 }
 
@@ -109,46 +111,46 @@ class rssfeednewshome extends rssfeednews
     $ids = array(0);
 
     $sql = new requete($this->db,"SELECT * FROM nvl_nouvelles " .
-    		"INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-    		"LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
-    		"WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
-    		"NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
+            "INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+            "LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
+            "WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
+            "NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
 
     $this->output_news($sql,$ids);
 
     $sql = new requete($this->db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso,geopoint.* FROM nvl_nouvelles " .
-    		"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-    		"LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
-    		"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
-    		"DATEDIFF(NOW(),date_nvl) < 14 " .
-    		"LIMIT 3");
+            "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
+            "LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
+            "WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
+            "DATEDIFF(NOW(),date_nvl) < 14 " .
+            "LIMIT 3");
 
     $this->output_news($sql,$ids);
 
     $ids = array(0);
 
     $sql = new requete($this->db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso,nvl_dates.date_debut_eve,nvl_dates.date_fin_eve,geopoint.* " .
-    		"FROM nvl_dates " .
-    		"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-    		"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-    		"LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
-    		"WHERE (type_nvl='".NEWS_TYPE_EVENT."' "./*OR type_nvl='".NEWS_TYPE_HEBDO."'*/") AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
-    		"NOW() < nvl_dates.date_fin_eve " .
-    		"ORDER BY nvl_dates.date_debut_eve " .
-    		"LIMIT 5");
+            "FROM nvl_dates " .
+            "INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+            "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
+            "LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
+            "WHERE (type_nvl='".NEWS_TYPE_EVENT."' "./*OR type_nvl='".NEWS_TYPE_HEBDO."'*/") AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
+            "NOW() < nvl_dates.date_fin_eve " .
+            "ORDER BY nvl_dates.date_debut_eve " .
+            "LIMIT 5");
 
     $this->output_news($sql,$ids);
 
     $sql = new requete($this->db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso,nvl_dates.date_debut_eve,nvl_dates.date_fin_eve,geopoint.* " .
-    		"FROM nvl_dates " .
-    		"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-    		"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-    		"LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
-    		"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
-    		"nvl_dates.id_nouvelle NOT IN (".implode(",",$ids).") AND " .
-    		"NOW() < nvl_dates.date_debut_eve " .
-    		"ORDER BY nvl_dates.date_debut_eve " .
-    		"LIMIT 10");
+            "FROM nvl_dates " .
+            "INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+            "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
+            "LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
+            "WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
+            "nvl_dates.id_nouvelle NOT IN (".implode(",",$ids).") AND " .
+            "NOW() < nvl_dates.date_debut_eve " .
+            "ORDER BY nvl_dates.date_debut_eve " .
+            "LIMIT 10");
 
     $this->output_news($sql,$ids);
   }
