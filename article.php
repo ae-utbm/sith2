@@ -97,6 +97,17 @@ if ( isset($_REQUEST["name"]) && ereg("^activites-(.*)$",$_REQUEST["name"],$regs
   }
 }
 
+if ( ereg("^activites:(.*)$", $page->nom,$regs ))
+{
+  $asso = new asso($site->db);
+  $asso->load_by_unix_name($regs[1]);
+  if ( $asso->id > 0 )
+  {
+    header("Location: asso.php?id_asso=".$asso->id);
+    exit();
+  }
+}
+
 if ( isset($_REQUEST["name"]) )
 {
   if ( $_REQUEST["name"]{0} == ":" )
@@ -178,17 +189,6 @@ if ( $page->nom == "services" /*|| $page->nom == "planning"*/ )
   $site->set_side_boxes("left",array("calendrier","connexion"));
   $site->add_box("calendrier",new calendar($site->db));
   $site->add_box("connexion", $site->get_connection_contents());
-}
-
-if ( ereg("^activites:(.*)$", $page->nom,$regs ))
-{
-  $asso = new asso($site->db);
-  $asso->load_by_unix_name($regs[1]);
-  if ( $asso->id > 0 )
-  {
-    header("Location: asso.php?id_asso=".$asso->id);
-    exit();
-  }
 }
 
 
