@@ -50,7 +50,7 @@ if (isset($_REQUEST['showall']))
 $cts->add_paragraph("<a href=\"../objet.php?id_asso=".$asso->id."\">Ajouter un objet</a>");
 $cts->add_paragraph("<a href=\"../etiquette.php?id_asso=".$asso->id."\">Imprimer codes barres</a>");
 $cts->add_paragraph("<a href=\"inventaire.php?id_asso=".$asso->id."&showall\">Afficher les objets archivés</a>");
-$cts->add_paragraph("<a href=\"invlisting.php?id_asso=".$asso->id."\">Imprimer relevés</a>");
+$cts->add_paragraph("<a href=\"invlist.php?id_asso=".$asso->id."\">Imprimer relevés</a>");
 
 
 
