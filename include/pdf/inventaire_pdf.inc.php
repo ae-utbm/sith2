@@ -85,8 +85,7 @@ class inventaire_pdf extends FPDF
                               $this->items[$i]['date'],
                               $this->items[$i]['prix']);
         }
-        $this->print_total();
-        $this->print_mentions_legales();
+        $this->print_total($this->total);
     }
 
     function print_total ($total)
