@@ -468,7 +468,7 @@ $frm->add_file_field("affiche_file","Affiche");
 $frm->add_info("L'affiche sera automatiquement ajoutée en bas de la news.");
 
 if( $site->user->is_in_group("moderateur_site") && $suitable )
-  $frm->add_checkbox("automodere", "<b>Auto-modération</b>", true);
+  $frm->add_checkbox("automodere", "<b>Auto-modération</b>", isset($_REQUEST['automodere']) ? $_REQUEST['automodere'] : true);
 
 $frm->add_submit ("preview","Pr&eacute;visualiser");
 
