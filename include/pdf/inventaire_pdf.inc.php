@@ -40,6 +40,8 @@ class inventaire_pdf extends FPDF
         $this->date = $date;
         $this->items = $infos;
         $this->total = 0;
+
+        $this->FPDF();
     }
 
     function Header ()
