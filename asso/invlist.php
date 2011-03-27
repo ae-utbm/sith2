@@ -54,10 +54,28 @@ if (isset ($_REQUEST['id_asso'])) {
     $pdf->renderize ();
     exit ();
 } else if (isset ($_REQUEST['id_salle'])) {
+    $salle = new salle ($site->db);
+    $salle->load_by_id ($_REQUEST["id_salle"]);
 
-} else if (isset ($_REQUEST['all'])) {
+    if ( $salle->id  < 1 ) {
+        $site->error_not_found ("presentation");
+        exit();
+    }
 
+    $sql = 'SELECT CONCAT(inv_objet.nom_objet,\' \',inv_objet.cbar_objet) AS nom, asso.nom_asso AS lien, inv_objet.date_achat AS date, inv_objet.prix_objet AS prix'
+        .' FROM inv_objet LEFT JOIN asso on asso.id_asso=inv_objet.id_asso'
+        .' WHERE inv_objet.archive_objet=0 AND inv_objet.id_salle='.intval ($salle->id);
+    $req = new requete ($site->db, $sql);
+    $lines = array ();
+
+    while (($line = $req->get_row ()) != null)
+        $lines[] = $line;
+
+    $pdf = new inventaire_pdf ($salle->nom, 'Inventaire salle '.$salle->nom, date ('d-m-Y'), $lines);
+    $pdf->renderize ();
+    exit ();
 } else {
+    // affiche la liste de tout les clubs/salle avec un lien bien formaté pour tirer le pdf
     $site->error_not_found("presentation");
 }
 
