@@ -34,6 +34,7 @@ class inventaire_pdf extends FPDF
      */
     var $items;
     var $total;
+    var $pagination;
 
     function inventaire_pdf($name, $title, $date, $infos)
     {
@@ -42,6 +43,7 @@ class inventaire_pdf extends FPDF
         $this->date = $date;
         $this->items = $infos;
         $this->total = 0;
+        $this->pagination = true;
 
         $this->FPDF();
     }
