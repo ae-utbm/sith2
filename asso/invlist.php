@@ -50,7 +50,7 @@ if (isset ($_REQUEST['id_asso'])) {
     while (($line = $req->get_row ()) != null)
         $lines[] = $line;
 
-    $pdf = new inventaire_pdf ('Inventaire club '.$asso->nom, date ('d-m-Y'), $lines);
+    $pdf = new inventaire_pdf ($asso->nom_unix, 'Inventaire club '.$asso->nom, date ('d-m-Y'), $lines);
     $pdf->renderize ();
     exit ();
 } else if (isset ($_REQUEST['id_salle'])) {

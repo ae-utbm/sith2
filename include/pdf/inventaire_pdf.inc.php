@@ -27,6 +27,7 @@ require_once ($topdir . "include/lib/fpdf.inc.php");
 class inventaire_pdf extends FPDF
 {
     var $name;
+    var $title;
     var $date;
 
     /* array de array contenant 'nom objet', 'nom salle ou club', 'date achat', 'prix achat'
@@ -34,9 +35,10 @@ class inventaire_pdf extends FPDF
     var $items;
     var $total;
 
-    function inventaire_pdf($name, $date, $infos)
+    function inventaire_pdf($name, $title, $date, $infos)
     {
         $this->name = $name;
+        $this->title = $title;
         $this->date = $date;
         $this->items = $infos;
         $this->total = 0;
@@ -48,7 +50,7 @@ class inventaire_pdf extends FPDF
     {
         $this->SetFont('Arial','B',25);
         $this->SetTextColor(0, 0, 0);
-        $this->Cell(190, 5, $this->name,0,0,'R');
+        $this->Cell(190, 5, utf8_decode ($this->title),0,0,'R');
         $this->Ln(5);
 
         $this->SetFont('Arial','I',15);
@@ -56,7 +58,7 @@ class inventaire_pdf extends FPDF
         $this->Line(10,$this->GetY(),200,$this->GetY());
         $this->Ln(10);
         $this->SetFont('Arial','B',14);
-        $this->Cell(80, 13, 'Désignation', "B", 0, "");
+        $this->Cell(80, 13, utf8_decode ('Désignation'), "B", 0, "");
         $this->cell(40, 13, 'Salle ou club', "B", 0, "R");
         $this->Cell(30, 13, 'Date achat', "B", 0, "R");
         $this->Cell(40, 13, 'Prix achat', "B", 0, "R");
@@ -101,10 +103,10 @@ class inventaire_pdf extends FPDF
     function print_line($pdt,$lien, $date, $prix)
     {
         $this->SetFont('Arial','',12);
-        $this->Cell(80,5,$pdt, "B", 0, "");
-        $this->Cell(40,5,$lien, "B", 0, "R");
+        $this->Cell(80,5,utf8_decode ($pdt), "B", 0, "");
+        $this->Cell(40,5,utf8_decode ($lien), "B", 0, "R");
         $this->Cell(30,5,$date, "B", 0, "R");
-        $this->Cell(40,5,$prix, "B", 1, "R");
+        $this->Cell(40,5,sprintf("%.2f", $prix / 100), "B", 1, "R");
     }
 
     function renderize ()
