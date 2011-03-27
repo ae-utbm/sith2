@@ -70,7 +70,7 @@ class rssfeednews extends rssfeed
         echo "<item>\n";
         echo "<title>".htmlspecialchars($row["titre_nvl"],ENT_NOQUOTES,"UTF-8")."</title>\n";
         echo "<link>".$this->pubUrl."news.php?id_nouvelle=".$row["id_nouvelle"]."</link>\n";
-        echo "<description>[CDATA[ ".htmlspecialchars($wikicts->buffer,ENT_NOQUOTES,"UTF-8")." ]]</description>\n";
+        echo "<description>[CDATA[ ".$wikicts->buffer." ]]</description>\n";
         echo "<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_nvl"]))."</pubDate>\n";
         echo "<guid>http://ae.utbm.fr/news.php?id_nouvelle=".$row["id_nouvelle"]."</guid>\n";
 
