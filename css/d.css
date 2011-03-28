@@ -80,7 +80,13 @@ div.gallery div.galitem div.tooldep
 	width:150px;
 }
 
-
+.alertunmod
+{
+	color: red;
+	text-align: center;
+	font-size: 140%;
+	font-weight: bold;
+}
 
 
 
