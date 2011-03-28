@@ -414,7 +414,7 @@ if ( $file->is_valid() )
     $cts = new contents($path);
 
   if( !$file->is_moderated() ) {
-    $mod_text = '<span class="alertunmod">Attention : fichier non modéré.</span>';
+    $mod_text = '<p class="alertunmod">Attention : fichier non modéré.</p>';
 
     if( $site->user->is_in_group("moderateur_site") ) {
       $mod_text .= "<br /><br /><b><a href=\"d.php?id_file=".$file->id."&amp;action=accepter\">Accepter ce fichier</a></b>";
