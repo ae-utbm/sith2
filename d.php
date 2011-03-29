@@ -39,6 +39,7 @@ require_once($topdir."include/entities/folder.inc.php");
 require_once($topdir."include/cts/taglist.inc.php");
 
 $site = new site();
+$site->add_css("css/d.css");
 $file = new dfile($site->db, $site->dbrw);
 $folder = new dfolder($site->db, $site->dbrw);
 $asso_folder = new asso($site->db);
@@ -683,7 +684,6 @@ elseif ( isset($_SESSION["d_clipboard"]) && $_REQUEST["action"] == "paste" )
 
 require_once($topdir."include/cts/sqltable.inc.php");
 require_once($topdir."include/cts/gallery.inc.php");
-$site->add_css("css/d.css");
 
 
 $site->start_page($section,"Fichiers");
