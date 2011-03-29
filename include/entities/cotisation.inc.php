@@ -16,9 +16,16 @@ require_once("carteae.inc.php");
  - 5 : eboutic */
 
 /** Type de cotisation :
- - 1 : normale
- - 2 : assidu
- - 3 : amicale */
+ - 0 : 1 Semestre
+ - 1 : 2 Semestres
+ - 2 : Cursus Tronc Commun
+ - 3 : Cursus Branch
+ - 4 : Membre honoraire ou occasionnel
+ - 5 : Cotisation par Assidu
+ - 6 : Cotisation par l'Amicale
+ - 7 : Cotisation réseau UT
+ - 8 : Cotisation CROUS
+*/
 
 class cotisation extends stdentity
 {
