@@ -163,7 +163,8 @@ class fsearch extends stdcontents
         "FROM `utl_etu_utbm` " .
         "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
         "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' ".
-        "AND CONCAT(`prenom_utl`,' ',`nom_utl`) NOT REGEXP '^".$sqlpattern."' $force_sql");
+        "AND CONCAT(`prenom_utl`,' ',`nom_utl`) NOT REGEXP '^".$sqlpattern."' $force_sql" .
+        "ORDER BY `visites` DESC, `id_utilisateur` DESC");
 
       $nbutils = 0;
       while ( list($c) = $req->get_row() )
