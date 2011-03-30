@@ -156,15 +156,13 @@ class fsearch extends stdcontents
         "SELECT COUNT(*) " .
         "FROM `utilisateurs` " .
         "WHERE CONCAT(`prenom_utl`,' ',`nom_utl`) REGEXP '^".$sqlpattern."' $force_sql " .
-        "UNION ALL SELECT COUNT(*) " .
+        "UNION DISTINCT SELECT COUNT(*) " .
         "FROM `utilisateurs` " .
         "WHERE CONCAT(`nom_utl`,' ',`prenom_utl`) REGEXP '^".$sqlpattern."' $force_sql " .
-        "UNION ALL SELECT COUNT(*) " .
+        "UNION DISTINCT SELECT COUNT(*) " .
         "FROM `utl_etu_utbm` " .
         "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
-        "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' ".
-        "AND CONCAT(`prenom_utl`,' ',`nom_utl`) NOT REGEXP '^".$sqlpattern."' $force_sql" .
-        "ORDER BY `visites` DESC, `id_utilisateur` DESC");
+        "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' $force_sql");
 
       $nbutils = 0;
       while ( list($c) = $req->get_row() )
@@ -174,18 +172,21 @@ class fsearch extends stdcontents
       if ( $nbutils > 0 )
       {
         $req = new requete($site->db,
-          "SELECT CONCAT(`prenom_utl`,' ',`nom_utl`),'1' as `method`, utilisateurs.* " .
+          "SELECT CONCAT(`prenom_utl`,' ',`nom_utl`),'1' as `method`, utilisateurs.*, `visites` " .
           "FROM `utilisateurs` " .
+          "LEFT JOIN `utl_etu` USING ( `id_utilisateur` ) " .
           "WHERE CONCAT(`prenom_utl`,' ',`nom_utl`) REGEXP '^".$sqlpattern."' $force_sql " .
-          "UNION SELECT CONCAT(`prenom_utl`,' ',`nom_utl`),'1' as `method`, utilisateurs.* " .
+          "UNION DISTINCT SELECT CONCAT(`prenom_utl`,' ',`nom_utl`),'1' as `method`, utilisateurs.*, `visites` " .
           "FROM `utilisateurs` " .
+          "LEFT JOIN `utl_etu` USING ( `id_utilisateur` ) " .
           "WHERE CONCAT(`nom_utl`,' ',`prenom_utl`) REGEXP '^".$sqlpattern."' $force_sql " .
-          "UNION SELECT `surnom_utbm`, '4' as `method`, `utilisateurs`.* " .
+          "UNION DISTINCT SELECT `surnom_utbm`, '4' as `method`, `utilisateurs`.*, `visites` " .
           "FROM `utl_etu_utbm` " .
-          "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
+          "INNER JOIN `utilisateurs` USING (`id_utilisateur`) " .
+          "LEFT JOIN `utl_etu` USING ( `id_utilisateur` ) " .
           "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' ".
           "AND CONCAT(`prenom_utl`,' ',`nom_utl`) NOT REGEXP '^".$sqlpattern."' $force_sql " .
-          "ORDER BY 1 LIMIT 3");
+          "ORDER BY `visites` DESC LIMIT 3");
 
         $this->buffer .= "<h2>Personnes</h2>";
         $this->buffer .= "<ul>";
