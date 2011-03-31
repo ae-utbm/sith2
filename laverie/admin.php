@@ -94,7 +94,7 @@ if ( $_REQUEST["action"] == "autoplanning" )
   while ( $row = $req->get_row() )
   {
     $machine->_load($row);
-    $machine->create_all_creneaux_between($_REQUEST["date_debut"],$_REQUEST["date_fin"],3600);
+    $machine->create_all_creneaux_between($_REQUEST["apl_date_debut"],$_REQUEST["apl_date_fin"],3600);
   }
 
   $cts->add_title(2,"Generation des plannings");
@@ -276,8 +276,8 @@ elseif( $_REQUEST['action'] == "freeplanning" )
   if ( $machine->is_valid() )
   {
     $cts->add_title(2,"Liberation de creneaux");
-    $cts->add_paragraph($machine->get_html_link()." : creneaux libérés de ".date("d/m/Y H:i",$_REQUEST['date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['date_fin']));
-    $machine->free_all_creneaux_between($_REQUEST['date_debut'],$_REQUEST['date_fin']);
+    $cts->add_paragraph($machine->get_html_link()." : creneaux libérés de ".date("d/m/Y H:i",$_REQUEST['fpl_date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['fpl_date_fin']));
+    $machine->free_all_creneaux_between($_REQUEST['fpl_date_debut'],$_REQUEST['fpl_date_fin']);
   }
 }
 elseif( $_REQUEST['action'] == "removeplanning" )
@@ -286,8 +286,8 @@ elseif( $_REQUEST['action'] == "removeplanning" )
   if ( $machine->is_valid() )
   {
     $cts->add_title(2,"Suppression de creneaux");
-    $cts->add_paragraph($machine->get_html_link()." : creneaux supprimés de ".date("d/m/Y H:i",$_REQUEST['date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['date_fin']));
-    $machine->remove_all_creneaux_between($_REQUEST['date_debut'],$_REQUEST['date_fin']);
+    $cts->add_paragraph($machine->get_html_link()." : creneaux supprimés de ".date("d/m/Y H:i",$_REQUEST['rpl_date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['rpl_date_fin']));
+    $machine->remove_all_creneaux_between($_REQUEST['rpl_date_debut'],$_REQUEST['rpl_date_fin']);
   }
 }
 elseif( $_REQUEST['action'] == "genplanning" )
@@ -296,8 +296,8 @@ elseif( $_REQUEST['action'] == "genplanning" )
   if ( $machine->is_valid() )
   {
     $cts->add_title(2,"Generation de creneaux");
-    $cts->add_paragraph($machine->get_html_link()." : creneaux générés de ".date("d/m/Y H:i",$_REQUEST['date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['date_fin']));
-    $machine->create_all_creneaux_between($_REQUEST['date_debut'],$_REQUEST['date_fin'],3600);
+    $cts->add_paragraph($machine->get_html_link()." : creneaux générés de ".date("d/m/Y H:i",$_REQUEST['gpl_date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['gpl_date_fin']));
+    $machine->create_all_creneaux_between($_REQUEST['gpl_date_debut'],$_REQUEST['gpl_date_fin'],3600);
   }
 }
 elseif($_REQUEST['action'] == 'chgjetlimit') {
@@ -463,8 +463,8 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
 
   $frm = new form("autoplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Generer les plannings pour toutes les machines (hors HS)");
   $frm->add_hidden("action","autoplanning");
-  $frm->add_datetime_field("date_debut","Date de début",$next_week_start);
-  $frm->add_datetime_field("date_fin","Date de fin",$next_week_end);
+  $frm->add_datetime_field("apl_date_debut","Date de début",$next_week_start);
+  $frm->add_datetime_field("apl_date_fin","Date de fin",$next_week_end);
   $frm->add_submit("valid","Valider");
   $frm->allow_only_one_usage();
   $cts->add($frm,true);
@@ -472,8 +472,8 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
   $frm = new form("freeplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Liberer les creneaux pour une machine");
   $frm->add_hidden("action","freeplanning");
   $frm->add_select_field("id_machine","Machine",$list_machines);
-  $frm->add_datetime_field("date_debut","Date de début");
-  $frm->add_datetime_field("date_fin","Date de fin");
+  $frm->add_datetime_field("fpl_date_debut","Date de début");
+  $frm->add_datetime_field("fpl_date_fin","Date de fin");
   $frm->add_submit("valid","Valider");
   $frm->allow_only_one_usage();
   $cts->add($frm,true);
@@ -481,8 +481,8 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
   $frm = new form("removeplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Supprimer les creneaux pour une machine");
   $frm->add_hidden("action","removeplanning");
   $frm->add_select_field("id_machine","Machine",$list_machines);
-  $frm->add_datetime_field("date_debut","Date de début");
-  $frm->add_datetime_field("date_fin","Date de fin");
+  $frm->add_datetime_field("rpl_date_debut","Date de début");
+  $frm->add_datetime_field("rpl_date_fin","Date de fin");
   $frm->add_submit("valid","Valider");
   $frm->allow_only_one_usage();
   $cts->add($frm,true);
@@ -490,8 +490,8 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
   $frm = new form("genplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Générer les creneaux pour une machine");
   $frm->add_hidden("action","genplanning");
   $frm->add_select_field("id_machine","Machine",$list_machines);
-  $frm->add_datetime_field("date_debut","Date de début",$next_week_start);
-  $frm->add_datetime_field("date_fin","Date de fin",$next_week_end);
+  $frm->add_datetime_field("gpl_date_debut","Date de début",$next_week_start);
+  $frm->add_datetime_field("gpl_date_fin","Date de fin",$next_week_end);
   $frm->add_submit("valid","Valider");
   $frm->allow_only_one_usage();
   $cts->add($frm,true);
