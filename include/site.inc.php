@@ -1347,7 +1347,7 @@ class site extends interfaceweb
     $etag = $uid."M".$mtime;
 
     header('ETag: "'.$etag.'"', true);
-    header("Cache-Control: public, must-revalidate", true);
+    header("Cache-Control: public, max-age=3600", true);
 
     if ( !isset($_SERVER["HTTP_CACHE_CONTROL"]) )
     {
