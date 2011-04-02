@@ -403,7 +403,7 @@ class site extends interfaceweb
         elseif ( $this->user->departement == "edim" )
           $lieu = "Montbéliard";
 
-        $elements[] = "<b>Votre carte AE est prête</b>. Elle vous attends au bureau de l'AE de $lieu.";
+        $elements[] = "<b>Votre carte AE est prête</b>. Elle vous attend au bureau de l'AE de $lieu.";
       }
     }
 

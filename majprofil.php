@@ -51,10 +51,10 @@ if ( isset($_REQUEST["id_utilisateur"]) &&
 
   if ( !$site->user->is_valid() )
   {
-  	$site->start_page("matmatronch","Erreur");
-  	$site->add_contents(new error("Impossible d'ouvrir une session","Merci de vérifier le lien dans l'email qui vous a été adressé. Attention: ce lien ne peut être utilisé qu'une seule fois."));
-  	$site->end_page();
-  	exit();
+    $site->start_page("matmatronch","Erreur");
+    $site->add_contents(new error("Impossible d'ouvrir une session","Merci de vérifier le lien dans l'email qui vous a été adressé. Attention: ce lien ne peut être utilisé qu'une seule fois."));
+    $site->end_page();
+    exit();
   }
 
 }
@@ -295,7 +295,7 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
           $lieu = "Sévenans";
 
         if ( $carte->etat_vie_carte == CETAT_AU_BUREAU_AE )
-          $cts->add_paragraph("Votre carte AE est prête. Elle vous attends au bureau de l'AE de $lieu.");
+          $cts->add_paragraph("Votre carte AE est prête. Elle vous attend au bureau de l'AE de $lieu.");
         else
           $cts->add_paragraph("Votre carte AE est en cours de préparation, elle sera prochainement disponible au bureau de l'AE de $lieu.");
 
