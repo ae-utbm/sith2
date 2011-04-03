@@ -104,6 +104,8 @@ if(isset($_REQUEST['action'])
       $weekmail->set_conclusion($_REQUEST['conclusion']);
     if(isset($_REQUEST['blague']) && !empty($_REQUEST['blague']))
       $weekmail->set_blague($_REQUEST['blague']);
+    if(isset($_REQUEST['astuce']) && !empty($_REQUEST['astuce']))
+      $weekmail->set_astuce($_REQUEST['astuce']);
     $site->add_contents(new contents(false,'Weekmail créé'));
   }
   else
@@ -365,6 +367,8 @@ if($_REQUEST['page'] && $weekmail->is_valid())
         $weekmail->set_conclusion($_REQUEST['conclusion']);
       if(isset($_REQUEST['blague']))
         $weekmail->set_blague($_REQUEST['blague']);
+      if(isset($_REQUEST['astuce']))
+        $weekmail->set_astuce($_REQUEST['astuce']);
     }
     $file = new dfile($site->db);
     if(!is_null($weekmail->id_header) && $weekmail->id_header>0)
@@ -380,6 +384,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     $frm->add_text_area("introduction", "introduction : ",$weekmail->introduction,80,10,true);
     $frm->add_text_area("conclusion", "conclusion : ",$weekmail->conclusion,80,10,true);
     $frm->add_text_area("blague", "blague : ",$weekmail->blague,80,10,false);
+    $frm->add_text_area("astuce", "astuce : ",$weekmail->astuce,80,10,false);
     $frm->add_submit("update","Mettre à jour");
     $site->add_contents ($frm);
     $site->end_page ();
@@ -423,6 +428,7 @@ if($weekmail->can_create_new())
   $frm->add_text_area("introduction", "introduction : ",'',80,5,false);
   $frm->add_text_area("conclusion", "conclusion : ",'',80,5,false);
   $frm->add_text_area("blague", "blague : ",'',80,5,false);
+  $frm->add_text_area("astuce", "astuce : ",'',80,5,false);
   $frm->add_submit("update","Vérouiller");
   $site->add_contents ($frm);
 }

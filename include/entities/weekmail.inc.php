@@ -39,6 +39,7 @@ class weekmail extends stdentity
   public $introduction = null;
   public $conclusion   = null;
   public $blague       = null;
+  public $astuce       = null;
   public $id_header    = null;
   public $rendu_html   = null;
   public $rendu_txt    = null;
@@ -160,6 +161,7 @@ class weekmail extends stdentity
     $this->id_header    = $row['id_file_header_weekmail'];
     $this->rendu_html   = $row['rendu_html_weekmail'];
     $this->rendu_txt    = $row['rendu_txt_weekmail'];
+    $this->astuce       = $row['astuce_weekmail'];
     return true;
   }
 
@@ -220,6 +222,17 @@ class weekmail extends stdentity
     new update($this->dbrw,
                'weekmail',
                 array('blague_weekmail'=>$this->blague),
+                array('id_weekmail'=>$this->id));
+  }
+
+  public function set_astuce($astuce)
+  {
+    if(!$this->is_valid())
+      return;
+    $this->astuce = $astuce;
+    new update($this->dbrw,
+               'weekmail',
+                array('astuce_weekmail'=>$this->astuce),
                 array('id_weekmail'=>$this->id));
   }
 
@@ -346,6 +359,12 @@ class weekmail extends stdentity
 <tr><td style="padding:2px 5px 2px 5px">';
       $buffer .= $this->_render_content($this->blague);
       $buffer .= '<br />&nbsp;</td></tr>';
+    }
+// Le saviez-vous
+    if (!is_null ($this->astuce)) {
+        $buffer .= '<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">L\'astuce du jour</font></td></tr><tr><td style="padding:2px 5px 2px 5px">';
+        $buffer .= $this->_render_content($this->astuce);
+        $buffer .= '<br /></td></tr>';
     }
 // conclusion
     $buffer .= '<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le mot de la fin</font></td></tr>
