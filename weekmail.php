@@ -37,7 +37,6 @@ if(
   )
 {
   header("Content-Type: text/html; charset=utf-8");
-  $rendu = $weekmail->test_render ();
   echo str_replace('<html><body bgcolor="#333333" width="700px"><table bgcolor="#333333" width="700px">',
                    '<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">'.
                    '<head>'.
@@ -45,7 +44,7 @@ if(
                    '<title>[weekmail] '.$weekmail->titre.'</title>'.
                    '</head>'.
                    '<body bgcolor="#333333"><table bgcolor="#333333" width="100%">',
-                   $rendu);
+                   $weekmail->rendu_html);
   exit();
 }
 
