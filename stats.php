@@ -560,7 +560,8 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
         "FROM ( " .
           "SELECT `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
-          "ROUND(sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit)/100, 2) as total, promo_utbm " .
+          "ROUND(sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit)/100, 2) as total, promo_utbm, " .
+          "ROUND(10 * log10(sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit)/100), 2) as total_db " .
           "FROM cpt_vendu " .
           "INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture " .
           "INNER JOIN utilisateurs ON cpt_debitfacture.id_utilisateur_client=utilisateurs.id_utilisateur " .
@@ -580,7 +581,10 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
                   "promo_utbm" => "Promo",
                   "assos" =>"Associations");
     if (isset($_REQUEST["fcsoldes"]))
+    {
       $cols["total"] = "Total";
+      $cols["total_db"] = "Total (dB€)";
+    }
 
     $tbl = new sqltable("top10",
                         "Consomateurs : Top 100 (ce semestre)", $req, "stats.php",
