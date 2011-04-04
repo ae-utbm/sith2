@@ -556,12 +556,12 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
   if (isset($_REQUEST["details"]))
   {
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
-        "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos " .
+        "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
+        "ROUND(10 * log10(total), 2) as total_db " .
         "FROM ( " .
           "SELECT `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
-          "ROUND(sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit)/100, 2) as total, promo_utbm, " .
-          "ROUND(10 * log10(sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit)/100), 2) as total_db " .
+          "ROUND(sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit)/100, 2) as total, promo_utbm " .
           "FROM cpt_vendu " .
           "INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture " .
           "INNER JOIN utilisateurs ON cpt_debitfacture.id_utilisateur_client=utilisateurs.id_utilisateur " .
