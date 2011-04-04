@@ -364,7 +364,7 @@ class weekmail extends stdentity
     if (!is_null ($this->astuce)) {
         $buffer .= '<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">L\'astuce du jour</font></td></tr><tr><td style="padding:2px 5px 2px 5px">';
         $buffer .= $this->_render_content($this->astuce);
-        $buffer .= '<br /></td></tr>';
+        $buffer .= '<br />&nbsp;</td></tr>';
     }
 // conclusion
     $buffer .= '<tr bgcolor="#000000"><td style="padding:2px 5px 2px 5px"><font color="#ffffff">Le mot de la fin</font></td></tr>
