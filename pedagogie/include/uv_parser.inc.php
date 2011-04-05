@@ -124,7 +124,7 @@ class UVParser
   }
 
   public function get_nice_print() {
-    $plop = array( 'C' => 'Cours', 'TD' => 'Traux dirigés', 'TP' => 'Travaux pratiques');
+    $plop = array( 'C' => 'Cours', 'TD' => 'Travaux dirigés', 'TP' => 'Travaux pratiques');
     $jours = array( 'L' => 'lundi', 'MA' => 'mardi', 'ME' => 'mercredi', 'J' => 'jeudi', 'V' => 'vendredi', 'S' => 'samedi');
 
     $ret = $plop[$this->type] . (preg_match('/^[A|E|U|I|O]$/', $this->uv[0]) ? ' d\'' : ' de ') . $this->uv;
