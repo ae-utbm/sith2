@@ -67,12 +67,17 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
     $foo = '';
     while ( $uvs->load_next() ) {
       // add user to group
+      if( !$uvs->id )
+        continue;
+
       $uv = new uv($site->db, $site->dbrw, $uvs->id);
       if( !$uv->is_valid() )
         continue;
 
       $freq = null;
-      $user->join_uv_group( $uvs->get_id_group(), $freq );
+      $id_grp = $uvs->get_id_group();
+      if( $id_grp )
+        $user->join_uv_group( $id_grp, $freq );
 
       // Display something
       $foo .= $uvs->get_nice_print() . '<br />';

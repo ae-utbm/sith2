@@ -99,6 +99,8 @@ class UVParser
     $this->end_hour = $foo[6];
     $this->room = $foo[8];
 
+    $this->id = $this->get_id_uv();
+
     return true;
   }
 
@@ -110,8 +112,10 @@ class UVParser
 
     $req = new requete($this->db, $sql);
 
-    if($req->is_success())
-      return $req->get_row();
+    if($req->is_success()) {
+      $res = $req->get_row();
+      return $res['id_group'];
+    }
     else
       return null;
   }
@@ -148,6 +152,18 @@ class UVParser
 
       next($this->_target);
     }
+  }
+
+  protected function get_id_uv() {
+    $sql = "SELECT id_uv FROM pedag_uv WHERE code='".$this->uv."' LIMIT 1";
+    $req = new requete($this->db, $sql);
+
+    if( $req->is_success() ) {
+      $res = $req->get_row();
+      return $res['id_uv'];
+    }
+    else
+      return null;
   }
 
 }
