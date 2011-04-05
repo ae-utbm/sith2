@@ -26,7 +26,6 @@
 **/
 
 /* TODO : question des doubles horaires (ET)
-          récupération de l'id de l'uv ($this->id)
           gestion de l'hors edt
           renommer la classe ??
 */
@@ -36,13 +35,11 @@ require_once($topdir . 'pedagogie/include/pedagogie.inc.php');
 
 class UVParser
 {
-  // --- Public vars
-  public $uv;
-  public $id;
-  public $semester;
-  public $type;
-
   // --- Protected vars
+  protected $uv;
+  protected $semester;
+  protected $type;
+
   protected $db;
   protected $_target = array();
   protected $_results = array();
@@ -108,6 +105,10 @@ class UVParser
       return $req->get_row();
     else
       return null;
+  }
+
+  public function get_uv() {
+    return $this->uv;
   }
 
 
