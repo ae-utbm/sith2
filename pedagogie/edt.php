@@ -57,9 +57,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 {
 
-  if( isset($_REQUEST[$path.'newedtauto']) ) {
+  if( isset($_REQUEST['newedtauto']) ) {
 
-    $cts = new contents("foo");
+    $cts = new contents($path."foo");
 
     $uvs = new UVParser($site->db, $_REQUEST['semestre']);
     $uvs->load_by_text($_REQUEST['vrac']);
