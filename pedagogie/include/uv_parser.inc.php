@@ -26,17 +26,24 @@
 **/
 
 /* TODO : question des doubles horaires (ET)
-          récupération de l'id du groupe de TD/TP
+          récupération de l'id de l'uv ($this->id)
           gestion de l'hors edt
           renommer la classe ??
 */
+
+require_once($top_dir . 'include/mysql.inc.php');
+require_once($topdir . 'pedagogie/include/pedagogie.inc.php');
 
 class UVParser
 {
   // --- Public vars
   public $uv;
+  public $id;
+  public $semester;
+  public $type;
 
   // --- Protected vars
+  protected $db;
   protected $_target = array();
   protected $_results = array();
 
@@ -55,7 +62,10 @@ class UVParser
 
   // --- public functions
   // constructor
-  function UVParser() {
+  function UVParser(&$db, $semester = SEMESTRE_NOW) {
+    $this->db = &$db;
+    $this->semester = $semester;
+
     $this->_schedule = "$this->_hour$this->_hour";
 
     $this->_title = "$this->_uv$this->_type?";
@@ -82,7 +92,22 @@ class UVParser
       return false;
 
     $this->uv = $foo[1];
+    $this->type = $foo[2];
     return true;
+  }
+
+  public function get_id_group() {
+    $sql = "SELECT g.id_group AS id_group FROM pedag_group AS g INNER JOIN pedag_uv AS u";
+    $sql .= " ON g.id_uv = u.id_uv WHERE u.code = '".$this->uv."'";
+    $sql .= " AND `g.id_uv` = ".$this->id." AND `g.type` = '".$this->type."'";
+    $sql .= " AND `g.semestre` = ".$this->semester." LIMIT 1";
+
+    $req = new requete($this->db, $sql);
+
+    if($req->is_success())
+      return $req->get_row();
+    else
+      return null;
   }
 
 
