@@ -39,6 +39,10 @@ class UVParser
   protected $uv;
   protected $semester;
   protected $type;
+  protected $begin_hour;
+  protected $end_hour;
+  protected $day;
+  protected $room;
 
   protected $db;
   protected $_target = array();
@@ -90,6 +94,11 @@ class UVParser
 
     $this->uv = $foo[1];
     $this->type = $foo[2];
+    $this->day = $foo[4];
+    $this->begin_hour = $foo[5];
+    $this->end_hour = $foo[6];
+    $this->room = $foo[8];
+
     return true;
   }
 
@@ -112,6 +121,14 @@ class UVParser
       return $this->uv;
     else
       return null;
+  }
+
+  public function get_nice_print() {
+    $plop = array( 'C' => 'Cours', 'TD' => 'Traux dirigés', 'TP' => 'Travaux pratiques');
+    $jours = array( 'L' => 'lundi', 'MA' => 'mardi', 'ME' => 'mercredi', 'J' => 'jeudi', 'V' => 'vendredi', 'S' => 'samedi');
+
+    $ret = $plop[$this->type] . (preg_match('/^[A|E|U|I|O]$/', $this->uv[0]) ? ' d\' ' : ' de ') . $this->uv;
+    $ret .= ' le ' . $jours[$this->day] .' de ' . $this->begin_hour . ' à ' . $this->end_hour . ' en ' . $this->room;
   }
 
 
