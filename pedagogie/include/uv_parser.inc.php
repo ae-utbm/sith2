@@ -105,7 +105,7 @@ class UVParser
   }
 
   public function get_id_group() {
-    $sql = "SELECT g.id_group AS id_group FROM pedag_group AS g INNER JOIN pedag_uv AS u";
+    $sql = "SELECT g.id_groupe AS id_groupe FROM pedag_groupe AS g INNER JOIN pedag_uv AS u";
     $sql .= " ON g.id_uv = u.id_uv WHERE u.code = '".$this->uv."'";
     $sql .= " AND `g.id_uv` = ".$this->id." AND `g.type` = '".$this->type."'";
     $sql .= " AND `g.semestre` = ".$this->semester." LIMIT 1";
@@ -114,7 +114,7 @@ class UVParser
 
     if($req->is_success()) {
       $res = $req->get_row();
-      return $res['id_group'];
+      return $res['id_groupe'];
     }
     else
       return null;
