@@ -59,13 +59,22 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
   if( isset($_REQUEST['newedtauto']) ) {
 
-    $cts = new contents($path."foo");
+    $cts = new contents($path." / foo");
 
     $uvs = new UVParser($site->db, $_REQUEST['semestre']);
-    $uvs->load_by_text($_REQUEST['vrac']);
+    $uvs->load_by_text(htmlentities($_REQUEST['vrac']));
 
     $foo = '';
     while ( $uvs->load_next() ) {
+      // add user to group
+      $uv = new uv($site->db, $site->dbrw, $uvs->id);
+      if( !$uv->is_valid() )
+        continue;
+
+      $freq = null;
+      $user->join_uv_group( $uvs->get_id_group(), $freq );
+
+      // Display something
       $foo .= $uvs->get_nice_print() . '<br />';
     }
 
@@ -73,7 +82,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
   } else {
 
-    $cts = new contents($path.'Ajouter un emploi du temps');
+    $cts = new contents($path.' / Ajouter un emploi du temps');
 
     $cts->add_paragraph('Vous pouvez ajouter ici un nouvel emploi du temps pour le site de l\'AE');
     $cts->add_paragraph('Notez que vous ne pouvez créer qu\'un emploi du temps par semestre,
