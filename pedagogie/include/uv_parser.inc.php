@@ -106,8 +106,7 @@ class UVParser
 
   public function get_id_group() {
     $sql = "SELECT id_groupe FROM pedag_groupe";
-    $sql .= " WHERE code = '".$this->uv."'";
-    $sql .= " AND `id_uv` = ".$this->id." AND `type` = '".$this->type."'";
+    $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = '".$this->type."'";
     $sql .= " AND `semestre` = ".$this->semester." LIMIT 1";
 
     $req = new requete($this->db, $sql);
