@@ -80,7 +80,8 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
         $user->join_uv_group( $id_grp, $freq );
 
       // Display something
-      $foo .= $uvs->get_nice_print() . '<br />';
+      if( $uvs->is_weekly() )
+        $foo .= $uvs->get_nice_print() . '<br />';
     }
 
     $cts->add_paragraph($foo);

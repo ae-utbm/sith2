@@ -44,6 +44,7 @@ class UVParser
   protected $end_hour;
   protected $day;
   protected $room;
+  protected $frequency;
 
   protected $db;
   protected $_target = array();
@@ -101,6 +102,11 @@ class UVParser
     $this->end_hour = $foo[6];
     $this->room = $foo[8];
 
+    if($foo[7] != '')
+      $this->frequency = true;
+    else
+      $this->frequency = false;
+
     $this->id = $this->get_id_uv();
 
     return true;
@@ -136,6 +142,10 @@ class UVParser
     $ret .= ' le ' . $jours[$this->day] .' de ' . $this->begin_hour . ' à ' . $this->end_hour . ' en ' . $this->room . '.';
 
     return $ret;
+  }
+
+  public function is_weekly() {
+    return $this->frequency;
   }
 
 
