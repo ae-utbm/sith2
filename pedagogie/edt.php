@@ -57,7 +57,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 {
 
-  if( isset($_REQUEST['newedtauto']) ) {
+  if( isset($_REQUEST[$path.'newedtauto']) ) {
 
     $cts = new contents("foo");
 
@@ -73,7 +73,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
   } else {
 
-    $cts = new contents('Ajouter un emploi du temps');
+    $cts = new contents($path.'Ajouter un emploi du temps');
 
     $cts->add_paragraph('Vous pouvez ajouter ici un nouvel emploi du temps pour le site de l\'AE');
     $cts->add_paragraph('Notez que vous ne pouvez créer qu\'un emploi du temps par semestre,
@@ -87,9 +87,9 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
       $sem['P'.$i] = 'Printemps '.$i;
       $sem['A'.$i] = 'Automne '.$i;
     }
-    $frm->add_select_field('semestre', 'Semestre concern&eacute;', $sem, SEMESTER_NOW);
+    $frm->add_select_field('semestre', 'Semestre concern&eacute;', $sem, SEMESTER_NOW, '', true);
 
-    $frm->add_text_area('vrac', 'Mail du SME', '');
+    $frm->add_text_area('vrac', 'Mail du SME', '', 80, 80, true);
 
     $frm->add_submit('newedtauto', 'Enregistrer cet emploi du temps');
     $cts->add($frm);
