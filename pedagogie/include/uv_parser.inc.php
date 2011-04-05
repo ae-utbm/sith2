@@ -39,6 +39,7 @@ class UVParser
   protected $uv;
   protected $semester;
   protected $type;
+  protected $group;
   protected $begin_hour;
   protected $end_hour;
   protected $day;
@@ -94,6 +95,7 @@ class UVParser
 
     $this->uv = $foo[1];
     $this->type = $foo[2];
+    $this->group = $foo[3];
     $this->day = $foo[4];
     $this->begin_hour = $foo[5];
     $this->end_hour = $foo[6];
@@ -107,7 +109,7 @@ class UVParser
   public function get_id_group() {
     $sql = "SELECT id_groupe FROM pedag_groupe";
     $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = '".$this->type."'";
-    $sql .= " AND `semestre` = '".$this->semester."' LIMIT 1";
+    $sql .= " AND `num_groupe` = ".$this->group." AND `semestre` = '".$this->semester."' LIMIT 1";
 
     $req = new requete($this->db, $sql);
 
