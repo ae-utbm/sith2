@@ -946,7 +946,8 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
                                 "code_7" => "UV 7"),
                           array("view" => "Voir détails",
                                 "print" => "Format imprimable",
-                                "schedule" => "Format iCal"),
+                                "schedule" => "Format iCal",
+                                "delete" => "Supprimer"),
                           array(), array(), false), true);
 
   if ($site->user->id == $user->id)
