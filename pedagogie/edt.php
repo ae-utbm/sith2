@@ -89,7 +89,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
     }
     $frm->add_select_field('semestre', 'Semestre concern&eacute;', $sem, SEMESTER_NOW, '', true);
 
-    $frm->add_text_area('vrac', 'Mail du SME', '', 80, 80, true);
+    $frm->add_text_area('vrac', 'Mail du SME', '', 80, 25, true);
 
     $frm->add_submit('newedtauto', 'Enregistrer cet emploi du temps');
     $cts->add($frm);
