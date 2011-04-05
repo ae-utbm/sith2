@@ -30,7 +30,7 @@
           renommer la classe ??
 */
 
-require_once($top_dir . 'include/mysql.inc.php');
+require_once($topdir . 'include/mysql.inc.php');
 require_once($topdir . 'pedagogie/include/pedagogie.inc.php');
 
 class UVParser
@@ -108,7 +108,10 @@ class UVParser
   }
 
   public function get_uv() {
-    return $this->uv;
+    if( !empty($this->uv) )
+      return $this->uv;
+    else
+      return null;
   }
 
 
