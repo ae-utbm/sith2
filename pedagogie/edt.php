@@ -53,6 +53,32 @@ $path .= " / "."<a href=\"./edt.php\"><img src=\"".$topdir."images/icons/16/user
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 {
+if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
+{
+
+  $cts = new contents('Ajouter un emploi du temps');
+
+  $cts->add_paragraph('Vous pouvez ajouter ici un nouvel emploi du temps pour le site de l\'AE');
+  $cts->add_paragraph('Notez que vous ne pouvez créer qu\'un emploi du temps par semestre,
+      mais vous aurez la possibilité de l\'éditer.');
+
+  $frm = new form('newedt', 'edt.php?action=new&method=auto', true, 'post', 'Ajouter un nouvel emploi du temps');
+
+  $y = date('Y');
+  $sem = array();
+  for($i = $y-2; $i <= $y; $i++){
+    $sem['P'.$i] = 'Printemps '.$i;
+    $sem['A'.$i] = 'Automne '.$i;
+  }
+  $frm->add_select_field('semestre', 'Semestre concern&eacute;', $sem, SEMESTER_NOW);
+
+  $frm->add_text_area('vrac', 'Mail du SME', '');
+
+  $frm->add_submit('newedtauto', 'Enregistrer cet emploi du temps');
+  $cts->add($frm);
+
+} else {
+
   /**
    * creation edt : etape 2 !
    */
@@ -98,9 +124,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     $frm->add_submit("newedtstep2", "Enregistrer l'emploi du temps");
 
     $cts->add($frm);
-    $site->add_contents($cts);
-    $site->end_page();
-    exit;
   }
   /**
    * sinon etape 1
@@ -139,6 +162,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     $cts->add($frm);
   }
 
+}
   $site->add_contents($cts);
   $site->end_page();
   exit;
