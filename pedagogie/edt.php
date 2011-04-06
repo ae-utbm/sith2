@@ -58,10 +58,10 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 {
 
   if(isset( $_REQUEST['finaledtauto']) ) {
+    $splt = split('_', htmlentities($_REQUEST['liste_grps']));
 
-    $splt = split('_', $_REQUEST['liste_grps']);
     while( list(, $id_group) = each($splt) ) {
-      $freq = htmlentities($_REQUEST[$id_uv]);
+      $freq = htmlentities($_REQUEST[$id_group]);
 
       if( preg_match('/^[A|B]$/', $freq) )
         $user->join_uv_group( $id_group , $freq );
