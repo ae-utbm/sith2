@@ -65,6 +65,10 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
       $uvs = new UVparser($site->db, $semestre);
       $uvs->load_by_text($txt);
 
+      $uv = new uv($site->db, $site->dbrw, $uvs->id);
+      if( !$uv->is_valid() )
+        continue;
+
       $freq = htmlentities($_REQUEST[$txt]);
 
       if( preg_match('/^[A|B]$/', $freq) ) {
