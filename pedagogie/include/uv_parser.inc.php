@@ -36,6 +36,7 @@ require_once($topdir . 'pedagogie/include/pedagogie.inc.php');
 class UVParser
 {
   // --- Protected vars
+  protected $is_hedt;
   protected $text;
   protected $uv;
   protected $semester;
@@ -73,9 +74,9 @@ class UVParser
     $this->_schedule = "$this->_hour$this->_hour";
 
     $this->_title = "$this->_uv$this->_type?";
-    $this->_info = "(?:(?:ET)?$this->_day$this->_schedule$this->_frequency?$this->_room)|(HORSEMPLOIduTEMPS)";
+    $this->_info = "(?:(?:ET)?$this->_day$this->_schedule$this->_frequency?$this->_room|(HORSEMPLOIduTEMPS))";
 
-    $this->_phrase = "^$this->_title$this->_info$";
+    $this->_phrase = "$this->_title$this->_info";
   }
 
   // load text & parse it
@@ -98,19 +99,35 @@ class UVParser
     if(!$foo)
       return false;
 
-    $this->text = $foo[0];
     $this->uv = $foo[1];
-    $this->type = $foo[2];
-    $this->group = $foo[3];
-    $this->day = $foo[4];
-    $this->begin_hour = $foo[5];
-    $this->end_hour = $foo[6];
-    $this->room = $foo[8];
+    $this->text = $foo[0];
 
-    if($foo[7] == '')
+    if(isset($foo[9])) {
+      $this->hedt = true;
+
+      $this->type = 'THE';
+      $this->group = 1;
+      $this->day = 0;
+      $this->begin_hour = "00H00";
+      $this->end_hour = "00H00";
+      $this->room = null;
       $this->frequency = 1;
-    else
-      $this->frequency = 2;
+    }
+    else {
+      $this->hedt = false;
+
+      $this->type = $foo[2];
+      $this->group = $foo[3];
+      $this->day = $foo[4];
+      $this->begin_hour = $foo[5];
+      $this->end_hour = $foo[6];
+      $this->room = $foo[8];
+
+      if($foo[7] == '')
+        $this->frequency = 1;
+      else
+        $this->frequency = 2;
+    }
 
     $this->id = $this->get_id_uv();
 
@@ -119,8 +136,13 @@ class UVParser
 
   public function get_id_group() {
     $sql = "SELECT id_groupe FROM pedag_groupe";
-    $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = '".$this->type."'";
-    $sql .= " AND `num_groupe` = ".$this->group." AND `semestre` = '".$this->semester."' LIMIT 1";
+
+    if( $this->is_hedt() ) {
+      $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = 'THE'";
+    } else {
+      $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = '".$this->type."'";
+      $sql .= " AND `num_groupe` = ".$this->group." AND `semestre` = '".$this->semester."' LIMIT 1";
+    }
 
     $req = new requete($this->db, $sql);
 
@@ -168,6 +190,10 @@ class UVParser
 
   public function is_weekly() {
     return ($this->frequency == 1 ? true : false);
+  }
+
+  public function is_hedt() {
+    return $this->hedt;
   }
 
 
