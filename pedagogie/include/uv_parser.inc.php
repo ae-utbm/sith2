@@ -135,10 +135,10 @@ class UVParser
   }
 
   public function get_id_group() {
-    $sql = "SELECT id_groupe FROM pedag_groupe";
+    $sql = "SELECT `id_groupe` FROM `pedag_groupe`";
 
     if( $this->is_hedt() ) {
-      $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = 'THE'";
+      $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = 'THE' AND `semestre` ='".$this->semester."' LIMIT 1";
     } else {
       $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = '".$this->type."'";
       $sql .= " AND `num_groupe` = ".$this->group." AND `semestre` = '".$this->semester."' LIMIT 1";
