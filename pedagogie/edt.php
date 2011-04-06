@@ -59,12 +59,14 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
   if( isset($_REQUEST['newedtauto']) ) {
 
-    $cts = new contents($path." / foo");
+    $cts = new contents($path." / Finalisation");
 
-    $uvs = new UVParser($site->db, $_REQUEST['semestre']);
+    $semestre = htmlentities($_REQUEST['semestre']);
+
+    $uvs = new UVParser($site->db, $semestre);
     $uvs->load_by_text(htmlentities($_REQUEST['vrac']));
 
-    $foo = '';
+    $freq2_uvs = array();
     while ( $uvs->load_next() ) {
       // add user to group
       if( !$uvs->id )
@@ -76,15 +78,31 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
       $freq = null;
       $id_grp = $uvs->get_id_group();
-      if( $id_grp )
+      if( $id_grp && !$uvs->is_weekly() )
         $user->join_uv_group( $id_grp, $freq );
-
-      // Display something
-      if( $uvs->is_weekly() )
-        $foo .= $uvs->get_nice_print() . '<br />';
+      else
+        $freq2_uvs[$id_grp] = $uvs->get_nice_print();
     }
 
-    $cts->add_paragraph($foo);
+    if( empty($freq2_uvs) )
+      $site->redirect("edt.php?semestre=".$semestre."&action=view&id_utilisateur=".$user->id);
+
+
+    $cts->add_paragraph("<b>Pour finaliser votre emploi du temps, merci de renseigner quelques informations complémentaires.</b>");
+
+    $frm = new form('newedt', 'edt.php?action=new&method=auto', true, 'post', 'Finaliser l\'emploi du temps');
+
+    $foo = '';
+    while( list($id, $msg) = each($freq2_uvs) ) {
+      $frm->add_select_field($id, $msg, array(1 => 'semaine A', 2 => 'semaine B'));
+      $foo .= empty($foo) ? $id : '_'.$id;
+    }
+
+    $frm->add_hidden('liste_uvs', $foo);
+
+
+    $frm->add_submit('finaledtauto', 'Finaliser cet emploi du temps');
+    $cts->add($frm);
 
   } else {
 
