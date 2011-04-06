@@ -102,7 +102,7 @@ class UVParser
     $this->end_hour = $foo[6];
     $this->room = $foo[8];
 
-    if($foo[7] != '')
+    if($foo[7] == '')
       $this->frequency = 1;
     else
       $this->frequency = 2;
