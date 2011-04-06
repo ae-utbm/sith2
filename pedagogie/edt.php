@@ -59,7 +59,8 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
   if(isset( $_REQUEST['finaledtauto']) ) {
 
-    while( list(, $id_group) = each(split('_', htmlentities($_REQUEST['liste_grps']))) ) {
+    $splt = split('_', htmlentities($_REQUEST['liste_grps']));
+    while( list(, $id_group) = each($splt) ) {
       $freq = htmlentities($_REQUEST[$id_uv]);
 
       if( preg_match('/^[A|B]$/', $freq) )
