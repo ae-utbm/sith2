@@ -175,10 +175,8 @@ class UVParser
     while( $foo = current($this->_target) ) {
       preg_match('/'.$this->_phrase.'/', $foo, $matches);
 
-      if($matches) {
-        unset($matches[0]);
+      if($matches)
         $this->_results[] = $matches;
-      }
 
       next($this->_target);
     }

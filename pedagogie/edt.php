@@ -63,6 +63,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
     while( list(, $txt) = each($splt) ) {
       $uvs = new UVparser($site->db, $semestre);
+      $uvs->load_by_text($txt);
 
       $freq = htmlentities($_REQUEST[$txt]);
 
