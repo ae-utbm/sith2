@@ -89,9 +89,19 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
         continue;
 
       $id_grp = $uvs->get_id_group();
-      if( $id_grp && !$uvs->is_weekly() )
+      if( !$uvs->is_weekly() ) {
+
+        if( !$id_grp ) {
+          list($type, $num, $freq, $sem, $day, $begin, $end, $room) = $uvs->get_info_add_group();
+          $id_grp = $uv->add_group($type, $num, $freq, $sem, $day, $begin, $end, $room);
+          if( !$id_grp )
+            continue;
+        }
+
         $user->join_uv_group( $id_grp );
-      else
+
+
+      } else
         $freq2_uvs[$id_grp] = $uvs->get_nice_print();
     }
 

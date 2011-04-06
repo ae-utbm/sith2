@@ -103,9 +103,9 @@ class UVParser
     $this->room = $foo[8];
 
     if($foo[7] != '')
-      $this->frequency = true;
+      $this->frequency = 1;
     else
-      $this->frequency = false;
+      $this->frequency = 2;
 
     $this->id = $this->get_id_uv();
 
@@ -144,8 +144,21 @@ class UVParser
     return $ret;
   }
 
+  public function get_info_add_group() {
+    $days = array('L' => 1, 'MA' => 2, 'ME' => 3, 'J' => 4, 'V' => 5, 'S' => 6);
+    return array( $this->type,
+                  $this->group,
+                  $this->frequency,
+                  $this->semester,
+                  $days[$this->day],
+                  str_replace('H', ':', $this->begin_hour),
+                  str_replace('H', ':', $this->end_hour),
+                  $this->room
+        );
+  }
+
   public function is_weekly() {
-    return $this->frequency;
+    return ($this->frequency == 1 ? true : false);
   }
 
 
