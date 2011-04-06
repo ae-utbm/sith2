@@ -57,7 +57,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 {
 
-  if( isset($_REQUEST['newedtauto']) ) {
+  if(isset( $_REQUEST['finaledtauto']) ) {
+
+    while( list(, $id_group) = each(split('_', htmlentities($_REQUEST['liste_grps']))) ) {
+      $freq = htmlentities($_REQUEST[$id_uv]);
+
+      if( preg_match('/^[A|B]$/', $freq) )
+        $user->join_uv_group( $id_group , $freq );
+    }
+
+    $site->redirect("edt.php?semestre=".$semestre."&action=view&id_utilisateur=".$user->id);
+
+  } else if( isset($_REQUEST['newedtauto']) ) {
 
     $cts = new contents($path." / Finalisation");
 
@@ -76,10 +87,9 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
       if( !$uv->is_valid() )
         continue;
 
-      $freq = null;
       $id_grp = $uvs->get_id_group();
       if( $id_grp && !$uvs->is_weekly() )
-        $user->join_uv_group( $id_grp, $freq );
+        $user->join_uv_group( $id_grp );
       else
         $freq2_uvs[$id_grp] = $uvs->get_nice_print();
     }
@@ -88,17 +98,18 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
       $site->redirect("edt.php?semestre=".$semestre."&action=view&id_utilisateur=".$user->id);
 
 
-    $cts->add_paragraph("<b>Pour finaliser votre emploi du temps, merci de renseigner quelques informations complémentaires.</b>");
+    $cts->add_paragraph("<b>Pour finaliser votre emploi du temps, merci de renseigner quelques informations suplémentaires.</b>");
 
     $frm = new form('newedt', 'edt.php?action=new&method=auto', true, 'post', 'Finaliser l\'emploi du temps');
 
     $foo = '';
     while( list($id, $msg) = each($freq2_uvs) ) {
-      $frm->add_select_field($id, $msg, array(1 => 'semaine A', 2 => 'semaine B'));
+      $frm->add_info($msg);
+      $frm->add_select_field($id, 'Choix de la semaine', array('A' => 'semaine A', 'B' => 'semaine B'));
       $foo .= empty($foo) ? $id : '_'.$id;
     }
 
-    $frm->add_hidden('liste_uvs', $foo);
+    $frm->add_hidden('liste_grps', $foo);
 
 
     $frm->add_submit('finaledtauto', 'Finaliser cet emploi du temps');
