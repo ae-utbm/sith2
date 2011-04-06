@@ -93,6 +93,15 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
     $semestre = htmlentities($_REQUEST['semestre']);
 
+    if(in_array($semestre, $user->get_edt_list())) {
+      if ($site->is_sure("", "Attention, vous avez déjà un emploi du temps
+            d'enregistré pour le semestre <a href=\"edt.php?semestre=$semestre&action=view&id_utilisateur=".$user->id."\">$semestre</a>.
+            Il n'est possible de n'en faire qu'un seul par semestre. Vous allez supprimer l'emploi du temps actuel."))
+        $user->delete_edt($semestre);
+      else
+        $site->redirect('edt.php');
+    }
+
     $uvs = new UVParser($site->db, $semestre);
     $uvs->load_by_text(htmlentities($_REQUEST['vrac']));
 
