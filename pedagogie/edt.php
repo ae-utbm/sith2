@@ -58,13 +58,26 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 {
 
   if(isset( $_REQUEST['finaledtauto']) ) {
-    $splt = split('_', htmlentities($_REQUEST['liste_grps']));
+    $splt = split('_', htmlentities($_REQUEST['liste_uvs']));
+    $semestre = htmlentities($_REQUEST['semestre']);
 
-    while( list(, $id_group) = each($splt) ) {
-      $freq = htmlentities($_REQUEST[$id_group]);
+    while( list(, $txt) = each($splt) ) {
+      $uvs = new UVparser($site->db, $semestre);
 
-      if( preg_match('/^[A|B]$/', $freq) )
-        $user->join_uv_group( $id_group , $freq );
+      $freq = htmlentities($_REQUEST[$txt]);
+
+      if( preg_match('/^[A|B]$/', $freq) ) {
+        $id_grp = $uvs->get_id_group();
+
+        if( !$id_grp ) {
+          list($type, $num, $freq, $sem, $day, $begin, $end, $room) = $uvs->get_info_add_group();
+          $id_grp = $uv->add_group($type, $num, $freq, $sem, $day, $begin, $end, $room);
+          if( !$id_grp )
+            continue;
+        }
+
+        $user->join_uv_group( $id_grp, $freq );
+      }
     }
 
     $site->redirect("edt.php?semestre=".$semestre."&action=view&id_utilisateur=".$user->id);
@@ -102,25 +115,26 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
 
       } else
-        $freq2_uvs[$id_grp] = $uvs->get_nice_print();
+        $freq2_uvs[$uvs->get_text()] = $uvs->get_nice_print();
     }
 
     if( empty($freq2_uvs) )
       $site->redirect("edt.php?semestre=".$semestre."&action=view&id_utilisateur=".$user->id);
 
 
-    $cts->add_paragraph("<b>Pour finaliser votre emploi du temps, merci de renseigner quelques informations suplémentaires.</b>");
+    $cts->add_paragraph("<b>Pour finaliser votre emploi du temps, merci de renseigner quelques informations supplémentaires.</b>");
 
     $frm = new form('newedt', 'edt.php?action=new&method=auto', true, 'post', 'Finaliser l\'emploi du temps');
 
     $foo = '';
-    while( list($id, $msg) = each($freq2_uvs) ) {
+    while( list($txt, $msg) = each($freq2_uvs) ) {
       $frm->add_info($msg);
-      $frm->add_select_field($id, 'Choix de la semaine', array('A' => 'semaine A', 'B' => 'semaine B'));
-      $foo .= empty($foo) ? $id : '_'.$id;
+      $frm->add_select_field($txt, 'Choix de la semaine', array('A' => 'semaine A', 'B' => 'semaine B'));
+      $foo .= empty($foo) ? $txt : '_'.$txt;
     }
 
-    $frm->add_hidden('liste_grps', $foo);
+    $frm->add_hidden('liste_uvs', $foo);
+    $frm->add_hidden('semestre', $semestre);
 
 
     $frm->add_submit('finaledtauto', 'Finaliser cet emploi du temps');

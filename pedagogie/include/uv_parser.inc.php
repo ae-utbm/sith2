@@ -36,6 +36,7 @@ require_once($topdir . 'pedagogie/include/pedagogie.inc.php');
 class UVParser
 {
   // --- Protected vars
+  protected $text;
   protected $uv;
   protected $semester;
   protected $type;
@@ -94,6 +95,7 @@ class UVParser
     if(!$foo)
       return false;
 
+    $this->text = $foo[0];
     $this->uv = $foo[1];
     $this->type = $foo[2];
     $this->group = $foo[3];
@@ -132,6 +134,10 @@ class UVParser
       return $this->uv;
     else
       return null;
+  }
+
+  public function get_text() {
+    return $this->text;
   }
 
   public function get_nice_print() {
