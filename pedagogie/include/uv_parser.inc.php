@@ -79,12 +79,15 @@ class UVParser
   }
 
   // load text & parse it
-  public function load_by_text($txt) {
+  public function load_by_text($txt, $load_next = false) {
     //$txt = preg_replace('/(.+):(.+)ET(.+)/', "$1$2\n$1$3", $txt); // life is easy
     $txt = str_replace(array(' ', ':', '-'), '', $txt);
     $this->_target = explode("\n",$txt);
 
     $this->parse();
+
+    if( $load_next )
+      $this->load_next();
   }
 
   // load next parsed UV, if any (usefull in a loop)

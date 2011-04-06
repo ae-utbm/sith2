@@ -63,7 +63,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
     while( list(, $txt) = each($splt) ) {
       $uvs = new UVparser($site->db, $semestre);
-      $uvs->load_by_text($txt);
+      $uvs->load_by_text($txt, true);
 
       $uv = new uv($site->db, $site->dbrw, $uvs->id);
       if( !$uv->is_valid() )
