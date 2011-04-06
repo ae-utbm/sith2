@@ -89,7 +89,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
         continue;
 
       $id_grp = $uvs->get_id_group();
-      if( !$uvs->is_weekly() ) {
+      if( $uvs->is_weekly() ) {
 
         if( !$id_grp ) {
           list($type, $num, $freq, $sem, $day, $begin, $end, $room) = $uvs->get_info_add_group();
