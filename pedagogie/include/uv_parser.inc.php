@@ -146,7 +146,7 @@ class UVParser
       $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = 'THE' AND `semestre` ='".$this->semester."' LIMIT 1";
     } else {
       $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = '".$this->type."'";
-      $sql .= " AND `debut` = '".str_replace('H', ':', $this->begin_time).":00' AND `jour` = '".$this->day."' AND `salle` = '".$this->room."'";
+      $sql .= " AND `debut` = '".str_replace('H', ':', $this->begin_time)."' AND `jour` = ".$this->day." AND `salle` = '".$this->room."'";
       $sql .= " AND `semestre` = '".$this->semester."' LIMIT 1";
     }
 
