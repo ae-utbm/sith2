@@ -74,14 +74,14 @@ class UVParser
     $this->_schedule = "$this->_hour$this->_hour";
 
     $this->_title = "$this->_uv$this->_type?";
-    $this->_info = "(?:(?:ET)?$this->_day$this->_schedule$this->_frequency?$this->_room|(HORSEMPLOIduTEMPS))";
+    $this->_info = "(?:$this->_day$this->_schedule$this->_frequency?$this->_room|(HORSEMPLOIduTEMPS))";
 
     $this->_phrase = "$this->_title$this->_info";
   }
 
   // load text & parse it
   public function load_by_text($txt, $load_next = false) {
-    //$txt = preg_replace('/(.+):(.+)ET(.+)/', "$1$2\n$1$3", $txt); // life is easy
+    $txt = preg_replace('/(.+):(.+)et(.+)/', "$1$2\n$1$3", $txt); // life is easy
     $txt = str_replace(array(' ', ':', '-'), '', $txt);
     $this->_target = explode("\n",$txt);
 
@@ -99,7 +99,11 @@ class UVParser
     if(!$foo)
       return false;
 
-    $this->uv = $foo[1];
+    if( !is_numeric($foo[1][3]) )
+      $this->uv = get_real_uv($foo[1]);
+    else
+      $this->uv = $foo[1];
+
     $this->text = $foo[0];
 
     if(isset($foo[9])) {
@@ -114,11 +118,12 @@ class UVParser
       $this->frequency = 1;
     }
     else {
+      $days = array('L' => 1, 'MA' => 2, 'ME' => 3, 'J' => 4, 'V' => 5, 'S' => 6);
       $this->hedt = false;
 
       $this->type = $foo[2];
       $this->group = $foo[3];
-      $this->day = $foo[4];
+      $this->day = $days[$foo[4]];
       $this->begin_hour = $foo[5];
       $this->end_hour = $foo[6];
       $this->room = $foo[8];
@@ -141,7 +146,8 @@ class UVParser
       $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = 'THE' AND `semestre` ='".$this->semester."' LIMIT 1";
     } else {
       $sql .= " WHERE `id_uv` = ".$this->id." AND `type` = '".$this->type."'";
-      $sql .= " AND `num_groupe` = ".$this->group." AND `semestre` = '".$this->semester."' LIMIT 1";
+      $sql .= " AND `debut` = '".str_replace('H', ':', $this->begin_time).":00' AND `jour` = '".$this->day."' AND `salle` = '".$this->room."'";
+      $sql .= " AND `semestre` = '".$this->semester."' LIMIT 1";
     }
 
     $req = new requete($this->db, $sql);
@@ -167,7 +173,7 @@ class UVParser
 
   public function get_nice_print() {
     $plop = array( 'C' => 'Cours', 'TD' => 'Travaux dirigés', 'TP' => 'Travaux pratiques');
-    $jours = array( 'L' => 'lundi', 'MA' => 'mardi', 'ME' => 'mercredi', 'J' => 'jeudi', 'V' => 'vendredi', 'S' => 'samedi');
+    $jours = array( 1 => 'lundi', 2 => 'mardi', 3 => 'mercredi', 4 => 'jeudi', 5 => 'vendredi', 6 => 'samedi');
 
     $ret = $plop[$this->type] . (preg_match('/^[A|E|U|I|O]$/', $this->uv[0]) ? ' d\'' : ' de ') . $this->uv;
     $ret .= ' le ' . $jours[$this->day] .' de ' . $this->begin_hour . ' à ' . $this->end_hour . ' en ' . $this->room . '.';
@@ -176,12 +182,11 @@ class UVParser
   }
 
   public function get_info_add_group() {
-    $days = array('L' => 1, 'MA' => 2, 'ME' => 3, 'J' => 4, 'V' => 5, 'S' => 6);
     return array( $this->type,
                   $this->group,
                   $this->frequency,
                   $this->semester,
-                  $days[$this->day],
+                  $this->day,
                   str_replace('H', ':', $this->begin_hour),
                   str_replace('H', ':', $this->end_hour),
                   $this->room
@@ -209,6 +214,19 @@ class UVParser
 
       next($this->_target);
     }
+  }
+
+  // to put in bdd
+  protected function get_real_uv($uv) {
+    $matches = array(
+        '/MT1[A-C]/' => 'MT11',
+        '/MT2[A-C]/' => 'MT12',
+        '/PS1[A-C]/' => 'PS11',
+        '/PS2[A-C]/' => 'PS12'
+        );
+    list($seek, $destroy) = each($matches);
+
+    return preg_replace($seek, $destroy, $uv);
   }
 
   protected function get_id_uv() {
