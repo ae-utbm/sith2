@@ -222,7 +222,8 @@ class UVParser
         '/MT1[A-C]/' => 'MT11',
         '/MT2[A-C]/' => 'MT12',
         '/PS1[A-C]/' => 'PS11',
-        '/PS2[A-C]/' => 'PS12'
+        '/PS2[A-C]/' => 'PS12',
+        '/ST1[A-Z]/' => 'ST10'
         );
     list($seek, $destroy) = each($matches);
 
