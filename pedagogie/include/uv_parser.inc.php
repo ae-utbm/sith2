@@ -155,7 +155,7 @@ class UVParser
       $sql .= " AND `semestre` = '".$this->semester."' LIMIT 1";
     }
 
-    $req = new requete($this->db, $sql, 1);
+    $req = new requete($this->db, $sql);
 
     if($req->is_success()) {
       $res = $req->get_row();
