@@ -218,6 +218,7 @@ class UVParser
 
   // to put in bdd
   protected function get_real_uv($uv) {
+    $seek = array(); $destroy = array(); // ste blague
     $matches = array(
         '/MT1[A-C]/' => 'MT11',
         '/MT2[A-C]/' => 'MT12',
@@ -225,7 +226,11 @@ class UVParser
         '/PS2[A-C]/' => 'PS12',
         '/ST1[A-Z]/' => 'ST10'
         );
-    list($seek, $destroy) = each($matches);
+
+    while(list($s, $d) = each($matches)) {
+      $seek[] = $s;
+      $destroy[] = $d;
+    }
 
     return preg_replace($seek, $destroy, $uv);
   }
