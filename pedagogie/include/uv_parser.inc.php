@@ -37,6 +37,7 @@ class UVParser
 {
   // --- Protected vars
   protected $is_hedt;
+  protected $id;
   protected $text;
   protected $uv;
   protected $semester;
@@ -134,9 +135,13 @@ class UVParser
         $this->frequency = 2;
     }
 
-    $this->id = $this->get_id_uv();
+    $this->id = $this->load_id_uv();
 
     return true;
+  }
+
+  public function get_id_uv() {
+    return $this->id;
   }
 
   public function get_id_group() {
@@ -235,7 +240,7 @@ class UVParser
     return preg_replace($seek, $destroy, $uv);
   }
 
-  protected function get_id_uv() {
+  protected function load_id_uv() {
     $sql = "SELECT id_uv FROM pedag_uv WHERE code='".$this->uv."' LIMIT 1";
     $req = new requete($this->db, $sql);
 

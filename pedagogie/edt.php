@@ -65,7 +65,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
       $uvs = new UVparser($site->db, $semestre);
       $uvs->load_by_text($txt, true);
 
-      $uv = new uv($site->db, $site->dbrw, $uvs->id);
+      $uv = new uv($site->db, $site->dbrw, $uvs->get_id_uv());
       if( !$uv->is_valid() )
         continue;
 
@@ -111,7 +111,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
       if( !$uvs->id )
         continue;
 
-      $uv = new uv($site->db, $site->dbrw, $uvs->id);
+      $uv = new uv($site->db, $site->dbrw, $uvs->get_id_uv());
       if( !$uv->is_valid() )
         continue;
 
