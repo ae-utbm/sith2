@@ -39,7 +39,7 @@ if(
   $site->start_page ("accueil","Weekmail - ".$weekmail->titre);
 
   // Charger les archives
-  $list = new itemlist("Archives", false, array());
+  $wkm_list = new itemlist("Archives", false, array());
   $last_id = -1;
 
   // les derniers...
@@ -51,7 +51,7 @@ if(
                      'LIMIT 5');
   while(list($id_wkm, $date_wkm)=$req->get_row() && ($id_wkm > $weekmail->id))
   {
-    $list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
+    $wkm_list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
     $last_id = $id_wkm;
   }
 
@@ -72,14 +72,14 @@ if(
 
   // le premier élément est juste là pour savoir si on met les "..."
   if ($last_id > $rev_array[0]["id_weekmail"])
-    $list->add("...");
+    $wkm_list->add("...");
   unset($rev_array[0]);
 
   foreach($rev_array as $row)
   {
     list($id_wkm, $date_wkm) = $row;
     if ($id_wkm < $last_id)
-      $list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
+      $wkm_list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
   }
 
 
@@ -94,11 +94,11 @@ if(
 
   // actuel
   list($id_wkm, $date_wkm)=$req->get_row();
-  $list->add("<b>$date_wkm</b>");
+  $wkm_list->add("<b>$date_wkm</b>");
 
   while(list($id_wkm, $date_wkm)=$req->get_row())
   {
-    $list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
+    $wkm_list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
     $last_id = $id_wkm;
   }
 
@@ -116,18 +116,18 @@ if(
 
   // le premier élément est juste là pour savoir si on met les "..."
   if ($last_id > $rev_array[0]["id_weekmail"])
-    $list->add("...");
+    $wkm_list->add("...");
   unset($rev_array[0]);
 
   foreach($rev_array as $row)
   {
     list($id_wkm, $date_wkm) = $row;
     if ($id_wkm < $last_id)
-      $list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
+      $wkm_list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
   }
 
 
-  $site->add_box("archives_weekmail",$list );
+  $site->add_box("archives_weekmail",$wkm_list );
   $site->set_side_boxes("right",array("archives_weekmail"),"weekmail_right");
 
   // Erk... clean html content
