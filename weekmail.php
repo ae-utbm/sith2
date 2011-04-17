@@ -40,8 +40,9 @@ if(
   $cts = new contents();
 
   // Erk... clean html content
-  $html = preg_replace("/<html>[ \t\n]*<body[^>]*>[ \t\n]*<table[^>]*>/i", "<table bgcolor=\"#333333\"", $weekmail->rendu_html);
+  $html = preg_replace("/<html>[ \t\n]*<body[^>]*>[ \t\n]*<table[^>]*>/i", "<table bgcolor=\"#333333\">", $weekmail->rendu_html);
   $html = preg_replace("/<\/body>[ \t\n]*<\/html>/i", "", $html);
+  $html = preg_replace("width *= *\"[^\"]*\"", "");
 
   $cts->puts($html);
   $site->add_contents($cts);
