@@ -42,6 +42,8 @@ if(
   $wkm_list = new itemlist("Archives", false, array());
   $last_id = -1;
 
+  $wkm_list->add("tst");
+
   // les derniers...
   $req = new requete($site->db,
                      'SELECT `id_weekmail`, `date_weekmail` '.
