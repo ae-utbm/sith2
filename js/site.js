@@ -954,6 +954,17 @@ function reduce_textarea(id)
       element.rows = element.rows-10;
 }
 
+function toggleSectionVisibility (node)
+{
+    if (node == null)
+        return;
+    var sibling = node.nextSibling;
+    if (sibling.style.length > 0)
+        sibling.style.setProperty ('display', 'none', 'important');
+    else
+        sibling.style.removeProperty ('display');
+}
+
 if (window.addEventListener) {
     var keys = [];
     var konami = "38,38,40,40,37,39,37,39,66,65";

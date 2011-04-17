@@ -283,10 +283,19 @@ class dokusyntax
         break;
     }
     $token = $this->mkToken();
-    $hltable[] = array( 'name'  => htmlspecialchars(trim($hline)),
+    $name = htmlspecialchars(trim($hline));
+    $collapsed = false;
+    // If name starts with a tilde (~) that means we hide it by default
+    // while also adding a little expander button to show it
+    if (strlen ($name) > 0 && $name[0] == '~') {
+        $collapsed = true;
+        $name = substr ($name);
+    }
+    $hltable[] = array( 'name'  => $name,
                         'level' => $lvl,
                         'line'  => $lno,
-                        'token' => $token );
+                        'token' => $token,
+                        'collapsed' => $collapsed);
     return $token;
   }
 
@@ -311,7 +320,9 @@ class dokusyntax
       $headline  .= '<h'.$hl['level'].'>';
       $headline  .= $hl['name'];
       $headline  .= '</h'.$hl['level'].'>';
-      $headline  .= '<div class="level'.$hl['level'].'">';
+      if ($hl['collapsed'])
+          $headline  .= '<a onclick="toggleSectionVisibility(this);">[+]</a>';
+      $headline  .= '<div class="level'.$hl['level'].' '.$hl['collapsed'] ? 'hidden' : ''.'">';
 
       if($hl['level'] <= $conf['maxtoclevel'])
       {
