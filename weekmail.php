@@ -42,7 +42,7 @@ if(
   // Erk... clean html content
   $html = preg_replace("/<html>[ \t\n]*<body[^>]*>[ \t\n]*<table[^>]*>/i", "<table bgcolor=\"#333333\">", $weekmail->rendu_html);
   $html = preg_replace("/<\/body>[ \t\n]*<\/html>/i", "", $html);
-  $html = preg_replace("width *= *\"[^\"]*\"", "");
+  $html = preg_replace("/width *= *\"[^\"]*\"/i", "", $html);
 
   $cts->puts($html);
   $site->add_contents($cts);
