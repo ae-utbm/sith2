@@ -289,7 +289,7 @@ class dokusyntax
     // while also adding a little expander button to show it
     if (strlen ($name) > 0 && $name[0] == '~') {
         $collapsed = true;
-        $name = substr ($name);
+        $name = substr ($name, 1);
     }
     $hltable[] = array( 'name'  => $name,
                         'level' => $lvl,
