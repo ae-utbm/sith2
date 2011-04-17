@@ -282,7 +282,7 @@ class fsearch extends stdcontents
       "SELECT *, (SELECT date_debut_eve FROM nvl_dates WHERE nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle ORDER BY date_debut_eve LIMIT 1) AS `date_debut_eve` " .
       "FROM `nvl_nouvelles` " .
       "LEFT JOIN nvl_nouvelles_tag USING (id_nouvelle) " .
-      "LEFT JOIN tag (id_tag) " .
+      "LEFT JOIN tag USING (id_tag) " .
       "WHERE ( titre_nvl REGEXP '".$sqlpattern."' " .
       " OR nom_tag REGEXP '".$sqlpattern."') " .
       "AND modere_nvl ='1' " .
