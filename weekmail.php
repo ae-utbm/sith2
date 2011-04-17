@@ -43,7 +43,7 @@ if(
   $last_id = -1;
 
   // les derniers...
-  $req = new requete($this->db,
+  $req = new requete($site->db,
                      'SELECT `id_weekmail`, `date_weekmail` '.
                      'FROM `weekmail` '.
                      'WHERE `statut_weekmail`=\'1\' '.
@@ -57,7 +57,7 @@ if(
 
 
   // les suivants
-  $req = new requete($this->db,
+  $req = new requete($site->db,
                      'SELECT `id_weekmail`, `date_weekmail` '.
                      'FROM `weekmail` '.
                      'WHERE `statut_weekmail`=\'1\' '.
@@ -84,7 +84,7 @@ if(
 
 
   // les précédents
-  $req = new requete($this->db,
+  $req = new requete($site->db,
                      'SELECT `id_weekmail`, `date_weekmail` '.
                      'FROM `weekmail` '.
                      'WHERE `statut_weekmail`=\'1\' '.
@@ -102,7 +102,7 @@ if(
     $last_id = $id_wkm;
   }
 
-  $req = new requete($this->db,
+  $req = new requete($site->db,
                      'SELECT `id_weekmail`, `date_weekmail` '.
                      'FROM `weekmail` '.
                      'WHERE `statut_weekmail`=\'1\' '.
