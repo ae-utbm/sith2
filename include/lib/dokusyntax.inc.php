@@ -283,7 +283,7 @@ class dokusyntax
         break;
     }
     $token = $this->mkToken();
-    $name = htmlspecialchars(trim($hline));
+    $name = trim($hline);
     $collapsed = false;
     // If name starts with a tilde (~) that means we hide it by default
     // while also adding a little expander button to show it
@@ -291,7 +291,7 @@ class dokusyntax
         $collapsed = true;
         $name = substr ($name, 1);
     }
-    $hltable[] = array( 'name'  => $name,
+    $hltable[] = array( 'name'  => htmlspecialchars($name),
                         'level' => $lvl,
                         'line'  => $lno,
                         'token' => $token,
