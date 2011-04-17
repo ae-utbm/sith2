@@ -281,7 +281,10 @@ class fsearch extends stdcontents
     $req = new requete($site->db,
       "SELECT *, (SELECT date_debut_eve FROM nvl_dates WHERE nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle ORDER BY date_debut_eve LIMIT 1) AS `date_debut_eve` " .
       "FROM `nvl_nouvelles` " .
-      "WHERE titre_nvl REGEXP '".$sqlpattern."' " .
+      "LEFT JOIN nvl_nouvelles_tag USING (id_nouvelle) " .
+      "LEFT JOIN tag (id_tag) " .
+      "WHERE ( titre_nvl REGEXP '".$sqlpattern."' " .
+      " OR nom_tag REGEXP '".$sqlpattern."') " .
       "AND modere_nvl ='1' " .
       "ORDER BY date_nvl " .
       "DESC LIMIT 3");
