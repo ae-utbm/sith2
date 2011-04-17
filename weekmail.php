@@ -127,7 +127,7 @@ if(
   }
 
 
-  $site->add_box("archives_weekmail",new newslist ( "Deni&egrave;res nouvelles", $site->db ) );
+  $site->add_box("archives_weekmail",$list );
   $site->set_side_boxes("right",array("archives_weekmail"),"weekmail_right");
 
   // Erk... clean html content
