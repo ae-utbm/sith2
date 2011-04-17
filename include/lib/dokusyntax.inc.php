@@ -322,7 +322,7 @@ class dokusyntax
       $headline  .= '</h'.$hl['level'].'>';
       if ($hl['collapsed'])
           $headline  .= '<a onclick="toggleSectionVisibility(this);">[+]</a>';
-      $headline  .= '<div class="level'.$hl['level'].' '.$hl['collapsed'] ? 'hidden' : ''.'">';
+      $headline  .= '<div class="level'.$hl['level'].' '.($hl['collapsed'] ? 'hidden' : '').'">';
 
       if($hl['level'] <= $conf['maxtoclevel'])
       {
