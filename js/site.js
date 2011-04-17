@@ -959,10 +959,13 @@ function toggleSectionVisibility (node)
     if (node == null)
         return;
     var sibling = node.nextSibling;
-    if (sibling.style.length == 0)
+    if (sibling.style.length == 0) {
         sibling.style.setProperty ('display', 'none', 'important');
-    else
+        node.innerText = '[+]';
+    } else {
         sibling.style.removeProperty ('display');
+        node.innerText = '[-]';
+    }
 }
 
 if (window.addEventListener) {
