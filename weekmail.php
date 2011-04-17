@@ -37,13 +37,105 @@ if(
   )
 {
   $site->start_page ("accueil","Weekmail - ".$weekmail->titre);
-  $cts = new contents();
+
+  // Charger les archives
+  $list = new itemlist("Archives", false, array());
+  $last_id = -1;
+
+  // les derniers...
+  $req = new requete($this->db,
+                     'SELECT `id_weekmail`, `date_weekmail` '.
+                     'FROM `weekmail` '.
+                     'WHERE `statut_weekmail`=\'1\' '.
+                     'ORDER BY `id_weekmail` DESC '.
+                     'LIMIT 5');
+  while(list($id_wkm, $date_wkm)=$req->get_row() && ($id_wkm > $weekmail->id))
+  {
+    $list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
+    $last_id = $id_wkm;
+  }
+
+
+  // les suivants
+  $req = new requete($this->db,
+                     'SELECT `id_weekmail`, `date_weekmail` '.
+                     'FROM `weekmail` '.
+                     'WHERE `statut_weekmail`=\'1\' '.
+                     'AND `id_weekmail` > '.$weekmail->id.' '.
+                     'ORDER BY `id_weekmail`'.
+                     'LIMIT 6');
+
+  $rev_array = array();
+  while($row=$req->get_row())
+    $rev_array[] = $row;
+  $rev_array = array_reverse($rev_array);
+
+  // le premier élément est juste là pour savoir si on met les "..."
+  if ($last_id > $rev_array[0]["id_weekmail"])
+    $list->add("...");
+  unset($rev_array[0]);
+
+  foreach($rev_array as $row)
+  {
+    list($id_wkm, $date_wkm) = $row;
+    if ($id_wkm < $last_id)
+      $list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
+  }
+
+
+  // les précédents
+  $req = new requete($this->db,
+                     'SELECT `id_weekmail`, `date_weekmail` '.
+                     'FROM `weekmail` '.
+                     'WHERE `statut_weekmail`=\'1\' '.
+                     'AND `id_weekmail` <= '.$weekmail->id.' '.
+                     'ORDER BY `id_weekmail` DESC '.
+                     'LIMIT 6');
+
+  // actuel
+  list($id_wkm, $date_wkm)=$req->get_row();
+  $list->add("<b>$date_wkm</b>");
+
+  while(list($id_wkm, $date_wkm)=$req->get_row())
+  {
+    $list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
+    $last_id = $id_wkm;
+  }
+
+  $req = new requete($this->db,
+                     'SELECT `id_weekmail`, `date_weekmail` '.
+                     'FROM `weekmail` '.
+                     'WHERE `statut_weekmail`=\'1\' '.
+                     'ORDER BY `id_weekmail`'.
+                     'LIMIT 6');
+
+  $rev_array = array();
+  while($row=$req->get_row())
+    $rev_array[] = $row;
+  $rev_array = array_reverse($rev_array);
+
+  // le premier élément est juste là pour savoir si on met les "..."
+  if ($last_id > $rev_array[0]["id_weekmail"])
+    $list->add("...");
+  unset($rev_array[0]);
+
+  foreach($rev_array as $row)
+  {
+    list($id_wkm, $date_wkm) = $row;
+    if ($id_wkm < $last_id)
+      $list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
+  }
+
+
+  $site->add_box("archives_weekmail",new newslist ( "Deni&egrave;res nouvelles", $site->db ) );
+  $site->set_side_boxes("right",array("archives_weekmail"),"weekmail_right");
 
   // Erk... clean html content
   $html = preg_replace("/<html>[ \t\n]*<body[^>]*>[ \t\n]*<table[^>]*>/i", "<table bgcolor=\"#333333\">", $weekmail->rendu_html);
   $html = preg_replace("/<\/body>[ \t\n]*<\/html>/i", "", $html);
   $html = preg_replace("/width *= *\"[^\"]*\"/i", "", $html);
 
+  $cts = new contents();
   $cts->puts($html);
   $site->add_contents($cts);
   $site->end_page();
