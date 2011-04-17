@@ -42,8 +42,6 @@ if(
   $wkm_list = new itemlist("Archives", false, array());
   $last_id = -1;
 
-  $wkm_list->add("tst");
-
   // les derniers...
   $req = new requete($site->db,
                      'SELECT `id_weekmail`, `date_weekmail` '.
@@ -51,8 +49,13 @@ if(
                      'WHERE `statut_weekmail`=\'1\' '.
                      'ORDER BY `id_weekmail` DESC '.
                      'LIMIT 5');
-  while(list($id_wkm, $date_wkm)=$req->get_row() && ($id_wkm > $weekmail->id))
+  while(list($id_wkm, $date_wkm)=$req->get_row())
   {
+    if ($id_wkm <=  $weekmail->id)
+    {
+      $wkm_list->add("iii");
+      break;
+    }
     $wkm_list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
     $last_id = $id_wkm;
   }
