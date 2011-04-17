@@ -52,10 +52,7 @@ if(
   while(list($id_wkm, $date_wkm)=$req->get_row())
   {
     if ($id_wkm <=  $weekmail->id)
-    {
-      $wkm_list->add("iii");
       break;
-    }
     $wkm_list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
     $last_id = $id_wkm;
   }
@@ -70,21 +67,24 @@ if(
                      'ORDER BY `id_weekmail`'.
                      'LIMIT 6');
 
-  $rev_array = array();
-  while($row=$req->get_row())
-    $rev_array[] = $row;
-  $rev_array = array_reverse($rev_array);
-
-  // le premier élément est juste là pour savoir si on met les "..."
-  if ($last_id > $rev_array[0]["id_weekmail"])
-    $wkm_list->add("...");
-  unset($rev_array[0]);
-
-  foreach($rev_array as $row)
+  if($req->lines>=1)
   {
-    list($id_wkm, $date_wkm) = $row;
-    if ($id_wkm < $last_id)
-      $wkm_list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
+    $rev_array = array();
+    while($row=$req->get_row())
+      $rev_array[] = $row;
+    $rev_array = array_reverse($rev_array);
+
+    // le premier élément est juste là pour savoir si on met les "..."
+    if ($last_id > $rev_array[0]["id_weekmail"])
+      $wkm_list->add("...");
+    unset($rev_array[0]);
+
+    foreach($rev_array as $row)
+    {
+      list($id_wkm, $date_wkm) = $row;
+      if ($id_wkm < $last_id)
+        $wkm_list->add("<a href=\"?id_weekmail=$id_wkm\">$date_wkm</a>");
+    }
   }
 
 
@@ -100,6 +100,7 @@ if(
   // actuel
   list($id_wkm, $date_wkm)=$req->get_row();
   $wkm_list->add("<b>$date_wkm</b>");
+  $last_id = $id_wkm;
 
   while(list($id_wkm, $date_wkm)=$req->get_row())
   {
