@@ -36,15 +36,17 @@ if(
    || $weekmail->load_latest_sent()
   )
 {
-  header("Content-Type: text/html; charset=utf-8");
-  echo str_replace('<html><body bgcolor="#333333" width="700px"><table bgcolor="#333333" width="700px">',
-                   '<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">'.
-                   '<head>'.
-                   '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'.
-                   '<title>[weekmail] '.$weekmail->titre.'</title>'.
-                   '</head>'.
-                   '<body bgcolor="#333333"><table bgcolor="#333333" width="100%">',
-                   $weekmail->rendu_html);
+  $site->start_page ("accueil","Weekmail - ".$weekmail->titre);
+  $cts = new contents();
+
+  // Erk... clean html content
+  $html = preg_replace("/<html>[ \t\n]*<body[^>]*>[ \t\n]*<table[^>]*>/i", "<table bgcolor=\"#333333\"", $weekmail->rendu_html);
+  $html = preg_replace("/</body>[ \t\n]*</html>/i", "", $html);
+
+  $cts->put($html);
+  $site->add_contents($cts);
+  $site->end_page();
+
   exit();
 }
 
