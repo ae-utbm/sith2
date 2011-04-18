@@ -314,11 +314,10 @@ class interfaceweb
         $this->buffer .= "</div></div>\n";
       }
 
-      print_r($_SERVER);
-      if (strcmp($_SERVER['HTTPS'], 'on')==0)
+      //if (isset($_SERVER['HTTPS']))
         $url = "https://ae.utbm.fr";
-      else
-        $url = "http://ae.utbm.fr";
+      //else
+      //  $url = "http://ae.utbm.fr";
       if($GLOBALS["taiste"])
         $url .= "/taiste/";
 
