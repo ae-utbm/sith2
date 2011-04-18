@@ -313,7 +313,15 @@ class interfaceweb
         $this->buffer .= $important. "\n";
         $this->buffer .= "</div></div>\n";
       }
-      $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" alt=\"Logo AE\"/></a></div>\n";
+
+      if (strcmp($_SERVER['HTTPS'], 'on')==0)
+        $url = "https://ae.utbm.fr";
+      else
+        $url = "http://ae.utbm.fr";
+      if($GLOBALS["taiste"])
+        $url .= "/taiste/";
+
+      $this->buffer .= "<div id=\"logo\"><a href=\"".$url."\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" alt=\"Logo AE\"/></a></div>\n";
     }
     if(isset($this->logo))
       $this->buffer .= "<div id=\"logo\"><img src=\"" . $wwwtopdir ."images/".$this->logo."\" alt=\"Logo\"/></div>\n";
