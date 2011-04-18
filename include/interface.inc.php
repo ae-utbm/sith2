@@ -314,6 +314,7 @@ class interfaceweb
         $this->buffer .= "</div></div>\n";
       }
 
+      print_r($_SERVER);
       if (strcmp($_SERVER['HTTPS'], 'on')==0)
         $url = "https://ae.utbm.fr";
       else
