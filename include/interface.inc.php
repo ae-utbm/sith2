@@ -79,10 +79,12 @@ class interfaceweb
   var $meta_description;
   var $alternate;
 
-  var $tab_array = array (array ("accueil", "index.php", "Accueil",
-          array("index.php", "Les nouvelles",
-                "events.php", "Aujourd'hui",
-                "weekmail.php", "Le weekmail",
+  var $tab_array = array (
+        array ("accueil", "index.php", "Accueil",
+          array(
+            array("index.php", "Les nouvelles"),
+            array("events.php", "Aujourd'hui"),
+            array("weekmail.php", "Le weekmail"),
               ) ),
         array ("presentation", "article.php?name=presentation", "L'AE",
            array (
