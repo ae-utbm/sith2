@@ -31,6 +31,8 @@ require_once($topdir. "include/cts/newsflow.inc.php");
 $site = new site ();
 
 $day = strtotime($_REQUEST["day"]);
+if ($day == 0)
+  $day = time();
 
 $site->start_page("accueil", "le ". date("d/m/Y", $day));
 
