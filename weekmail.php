@@ -113,7 +113,7 @@ if(
                      'FROM `weekmail` '.
                      'WHERE `statut_weekmail`=\'1\' '.
                      'ORDER BY `id_weekmail`'.
-                     'LIMIT 7');
+                     'LIMIT 8');
 
   $rev_array = array();
   while($row=$req->get_row())
