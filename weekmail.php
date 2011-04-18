@@ -48,7 +48,7 @@ if(
                      'FROM `weekmail` '.
                      'WHERE `statut_weekmail`=\'1\' '.
                      'ORDER BY `id_weekmail` DESC '.
-                     'LIMIT 10');
+                     'LIMIT 7');
   while(list($id_wkm, $date_wkm)=$req->get_row())
   {
     if ($id_wkm <=  $weekmail->id)
@@ -65,7 +65,7 @@ if(
                      'WHERE `statut_weekmail`=\'1\' '.
                      'AND `id_weekmail` > '.$weekmail->id.' '.
                      'ORDER BY `id_weekmail`'.
-                     'LIMIT 11');
+                     'LIMIT 8');
 
   if($req->lines>=1)
   {
@@ -95,7 +95,7 @@ if(
                      'WHERE `statut_weekmail`=\'1\' '.
                      'AND `id_weekmail` <= '.$weekmail->id.' '.
                      'ORDER BY `id_weekmail` DESC '.
-                     'LIMIT 11');
+                     'LIMIT 8');
 
   // actuel
   list($id_wkm, $date_wkm)=$req->get_row();
@@ -113,7 +113,7 @@ if(
                      'FROM `weekmail` '.
                      'WHERE `statut_weekmail`=\'1\' '.
                      'ORDER BY `id_weekmail`'.
-                     'LIMIT 10');
+                     'LIMIT 7');
 
   $rev_array = array();
   while($row=$req->get_row())
