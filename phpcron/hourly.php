@@ -18,7 +18,7 @@ $site = new site ();
 // Tâche 1 [galaxy] : màj, et cycles
 
 
-require_once($topdir. "include/galaxy.inc.php");
+/*require_once($topdir. "include/galaxy.inc.php");
 
 $galaxy = new galaxy($site->db,$site->dbrw);
 
@@ -27,7 +27,7 @@ $galaxy->update();
 for($i=0;$i<45;$i++) // Environs 1100 cycles/jours
   $galaxy->cycle();
 
-$galaxy->mini_render($topdir."var/mini_galaxy.png");
+  $galaxy->mini_render($topdir."var/mini_galaxy.png");*/
 
 
 // Tâche 2 [verous]
