@@ -288,7 +288,7 @@ else if ( $_REQUEST["action"] == "upproduitrecurrent" && ($produit->id > 0) && i
     else
         $produitrec->ajout ();
 }
-else if ( $_REQUEST["actrion"] == "suprec" && isset($_REQUEST['id_produit_recurrent'])) {
+else if ( $_REQUEST["action"] == "suprec" && isset($_REQUEST['id_produit_recurrent'])) {
     $produitrec = new produitrecurrent($site->db, $site->dbrw);
     $produitrec->load_by_id (intval($_REQUEST['id_produit_recurrent']));
     $produitrec->supprime ();
@@ -688,7 +688,7 @@ elseif ( $produit->id > 0 )
  $frm->add_submit('valid', 'Enregistrer');
  $cts->add($frm, true);
  if ($produitrecurrent->is_valid ())
-     $cts->add_paragraph('<a href="admin?action=suprec&id_recurrence='.$produitrecurrent->id.'">Supprimer la récurrence</a>');
+     $cts->add_paragraph('<a href="admin?action=suprec&id_recurrence='.$produitrecurrent->id.'&id_produit='.$produitrecurrent->id_produit.'">Supprimer la récurrence</a>');
 
  $site->add_contents($cts);
  $site->end_page();
