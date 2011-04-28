@@ -283,7 +283,15 @@ else if ( $_REQUEST["action"] == "upproduitrecurrent" && ($produit->id > 0) && i
         $produitrec->load_by_produit ($produit->id);
     $produitrec->jour_remise_en_vente = intval($_REQUEST['rec_jour']);
     $produitrec->ttl = intval($_REQUEST['rec_ttl']);
-    $produitrec->modifie ();
+    if ($produitrec->is_valid ())
+        $produitrec->modifie ();
+    else
+        $produitrec->ajout ();
+}
+else if ( $_REQUEST["actrion"] == "suprec" && isset($_REQUEST['id_produit_recurrent'])) {
+    $produitrec = new produitrecurrent($site->db, $site->dbrw);
+    $produitrec->load_by_id (intval($_REQUEST['id_produit_recurrent']));
+    $produitrec->supprime ();
 }
 else if ( $_REQUEST["action"] == "uptype" && ($typeprod->id > 0) && ($assocpt->id > 0)  )
 {
@@ -666,7 +674,9 @@ elseif ( $produit->id > 0 )
 
  $produitrecurrent = new produitrecurrent ($site->db, $site->dbrw);
  $produitrecurrent->load_by_produit ($produit->id);
- $frm = new form("upproduitrecurrent","admin.php",false,"POST","Editer");
+ if ($produitrecurrent->is_valid ())
+     $cts->add_paragraph('<a href="admin?action=suprec&id_recurrence='.$produitrecurrent->id.'">Supprimer la récurrence</a>');
+ $frm = new form("upproduitrecurrent","admin.php",false,"POST","Produit hebdomadaire");
  $frm->add_hidden("action","upproduitrecurrent");
  $frm->add_hidden("id_produit",$produit->id);
  $frm->add_hidden("id_produit_recurrent", $produitrecurrent->id);

@@ -53,7 +53,7 @@ class produitrecurrent extends stdentity
             return true;
         }
 
-        $this->id_task = -1;
+        $this->id = -1;
         return false;
     }
 
@@ -66,7 +66,7 @@ class produitrecurrent extends stdentity
             return true;
         }
 
-        $this->id_task = -1;
+        $this->id = -1;
         return false;
     }
 
@@ -94,6 +94,13 @@ class produitrecurrent extends stdentity
                                   'jour_remise_en_vente' => $this->jour_remise_en_vente,
                                   'ttl' => $this->ttl),
                            array ('id_recurrence' => $this->id));
+    }
+
+    function supprime ()
+    {
+        $req = new delete ($this->dbrw, 'cpt_produit_recurrent',
+                           array ('id_recurrence' => $this->id));
+        $this->id = -1;
     }
 
     /* Si le produit qu'on cherche à mettre en vente a été archivé celà veut dire qu'il n'est
