@@ -674,8 +674,6 @@ elseif ( $produit->id > 0 )
 
  $produitrecurrent = new produitrecurrent ($site->db, $site->dbrw);
  $produitrecurrent->load_by_produit ($produit->id);
- if ($produitrecurrent->is_valid ())
-     $cts->add_paragraph('<a href="admin?action=suprec&id_recurrence='.$produitrecurrent->id.'">Supprimer la récurrence</a>');
  $frm = new form("upproduitrecurrent","admin.php",false,"POST","Produit hebdomadaire");
  $frm->add_hidden("action","upproduitrecurrent");
  $frm->add_hidden("id_produit",$produit->id);
@@ -689,6 +687,8 @@ elseif ( $produit->id > 0 )
                       true, 4);
  $frm->add_submit('valid', 'Enregistrer');
  $cts->add($frm, true);
+ if ($produitrecurrent->is_valid ())
+     $cts->add_paragraph('<a href="admin?action=suprec&id_recurrence='.$produitrecurrent->id.'">Supprimer la récurrence</a>');
 
  $site->add_contents($cts);
  $site->end_page();
