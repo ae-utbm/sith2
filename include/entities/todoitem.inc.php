@@ -100,6 +100,7 @@ class todoitem extends stdentity
                                             'description' => $this->desc,
                                             'todo' => html_entity_decode($this->todo, ENT_NOQUOTES, 'UTF-8')
                                             ));
+            $this->id_task = $insert->get_id ();
         } else {
             $update = new update ($this->dbrw, TODO_TABLE,
                                   array ('id_utilisateur_reporter' => $this->id_user_reporter,
