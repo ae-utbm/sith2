@@ -285,8 +285,10 @@ else if ( $_REQUEST["action"] == "upproduitrecurrent" && ($produit->id > 0) && i
     $produitrec->ttl = intval($_REQUEST['rec_ttl']);
     if ($produitrec->is_valid ())
         $produitrec->modifie ();
-    else
+    else {
+        $produitrec->id_produit = $produit->id;
         $produitrec->ajout ();
+    }
 }
 else if ( $_REQUEST["action"] == "suprec" && isset($_REQUEST['id_recurrence'])) {
     $produitrec = new produitrecurrent($site->db, $site->dbrw);
