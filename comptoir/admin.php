@@ -275,10 +275,10 @@ else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod
     $limite_utilisateur
       );
 }
-else if ( $_REQUEST["action"] == "upproduitrecurrent" && ($produit->id > 0) && isset($_REQUEST['id_produit_reccurent'])) {
+else if ( $_REQUEST["action"] == "upproduitrecurrent" && ($produit->id > 0) && isset($_REQUEST['id_produit_recurrent'])) {
     $produitrec = new produitrecurrent($site->db, $site->dbrw);
-    if (intval ($_REQUEST['id_produit_reccurent']) >= 0)
-        $produitrec->load_by_id (intval ($_REQUEST['id_produit_reccurent']));
+    if (intval ($_REQUEST['id_produit_recurrent']) >= 0)
+        $produitrec->load_by_id (intval ($_REQUEST['id_produit_recurrent']));
     else
         $produitrec->load_by_produit ($produit->id);
     $produitrec->jour_remise_en_vente = intval($_REQUEST['rec_jour']);
@@ -669,7 +669,7 @@ elseif ( $produit->id > 0 )
  $frm = new form("upproduitrecurrent","admin.php",false,"POST","Editer");
  $frm->add_hidden("action","upproduitrecurrent");
  $frm->add_hidden("id_produit",$produit->id);
- $frm->add_hidden("id_produit_reccurent", $produitrecurrent->id);
+ $frm->add_hidden("id_produit_recurrent", $produitrecurrent->id);
  $frm->add_select_field('rec_jour', 'Jour de remise en vente',
                         array ('Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'),
                         $produitrecurrent->is_valid () ? $produitrecurrent->jour_remise_en_vente : 0,

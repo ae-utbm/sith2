@@ -26,8 +26,6 @@
  * 02111-1307, USA.
  */
 
-$topdir = '../';
-require_once($topdir."include/mysql.inc.php");
 require_once('produit.inc.php');
 
 class produitrecurrent extends stdentity
