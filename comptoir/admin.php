@@ -288,9 +288,9 @@ else if ( $_REQUEST["action"] == "upproduitrecurrent" && ($produit->id > 0) && i
     else
         $produitrec->ajout ();
 }
-else if ( $_REQUEST["action"] == "suprec" && isset($_REQUEST['id_produit_recurrent'])) {
+else if ( $_REQUEST["action"] == "suprec" && isset($_REQUEST['id_recurrence'])) {
     $produitrec = new produitrecurrent($site->db, $site->dbrw);
-    $produitrec->load_by_id (intval($_REQUEST['id_produit_recurrent']));
+    $produitrec->load_by_id (intval($_REQUEST['id_recurrence']));
     $produitrec->supprime ();
 }
 else if ( $_REQUEST["action"] == "uptype" && ($typeprod->id > 0) && ($assocpt->id > 0)  )
@@ -688,7 +688,7 @@ elseif ( $produit->id > 0 )
  $frm->add_submit('valid', 'Enregistrer');
  $cts->add($frm, true);
  if ($produitrecurrent->is_valid ())
-     $cts->add_paragraph('<a href="admin?action=suprec&id_recurrence='.$produitrecurrent->id.'&id_produit='.$produitrecurrent->id_produit.'">Supprimer la récurrence</a>');
+     $cts->add_paragraph('<a href="admin.php?action=suprec&id_recurrence='.$produitrecurrent->id.'&id_produit='.$produitrecurrent->id_produit.'">Supprimer la récurrence</a>');
 
  $site->add_contents($cts);
  $site->end_page();
