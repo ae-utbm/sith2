@@ -275,6 +275,16 @@ else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod
     $limite_utilisateur
       );
 }
+else if ( $_REQUEST["action"] == "upproduitrecurrent" && ($produit->id > 0) && isset($_REQUEST['id_produit_reccurent'])) {
+    $produitrec = new produitrecurrent($site->db, $site->dbrw);
+    if (intval ($_REQUEST['id_produit_reccurent']) >= 0)
+        $produitrec->load_by_id (intval ($_REQUEST['id_produit_reccurent']));
+    else
+        $produitrec->load_by_produit ($produit->id);
+    $produitrec->jour_remise_en_vente = intval($_REQUEST['rec_jour']);
+    $produitrec->ttl = intval($_REQUEST['rec_ttl']);
+    $produitrec->modifie ();
+}
 else if ( $_REQUEST["action"] == "uptype" && ($typeprod->id > 0) && ($assocpt->id > 0)  )
 {
   $file->load_by_id($_REQUEST["id_file"]);
@@ -653,6 +663,22 @@ elseif ( $produit->id > 0 )
  $frm->add(generate_subform_stock("Limite par personnes","limite","limite_util","limite_util_value",$produit->limite_utilisateur),false, false, false,false, true);
  $frm->add_submit("valid","Enregistrer");
  $cts->add($frm,true);
+
+ $produitrecurrent = new produitrecurrent ($site->db, $site->dbrw);
+ $produitrecurrent->load_by_produit ($produit->id);
+ $frm = new form("upproduitrecurrent","admin.php",false,"POST","Editer");
+ $frm->add_hidden("action","upproduitrecurrent");
+ $frm->add_hidden("id_produit",$produit->id);
+ $frm->add_hidden("id_produit_reccurent", $produitrecurrent->id);
+ $frm->add_select_field('rec_jour', 'Jour de remise en vente',
+                        array ('Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'),
+                        $produitrecurrent->is_valid () ? $produitrecurrent->jour_remise_en_vente : 0,
+                        '', true);
+ $frm->add_text_field('rec_ttl', 'Nombre de jour de vente',
+                      $produitrecurrent->is_valid () ? $produitrecurrent->ttl : 0,
+                      true, 4);
+ $frm->add_submit('valid', 'Enregistrer');
+ $cts->add($frm, true);
 
  $site->add_contents($cts);
  $site->end_page();

@@ -360,6 +360,24 @@ class produit extends stdentity
   }
 
   /**
+   * Change la date d'expiration du produit
+   * @param $date nouvel date d'expiration
+   * @return true si succès, false sinon
+   */
+  function modifier_date_expiration ($date)
+  {
+      $this->date_fin = $date;
+      $req = new update ($this->dbrw, 'cpt_produits',
+                         array('date_fin_produit' => $this->date_fin),
+                         array('id_produit' => $this->id));
+
+      if (!$req)
+          return false;
+
+      return true;
+  }
+
+  /**
    * Supprime le produit (s'il n'a jamais été vendu)
    * @return true si succès, false sinon
    */
