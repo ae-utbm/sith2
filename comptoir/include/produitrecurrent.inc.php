@@ -93,7 +93,7 @@ class produitrecurrent extends stdentity
                            array ('id_produit' => $this->id_produit,
                                   'jour_remise_en_vente' => $this->jour_remise_en_vente,
                                   'ttl' => $this->ttl),
-                           array ('id_recurrence', $this->id));
+                           array ('id_recurrence' => $this->id));
     }
 
     /* Si le produit qu'on cherche à mettre en vente a été archivé celà veut dire qu'il n'est
