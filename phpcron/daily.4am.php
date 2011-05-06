@@ -24,7 +24,7 @@ new requete($site->dbrw,"DELETE FROM `cpt_verrou` WHERE NOT EXISTS(SELECT * FROM
 
 new requete($site->dbrw,"DELETE FROM `cpt_type_produit` WHERE NOT EXISTS ( SELECT * FROM cpt_produits WHERE cpt_produits.id_typeprod=cpt_type_produit.id_typeprod)");
 
-new requete($site->dbrw,'UPDATE cpt_produits AS p JOIN cpt_produit_recurrent AS r ON p.id_produit = r.id_produit SET p.date_fin_produit=TIMESTAMPADD(SECOND, r.ttl, NOW()) WHERE NOW()>p.date_fin_produit AND DAYOFWEEK(CURDATE())-1 = r.jour_remise_en_vente AND p.prod_archive = 0');
+new requete($site->dbrw,'UPDATE cpt_produits AS p JOIN cpt_produit_recurrent AS r ON p.id_produit = r.id_produit SET p.date_fin_produit=TIMESTAMPADD(DAY, r.ttl, NOW()) WHERE NOW()>p.date_fin_produit AND DAYOFWEEK(CURDATE())-1 = r.jour_remise_en_vente AND p.prod_archive = 0');
 
 // Tâche 2 : Nettoyage des créneaux "vides" expriés
 
