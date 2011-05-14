@@ -49,6 +49,11 @@ function valid_key($key, $site)
     return TRUE;
 }
 
+function endswithmail($haystack, $needle)
+{
+    return substr($haystack, -strlen('@utbm.fr')) == '@utbm.fr';
+}
+
 if ( !isset($_POST["api_key"])
      || !isset($_POST["mode"])
      || !isset($_POST["username"])
@@ -64,15 +69,16 @@ if ( !valid_key($_POST["api_key"], $site) )
   exit();
 }
 
-if ( strtolower($_POST["mode"]) == "utbm" )
-  $site->user->load_by_email($_POST["username"]."@utbm.fr");
-elseif ( strtolower($_POST["mode"]) == "assidu" )
-  $site->user->load_by_email($_POST["username"]."@assidu-utbm.fr");
-elseif ( strtolower($_POST["mode"]) == "id" )
-  $site->user->load_by_id($_POST["username"]);
-else
-  $site->user->load_by_email($_POST["username"]."@utbm.fr");
+$username = $_POST["username"];
 
+if ( strtolower($_POST["mode"]) == "utbm" )
+    $site->user->load_by_email(endswithmail($username) ? $username : $username."@utbm.fr");
+elseif ( strtolower($_POST["mode"]) == "assidu" )
+    $site->user->load_by_email($username."@assidu-utbm.fr");
+elseif ( strtolower($_POST["mode"]) == "id" )
+    $site->user->load_by_id($username);
+else
+    $site->user->load_by_email(endswithmail($username) ? $username : $username."@utbm.fr");
 
 if ( $site->user->id != -1 && $site->user->hash == "valid" && $site->user->is_password($_POST["password"]) )
   echo 1;
