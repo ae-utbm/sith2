@@ -49,7 +49,7 @@ function valid_key($key, $site)
     return TRUE;
 }
 
-function endswithmail($haystack, $needle)
+function endswithmail($haystack)
 {
     return substr($haystack, -strlen('@utbm.fr')) == '@utbm.fr';
 }
