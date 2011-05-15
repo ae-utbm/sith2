@@ -416,7 +416,7 @@ div.tabsv2 span a
   height:14px;
   margin:0;
   padding:12px 0px;
-  text-transform:lowercase;
+  /*text-transform:lowercase;*/
 }
 div.tabsv2 span.selected a
 {
