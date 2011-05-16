@@ -282,8 +282,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"position\" id=\"position\"></div></div></div><script>init_galaxy($tx,$ty,\"&highlight=$hl\");</script>");
 
 
-    $req = new requete($site->db,
-    "SELECT length_link, ideal_length_link,
+    $sql = "SELECT length_link, ideal_length_link,
     tense_link, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom_utilisateur,
     utilisateurs.id_utilisateur
     FROM galaxy_link
@@ -298,15 +297,15 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     INNER JOIN utilisateurs ON ( id_star_b=id_utilisateur)
     INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)
     WHERE id_star_a='".mysql_real_escape_string($user->id)."'
-    ORDER BY 1");
+    ORDER BY 1";
 
-    $tbl = new sqltable(
-      "listvoisins",
-      "Personnes liées", $req, "galaxy.php?id_utilisateur_a=".$user->id,
-      "id_utilisateur",
-      array("length_link"=>"Distance réelle","ideal_length_link"=>"Distance cible","tense_link"=>"Score","nom_utilisateur"=>"Nom"),
-      array("info"=>"Infos"), array(), array( )
-      );
+    $tbl = new sqltable2("listvoisins", "Personnes liées");
+    $tbl->add_action("info", "Infos");
+    $tbl->add_column_number("length_link", "Distance réelle");
+    $tbl->add_column_number("ideal_length_link", "Distance cible");
+    $tbl->add_column_number("tense_link", "Score");
+    $tbl->add_column_entity("id_utilisateur", "Nom");
+    $tbl->set_sql($site->db, $sql);
     $cts->add($tbl,true);
 
     $cts->add_paragraph("Le score par lien est calculé à partir du nombre de photos où vous êtes tous deux présents, les liens de parrainage, et le temps inscrits dans les mêmes clubs et associations. Ensuite le score permet de déterminer la longueur du lien en fonction du score maximal de tous les liens de chaque personne. Cliquer sur l'icone \"infos\" pour connaitre le calcul du score");
