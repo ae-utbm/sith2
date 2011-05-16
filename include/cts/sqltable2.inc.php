@@ -412,11 +412,14 @@ class sqltable2 extends stdcontents
 
     if ( isset($_REQUEST["sqltable2"]) && $_REQUEST["sqltable2"] == $this->nom  )
     {
+      print_r("Cuicui !");
       if ( !$rewrited )
       {
+        print_r("Miaou !");
         if ( isset($_REQUEST["__st2f"]) && is_array($_REQUEST["__st2f"]) )
         // SqlTable2Filter (fonctionne par champ sql!!)
         {
+          print_r("Ouaf !");
           $newdata = array();
 
           $filters = array();
