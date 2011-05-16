@@ -300,7 +300,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     WHERE id_star_a='".mysql_real_escape_string($user->id)."'
     ORDER BY 1";
 
-    $tbl = new sqltable2("listlies", "Personnes liées", "galaxy.php?id_utilisateur_a=".$user->id);
+    $tbl = new sqltable2("listlies", "Personnes liées", "galaxy.php?id_utilisateur_a=".$user->id, "galaxy.php?id_utilisateur=".$user->id);
     $tbl->add_action("info", "Infos");
     $tbl->add_column_number("length_link", "Distance réelle");
     $tbl->add_column_number("ideal_length_link", "Distance cible");
