@@ -475,11 +475,11 @@ class sqltable2 extends stdcontents
         }
       }
 
-	    header("Content-Type: text/html; charset=utf-8");
-	    /*$timing["all"] += microtime(true);
-	    echo "<tr><td colspan=\"".(count($this->columns)+count($this->action))."\">all:".$timing["all"].", mysql:".$timing["mysql"]."</td></tr>";
-	    if ( $rewrited )
-	      echo "<tr><td colspan=\"".(count($this->columns)+count($this->action))."\">".$rewrited."</td></tr>";*/
+      header("Content-Type: text/html; charset=utf-8");
+      /*$timing["all"] += microtime(true);
+      echo "<tr><td colspan=\"".(count($this->columns)+count($this->action))."\">all:".$timing["all"].", mysql:".$timing["mysql"]."</td></tr>";
+      if ( $rewrited )
+        echo "<tr><td colspan=\"".(count($this->columns)+count($this->action))."\">".$rewrited."</td></tr>";*/
       echo $this->html_render(true);
       exit();
     }
@@ -588,6 +588,7 @@ class sqltable2 extends stdcontents
         }
       }
       $this->set_data($id_name,new requete($db,$rewriter->get_sql()),$rewriter->get_sql());
+      print_r($rewriter->get_sql());
       return;
     }
 
