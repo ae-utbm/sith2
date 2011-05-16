@@ -28,7 +28,7 @@ $topdir = "./";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/galaxy.inc.php");
-require_once($topdir . "include/cts/sqltable.inc.php");
+require_once($topdir. "include/cts/sqltable2.inc.php");
 
 $site = new site ();
 $site->allow_only_logged_users("matmatronch");
@@ -215,6 +215,7 @@ elseif ( isset($_REQUEST["id_utilisateur"]) )
     if ( !$user->is_valid() )
         $site->error_not_found("rd");
 
+  $site->add_js("js/sqltable2.js");
   $site->start_page("matmatronch","galaxy");
   $cts = new contents($user->prenom." ".$user->nom);
   $tabs = $user->get_tabs($site->user);
@@ -299,19 +300,18 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     WHERE id_star_a='".mysql_real_escape_string($user->id)."'
     ORDER BY 1";
 
-    $tbl = new sqltable2("listvoisins", "Personnes liées");
+    $tbl = new sqltable2("listlies", "Personnes liées");
     $tbl->add_action("info", "Infos");
     $tbl->add_column_number("length_link", "Distance réelle");
     $tbl->add_column_number("ideal_length_link", "Distance cible");
     $tbl->add_column_number("tense_link", "Score");
     $tbl->add_column_entity("id_utilisateur", "Nom");
-    $tbl->set_sql($site->db, $sql);
+    $tbl->set_sql($site->db, "id_utilisateur", $sql);
     $cts->add($tbl,true);
 
     $cts->add_paragraph("Le score par lien est calculé à partir du nombre de photos où vous êtes tous deux présents, les liens de parrainage, et le temps inscrits dans les mêmes clubs et associations. Ensuite le score permet de déterminer la longueur du lien en fonction du score maximal de tous les liens de chaque personne. Cliquer sur l'icone \"infos\" pour connaitre le calcul du score");
 
-    $req = new requete($site->db,
-    "SELECT SQRT(POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2)) AS dist,
+    $sql = "SELECT SQRT(POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2)) AS dist,
     COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom_utilisateur,
     utilisateurs.id_utilisateur
     FROM galaxy_star AS a, galaxy_star AS b, utilisateurs
@@ -320,16 +320,12 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     AND a.id_star!=b.id_star
     AND b.id_star=`utilisateurs`.`id_utilisateur`
     AND POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2) < 4
-    ORDER BY 1");
+    ORDER BY 1";
 
-
-    $tbl = new sqltable(
-      "listvoisins",
-      "Voisinnage", $req, "galaxy.php?id_utilisateur=".$user->id,
-      "id_star",
-      array("dist"=>"Distance","nom_utilisateur"=>"Nom"),
-      array(), array(), array( )
-      );
+    $tbl = new sqltable2("listvoisins", "Voisinnage");
+    $tbl->add_column_number("dist", "Distance");
+    $tbl->add_column_entity("id_utilisateur", "Nom");
+    $tbl->set_sql($site->db, "id_star", $sql);
     $cts->add($tbl,true);
 
     $cts->add_paragraph("Il est possible que de nombreuses personnes soient dans votre \"voisinage\" par pur hasard. Cependant en général il s'agit soit de personnes liées soit de personnes avec un profil similaire.");
