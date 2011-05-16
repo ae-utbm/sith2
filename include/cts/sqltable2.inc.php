@@ -589,6 +589,7 @@ class sqltable2 extends stdcontents
       }
       $this->set_data($id_name,new requete($db,$rewriter->get_sql()),$rewriter->get_sql());
       print_r($rewriter->get_sql());
+      print_r("plop ?");
       return;
     }
 
