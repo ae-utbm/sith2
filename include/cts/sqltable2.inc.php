@@ -592,7 +592,8 @@ class sqltable2 extends stdcontents
       return;
     }
 
-    $this->set_data($id_name,new requete($db,$sql));
+    print_r($sql);
+    //$this->set_data($id_name,new requete($db,$sql));
 
   }
 
