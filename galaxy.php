@@ -286,10 +286,10 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     $sql = "SELECT `length_link`, `ideal_length_link`, `tense_link`,
     IF(`id_star_a`='".mysql_real_escape_string($user->id)."',
       COALESCE(`utl_etu_utbm_b`.`surnom_utbm`, CONCAT(`utilisateurs_b`.`prenom_utl`,' ',`utilisateurs_b`.`nom_utl`), `utilisateurs_b`.`alias_utl`),
-      COALESCE(`utl_etu_utbm_a`.`surnom_utbm`, CONCAT(`utilisateurs_a`.`prenom_utl`,' ',`utilisateurs_a`.`nom_utl`), `utilisateurs_a`.alias_utl)) `nom_utilisateur`,
+      COALESCE(`utl_etu_utbm_a`.`surnom_utbm`, CONCAT(`utilisateurs_a`.`prenom_utl`,' ',`utilisateurs_a`.`nom_utl`), `utilisateurs_a`.alias_utl)) AS `nom_utilisateur`,
     IF(`id_star_a`='".mysql_real_escape_string($user->id)."',
       `utilisateurs_b`.`id_utilisateur`,
-      `utilisateurs_a`.`id_utilisateur`) `id_utilisateur`
+      `utilisateurs_a`.`id_utilisateur`) AS `id_utilisateur`
     FROM `galaxy_link`
     INNER JOIN `utilisateurs` `utilisateurs_a` ON (`id_star_a`=`utilisateurs_a`.`id_utilisateur`)
     INNER JOIN `utilisateurs` `utilisateurs_b` ON (`id_star_b`=`utilisateurs_b`.`id_utilisateur`)

@@ -587,13 +587,11 @@ class sqltable2 extends stdcontents
           }
         }
       }
-      print_r($rewriter->get_sql());
-      //$this->set_data($id_name,new requete($db,$rewriter->get_sql()),$rewriter->get_sql());
+      $this->set_data($id_name,new requete($db,$rewriter->get_sql()),$rewriter->get_sql());
       return;
     }
 
-    print_r($sql);
-    //$this->set_data($id_name,new requete($db,$sql));
+    $this->set_data($id_name,new requete($db,$sql));
 
   }
 
