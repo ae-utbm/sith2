@@ -283,21 +283,19 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"position\" id=\"position\"></div></div></div><script>init_galaxy($tx,$ty,\"&highlight=$hl\");</script>");
 
 
-    $sql = "SELECT length_link, ideal_length_link,
-    tense_link, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom_utilisateur,
-    utilisateurs.id_utilisateur
-    FROM galaxy_link
-    INNER JOIN utilisateurs ON ( id_star_a=id_utilisateur)
-    INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)
-    WHERE id_star_b='".mysql_real_escape_string($user->id)."'
-    UNION
-    SELECT length_link, ideal_length_link,
-    tense_link, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom_utilisateur,
-    utilisateurs.id_utilisateur
-    FROM galaxy_link
-    INNER JOIN utilisateurs ON ( id_star_b=id_utilisateur)
-    INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)
-    WHERE id_star_a='".mysql_real_escape_string($user->id)."'
+    $sql = "SELECT `length_link`, `ideal_length_link`, `tense_link`,
+    IF(`id_star_a`='".mysql_real_escape_string($user->id)."',
+      COALESCE(`utl_etu_utbm_b`.`surnom_utbm`, CONCAT(`utilisateurs_b`.`prenom_utl`,' ',`utilisateurs_b`.`nom_utl`), `utilisateurs_b`.`alias_utl`),
+      COALESCE(`utl_etu_utbm_a`.`surnom_utbm`, CONCAT(`utilisateurs_a`.`prenom_utl`,' ',`utilisateurs_a`.`nom_utl`), `utilisateurs_a`.alias_utl)) `nom_utilisateur`,
+    IF(`id_star_a`='".mysql_real_escape_string($user->id)."',
+      `utilisateurs_b`.`id_utilisateur`,
+      `utilisateurs_a`.`id_utilisateur`) `id_utilisateur`
+    FROM `galaxy_link`
+    INNER JOIN `utilisateurs` `utilisateurs_a` ON (`id_star_a`=`utilisateurs_a`.`id_utilisateur`)
+    INNER JOIN `utilisateurs` `utilisateurs_b` ON (`id_star_b`=`utilisateurs_b`.`id_utilisateur`)
+    INNER JOIN `utl_etu_utbm` `utl_etu_utbm_a` ON (`utl_etu_utbm_a`.`id_utilisateur` = `utilisateurs_a`.`id_utilisateur`)
+    INNER JOIN `utl_etu_utbm` `utl_etu_utbm_b` ON (`utl_etu_utbm_b`.`id_utilisateur` = `utilisateurs_b`.`id_utilisateur`)
+    WHERE `id_star_a`='".mysql_real_escape_string($user->id)."' OR `id_star_b`='".mysql_real_escape_string($user->id)."'
     ORDER BY 1";
 
     $tbl = new sqltable2("listlies", "Personnes liées", "galaxy.php?id_utilisateur_a=".$user->id, "galaxy.php?id_utilisateur=".$user->id);
