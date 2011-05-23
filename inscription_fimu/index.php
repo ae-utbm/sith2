@@ -161,6 +161,8 @@ else
 /*******************************************************************
  * Start fimu_inscr form
  */
+  if ($site->user->is_in_group("gestion_fimu"))
+    $cts->add_paragraph("<a href=\"?listing\">Liste des inscrits</a>");
 
   $intro = "
   <b>25ème FIMU : les 11, 12 et 13 Juin 2011</b>
