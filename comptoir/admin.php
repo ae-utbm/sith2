@@ -467,7 +467,7 @@ elseif ( $_REQUEST["page"] == "addproduit" )
  $frm->add_price_field("frais_port","Frais de port");
 
  $grp = new group($site->db);
- $grp->load_by_id(10000);
+ $grp->load_by_id(10012);
  $frm->add_entity_smartselect("id_groupe", "Limiter l'achat au groupe", $grp,true);
 
  $frm->add_datetime_field("date_fin","Date de fin de mise en vente");
