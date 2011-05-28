@@ -14,10 +14,12 @@ function telephone_userinput ( $tel )
 
 function telephone_display ( $tel )
 {
-  if ( ereg("^\+33([0-9])([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})$",$tel,$regs) )
-    return "0".$regs[1]." ".$regs[2]." ".$regs[3]." ".$regs[4]." ".$regs[5];
+  if ( ereg("^\(+33|0)([0-9])([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})$",$tel,$regs) )
+    $tel_format = "0".$regs[1]." ".$regs[2]." ".$regs[3]." ".$regs[4]." ".$regs[5];
+  else
+    $tel_format = $tel;
 
-  return $tel;
+  return "<a href=\"tel:".$tel."\">".$tel_format."</a>";
 }
 
 /*
