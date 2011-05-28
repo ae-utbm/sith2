@@ -271,10 +271,10 @@ class pgfichelist extends stdcontents
       $this->buffer .= "<p class=\"adresse\">".htmlentities($row["numrue_pgfiche"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_typerue"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_rue"],ENT_QUOTES,"UTF-8").", ".htmlentities($row["nom_ville"],ENT_QUOTES,"UTF-8")."</p>";
 
       if ($row["tel_pgfiche"])
-        $this->buffer .= "<p class=\"tel\">Tel: ".htmlentities(telephone_display($row["tel_pgfiche"]),ENT_QUOTES,"UTF-8")."</p>";
+        $this->buffer .= "<p class=\"tel\">Tel: ".telephone_display($row["tel_pgfiche"])."</p>";
 
       if ($row["fax_pgfiche"])
-        $this->buffer .= "<p class=\"fax\">Fax: ".htmlentities(telephone_display($row["fax_pgfiche"]),ENT_QUOTES,"UTF-8")."</p>";
+        $this->buffer .= "<p class=\"fax\">Fax: ".telephone_display($row["fax_pgfiche"])."</p>";
 
       if ($row["email_pgfiche"])
         $this->buffer .= "<p class=\"email\">E-mail: ".htmlentities($row["email_pgfiche"],ENT_QUOTES,"UTF-8")."</p>";
@@ -369,9 +369,9 @@ class pgfichefull extends contents
     $list->add("Adresse: ".htmlentities($fiche->numrue,ENT_QUOTES,"UTF-8")." ".htmlentities($typerue->nom,ENT_QUOTES,"UTF-8")." ".htmlentities($rue->nom,ENT_QUOTES,"UTF-8").", ".htmlentities($ville->nom,ENT_QUOTES,"UTF-8"));
 
     if ( $fiche->tel )
-      $list->add("Téléphone: ".htmlentities(telephone_display($fiche->tel),ENT_QUOTES,"UTF-8"));
+      $list->add("Téléphone: ".telephone_display($fiche->tel));
     if ( $fiche->fax )
-      $list->add("Fax: ".htmlentities(telephone_display($fiche->fax),ENT_QUOTES,"UTF-8"));
+      $list->add("Fax: ".telephone_display($fiche->fax));
     if ( $fiche->email )
       $list->add("E-Mail: ".htmlentities($fiche->email,ENT_QUOTES,"UTF-8"));
     if ( $fiche->siteweb )

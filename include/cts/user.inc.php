@@ -628,7 +628,7 @@ class userinfov2 extends stdcontents
         $this->buffer .= "<p class=\"adresseparents\">".$pays_parents->get_html_link()."</p>\n";
 
       if ( $user->tel_parents )
-        $this->buffer .= "<p class=\"telparents\">" . htmlentities(telephone_display($user->tel_parents),ENT_COMPAT,"UTF-8") . "</p>\n";
+        $this->buffer .= "<p class=\"telparents\">" . telephone_display($user->tel_parents) . "</p>\n";
 
     }
 
