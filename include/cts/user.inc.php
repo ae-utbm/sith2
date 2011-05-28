@@ -602,10 +602,10 @@ class userinfov2 extends stdcontents
     }
 
     if ( $user->tel_maison )
-      $this->buffer .= "<p class=\"telfixe\">" . htmlentities(telephone_display($user->tel_maison),ENT_COMPAT,"UTF-8") . "</p>\n";
+      $this->buffer .= "<p class=\"telfixe\">" . telephone_display($user->tel_maison). "</p>\n";
 
     if ( $user->tel_portable )
-      $this->buffer .= "<p class=\"telportable\">" . htmlentities(telephone_display($user->tel_portable),ENT_COMPAT,"UTF-8") . "</p>\n";
+      $this->buffer .= "<p class=\"telportable\">" . telephone_display($user->tel_portable) . "</p>\n";
 
 
     if ( $display == "full" )
