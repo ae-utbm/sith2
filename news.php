@@ -449,7 +449,19 @@ $frm->add($sfrm,false,true, $type==2 ,2 ,false,true);
 $sfrm = new form("type",null,null,null,"Information, resultat d'&eacute;lection - sans date");
 $frm->add($sfrm,false,true, $type==0 ,0 ,false,true);
 
-$frm->add_text_field("title", "Titre de la nouvelle",$_REQUEST["title"],true);
+$title = "";
+if (isset($_REQUEST["title"]))
+  $title = $_REQUEST["title"];
+else if ($_REQUEST["id_asso"])
+{
+  $asso = new asso($site->db);
+  $asso->load_by_id($news->id_asso);
+
+  if ( $asso->id > 0 )
+  $title = $asso->nom." :";
+}
+
+$frm->add_text_field("title", "Titre de la nouvelle", $title, true);
 $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$_REQUEST["id_asso"],true);
 $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",false,true);
 $frm->add_text_field("tags", "Tags",$_REQUEST["tags"]);
