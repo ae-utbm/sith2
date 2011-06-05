@@ -455,7 +455,7 @@ if (isset($_REQUEST["title"]))
 else if ($_REQUEST["id_asso"])
 {
   $asso = new asso($site->db);
-  $asso->load_by_id($news->id_asso);
+  $asso->load_by_id($_REQUEST["id_asso"]);
 
   if ( $asso->id > 0 )
   $title = $asso->nom." :";
