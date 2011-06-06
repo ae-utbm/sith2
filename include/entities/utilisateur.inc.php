@@ -665,6 +665,10 @@ class utilisateur extends stdentity
 
       if( !is_null($parent) )
         $this->groupes[$id+30000] = $name."-membres";
+
+      // Si on est dans le bureau de l'AE ou si on est président d'un pole (asso fille de AE), alors on fait partie du groupe CA
+      if( ($id == 1 && $role > 1) || ($parent == 1 && $role == ROLEASSO_PRESIDENT) )
+          $this->groupe[10014] = "ca-membres";
     }
 
     $req = new requete($this->db,
