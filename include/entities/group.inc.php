@@ -318,6 +318,9 @@ class group extends stdentity
     if ( $this->id == 10014 )
         return "Membres du CA de l'AE";
 
+    if ( $this->id == 10015 )
+        return "Cotisants et anciens cotisants à l'AE";
+
     return trim($this->description);
   }
 

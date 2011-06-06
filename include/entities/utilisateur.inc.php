@@ -646,6 +646,15 @@ class utilisateur extends stdentity
     if ( $this->cotisant)
       $this->groupes[10012] = "cotisants-tous";
 
+    // Verify if our guy was a member at some point
+    if ( $this->cotisant )
+        $this->groupes[10015] = "cotisants-sympathisants";
+    else {
+        $req = new requete($this->db, 'SELECT 1 FROM ae_cotisations WHERE id_utilisateur = '.$this->id.' LIMIT 1');
+        if ($req->lines > 0)
+            $this->groupes[10015] = "cotisants-sympathisants";
+    }
+
     $req = new requete($this->db,
                        "SELECT `asso`.`id_asso`, ".
                        "`asso`.`nom_unix_asso`, ".
