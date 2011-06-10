@@ -35,8 +35,6 @@ $site->start_page ("accueil", "FIMU 2011 - Inscriptions des bénévoles");
 
 $cts = new contents("Festival International de Musique Universitaire");
 
-//$site->error_forbidden("accueil","reserved");
-
 if ( $site->user->is_valid() )
 {
   $sql = new requete($site->db, "SELECT id_utilisateur
@@ -161,6 +159,8 @@ else
 /*******************************************************************
  * Start fimu_inscr form
  */
+  $site->error_forbidden("accueil","reserved");
+
   if ($site->user->is_in_group("gestion_fimu"))
     $cts->add_paragraph("<a href=\"?listing\">Liste des inscrits</a>");
 
