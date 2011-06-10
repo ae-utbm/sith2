@@ -196,6 +196,7 @@ class group extends stdentity
       $values[10013] = "crous-membres";
       $values[10012] = "cotisants-tous";
       $values[10014] = "ca-membres";
+      $values[10015] = "cotisants-sympathisants";
 
       $req = new requete($this->db,
         "SELECT `id_asso`, `nom_unix_asso` " .
