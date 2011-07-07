@@ -201,7 +201,6 @@ if($site->user->is_in_group("gestion_ae"))
     $sfilter.
     "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
     "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
-    "AND sl_reservation.date_debut_salres > NOW() ".
     $filter.
     "ORDER BY date_debut_salres");
 
