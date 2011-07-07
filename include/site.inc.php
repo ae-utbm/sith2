@@ -379,7 +379,7 @@ class site extends interfaceweb
     $carte = new carteae($this->db);
     $carte->load_by_utilisateur($this->user->id);
 
-    $today = date("Y-m-d");
+    $today = date("Y-m-d H:i:s");
 
     $cpg = new campagne($this->db,$this->dbrw);
     $req = new requete($this->db, "SELECT `id_campagne` FROM `cpg_campagne` WHERE `date_fin_campagne`>='$today' ORDER BY date_debut_campagne DESC");
@@ -453,7 +453,7 @@ class site extends interfaceweb
         "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
         "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
         "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
-        "AND sl_reservation.date_debut_salres >= '$today'");
+        "AND sl_reservation.date_fin_salres >= '$today'");
       list($count) = $req->get_row();
 
       if ( $count > 0 )
