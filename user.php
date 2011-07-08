@@ -408,7 +408,8 @@ elseif ( $_REQUEST["action"] == "changeemail" && $can_edit  )
 // Definition ou changement d'adresse e-mail utbm
 elseif ( $_REQUEST["action"] == "changeemailutbm" && $can_edit  )
 {
-  if ( !CheckEmail($_POST["email_utbm"], 1) && !CheckEmail($_POST["email_utbm"], 2) )
+  if ( !CheckEmail($_POST["email_utbm"], 1) && !CheckEmail($_POST["email_utbm"], 2)
+       && !($site->user->ancien_etudiant && CheckEmail($_POST["email_utbm"], 3)) ) /* Si la personne est ancien étudiant, lui laissé mettre une adresse générique post-diplome */
   {
     $ErreurMailUtbm="Adresse email invalide : prenom.nom@utbm.fr ou prenom.nom@assidu-utbm.fr";
     $_REQUEST["page"] = "edit";
