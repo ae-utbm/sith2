@@ -776,68 +776,68 @@ class sqltable2 extends stdcontents
     if ( count($this->batch) > 0 )
       $this->buffer .= "<th><input type=\"checkbox\" onclick=\"stcka(this,'".$this->nom."');\" /></th>\n";
 
-    if (! empty($this->data))
+    foreach ( $this->columns as $key => $col )
     {
-      foreach ( $this->columns as $key => $col )
+      $this->buffer .= "<th id=\"".$this->nom."_".$key."\">".htmlentities($col[1],ENT_COMPAT,"UTF-8");
+
+      if ( $this->page_self )
       {
-        $this->buffer .= "<th id=\"".$this->nom."_".$key."\">".htmlentities($col[1],ENT_COMPAT,"UTF-8");
+        $this->buffer .= " <a href=\"#\" onclick=\"stst('".$this->nom."','".$key."'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/sort_a.png\" id=\"".$this->nom."_s".$key."_i\" class=\"icon\" alt=\"\" /></a>";
 
-        if ( $this->page_self )
+        switch ( $col[0] )
         {
-          $this->buffer .= " <a href=\"#\" onclick=\"stst('".$this->nom."','".$key."'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/sort_a.png\" id=\"".$this->nom."_s".$key."_i\" class=\"icon\" alt=\"\" /></a>";
+          case "price" :
+          $this->buffer .= "<input type=\"hidden\" id=\"".$this->nom."_".$key."_t\" value=\"m\">";
+          break;
+          case "qty" :
+          case "number" :
+          case "imrpt" :
+          $this->buffer .= "<input type=\"hidden\" id=\"".$this->nom."_".$key."_t\" value=\"i\">";
+          break;
+          case "date" :
+          $this->buffer .= "<input type=\"hidden\" id=\"".$this->nom."_".$key."_t\" value=\"d\">";
+          break;
+          default :
+          $this->buffer .= "<input type=\"hidden\" id=\"".$this->nom."_".$key."_t\" value=\"s\">";
+          break;
+        }
 
-          switch ( $col[0] )
-          {
-            case "price" :
-            $this->buffer .= "<input type=\"hidden\" id=\"".$this->nom."_".$key."_t\" value=\"m\">";
-            break;
-            case "qty" :
-            case "number" :
-            case "imrpt" :
-            $this->buffer .= "<input type=\"hidden\" id=\"".$this->nom."_".$key."_t\" value=\"i\">";
-            break;
-            case "date" :
-            $this->buffer .= "<input type=\"hidden\" id=\"".$this->nom."_".$key."_t\" value=\"d\">";
-            break;
-            default :
-            $this->buffer .= "<input type=\"hidden\" id=\"".$this->nom."_".$key."_t\" value=\"s\">";
-            break;
-          }
-
-          if ( isset($col[8]) )
-          {
+        if ( isset($col[8]) )
+        {
 
 
-          }
-          else if ( $col[0] == "price" || $col[0] == "date" || $col[0] == "qty" || $col[0] == "number" )
-          {
-            if ( count($col[2]) == 1 ) // Ne fonctionne que dans ce cas
-            {
-              $this->buffer .= " <a href=\"#\" onclick=\"stft('".$this->nom."','".$key."'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/find.png\" class=\"icon\" alt=\"\" /></a>";
-              $this->buffer .= "<div id=\"".$this->nom."_f".$key."\" class=\"filter\" style=\"display:none;\">";
-              $this->buffer .= "<h4>Filtrer</h4>";
-              $this->buffer .= "<div class=\"fcts\">";
-
-              $this->buffer .= "<div><select id=\"".$this->nom."_f".$key."_s\" ";
-              $this->buffer .= "onchange=\"stftcf('".$this->nom."','".$key."');\">";
-              $this->buffer .= "<option value=\"\">Tout afficher</option>";
-              $this->buffer .= "<option value=\"=\">&eacute;gal &agrave;</option>";
-              $this->buffer .= "<option value=\"!\">diff&eacute;rent de</option>";
-              $this->buffer .= "<option value=\"&gt;\">&gt;=</option>";
-              $this->buffer .= "<option value=\"&lt;\">&lt;=</option>";
-              $this->buffer .= "</select>\n";
-              $this->buffer .= "<input type=\"text\" id=\"".$this->nom."_f".$key."_v\" class=\"val\" /></div>";
-              $this->buffer .= "<input type=\"button\" onclick=\"stcft('".$this->nom."','".$key."','".$col[2][0]."');\" value=\"Filtrer\" />";
-              $this->buffer .= "</div></div>\n";
-            }
-          }
-          else // Liste les valeurs de chaque colonne
+        }
+        else if ( $col[0] == "price" || $col[0] == "date" || $col[0] == "qty" || $col[0] == "number" )
+        {
+          if ( count($col[2]) == 1 ) // Ne fonctionne que dans ce cas
           {
             $this->buffer .= " <a href=\"#\" onclick=\"stft('".$this->nom."','".$key."'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/find.png\" class=\"icon\" alt=\"\" /></a>";
             $this->buffer .= "<div id=\"".$this->nom."_f".$key."\" class=\"filter\" style=\"display:none;\">";
             $this->buffer .= "<h4>Filtrer</h4>";
-            $this->buffer .= "<ul>";
-            $this->buffer .= "<li class=\"sel\"><a href=\"#\" onclick=\"stuft(this,'".$this->nom."','".$key."'); return false;\">Tout afficher</a></li>";
+            $this->buffer .= "<div class=\"fcts\">";
+
+            $this->buffer .= "<div><select id=\"".$this->nom."_f".$key."_s\" ";
+            $this->buffer .= "onchange=\"stftcf('".$this->nom."','".$key."');\">";
+            $this->buffer .= "<option value=\"\">Tout afficher</option>";
+            $this->buffer .= "<option value=\"=\">&eacute;gal &agrave;</option>";
+            $this->buffer .= "<option value=\"!\">diff&eacute;rent de</option>";
+            $this->buffer .= "<option value=\"&gt;\">&gt;=</option>";
+            $this->buffer .= "<option value=\"&lt;\">&lt;=</option>";
+            $this->buffer .= "</select>\n";
+            $this->buffer .= "<input type=\"text\" id=\"".$this->nom."_f".$key."_v\" class=\"val\" /></div>";
+            $this->buffer .= "<input type=\"button\" onclick=\"stcft('".$this->nom."','".$key."','".$col[2][0]."');\" value=\"Filtrer\" />";
+            $this->buffer .= "</div></div>\n";
+          }
+        }
+        else // Liste les valeurs de chaque colonne
+        {
+          $this->buffer .= " <a href=\"#\" onclick=\"stft('".$this->nom."','".$key."'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/find.png\" class=\"icon\" alt=\"\" /></a>";
+          $this->buffer .= "<div id=\"".$this->nom."_f".$key."\" class=\"filter\" style=\"display:none;\">";
+          $this->buffer .= "<h4>Filtrer</h4>";
+          $this->buffer .= "<ul>";
+          $this->buffer .= "<li class=\"sel\"><a href=\"#\" onclick=\"stuft(this,'".$this->nom."','".$key."'); return false;\">Tout afficher</a></li>";
+          if (! empty($this->data))
+          {
             foreach ( $domains[$key] as $field => $values )
             {
               asort($values);
@@ -870,12 +870,12 @@ class sqltable2 extends stdcontents
                 $this->buffer .= "</a></li>";
               }
             }
-            $this->buffer .= "</ul>";
-            $this->buffer .= "</div>\n";
           }
+          $this->buffer .= "</ul>";
+          $this->buffer .= "</div>\n";
         }
-        $this->buffer .= "</th>\n";
       }
+      $this->buffer .= "</th>\n";
     }
 
     foreach ( $this->actions as $action => $col )
