@@ -600,6 +600,8 @@ class sqltable2 extends stdcontents
   {
     global $wwwtopdir,$timing;
 
+    print_r($this->data);
+
     // ===== Contents =====
     // (Header après)
 

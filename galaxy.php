@@ -298,19 +298,16 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     WHERE `id_star_a`='".mysql_real_escape_string($user->id)."' OR `id_star_b`='".mysql_real_escape_string($user->id)."'
     ORDER BY 1";
 
-    if ($sql->lines > 0)
-    {
-      $tbl = new sqltable2("listlies", "Personnes liées", "galaxy.php?id_utilisateur_a=".$user->id, "galaxy.php?id_utilisateur=".$user->id);
-      $tbl->add_action("info", "Infos");
-      $tbl->add_column_number("length_link", "Distance réelle");
-      $tbl->add_column_number("ideal_length_link", "Distance cible");
-      $tbl->add_column_number("tense_link", "Score");
-      $tbl->add_column_entity("nom_utilisateur", "Nom");
-      $tbl->set_sql($site->db, "id_utilisateur", $sql);
-      $cts->add($tbl,true);
+    $tbl = new sqltable2("listlies", "Personnes liées", "galaxy.php?id_utilisateur_a=".$user->id, "galaxy.php?id_utilisateur=".$user->id);
+    $tbl->add_action("info", "Infos");
+    $tbl->add_column_number("length_link", "Distance réelle");
+    $tbl->add_column_number("ideal_length_link", "Distance cible");
+    $tbl->add_column_number("tense_link", "Score");
+    $tbl->add_column_entity("nom_utilisateur", "Nom");
+    $tbl->set_sql($site->db, "id_utilisateur", $sql);
+    $cts->add($tbl,true);
 
-      $cts->add_paragraph("Le score par lien est calculé à partir du nombre de photos où vous êtes tous deux présents, les liens de parrainage, et le temps inscrits dans les mêmes clubs et associations. Ensuite le score permet de déterminer la longueur du lien en fonction du score maximal de tous les liens de chaque personne. Cliquer sur l'icone \"infos\" pour connaitre le calcul du score");
-    }
+    $cts->add_paragraph("Le score par lien est calculé à partir du nombre de photos où vous êtes tous deux présents, les liens de parrainage, et le temps inscrits dans les mêmes clubs et associations. Ensuite le score permet de déterminer la longueur du lien en fonction du score maximal de tous les liens de chaque personne. Cliquer sur l'icone \"infos\" pour connaitre le calcul du score");
 
     $sql = "SELECT SQRT(POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2)) AS dist,
     COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom_utilisateur,
@@ -323,16 +320,13 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     AND POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2) < 4
     ORDER BY 1";
 
-    if ($sql->lines > 0)
-    {
-      $tbl = new sqltable2("listvoisins", "Voisinnage", "galaxy.php?id_utilisateur=".$user->id);
-      $tbl->add_column_number("dist", "Distance");
-      $tbl->add_column_entity("nom_utilisateur", "Nom");
-      $tbl->set_sql($site->db, "id_star", $sql);
-      $cts->add($tbl,true);
+    $tbl = new sqltable2("listvoisins", "Voisinnage", "galaxy.php?id_utilisateur=".$user->id);
+    $tbl->add_column_number("dist", "Distance");
+    $tbl->add_column_entity("nom_utilisateur", "Nom");
+    $tbl->set_sql($site->db, "id_star", $sql);
+    $cts->add($tbl,true);
 
-      $cts->add_paragraph("Il est possible que de nombreuses personnes soient dans votre \"voisinage\" par pur hasard. Cependant en général il s'agit soit de personnes liées soit de personnes avec un profil similaire.");
-    }
+    $cts->add_paragraph("Il est possible que de nombreuses personnes soient dans votre \"voisinage\" par pur hasard. Cependant en général il s'agit soit de personnes liées soit de personnes avec un profil similaire.");
   }
 
   $cts->add_title(2,"A propos de galaxy");
