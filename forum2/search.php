@@ -241,6 +241,8 @@ if ( isset($_REQUEST["pattern"] ) )
 
   $url = "search.php?pattern=".urlencode($_REQUEST["pattern"]);
 
+  $order_mess .= "ORDER BY date_message DESC ";
+  $order_suj  .= "ORDER BY frm_last_message.date_message DESC ";
   if ( !empty($_REQUEST["pattern"]) )
   {
     /*
@@ -252,7 +254,9 @@ if ( isset($_REQUEST["pattern"] ) )
     }
     else
       */
-      $sql_conds = "WHERE MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
+      $sql_conds = "WHERE MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])." IN BOOLEAN MODE') ";
+      $order_mess = "ORDER BY MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])." IN BOOLEAN MODE') DESC, date_message DESC ";
+      $order_suj = "ORDER BY MAX(MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])." IN BOOLEAN MODE')) DESC, date_message DESC ";
   }
   else
     $sql_conds = "WHERE 1 ";
@@ -329,7 +333,8 @@ if ( isset($_REQUEST["pattern"] ) )
 
     $sql .= $sql_conds;
 
-    $sql .= "GROUP BY frm_sujet.id_sujet ORDER BY frm_last_message.date_message DESC ";
+    $sql .= "GROUP BY frm_sujet.id_sujet ";
+    $sql .= $order_suj;
 
     $req = new requete($site->db,$sql);
 
@@ -360,7 +365,9 @@ if ( isset($_REQUEST["pattern"] ) )
             "LEFT JOIN utl_etu_utbm ON ( utl_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) ";
 
     $sql .= $sql_conds;
-    $sql .= "ORDER BY date_message DESC ";
+
+    $sql .= $order_mess;
+
     $sql .= "LIMIT 50";
 
     $req = new requete($site->db,$sql);
