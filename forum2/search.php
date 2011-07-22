@@ -254,9 +254,9 @@ if ( isset($_REQUEST["pattern"] ) )
     }
     else
       */
-      $sql_conds = "WHERE MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])." IN BOOLEAN MODE') ";
-      $order_mess = "ORDER BY MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])." IN BOOLEAN MODE') DESC, date_message DESC ";
-      $order_suj = "ORDER BY MAX(MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])." IN BOOLEAN MODE')) DESC, date_message DESC ";
+      $sql_conds = "WHERE MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."' IN BOOLEAN MODE) ";
+      $order_mess = "ORDER BY MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."' IN BOOLEAN MODE) DESC, date_message DESC ";
+      $order_suj = "ORDER BY MAX(MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."' IN BOOLEAN MODE)) DESC, date_message DESC ";
   }
   else
     $sql_conds = "WHERE 1 ";
