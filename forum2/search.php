@@ -336,6 +336,7 @@ if ( isset($_REQUEST["pattern"] ) )
     $sql .= "GROUP BY frm_sujet.id_sujet ";
     $sql .= $order_suj;
 
+    print_r($sql);
     $req = new requete($site->db,$sql, 1);
 
     if ( $req->lines > 0 )
