@@ -341,7 +341,7 @@ if ( isset($_REQUEST["pattern"] ) )
     $sql .= "GROUP BY frm_sujet.id_sujet ";
     $sql .= $order_suj;
 
-    $req = new requete($site->db,$sql, 1);
+    $req = new requete($site->db,$sql);
 
     if ( $req->lines > 0 )
     {
@@ -362,7 +362,7 @@ if ( isset($_REQUEST["pattern"] ) )
   {
     $sql_count =  "SELECT COUNT(*) FROM frm_message ";
     $sql_count .= $sql_conds;
-    $req = new requete($site->db,$sql_count, 1);
+    $req = new requete($site->db,$sql_count);
     if ( $req->lines > 0 )
       list($mess_count) =  $req->get_row();
 
@@ -390,7 +390,7 @@ if ( isset($_REQUEST["pattern"] ) )
       $first = 0;
     }
 
-    $req = new requete($site->db,$sql, 1);
+    $req = new requete($site->db,$sql);
 
     $id_sujet=null;
 
