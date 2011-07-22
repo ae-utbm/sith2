@@ -355,6 +355,12 @@ if ( isset($_REQUEST["pattern"] ) )
   }
   else
   {
+    $sql_count =  "SELECT COUNT(*) FROM frm_message ";
+    $sql_count .= $sql_conds;
+    $req = new requete($site->db,$sql, 1);
+    if ( $req->lines > 0 )
+      list($mess_count) =  $req->get_row();
+
     $sql = "SELECT frm_sujet.*, frm_message.*, frm_forum.id_groupe, frm_forum.droits_acces_forum, ".
             "COALESCE( utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)) AS alias_utl, " .
             "utilisateurs.id_utilisateur, utilisateurs.signature_utl " .
@@ -368,7 +374,16 @@ if ( isset($_REQUEST["pattern"] ) )
 
     $sql .= $order_mess;
 
-    $sql .= "LIMIT 50";
+    if (isset($_REQUEST['first']) && intval($_REQUEST['first']) > 0)
+    {
+      $sql .= "LIMIT ".intval($_REQUEST['first']).", 50";
+      $first = intval($_REQUEST['first']);
+    }
+    else
+    {
+      $sql .= "LIMIT 50";
+      $first = 0;
+    }
 
     $req = new requete($site->db,$sql, 1);
 
@@ -492,6 +507,16 @@ if ( isset($_REQUEST["pattern"] ) )
           $cts_res->puts($buffer);
         }
       }
+
+      $page_idx = 0;
+      $tabs = array();
+      while(50 * $page_idx < $mess_count)
+      {
+        $tabs[] = array("page_".$page_idx, $url."first=".(50*$page_idx), $page_idx+1);
+        $page_idx++;
+      }
+
+      $cts->add(new tabshead($tabs, "page_".$first/50, "_bottom"));
     }
     else
       $cts_res->add_paragraph("Aucun résultat trouvé.");
