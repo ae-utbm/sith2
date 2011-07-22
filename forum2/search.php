@@ -512,7 +512,7 @@ if ( isset($_REQUEST["pattern"] ) )
       $tabs = array();
       while(50 * $page_idx < $mess_count)
       {
-        $tabs[] = array("page_".$page_idx, $url."first=".(50*$page_idx), $page_idx+1);
+        $tabs[] = array("page_".$page_idx, "forum2/".$url."&first=".(50*$page_idx), $page_idx+1);
         $page_idx++;
       }
 
