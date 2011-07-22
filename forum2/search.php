@@ -255,8 +255,12 @@ if ( isset($_REQUEST["pattern"] ) )
     else
       */
       $sql_conds = "WHERE MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."' IN BOOLEAN MODE) ";
-      $order_mess = "ORDER BY MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."' IN BOOLEAN MODE) DESC, date_message DESC ";
-      $order_suj = "ORDER BY MAX(MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."' IN BOOLEAN MODE)) DESC, date_message DESC ";
+
+      if ($_REQUEST['order'] != "date")
+      {
+        $order_mess = "ORDER BY MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."' IN BOOLEAN MODE) DESC, date_message DESC ";
+        $order_suj = "ORDER BY MAX(MATCH (frm_message.titre_message,frm_message.contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."' IN BOOLEAN MODE)) DESC, date_message DESC ";
+      }
   }
   else
     $sql_conds = "WHERE 1 ";
@@ -297,6 +301,7 @@ if ( isset($_REQUEST["pattern"] ) )
   }
 
   $url .= "&display_type=".$_REQUEST['display_type'];
+  $url .= "&order=".$_REQUEST['order'];
   $cts_res = new contents("Résultats de la recherche");
 
   if ($_REQUEST['display_type'] == "sujets")
@@ -558,6 +563,7 @@ if ($site->user->is_in_group('root') || $site->user->is_in_group('moderateur_for
   $frm->add_checkbox("include_deleted", "Rechercher dans les messages supprimés", (!isset($_REQUEST["pattern"]) || isset($_REQUEST["include_deleted"])));
 
 $frm->add_radiobox_field("display_type", "Type d'affichage", array("messages"=>"Afficher les messages", "sujets"=>"Afficher les sujets"), "messages");
+$frm->add_radiobox_field("order", "Tri", array("pertinence"=>"Tri par pertinence", "date"=>"Tri par date"), "pertinence");
 $frm->add_submit("search","Rechercher");
 $frm->set_focus("pattern");
 $cts->add($frm);
