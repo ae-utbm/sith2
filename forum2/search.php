@@ -357,7 +357,7 @@ if ( isset($_REQUEST["pattern"] ) )
   {
     $sql_count =  "SELECT COUNT(*) FROM frm_message ";
     $sql_count .= $sql_conds;
-    $req = new requete($site->db,$sql, 1);
+    $req = new requete($site->db,$sql_count, 1);
     if ( $req->lines > 0 )
       list($mess_count) =  $req->get_row();
 
@@ -516,7 +516,7 @@ if ( isset($_REQUEST["pattern"] ) )
         $page_idx++;
       }
 
-      $cts->add(new tabshead($tabs, "page_".$first/50, "_bottom"));
+      $cts_res->add(new tabshead($tabs, "page_".$first/50, "_bottom"));
     }
     else
       $cts_res->add_paragraph("Aucun résultat trouvé.");
