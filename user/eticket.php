@@ -65,7 +65,7 @@ $row = $req->get_row();
 $quantite = intval($row['quantite']);
 
 $code = $user->id . ' ' . $id_produit . ' ' . $quantite;
-$hash = $eticket->create_for_produit($code);
+$hash = $eticket->compute_hash_for($code);
 $code .= ' ' . $hash;
 
 $eticket_pdf = new eticket_pdf ($file->get_real_filename ());
