@@ -99,7 +99,7 @@ class fsearch extends stdcontents
       else
         $force_sql = "";
 
-      $req = new requete($site->db,
+      /*$req = new requete($site->db,
                          'SELECT COUNT(*) ' .
                          'FROM utilisateurs ' .
                          'WHERE CONCAT(prenom_utl,\' \',nom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql.' ' .
@@ -109,7 +109,14 @@ class fsearch extends stdcontents
                          'UNION DISTINCT SELECT COUNT(*) ' .
                          'FROM utl_etu_utbm ' .
                          'INNER JOIN `utilisateurs` ON utl_etu_utbm.id_utilisateur = utilisateurs.id_utilisateur ' .
-                         'WHERE surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\' '.$force_sql);
+                         'WHERE surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\' '.$force_sql);*/
+      $req = new requete($site->db,
+                         'SELECT COUNT(*) ' .
+                         'FROM utilisateurs ' .
+                         'INNER JOIN utl_etu_utbm ON utl_etu_utbm.id_utilisateur = utilisateurs.id_utilisateur ' .
+                         'WHERE (CONCAT(prenom_utl,\' \',nom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql.') OR ' .
+                         '(CONCAT(nom_utl,\' \',prenom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql.') OR ' .
+                         '(surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\' '.$force_sql.')');
 
       $nbutils = 0;
 
