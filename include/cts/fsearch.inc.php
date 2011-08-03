@@ -84,7 +84,7 @@ class fsearch extends stdcontents
     $pattern = preg_replace('/(o|O|Ò|ò|ô|Ô)/i','(o|O|Ò|ò|ô|Ô)',$pattern);
     $pattern = preg_replace('/(u|ù|ü|û|Ü|Û|Ù)/i','(u|ù|ü|û|Ü|Û|Ù)',$pattern);
     $pattern = preg_replace('/(n|ñ|Ñ)/i','(n|ñ|Ñ)',$pattern);
-    $pattern = preg_replace('(\d+)', '(0+)$0');
+    $pattern = preg_replace('(\d+)', '(0+)$0', $pattern);
     $sqlpattern = mysql_real_escape_string($pattern);
 
     // Utilisateurs
@@ -147,7 +147,7 @@ class fsearch extends stdcontents
           if ( $row["method"] > 2 )
             $nom = $row['prenom_utl']." ".$row['nom_utl']." : ".eregi_replace($pattern,"<b>\\0</b>",$row[0]);
           elseif ( $row["method"] == 1 )
-            $nom = eregi_replace($pattern,"<b>\\0</b>",$row[0]);
+            $nom = preg_replace('/'.$pattern.'/',"<b>\\0</b>",$row[0]);
 
           $this->buffer .= "<li><div class=\"imguser\"><img src=\"";
 
@@ -273,7 +273,7 @@ class fsearch extends stdcontents
                 if ( $req->lines == 1 )
                     $this->redirect = $wwwtopdir."uvs/uvs.php?id_uv=".$row['id_uv'];
 
-                $this->buffer .= "<li><a href=\"".$wwwtopdir."pedagogie/uv.php?id=".$row['id_uv']."\">".eregi_replace($pattern,"<b>\\0</b>",$row['code']." : ".$row['intitule'])."</a></li>";
+                $this->buffer .= "<li><a href=\"".$wwwtopdir."pedagogie/uv.php?id=".$row['id_uv']."\">".preg_replace('/'.$pattern.'/',"<b>\\0</b>",$row['code']." : ".$row['intitule'])."</a></li>";
             }
 
             $this->buffer .= "</ul>";
