@@ -189,7 +189,7 @@ class site extends interfaceweb
     if ( $forever )
       $expire = null;
     else
-      $expire = date("Y-m-d H:i:s",time()+(15*60)); // Session expire dans 15 minutes
+      $expire = date("Y-m-d H:i:s",time()+(30*60)); // Session expire dans 30 minutes
 
     $sid = md5(rand(0,32000) . $_SERVER['REMOTE_ADDR'] . rand(0,32000));
 
