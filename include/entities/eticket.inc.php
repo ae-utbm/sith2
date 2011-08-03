@@ -96,7 +96,7 @@ class eticket extends stdentity
                         'secret' => $this->secret,
                         'banner' => $this->banner);
 
-        $req = new insert($this->dbrw, ETICKET_TABLE);
+        $req = new insert($this->dbrw, ETICKET_TABLE, $values);
         $this->id = $req->get_id ();
     }
 
