@@ -46,6 +46,8 @@ if ( isset($_REQUEST['id_utilisateur']) )
 else
   $user = &$site->user;
 
+$user->load_all_extra ();
+
 if (!isset ($_REQUEST['id_ticket']) || !isset($_REQUEST['id_produit']) || !isset($_REQUEST['id_facture']))
     $site->error_not_found ('none', '/user/compteae.php');
 
