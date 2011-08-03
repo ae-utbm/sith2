@@ -320,7 +320,7 @@ if ( $req2->lines > 0 )
           array()));
 }
 
-$req3 = new requete($site->db, 'SELECT id_ticket, id_produit FROM cpt_etickets AS etickets WHERE EXISTS(SELECT vendu.id_facture FROM cpt_vendu AS vendu LEFT JOIN cpt_debitfacture AS debit ON vendu.id_facture = debit.id_facture WHERE vendu.id_produit=etickets.id_produit AND debit.id_utilisateur_client='.mysql_real_escape_string($user->id).')');
+$req3 = new requete($site->db, 'SELECT id_ticket, etickets.id_produit AS id_produit, cpt_produits.nom_prod AS nom_prod FROM cpt_etickets AS etickets INNER JOIN cpt_produits ON cpt_produits.id_produit=etickets.id_produit WHERE EXISTS(SELECT vendu.id_facture FROM cpt_vendu AS vendu LEFT JOIN cpt_debitfacture AS debit ON vendu.id_facture = debit.id_facture WHERE vendu.id_produit=etickets.id_produit AND debit.id_utilisateur_client='.mysql_real_escape_string($user->id).')');
 
 if ($req3->lines > 0) {
   $cts->add_title (3, 'E-tickets à imprimer');
@@ -331,7 +331,7 @@ if ($req3->lines > 0) {
           "eticket.php",
           "id_ticket",
           array('id_ticket'=>'Numéro de ticket',
-                'total'=>'Montant'),
+                'nom_prod'=>'Produit correspondant'),
           array('download' => 'Téléchargement du e-ticket (format PDF)'),
           array(),
           array()));
