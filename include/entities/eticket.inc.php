@@ -102,7 +102,7 @@ class eticket extends stdentity
 
     function compute_hash_for ($value)
     {
-        substr(hmac('sha1', $value, $this->secret), 0, 8);
+        return substr(hmac('sha1', $value, $this->secret), 0, 8);
     }
 }
 
