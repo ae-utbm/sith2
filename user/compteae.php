@@ -330,7 +330,7 @@ if ($req3->lines > 0) {
           $req3,
           "eticket.php",
           "id_ticket",
-          array('id_ticket'=>'Numéro de ticket',
+          array('id_ticket'=>'N°',
                 'nom_prod'=>'Produit correspondant'),
           array('download' => 'Téléchargement du e-ticket (format PDF)'),
           array(),
