@@ -86,6 +86,7 @@ class fsearch extends stdcontents
     $pattern = preg_replace('/(n|ñ|Ñ)/i','(n|ñ|Ñ)',$pattern);
     $pattern = preg_replace('(\d+)', '(0+)$0', $pattern);
     $sqlpattern = mysql_real_escape_string($pattern);
+    $pattern = '/'.$pattern.'/';
 
     // Utilisateurs
     if ( $site->user->is_valid() && ($site->user->cotisant || $site->user->utbm)) {
@@ -99,48 +100,31 @@ class fsearch extends stdcontents
       else
         $force_sql = "";
 
-      /*$req = new requete($site->db,
-                         'SELECT COUNT(*) ' .
-                         'FROM utilisateurs ' .
-                         'WHERE CONCAT(prenom_utl,\' \',nom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql.' ' .
-                         'UNION DISTINCT SELECT COUNT(*) ' .
-                         'FROM utilisateurs ' .
-                         'WHERE CONCAT(nom_utl,\' \',prenom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql.' ' .
-                         'UNION DISTINCT SELECT COUNT(*) ' .
-                         'FROM utl_etu_utbm ' .
-                         'INNER JOIN `utilisateurs` ON utl_etu_utbm.id_utilisateur = utilisateurs.id_utilisateur ' .
-                         'WHERE surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\' '.$force_sql);*/
       $req = new requete($site->db,
-                         'SELECT COUNT(*) ' .
+                         'SELECT id_utilisateur ' .
                          'FROM utilisateurs ' .
                          'INNER JOIN utl_etu_utbm ON utl_etu_utbm.id_utilisateur = utilisateurs.id_utilisateur ' .
                          'WHERE (CONCAT(prenom_utl,\' \',nom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql.') OR ' .
                          '(CONCAT(nom_utl,\' \',prenom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql.') OR ' .
-                         '(surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\' '.$force_sql.')');
+                         '(surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\' '.$force_sql.') LIMIT 1');
 
-      $nbutils = 0;
-
-      if ($req->lines > 0)
-          while ( list($c) = $req->get_row() )
-              $nbutils += $c;
-
-      if ( $nbutils > 0 ) {
+      if ( $req->lines > 0 ) {
         $req = new requete($site->db,
-          "SELECT CONCAT(`prenom_utl`,' ',`nom_utl`),'1' as `method`, utilisateurs.*, `visites` " .
-          "FROM `utilisateurs` " .
-          "LEFT JOIN `utl_etu` USING ( `id_utilisateur` ) " .
-          "WHERE CONCAT(`prenom_utl`,' ',`nom_utl`) REGEXP '^".$sqlpattern."' $force_sql " .
-          "UNION DISTINCT SELECT CONCAT(`prenom_utl`,' ',`nom_utl`),'1' as `method`, utilisateurs.*, `visites` " .
-          "FROM `utilisateurs` " .
-          "LEFT JOIN `utl_etu` USING ( `id_utilisateur` ) " .
-          "WHERE CONCAT(`nom_utl`,' ',`prenom_utl`) REGEXP '^".$sqlpattern."' $force_sql " .
-          "UNION DISTINCT SELECT `surnom_utbm`, '4' as `method`, `utilisateurs`.*, `visites` " .
-          "FROM `utl_etu_utbm` " .
-          "INNER JOIN `utilisateurs` USING (`id_utilisateur`) " .
-          "LEFT JOIN `utl_etu` USING ( `id_utilisateur` ) " .
-          "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' ".
-          "AND CONCAT(`prenom_utl`,' ',`nom_utl`) NOT REGEXP '^".$sqlpattern."' $force_sql " .
-          "ORDER BY `visites` DESC LIMIT 3");
+         'SELECT CONCAT(prenom_utl,\' \',nom_utl),\'1\' as method, utilisateurs.*, visites' .
+         'FROM utilisateurs' .
+         'LEFT JOIN utl_etu USING ( id_utilisateur )' .
+         'WHERE CONCAT(prenom_utl,\' \',nom_utl) REGEXP \'^'.$sqlpattern.'\' '. $force_sql .
+         'UNION DISTINCT SELECT CONCAT(prenom_utl,\' \',nom_utl),\'1\' as method, utilisateurs.*, visites' .
+         'FROM utilisateurs' .
+         'LEFT JOIN utl_etu USING ( id_utilisateur )' .
+         'WHERE CONCAT(nom_utl,\' \',prenom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql .
+         'UNION DISTINCT SELECT surnom_utbm, \'4\' as method, utilisateurs.*, visites' .
+         'FROM utl_etu_utbm' .
+         'INNER JOIN utilisateurs USING (id_utilisateur)' .
+         'LEFT JOIN utl_etu USING ( id_utilisateur )' .
+         'WHERE surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\''.
+         'AND CONCAT(prenom_utl,\' \',nom_utl) NOT REGEXP \'^'.$sqlpattern.'\' '.$force_sql .
+         'ORDER BY visites DESC LIMIT 3');
 
         $this->buffer .= "<h2>Personnes</h2>";
         $this->buffer .= "<ul>";
@@ -152,11 +136,11 @@ class fsearch extends stdcontents
             $this->redirect = $wwwtopdir."user.php?id_utilisateur=".$row['id_utilisateur'];
 
           if ( $row["method"] > 2 )
-            $nom = $row['prenom_utl']." ".$row['nom_utl']." : ".eregi_replace($pattern,"<b>\\0</b>",$row[0]);
+            $nom = $row['prenom_utl']." ".$row['nom_utl']." : ".preg_replace($pattern,'<b>$0</b>',$row[0]);
           elseif ( $row["method"] == 1 )
-            $nom = preg_replace('/'.$pattern.'/',"<b>\\0</b>",$row[0]);
+            $nom = preg_replace($pattern,'<b>$0</b>',$row[0]);
 
-          $this->buffer .= "<li><div class=\"imguser\"><img src=\"";
+          $this->buffer .= '<li><div class="imguser"><img src="';
 
           if (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg"))
             $this->buffer .= $wwwtopdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
@@ -191,7 +175,7 @@ class fsearch extends stdcontents
         if ( $req->lines == 1 )
           $this->redirect = $wwwtopdir."user.php?id_utilisateur=".$row['id_utilisateur'];
 
-        $this->buffer .= "<li><a href=\"".$wwwtopdir."asso.php?id_asso=".$row["id_asso"]."\"><img src=\"".$wwwtopdir."images/icons/16/asso.png\" class=\"icon\" alt=\"\" /> ".eregi_replace($pattern,"<b>\\0</b>",$row["nom_asso"])."</a></li>";
+        $this->buffer .= "<li><a href=\"".$wwwtopdir."asso.php?id_asso=".$row["id_asso"]."\"><img src=\"".$wwwtopdir."images/icons/16/asso.png\" class=\"icon\" alt=\"\" /> ".preg_replace($pattern,'<b>$0</b>',$row["nom_asso"])."</a></li>";
       }
 
       $this->buffer .= "</ul>";
@@ -225,8 +209,8 @@ class fsearch extends stdcontents
 
                 $this->buffer .= "<li><a href=\"".$wwwtopdir."e-boutic/?cat=".$row['id_typeprod']."\">" .
                     "<img src=\"".$wwwtopdir."images/icons/16/produit.png\" class=\"icon\" alt=\"\" />" .
-                    " ".eregi_replace($pattern,"<b>\\0</b>",$row["nom_typeprod"]).
-                    " : ".eregi_replace($pattern,"<b>\\0</b>",$row["nom_prod"])."</a></li>";
+                    " ".preg_replace($pattern,'<b>$0</b>',$row["nom_typeprod"]).
+                    " : ".preg_replace($pattern,'<b>$0</b>',$row["nom_prod"])."</a></li>";
             }
 
             $this->buffer .= "</ul>";
@@ -258,7 +242,7 @@ class fsearch extends stdcontents
                 if ($row["date_debut_eve"] )
                     $nom .= " - le ".date("d/m/Y",strtotime($row["date_debut_eve"]));
 
-                $this->buffer .= "<li><a href=\"".$wwwtopdir."news.php?id_nouvelle=".$row['id_nouvelle']."\"><img src=\"".$wwwtopdir."images/icons/16/nouvelle.png\" class=\"icon\" alt=\"\" /> ".eregi_replace($pattern,"<b>\\0</b>",$nom)."</a></li>";
+                $this->buffer .= "<li><a href=\"".$wwwtopdir."news.php?id_nouvelle=".$row['id_nouvelle']."\"><img src=\"".$wwwtopdir."images/icons/16/nouvelle.png\" class=\"icon\" alt=\"\" /> ".preg_replace($pattern,'<b>$0</b>',$nom)."</a></li>";
             }
 
             $this->buffer .= "</ul>";
@@ -280,7 +264,7 @@ class fsearch extends stdcontents
                 if ( $req->lines == 1 )
                     $this->redirect = $wwwtopdir."uvs/uvs.php?id_uv=".$row['id_uv'];
 
-                $this->buffer .= "<li><a href=\"".$wwwtopdir."pedagogie/uv.php?id=".$row['id_uv']."\">".preg_replace('/'.$pattern.'/',"<b>\\0</b>",$row['code']." : ".$row['intitule'])."</a></li>";
+                $this->buffer .= "<li><a href=\"".$wwwtopdir."pedagogie/uv.php?id=".$row['id_uv']."\">".preg_replace($pattern,'<b>$0</b>',$row['code']." : ".$row['intitule'])."</a></li>";
             }
 
             $this->buffer .= "</ul>";
