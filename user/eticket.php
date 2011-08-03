@@ -24,8 +24,8 @@
 $topdir="../";
 require_once($topdir."include/site.inc.php");
 require_once($topdir."include/mysql.inc.php");
-require_once($topdir."include/entites/eticket.inc.php");
-require_once($topdir."include/entites/files.inc.php");
+require_once($topdir."include/entities/eticket.inc.php");
+require_once($topdir."include/entities/files.inc.php");
 require_once($topdir."include/pdf/eticket.inc.php");
 
 $site = new site();
