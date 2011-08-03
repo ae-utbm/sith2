@@ -46,7 +46,7 @@ if ( $_REQUEST['module']=="fsearch" )
   }
 
   require_once($topdir. "include/cts/fsearch.inc.php");
-  $fsearch = new fsearch ( $site );
+  $fsearch = new fsearch ( $site, false );
   // si la requete a été trop longue on ne l'affiche pas !
   echo "  if ( ".$_REQUEST['fsearch_sequence']." == fsearch_actual_sequence ) {\n";
   echo "    var content = document.getElementById('fsearchres');\n";
