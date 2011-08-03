@@ -86,7 +86,7 @@ class eticket_pdf extends FPDF
     {
         $this->SetFont('Arial','',12);
 
-        $this->Image ($this->img_header);
+        $this->Image ($this->img_header, null, null, 0, 0, 'JPG');
         $this->Ln(40);
     }
 
