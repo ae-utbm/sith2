@@ -101,7 +101,7 @@ class fsearch extends stdcontents
         $force_sql = "";
 
       $req = new requete($site->db,
-                         'SELECT id_utilisateur ' .
+                         'SELECT utilisateurs.id_utilisateur ' .
                          'FROM utilisateurs ' .
                          'INNER JOIN utl_etu_utbm ON utl_etu_utbm.id_utilisateur = utilisateurs.id_utilisateur ' .
                          'WHERE (CONCAT(prenom_utl,\' \',nom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql.') OR ' .
