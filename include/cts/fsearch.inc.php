@@ -86,7 +86,7 @@ class fsearch extends stdcontents
     $pattern = preg_replace('/(n|ñ|Ñ)/i','(n|ñ|Ñ)',$pattern);
     $pattern = preg_replace('(\d+)', '(0+)$0', $pattern);
     $sqlpattern = mysql_real_escape_string($pattern);
-    $pattern = '/'.$pattern.'/';
+    $pattern = '/'.$pattern.'/i';
 
     // Utilisateurs
     if ( $site->user->is_valid() && ($site->user->cotisant || $site->user->utbm)) {
