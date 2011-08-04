@@ -437,9 +437,11 @@ elseif ($_REQUEST['module'] == 'eticket-ident' && isset ($_REQUEST['id_utilisate
         $line = $req->get_row ();
         if ($line != null) {
             echo $line['prenom_utl'] . '|^' . $line['nom_utl'] . '|^' . $line['surnom_utbm'];
-            exit ();
         }
+    } else {
+        echo '0';
     }
+    exit ();
 }
 
 if ( $_REQUEST['class'] == "calendar" )
