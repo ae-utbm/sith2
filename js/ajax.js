@@ -177,7 +177,7 @@ function fsearch_keyup(event)
       fsearch_timeout_id = window.setTimeout (function () {
           fsearch_sequence=fsearch_sequence+1;
           evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
-      }, 1400 - (length == 1 ? 0 : 400 * (length - 1));
+      }, 1400 - (length == 1 ? 0 : 400 * (length - 1)));
   } else {
       fsearch_sequence=fsearch_sequence+1;
       evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
