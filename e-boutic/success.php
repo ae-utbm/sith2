@@ -63,12 +63,14 @@ if (isset($_POST['DATA']))
                 "Les resultats de vos achats sont ".
                 "fictifs !</p>"));
 
-      $site->add_contents (new contents ("e-boutic",
-                 "<p>Votre paiement a été ".
-                 "accepté avec succès. L'AE vous ".
-                 "remercie d'avoir utilisé son ".
-                 "service de vente en ligne !".
-                 "</p>"));
+      $maincts = new contents ("e-boutic");
+      $maincts->add_paragraph ("Votre paiement a été ".
+                               "accepté avec succès. L'AE vous ".
+                               "remercie d'avoir utilisé son ".
+                               "service de vente en ligne !");
+      $maincts->add_paragraph ('Si votre commande comporte des e-ticket à imprimer,'.
+                               'vous pouvez les récupérer sur la page de <a href="/user/compteae.php">votre compte</a>.');
+      $site->add_contents ($maincts);
 
       $cart = array_count_values(explode(",", $success->caddie));
       $prod = new produit ($site->db,$site->dbrw);
@@ -79,7 +81,6 @@ if (isset($_POST['DATA']))
           if ( $cts=$cl->get_once_sold_cts($site->user))
             $site->add_contents($cts);
       }
-
     }
     else
     {
