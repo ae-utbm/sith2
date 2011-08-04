@@ -143,6 +143,7 @@ function usersession_set ( topdir, key, value )
 var fsearch_display_query='';
 var fsearch_sequence=0;
 var fsearch_actual_sequence=0;
+var fsearch_timeout_id = null;
 
 function fsearch_keyup(event)
 {
@@ -156,13 +157,28 @@ function fsearch_keyup(event)
     }
   }
 
+  if (fsearch_timeout_id != null)
+      window.clearTimeout (fsearch_timeout_id);
+
   var obj = document.getElementById('fsearchpattern');
 
   if ( !obj ) return false;
 
-  fsearch_sequence=fsearch_sequence+1;
+  var length = obj.value.length;
+  if (length == 0)
+      return false;
 
-  evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
+    /* Généralement on tappe autour de trois caractères pour que la recherche soit efficace */
+  if (length <= 3) {
+      fsearch_timeout_id = window.setTimeout (function () {
+          fsearch_sequence=fsearch_sequence+1;
+          evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
+      }, 1000 / (2 * (length - 1)));
+  } else {
+      fsearch_timeout_id = null;
+      fsearch_sequence=fsearch_sequence+1;
+      evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
+  }
 
   return true;
 }
