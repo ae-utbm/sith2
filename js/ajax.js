@@ -165,10 +165,12 @@ function fsearch_keyup(event)
   if ( !obj ) return false;
 
   var length = obj.value.length;
-  if (length == 0)
+  if (length == 0) {
+      fsearch_stop();
       return false;
+  }
 
-    /* Généralement on tappe autour de trois caractères pour que la recherche soit efficace */
+  /* Généralement on tappe autour de trois caractères pour que la recherche soit efficace */
   if (length <= 3) {
       fsearch_timeout_id = window.setTimeout (function () {
           fsearch_sequence=fsearch_sequence+1;
