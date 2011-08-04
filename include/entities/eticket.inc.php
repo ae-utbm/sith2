@@ -84,7 +84,7 @@ class eticket extends stdentity
     {
         $this->id = $row['id_ticket'];
         $this->id_produit = $row['id_produit'];
-        $this->secret = $row['id_produit'];
+        $this->secret = $row['secret'];
         $this->banner = $row['banner'];
     }
 
