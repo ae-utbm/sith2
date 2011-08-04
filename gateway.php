@@ -431,7 +431,7 @@ elseif ($_REQUEST['module'] == 'eticket-ident' && isset ($_REQUEST['id_utilisate
        des infos utilisateurs si il a un lien internet */
     require_once($topdir. "include/mysql.inc.php");
 
-    $req = new requete ($site->db, 'SELECT id_ticket FROM cpt_etickets WHERE secret=\''.mysql_real_escape_string($_REQUEST['secret'])).'\'';
+    $req = new requete ($site->db, 'SELECT id_ticket FROM cpt_etickets WHERE secret=\''.mysql_real_escape_string($_REQUEST['secret']).'\'');
     if ($req->lines > 0) {
         $req = new requete ($site->db, 'SELECT utl.prenom_utl, utl.nom_utl, utl_utbm.surnom_utbm FROM utilisateurs AS utl LEFT JOIN utl_etu_utbm AS utl_utbm ON utl.id_utilisateur = utl_utbm.id_utilisateur WHERE utl.id_utilisateur='.intval(mysql_real_escape_string($_REQUEST['id_utilisateur'])));
         $line = $req->get_row ();
