@@ -157,8 +157,10 @@ function fsearch_keyup(event)
     }
   }
 
-  if (fsearch_timeout_id != null)
+  if (fsearch_timeout_id != null) {
       window.clearTimeout (fsearch_timeout_id);
+      fsearch_timeout_id = null;
+  }
 
   var obj = document.getElementById('fsearchpattern');
 
@@ -177,7 +179,6 @@ function fsearch_keyup(event)
           evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
       }, 1000 / (length == 1 ? 1 : 2 * (length - 1)));
   } else {
-      fsearch_timeout_id = null;
       fsearch_sequence=fsearch_sequence+1;
       evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
   }
