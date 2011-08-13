@@ -87,9 +87,6 @@ class UVParser
     $txt = $this->get_real_uv($txt);
     $this->_target = explode("\n",$txt);
 
-    echo '<pre>';
-    var_dump( $this->_target );
-    echo '</pre>';
     $this->parse();
 
     if( $load_next )
@@ -159,7 +156,7 @@ class UVParser
       $sql .= " AND `semestre` = '".$this->semester."' LIMIT 1";
     }
 
-    $req = new requete($this->db, $sql, 1);
+    $req = new requete($this->db, $sql);
 
     if($req->is_success()) {
       $res = $req->get_row();
