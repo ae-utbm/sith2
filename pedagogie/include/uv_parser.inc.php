@@ -87,17 +87,6 @@ class UVParser
     $txt = $this->get_real_uv($txt);
     $this->_target = explode("\n",$txt);
 
-    echo '<pre>';
-    var_dump( $this->_target );
-    echo '</pre>';
-/*
-    $i = -1;
-    while( isset($this->_target[++$i]) ) {
-      if( preg_match('/'.$this->_phrase.'et('.$this->_info.')/', $this->_target[i], $matches) )
-        print_r( $matches );
-      unset( $matches );
-    }
-*/
     $this->parse();
 
     if( $load_next )
