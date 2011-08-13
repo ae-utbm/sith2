@@ -629,10 +629,14 @@ $cts->add(new sqltable("edtlist", "Liste des emplois du temps", $tab, "edt.php",
                               "edit" => "Éditer",
                               "delete" => "Supprimer"),
                         array(), array(), false), true);
+$cts->add_paragraph("<a href=\"edt.php?action=new&method=auto\">+ Ajouter un emploi du temps</a>");
+$cts->add_paragraph("<a href=\"edt.php?action=new\">+ Ajouter un emploi du temps manuellement</a>");
+/*
 $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."value=\"+ Ajouter un emploi du temps\" "
                     ."onclick=\"edt.add();\" "
                     ."name=\"add_edt\" id=\"add_edt\"/>");
+*/
 $site->add_contents($cts);
 
 $site->end_page();
