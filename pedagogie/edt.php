@@ -161,6 +161,8 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
     $cts->add_paragraph('Vous pouvez ajouter ici un nouvel emploi du temps pour le site de l\'AE');
     $cts->add_paragraph('Notez que vous ne pouvez créer qu\'un emploi du temps par semestre,
         mais vous aurez la possibilité de l\'éditer.');
+    $cts->add_paragraph('<b>/!\ Les emplois du temps des semestres antécédents au semestre d\'automne
+        2011 ne sont pas supportés /!\</b>');
 
     $frm = new form('newedt', 'edt.php?action=new&method=auto', true, 'post', 'Ajouter un nouvel emploi du temps');
 
