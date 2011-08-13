@@ -58,7 +58,7 @@ class UVParser
   protected $_title;
   protected $_info;
   protected $_schedule;
-  protected $_uv = '([A-Z]{2}[0-9A-Z][0-9])';
+  protected $_uv = '([A-Z]{2}[0-9]{2})';
   protected $_type = '(?:(C|TD|TP)([0-9]))';
   protected $_day = '(L|MA|ME|J|V|S)';
   protected $_frequency = '(\(1SEMAINE\/2\))';
@@ -84,6 +84,7 @@ class UVParser
   public function load_by_text($txt, $load_next = false) {
     $txt = preg_replace('/(.+):(.+)et(.+)/', "$1$2\n$1$3", $txt); // life is easy
     $txt = str_replace(array(' ', ':', '-'), '', $txt);
+    $this->get_real_uv($txt);
     $this->_target = explode("\n",$txt);
 
     $this->parse();
@@ -210,7 +211,6 @@ class UVParser
   // --- protected functions
   // parse text loaded
   protected function parse() {
-
     while( $foo = current($this->_target) ) {
       preg_match('/'.$this->_phrase.'/', $foo, $matches);
 
