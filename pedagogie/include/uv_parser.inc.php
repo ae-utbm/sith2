@@ -188,6 +188,20 @@ class UVParser
   }
 
   public function get_info_add_group() {
+    while(true) {
+      $sql = "SELECT * FROM pedag_group WHERE `type` = '".$this->type."' AND `num_group` = ".$this->group;
+      $sql .= " AND `id_uv` = ".$this->id;
+
+      $req = new requete($this->db, $sql);
+
+      if( $req->is_success() )
+        if( isset( $req) ) {
+          $this->group++;
+          continue;
+        }
+      break;
+    }
+
     return array( $this->type,
                   $this->group,
                   $this->frequency,
