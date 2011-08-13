@@ -108,16 +108,16 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
     $freq2_uvs = array();
     while ( $uvs->load_next() ) {
       // add user to group
-      if( !$uvs->get_id_uv() ) {
-        echo 'NEIN';
+      if( !$uvs->get_id_uv() )
         continue;
-      }
 
       $uv = new uv($site->db, $site->dbrw, $uvs->get_id_uv());
       if( !$uv->is_valid() )
         continue;
 
+      echo 'a';
       $id_grp = $uvs->get_id_group();
+      echo 'b';
       if( $uvs->is_weekly() ) {
 
         if( !$id_grp ) {
