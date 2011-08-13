@@ -129,9 +129,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
 
 
       } else
-      { echo $uvs->get_nice_print();
         $freq2_uvs[$uvs->get_text()] = $uvs->get_nice_print();
-      }
     }
 
     if( empty($freq2_uvs) )
