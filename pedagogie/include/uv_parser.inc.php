@@ -155,7 +155,7 @@ class UVParser
       $sql .= " AND `semestre` = '".$this->semester."' LIMIT 1";
     }
 
-    $req = new requete($this->db, $sql);
+    $req = new requete($this->db, $sql, 1);
 
     if($req->is_success()) {
       $res = $req->get_row();
@@ -239,10 +239,10 @@ class UVParser
   protected function get_real_uv($uv) {
     $seek = array(); $destroy = array(); // st'humour de répétition
     $matches = array(
-        '/MT1[A-C]/' => 'MT11',
-        '/MT2[A-C]/' => 'MT12',
-        '/PS1[A-C]/' => 'PS11',
-        '/PS2[A-C]/' => 'PS12',
+        '/MT1[A-Z]/' => 'MT11',
+        '/MT2[A-Z]/' => 'MT12',
+        '/PS1[A-Z]/' => 'PS11',
+        '/PS2[A-Z]/' => 'PS12',
         '/ST1[A-Z]/' => 'ST10'
         );
 
@@ -256,7 +256,7 @@ class UVParser
 
   protected function load_id_uv() {
     $sql = "SELECT id_uv FROM pedag_uv WHERE code='".$this->uv."' LIMIT 1";
-    $req = new requete($this->db, $sql);
+    $req = new requete($this->db, $sql, 1);
 
     if( $req->is_success() ) {
       $res = $req->get_row();
