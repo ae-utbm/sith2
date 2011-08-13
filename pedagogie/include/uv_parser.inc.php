@@ -194,11 +194,14 @@ class UVParser
 
       $req = new requete($this->db, $sql);
 
-      if( $req->is_success() )
-        if( $req['nb'] > 0 ) {
+      if( $req->is_success() ) {
+        $res = $req->get_row();
+        if( $res['nb'] > 0 ) {
           $this->group++;
           continue;
         }
+      }
+
       break;
     }
 
