@@ -161,15 +161,15 @@ class UVParser
       $res = $req->get_row();
       return $res['id_groupe'];
     }
-    else
-      return null;
+    echo $this->id;
+    return null;
   }
 
   public function get_uv() {
     if( !empty($this->uv) )
       return $this->uv;
-    else
-      return null;
+
+    return null;
   }
 
   public function get_text() {
