@@ -127,7 +127,7 @@ class UVParser
       $this->day = $days[$foo[4]];
       $this->begin_hour = $foo[5];
       $this->end_hour = $foo[6];
-      $this->room = $foo[8];
+      $this->room = $this->get_real_room($foo[8]);
 
       if($foo[7] == '')
         $this->frequency = 1;
@@ -221,9 +221,23 @@ class UVParser
     }
   }
 
+  protected function get_real_room($room) {
+    $seek = array(); $destroy = array();  // ste blague
+    $matches = array(
+        '/H11/' => 'H011'
+        );
+
+    while(list($s,$d) = each($matches)) {
+      $seek[] = $s;
+      $destroy[] = $d;
+    }
+
+    return preg_replace($seek, $destroy, $uv);
+  }
+
   // to put in bdd
   protected function get_real_uv($uv) {
-    $seek = array(); $destroy = array(); // ste blague
+    $seek = array(); $destroy = array(); // st'humour de répétition
     $matches = array(
         '/MT1[A-C]/' => 'MT11',
         '/MT2[A-C]/' => 'MT12',
