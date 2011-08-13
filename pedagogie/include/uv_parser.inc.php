@@ -161,7 +161,7 @@ class UVParser
       $res = $req->get_row();
       return $res['id_groupe'];
     }
-    echo $this->id;
+
     return null;
   }
 
