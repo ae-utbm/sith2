@@ -148,6 +148,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
     }
 
     $frm->add_hidden('liste_uvs', $foo);
+    echo $foo;
     $frm->add_hidden('semestre', $semestre);
 
 
