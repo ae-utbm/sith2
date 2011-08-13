@@ -243,7 +243,8 @@ class UVParser
         '/MT2[A-Z]/' => 'MT12',
         '/PS1[A-Z]/' => 'PS11',
         '/PS2[A-Z]/' => 'PS12',
-        '/ST1[A-Z]/' => 'ST10'
+        '/ST1[A-Z]/' => 'ST10',
+        '/YO1[A_Z]/' => 'LO11'
         );
 
     while(list($s, $d) = each($matches)) {
