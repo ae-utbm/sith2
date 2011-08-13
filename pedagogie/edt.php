@@ -108,8 +108,10 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
     $freq2_uvs = array();
     while ( $uvs->load_next() ) {
       // add user to group
-      if( !$uvs->get_id_uv() )
+      if( !$uvs->get_id_uv() ) {
+        echo 'NEIN';
         continue;
+      }
 
       $uv = new uv($site->db, $site->dbrw, $uvs->get_id_uv());
       if( !$uv->is_valid() )
@@ -148,7 +150,6 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
     }
 
     $frm->add_hidden('liste_uvs', $foo);
-    echo $foo;
     $frm->add_hidden('semestre', $semestre);
 
 
