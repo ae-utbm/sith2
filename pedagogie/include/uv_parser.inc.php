@@ -232,7 +232,7 @@ class UVParser
       $destroy[] = $d;
     }
 
-    return preg_replace($seek, $destroy, $uv);
+    return preg_replace($seek, $destroy, $room);
   }
 
   // to put in bdd
