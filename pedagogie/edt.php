@@ -125,12 +125,13 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
             continue;
         }
 
-        echo 'a';
         $user->join_uv_group( $id_grp );
-        echo 'b';
+
 
       } else
+      { echo $uvs->get_nice_print();
         $freq2_uvs[$uvs->get_text()] = $uvs->get_nice_print();
+      }
     }
 
     if( empty($freq2_uvs) )
