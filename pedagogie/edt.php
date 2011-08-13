@@ -115,9 +115,7 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
       if( !$uv->is_valid() )
         continue;
 
-      echo 'a';
       $id_grp = $uvs->get_id_group();
-      echo 'b';
       if( $uvs->is_weekly() ) {
 
         if( !$id_grp ) {
@@ -127,8 +125,9 @@ if(isset($_REQUEST['method']) && $_REQUEST['method'] == 'auto')
             continue;
         }
 
+        echo 'a';
         $user->join_uv_group( $id_grp );
-
+        echo 'b';
 
       } else
         $freq2_uvs[$uvs->get_text()] = $uvs->get_nice_print();
