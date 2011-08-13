@@ -84,7 +84,7 @@ class UVParser
   public function load_by_text($txt, $load_next = false) {
     $txt = preg_replace('/(.+):(.+)et(.+)/', "$1$2\n$1$3", $txt); // life is easy
     $txt = str_replace(array(' ', ':', '-'), '', $txt);
-    $this->get_real_uv($txt);
+    $txt = $this->get_real_uv($txt);
     $this->_target = explode("\n",$txt);
 
     $this->parse();
