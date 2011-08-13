@@ -155,7 +155,7 @@ class UVParser
       $sql .= " AND `semestre` = '".$this->semester."' LIMIT 1";
     }
 
-    $req = new requete($this->db, $sql);
+    $req = new requete($this->db, $sql, 1);
 
     if($req->is_success()) {
       $res = $req->get_row();
@@ -256,7 +256,7 @@ class UVParser
 
   protected function load_id_uv() {
     $sql = "SELECT id_uv FROM pedag_uv WHERE code='".$this->uv."' LIMIT 1";
-    $req = new requete($this->db, $sql);
+    $req = new requete($this->db, $sql, 1);
 
     if( $req->is_success() ) {
       $res = $req->get_row();
