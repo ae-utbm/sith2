@@ -190,7 +190,7 @@ class UVParser
   public function get_info_add_group() {
     while(true) {
       $sql = "SELECT COUNT(*) as nb FROM pedag_groupe WHERE `type` = '".$this->type."' AND `num_groupe` = ".$this->group;
-      $sql .= " AND `id_uv` = ".$this->id;
+      $sql .= " AND `id_uv` = ".$this->id." AND `semestre` = '".$this->semester."'";
 
       $req = new requete($this->db, $sql);
 
