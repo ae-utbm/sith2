@@ -58,7 +58,7 @@ class UVParser
   protected $_title;
   protected $_info;
   protected $_schedule;
-  protected $_uv = '([A-Z]{2}[0-9]{2})';
+  protected $_uv = '([A-Z]{2}[0-9A-Z][0-9])';
   protected $_type = '(?:(C|TD|TP)([0-9]))';
   protected $_day = '(L|MA|ME|J|V|S)';
   protected $_frequency = '(\(1SEMAINE\/2\))';
