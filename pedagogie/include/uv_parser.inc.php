@@ -87,7 +87,7 @@ class UVParser
     $txt = $this->get_real_uv($txt);
     $this->_target = explode("\n",$txt);
 
-    print_r( $this->_target );
+    var_dump( $this->_target );
 /*
     $i = -1;
     while( isset($this->_target[++$i]) ) {
