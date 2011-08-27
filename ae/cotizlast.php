@@ -46,7 +46,11 @@ $cts = new contents ("Dernières cotisations");
 $user = new utilisateur ($site->db);
 $gallery = new gallery ();
 
-$req = new requete ($site->db, "SELECT `utilisateurs`.*, `utl_etu`.citation,
+$num = 15;
+if (isset ($_REQUEST['num']) && intval ($_REQUEST['num']) > 0)
+    $num = intval ($_REQUEST['num']);
+
+$req = new requete ($site->db, 'SELECT `utilisateurs`.*, `utl_etu`.citation,
         `utl_etu`.adresse_parents, `utl_etu`.ville_parents,
         `utl_etu`.cpostal_parents, `utl_etu`.pays_parents, `utl_etu`.tel_parents,
         `utl_etu`.nom_ecole_etudiant, `utl_etu`.visites, `utl_etu`.id_ville,
@@ -62,7 +66,7 @@ $req = new requete ($site->db, "SELECT `utilisateurs`.*, `utl_etu`.citation,
         LEFT JOIN `utilisateurs` ON `utilisateurs`.id_utilisateur=`ae_cotisations`.`id_utilisateur`
         LEFT JOIN `utl_etu` ON `utl_etu`.`id_utilisateur`=`utilisateurs`.`id_utilisateur`
         LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur`
-        ORDER BY `id_cotisation` DESC LIMIT 15");
+        ORDER BY `id_cotisation` DESC LIMIT '.$num);
 
 while ($row = $req->get_row()) {
     $user->_load_all($row);
