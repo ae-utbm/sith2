@@ -65,7 +65,7 @@ while ($row = $req->get_row()) {
     $gallery->add_item(new userinfov2($user, "small", false, "user.php", false));
 }
 
-$cts->add($gal);
+$cts->add ($gallery);
 $site->add_contents ($cts);
 
 $site->end_page ();
