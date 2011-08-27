@@ -220,7 +220,7 @@ function fsearch_query ()
                           fsearch_stop ();
                           return;
                       }
-                      if (seqid != fsearch_sequence)
+                      if (seqid != fsearch_sequence || pattern != fobj.value)
                           return;
                       if (fsearchres == null)
                           fsearchres = document.getElementById('fsearchres');
