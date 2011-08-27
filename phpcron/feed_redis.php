@@ -22,7 +22,7 @@
  */
 
 $_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/taiste/phpcron";
-$topdir=$_SERVER['SCRIPT_FILENAME']."/../";
+$topdir="../";
 
 require_once ($topdir. "include/site.inc.php");
 require_once ($topdir. "include/cts/fsearch.inc.php");
