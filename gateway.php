@@ -31,19 +31,10 @@ if ( isset($_REQUEST['topdir']) && ($_REQUEST['topdir']=="./" || $_REQUEST['topd
 
 if ( $_REQUEST['module']=="fsearch" )
 {
-  header("Content-Type: text/javascript; charset=UTF-8");
+  header("Content-Type: text/html; charset=UTF-8");
 
-  echo "if ( ".$_REQUEST['fsearch_sequence']." > fsearch_actual_sequence ) {\n";
-
-  echo "  fsearch_actual_sequence=".$_REQUEST['fsearch_sequence'].";\n";
-
-  if ( $_REQUEST["pattern"] == "" )
-  {
-    echo "  var content = document.getElementById('fsearchres');\n";
-    echo "  content.style.display = 'none';\n";
-    echo "}\n";
+  if ($_REQUEST["pattern"] == "")
     exit();
-  }
 
   $content = null;
   if ($site->user->is_valid() && $site->user->cotisant) {
@@ -58,16 +49,9 @@ if ( $_REQUEST['module']=="fsearch" )
       $content = addslashes($fsearch->buffer);
   }
 
-  // si la requete a été trop longue on ne l'affiche pas !
-  echo "  if ( ".$_REQUEST['fsearch_sequence']." == fsearch_actual_sequence ) {\n";
-  echo "    var content = document.getElementById('fsearchres');\n";
-  echo "    content.style.zIndex = 100000;\n";
-  echo "    content.style.display = 'block';\n";
-  echo "    content.innerHTML ='".$content."';\n";
-  echo "    fsearch_display_query='".addslashes($_REQUEST["pattern"])."';\n";
-  echo "  }\n";
-  echo "}\n";
-
+  echo $content;
+  echo '\n';
+  exit ();
 }
 elseif ( $_REQUEST['module']=="explorer" )
 {

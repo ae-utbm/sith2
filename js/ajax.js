@@ -111,6 +111,30 @@ function evalCommand( page, data )
   return true;
 }
 
+function evalCallback (page, data, callback)
+{
+  if (window.ActiveXObject)
+    var XhrObj = new ActiveXObject("Microsoft.XMLHTTP") ;
+  else
+    var XhrObj = new XMLHttpRequest();
+
+  if ( !XhrObj ) return false;
+
+  XhrObj.open("GET", page+"?"+data);
+
+  XhrObj.onreadystatechange = function()
+  {
+    if (XhrObj.readyState == 4 && XhrObj.status == 200)
+    {
+      callback(XhrObj.responseText);
+    }
+  }
+
+  XhrObj.send(null);
+
+  return true;
+}
+
 /**
  * Définit un élément dans la variable $_SESSION["usersession"] du coté du
  * serveur.
@@ -144,6 +168,8 @@ var fsearch_display_query='';
 var fsearch_sequence=0;
 var fsearch_actual_sequence=0;
 var fsearch_timeout_id = null;
+var fobj = null;
+var fsearchres = null;
 
 function fsearch_keyup(event)
 {
@@ -162,41 +188,61 @@ function fsearch_keyup(event)
       fsearch_timeout_id = null;
   }
 
-  var obj = document.getElementById('fsearchpattern');
+  if (fobj == null)
+    fobj = document.getElementById('fsearchpattern');
 
-  if ( !obj ) return false;
+  if ( !fobj ) return false;
 
-  var length = obj.value.length;
+  var length = fobj.value.length;
   if (length == 0) {
       fsearch_stop();
       return false;
   }
 
   /* Généralement on tappe autour de trois caractères pour que la recherche soit efficace */
-  if (length <= 3) {
-      fsearch_timeout_id = window.setTimeout (function () {
-          fsearch_sequence=fsearch_sequence+1;
-          evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
-      }, 1200 - (length == 1 ? 0 : 500 * (length - 1)));
-  } else {
-      fsearch_sequence=fsearch_sequence+1;
-      evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
-  }
+  if (length <= 3)
+    fsearch_timeout_id = window.setTimeout (fsearch_query, 1200 - (length == 1 ? 0 : 500 * (length - 1)));
+  else
+    fsearch_query ();
 
   return true;
 }
 
+function fsearch_query ()
+{
+    var seqid = fsearch_sequence = fsearch_sequence + 1;
+    var pattern = fobj.value;
+    evalCallback (site_topdir + "gateway.php",
+                  "module=fsearch&fsearch_sequence="+seqid+"&topdir="+site_topdir+"&pattern="+pattern,
+                  function (result) {
+                      if (result == null || result == '') {
+                          fsearch_stop ();
+                          return;
+                      }
+                      if (seqid != fsearch_sequence)
+                          return;
+                      if (fsearchres == null)
+                          fsearchres = document.getElementById('fsearchres');
+
+                      content.style.zIndex = 100000;
+                      content.style.display = 'block';
+                      content.innerHTML = result;
+                      fsearch_display_query= pattern;
+                  });
+}
+
 function fsearch_stop ( )
 {
-  var obj = document.getElementById('fsearchres');
-  obj.style.display = 'none';
+  if (fsearchres == null)
+    fsearchres = document.getElementById('fsearchres');
+
+  fsearchres.style.display = 'none';
   fsearch_display_query='';
 }
 
 function fsearch_stop_delayed( field ) {
-    setTimeout("fsearch_stop()", 500);
+    window.setTimeout(fsearch_stop, 500);
 }
-
 
 
 /**
