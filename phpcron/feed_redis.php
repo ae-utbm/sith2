@@ -21,7 +21,9 @@
  * 02111-1307, USA.
  */
 
-$topdir = "../";
+$_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/taiste/phpcron";
+$topdir=$_SERVER['SCRIPT_FILENAME']."/../";
+
 require_once ($topdir. "include/site.inc.php");
 require_once ($topdir. "include/cts/fsearch.inc.php");
 require_once ($topdir. "include/lib/predis/Predis.php");
@@ -29,24 +31,29 @@ require_once ($topdir. "include/lib/predis/Predis.php");
 $site = new site ();
 $redis = new Predis_Client();
 
-// we do all combination of 4 character
-$upper = pow (25, 4);
-
 function get_char_off ($offset)
 {
     return chr (ord ('a') + $offset);
 }
 
-for ($i = 0; $i < $upper; ++$i) {
-    $str = get_char_off (($i / pow (25, 3)) % 25);
-    $str .= get_char_off (($i / pow (25, 2)) % 25);
-    $str .= get_char_off (($i / 25) % 25);
-    $str .= get_char_off ($i % 25);
+function compute_pattern_with_size ($size)
+{
+    // we do all combination of 4 character
+    $upper = pow (25, $size);
 
-    $_REQUEST['pattern'] = $str;
+    for ($i = 0; $i < $upper; ++$i) {
+        $str = '';
+        for ($j = $size - 1; $j >= 0; $j--)
+            $str .= get_char_off (($i / pow (25, $j)) % 25);
 
-    $fsearch = new fsearch ($site, false);
-    $redis->set($str, addslashes($fsearch->buffer));
+        $_REQUEST['pattern'] = $str;
+
+        $fsearch = new fsearch ($site, false);
+        if (!empty ($fsearch->buffer))
+            $redis->set($str, addslashes($fsearch->buffer));
+    }
 }
+
+compute_pattern_with_size (1);
 
 ?>
