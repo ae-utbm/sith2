@@ -52,7 +52,7 @@ function compute_pattern_with_size ($size)
 
         $fsearch = new fsearch ($site, false, true);
         if (!empty ($fsearch->buffer))
-            $redis->set($str, addslashes($fsearch->buffer));
+            $redis->set($str, $fsearch->buffer);
     }
 }
 
