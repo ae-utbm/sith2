@@ -800,7 +800,7 @@ class site extends interfaceweb
       $cts->add_paragraph("L'AE est triste de vous annoncer qu'il n'y a pas d'anniversaire aujourd'hui.\n");
     }
 
-    return $cache->set_contents($cts);
+    return $cache->set_contents_timeout($cts, strtotime('tomorrow'));
   }
 
   /** Fonction qui génére le contents du dernier planning de l'AE */

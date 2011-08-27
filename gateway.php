@@ -31,24 +31,34 @@ if ( isset($_REQUEST['topdir']) && ($_REQUEST['topdir']=="./" || $_REQUEST['topd
 
 if ( $_REQUEST['module']=="fsearch" )
 {
+  // Une semaine
+  define ('DEFAULT_CACHE_TIMEOUT', 604800);
+
   header("Content-Type: text/html; charset=UTF-8");
 
   if ($_REQUEST["pattern"] == "")
     exit();
 
+  $redis = new Redis ();
+  $redis->pconnect ('127.0.0.1');
+
   $content = null;
   if ($site->user->is_valid() && $site->user->cotisant) {
-      $redis = new Redis ();
-      $redis->pconnect ('127.0.0.1');
       $content = $redis->get (strtolower ($_REQUEST["pattern"]));
-      $redis->close ();
   }
 
   if ($content == null) {
       require_once($topdir. "include/cts/fsearch.inc.php");
       $fsearch = new fsearch ( $site, false );
       $content = $fsearch->buffer;
+      if (!empty ($content) && strlen ($_REQUEST["pattern"]) > 4) {
+          $key = strtolower($_REQUEST["pattern"]);
+          $redis->set ($key, $content);
+          $redis->expire($key, DEFAULT_CACHE_TIMEOUT);
+      }
   }
+
+  $redis->close ();
 
   echo $content;
   exit ();

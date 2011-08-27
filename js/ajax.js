@@ -199,11 +199,6 @@ function fsearch_keyup(event)
       return false;
   }
 
-  /* Généralement on tappe autour de trois caractères pour que la recherche soit efficace */
-  /*if (length <= 3)
-    fsearch_timeout_id = window.setTimeout (fsearch_query, 1200 - (length == 1 ? 0 : 500 * (length - 1)));
-  else
-    fsearch_query ();*/
   fsearch_query ();
 
   return true;
