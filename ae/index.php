@@ -62,6 +62,7 @@ $board->add($sublist,true);
 $sublist = new itemlist("Cotisations");
 $sublist->add("<a href=\"cotisations.php#newstudent\">Nouvelle cotisation</a>");
 $sublist->add("<a href=\"cotisations.php\">Renouvellement cotisation/consultation</a> (Possible aussi depuis la fiche utilisateur)");
+$sublist->add("<a href=\"cotizlast.php\">Dernières cotisations réalisées</a>");
 $board->add($sublist,true);
 
 $board->clear();
