@@ -24,6 +24,7 @@ $topdir = "../";
 
 require_once($topdir. 'include/site.inc.php');
 require_once($topdir. 'include/entities/cotisation.inc.php');
+require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. 'include/cts/gallery.inc.php');
 require_once($topdir. 'include/cts/special.inc.php');
 require_once($topdir. 'include/entities/uv.inc.php');
@@ -61,7 +62,7 @@ $req = new requete ($site->db, "SELECT `utilisateurs`.*, `utl_etu`.citation,
 
 while ($row = $req->get_row()) {
     $user->_load_all($row);
-    $gal->add_item(new userinfov2($user, "small", false, "user.php", false));
+    $galery->add_item(new userinfov2($user, "small", false, "user.php", false));
 }
 
 $cts->add($gal);
