@@ -224,9 +224,9 @@ function fsearch_query ()
                       if (fsearchres == null)
                           fsearchres = document.getElementById('fsearchres');
 
-                      content.style.zIndex = 100000;
-                      content.style.display = 'block';
-                      content.innerHTML = result;
+                      fsearchres.style.zIndex = 100000;
+                      fsearchres.style.display = 'block';
+                      fsearchres.innerHTML = result;
                       fsearch_display_query= pattern;
                   });
 }
