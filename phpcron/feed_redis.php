@@ -38,6 +38,8 @@ function get_char_off ($offset)
 
 function compute_pattern_with_size ($size)
 {
+    global $site, $redis;
+
     // we do all combination of 4 character
     $upper = pow (25, $size);
 
