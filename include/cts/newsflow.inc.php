@@ -26,7 +26,7 @@
  */
 
 require_once($topdir."include/entities/news.inc.php");
-
+require_once($topdir."include/cts/cached.inc.php");
 
 /**
  * Affiche une liste de nouvelles à la manière de la page d'acceuil du site,
@@ -327,6 +327,12 @@ class newsfront extends newslister
 
     $this->class="nvls";
 
+    $cache = new cachedcontents ('newsfront');
+    if ( $cache->is_cached () ) {
+        $this->buffer .= $cache->get_cache()->buffer;
+        return;
+    }
+
     if(!$_COOKIE['AE2_HIDE_APPLES'])
     {
       $sql = new requete($db,"SELECT * FROM nvl_nouvelles " .
@@ -374,6 +380,7 @@ class newsfront extends newslister
 
     $this->nottomiss_list($sql);
 
+    $cache->set_contents_until ($this, 60);
   }
 
 }

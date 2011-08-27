@@ -64,6 +64,14 @@ class cachedcontents extends stdcontents
         return $this;
     }
 
+    public function set_contents_until ( &$contents, $seconds )
+    {
+        $this->set_contents ($contents);
+        $this->redis->expire ($this->uid, $seconds);
+
+        return $this;
+    }
+
     private function get_redis_instance ()
     {
         $redis = new Redis ();
