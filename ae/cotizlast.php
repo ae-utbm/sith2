@@ -33,10 +33,14 @@ require_once($topdir. 'include/entities/pays.inc.php');
 
 $site = new site ();
 
+$site->allow_only_logged_users();
+
 if (!$site->user->is_in_group('gestion_ae'))
     $site->error_forbidden('services');
 
 $site->start_page ('services', 'Dernières cotisations');
+$site->add_css("css/mmt.css");
+
 $cts = new contents ("Dernières cotisations");
 
 $user = new utilisateur ($site->db);
