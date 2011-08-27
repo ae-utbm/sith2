@@ -65,7 +65,7 @@ class fsearch extends stdcontents
     return $res;
   }
 
-  function fsearch ( $site, $exhaustive=true )
+  function fsearch ( $site, $exhaustive=true, $unauthentified=false )
   {
     global $wwwtopdir, $topdir;
 
@@ -89,7 +89,7 @@ class fsearch extends stdcontents
     $pattern = '/'.$pattern.'/i';
 
     // Utilisateurs
-    if ( $site->user->is_valid() && ($site->user->cotisant || $site->user->utbm)) {
+    if ( $unauthentified || ($site->user->is_valid() && ($site->user->cotisant || $site->user->utbm))) {
 
       if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_asso_role ( 27, 1 ) && !$site->user->is_in_group("visu_cotisants") ) {
         if ($site->user->cotisant)

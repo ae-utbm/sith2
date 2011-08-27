@@ -48,7 +48,7 @@ function compute_pattern_with_size ($size)
 
         $_REQUEST['pattern'] = $str;
 
-        $fsearch = new fsearch ($site, false);
+        $fsearch = new fsearch ($site, false, true);
         if (!empty ($fsearch->buffer))
             $redis->set($str, addslashes($fsearch->buffer));
     }
