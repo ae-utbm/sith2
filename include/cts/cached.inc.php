@@ -58,8 +58,7 @@ class cachedcontents extends stdcontents
 
     $this->title = $contents->title;
     $this->buffer =
-      "<!-- C".date ("d/m/Y H:i:s")." -->".
-      preg_replace("/(pain au chocolat|petit pain)/i", "CHOCOLATINE",$contents->html_render());
+      "<!-- C".date ("d/m/Y H:i:s")." -->".$contents->html_render();
     if ( is_writable(CACHE_DIR) )
       file_put_contents(CACHE_DIR.$this->uid,$this->title."\n".$this->buffer);
     return $this;
