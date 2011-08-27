@@ -380,7 +380,7 @@ class newsfront extends newslister
 
     $this->nottomiss_list($sql);
 
-    $cache->set_contents_until ($this, 60);
+    $cache->set_contents_until ($this, 3600);
   }
 
 }

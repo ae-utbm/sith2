@@ -305,7 +305,7 @@ class site extends interfaceweb
 
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
-    $this->add_box("calendrier",new calendar($this->db));
+    $this->add_box("calendrier", cachedcontents::autocache ("newscalendar", new calendar($this->db)));
 
     if ( $section == "accueil" )
     {
@@ -1006,6 +1006,10 @@ class site extends interfaceweb
    */
   function get_planning_permanences_contents()
   {
+    $cache = new cachedcontents ("planning_perm");
+    if ( $cache->is_cached () )
+       return $cache->get_cache();
+
     $cts = new contents("Prochaines permanences");
 
     $cts->add_paragraph("<a href=\"".$wwwtopdir."planning\">Les plannings de permanences</a>");
@@ -1106,6 +1110,8 @@ class site extends interfaceweb
 
     $cts->add($sublist, true, true, "bureau_ae_montbeliard", "boxlist", true, true);
 
+    // Let's cache that for a week
+    $cache->set_contents_until ($cts, 604800);
 
     return $cts;
   }

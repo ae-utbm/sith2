@@ -99,9 +99,12 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
                      false,null,$_REQUEST["type"],$lieu->id,NEWS_CANAL_SITE);
     $news->set_tags($_REQUEST["tags"]);
 
-    if( isset($_REQUEST['automodere']) )
-      if ($site->user->is_in_group("moderateur_site") && $_REQUEST['automodere'] )
+    if ( isset($_REQUEST['automodere']) ) {
+      if ($site->user->is_in_group("moderateur_site") && $_REQUEST['automodere'] ) {
         $news->validate($site->user->id);
+        nouvelle::expire_cache_content ();
+      }
+    }
   }
 }
 
@@ -334,9 +337,12 @@ if ( $suitable && isset($_REQUEST["submit"]) )
         }
     }
 
-  if( isset($_REQUEST['automodere']) )
-    if ($site->user->is_in_group("moderateur_site") && $_REQUEST['automodere'])
+  if ( isset($_REQUEST['automodere']) ) {
+    if ($site->user->is_in_group("moderateur_site") && $_REQUEST['automodere']) {
       $news->validate($site->user->id);
+      nouvelle::expire_cache_content ();
+    }
+  }
 
   unset($_REQUEST["dates"]);
   unset($_REQUEST["debut"]);

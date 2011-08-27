@@ -86,6 +86,8 @@ if ((isset($_REQUEST['id_nws']))
             $site->add_contents (new contents("Mod&eacute;ration",
           "<p>Mod&eacute;ration eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
 
+    nouvelle::expire_cache_content ();
+
     if ( isset($_REQUEST["dfile"]))
     {
       $fl = new dfile($site->db,$site->dbrw);

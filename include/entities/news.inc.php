@@ -60,17 +60,17 @@ class canalnouvelles extends stdentity
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `nvl_canal`
-				WHERE `id_canal` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");
+                WHERE `id_canal` = '" . mysql_real_escape_string($id) . "'
+                LIMIT 1");
 
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+        {
+            $this->_load($req->get_row());
+            return true;
+        }
 
-		$this->id = null;
-		return false;
+        $this->id = null;
+        return false;
   }
 
   function _load ( $row )
@@ -136,18 +136,18 @@ class nouvelle extends stdentity
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `nvl_nouvelles`
-				WHERE `id_nouvelle` = '" .
-		       mysql_real_escape_string($id) . "'
-				LIMIT 1");
+                WHERE `id_nouvelle` = '" .
+               mysql_real_escape_string($id) . "'
+                LIMIT 1");
 
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
+        {
+            $this->_load($req->get_row());
+            return true;
+        }
 
-		$this->id = null;
-		return false;
+        $this->id = null;
+        return false;
   }
 
   /*
@@ -159,16 +159,16 @@ class nouvelle extends stdentity
    */
   function _load ( $row )
   {
-    $this->id			= $row['id_nouvelle'];
-    $this->id_utilisateur	= $row['id_utilisateur'];
-    $this->id_asso		= $row['id_asso'];
-    $this->titre			= $row['titre_nvl'];
-    $this->resume		= $row['resume_nvl'];
-    $this->contenu		= $row['contenu_nvl'];
-    $this->date			= strtotime($row['date_nvl']);
-    $this->modere		= $row['modere_nvl'];
-    $this->id_utilisateur_moderateur	= $row['id_utilisateur_moderateur'];
-    $this->type	= $row['type_nvl'];
+    $this->id           = $row['id_nouvelle'];
+    $this->id_utilisateur   = $row['id_utilisateur'];
+    $this->id_asso      = $row['id_asso'];
+    $this->titre            = $row['titre_nvl'];
+    $this->resume       = $row['resume_nvl'];
+    $this->contenu      = $row['contenu_nvl'];
+    $this->date         = strtotime($row['date_nvl']);
+    $this->modere       = $row['modere_nvl'];
+    $this->id_utilisateur_moderateur    = $row['id_utilisateur_moderateur'];
+    $this->type = $row['type_nvl'];
     $this->id_lieu = $row['id_lieu'];
     $this->id_canal = $row['id_canal'];
   }
@@ -350,13 +350,13 @@ class nouvelle extends stdentity
    * @return true ou false en fonction du resultat
    */
   function add_news($id_utilisateur,
-		    $id_asso = null,
-		    $titre,
-		    $resume,
-		    $contenu,
-		    $type=NEWS_TYPE_EVENT,
-		    $id_lieu=NULL,
-		    $id_canal=NEWS_CANAL_SITE)
+            $id_asso = null,
+            $titre,
+            $resume,
+            $contenu,
+            $type=NEWS_TYPE_EVENT,
+            $id_lieu=NULL,
+            $id_canal=NEWS_CANAL_SITE)
   {
     if (!$this->dbrw)
       return false;
@@ -365,24 +365,24 @@ class nouvelle extends stdentity
     $this->id_canal = $id_canal;
 
     $req = new insert ($this->dbrw,
-		       "nvl_nouvelles",
-		       array ("id_utilisateur" => $id_utilisateur,
-			      "id_asso" => $id_asso,
-			      "titre_nvl" => $titre,
-			      "resume_nvl" => $resume,
-			      "contenu_nvl" => $contenu,
-			      "date_nvl" => date("Y-m-d H:i:s"),
-			      "modere_nvl" =>  false,
-			      "id_utilisateur_moderateur"=>null,
-			      "type_nvl"=>$type,
-			      "id_lieu"=>$this->id_lieu,
-			      "id_canal" => $this->id_canal
-			      ));
+               "nvl_nouvelles",
+               array ("id_utilisateur" => $id_utilisateur,
+                  "id_asso" => $id_asso,
+                  "titre_nvl" => $titre,
+                  "resume_nvl" => $resume,
+                  "contenu_nvl" => $contenu,
+                  "date_nvl" => date("Y-m-d H:i:s"),
+                  "modere_nvl" =>  false,
+                  "id_utilisateur_moderateur"=>null,
+                  "type_nvl"=>$type,
+                  "id_lieu"=>$this->id_lieu,
+                  "id_canal" => $this->id_canal
+                  ));
 
-		if ( $req )
-			$this->id = $req->get_id();
-		else
-			$this->id = null;
+        if ( $req )
+            $this->id = $req->get_id();
+        else
+            $this->id = null;
 
     $this->update_references($this->resume."\n".$this->contenu);
 
@@ -394,74 +394,74 @@ class nouvelle extends stdentity
    * @param $debut Timestamp de début
    * @param $fin Timestamp de fin
    */
-	function add_date($debut,$fin)
-	{
-		$req = new insert ($this->dbrw,
-				"nvl_dates",
-				array ("id_nouvelle" => $this->id,
-						"date_debut_eve" => date("Y-m-d H:i:s",$debut),
-						"date_fin_eve" => date("Y-m-d H:i:s",$fin)
-					));
-	}
+    function add_date($debut,$fin)
+    {
+        $req = new insert ($this->dbrw,
+                "nvl_dates",
+                array ("id_nouvelle" => $this->id,
+                        "date_debut_eve" => date("Y-m-d H:i:s",$debut),
+                        "date_fin_eve" => date("Y-m-d H:i:s",$fin)
+                    ));
+    }
 
   /**
    * Desassocie la nouvelle à une date
    * @param $id_date Numéro de date
    */
-	function delete_date ( $id_date )
-	{
-		$req = new delete ($this->dbrw,
-				"nvl_dates",
-				array ("id_nouvelle" => $this->id,
-						"id_dates_nvl" => $id_date,
-					));
-	}
+    function delete_date ( $id_date )
+    {
+        $req = new delete ($this->dbrw,
+                "nvl_dates",
+                array ("id_nouvelle" => $this->id,
+                        "id_dates_nvl" => $id_date,
+                    ));
+    }
 
-	/**
-	 * Modifie la nouvelle
-	 *
-	 */
-	function save_news(
-		    $id_asso = null,
-		    $titre,
-		    $resume,
-		    $contenu,
-		    $modere,
-		    $id_utilisateur_moderateur,
-		    $type=NEWS_TYPE_EVENT,
-		    $id_lieu=NULL,
-		    $id_canal=NEWS_CANAL_SITE)
-	{
-		if (!$this->dbrw)
-			return false;
+    /**
+     * Modifie la nouvelle
+     *
+     */
+    function save_news(
+            $id_asso = null,
+            $titre,
+            $resume,
+            $contenu,
+            $modere,
+            $id_utilisateur_moderateur,
+            $type=NEWS_TYPE_EVENT,
+            $id_lieu=NULL,
+            $id_canal=NEWS_CANAL_SITE)
+    {
+        if (!$this->dbrw)
+            return false;
 
-		$this->titre = $titre;
-		$this->resume = $resume;
-		$this->contenu = $contenu;
-		$this->modere = $modere;
-		$this->id_asso = $id_asso;
-		$this->type = $type;
-		$this->id_utilisateur_moderateur = $id_utilisateur_moderateur;
+        $this->titre = $titre;
+        $this->resume = $resume;
+        $this->contenu = $contenu;
+        $this->modere = $modere;
+        $this->id_asso = $id_asso;
+        $this->type = $type;
+        $this->id_utilisateur_moderateur = $id_utilisateur_moderateur;
     $this->id_lieu = $id_lieu;
     $this->id_canal = $id_canal;
 
-		$req = new update ($this->dbrw,
-		       "nvl_nouvelles",
-		       array (
-			      "id_asso" => $id_asso,
-			      "titre_nvl" => $titre,
-			      "resume_nvl" => $resume,
-			      "contenu_nvl" => $contenu,
-			      "modere_nvl" =>  $modere,
-			      "id_utilisateur_moderateur"=>$id_utilisateur_moderateur,
-			      "type_nvl"=>$type,
-			      "id_lieu"=>$this->id_lieu,
-			      "id_canal" => $this->id_canal),
-			   array(
-			   	"id_nouvelle"=>$this->id
-			   	));
+        $req = new update ($this->dbrw,
+               "nvl_nouvelles",
+               array (
+                  "id_asso" => $id_asso,
+                  "titre_nvl" => $titre,
+                  "resume_nvl" => $resume,
+                  "contenu_nvl" => $contenu,
+                  "modere_nvl" =>  $modere,
+                  "id_utilisateur_moderateur"=>$id_utilisateur_moderateur,
+                  "type_nvl"=>$type,
+                  "id_lieu"=>$this->id_lieu,
+                  "id_canal" => $this->id_canal),
+               array(
+                "id_nouvelle"=>$this->id
+                ));
     $this->update_references($this->resume."\n".$this->contenu);
-	}
+    }
 
   function update_references($contents)
   {
@@ -503,6 +503,18 @@ class nouvelle extends stdentity
     }
   }
 
+  /* Don't know if this is in the right place
+   */
+  public static function expire_cache_content ()
+  {
+    global $topdir;
+
+    require_once ($topdir. 'include/cts/cached.inc.php');
+    $cache = new cachedcontents ('newsfront');
+    $cache->expire ();
+    $cache = new cachedcontents ('newscalendar');
+    $cache->expire ();
+  }
 }
 
 
