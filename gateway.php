@@ -50,7 +50,6 @@ if ( $_REQUEST['module']=="fsearch" )
   }
 
   echo $content;
-  echo '\n';
   exit ();
 }
 elseif ( $_REQUEST['module']=="explorer" )
