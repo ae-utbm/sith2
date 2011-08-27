@@ -65,6 +65,9 @@ class fsearch extends stdcontents
     return $res;
   }
 
+  /* exhaustive: if enabled, we will query more ressources, for interactive fsearch this is disabled
+   * unauthentified: this is only used by cron script that caches results, the permission are rechecked at another place
+  */
   function fsearch ( $site, $exhaustive=true, $unauthentified=false )
   {
     global $wwwtopdir, $topdir;
@@ -91,8 +94,8 @@ class fsearch extends stdcontents
     // Utilisateurs
     if ( $unauthentified || ($site->user->is_valid() && ($site->user->cotisant || $site->user->utbm))) {
 
-      if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_asso_role ( 27, 1 ) && !$site->user->is_in_group("visu_cotisants") ) {
-        if ($site->user->cotisant)
+        if ( $unauthentified || (!$site->user->is_in_group("gestion_ae") && !$site->user->is_asso_role ( 27, 1 ) && !$site->user->is_in_group("visu_cotisants")) ) {
+        if ($site->user->cotisant || $unauthentified)
           $force_sql = "AND `publique_utl`>='1'";
         else
           $force_sql = "AND `publique_utl`='2'";
