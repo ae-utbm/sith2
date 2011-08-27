@@ -38,9 +38,10 @@ if ( $_REQUEST['module']=="fsearch" )
 
   $content = null;
   if ($site->user->is_valid() && $site->user->cotisant) {
-      require_once($topdir. "include/lib/predis/Predis.php");
-      $redis = new Predis_Client ();
+      $redis = new Redis ();
+      $redis->pconnect ('127.0.0.1');
       $content = $redis->get (strtolower ($_REQUEST["pattern"]));
+      $redis->close ();
   }
 
   if ($content == null) {
