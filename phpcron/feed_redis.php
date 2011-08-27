@@ -26,10 +26,10 @@ $topdir="../";
 
 require_once ($topdir. "include/site.inc.php");
 require_once ($topdir. "include/cts/fsearch.inc.php");
-require_once ($topdir. "include/lib/predis/Predis.php");
 
 $site = new site ();
-$redis = new Predis_Client();
+$redis = new Redis ();
+$redis->pconnect ('127.0.0.1');
 
 function get_char_off ($offset)
 {
@@ -60,5 +60,7 @@ compute_pattern_with_size (1);
 compute_pattern_with_size (2);
 compute_pattern_with_size (3);
 compute_pattern_with_size (4);
+
+$redis->close ();
 
 ?>
