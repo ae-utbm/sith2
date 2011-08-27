@@ -744,7 +744,7 @@ class site extends interfaceweb
 
     $cache = new cachedcontents("anniv");
 
-    if ( $cache->is_cached_since(strtotime(date("Y-m-d")." 00:00:00")) )
+    if ( $cache->is_cached () )
       return $cache->get_cache();
 
     $cts = new contents("Anniversaire");
