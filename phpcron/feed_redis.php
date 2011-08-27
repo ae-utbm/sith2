@@ -57,5 +57,8 @@ function compute_pattern_with_size ($size)
 }
 
 compute_pattern_with_size (1);
+compute_pattern_with_size (2);
+compute_pattern_with_size (3);
+compute_pattern_with_size (4);
 
 ?>
