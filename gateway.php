@@ -37,11 +37,11 @@ if ( $_REQUEST['module']=="fsearch" )
     exit();
 
   $content = null;
-  /*if ($site->user->is_valid() && $site->user->cotisant) {
+  if ($site->user->is_valid() && $site->user->cotisant) {
       require_once($topdir. "include/lib/predis/Predis.php");
       $redis = new Predis_Client ();
       $content = $redis->get (strtolower ($_REQUEST["pattern"]));
-      }*/
+  }
 
   if ($content == null) {
       require_once($topdir. "include/cts/fsearch.inc.php");
