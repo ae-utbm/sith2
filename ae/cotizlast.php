@@ -62,7 +62,7 @@ $req = new requete ($site->db, "SELECT `utilisateurs`.*, `utl_etu`.citation,
 
 while ($row = $req->get_row()) {
     $user->_load_all($row);
-    $galery->add_item(new userinfov2($user, "small", false, "user.php", false));
+    $gallery->add_item(new userinfov2($user, "small", false, "user.php", false));
 }
 
 $cts->add($gal);
