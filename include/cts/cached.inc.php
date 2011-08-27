@@ -11,28 +11,28 @@
 class cachedcontents extends stdcontents
 {
     protected $uid;
+    private $redis;
+
 
     public function cachedcontents ( $uid )
     {
         $this->uid = strval($uid);
+        $this->redis = $this->get_redis_instance ();
     }
 
     public function expire ( )
     {
-        $redis = $this->get_redis_instance ();
-        $redis->del ($this->uid);
+        $this->redis->del ($this->uid);
     }
 
     public function is_cached()
     {
-        $redis = $this->get_redis_instance ();
-        return $redis->exists($this->uid) && !isset($_GET["__nocache"]);
+        return $this->redis->exists($this->uid) && !isset($_GET["__nocache"]);
     }
 
     public function get_cache()
     {
-        $redis = $this->get_redis_instance ();
-        $data = $redis->get ($this->uid);
+        $data = $this->redis->get ($this->uid);
 
         if ($data == null || $data == '')
             return null;
@@ -52,16 +52,14 @@ class cachedcontents extends stdcontents
         $this->title = $contents->title;
         $this->buffer = "<!-- C".date ("d/m/Y H:i:s")." -->".$contents->html_render();
 
-        $redis = $this->get_redis_instance ();
-        $redis->set ($this->uid, $this->title."\n".$this->buffer);
+        $this->redis->set ($this->uid, $this->title."\n".$this->buffer);
         return $this;
     }
 
     public function set_contents_timeout ( &$contents, $timestamp )
     {
         $this->set_contents ($contents);
-        $redis = $this->get_redis_instance ();
-        $redis->expireAt ($this->uid, $timestamp);
+        $this->redis->expireAt ($this->uid, $timestamp);
 
         return $this;
     }
