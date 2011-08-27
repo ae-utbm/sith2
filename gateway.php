@@ -45,14 +45,25 @@ if ( $_REQUEST['module']=="fsearch" )
     exit();
   }
 
-  require_once($topdir. "include/cts/fsearch.inc.php");
-  $fsearch = new fsearch ( $site, false );
+  $content = null;
+  if ($site->user->is_valid() && $site->user->cotisant) {
+      require_once($topdir. "include/lib/predis/Predis.php");
+      $redis = new Predis_Client ();
+      $content = $redis->get (strtolower ($_REQUEST["pattern"]));
+  }
+
+  if ($content == null) {
+      require_once($topdir. "include/cts/fsearch.inc.php");
+      $fsearch = new fsearch ( $site, false );
+      $content = addslashes($fsearch->buffer);
+  }
+
   // si la requete a été trop longue on ne l'affiche pas !
   echo "  if ( ".$_REQUEST['fsearch_sequence']." == fsearch_actual_sequence ) {\n";
   echo "    var content = document.getElementById('fsearchres');\n";
   echo "    content.style.zIndex = 100000;\n";
   echo "    content.style.display = 'block';\n";
-  echo "    content.innerHTML ='".addslashes($fsearch->buffer)."';\n";
+  echo "    content.innerHTML ='".$content."';\n";
   echo "    fsearch_display_query='".addslashes($_REQUEST["pattern"])."';\n";
   echo "  }\n";
   echo "}\n";
