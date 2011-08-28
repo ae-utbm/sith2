@@ -297,6 +297,8 @@ class site extends interfaceweb
   {
     global $topdir,$timing;
 
+    require_once($topdir."include/cts/cached.inc.php");
+
     if ( isset($_REQUEST["fetch"]) )
       return;
 
