@@ -75,7 +75,7 @@ class cachedcontents extends stdcontents
     private function get_redis_instance ()
     {
         $redis = new Redis ();
-        $redis->popen ('127.0.0.1');
+        $redis->popen ('/var/run/redis/redis.sock');
         $redis->select (1);
         return $redis;
     }

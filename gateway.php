@@ -40,7 +40,7 @@ if ( $_REQUEST['module']=="fsearch" )
     exit();
 
   $redis = new Redis ();
-  $redis->pconnect ('127.0.0.1');
+  $redis->pconnect ('/var/run/redis/redis.sock');
 
   $content = null;
   if ($site->user->is_valid() && $site->user->cotisant) {
