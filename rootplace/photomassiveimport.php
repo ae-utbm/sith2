@@ -61,12 +61,9 @@ if(isset($_POST['action'])
       if ($f == "." || $f == "..")
         continue;
       if(strtolower(substr($f,-3)) == 'jpg') {
-        $avatar = false;
-        if(strtolower(substr($f,-6,2)) == '_a') {
-          $num = substr($f,0,-6);
-          $avatar = true;
-        } else
-          $num = substr($f,0,-4);
+        $pos = strpos(strtolower ($f), '.identity');
+        $avatar = $pos ? false : true;
+        $num = $avatar ? substr($f, 0, -4) : substr($f, 0, $pos);
 
         if (isset($_REQUEST["carteae"]))
           $user->load_by_carteae($num, false);
