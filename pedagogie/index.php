@@ -94,7 +94,12 @@ $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.ph
                               "delete" => "Supprimer"),
                         array(), array(), false), true);
 $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
-                    ."value=\"+ Ajouter un emploi du temps\" "
+                    ."value=\"+ Importer emploi du temps depuis le mail du SME\" "
+                    ."onclick=\"edt.add_auto();\" "
+                    ."name=\"add_edt_auto\" id=\"add_edt_auto\"/>");
+
+$cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
+                    ."value=\"+ Ajouter un emploi du temps (manuel)\" "
                     ."onclick=\"edt.add();\" "
                     ."name=\"add_edt\" id=\"add_edt\"/>");
 $site->add_contents($cts);

@@ -46,6 +46,11 @@ var edt = {
       path = "";
     document.location.href=path+"edt.php?action=new" ;
   },
+  add_auto: function(path){
+    if (typeof path == "undefined")
+      path = "";
+    document.location.href=path+"edt.php?action=new&method=auto" ;
+  },
 
   select_uv: function(optionelt){
   },
