@@ -15,7 +15,7 @@ div.userfullinfo
   margin-top:10px;
 }
 
-div.userfullinfo h2 *
+div.userfullinfo h2
 {
   position:absolute;
   top:5px;
@@ -36,6 +36,7 @@ div.userfullinfo h2 a
 
 div.userfullinfo h2 .nomfamille {
   text-transform: uppercase;
+  font-size: inherit;
 }
 
 div.userfullinfo div.photo
