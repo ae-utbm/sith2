@@ -452,7 +452,7 @@ class userinfov2 extends stdcontents
     else
       $this->buffer .= "<div class=\"userinfov2\">";
 
-    $this->buffer .= "<h2 class=\"nom\">".htmlentities($user->prenom." <span class=\"nomfamille\">".$user->nom,ENT_COMPAT,"UTF-8")."</span></h2>\n";
+    $this->buffer .= "<h2 class=\"nom\">".htmlentities($user->prenom,ENT_COMPAT,"UTF-8")." <span class=\"nomfamille\">".htmlentities($user->nom,ENT_COMPAT,"UTF-8")."</span></h2>\n";
 
     $this->buffer .= "<div class=\"photo\">";
     if ($display != "full")
