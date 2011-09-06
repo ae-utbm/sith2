@@ -34,6 +34,10 @@ div.userfullinfo h2 a
   color:black;
 }
 
+div.userfullinfo h2 .nomfamille {
+  text-transform: uppercase;
+}
+
 div.userfullinfo div.photo
 {
   position:absolute;
