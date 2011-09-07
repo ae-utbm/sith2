@@ -479,7 +479,7 @@ if ( $photo->is_valid() )
     if ( $_REQUEST["diaporama"] > 0 && ( $idx != $count-1 ) )
     {
       echo "cache5.src=\"images.php?/".$photos[$idx+1].".diapo.jpg\";\n";
-      echo "setTimeout(\"evalCommand('./', '".$exdata."id_photo=".$photos[$idx+1]."&fetch=script&diaporama=".intval($_REQUEST["diaporama"])."');window.history.pushState(null, document.title, '?id_photo=".$photos[$idx+1].")\", ".intval($_REQUEST["diaporama"]).");";
+      echo "setTimeout(\"window.history.pushState(null, document.title, '?id_photo=".$photos[$idx+1].");evalCommand('./', '".$exdata."id_photo=".$photos[$idx+1]."&fetch=script&diaporama=".intval($_REQUEST["diaporama"])."')\", ".intval($_REQUEST["diaporama"]).");";
     }
     exit();
   }
