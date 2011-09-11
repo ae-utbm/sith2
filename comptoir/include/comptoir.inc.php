@@ -379,7 +379,8 @@ class comptoir extends stdentity
     if (!$user->is_valid())
       return false;
 
-    if (!$user->is_in_group_id($this->groupe_vendeurs))
+    /* Vente autorisée pour gestion_ae et bureau de l'assoc (en principe) */
+    if (!$user->is_in_group_id($this->groupe_vendeurs) && !$user->is_in_group_id(9))
       return false;
 
     $this->operateurs[] = $user;
@@ -413,7 +414,8 @@ class comptoir extends stdentity
     if (!$user->is_valid())
       return false;
 
-    if (!$user->is_in_group_id($this->groupe_vendeurs))
+    /* Vente autorisée pour gestion_ae et bureau de l'assoc (en principe) */
+    if (!$user->is_in_group_id($this->groupe_vendeurs) && !$user->is_in_group_id(9))
       return false;
 
     $this->operateurs = array($user);
