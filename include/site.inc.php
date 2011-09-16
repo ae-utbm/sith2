@@ -308,7 +308,7 @@ class site extends interfaceweb
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
 
-if(!MOBILE) {
+if(!defined("MOBILE")) {
     $this->add_box("calendrier", cachedcontents::autocache ("newscalendar", new calendar($this->db)));
 
     if ( $section == "accueil" )
@@ -361,7 +361,7 @@ if(!MOBILE) {
       $this->set_side_boxes("left",array());
       $this->set_side_boxes("right",array());
     }
-} /* if MOBILE */
+} /* ifnedf MOBILE */
 
     $timing["site::start_page"] += microtime(true);
 

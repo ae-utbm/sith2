@@ -137,15 +137,6 @@ class interfaceweb
     $this->contents=array();
     $this->alternate=array();
 
-    /**
-     * Define whether we want a mobile rendering or not
-     * Will be redefined by set_mobile().
-     *
-     * We use a constant so it can be used by any class.
-     * Notice that interfaceweb:interfaceweb is called everytime
-     * you create a page instance. MOBILE will always be defined.
-     */
-    if(!defined("MOBILE")) define("MOBILE", false);
   }
 
   /**
@@ -153,10 +144,18 @@ class interfaceweb
    * @param $bool  true|false
    */
   public function set_mobile($bool) {
-    define("MOBILE", $bool);
+    /**
+     * Define whether we want a mobile rendering or not
+     * Will be redefined by set_mobile().
+     *
+     * We use a constant so it can be used by any class.
+     * Notice that interfaceweb:interfaceweb is called everytime
+     * you create a page instance.
+     */
+    if($bool) define("MOBILE", true);
 
     /* Reset tab menu in mobile mode */
-    if(MOBILE) $this->tab_array = array();
+    if(defined("MOBILE")) $this->tab_array = array();
   }
 
   /** Défini les boites à afficher sur un coté
@@ -247,7 +246,7 @@ class interfaceweb
     if(!defined('NOTAE'))
     {
       $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
-if(!MOBILE)
+if(!defined("MOBILE"))
       $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($wwwtopdir . "themes/default3/css/site3.css")."\" title=\"AE2-NEW3\" />\n";
 else { /* TODO */ }
     }
@@ -257,7 +256,7 @@ else { /* TODO */ }
       if(isset($this->css))
         $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . $this->css."?".filemtime($wwwtopdir . $this->css)."\" title=\"AE2-NEW2\" />\n";
       else {
-if(!MOBILE)
+if(!defined("MOBILE"))
         $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($wwwtopdir . "themes/default3/css/site3.css")."\" title=\"AE2-NEW3\" />\n";
 else { /* TODO */ }
       }
@@ -283,7 +282,7 @@ else { /* TODO */ }
       $this->buffer .= "<meta name=\"description\" content=\"".htmlentities($this->meta_description,ENT_COMPAT,"UTF-8")."\" />\n";
 
     $this->buffer .= "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico?".filemtime($wwwtopdir."favicon.ico")."\" />\n";
-if(!MOBILE) {
+if(!defined("MOBILE")) {
     $this->buffer .= "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js?".filemtime($wwwtopdir . "js/site.js")."\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js?".filemtime($wwwtopdir . "js/ajax.js")."\"></script>\n";
@@ -299,7 +298,7 @@ if(!MOBILE) {
     $this->buffer .= "<body>\n";
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";
-if(!MOBILE) {
+if(!defined("MOBILE")) {
     $this->buffer .= "<div id=\"dropmenudiv\" onmouseover=\"clearhidemenu()\" onmouseout=\"dynamichide(event)\"></div>\n";
     if(!$this->user->is_valid())
     {
@@ -328,7 +327,7 @@ if(!MOBILE) {
       unset($frm);
       $this->buffer .= "</div>\n";
     }
-} /* if !MOBILE */
+} /* ifndef MOBILE */
 
 /* header */
     $this->buffer .= "<div id='header'>\n";
@@ -356,7 +355,7 @@ if(!MOBILE) {
     if(isset($this->logo))
       $this->buffer .= "<div id=\"logo\"><img src=\"" . $wwwtopdir ."images/".$this->logo."\" alt=\"Logo\"/></div>\n";
 
-if(!MOBILE) {
+if(!defined("MOBILE")) {
     $this->buffer .= "<div id='headermenu'>\n";
     if ( !$this->user->is_valid() )
     {
@@ -426,9 +425,9 @@ if(!MOBILE) {
       $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">".$this->user->prenom." ".$this->user->nom."</a>";
     }
     $this->buffer .= "</div>\n";
-} /* if !MOBILE */
+} /* ifndef MOBILE */
 
-if(!MOBILE) {
+if(!defined("MOBILE")) {
     if(!defined('NOTAE'))
     {
       $req = new requete($this->db,
@@ -533,7 +532,7 @@ if(!MOBILE) {
     $this->buffer .= "</div>\n";
     if(!defined('NOTAE'))
       $this->buffer .= "<div id=\"fsearchres\"></div>\n";
-} /* if !MOBILE */
+} /* ifndef MOBILE */
     $this->buffer .= "</div>\n";
 /* fin header */
 
@@ -558,7 +557,7 @@ if(!MOBILE) {
 
     $this->buffer .= "</div>\n"; // /tabs
 
-if(!MOBILE) {  /* this is too elaborate for a mobile website */
+if(!defined("MOBILE")) {  /* this is too elaborate for a mobile website */
     if ( $links )
     {
       $this->buffer .= "<div class=\"sectionlinks\">";
@@ -580,14 +579,14 @@ if(!MOBILE) {  /* this is too elaborate for a mobile website */
     }
     else
       $this->buffer .= "<div class=\"emptysectionlinks\"></div>\n";
-} /* if !MOBILE */
+} /* ifndef MOBILE */
 
     $this->buffer .= "<div class=\"contents\">\n";
     $idpage = "";
 
     $mode = $this->user->id > 0 ? "c" : "nc";
 
-if(!MOBILE) { /* ths is too elaborate for a mobile version */
+if(!defined("MOBILE")) { /* ths is too elaborate for a mobile version */
     foreach ( $this->sides as $side => $names )
     {
       if ( count($names) )
@@ -642,7 +641,7 @@ if(!MOBILE) { /* ths is too elaborate for a mobile version */
         $this->buffer .= "</div>\n";
       }
     }
-} /* if !MOBILE */
+} /* ifndef MOBILE */
 
     if ( $idpage == "" ) $idpage = "n";
 
@@ -690,7 +689,7 @@ if(!MOBILE) { /* ths is too elaborate for a mobile version */
     $this->buffer .= "<div id=\"endsitelinks\">";
     if(!defined('NOTAE'))
     {
-if(!MOBILE) {
+if(!defined("MOBILE")) {
       $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">MENTIONS LÉGALES</a> ";
       $this->buffer .= "<a href=\"". $wwwtopdir ."copyright_agent.php\">PROPRIÉTÉ INTELLECTUELLE</a>";
       $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">AIDE ET DOCUMENTATION</a> ";
