@@ -136,6 +136,27 @@ class interfaceweb
     $this->rss = array();
     $this->contents=array();
     $this->alternate=array();
+
+    /**
+     * Define whether we want a mobile rendering or not
+     * Will be redefined by set_mobile().
+     *
+     * We use a constant so it can be used by any class.
+     * Notice that interfaceweb:interfaceweb is called everytime
+     * you create a page instance. MOBILE will always be defined.
+     */
+    if(!defined("MOBILE")) define("MOBILE", false);
+  }
+
+  /**
+   * Permet de choisir de générer une page pour version mobile
+   * @param $bool  true|false
+   */
+  public function set_mobile($bool) {
+    define("MOBILE", $bool);
+
+    /* Reset tab menu in mobile mode */
+    if(MOBILE) $this->tab_array = array();
   }
 
   /** Défini les boites à afficher sur un coté
@@ -226,15 +247,20 @@ class interfaceweb
     if(!defined('NOTAE'))
     {
       $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
+if(!MOBILE)
       $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($wwwtopdir . "themes/default3/css/site3.css")."\" title=\"AE2-NEW3\" />\n";
+else { /* TODO */ }
     }
     else
     {
       $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")."</title>\n";
       if(isset($this->css))
         $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . $this->css."?".filemtime($wwwtopdir . $this->css)."\" title=\"AE2-NEW2\" />\n";
-      else
+      else {
+if(!MOBILE)
         $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($wwwtopdir . "themes/default3/css/site3.css")."\" title=\"AE2-NEW3\" />\n";
+else { /* TODO */ }
+      }
     }
     foreach ( $this->extracss as $url )
       if(file_exists(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")))
@@ -257,11 +283,13 @@ class interfaceweb
       $this->buffer .= "<meta name=\"description\" content=\"".htmlentities($this->meta_description,ENT_COMPAT,"UTF-8")."\" />\n";
 
     $this->buffer .= "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico?".filemtime($wwwtopdir."favicon.ico")."\" />\n";
+if(!MOBILE) {
     $this->buffer .= "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js?".filemtime($wwwtopdir . "js/site.js")."\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js?".filemtime($wwwtopdir . "js/ajax.js")."\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js?".filemtime($wwwtopdir . "js/dnds.js")."\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/box_slideshow.js?".filemtime($wwwtopdir . "js/box_slideshow.js")."\"></script>\n";
+} /* NO ELSE : add manualy extra js scripts. Mobile version have to be light ! */
 
     foreach ( $this->extrajs as $url )
       $this->buffer .= "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."?".filemtime(htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8"))."\"></script>\n";
@@ -271,6 +299,7 @@ class interfaceweb
     $this->buffer .= "<body>\n";
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";
+if(!MOBILE) {
     $this->buffer .= "<div id=\"dropmenudiv\" onmouseover=\"clearhidemenu()\" onmouseout=\"dynamichide(event)\"></div>\n";
     if(!$this->user->is_valid())
     {
@@ -299,6 +328,7 @@ class interfaceweb
       unset($frm);
       $this->buffer .= "</div>\n";
     }
+} /* if !MOBILE */
 
 /* header */
     $this->buffer .= "<div id='header'>\n";
@@ -326,6 +356,7 @@ class interfaceweb
     if(isset($this->logo))
       $this->buffer .= "<div id=\"logo\"><img src=\"" . $wwwtopdir ."images/".$this->logo."\" alt=\"Logo\"/></div>\n";
 
+if(!MOBILE) {
     $this->buffer .= "<div id='headermenu'>\n";
     if ( !$this->user->is_valid() )
     {
@@ -395,7 +426,9 @@ class interfaceweb
       $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">".$this->user->prenom." ".$this->user->nom."</a>";
     }
     $this->buffer .= "</div>\n";
+} /* if !MOBILE */
 
+if(!MOBILE) {
     if(!defined('NOTAE'))
     {
       $req = new requete($this->db,
@@ -500,6 +533,7 @@ class interfaceweb
     $this->buffer .= "</div>\n";
     if(!defined('NOTAE'))
       $this->buffer .= "<div id=\"fsearchres\"></div>\n";
+} /* if !MOBILE */
     $this->buffer .= "</div>\n";
 /* fin header */
 
@@ -524,6 +558,7 @@ class interfaceweb
 
     $this->buffer .= "</div>\n"; // /tabs
 
+if(!MOBILE) {  /* this is too elaborate for a mobile website */
     if ( $links )
     {
       $this->buffer .= "<div class=\"sectionlinks\">";
@@ -545,12 +580,14 @@ class interfaceweb
     }
     else
       $this->buffer .= "<div class=\"emptysectionlinks\"></div>\n";
+} /* if !MOBILE */
 
     $this->buffer .= "<div class=\"contents\">\n";
     $idpage = "";
 
     $mode = $this->user->id > 0 ? "c" : "nc";
 
+if(!MOBILE) { /* ths is too elaborate for a mobile version */
     foreach ( $this->sides as $side => $names )
     {
       if ( count($names) )
@@ -605,6 +642,7 @@ class interfaceweb
         $this->buffer .= "</div>\n";
       }
     }
+} /* if !MOBILE */
 
     if ( $idpage == "" ) $idpage = "n";
 
@@ -652,10 +690,12 @@ class interfaceweb
     $this->buffer .= "<div id=\"endsitelinks\">";
     if(!defined('NOTAE'))
     {
+if(!MOBILE) {
       $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">MENTIONS LÉGALES</a> ";
       $this->buffer .= "<a href=\"". $wwwtopdir ."copyright_agent.php\">PROPRIÉTÉ INTELLECTUELLE</a>";
       $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">AIDE ET DOCUMENTATION</a> ";
       $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a> ";
+} else { /* TODO */ }
     }
     elseif(isset($this->footer))
       $this->buffer=$this->footer;
