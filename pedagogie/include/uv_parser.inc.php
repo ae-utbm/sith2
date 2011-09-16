@@ -25,10 +25,6 @@
     Parse le mail du SME contenant l'affectation aux groupes et UVs.
 **/
 
-/* TODO : question des doubles horaires (ET)
-          gestion de l'hors edt
-          renommer la classe ??
-*/
 
 require_once($topdir . 'include/mysql.inc.php');
 require_once($topdir . 'pedagogie/include/pedagogie.inc.php');
