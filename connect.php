@@ -91,6 +91,9 @@ if ( $_SESSION['session_redirect']
 {
   $page = $_SESSION['session_redirect'];
   unset($_SESSION['session_redirect']);
+
+  if(strpos($page, "site:wrongpassworduser") || strpos($page, "site:activate"))
+    $page = $topdir;
 }
 
 if(!isset($_REQUEST["mobile"])) header("Location: $page");
