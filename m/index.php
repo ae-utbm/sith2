@@ -49,10 +49,9 @@ if(!$site->user->is_valid()) {
   $frm->add_select_field("domain",
       "Connexion",
       array("utbm"=>"UTBM / Assidu",
-      "id"=>"ID",
-      "autre"=>"E-mail",
-      "alias"=>"Alias")
-    );
+            "id"=>"ID",
+            "autre"=>"E-mail",
+            "alias"=>"Alias"));
   $frm->add_text_field("username","Utilisateur","","",20,true,true,null,false,35);
   $frm->add_password_field("password","Mot de passe","","",20);
   $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", true );
