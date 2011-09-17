@@ -63,6 +63,12 @@ div#logo img {
  * General
  */
 
+h1 {
+  background-color: #749;
+  color: white;
+  font-weight: bold;
+}
+
 a {
   text-decoration: none;
   color: #006;
@@ -124,4 +130,13 @@ input.connect {
 p.error {
   color: red;
   font-weight: bold;
+}
+
+/**
+ * Nouvelles
+ */
+
+div#article h1 {
+  background-color: #F80;
+  color: white;
 }
