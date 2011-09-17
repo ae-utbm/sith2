@@ -724,6 +724,15 @@ if(!defined("MOBILE")) {
     }
     $this->buffer .= "</body>\n";
     $this->buffer .= "</html>\n";
+
+/**
+ * Reduce page's weight for mobile version
+ * May we can always do it ?
+ *
+ * TODO : include css files in buffer and reduce weight too for mobile version
+ */
+if(defined("MOBILE")) $this->buffer = strtr($this->buffer, array('\n' => '', '\r' => ''));
+
     echo $this->buffer;
     $timing["render"] += microtime(true);
     $timing["all"] += microtime(true);
