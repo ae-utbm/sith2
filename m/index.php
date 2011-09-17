@@ -57,6 +57,7 @@ if(!$site->user->is_valid()) {
   $frm->add_password_field("password","Mot de passe","","",20);
   $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", true );
   $frm->add_submit("connect","Se connecter");
+  $frm->add_hidden("mobile");
   $site->add_contents($frm);
 
   /* Come back here after connexion completed */

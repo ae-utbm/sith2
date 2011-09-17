@@ -54,22 +54,22 @@ switch ($_REQUEST["domain"])
 
 if ( !$site->user->is_valid() )
 {
-  if(!defined("MOBILE"))  header("Location: article.php?name=site:wrongpassorduser");
-  else                    header("Location: m/");  /* TODO */
+  if(!isset($_REQUEST["mobile"])) header("Location: article.php?name=site:wrongpassorduser");
+  else                            header("Location: m/");  /* TODO */
   exit();
 }
 
 if ( $site->user->hash != "valid" )
 {
-  if(!defined("MOBILE"))  header("Location: article.php?name=site:activate");
-  else                    header("Location: m/");  /* TODO */
+  if(!isset($_REQUEST["mobile"])) header("Location: article.php?name=site:activate");
+  else                            header("Location: m/");  /* TODO */
   exit();
 }
 
 if ( !$site->user->is_password($_POST["password"]) )
 {
-  if(!defined("MOBILE"))  header("Location: article.php?name=site:wrongpassorduser");
-  else                    header("Location: m/");  /* TODO */
+  if(!isset($_REQUEST["mobile"])) header("Location: article.php?name=site:wrongpassorduser");
+  else                            header("Location: m/");  /* TODO */
   exit();
 }
 
@@ -93,7 +93,7 @@ if ( $_SESSION['session_redirect']
   unset($_SESSION['session_redirect']);
 }
 
-if(!defined("MOBILE"))  header("Location: $page");
-else                    header("Location: m/");
+if(!isset($_REQUEST["mobile"])) header("Location: $page");
+else                            header("Location: m/");
 
 ?>
