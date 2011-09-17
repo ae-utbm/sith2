@@ -1,0 +1,127 @@
+/* Copyright 2011
+ * - Antoine Tenart < antoine dot tenart at gmail dot com >
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
+/**
+ * CSS for the mobile version
+ *
+ * Should not include images !! Mobile version should be light.
+ */
+
+
+/**
+ * General stuff
+ */
+
+* {
+  font-size: 1.2em;
+  line-height:100%;
+  font-family: arial, sans-serif;
+}
+
+body {
+  background: #CCCCCC;
+  margin: 0;
+  padding: 0;
+}
+
+html,body {
+  height:97%;
+}
+
+div#site {
+  text-align:center;
+}
+
+/**
+ * Header
+ */
+
+div#logo img {
+  width: 10em;
+}
+
+/**
+ * General
+ */
+
+a {
+  text-decoration: none;
+  color: #006;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  border: 0;
+}
+
+form {
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  border: 1px #364970 solid;
+  background: white;
+  padding: 1px;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-bottom: 3px;
+}
+
+input.radiobox {
+  border: 0;
+  background: none;
+  padding: 1px;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-bottom: 3px;
+}
+
+input.chkbox {
+  border: 0;
+  background: none;
+  padding: 1px;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-bottom: 3px;
+}
+
+textarea {
+  border: 1px #364970 solid;
+  background: white;
+  padding: 1px;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-bottom: 3px;
+}
+
+input.connect {
+  width: 95%;
+}
+
+p.error {
+  color: red;
+  font-weight: bold;
+}
