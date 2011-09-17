@@ -731,7 +731,7 @@ if(!defined("MOBILE")) {
  *
  * TODO : include css files in buffer and reduce weight too for mobile version
  */
-if(defined("MOBILE")) $this->buffer = strtr($this->buffer, array('\n' => '', '\r' => ''));
+if(defined("MOBILE")) $this->buffer = strtr($this->buffer, array("\n" => "", "\r" => ""));
 
     echo $this->buffer;
     $timing["render"] += microtime(true);
