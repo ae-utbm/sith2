@@ -325,7 +325,7 @@ class newsfront extends newslister
   {
     $this->class="nvls";
 
-if(!defined(MOBILE)) {
+if(!defined("MOBILE")) {
     $this->title = "Les dernières nouvelles de la vie étudiante de l'UTBM";
     $cache = new cachedcontents ('newsfront');
 } else { /* MOBILE version */
@@ -337,7 +337,7 @@ if(!defined(MOBILE)) {
         return;
     }
 
-if(!defined(MOBILE)) {
+if(!defined("MOBILE")) {
     if(!$_COOKIE['AE2_HIDE_APPLES'])
     {
       $sql = new requete($db,"SELECT * FROM nvl_nouvelles " .
@@ -371,10 +371,10 @@ if(!defined(MOBILE)) {
         "ORDER BY nvl_dates.date_debut_eve " .
         "LIMIT 6");
 
-    if(!defined(MOBILE))  $this->days_list($sql);
+    if(!defined("MOBILE"))  $this->days_list($sql);
     else                  $this->days_list($sql, null);
 
-if(!defined(MOBILE)) {
+if(!defined("MOBILE")) {
     $sql = new requete($db,"SELECT nvl_nouvelles.*,".
         "asso.nom_unix_asso,nvl_dates.date_debut_eve,nvl_dates.date_fin_eve " .
         "FROM nvl_dates " .
