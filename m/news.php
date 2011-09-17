@@ -41,7 +41,7 @@ if ( isset($_REQUEST["id_nouvelle"]) )
 
 if($news->id > 0 && $news->modere) {
   $site->start_page("accueil", $news->titre);
-  $site->add_contents($site->get_contents());
+  $site->add_contents($news->get_contents());
 }
 
 /* Do not cross. */
