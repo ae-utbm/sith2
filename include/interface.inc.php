@@ -302,6 +302,9 @@ if(!defined("MOBILE")) {
     $this->buffer .= "<div id=\"dropmenudiv\" onmouseover=\"clearhidemenu()\" onmouseout=\"dynamichide(event)\"></div>\n";
     if(!$this->user->is_valid())
     {
+      /* Come back here after ! */
+      $_SESSION['session_redirect'] = $_SERVER["REQUEST_URI"];
+
       $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:none\"></div>\n";
       $this->buffer .= '<div id="passwordbox" style="display:none">';
       $this->buffer .= '<img id="close" src="'.$topdir.'images/actions/delete.png" onclick="hideConnexionBox()" alt="Fermer" ';

@@ -59,7 +59,7 @@ if(!$site->user->is_valid()) {
   $site->add_contents($frm);
 
   /* Come back here after connexion completed */
-  $_SESSION['session_redirect'] = "m/";
+  $_SESSION['session_redirect'] = "m/";   /* Oh, a diplodocus ! Shhh !! */
 
   $site->end_page();
   exit(0);
