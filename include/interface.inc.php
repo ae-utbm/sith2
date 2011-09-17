@@ -355,6 +355,9 @@ if(!defined("MOBILE")) {
       if($GLOBALS["taiste"])
         $url .= "/taiste/";
 
+      if(defined("MOBILE"))
+        $url .= 'm/';
+
       $this->buffer .= "<div id=\"logo\"><a href=\"".$url."\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" alt=\"Logo AE\"/></a></div>\n";
     }
     if(isset($this->logo))
