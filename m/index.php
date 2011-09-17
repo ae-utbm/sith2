@@ -28,6 +28,7 @@
 $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
+require_once($topdir. "include/cts/newsflow.inc.php");
 
 
 $site = new site();
@@ -65,5 +66,14 @@ if(!$site->user->is_valid()) {
   exit(0);
 }
 
+
+/**
+ * Display news on the home page
+ */
+$site->add_contents(new newsfront($site->db));
+
+
+/* Do not cross. */
 $site->end_page();
 
+?>
