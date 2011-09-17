@@ -72,7 +72,10 @@ if(!$site->user->is_valid()) {
 /**
  * Display news on the home page
  */
-$site->add_title(1, "Accueil");
+$cts = new contents();
+$cts->add_title(1, "Accueil");
+$site->add_contents($cts);
+
 $site->add_contents(new newsfront($site->db));
 
 
