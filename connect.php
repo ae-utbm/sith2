@@ -54,7 +54,7 @@ switch ($_REQUEST["domain"])
 
 if ( !$site->user->is_valid() )
 {
-  if(!isset($_REQUEST["mobile"])) header("Location: article.php?name=site:wrongpassorduser");
+  if(!isset($_REQUEST["mobile"])) header("Location: article.php?name=site:wrongpassworduser");
   else                            header("Location: m/");  /* TODO */
   exit();
 }
@@ -68,7 +68,7 @@ if ( $site->user->hash != "valid" )
 
 if ( !$site->user->is_password($_POST["password"]) )
 {
-  if(!isset($_REQUEST["mobile"])) header("Location: article.php?name=site:wrongpassorduser");
+  if(!isset($_REQUEST["mobile"])) header("Location: article.php?name=site:wrongpassworduser");
   else                            header("Location: m/");  /* TODO */
   exit();
 }
