@@ -54,19 +54,22 @@ switch ($_REQUEST["domain"])
 
 if ( !$site->user->is_valid() )
 {
-  header("Location: article.php?name=site:wrongpassorduser");
+  if(!defined("MOBILE"))  header("Location: article.php?name=site:wrongpassorduser");
+  else                    header("Location: m/");  /* TODO */
   exit();
 }
 
 if ( $site->user->hash != "valid" )
 {
-  header("Location: article.php?name=site:activate");
+  if(!defined("MOBILE"))  header("Location: article.php?name=site:activate");
+  else                    header("Location: m/");  /* TODO */
   exit();
 }
 
 if ( !$site->user->is_password($_POST["password"]) )
 {
-  header("Location: article.php?name=site:wrongpassorduser");
+  if(!defined("MOBILE"))  header("Location: article.php?name=site:wrongpassorduser");
+  else                    header("Location: m/");  /* TODO */
   exit();
 }
 
@@ -90,6 +93,7 @@ if ( $_SESSION['session_redirect']
   unset($_SESSION['session_redirect']);
 }
 
-header("Location: $page");
+if(!defined("MOBILE"))  header("Location: $page");
+else                    header("Location: m/");
 
 ?>
