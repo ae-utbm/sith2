@@ -64,9 +64,11 @@ div#logo img {
  */
 
 h1 {
+  font-size: 1.2em; 
   background-color: #749;
   color: white;
   font-weight: bold;
+  margin: 0;
 }
 
 a {
@@ -136,7 +138,7 @@ p.error {
  * Nouvelles
  */
 
-div#article h1 {
+div.article h1 {
   background-color: #F80;
   color: white;
 }
