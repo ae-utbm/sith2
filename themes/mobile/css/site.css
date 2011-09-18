@@ -214,8 +214,8 @@ div.newssoon strong {
 li.nv10 img.nvlicon {
   position:relative;
   float:left;
-  width:2em;
-  height:2em;
+  width:5em;
+  height:5em;
   margin-right:1em;
   background:#fff;
 }
@@ -224,8 +224,8 @@ li.nvl1 img.nvlicon
 {
     position:relative;
     float:right;
-    width:2em;
-    height:2em;
+    width:5em;
+    height:5em;
     margin-right:0;
     margin-left:1em;
 }
