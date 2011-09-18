@@ -249,7 +249,7 @@ class interfaceweb
 if(!defined("MOBILE"))
       $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($wwwtopdir . "themes/default3/css/site3.css")."\" title=\"AE2-NEW3\" />\n";
 else
-      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/mobile/css/site3.css?".filemtime($wwwtopdir . "themes/mobile/css/site3.css")."\" title=\"AE2-MOBILE\" />\n";
+      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/mobile/css/site.css?".filemtime($wwwtopdir . "themes/mobile/css/site3.css")."\" title=\"AE2-MOBILE\" />\n";
     }
     else
     {
@@ -260,7 +260,7 @@ else
 if(!defined("MOBILE"))
       $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($wwwtopdir . "themes/default3/css/site3.css")."\" title=\"AE2-NEW3\" />\n";
 else
-      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/mobile/css/site3.css?".filemtime($wwwtopdir . "themes/mobile/css/site3.css")."\" title=\"AE2-MOBILE\" />\n";
+      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/mobile/css/site.css?".filemtime($wwwtopdir . "themes/mobile/css/site3.css")."\" title=\"AE2-MOBILE\" />\n";
       }
     }
     foreach ( $this->extracss as $url )
