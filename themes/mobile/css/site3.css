@@ -44,7 +44,8 @@ body {
 }
 
 html,body {
-  height:97%;
+  height: 100%;
+  width: 100%;
 }
 
 div#site {
@@ -64,11 +65,12 @@ div#logo img {
  */
 
 h1 {
-  font-size: 1.2em; 
+  font-size: 150%; 
   background-color: #749;
   color: white;
   font-weight: bold;
   margin: 0;
+  text-align: center;
 }
 
 a {
@@ -135,10 +137,65 @@ p.error {
 }
 
 /**
- * Nouvelles
+ * Article
  */
+div.article {
+  background-color: white;
+  text-align: justify;
+  padding-bottom: 2em;
+  width: 100%;
+}
 
 div.article h1 {
   background-color: #F80;
   color: white;
+}
+
+/**
+ * News
+ */
+
+div.newssoon h3 {
+  border-bottom: 1px dotted #808080;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  margin-left: 1em;
+  font-size:110%;
+  color: #336699;
+}
+
+div.newssoon ul {
+  list-style: none;
+  margin-right: 1em;
+  list-style-image: none;
+}
+
+li.nvlitm {
+  padding: 0.5em;
+  position: relative;
+}
+
+li.nvlitm .nvltitre {
+  font-size: 120%;
+  color: #000;
+  font-weight: bold;
+}
+
+li.nvlitm .hour {
+  font-size: 80%;
+  margin-left: 0.25em;
+  color: #808080;
+}
+
+li.nvlitm .nvlresume {
+  color: #404040;
+}
+
+div.newssoon li.nvl1 {
+  background-color: #ffe7ab;
+}
+
+div.newssoon strong {
+  font-size: 90%;
+  font-weight: bold;
 }
