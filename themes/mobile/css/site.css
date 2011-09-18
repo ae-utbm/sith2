@@ -155,10 +155,11 @@ div.article h1 {
 
 div.article .mob_title {
   background-color: #749;
-  font-size: 150%;
+  font-size: 170%;
   margin: 0;
   padding-top: 0.1em;
   padding-bottom: 0.1em;
+  margin-bottom: -100%;  /* FIXME */
 }
 
 /**
