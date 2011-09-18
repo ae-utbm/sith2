@@ -47,6 +47,9 @@ switch ($_REQUEST["domain"])
   case "alias" :
     $site->user->load_by_alias($_REQUEST["username"]);
   break;
+  case "carteae":
+    $site->user->load_by_carteae($_REQUEST["username"], true, false);
+  break;
   default :
     $site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
   break;

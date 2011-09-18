@@ -254,7 +254,7 @@ class utilisateur extends stdentity
    * En cas d'erreur, l'id est défini à null
    * @param $num numéro de carte
    */
-  function load_by_carteae ( $num, $strict=true )
+  function load_by_carteae ( $num, $strict=true, $check_expire=true )
   {
     $this->vol = false;
 
@@ -277,11 +277,13 @@ class utilisateur extends stdentity
       $cond = "`ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string(intval($num)) . "'";
     }
 
+    if ($check_expire)
+      $cond .= " AND `ae_carte`.`etat_vie_carte_ae`<=".CETAT_EXPIRE;
+
     $req = new requete($this->db, "SELECT * FROM `utilisateurs` " .
                                   "INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
                                   "INNER JOIN `ae_carte` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
                                   "WHERE $cond " .
-                                  "AND `ae_carte`.`etat_vie_carte_ae`<=".CETAT_EXPIRE." " .
                                   "LIMIT 1");
 
     if ( $req->lines == 1 )

@@ -49,9 +49,23 @@ class loginerror extends board
     $this->board("Veuillez vous identifier","loginerror");
 
     $frm = new form("connect2","/connect.php",true,"POST","Vous avez déjà un compte");
-    $frm->add_select_field("domain","Connexion",array("utbm"=>"UTBM","assidu"=>"Assidu","id"=>"ID","autre"=>"Autre"), $section=="jobetu"?"autre":"utbm");
-    $frm->add_text_field("username","Utilisateur","prenom.nom","",27,true);
-    $frm->add_password_field("password","Mot de passe","","",27);
+    $frm->add_select_field(
+        "domain",
+        "Connexion",
+        array(
+          "utbm" => "UTBM / Assidu",
+          "carteae" => "Carte AE",
+          "id" => "ID",
+          "autre" => "E-mail",
+          "alias" => "Alias"),
+        $section=="jobetu"?"autre":"utbm",
+        "",
+        false,
+        true,
+        "javascript:switchSelConnection(this);"
+      );
+    $frm->add_text_field("username","Utilisateur","prenom.nom","",20,true,true,null,false,35);
+    $frm->add_password_field("password","Mot de passe","","",20);
     $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
     $frm->add_submit("connectbtn2","Se connecter");
     $this->add($frm,true);

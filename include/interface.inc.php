@@ -316,6 +316,7 @@ if(!defined("MOBILE")) {
       $frm->add_select_field("domain",
            "Connexion",
            array("utbm"=>"UTBM / Assidu",
+           "carteae" => "Carte AE",
            "id"=>"ID",
            "autre"=>"E-mail",
            "alias"=>"Alias"),
