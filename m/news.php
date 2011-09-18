@@ -35,6 +35,10 @@ require_once($topdir. "include/entities/asso.inc.php");
 $site = new site();
 $site->set_mobile(true);
 
+$cts = new contents();
+$cts->add_title(1, "News", "mob_title");
+$site->add_contents($cts);
+
 $news = new nouvelle($site->db, $site->dbrw);
 
 if ( isset($_REQUEST["id_nouvelle"]) )

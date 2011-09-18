@@ -149,6 +149,16 @@ div.article {
 div.article h1 {
   background-color: #F80;
   color: white;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+}
+
+h1.mob_title {
+  background-color: #749;
+  font-size: 150%;
+  margin: 0;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
 }
 
 /**
@@ -156,7 +166,7 @@ div.article h1 {
  */
 
 div.newssoon h3 {
-  border-bottom: 1px dotted #808080;
+  border-bottom: 1px solid #808080;
   margin-top: 1em;
   margin-bottom: 0.5em;
   margin-left: 1em;

@@ -165,9 +165,12 @@ class contents extends stdcontents
    * @param $level  Niveau du titre (1 à n)
    * @param $title   Titre
    */
-  function add_title ( $level, $title )
+  function add_title ( $level, $title, $class = false )
   {
-    $this->buffer .= "<h".$level.">".$title."</h".$level.">\n";
+    if(!$class)
+      $this->buffer .= "<h".$level.">".$title."</h".$level.">\n";
+    else
+      $this->buffer .= "<h".$level." class=\"".$class."\">".$title."</h".$level.">\n";
   }
 
   /** Ajoute un paragraphe
