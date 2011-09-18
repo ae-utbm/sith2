@@ -210,3 +210,23 @@ div.newssoon strong {
   font-size: 90%;
   font-weight: bold;
 }
+
+li.nv10 img.nvlicon {
+  position:relative;
+  float:left;
+  width:2em;
+  height:2em;
+  margin-right:1em;
+  background:#fff;
+}
+
+li.nvl1 img.nvlicon
+{
+    position:relative;
+    float:right;
+    width:2em;
+    height:2em;
+    margin-right:0;
+    margin-left:1em;
+}
+
