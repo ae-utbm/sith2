@@ -143,7 +143,7 @@ div.article {
   background-color: white;
   text-align: justify;
   padding-bottom: 2em;
-  width: 100%;
+  width: inherit;
 }
 
 div.article h1 {
@@ -230,3 +230,9 @@ li.nvl1 img.nvlicon
     margin-left:1em;
 }
 
+/* HACK: add some padding to internal cts that display content (like full text news)
+*/
+
+#cts2 {
+	padding: 0 1% 0 1%;
+}
