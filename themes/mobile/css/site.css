@@ -281,6 +281,7 @@ div#headermenu {
 
 div#headermenu a {
   color: white;
+  text-decoration: none;
 }
 
 div#headermenu #deco {
