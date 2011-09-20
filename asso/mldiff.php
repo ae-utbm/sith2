@@ -119,7 +119,7 @@ elseif ( $asso->is_mailing_allowed() )
     elseif (substr($ml, -8) == ".membres")
       $role = false;
     else
-      $asso_ml = false;
+      continue;
 
     // On récupère la liste des membres correspondant
     if ($asso_ml)
