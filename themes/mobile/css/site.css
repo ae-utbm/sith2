@@ -303,7 +303,6 @@ div#menuContent {
   margin: auto;
   margin-top: 1em;  /* FIXME */
   font-weight: bold;
-  display: none;
 }
 
 div#menuContent a {

@@ -338,7 +338,7 @@ if(!defined("MOBILE")) {
     }
 } /* ifndef MOBILE */ else {
     if($this->user->is_valid()) {
-      $this->buffer .= "<div id=\"menuContent\">\n";
+      $this->buffer .= "<div id=\"menuContent\" style=\"display:none;\">\n";
 
       $this->buffer .= "<a href=\"\">Soon</a>";
       $this->buffer .= "<a href=\"\">Soon</a>";
@@ -449,7 +449,7 @@ if(!defined("MOBILE")) {
 } else {/* ifndef MOBILE */
       if($this->user->is_valid()) {
         $this->buffer .= $this->get_comptoir();
-        $this->buffer .= "<a id=\"menu\" href=\"\" onclick=\"updateMenu()\">menu</a>";
+        $this->buffer .= "<a id=\"menu\" href=\"javascript:updateMenu();\">menu</a>";
         $this->buffer .= "<a href=\"disconnect.php\"><img id=\"deco\" src=\"../images/actions/stop.png\" alt=\"Déconnexion\" /></a>";
       }
 } /* ifdef MOBILE */
