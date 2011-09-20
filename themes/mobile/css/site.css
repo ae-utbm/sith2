@@ -278,6 +278,11 @@ div#headermenu #menu {
   text-align: center;
 }
 
+div#head_comptoirs {
+  float: left;
+  text-align: left;
+}
+
 div#head_comptoirs .green { color: green; }
 div#head_comptoirs .yellow { color: yellow; }
 div#head_comptoirs .red { color: red; }
