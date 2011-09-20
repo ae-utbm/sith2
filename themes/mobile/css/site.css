@@ -253,6 +253,10 @@ li.nvl1 img.nvlicon
  */
 
 div#headermenu {
+  position: absolute;
+  overflow: visible;
+  margin: auto;
+  margin-top: 0;
   font-weight: bold;
   font-size: 80%;
   background-color: #555;
