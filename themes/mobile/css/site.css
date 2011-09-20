@@ -269,7 +269,7 @@ div#headermenu {
   margin: auto;
   margin-top: 0;
   font-weight: bold;
-  font-size: 100%;
+  font-size: 120%;
   background-color: #555;
   width: 70%;
   height: 1.5em;
@@ -277,6 +277,10 @@ div#headermenu {
   font-color: white;
   text-transform: lowercase;
   z-index: 110;
+}
+
+div#headermenu a {
+  color: white;
 }
 
 div#headermenu #deco {
