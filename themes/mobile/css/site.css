@@ -57,6 +57,14 @@ div#site {
  * Header
  */
 
+div#logo {
+    /**
+     * FIX ME !!!
+     */
+    margin: auto;
+    width: 10em;
+}
+
 div#header {
   z-index: 90;
   height: 8em;
