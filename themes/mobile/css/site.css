@@ -63,7 +63,6 @@ div#logo {
      */
     margin: auto;
     width: 10em;
-    padding-top: 0.5em;
 }
 
 div#header {
@@ -75,6 +74,7 @@ div#logo img {
   height: 5em;
   position: absolute;
   margin-top: 1em;
+  padding-top: 0.5em;
 }
 
 /**
