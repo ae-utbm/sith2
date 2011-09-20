@@ -898,9 +898,15 @@ if(!defined("MOBILE")) {
         $led = "yellow";
         $descled = "ouvert (mais pas d'activité depuis plus de 10 minutes)";
       }
+if(!defined(MOBILE)) {
       $list.="<a href=\"".$topdir."comptoir/activity.php?id_comptoir=$id\"><img src=\"".$topdir."images/leds/".$led."led2.png\" class=\"icon\" alt=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" /> $nom</a>";
       if($i<$req->lines)
         $list.='<br />';
+} else {
+      $list .= "<span class=\"".$led.";\">".strtoupper($nom{0})."</span>";
+      if($i < $req->lines)
+        $list .= " ";
+}
     }
 
     return '<div id="head_comptoirs">'.$list.'</div>';

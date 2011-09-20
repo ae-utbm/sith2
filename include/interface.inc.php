@@ -290,7 +290,10 @@ if(!defined("MOBILE")) {
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js?".filemtime($wwwtopdir . "js/ajax.js")."\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js?".filemtime($wwwtopdir . "js/dnds.js")."\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/box_slideshow.js?".filemtime($wwwtopdir . "js/box_slideshow.js")."\"></script>\n";
-} /* NO ELSE : add manualy extra js scripts. Mobile version have to be light ! */
+}else {
+    /*  add manualy extra js scripts. Mobile version have to be light ! */
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/mobile.js?".filemtime($wwwtopdir . "js/mobile.js")."\"></script>\n";
+}
 
     foreach ( $this->extrajs as $url )
       $this->buffer .= "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."?".filemtime(htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8"))."\"></script>\n";
@@ -333,7 +336,15 @@ if(!defined("MOBILE")) {
       unset($frm);
       $this->buffer .= "</div>\n";
     }
-} /* ifndef MOBILE */
+} /* ifndef MOBILE */ else {
+    $this->buffer .= "<div id=\"menuContent\">\n";
+
+    $this->buffer .= "<a href=\"\">Soon</a>";
+    $this->buffer .= "<a href=\"\">Soon</a>";
+    $this->buffer .= "<a href=\"\">Soon</a>";
+
+    $this->buffer .= "</div>";
+}
 
 /* header */
     $this->buffer .= "<div id='header'>\n";
@@ -364,8 +375,8 @@ if(!defined("MOBILE")) {
     if(isset($this->logo))
       $this->buffer .= "<div id=\"logo\"><img src=\"" . $wwwtopdir ."images/".$this->logo."\" alt=\"Logo\"/></div>\n";
 
-if(!defined("MOBILE")) {
     $this->buffer .= "<div id='headermenu'>\n";
+if(!defined("MOBILE")) {
     if ( !$this->user->is_valid() )
     {
       $this->buffer .= "<script type=\"text/javascript\">\n";
@@ -433,8 +444,14 @@ if(!defined("MOBILE")) {
       $this->buffer .= "<div id='login' onmouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onmouseout=\"delayhidemenu()\">\n";
       $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">".$this->user->prenom." ".$this->user->nom."</a>";
     }
+} else {/* ifndef MOBILE */
+      if($this->user->is_valid()) {
+        $this->buffer .= $this->get_comptoir();
+        $this->buffer .= "<a id=\"menu\" href=\"\" onclick=\"updateMenu()\">menu</a>";
+        $this->buffer .= "<a href=\"disconnect.php\"><img id=\"deco\" src=\"../images/actions/stop.png\" alt=\"Déconnexion\" /></a>";
+      }
+} /* ifdef MOBILE */
     $this->buffer .= "</div>\n";
-} /* ifndef MOBILE */
 
 if(!defined("MOBILE")) {
     if(!defined('NOTAE'))
