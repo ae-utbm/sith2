@@ -42,7 +42,11 @@ unset($_COOKIE['AE2_SESS_ID']);
 unset($_SESSION['session_redirect']);
 
 /* Go back home */
-header("Location: /");
+$loc = "/";
+if($GLOBALS["taiste"])
+  $loc .= "taiste/";
+
+header("Location: ".$loc."m/");  /* You again ! */
 
 
 /* Do not cross. */
