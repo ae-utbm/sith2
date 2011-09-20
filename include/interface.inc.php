@@ -356,10 +356,7 @@ if(!defined("MOBILE")) {
       if(!empty($important) && $important!="<p />")
       {
         $this->buffer .= "<div class=\"box\" id=\"important\">\n";
-if(!defined("MOBILE"))
         $this->buffer .= "<a class=\"logo\" href=\"http://ae.utbm.fr\"></a>";
-else
-        $this->buffer .= "<a class=\"logo\"></a>"; /* links are too close, put it in menu */
         $this->buffer .= "<div class=\"body\">\n";
         $this->buffer .= $important. "\n";
         $this->buffer .= "</div></div>\n";
@@ -375,7 +372,14 @@ else
       if(defined("MOBILE"))
         $url .= 'm/';
 
-      $this->buffer .= "<div id=\"logo\"><a href=\"".$url."\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" alt=\"Logo AE\"/></a></div>\n";
+      $this->buffer .= "<div id=\"logo\">";
+
+if(!defined("MOBILE"))
+      $this->buffer .= "<a href=\"".$url."\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" alt=\"Logo AE\"/></a>";
+else
+      $this->buffer .= "<img src=\"".$wwwtopdir."images/ae_header.png\" alt=\"Logo AE\"/>";
+
+      $this->buffer .= "</div>\n";
     }
     if(isset($this->logo))
       $this->buffer .= "<div id=\"logo\"><img src=\"" . $wwwtopdir ."images/".$this->logo."\" alt=\"Logo\"/></div>\n";
