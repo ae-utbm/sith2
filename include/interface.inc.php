@@ -340,7 +340,7 @@ if(!defined("MOBILE")) {
     if($this->user->is_valid()) {
       $this->buffer .= "<div id=\"menuContent\" style=\"display:none;\">\n";
 
-      $this->buffer .= "<a href=\"\">Soon</a>";
+      $this->buffer .= "<a href=\"/\">Accueil</a>";
       $this->buffer .= "<a href=\"\">Soon</a>";
       $this->buffer .= "<a href=\"\">Soon</a>";
 
@@ -356,7 +356,10 @@ if(!defined("MOBILE")) {
       if(!empty($important) && $important!="<p />")
       {
         $this->buffer .= "<div class=\"box\" id=\"important\">\n";
+if(!defined("MOBILE"))
         $this->buffer .= "<a class=\"logo\" href=\"http://ae.utbm.fr\"></a>";
+else
+        $this->buffer .= "<a class=\"logo\"></a>"; /* links are too close, put it in menu */
         $this->buffer .= "<div class=\"body\">\n";
         $this->buffer .= $important. "\n";
         $this->buffer .= "</div></div>\n";
