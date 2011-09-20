@@ -903,7 +903,7 @@ if(!defined("MOBILE")) {
       if($i<$req->lines)
         $list.='<br />';
 } else {
-      $list .= "<span class=\"".$led.";\">".strtoupper($nom{0})."</span>";
+      $list .= "<span class=\"".$led."\">".strtoupper($nom{0})."</span>";
       if($i < $req->lines)
         $list .= " ";
 }
