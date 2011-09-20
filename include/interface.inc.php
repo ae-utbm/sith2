@@ -337,13 +337,15 @@ if(!defined("MOBILE")) {
       $this->buffer .= "</div>\n";
     }
 } /* ifndef MOBILE */ else {
-    $this->buffer .= "<div id=\"menuContent\">\n";
+    if($this->user->is_valid()) {
+      $this->buffer .= "<div id=\"menuContent\">\n";
 
-    $this->buffer .= "<a href=\"\">Soon</a>";
-    $this->buffer .= "<a href=\"\">Soon</a>";
-    $this->buffer .= "<a href=\"\">Soon</a>";
+      $this->buffer .= "<a href=\"\">Soon</a>";
+      $this->buffer .= "<a href=\"\">Soon</a>";
+      $this->buffer .= "<a href=\"\">Soon</a>";
 
-    $this->buffer .= "</div>";
+      $this->buffer .= "</div>";
+    }
 }
 
 /* header */
