@@ -329,7 +329,7 @@ div#menuContent a {
   color: white;
 }
 
-div#menuContent a:hover {
+div#menuContent a:active {
   color: #555;
   text-decoration: none;
 }
