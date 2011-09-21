@@ -256,7 +256,7 @@ li.nvl1 img.nvlicon
 /* HACK: add some padding to internal cts that display content (like full text news)
 */
 
-#cts2 {
+#cts2 :not(h1) {
 	padding: 0 1% 0 1%;
 }
 
