@@ -307,6 +307,7 @@ class dokusyntax
     global $ID;
     $uid=$this->uid;
     $lang = 'fr'; // bein quoi ?
+    $collapseCurrent = 100;
 
     $last = 0;
     $cnt  = 0;
@@ -320,9 +321,13 @@ class dokusyntax
       $headline  .= '<h'.$hl['level'].'>';
       $headline  .= $hl['name'];
       $headline  .= '</h'.$hl['level'].'>';
-      if ($hl['collapsed'])
+      if ($hl['level'] <= $collapseCurrent)
+          $collapseCurrent = 100;
+      if ($hl['collapsed']) {
+          $collapseCurrent = $hl['level'];
           $headline  .= '<a onclick="toggleSectionVisibility(this);">[+]</a>';
-      $headline  .= '<div class="level'.$hl['level'].'"'.($hl['collapsed'] ? ' style="display: none;"' : '').'>';
+      }
+      $headline  .= '<div class="level'.$hl['level'].'"'.(($hl['collapsed'] || $hl['level'] > $collapseCurrent) ? ' style="display: none;"' : '').'>';
 
       if($hl['level'] <= $conf['maxtoclevel'])
       {
