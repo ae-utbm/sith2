@@ -964,6 +964,8 @@ function toggleSectionVisibility (node)
         var sibling = node.nextSibling;
 		if (sibling == null || sibling.style == null)
 			break;
+        if (node.nodeName[0] == "H" && node.nodeName.length == 2 && node.nodeName <= title.nodeName)
+            break;
 
         if (sibling.style.length == 0) {
             sibling.style.setProperty ('display', 'none', 'important');
@@ -976,10 +978,7 @@ function toggleSectionVisibility (node)
         }
 
         node = sibling;
-        if (node.nodeName[0] == "H" && node.nodeName.length == 2 && node.nodeName <= title.nodeName)
-            break;
     }
-
 }
 
 if (window.addEventListener) {
