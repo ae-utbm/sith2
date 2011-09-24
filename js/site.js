@@ -972,7 +972,7 @@ function toggleSectionVisibility (node)
                 root.innerText = '[-]';
         }
         node = sibling;
-        if (node.name.search ("^h") == 0 && node.name <= root.name)
+        if (node == null || (node.name.search ("^h") == 0 && node.name <= root.name))
             break;
     }
 
