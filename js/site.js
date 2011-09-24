@@ -962,6 +962,8 @@ function toggleSectionVisibility (node)
 
     while (node != null) {
         var sibling = node.nextSibling;
+		if (sibling == null)
+			break;
         if (sibling.style.length == 0) {
             sibling.style.setProperty ('display', 'none', 'important');
             if (node == root)
@@ -972,7 +974,7 @@ function toggleSectionVisibility (node)
                 root.innerText = '[-]';
         }
         node = sibling;
-        if (node == null || (node.nodeName.search ("^h") == 0 && node.nodeName <= root.nodeName))
+        if (node.nodeName.search ("^h") == 0 && node.nodeName <= root.nodeName)
             break;
     }
 
