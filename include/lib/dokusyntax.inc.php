@@ -318,7 +318,7 @@ class dokusyntax
       if($cnt - 1) $headline .= '</div>';
       $headline  .= '<a name="h_'.$uid.'_'.($cnt).'"></a>';
       $headline  .= '<a name="'.preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($hl['name']))).'"></a>';
-      $headline  .= '<h'.$hl['level'].'>';
+      $headline  .= '<h'.$hl['level'].($hl['level'] > $collapseCurrent ? ' style="display: none;"' : '').'>';
       $headline  .= $hl['name'];
       $headline  .= '</h'.$hl['level'].'>';
       if ($hl['level'] <= $collapseCurrent)
