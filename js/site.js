@@ -957,14 +957,25 @@ function toggleSectionVisibility (node)
 {
     if (node == null)
         return;
-    var sibling = node.nextSibling;
-    if (sibling.style.length == 0) {
-        sibling.style.setProperty ('display', 'none', 'important');
-        node.innerText = '[+]';
-    } else {
-        sibling.style.removeProperty ('display');
-        node.innerText = '[-]';
+    var root = node;
+    var title = node.previousSibling;
+
+    while (node != null) {
+        var sibling = node.nextSibling;
+        if (sibling.style.length == 0) {
+            sibling.style.setProperty ('display', 'none', 'important');
+            if (node == root)
+                root.innerText = '[+]';
+        } else {
+            sibling.style.removeProperty ('display');
+            if (node == root)
+                root.innerText = '[-]';
+        }
+        node = sibling;
+        if (node.name.search ("^h") == 0 && node.name <= root.name)
+            break;
     }
+
 }
 
 if (window.addEventListener) {
