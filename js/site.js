@@ -964,7 +964,7 @@ function toggleSectionVisibility (node)
         var sibling = node.nextSibling;
 		if (sibling == null || sibling.style == null)
 			break;
-        if (node.nodeName[0] == "H" && node.nodeName.length == 2 && node.nodeName <= title.nodeName)
+        if (sibling.nodeName[0] == "H" && sibling.nodeName.length == 2 && sibling.nodeName <= title.nodeName)
             break;
 
         if (sibling.style.length == 0) {
