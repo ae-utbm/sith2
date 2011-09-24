@@ -964,7 +964,7 @@ function toggleSectionVisibility (node)
         var sibling = node.nextSibling;
 		if (sibling == null)
 			break;
-        if (sibling.style.length == 0) {
+        if (sibling.style == null || sibling.style.length == 0) {
             sibling.style.setProperty ('display', 'none', 'important');
             if (node == root)
                 root.innerText = '[+]';
