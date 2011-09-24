@@ -962,9 +962,10 @@ function toggleSectionVisibility (node)
 
     while (node != null) {
         var sibling = node.nextSibling;
-		if (sibling == null)
+		if (sibling == null || sibling.style == null)
 			break;
-        if (sibling.style == null || sibling.style.length == 0) {
+
+        if (sibling.style.length == 0) {
             sibling.style.setProperty ('display', 'none', 'important');
             if (node == root)
                 root.innerText = '[+]';
@@ -973,8 +974,9 @@ function toggleSectionVisibility (node)
             if (node == root)
                 root.innerText = '[-]';
         }
+
         node = sibling;
-        if (node.nodeName.search ("^h") == 0 && node.nodeName <= title.nodeName)
+        if (node.nodeName[0] == "H" && node.nodeName.length == 2 && node.nodeName <= title.nodeName)
             break;
     }
 
