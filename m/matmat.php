@@ -41,7 +41,7 @@ $cts->add_title(1, "Mat'Matronch", "mob_title");
 if (isset($_REQUEST["simplesearch"])) {
     if (isset($_REQUEST["pattern"])) {
       $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
-      $pattern = strtr(' ', '|', $pattern);
+      $pattern = strtr($pattern, array(' ' => '|'));
 
       $req = new requete($site->db, "SELECT `utilisateurs`.id_utilisateur,
           `utilisateurs`.nom_utl,
