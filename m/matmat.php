@@ -42,7 +42,6 @@ if (isset($_REQUEST["simplesearch"])) {
     if (isset($_REQUEST["pattern"])) {
       $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
       $pattern = strtr(' ', '|', $pattern);
-      echo $pattern;
 
       $req = new requete($site->db, "SELECT `utilisateurs`.id_utilisateur,
           `utilisateurs`.nom_utl,
@@ -52,7 +51,7 @@ if (isset($_REQUEST["simplesearch"])) {
           `utl_etu_utbm`.surnom_utbm,
           `utl_etu_utbm`.email_utbm
           FROM `utilisateurs`
-          LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.id_utilisateur = `utilisateurs`.id_utilisateur
+          LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.id_utilisateur=`utilisateurs`.id_utilisateur
           WHERE `utilisateurs`.nom_utl REGEXP '".$pattern."' OR
           `utilisateurs`.prenom_utl REGEXP '".$pattern."' OR
           `utl_etu_utbm`.surnom_utbm REGEXP '".$pattern."' OR
@@ -86,6 +85,7 @@ $frm->add_submit("simplesearch", "Rechercher");
 
 $site->add_contents($frm);
 
+echo $pattern;
 
 /* Do not cross. */
 $site->end_page();
