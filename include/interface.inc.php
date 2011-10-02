@@ -341,7 +341,7 @@ if(!defined("MOBILE")) {
       $this->buffer .= "<div id=\"menuContent\" style=\"display:none;\">\n";
 
       $this->buffer .= "<a href=\"./\">Accueil</a>";
-      $this->buffer .= "<a href=\"\">Soon</a>";
+      $this->buffer .= "<a href=\"./matmat.php\">Mat'Matronch</a>";
       $this->buffer .= "<a href=\"\">Soon</a>";
 
       $this->buffer .= "</div>";
