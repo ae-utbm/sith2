@@ -55,7 +55,7 @@ if (isset($_REQUEST["simplesearch"])) {
           LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.id_utilisateur = `utilisateurs`.id_utilisateur
           WHERE `utilisateurs`.nom_utl REGEXP '".$pattern."' OR
           `utilisateurs`.prenom_utl REGEXP '".$pattern."' OR
-          `utl_etu_utbm`.surnom REGEXP '".$pattern."' OR
+          `utl_etu_utbm`.surnom_utbm REGEXP '".$pattern."' OR
           `utilisateurs`.tel_portable_utl REGEXP '".$pattern."' OR
           `utilisateurs`.email_utl REGEXP '".$pattern."'
           ORDER BY `utilisateurs`.id_utilisateur DESC
