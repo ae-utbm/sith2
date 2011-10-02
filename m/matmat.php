@@ -81,7 +81,7 @@ if (isset($_REQUEST["action"])) {
 
 $site->add_contents($cts);
 
-$frm = new form("./matmat.php");
+$frm = new form("mtmsearch","./matmat.php",true,"POST","Recherche");
 $frm->add_text_field("pattern", "Nom, surnom, téléphone ...", "", true);
 $frm->add_submit("simplesearch", "Rechercher");
 
