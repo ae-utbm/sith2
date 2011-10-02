@@ -38,8 +38,7 @@ $site->start_page("matmatronch", "MatMaTronch");
 $cts = new contents();
 $cts->add_title(1, "Mat'Matronch", "mob_title");
 
-if (isset($_REQUEST["action"])) {
-  if ($_REQUEST["action"] == "simplesearch") {
+if (isset($_REQUEST["simplesearch"])) {
     if (isset($_REQUEST["pattern"])) {
       $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
       $pattern = strtr(' ', '|', $pattern);
@@ -76,7 +75,6 @@ if (isset($_REQUEST["action"])) {
         $cts->puts("<img src=\"/var/img/matmatronch/".$row["id_utilisateur"].".identity.jpg?".$date_prise_vue."\"/>");
         $cts->puts("</div>");
       }
-    }
   }
 }
 
