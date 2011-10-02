@@ -79,13 +79,13 @@ if (isset($_REQUEST["action"])) {
   }
 }
 
+$site->add_contents($cts);
 
 $frm = new form("mtmsearch","./matmat.php",true,"POST","Recherche");
 $frm->add_text_field("pattern", "Nom, surnom, téléphone ...", "", true);
 $frm->add_submit("simplesearch", "Rechercher");
-$cts->add($frm);
 
-$site->add_contents($cts);
+$site->add_contents($frm);
 
 
 /* Do not cross. */
