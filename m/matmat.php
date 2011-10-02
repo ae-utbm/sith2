@@ -32,7 +32,7 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site();
 $site->set_mobile(true);
-$site->start_page("acceuil", "MatMaTronch");
+$site->start_page("matmatronch", "MatMaTronch");
 
 
 $cts = new contents();
