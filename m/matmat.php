@@ -85,8 +85,6 @@ $frm->add_submit("simplesearch", "Rechercher");
 
 $site->add_contents($frm);
 
-echo $pattern;
-
 /* Do not cross. */
 $site->end_page();
 
