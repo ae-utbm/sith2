@@ -43,6 +43,7 @@ if (isset($_REQUEST["action"])) {
     if (isset($_REQUEST["pattern"])) {
       $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
       $pattern = strtr(' ', '|', $pattern);
+      echo $pattern;
 
       $req = new requete($site->db, "SELECT `utilisateurs`.id_utilisateur,
           `utilisateurs`.nom_utl,
