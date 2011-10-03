@@ -168,6 +168,7 @@ class objet extends stdentity
   var $id_salle;
   var $id_objtype;
   var $id_op;
+  var $id_photo;
 
   var $nom;
   var $num;
@@ -254,6 +255,7 @@ class objet extends stdentity
     $this->id_salle     = $row['id_salle'];
     $this->id_objtype   = $row['id_objtype'];
     $this->id_op        = $row['id_op'];
+    $this->id_photo     = $row['id_photo'];
     $this->nom          = $row['nom_objet'];
     $this->num          = $row['num_objet'];
     $this->cbar         = $row['cbar_objet'];
@@ -310,7 +312,7 @@ class objet extends stdentity
     return $this->_is_jeu;
   }
 
-  function add ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
+  function add ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $id_photo, $nom,
         $code_objtype, $num_serie, $prix, $caution, $prix_emprunt, $empruntable,
         $en_etat, $date_achat, $notes )
   {
@@ -330,6 +332,7 @@ class objet extends stdentity
     $this->id_salle    = $id_salle;
     $this->id_objtype  = $id_objtype;
     $this->id_op      = $id_op;
+    $this->id_photo   = $id_photo;
     $this->nom      = $nom;
     $this->cbar      = sprintf("%s%04d",$code_objtype,$this->num);
     $this->num_serie    = $num_serie;
@@ -350,6 +353,7 @@ class objet extends stdentity
         "id_salle" => $this->id_salle,
         "id_objtype" => $this->id_objtype,
         "id_op" => $this->id_op,
+        "id_photo" => $this->id_photo,
         "nom_objet" => $this->nom,
         "num_objet" => $this->num,
         "cbar_objet" => $this->cbar,
@@ -372,7 +376,7 @@ class objet extends stdentity
 
   }
 
-  function save_objet ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
+  function save_objet ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $id_photo, $nom,
         $num_serie, $prix, $caution, $prix_emprunt, $empruntable,
         $en_etat, $date_achat, $notes,$cbar, $archive )
   {
@@ -382,6 +386,7 @@ class objet extends stdentity
     $this->id_salle    = $id_salle;
     $this->id_objtype  = $id_objtype;
     $this->id_op    = $id_op;
+    $this->id_photo = $id_photo;
     $this->nom      = $nom;
     $this->cbar      = $cbar;
     $this->num_serie  = $num_serie;
@@ -402,6 +407,7 @@ class objet extends stdentity
         "id_salle" => $this->id_salle,
         "id_objtype" => $this->id_objtype,
         "id_op" => $this->id_op,
+        "id_photo" => $this->id_photo,
         "nom_objet" => $this->nom,
         "num_objet" => $this->num,
         "cbar_objet" => $this->cbar,

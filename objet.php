@@ -72,7 +72,8 @@ if ( isset($_REQUEST["id_objet"]) )
     $salle->load_by_id($_REQUEST["id_salle"]);
 
     $objet->save_objet (
-        $asso_gest->id, $asso_prop->id, $salle->id, $objtype->id, $objet->id_op, $_REQUEST["nom"],
+        $asso_gest->id, $asso_prop->id, $salle->id, $objtype->id, $objet->id_op,
+        empty($_REQUEST["id_photo"]) ? null : $_REQUEST["id_photo"][0]->id, $_REQUEST["nom"],
         $_REQUEST["num_serie"], $_REQUEST["prix"], $_REQUEST["caution"],
         $_REQUEST["prix_emprunt"], $_REQUEST["empruntable"],
         $_REQUEST["en_etat"], $_REQUEST["date_achat"], $_REQUEST["notes"], $_REQUEST["cbar"], $_REQUEST["archive"] );
@@ -91,7 +92,8 @@ if ( isset($_REQUEST["id_objet"]) )
     $frm->add_text_field("nom","Nom", $objet->nom);
     $frm->add_text_field("num_serie","Numéro de série", $objet->num_serie);
     $frm->add_date_field("date_achat","Date d'achat", $objet->date_achat);
-    $frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", $objet->id_asso_prop, false, array("id_asso_parent"=>NULL));
+    $frm->add_attached_files_field("id_photo", "Photo de l'objet", $object->id_photo == null ? array() : array($object->id_photo), $objet->id_asso);
+    $frm->add_entity_select("id_asso_prop", "Propriétaire", $site->db, "asso", $objet->id_asso_prop, false, array("id_asso_parent"=>NULL));
     $frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso",$objet->id_asso);
     $frm->add_entity_select("id_salle", "Salle", $site->db, "salle",$objet->id_salle);
     $frm->add_price_field("prix","Prix d'achat",$objet->prix);
@@ -256,6 +258,7 @@ if ( isset($_REQUEST["id_objet"]) )
   $tbl->add_row(array("Gestionnaire",$asso_gest->get_html_link()));
   $tbl->add_row(array("Emplacement",$salle->get_html_link()." ".$bat->get_html_link() ." ".$sitebat->get_html_link()));
   $tbl->add_row(array("Numéro de série",$objet->num_serie));
+  $tbl->add_row(array("Photo de l'objet",'<a href="d.php?id_file='.$objet->id_photo.'">Lien vers la photo</a>'));
   $tbl->add_row(array("Date d'achat",date("d/m/Y",$objet->date_achat)));
   $tbl->add_row(array("Reservable via le site internet",$objet->empruntable?"Oui":"Non"));
   $tbl->add_row(array("En etat",$objet->en_etat?"Oui":"Non"));
@@ -358,9 +361,10 @@ if ( $_REQUEST["action"] == "addobjet" )
     $sucess->add("Les objets suivants ont bien été ajoutés: ");
     for($i=0;$i<$nb;$i++)
     {
-      $objet->add ( $asso_gest->id, $asso_prop->id, $salle->id, $objtype->id, NULL, $_REQUEST["nom"],
-        $objtype->code, $_REQUEST["num_serie"], $_REQUEST["prix"], $_REQUEST["caution"], $_REQUEST["prix_emprunt"], $_REQUEST["empruntable"],
-        $_REQUEST["en_etat"], $_REQUEST["date_achat"], $_REQUEST["notes"] );
+      $objet->add ( $asso_gest->id, $asso_prop->id, $salle->id, $objtype->id, NULL,
+                    empty($_REQUEST["id_photo"]) ? null : $_REQUEST["id_photo"][0]->id, $_REQUEST["nom"],
+                    $objtype->code, $_REQUEST["num_serie"], $_REQUEST["prix"], $_REQUEST["caution"], $_REQUEST["prix_emprunt"], $_REQUEST["empruntable"],
+                    $_REQUEST["en_etat"], $_REQUEST["date_achat"], $_REQUEST["notes"] );
 
       if ( $_REQUEST["force_cbar"] && $nb == 1 )
         $objet->set_cbar($_REQUEST["force_cbar"]);
@@ -385,6 +389,7 @@ $frm->add_hidden("action","addobjet");
 $frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $objtype->id);
 $frm->add_text_field("nb","Nombre d'objets à ajouter","1",true);
 $frm->add_text_field("nom","Nom");
+$frm->add_attached_files_field("id_photo", "Photo de l'objet", array(), $_REQUEST["id_asso"]);
 $frm->add_text_field("num_serie","Numéro de série");
 $frm->add_date_field("date_achat","Date d'achat");
 $frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", false, false, array("id_asso_parent"=>NULL));
