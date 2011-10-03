@@ -1158,6 +1158,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
       $user->load_groups ();
       $frm = new form("dummygrps", "user.php?view=groups&id_utilisateur=".$user->id,true,"POST","Groupes (tout)");
       $frm->add_select_field ("allgrps", "Groupes (tout)", $user->groups);
+      $cts->add($frm, true);
   }
 }
 
