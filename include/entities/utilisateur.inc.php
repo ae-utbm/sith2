@@ -683,7 +683,7 @@ class utilisateur extends stdentity
       // Si on est dans le bureau de l'AE, si on est président d'un pole (asso fille de AE)
       // ou président asso pôtes (BDS, CETU, BDF) alors on fait partie du groupe CA
       if( ($id == 1 && $role > 1) || (($parent == 1 || $id == 2 || $id == 3 || $id == 51) && $role == ROLEASSO_PRESIDENT))
-          $this->groupe[10014] = "ca-membres";
+          $this->groupes[10014] = "ca-membres";
     }
 
     $req = new requete($this->db,
