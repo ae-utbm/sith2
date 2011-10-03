@@ -1153,6 +1153,12 @@ elseif ( ($_REQUEST["view"]=="groups") &&
 
   $frm->add_submit("save","Enregistrer");
   $cts->add($frm,true);
+
+  if (isset ($_REQUEST['all'])) {
+      $user->load_groups ();
+      $frm = new form("dummygrps", "user.php?view=groups&id_utilisateur=".$user->id,true,"POST","Groupes (tout)");
+      $frm->add_select_field ("allgrps", "Groupes (tout)", $user->groups);
+  }
 }
 
 else
