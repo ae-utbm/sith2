@@ -79,7 +79,7 @@ function explore_folders ( &$user, $path )
     $buffer .= "<li>";
     $buffer .= "<a href=\"#\" onclick=\"explore('".$row["id_folder"]."'); return false;\">";
     $buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".
-         $GLOBALS["entitiescatalog"]["folder"][2]."\" alt=\"\" />";
+         $GLOBALS["entitiescatalog"]["dfolder"][2]."\" alt=\"\" />";
     $buffer .= htmlspecialchars($row["titre_folder"]);
     $buffer .= "</a>";
     $buffer .= "</li>";
