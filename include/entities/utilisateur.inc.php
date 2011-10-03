@@ -677,7 +677,9 @@ class utilisateur extends stdentity
       if( !is_null($parent) )
         $this->groupes[$id+30000] = $name."-membres";
 
-      echo 'id='.$id.', name='.$name.', role='.$role.', parent='.$parent;
+      echo 'id='.$id.', name='.$name.', role='.$role.', parent='.$parent.'<br />';
+      echo '$parent==1: '.($parent==1).'<br />';
+      echo '$role==10: '.($role == ROLEASSO_PRESIDENT).'<br /><br />';
       // Si on est dans le bureau de l'AE, si on est président d'un pole (asso fille de AE)
       // ou président asso pôtes (BDS, CETU, BDF) alors on fait partie du groupe CA
       if( ($id == 1 && $role > 1) || (($parent == 1 || $id == 2 || $id == 3 || $id == 51) && $role == ROLEASSO_PRESIDENT))
