@@ -461,6 +461,7 @@ if ( $file->is_valid() )
 
   $cts->add(new itemlist("Informations",false,
       array(
+        "ID: ".$file->id,
         "Taille: ".$file->taille." Octets",
         "Type: ".$file->mime_type,
         "Date d'ajout: ".date("d/m/Y",$file->date_ajout),
