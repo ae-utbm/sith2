@@ -30,6 +30,7 @@ require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/entities/sitebat.inc.php");
 require_once($topdir. "include/entities/batiment.inc.php");
 require_once($topdir. "include/entities/salle.inc.php");
+require_once($topdir. "include/entities/files.inc.php");
 $site = new site ();
 
 $site->allow_only_logged_users("services");
@@ -81,6 +82,9 @@ if ( isset($_REQUEST["id_objet"]) )
   elseif ( $_REQUEST["page"] == "edit" && $can_admin)
   {
     $objtype->load_by_id($objet->id_objtype);
+    $photo = new dfile($site->db);
+    if ($objet->id_photo != null)
+        $photo->load_by_id ($objet->id_photo);
     $path = "<a href=\"objtype.php\">Inventaire</a> / ".$objtype->get_html_link()." / ".$objet->get_html_link();
 
     $site->start_page("services","Objet ".$objet->nom." ".$objtype->code.$objet->num);
@@ -92,7 +96,7 @@ if ( isset($_REQUEST["id_objet"]) )
     $frm->add_text_field("nom","Nom", $objet->nom);
     $frm->add_text_field("num_serie","Numéro de série", $objet->num_serie);
     $frm->add_date_field("date_achat","Date d'achat", $objet->date_achat);
-    $frm->add_attached_files_field("id_photo", "Photo de l'objet", $object->id_photo == null ? array() : array($object->id_photo), $objet->id_asso);
+    $frm->add_attached_files_field("id_photo", "Photo de l'objet", $objet->id_photo == null ? array() : array($photo), $objet->id_asso);
     $frm->add_entity_select("id_asso_prop", "Propriétaire", $site->db, "asso", $objet->id_asso_prop, false, array("id_asso_parent"=>NULL));
     $frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso",$objet->id_asso);
     $frm->add_entity_select("id_salle", "Salle", $site->db, "salle",$objet->id_salle);
