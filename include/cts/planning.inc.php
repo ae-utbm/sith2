@@ -168,11 +168,11 @@ class weekplanning extends stdcontents
                     {
                         foreach ( $day[date("Y-m-d",$i)] as $row )
                             {
-                                $st = floor(($row[0]-$i)/$scale) + 20;
+                                $st = floor(($row[0]-$i)/$scale);
                                 $ln = floor(($row[1]-$i)/$scale)-$st;
 
                                 if ( $st != $last )
-                                    $this->buffer .= "<div style=\"height:".($st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
+                                    $this->buffer .= "<div style=\"height:".(20+$st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
 
                                 $this->buffer .= "<div class=\"dayitem\" style=\"height:".($ln-1)."px;\"><span class=\"itemhour\">".date("H:i",$row[0])."</span> <a href=\"".$infopage.$idf."=".$row[2]."\">".$row[3]."</a></div>\n";
                                 $last=$st+$ln;
