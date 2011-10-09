@@ -56,7 +56,7 @@ if (isset ($_REQUEST['action']) && !empty ($_REQUEST['action'])) {
         $formurl = "eticket.php" . ($action == "create" ? "" : "?id_ticket=".$eticket->id);
         $frm = new form ($formaction, $formurl, true, "POST", "Créer/modifier un eticket");
         $frm->add_hidden ("action", $formaction);
-        $frm->add_entity_select ("id_produit", "Produit associé", $prod);
+        $frm->add_entity_smartselect ("id_produit", "Produit associé", $prod);
         $frm->add_attached_files_field ("id_banner", "Bannière", $eticket->banner == null ? array () : array ($eticket->banner), 1);
         $frm->add_submit ("valid", "Enregistrer");
 
