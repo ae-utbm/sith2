@@ -55,7 +55,7 @@ if (isset ($_REQUEST['action']) && !empty ($_REQUEST['action'])) {
     }
 
     if ($action == "docreate") {
-        $eticket->create ($_REQUEST['id_produit'], $_REQUEST['id_banner']);
+        $eticket->create ($_REQUEST['id_produit'], $_REQUEST['id_banner'][0]->id);
     }
 
     if ($action == "create" || $action == "edit") {
