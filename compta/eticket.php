@@ -24,6 +24,7 @@
 $topdir = '../';
 require_once($topdir."include/entities/eticket.inc.php");
 require_once($topdir."include/entities/produit.inc.php");
+require_once($topdir."include/entities/files.inc.php");
 require_once($topdir."include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 
@@ -34,10 +35,13 @@ if (isset ($_REQUEST['action']) && !empty ($_REQUEST['action'])) {
     $action = $_REQUEST['action'];
     $eticket = new eticket ($site->db, $site->dbrw);
     $prod = new produit ($site->db);
+    $banner = new dfile ($site->db);
     if (isset ($_REQUEST['id_ticket'])) {
         $eticket->load_by_id ($_REQUEST['id_ticket']);
         if ($eticket->id_produit > 0)
             $prod->load_by_id ($eticket->id_produit);
+        if ($eticket->banner > 0)
+            $banner->load_by_id ($eticket->banner);
     }
 
     if ($eticket->is_valid ()) {
@@ -57,7 +61,7 @@ if (isset ($_REQUEST['action']) && !empty ($_REQUEST['action'])) {
         $frm = new form ($formaction, $formurl, true, "POST", "Créer/modifier un eticket");
         $frm->add_hidden ("action", $formaction);
         $frm->add_entity_smartselect ("id_produit", "Produit associé", $prod);
-        $frm->add_attached_files_field ("id_banner", "Bannière", $eticket->banner == null ? array () : array ($eticket->banner), 1);
+        $frm->add_attached_files_field ("id_banner", "Bannière", $eticket->banner == null ? array () : array ($banner));
         $frm->add_submit ("valid", "Enregistrer");
 
         $site->add_contents ($frm);
