@@ -174,7 +174,7 @@ class weekplanning extends stdcontents
                                 if ( $st != $last )
                                     $this->buffer .= "<div style=\"height:".($st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
 
-                                $this->buffer .= "<div class=\"dayitem\" style=\"height:".($ln-3)."px;\"><span class=\"itemhour\">".date("H:i",$row[0])."</span> <a href=\"".$infopage.$idf."=".$row[2]."\">".$row[3]."</a></div>\n";
+                                $this->buffer .= "<div class=\"dayitem\" style=\"height:".($ln-4)."px;\"><span class=\"itemhour\">".date("H:i",$row[0])."</span> <a href=\"".$infopage.$idf."=".$row[2]."\">".$row[3]."</a></div>\n";
                                 $last=$st+$ln;
                             }
                     }
