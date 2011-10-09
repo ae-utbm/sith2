@@ -168,7 +168,7 @@ class weekplanning extends stdcontents
                     {
                         foreach ( $day[date("Y-m-d",$i)] as $row )
                             {
-                                $st = floor(($row[0]-$i)/$scale);
+                                $st = floor(($row[0]-$i)/$scale) + 20;
                                 $ln = floor(($row[1]-$i)/$scale)-$st;
 
                                 if ( $st != $last )
