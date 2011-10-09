@@ -64,7 +64,7 @@ class eticket extends stdentity
         $this->id = -1;
         $this->id_produit = -1;
         $this->secret = '';
-        $this->banner = '';
+        $this->banner = null;
     }
 
     function load_by_id ($id)
@@ -88,16 +88,33 @@ class eticket extends stdentity
         $this->banner = $row['banner'];
     }
 
-    function create_for_produit ($id_produit)
+    function create ($id_produit, $banner)
     {
         $this->secret = base64_encode(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
-        $this->id_produit = $id_produit;
+        $this->id_produit = intval ($id_produit);
+        $this->banner = intval ($banner);
         $values = array('id_produit' => $this->id_produit,
                         'secret' => $this->secret,
                         'banner' => $this->banner);
 
         $req = new insert($this->dbrw, ETICKET_TABLE, $values);
         $this->id = $req->get_id ();
+    }
+
+    function update ()
+    {
+        $values = array('id_produit' => $this->id_produit,
+                        'secret' => $this->secret,
+                        'banner' => intval ($this->banner));
+        $req = new update ($this->dbrw, ETICKET_TABLE, $values, array('id_ticket' => $this->id));
+    }
+
+    function delete ()
+    {
+        if (!$this->is_valid ())
+            return;
+
+        $req = new delete ($this->dbrw, ETICKET_TABLE, array ('id_ticket', $this->id));
     }
 
     function compute_hash_for ($value)
