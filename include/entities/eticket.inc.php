@@ -90,6 +90,7 @@ class eticket extends stdentity
 
     function create ($id_produit, $banner)
     {
+        echo "Creating eticket " . $id_produit . ' ' . $banner;
         $this->secret = base64_encode(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
         $this->id_produit = intval ($id_produit);
         $this->banner = intval ($banner);
