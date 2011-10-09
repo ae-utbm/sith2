@@ -28,7 +28,7 @@ require_once($topdir."include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 
 $site = new site ();
-$cts = new contents($asso->get_html_path());
+$cts = new contents();
 
 if (isset ($_REQUEST['action']) && !empty ($_REQUEST['action'])) {
     $action = $_REQUEST['action'];
