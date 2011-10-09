@@ -79,7 +79,7 @@ class pdfcarteae extends FPDF
           "nom" => array ("x"=>41.5,"y"=>9.9,"w"=>27,"h"=>4),
           "prenom" => array ("x"=>46.5,"y"=>14.8,"w"=>27,"h"=>4.2),
           "surnom" => array ("x"=>46.5,"y"=>19.9,"w"=>27,"h"=>4.2),
-          "semestres" => array ("x"=>48.6,"y"=>24.9,"w"=>27,"h"=>4.2)
+          "semestres" => array ("x"=>49.0,"y"=>24.9,"w"=>27,"h"=>4.2)
         )
       );
 
