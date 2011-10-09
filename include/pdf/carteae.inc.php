@@ -73,7 +73,7 @@ class pdfcarteae extends FPDF
 
     $this->pos[1] = array (
       "photo" => array ("x"=>4.4,"y"=>9.0,"w"=>25.1,"h"=>34.3),
-      "cbar" => array ("x"=>7.0,"y"=>4,2,"w"=>67,"h"=>25),
+      "cbar" => array ("x"=>6.7,"y"=>4,2,"w"=>67,"h"=>25),
       "front" =>
         array (
           "nom" => array ("x"=>41.5,"y"=>9.9,"w"=>27,"h"=>4),
@@ -201,8 +201,9 @@ class pdfcarteae extends FPDF
       else
         $users[$i]["semestres"] = $fsem;
 
-      $users[$i]["cbar"] = $row["id_carte_ae"]." ".substr($row["prenom_utl"],0,6).".".substr($row["nom_utl"],0,6);
-      $users[$i]["cbar"] = utf8_encode(strtr(utf8_decode($users[$i]["cbar"]), $acc, $noacc));
+      $row["prenom_utl"] = utf8_encode(substr(strtr(utf8_decode($row["prenom_utl"]), $acc, $noacc), 0, 6));
+      $row["nom_utl"] = utf8_encode(substr(strtr(utf8_decode($row["nom_utl"]), $acc, $noacc), 0, 6));
+      $users[$i]["cbar"] = $row["id_carte_ae"]." ".$row["prenom_utl"].".".$row["nom_utl"];
       $users[$i]["cbar"] = strtoupper(str_replace("-", "", $users[$i]["cbar"]));
 
       $i++;
