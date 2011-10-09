@@ -42,6 +42,7 @@ $sublist = new itemlist("Comptabilité de l'AE","boxlist");
 $sublist->add("<a href=\"".$topdir."entreprise.php\">Carnet d'adresses</a>");
 $sublist->add("<a href=\"".$topdir."compta/\">Comptabilité</a>");
 $sublist->add("<a href=\"".$topdir."comptoir/admin.php\">Comptoirs AE</a>");
+$sublist->add("<a href=\"".$topdir."comptoir/eticket.php\">Gestion E-tickets</a>");
 $board->add($sublist,true);
 
 $cts->add($board);
