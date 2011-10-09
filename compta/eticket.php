@@ -29,6 +29,11 @@ require_once($topdir."include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 
 $site = new site ();
+if (!$site->user->is_valid())
+    $site->error_forbidden("services");
+if (!$site->user->is_in_group ('gestion_ae'))
+    $site->error_forbidden("services");
+
 $cts = new contents("Gestion des E-Tickets");
 
 if (isset ($_REQUEST['action']) && !empty ($_REQUEST['action'])) {
