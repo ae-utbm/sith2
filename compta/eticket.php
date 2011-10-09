@@ -51,10 +51,13 @@ if (isset ($_REQUEST['action']) && !empty ($_REQUEST['action'])) {
             $eticket->id_produit = $_REQUEST['id_produit'];
             $eticket->banner = $_REQUEST['id_banner'][0]->id;
             $eticket->update ();
-        } else if ($action == "docreate") {
-            $eticket->create ($_REQUEST['id_produit'], $_REQUEST['id_banner']);
         }
     }
+
+    if ($action == "docreate") {
+        $eticket->create ($_REQUEST['id_produit'], $_REQUEST['id_banner']);
+    }
+
     if ($action == "create" || $action == "edit") {
         $formaction = $action == "create" ? "docreate" : "doupdate";
         $formurl = "eticket.php" . ($action == "create" ? "" : "?id_ticket=".$eticket->id);
