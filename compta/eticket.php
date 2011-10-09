@@ -49,7 +49,7 @@ if (isset ($_REQUEST['action']) && !empty ($_REQUEST['action'])) {
             $eticket->delete ();
         else if ($action == "doupdate") {
             $eticket->id_produit = $_REQUEST['id_produit'];
-            $eticket->banner = $_REQUEST['id_banner'];
+            $eticket->banner = $_REQUEST['id_banner'][0]->id;
             $eticket->update ();
         } else if ($action == "docreate") {
             $eticket->create ($_REQUEST['id_produit'], $_REQUEST['id_banner']);
