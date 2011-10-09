@@ -21,8 +21,9 @@
  * 02111-1307, USA.
  */
 
-$topdir = '../';
+$topdir = '../../';
 require_once($topdir."include/mysql.inc.php");
+require_once($topdir."include/entities/std.inc.php");
 
 define('ETICKET_TABLE', 'cpt_etickets');
 
