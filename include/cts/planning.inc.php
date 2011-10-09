@@ -149,7 +149,7 @@ class weekplanning extends stdcontents
         for($i=0;$i<24;$i++)
             {
                 $ln = floor(($i+1)*60*60/$scale)-floor($i*60*60/$scale);
-                $this->buffer .= "<div class=\"dayitem daycount\" style=\"height:".($ln)."px;\">".$i."h00</div>\n";
+                $this->buffer .= "<div class=\"dayitem daycount\" style=\"height:".($ln-3)."px;\">".$i."h00</div>\n";
             }
 
 
@@ -172,7 +172,7 @@ class weekplanning extends stdcontents
                                 $ln = floor(($row[1]-$i)/$scale)-$st;
 
                                 if ( $st != $last )
-                                    $this->buffer .= "<div style=\"height:".(20+$st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
+                                    $this->buffer .= "<div style=\"height:".($st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
 
                                 $this->buffer .= "<div class=\"dayitem\" style=\"height:".($ln-1)."px;\"><span class=\"itemhour\">".date("H:i",$row[0])."</span> <a href=\"".$infopage.$idf."=".$row[2]."\">".$row[3]."</a></div>\n";
                                 $last=$st+$ln;
