@@ -76,9 +76,9 @@ class pdfcarteae extends FPDF
       "cbar" => array ("x"=>8.7,"y"=>4,2,"w"=>67,"h"=>25),
       "front" =>
         array (
-          "nom" => array ("x"=>40.5,"y"=>9.9,"w"=>27,"h"=>4),
-          "prenom" => array ("x"=>44.9,"y"=>14.4,"w"=>27,"h"=>4.2),
-          "surnom" => array ("x"=>44.9,"y"=>20.3,"w"=>27,"h"=>4.2),
+          "nom" => array ("x"=>41.5,"y"=>9.9,"w"=>27,"h"=>4),
+          "prenom" => array ("x"=>45.9,"y"=>14.8,"w"=>27,"h"=>4.2),
+          "surnom" => array ("x"=>45.9,"y"=>19.3,"w"=>27,"h"=>4.2),
           "semestres" => array ("x"=>42.6,"y"=>23.5,"w"=>27,"h"=>4.2)
         )
       );
