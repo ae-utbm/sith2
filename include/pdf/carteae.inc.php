@@ -51,14 +51,14 @@ class pdfcarteae extends FPDF
     $this->npp = 10; // Nombre par page
     $this->npl=2; // Nombre par ligne
 
-    $this->img_front[1] = $topdir."images/carteae/ae-front-A2010.png";
-    $this->img_back[1] = $topdir."images/carteae/ae-back-A2010.png";
-    $this->img_front[2] = $topdir."images/carteae/assidu-front-A2010.png";
-    $this->img_back[2] = $topdir."images/carteae/assidu-back-A2010.png";
-    $this->img_front[3] = $topdir."images/carteae/amicale-front-A2010.png";
-    $this->img_back[3] = $topdir."images/carteae/amicale-back-A2010.png";
-    $this->img_front[4] = $topdir."images/carteae/crous-front-A2010.png";
-    $this->img_back[4] = $topdir."images/carteae/crous-back-A2010.png";
+    $this->img_front[1] = $topdir."images/carteae/front-A2011_normaux.png";
+    $this->img_back[1] = $topdir."images/carteae/back-A2011_normaux.png";
+    $this->img_front[2] = $topdir."images/carteae/front-A2011_autres.png";
+    $this->img_back[2] = $topdir."images/carteaea/back-A2011_autres.png";
+    $this->img_front[3] = $topdir."images/carteae/front-A2011_autres.png";
+    $this->img_back[3] = $topdir."images/carteae/back-A2011_autres.png";
+    $this->img_front[4] = $topdir."images/carteae/front-A2011_autres.png";
+    $this->img_back[4] = $topdir."images/carteae/back-A2011_autres.png";
 
     /* ATTENTION
      * - l'égalité suivante doit être respectée :
