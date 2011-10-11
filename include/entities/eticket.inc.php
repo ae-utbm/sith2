@@ -114,7 +114,7 @@ class eticket extends stdentity
         if (!$this->is_valid ())
             return;
 
-        $req = new delete ($this->dbrw, ETICKET_TABLE, array ('id_ticket', $this->id));
+        $req = new delete ($this->dbrw, ETICKET_TABLE, array ('id_ticket' => $this->id));
     }
 
     function compute_hash_for ($value)
