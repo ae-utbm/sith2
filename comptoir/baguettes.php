@@ -43,7 +43,8 @@
  */
 
 $topdir="../";
-require_once($topdir. "include/site.inc.php");
+require_once("include/comptoirs.inc.php");
+require_once($topdir. "include/localisation.inc.php");
 $site = new sitecomptoirs(true);
 
 if( get_localisation() != $site->comptoir->id_salle )
