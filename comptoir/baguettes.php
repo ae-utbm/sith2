@@ -88,7 +88,7 @@ $frm->add_password_field("password","Mot de passe");
 $frm->add_submit("valid","valider");
 $cts->add($frm);
 
-//$site->add_box("comptoir",$cts);
+$site->add_box("comptoir",$cts);
 unset($cts);
 
 include("frontend.inc.php");
