@@ -42,6 +42,7 @@
  * @see get_localisation
  */
 
+$site = new sitecomptoirs(true);
 echo "Wouh pinaise une page blanche !";
 
 ?>
