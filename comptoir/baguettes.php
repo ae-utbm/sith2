@@ -42,12 +42,5 @@
  * @see get_localisation
  */
 
-$topdir="../";
-require_once("include/comptoirs.inc.php");
-require_once($topdir. "include/cts/user.inc.php");
-require_once($topdir. "include/localisation.inc.php");
-
-
-include("frontend.inc.php");
 
 ?>
