@@ -43,8 +43,8 @@
  */
 
 $topdir="../";
-require_once("include/comptoirs.inc.php");
-$site = new sitecomptoirs(true);
+require_once($topdir. "include/site.inc.php");
+$site = new site();
 echo "Wouh pinaise une page blanche !";
 
 ?>
