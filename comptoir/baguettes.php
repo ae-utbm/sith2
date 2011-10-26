@@ -42,6 +42,7 @@
  * @see get_localisation
  */
 
+$topdir="../";
 require_once("include/comptoirs.inc.php");
 $site = new sitecomptoirs(true);
 echo "Wouh pinaise une page blanche !";
