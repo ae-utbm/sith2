@@ -44,8 +44,8 @@
 
 $topdir="../";
 require_once($topdir. "include/site.inc.php");
-$site = new site();
-$site->set_side_boxes("left",array("calendrier","connexion"));
-echo "Wouh pinaise une page blanche !";
+$site = new sitecomptoirs(true);
 
+if( get_localisation() != $site->comptoir->id_salle )
+  $site->error_forbidden("services","wrongplace");
 ?>
