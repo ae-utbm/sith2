@@ -55,8 +55,8 @@ if (! $site->comptoir->ouvrir($_REQUEST["id_comptoir"]))
 if ( !$site->comptoir->is_valid() )
   $site->error_not_found("services");
 
-if ( get_localisation() != $site->comptoir->id_salle )
-  $site->error_forbidden("services","wrongplace");
+//if ( get_localisation() != $site->comptoir->id_salle )
+//  $site->error_forbidden("services","wrongplace");
 
 if ( $site->comptoir->type != 0 )
   $site->error_forbidden("services","invalid");
