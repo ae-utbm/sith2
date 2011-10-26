@@ -45,6 +45,7 @@
 $topdir="../";
 require_once($topdir. "include/site.inc.php");
 $site = new site();
+$site->set_side_boxes("left",array("calendrier","connexion"));
 echo "Wouh pinaise une page blanche !";
 
 ?>
