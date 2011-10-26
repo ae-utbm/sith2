@@ -42,5 +42,6 @@
  * @see get_localisation
  */
 
+echo "Wouh pinaise une page blanche !";
 
 ?>
