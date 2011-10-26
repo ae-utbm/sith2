@@ -134,6 +134,7 @@ unset($cts);
 $cts = new contents("Baguettes");
 $cts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon");
 $site->add_box("baguettes",$cts);
+unset($cts);
 include("frontend.inc.php");
 
 ?>
