@@ -42,7 +42,7 @@
  * @see get_localisation
  */
 
-include("nclude/comptoir.inc.php");
+require_once("include/comptoir.inc.php");
 $site = new sitecomptoirs(true);
 echo "Wouh pinaise une page blanche !";
 
