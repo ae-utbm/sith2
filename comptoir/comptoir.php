@@ -130,6 +130,10 @@ $cts->add($frm);
 $site->add_box("comptoir",$cts);
 unset($cts);
 
+// Test by Smoi pour les baguettes BDF (il prie pour pas faire de conneries)
+$cts = new contents("Baguettes");
+$cts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon");
+$site->add_box("baguettes",$cts);
 include("frontend.inc.php");
 
 ?>
