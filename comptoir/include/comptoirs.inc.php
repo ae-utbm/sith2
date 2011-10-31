@@ -77,7 +77,7 @@ class sitecomptoirs extends site
 
 
     parent::start_page("services",$title);
-    $this->set_side_boxes("right",array("comptoir","connexion"));
+    $this->set_side_boxes("right",array("comptoir","connexion","baguettes"));
   }
 
   function fetch_admin_comptoirs()
