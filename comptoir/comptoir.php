@@ -133,12 +133,12 @@ unset($cts);
 // Test by Smoi pour les baguettes BDF (il prie pour pas faire de conneries)
 //if($_REQUEST["id_comptoir"] == 2)
 //{
-  $bgts = new contents("Baguettes");
-  $bgts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon)");
+  $cts = new contents("Baguettes");
+  $cts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon)");
 
-  $site->add_box("baguettes",$bgts);
+  $site->add_box("baguettes",$cts);
   $site->set_side_boxes("right","baguettes");
-  unset($bgts);
+  unset($cts);
 //}
 
 include("frontend.inc.php");
