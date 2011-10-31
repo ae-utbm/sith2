@@ -117,7 +117,7 @@ foreach( $site->comptoir->operateurs as $op )
     " ".$op->nom."</a>");
 $cts->add($lst);
 
-/*$frm = new form ("logoperateur","comptoir.php?id_comptoir=".$site->comptoir->id);
+$frm = new form ("logoperateur","comptoir.php?id_comptoir=".$site->comptoir->id);
 if ( $opErreur )
   $frm->error($opErreur);
 $frm->add_hidden("action","logoperateur");
@@ -128,7 +128,7 @@ $frm->add_submit("valid","valider");
 $cts->add($frm);
 
 $site->add_box("comptoir",$cts);
-unset($cts);*/
+unset($cts);
 
 // Test by Smoi pour les baguettes BDF (il prie pour pas faire de conneries)
 //if($_REQUEST["id_comptoir"] == 2)
@@ -136,7 +136,7 @@ unset($cts);*/
   $bgts = new contents("Baguettes");
   $bgts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon)");
 
-  $site->add_box("baguettes",$bgts);
+  $site->add_contents($bgts);
   unset($bgts);
 //}
 
