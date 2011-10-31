@@ -130,7 +130,7 @@ $cts->add($frm);
 $site->add_box("comptoir",$cts);
 unset($cts);
 
-/* Test by Smoi pour les baguettes BDF (il prie pour pas faire de conneries)
+// Test by Smoi pour les baguettes BDF (il prie pour pas faire de conneries)
 if($_REQUEST["id_comptoir"] == 2)
 {
   $bgts = new contents("Baguettes");
@@ -138,7 +138,7 @@ if($_REQUEST["id_comptoir"] == 2)
 
   $site->add_box("baguettes",$bgts);
   unset($bgts);
-}*/
+}
 
 include("frontend.inc.php");
 
