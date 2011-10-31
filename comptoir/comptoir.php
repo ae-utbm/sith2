@@ -137,7 +137,7 @@ unset($cts);
   $bgts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon)");
 
   $site->add_box("baguettes",$bgts);
-  $site->set_side_boxes("right","baguette");
+  $site->set_side_boxes("right","baguettes");
   unset($bgts);
 //}
 
