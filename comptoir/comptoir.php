@@ -130,7 +130,7 @@ $cts->add($frm);
 $site->add_box("comptoir",$cts);
 unset($cts);
 
-// Test by Smoi pour les baguettes BDF (il prie pour pas faire de conneries)
+// Boite pour les Baguettes au foyer.
 if($_REQUEST["id_comptoir"] == 2)
 {
   $cts = new contents("Baguettes");
