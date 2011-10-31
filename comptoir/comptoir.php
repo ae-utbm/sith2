@@ -127,7 +127,7 @@ $frm->add_password_field("password","Mot de passe");
 $frm->add_submit("valid","valider");
 $cts->add($frm);
 
-$site->add_box("pouet",$cts);
+$site->add_box("comptoir",$cts);
 unset($cts);
 
 // Test by Smoi pour les baguettes BDF (il prie pour pas faire de conneries)
@@ -136,7 +136,7 @@ unset($cts);
   $bgts = new contents("Baguettes");
   $bgts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon)");
 
-  $site->add_box("baguettes",$bgts);
+  $site->add_box("comptoir",$bgts);
   unset($bgts);
 //}
 
