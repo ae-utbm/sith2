@@ -131,7 +131,7 @@ $site->add_box("comptoir",$cts);
 unset($cts);
 
 // Boite pour les Baguettes au foyer.
-if($_REQUEST["id_comptoir"] == 2 && is_null($op))
+if($_REQUEST["id_comptoir"] == 2 && is_null($site->comptoir->operateurs))
 {
 
 /*  $req = new requete($site->db, "SELECT " .
