@@ -111,7 +111,7 @@ if ($site->comptoir->rechargement)
 
 $lst = new itemlist();
 foreach( $site->comptoir->operateurs as $op )
-  $oplog = true;
+//  $oplog = true;
   $lst->add(
     "<a href=\"comptoir.php?id_comptoir=".$site->comptoir->id."&amp;".
     "action=unlogoperateur&amp;id_operateur=".$op->id."\">". $op->prenom.
