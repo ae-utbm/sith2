@@ -111,6 +111,7 @@ if ($site->comptoir->rechargement)
 
 $lst = new itemlist();
 foreach( $site->comptoir->operateurs as $op )
+  $oplog = true;
   $lst->add(
     "<a href=\"comptoir.php?id_comptoir=".$site->comptoir->id."&amp;".
     "action=unlogoperateur&amp;id_operateur=".$op->id."\">". $op->prenom.
@@ -131,7 +132,7 @@ $site->add_box("comptoir",$cts);
 unset($cts);
 
 // Boite pour les Baguettes au foyer.
-if($_REQUEST["id_comptoir"] == 2 && is_null($site->comptoir->operateurs))
+if($_REQUEST["id_comptoir"] == 2 && $oplog)
 {
 
 /*  $req = new requete($site->db, "SELECT " .
