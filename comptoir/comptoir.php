@@ -183,6 +183,9 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
 
       $items[]=$item;
     }
+
+    comptoir/encours.php?id_utilisateur=".$user->id."&amp;action=retires
+
   }*/
 
   $cts = new contents("Baguettes");
