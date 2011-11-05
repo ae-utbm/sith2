@@ -131,10 +131,10 @@ $site->add_box("comptoir",$cts);
 unset($cts);
 
 // Boite pour les Baguettes au foyer.
-/*if($_REQUEST["id_comptoir"] == 2)
+if($_REQUEST["id_comptoir"] == 2 && is_null($op))
 {
 
-  $req = new requete($site->db, "SELECT " .
+/*  $req = new requete($site->db, "SELECT " .
     "CONCAT(`cpt_debitfacture`.`id_facture`,',',`cpt_produits`.`id_produit`) AS `id_factprod`, " .
     "`cpt_debitfacture`.`id_facture`, " .
     "`cpt_debitfacture`.`date_facture`, " .
@@ -180,14 +180,14 @@ unset($cts);
 
       $items[]=$item;
     }
-  }
+  }*/
 
   $cts = new contents("Baguettes");
   $cts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon)");
 
   $site->add_box("baguettes",$cts);
   unset($cts);
-}*/
+}
 
 include("frontend.inc.php");
 
