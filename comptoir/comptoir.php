@@ -159,7 +159,7 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
     "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
     "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`cpt_debitfacture`.`id_utilisateur_client` " .
-    "WHERE `id_produit`=714 ".
+    "WHERE `cpt_produits`.`id_produit`=714 ".
     "AND (`cpt_vendu`.`a_retirer_vente`=`1` OR `cpt_vendu`.`a_expedier_vente`='1') " .
     "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
