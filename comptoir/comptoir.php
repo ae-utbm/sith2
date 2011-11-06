@@ -165,6 +165,7 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
 
   while ( $item = $req->get_row() )
   {
+     echo 'pouet';
      echo $item['id_ass'];
   }
  /* $items=array();
