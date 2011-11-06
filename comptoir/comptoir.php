@@ -163,6 +163,10 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
     "AND (`cpt_vendu`.`a_retirer_vente`=`1` OR `cpt_vendu`.`a_expedier_vente`='1') " .
     "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
+  while ( $item = $req->get_row() )
+  {
+     echo $item['id_ass'];
+  }
 /*$items=array();
   while ( $item = $req->get_row() )
   {
