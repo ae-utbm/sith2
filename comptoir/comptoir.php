@@ -133,11 +133,11 @@ $cts->add($frm);
 $site->add_box("comptoir",$cts);
 unset($cts);
 
-// Boite pour les Baguettes au foyer.
+// Boite pour les baguettes au foyer.
 if($_REQUEST["id_comptoir"] == 2 && $oplog)
 {
 
-/*  $req = new requete($site->db, "SELECT " .
+    $req = new requete($site->db, "SELECT " .
     "CONCAT(`cpt_debitfacture`.`id_facture`,',',`cpt_produits`.`id_produit`) AS `id_factprod`, " .
     "`cpt_debitfacture`.`id_facture`, " .
     "`cpt_debitfacture`.`date_facture`, " .
@@ -160,10 +160,10 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
     "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`cpt_debitfacture`.`id_utilisateur_client` " .
     "WHERE `id_produit`=714 ".
-    "AND (`cpt_vendu`.`a_retirer_vente`='1' OR `cpt_vendu`.`a_expedier_vente`='1') " .
+    "AND (`cpt_vendu`.`a_retirer_vente`=`1` OR `cpt_vendu`.`a_expedier_vente`='1') " .
     "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-  $items=array();
+/*$items=array();
   while ( $item = $req->get_row() )
   {
     if ($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($item['id_asso'], 2))
