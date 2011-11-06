@@ -153,12 +153,14 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
     "`cpt_produits`.`nom_prod`, " .
     "`cpt_produits`.`id_produit`, " .
     "`utilisateurs`.`nom_utl`, " .
-    "`utilisateurs`.`prenom_utl` " .
+    "`utilisateurs`.`prenom_utl`, " .
+    "`utl_etu_utbm`.`surnom_utbm` " .
     "FROM `cpt_vendu` " .
     "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
     "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
     "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`cpt_debitfacture`.`id_utilisateur_client` " .
+    "INNER JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`cpt_debitfacture`.`id_utilisateur_client` " .
     "WHERE `cpt_produits`.`id_produit`='766' ".
     "AND (`cpt_vendu`.`a_retirer_vente`='1' OR `cpt_vendu`.`a_expedier_vente`='1') " .
     "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
@@ -192,7 +194,7 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
   $cts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon)");
 while ( $item = $req->get_row() )
   {
-     $cts->add_paragraph($item['prenom_utl']);
+     $cts->add_paragraph($item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ")" );
   }
 
   $site->add_box("baguettes",$cts);
