@@ -142,6 +142,7 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
     "`cpt_debitfacture`.`id_facture`, " .
     "`cpt_debitfacture`.`date_facture`, " .
     "`cpt_debitfacture`.`id_utilisateur_client`, " .
+    "`cpt_debitfacture`.`date_facture`, " .
     "`asso`.`id_asso`, " .
     "`asso`.`nom_asso`, " .
     "`cpt_vendu`.`a_retirer_vente`, " .
@@ -191,9 +192,11 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
   }*/
 
   $cts = new contents("Baguettes");
-while ( $item = $req->get_row() )
+
+  while ( $item = $req->get_row() )
   {
-     $cts->add_paragraph($item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] );
+    if(date('l',$item['date_facture']) >=date('l'))
+      $cts->add_paragraph($item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] );
   }
 
   $site->add_box("baguettes",$cts);
