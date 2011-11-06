@@ -163,11 +163,11 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
     "AND (`cpt_vendu`.`a_retirer_vente`=`1` OR `cpt_vendu`.`a_expedier_vente`='1') " .
     "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-  while ( $item = $req->get_row() )
+ /* while ( $item = $req->get_row() )
   {
      echo $item['id_ass'];
   }
-/*$items=array();
+  $items=array();
   while ( $item = $req->get_row() )
   {
     if ($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($item['id_asso'], 2))
