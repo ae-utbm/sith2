@@ -163,10 +163,6 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
     "AND (`cpt_vendu`.`a_retirer_vente`='1' OR `cpt_vendu`.`a_expedier_vente`='1') " .
     "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-  while ( $item = $req->get_row() )
-  {
-     $cts->add_paragraph($item['prenom_utl']);
-  }
  /* $items=array();
   while ( $item = $req->get_row() )
   {
@@ -194,6 +190,10 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
 
   $cts = new contents("Baguettes");
   $cts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon)");
+while ( $item = $req->get_row() )
+  {
+     $cts->add_paragraph($item['prenom_utl']);
+  }
 
   $site->add_box("baguettes",$cts);
   unset($cts);
