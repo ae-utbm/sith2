@@ -191,10 +191,9 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
   }*/
 
   $cts = new contents("Baguettes");
-  $cts->add_paragraph("Smoi : 1 baguettes<br />Kiri : 2 baguettes (l'en faut pour le frometon)");
 while ( $item = $req->get_row() )
   {
-     $cts->add_paragraph($item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ")" );
+     $cts->add_paragraph($item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item[`utl_etu_utbm`.`surnom_utbm`] . ") : " . $item['quantite'] );
   }
 
   $site->add_box("baguettes",$cts);
