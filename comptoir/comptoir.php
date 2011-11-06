@@ -141,7 +141,7 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
     "CONCAT(`cpt_debitfacture`.`id_facture`,',',`cpt_produits`.`id_produit`) AS `id_factprod`, " .
     "`cpt_debitfacture`.`id_facture`, " .
     "`cpt_debitfacture`.`date_facture`, " .
-    "`cpt_debitfacture`.`id_utilisateur_client`" .
+    "`cpt_debitfacture`.`id_utilisateur_client`, " .
     "`asso`.`id_asso`, " .
     "`asso`.`nom_asso`, " .
     "`cpt_vendu`.`a_retirer_vente`, " .
@@ -151,9 +151,9 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
     "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
     "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
     "`cpt_produits`.`nom_prod`, " .
-    "`cpt_produits`.`id_produit` " .
-    "`utilisateurs`.`nom_utl`" .
-    "`utilisateurs`.`prenom_utl`" .
+    "`cpt_produits`.`id_produit`, " .
+    "`utilisateurs`.`nom_utl`, " .
+    "`utilisateurs`.`prenom_utl` " .
     "FROM `cpt_vendu` " .
     "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
     "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
