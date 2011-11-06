@@ -165,8 +165,7 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
 
   while ( $item = $req->get_row() )
   {
-     echo 'pouet';
-     echo $item['id_ass'];
+     $cts->add_paragraph($item['prenom_utl']);
   }
  /* $items=array();
   while ( $item = $req->get_row() )
