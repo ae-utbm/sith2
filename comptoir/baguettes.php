@@ -88,6 +88,6 @@ $cts = new contents("Baguettes");
 
 $site->add_contents($cts);
 
-include("frontend.inc.php");
+$site->end_page();
 
 ?>
