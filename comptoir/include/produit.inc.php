@@ -506,7 +506,12 @@ class produit extends stdentity
    */
   function can_be_sold ( &$user )
   {
-    if ( !is_null($this->id_groupe) && !$user->is_in_group_id($this->id_groupe) )
+    // 42 = nouveaux diplomes (les gens chiants)
+    if ($this->id_groupe == 42) {
+      require_once ($topdir.'include/entities/nvdiplomes.inc.php');
+      if (!is_nouveau_diplome ($user))
+          return false;
+    } else if ( !is_null($this->id_groupe) && !$user->is_in_group_id($this->id_groupe) )
       return false;
 
     if ( $this->action == ACTION_CLASS )
