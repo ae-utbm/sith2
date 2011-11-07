@@ -43,53 +43,50 @@
  */
 
 $topdir="../";
-require_once("include/comptoirs.inc.php");
+require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/localisation.inc.php");
 
-$site = new sitecomptoirs(true );
+$site = new site();
 
-if (! $site->comptoir->ouvrir($_REQUEST["id_comptoir"]))
-  $site->error_not_found("services");
+$cts = new contents("Baguettes");
 
-if ( !$site->comptoir->is_valid() )
-  $site->error_not_found("services");
+    $req = new requete($site->db, "SELECT " .
+    "CONCAT(`cpt_debitfacture`.`id_facture`,',',`cpt_produits`.`id_produit`) AS `id_factprod`, " .
+    "`cpt_debitfacture`.`id_facture`, " .
+    "`cpt_debitfacture`.`date_facture`, " .
+    "`cpt_debitfacture`.`id_utilisateur_client`, " .
+    "`cpt_debitfacture`.`date_facture`, " .
+    "`asso`.`id_asso`, " .
+    "`asso`.`nom_asso`, " .
+    "`cpt_vendu`.`a_retirer_vente`, " .
+    "`cpt_produits`.`a_retirer_info`, " .
+    "`cpt_vendu`.`a_expedier_vente`, " .
+    "`cpt_vendu`.`quantite`, " .
+    "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
+    "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
+    "`cpt_produits`.`nom_prod`, " .
+    "`cpt_produits`.`id_produit`, " .
+    "`utilisateurs`.`nom_utl`, " .
+    "`utilisateurs`.`prenom_utl`, " .
+    "`utl_etu_utbm`.`surnom_utbm` " .
+    "FROM `cpt_vendu` " .
+    "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+    "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
+    "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+    "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`cpt_debitfacture`.`id_utilisateur_client` " .
+    "INNER JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`cpt_debitfacture`.`id_utilisateur_client` " .
+    "WHERE `cpt_produits`.`id_produit`='766' ".
+    "AND (`cpt_vendu`.`a_retirer_vente`='1' OR `cpt_vendu`.`a_expedier_vente`='1') " .
+    "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-//if ( get_localisation() != $site->comptoir->id_salle )
-//  $site->error_forbidden("services","wrongplace");
+  while ( $item = $req->get_row() )
+  {
+    if(date('l',$item['date_facture']) >=date('l'))
+      $cts->add_paragraph($item['date_facture'] . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] );
+  }
 
-if ( $site->comptoir->type != 0 )
-  $site->error_forbidden("services","invalid");
-
-
-// Boite sur le coté
-$cts = new contents("Comptoir");
-
-$cts->add_paragraph("<a href=\"index.php\">Autre comptoirs</a>");
-
-if ($site->comptoir->rechargement)
-  $cts->add_paragraph("<a href=\"caisse.php?action=new&id_comptoir=".$site->comptoir->id."\">Faire un relevé de caisse</a>");
-
-$lst = new itemlist();
-foreach( $site->comptoir->operateurs as $op )
-  $lst->add(
-    "<a href=\"comptoir.php?id_comptoir=".$site->comptoir->id."&amp;".
-    "action=unlogoperateur&amp;id_operateur=".$op->id."\">". $op->prenom.
-    " ".$op->nom."</a>");
-$cts->add($lst);
-
-$frm = new form ("logoperateur","comptoir.php?id_comptoir=".$site->comptoir->id);
-if ( $opErreur )
-  $frm->error($opErreur);
-$frm->add_hidden("action","logoperateur");
-$frm->add_text_field("adresse_mail","Adresse email","prenom.nom@utbm.fr");
-$frm->add_text_field("code_bar_carte","Carte AE");
-$frm->add_password_field("password","Mot de passe");
-$frm->add_submit("valid","valider");
-$cts->add($frm);
-
-$site->add_box("comptoir",$cts);
-unset($cts);
+$site->add_contents($cts);
 
 include("frontend.inc.php");
 
