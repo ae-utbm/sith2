@@ -40,10 +40,10 @@ $site = new site ();
 $user = new utilisateur ($site->db);
 $user->load_by_id (4040);
 
-print is_nouveau_diplome ($user);
+print is_nouveau_diplome ($user) ? "Oui" : "Non";
 
 $user->load_by_id (2508);
 
-print is_nouveau_diplome ($user);
+print is_nouveau_diplome ($user) ? "Oui" : "Non";
 
 ?>
