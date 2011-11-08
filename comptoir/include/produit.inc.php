@@ -518,10 +518,10 @@ class produit extends stdentity
 
   function is_nouveau_diplome ($user)
   {
-      if ($names == null)
-          $names = unserialize (file_get_contents (NAMES_PATH));
-      if ($fnames == null)
-          $fnames = unserialize (file_get_contents (FNAMES_PATH));
+      if ($this->$names == null)
+          $this->$names = unserialize (file_get_contents (NAMES_PATH));
+      if ($this->$fnames == null)
+          $this->$fnames = unserialize (file_get_contents (FNAMES_PATH));
 
       echo "Nom demande: ".strtoupper($this->escape_name ($user->nom))."\n";
       echo "Prénom demande: ".strtoupper($this->escape_name ($user->prenom))."\n";
