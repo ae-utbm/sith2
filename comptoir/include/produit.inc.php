@@ -506,6 +506,7 @@ class produit extends stdentity
    */
   function can_be_sold ( &$user )
   {
+    global $topdir;
     if (!is_null($this->id_groupe)) {
         // 42 = nouveaux diplomes (les gens chiants)
         if ($this->id_groupe == 42) {
