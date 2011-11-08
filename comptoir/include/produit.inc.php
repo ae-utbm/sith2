@@ -30,8 +30,8 @@
  * 02111-1307, USA.
  */
 
-define ('NAMES_PATH', 'nvdiplomes/names');
-define ('FNAMES_PATH','nvdiplomes/firstnames');
+define ('NAMES_PATH', $topdir.'comptoir/include/nvdiplomes/names');
+define ('FNAMES_PATH', $topdir.'comptoir/include/nvdiplomes/firstnames');
 
 /**
  * Classe gérant un produit
