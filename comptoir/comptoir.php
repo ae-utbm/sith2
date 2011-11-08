@@ -135,7 +135,7 @@ unset($cts);
 
 
 //Clickage baguettes
-if ( $_REQUEST["action"] == "clickbaguettes")
+if ( $_REQUEST["action"] == "clickbaguettes" && $_REQUEST["id_comptoir"] == 2 )
 {
   require_once("include/facture.inc.php");
   require_once("include/produit.inc.php");
@@ -216,7 +216,7 @@ if($_REQUEST["id_comptoir"] == 2 /*&& $oplog*/)
 
   while ( $item = $req->get_row() )
   {
-      $lst = $lst . "<a href=\"" . $topdir . "comptoir/comptoir.php?action=clickbaguettes&amp;id_factprods=" . $item['id_factprod'] . "\">" . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] . "</a><br />";
+      $lst = $lst . "<a href=\"" . $topdir . "comptoir/comptoir.php?id_comptoir=" . $site->comptoir->id . "&amp;"."action=clickbaguettes&amp;id_factprods=" . $item['id_factprod'] . "\">" . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] . "</a><br />";
   }
   $cts->add_paragraph($lst);
   $site->add_box("baguettes",$cts);
