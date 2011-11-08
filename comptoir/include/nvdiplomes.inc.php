@@ -27,8 +27,8 @@
  * choses spécifiques comme le Gala) et du coup faire un traitement sélectif pour
  * le groupe n°42 (produit eboutic notamment) */
 
-define ('NAMES_PATH', $topdir.'nvdiplomes/names');
-define ('FNAMES_PATH', $topdir.'nvdiplomes/firstnames');
+define ('NAMES_PATH', $topdir.'../../nvdiplomes/names');
+define ('FNAMES_PATH', $topdir.'../../nvdiplomes/firstnames');
 
 $names = null;
 $fnames = null;
