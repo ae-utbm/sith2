@@ -151,7 +151,7 @@ if ( $_REQUEST["action"] == "clickbaguettes" && $_REQUEST["id_comptoir"] == 2 )
 }
 
 // Boite pour les baguettes au foyer.
-if($_REQUEST["id_comptoir"] == 2 /*&& $oplog*/)
+if($_REQUEST["id_comptoir"] == 2 && $oplog)
 {
 
     $req = new requete($site->db, "SELECT " .
@@ -182,31 +182,6 @@ if($_REQUEST["id_comptoir"] == 2 /*&& $oplog*/)
     "WHERE `cpt_produits`.`id_produit`='766' ".
     "AND (`cpt_vendu`.`a_retirer_vente`='1' OR `cpt_vendu`.`a_expedier_vente`='1') " .
     "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
-
- /* $items=array();
-  while ( $item = $req->get_row() )
-  {
-    if ($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($item['id_asso'], 2))
-    {
-      if ( $item['a_retirer_vente'])
-      {
-        if ($item['a_retirer_info'] != null)
-         {
-          $item["info"] = "À venir retirer : ".$item['a_retirer_info'];
-          echo $item["nom_utl"] . "a venir retirer";
-         }
-        else
-          $item["info"] = "À venir retirer aux bureaux AE";
-      }
-      else if ( $item['a_expedier_vente'])
-        $item["info"] = "En preparation";
-
-      $items[]=$item;
-    }
-
-    comptoir/encours.php?id_utilisateur=".$user->id."&amp;action=retires
-
-  }*/
 
   $cts = new contents("Baguettes");
   $lst = "";
