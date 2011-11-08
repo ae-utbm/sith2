@@ -584,9 +584,10 @@ class produit extends stdentity
 
       $row = $req->get_row();
 
-      echo "Prout 2\n";
       // Le nombre renvoyé doit être >= 0 !
-      return max(0, $this->limite_utilisateur - $row["nb_achetes"]);
+      $val = max(0, $this->limite_utilisateur - $row["nb_achetes"]);
+      echo "Prout 2".$val."\n";
+      return $val;
     }
 
     return -1;
