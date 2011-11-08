@@ -509,7 +509,7 @@ class produit extends stdentity
     if (!is_null($this->id_groupe)) {
         // 42 = nouveaux diplomes (les gens chiants)
         if ($this->id_groupe == 42) {
-            require_once ($topdir.'../../include/entities/nvdiplomes.inc.php');
+            require_once ($topdir.'nvdiplomes.inc.php');
             if (!is_nouveau_diplome ($user))
                 return false;
         } else if (!$user->is_in_group_id($this->id_groupe) ) {
