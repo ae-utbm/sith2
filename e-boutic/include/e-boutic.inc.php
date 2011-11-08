@@ -211,6 +211,7 @@ class eboutic extends site
         }
       }
     }
+    echo "Je suis la\n";
 
     if (($max >= 0) && ($_SESSION['eboutic_cart'][$item] >= $max))
       return false;
