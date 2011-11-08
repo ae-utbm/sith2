@@ -82,7 +82,6 @@ $cts = new contents("Baguettes");
 
   while ( $item = $req->get_row() )
   {
-    if(date('l',$item['date_facture']) >=date('l'))
       $cts->add_paragraph(date('l', strtotime($item['date_facture'])) . " : " . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] );
   }
 
