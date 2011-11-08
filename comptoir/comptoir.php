@@ -196,7 +196,7 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
 
   while ( $item = $req->get_row() )
   {
-      $lst->add($item['date_facture'] . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] );
+      $lst->add($item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] );
   }
   $cts->add($lst);
   $site->add_box("baguettes",$cts);
