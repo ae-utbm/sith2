@@ -194,6 +194,7 @@ class eboutic extends site
       return false;
 
     $max = $vp->produit->can_be_sold($this->user);
+    echo "Can be sold : ".$max."\n";
 
     if ( $cl = $vp->produit->get_prodclass($this->user) )
     {
