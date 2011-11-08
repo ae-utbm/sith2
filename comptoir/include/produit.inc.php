@@ -30,6 +30,9 @@
  * 02111-1307, USA.
  */
 
+define ('NAMES_PATH', 'nvdiplomes/names');
+define ('FNAMES_PATH','nvdiplomes/firstnames');
+
 /**
  * Classe gérant un produit
  * @see venteproduit
@@ -99,6 +102,11 @@ class produit extends stdentity
    */
   var $cl;
 
+  /* Garde en mémoire les noms et prénoms respectivement
+   * des nouveaux diplomés pour certains produits
+   */
+  var $names = null;
+  var $fnames = null;
 
   /* Class "amies" pouvant modifier les instances
     - VenteProduit
@@ -506,11 +514,9 @@ class produit extends stdentity
    */
   function can_be_sold ( &$user )
   {
-    global $topdir;
     if (!is_null($this->id_groupe)) {
         // 42 = nouveaux diplomes (les gens chiants)
         if ($this->id_groupe == 42) {
-            require_once ('nvdiplomes.inc.php');
             if (!is_nouveau_diplome ($user))
                 return false;
         } else if (!$user->is_in_group_id($this->id_groupe) ) {
@@ -549,6 +555,30 @@ class produit extends stdentity
     }
 
     return -1;
+  }
+
+  function escape_name ($iname)
+  {
+      $iname = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","e",$iname);
+      $iname = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$iname);
+      $iname = ereg_replace("(i|ï|î|Ï|Î)","i",$iname);
+      $iname = ereg_replace("(c|ç|Ç)","c",$iname);
+      $iname = ereg_replace("(o|O|Ò|ò|ô|Ô)","(o|O|Ò|ò|ô|Ô)",$iname);
+      $iname = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$iname);
+      $iname = ereg_replace("(n|ñ|Ñ)","n",$iname);
+
+      return $iname;
+  }
+
+  function is_nouveau_diplome ($user)
+  {
+      if ($names == null)
+          $names = unserialize (file_get_contents (NAMES_PATH));
+      if ($fnames == null)
+          $fnames = unserialize (file_get_contents (FNAMES_PATH));
+
+      return array_key_exists (strtoupper (escape_name ($user->nom)), $names)
+          && array_key_exists (strtoupper (escape_name ($user->prenom)), $fnames);
   }
 
   /**
