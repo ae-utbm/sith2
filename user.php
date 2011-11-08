@@ -1220,7 +1220,7 @@ else
   $items=array();
   while ( $item = $req->get_row() )
   {
-    if ($site->user->is_in_group("gestion_ae") || (is_in_group("foyer_barman") && $item['id_asso'] == 2) || $site->user->is_asso_role($item['id_asso'], 2))
+    if ($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role($item['id_asso'], 2))
     {
       if ( $item['a_retirer_vente'])
       {
