@@ -53,6 +53,9 @@ function is_nouveau_diplome ($user)
     if ($fnames == null)
         $fnames = unserialize (file_get_contents (FNAMES_PATH));
 
+    echo "Nom demande: ".escape_name ($user->nom)."\n";
+    echo "Prénom demande: ".escape_name ($user->prenom)."\n";
+
     return array_key_exists (strtoupper (escape_name ($user->nom)), $names)
         && array_key_exists (strtoupper (escape_name ($user->prenom)), $fnames);
 }
