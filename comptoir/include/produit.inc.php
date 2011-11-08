@@ -509,7 +509,7 @@ class produit extends stdentity
       $iname = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$iname);
       $iname = ereg_replace("(i|ï|î|Ï|Î)","i",$iname);
       $iname = ereg_replace("(c|ç|Ç)","c",$iname);
-      $iname = ereg_replace("(o|O|Ò|ò|ô|Ô)","(o|O|Ò|ò|ô|Ô)",$iname);
+      $iname = ereg_replace("(o|O|Ò|ò|ô|Ô)","o",$iname);
       $iname = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$iname);
       $iname = ereg_replace("(n|ñ|Ñ)","n",$iname);
 
