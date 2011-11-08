@@ -569,6 +569,7 @@ class produit extends stdentity
       $today = mktime();
       $secondes = ($today > $naiss)? $today - $naiss : 0;
       $age = date('Y', $secondes) - 1970;
+      echo "Prout 1\n";
       if($age<$this->mineur)
         return false;
     }
@@ -583,6 +584,7 @@ class produit extends stdentity
 
       $row = $req->get_row();
 
+      echo "Prout 2\n";
       // Le nombre renvoyé doit être >= 0 !
       return max(0, $this->limite_utilisateur - $row["nb_achetes"]);
     }
