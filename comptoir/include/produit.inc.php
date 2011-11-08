@@ -523,13 +523,6 @@ class produit extends stdentity
       if ($this->fnames == null)
           $this->fnames = unserialize (file_get_contents (FNAMES_PATH));
 
-      echo "Nom demande: ".strtoupper($this->escape_name ($user->nom))."\n";
-      echo "Prénom demande: ".strtoupper($this->escape_name ($user->prenom))."\n";
-      print_r ($this->names);
-      print_r ($this->fnames);
-      echo "Result 1 : ".(array_key_exists (strtoupper ($this->escape_name ($user->nom)), $this->names) ? "oui" : "non")."\n";
-      echo "Result 2 : ".(array_key_exists (strtoupper ($this->escape_name ($user->prenom)), $this->fnames) ? "oui" : "non")."\n";
-
       return array_key_exists (strtoupper ($this->escape_name ($user->nom)), $this->names)
           && array_key_exists (strtoupper ($this->escape_name ($user->prenom)), $this->fnames);
   }
@@ -551,14 +544,12 @@ class produit extends stdentity
             if (!$this->is_nouveau_diplome ($user))
                 return false;
         } else if (!$user->is_in_group_id($this->id_groupe) ) {
-            echo "Groupe : " . $this->id_groupe."\n";
             return false;
         }
     }
 
     if ( $this->action == ACTION_CLASS )
     {
-              echo "Type groupe : " . $this->action."\n";
       $this->get_prodclass($user);
       return $this->cl->can_be_sold($user);
     }
@@ -569,7 +560,6 @@ class produit extends stdentity
       $today = mktime();
       $secondes = ($today > $naiss)? $today - $naiss : 0;
       $age = date('Y', $secondes) - 1970;
-      echo "Prout 1\n";
       if($age<$this->mineur)
         return false;
     }
@@ -586,7 +576,6 @@ class produit extends stdentity
 
       // Le nombre renvoyé doit être >= 0 !
       $val = max(0, $this->limite_utilisateur - $row["nb_achetes"]);
-      echo "Prout 2".$val."\n";
       return $val;
     }
 
