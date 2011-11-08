@@ -551,12 +551,14 @@ class produit extends stdentity
             if (!$this->is_nouveau_diplome ($user))
                 return false;
         } else if (!$user->is_in_group_id($this->id_groupe) ) {
+            echo "Groupe : " . $this->id_groupe."\n";
             return false;
         }
     }
 
     if ( $this->action == ACTION_CLASS )
     {
+              echo "Type groupe : " . $this->action."\n";
       $this->get_prodclass($user);
       return $this->cl->can_be_sold($user);
     }
