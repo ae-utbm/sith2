@@ -541,7 +541,7 @@ class produit extends stdentity
     if (!is_null($this->id_groupe)) {
         // 42 = nouveaux diplomes (les gens chiants)
         if ($this->id_groupe == 42) {
-            if (!is_nouveau_diplome ($user))
+            if (!$this->is_nouveau_diplome ($user))
                 return false;
         } else if (!$user->is_in_group_id($this->id_groupe) ) {
             return false;
