@@ -192,12 +192,13 @@ if($_REQUEST["id_comptoir"] == 2 && $oplog)
   }*/
 
   $cts = new contents("Baguettes");
+  $lst = new itemlist();
 
   while ( $item = $req->get_row() )
   {
-      $cts->add_paragraph($item['date_facture'] . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] );
+      $lst->add($item['date_facture'] . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] );
   }
-
+  $cts->add($lst);
   $site->add_box("baguettes",$cts);
   unset($cts);
 }
