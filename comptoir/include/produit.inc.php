@@ -527,6 +527,8 @@ class produit extends stdentity
       echo "Prénom demande: ".strtoupper($this->escape_name ($user->prenom))."\n";
       print_r ($this->names);
       print_r ($this->fnames);
+      echo "Result 1 : ".(array_key_exists (strtoupper ($this->escape_name ($user->nom)), $this->names) ? "oui" : "non")."\n";
+      echo "Result 2 : ".(array_key_exists (strtoupper ($this->escape_name ($user->prenom)), $this->fnames) ? "oui" : "non")."\n";
 
       return array_key_exists (strtoupper ($this->escape_name ($user->nom)), $this->names)
           && array_key_exists (strtoupper ($this->escape_name ($user->prenom)), $this->fnames);
