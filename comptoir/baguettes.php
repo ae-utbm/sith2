@@ -82,7 +82,8 @@ $cts = new contents("Baguettes");
 
   while ( $item = $req->get_row() )
   {
-      $cts->add_paragraph(date('l', strtotime($item['date_facture'])) . " : " . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] );
+      //date('l', strtotime($item['date_facture']))
+      $cts->add_paragraph($item['date_facture'] . " : " . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] );
   }
 
 $site->add_contents($cts);
