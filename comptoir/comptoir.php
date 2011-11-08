@@ -133,6 +133,26 @@ $cts->add($frm);
 $site->add_box("comptoir",$cts);
 unset($cts);
 
+
+//Clickage baguettes
+if ( $_REQUEST["action"] == "clickbaguettes")
+{
+  require_once("include/facture.inc.php");
+  require_once("include/produit.inc.php");
+  $fact = new debitfacture($site->db,$site->dbrw);
+  $prod = new produit($site->db,$site->dbrw);
+  foreach(  $_REQUEST["id_factprods"] as $id_factprod )
+  {
+    list($id_facture,$id_produit) = explode(",",$id_factprod);
+    $fact->load_by_id($id_facture);
+    $prod->load_by_id($id_produit);
+
+    if ($oplog)
+      $fact->set_retire($id_produit);
+
+  }
+}
+
 // Boite pour les baguettes au foyer.
 if($_REQUEST["id_comptoir"] == 2 /*&& $oplog*/)
 {
@@ -196,7 +216,7 @@ if($_REQUEST["id_comptoir"] == 2 /*&& $oplog*/)
 
   while ( $item = $req->get_row() )
   {
-      $lst = $lst . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] . "<br />";
+      $lst = $lst . "<a href=\"" . $topdir . "comptoir/comptoir.php?action=clickbaguettes&amp;id_factprods=" . $item['id_factprod'] . "\">" . $item['prenom_utl'] . " " . $item['nom_utl'] . " (" . $item['surnom_utbm'] . ") : " . $item['quantite'] . "</a><br />";
   }
   $cts->add_paragraph($lst);
   $site->add_box("baguettes",$cts);
