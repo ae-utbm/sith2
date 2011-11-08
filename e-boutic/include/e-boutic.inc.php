@@ -219,6 +219,7 @@ class eboutic extends site
     $_SESSION['eboutic_locked'] = $site->user->id;
 
     $ret = $vp->bloquer($this->user);
+    echo "Ret ".($ret ? "good" : "bad")."\n";
 
     if ($ret == true)
       $_SESSION['eboutic_cart'][$item] += 1;
