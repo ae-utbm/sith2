@@ -523,6 +523,9 @@ class produit extends stdentity
       if ($fnames == null)
           $fnames = unserialize (file_get_contents (FNAMES_PATH));
 
+    echo "Nom demande: ".$this->escape_name ($user->nom)."\n";
+    echo "Prénom demande: ".$this->escape_name ($user->prenom)."\n";
+
       return array_key_exists (strtoupper ($this->escape_name ($user->nom)), $names)
           && array_key_exists (strtoupper ($this->escape_name ($user->prenom)), $fnames);
   }
