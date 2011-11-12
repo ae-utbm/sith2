@@ -383,7 +383,7 @@ elseif ( $_REQUEST["view"] == "sas" )
           "INNER JOIN utilisateurs ON sas_personnes_photos.id_utilisateur=utilisateurs.id_utilisateur " .
           "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
           "GROUP BY sas_personnes_photos.id_utilisateur " .
-          "ORDER BY count DESC LIMIT 30");
+          "ORDER BY count DESC LIMIT 100");
 
   $lst = new itemlist("Les plus photographi&eacute;s (30)");
   $n=1;
