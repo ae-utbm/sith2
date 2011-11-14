@@ -453,14 +453,18 @@ class forum extends basedb
       $ref_row = $req->get_row();
       $mod_count = 1;
 
-      while ( $row = $req->get_row() )
+      while ( $ref_row )
       {
-        if (($row['modere_action'] == $ref_row['modere_action']) && ($row[$row['alias_utl']] == $ref_row[$row['alias_utl']]))
+        if ($row = $req->get_row())
         {
-          ++$mod_count;
-          $end_date = $row['modere_date'];
-          continue;
+          if (($row['modere_action'] == $ref_row['modere_action']) && ($row[$row['alias_utl']] == $ref_row[$row['alias_utl']]))
+          {
+            ++$mod_count;
+            $end_date = $row['modere_date'];
+            continue;
+          }
         }
+
 
         if ($mod_count > 1)
           $message = "Entre ".human_date(strtotime($ref_row['modere_date']))." et ".
@@ -488,6 +492,9 @@ class forum extends basedb
           $type = "modereinfo";
 
         $rows[] = array($type, $message);
+
+        $count = 0;
+        $ref_row = $row;
       }
     }
 
