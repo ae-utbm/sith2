@@ -457,7 +457,7 @@ class forum extends basedb
       {
         if ($row = $req->get_row())
         {
-          if (($row['modere_action'] == $ref_row['modere_action']) && ($row[$row['alias_utl']] == $ref_row[$row['alias_utl']]))
+          if (($row['modere_action'] == $ref_row['modere_action']) && ($row['alias_utl'] == $ref_row['alias_utl']))
           {
             ++$mod_count;
             $end_date = $row['modere_date'];
@@ -470,7 +470,7 @@ class forum extends basedb
           $message = "Entre ".human_date(strtotime($ref_row['modere_date']))." et ".
             human_date(strtotime($end_date))." : ";
         else
-          $message = human_date(strtotime($row['modere_date']))." : ";
+          $message = human_date(strtotime($ref_row['modere_date']))." : ";
 
         if ($ref_row['modere_action'] == 'DELETE')
           $message .= "message supprimé par ".$ref_row['alias_utl'];
@@ -486,7 +486,7 @@ class forum extends basedb
         if ($mod_count > 1)
           $message .= " ( ".$mod_count." fois )";
 
-        if (strncasecmp($row['modere_action'], 'AUTO', 4) == 0)
+        if (strncasecmp($ref_row['modere_action'], 'AUTO', 4) == 0)
           $type = "modereinfo_auto";
         else
           $type = "modereinfo";
