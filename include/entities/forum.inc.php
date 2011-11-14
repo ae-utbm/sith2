@@ -424,26 +424,71 @@ class forum extends basedb
 
     $rows = array();
 
-    while ( $row = $req->get_row() )
+    if ($req->lines < 10)
     {
-      $message = human_date(strtotime($row['modere_date']))." : ";
-      if ($row['modere_action'] == 'DELETE')
-        $message .= "message supprimé par ".$row['alias_utl'];
-      elseif ($row['modere_action'] == 'UNDELETE')
-        $message .= "message rétabli par ".$row['alias_utl'];
-      elseif ($row['modere_action'] == 'EDIT')
-        $message .= "message modifié par ".$row['alias_utl'];
-      elseif ($row['modere_action'] == 'AUTOEDIT')
-        $message .= "message modifié par l'auteur";
-      elseif ($row['modere_action'] == 'AUTODELETE')
-        $message .= "message supprimé par l'auteur";
+      while ( $row = $req->get_row() )
+      {
+        $message = human_date(strtotime($row['modere_date']))." : ";
+        if ($row['modere_action'] == 'DELETE')
+          $message .= "message supprimé par ".$row['alias_utl'];
+        elseif ($row['modere_action'] == 'UNDELETE')
+          $message .= "message rétabli par ".$row['alias_utl'];
+        elseif ($row['modere_action'] == 'EDIT')
+          $message .= "message modifié par ".$row['alias_utl'];
+        elseif ($row['modere_action'] == 'AUTOEDIT')
+          $message .= "message modifié par l'auteur";
+        elseif ($row['modere_action'] == 'AUTODELETE')
+          $message .= "message supprimé par l'auteur";
 
-      if (strncasecmp($row['modere_action'], 'AUTO', 4) == 0)
-        $type = "modereinfo_auto";
-      else
-        $type = "modereinfo";
+        if (strncasecmp($row['modere_action'], 'AUTO', 4) == 0)
+          $type = "modereinfo_auto";
+        else
+          $type = "modereinfo";
 
-      $rows[] = array($type, $message);
+        $rows[] = array($type, $message);
+      }
+    }
+    else
+    {
+      $ref_row = $req->get_row();
+      $mod_count = 1;
+
+      while ( $row = $req->get_row() )
+      {
+        if (($row['modere_action'] == $ref_row['modere_action']) && ($row[$row['alias_utl']] == $ref_row[$row['alias_utl']]))
+        {
+          ++$mod_count;
+          $end_date = $row['modere_date'];
+          continue;
+        }
+
+        if ($mod_count > 1)
+          $message = "Entre ".human_date(strtotime($ref_row['modere_date']))." et ".
+            human_date(strtotime($end_date))." : ";
+        else
+          $message = human_date(strtotime($row['modere_date']))." : ";
+
+        if ($ref_row['modere_action'] == 'DELETE')
+          $message .= "message supprimé par ".$ref_row['alias_utl'];
+        elseif ($ref_row['modere_action'] == 'UNDELETE')
+          $message .= "message rétabli par ".$ref_row['alias_utl'];
+        elseif ($ref_row['modere_action'] == 'EDIT')
+          $message .= "message modifié par ".$ref_row['alias_utl'];
+        elseif ($ref_row['modere_action'] == 'AUTOEDIT')
+          $message .= "message modifié par l'auteur";
+        elseif ($ref_row['modere_action'] == 'AUTODELETE')
+          $message .= "message supprimé par l'auteur";
+
+        if ($mod_count > 1)
+          $message .= " ( ".$mod_count." fois )";
+
+        if (strncasecmp($row['modere_action'], 'AUTO', 4) == 0)
+          $type = "modereinfo_auto";
+        else
+          $type = "modereinfo";
+
+        $rows[] = array($type, $message);
+      }
     }
 
     return $rows;
