@@ -493,7 +493,7 @@ class forum extends basedb
 
         $rows[] = array($type, $message);
 
-        $mod_count = 0;
+        $mod_count = 1;
         $ref_row = $row;
       }
     }
