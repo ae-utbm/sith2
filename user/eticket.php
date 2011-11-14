@@ -59,12 +59,14 @@ if (!$eticket->load_by_id ($id_ticket))
 
 $id_produit = $eticket->id_produit;
 
-$req = new requete ($site->db, 'SELECT vendu.quantite AS quantite FROM cpt_vendu AS vendu LEFT JOIN cpt_debitfacture AS debit ON vendu.id_facture = debit.id_facture WHERE vendu.id_produit='.$id_produit.' AND debit.id_utilisateur_client='.intval($user->id).' LIMIT 1');
+$req = new requete ($site->db, 'SELECT vendu.quantite AS quantite FROM cpt_vendu AS vendu LEFT JOIN cpt_debitfacture AS debit ON vendu.id_facture = debit.id_facture WHERE vendu.id_produit='.$id_produit.' AND debit.id_utilisateur_client='.intval($user->id));
 if ($req->lines == 0)
     $site->error_not_found ('none', '/user/compteae.php');
 
-$row = $req->get_row();
-$quantite = intval($row['quantite']);
+$quantite = 0;
+$row = null;
+while (($row = $req->get_row()) != null)
+    $quantite += intval($row['quantite']);
 if ($quantite == 0)
     $site->error_not_found ('none', '/user/compteae.php');
 
