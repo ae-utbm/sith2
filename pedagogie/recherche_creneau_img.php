@@ -38,25 +38,14 @@ $site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db);
 $id_utls = $_REQUEST['id_utilisateurs'];
 
-$lines = array();
-$horraires = array('08:00',
-                   '09:00',
-                   '10:00',
-                   '10:15',
-                   '11:15',
-                   '12:15',
-                   '13:00',
-                   '13:15',
-                   '14:00',
-                   '15:00',
-                   '16:00',
-                   '16:15',
-                   '17:15',
-                   '18:15',
-                   '19:15',
-                   '20:15',
-                   '20:45');
+
+$horraires = array();
+foreach(array('08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19') as $h)
+  foreach(array('00', '15', '30', '45') as $m)
+    $horraires[] = $h.':'.$m;
+
 $jours = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');
+$lines = array();
 $oqp = array();
 foreach($jours as $jour)
 {
