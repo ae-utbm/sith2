@@ -1,6 +1,7 @@
 <?php
 $topdir="../";
 require_once("include/sas.inc.php");
+require_once($topdir. "include/entities/asso.inc.php");
 $site = new sas();
 
 if ( $_REQUEST["act"] == "Info" )
@@ -50,7 +51,10 @@ if ( $_REQUEST["act"] == "Info" )
     }
 
     if ( $site->user->id != -1 && $site->user->hash == "valid" && $site->user->is_password($_POST["PassWord"]) )
+    {
       echo "  <sessionid>".$site->connect_user()."</sessionid>\n";
+      echo "  <userid>".$site->user->id."</userid>\n";
+    }
     else
       echo "  <error/>\n";
   }
@@ -136,6 +140,32 @@ elseif ( $_REQUEST["act"] == "FetchUserGroups" )
   echo "</groups>\n";
   exit();
 }
+elseif ( $_REQUEST["act"] == "FetchClubs" )
+{
+  $asso = new asso($site->db);
+  echo "<clubs>\n";
+
+  $clubs=$asso->enumerate();
+
+  foreach ( $clubs as $gid => $club )
+    echo "  <club gid=\"$gid\">$club</club>";
+
+  echo "</clubs>\n";
+  exit();
+}
+elseif ( $_REQUEST["act"] == "FetchLicences" )
+{
+  $asso = new licence($site->db);
+  echo "<licences>\n";
+
+  $licences=$licence->enumerate();
+
+  foreach ( $licences as $gid => $licence )
+    echo "  <licence gid=\"$gid\">$licence</licence>";
+
+  echo "</licences>\n";
+  exit();
+}
 elseif ( $_REQUEST["act"] == "UploadImage" )
 {
   require_once($topdir."include/entities/group.inc.php");
@@ -167,8 +197,8 @@ elseif ( $_REQUEST["act"] == "UploadImage" )
 
     if(isset($_REQUEST['id_licence']))
     {
-      require_once('include/licences.inc.php');
-      $licence=new licence($site);
+      require_once('include/licence.inc.php');
+      $licence=new licence($site->db);
       if($licence->load_by_id($_REQUEST['id_licence']))
         $licence=$licence->id;
       else
@@ -177,14 +207,22 @@ elseif ( $_REQUEST["act"] == "UploadImage" )
     else
       $licence=$site->user->id_licence_default_sas;
 
+    $photographer = new utilisateur($site->db);
+    if (isset($_REQUEST['PhotographerUserId']))
+      $photographer->load_by_id($_REQUEST['PhotographerUserId']);
+
+    $photographer_asso = new asso($site->db);
+    if (isset($_REQUEST['AssoId']))
+      $photographer_asso->load_by_id($_REQUEST['AssoId']);
+
     $photo->add_photo ( $_FILES['imageFile']['tmp_name'],
                         $cat->id,
-                        "",
-                        $site->user->id,
+                        isset($_REQUEST['Comment']) ? $_REQUEST['Comment'] : "",
+                        $photographer->is_valid() ? $photographer->id : NULL,
                         false,
                         $cat->meta_id_asso,
                         NULL,
-                        NULL,
+                        $asso->is_valid() ? $asso->id : NULL,
                         $licence);
 
     echo "<error>0</error>\n";
@@ -228,7 +266,36 @@ elseif ( $_REQUEST["act"] == "UploadVideoFLV" )
 
     $photo->set_rights($site->user,$_REQUEST["Rights"] & 0x333,$id_group,$cat->id_groupe_admin,false);
 
-    $photo->add_videoflv ( $_FILES['imageFile']['tmp_name'], $_FILES['flvFile']['tmp_name'], $cat->id, "", $site->user->id, false);
+    if(isset($_REQUEST['id_licence']))
+    {
+      require_once('include/licence.inc.php');
+      $licence=new licence($site->db);
+      if($licence->load_by_id($_REQUEST['id_licence']))
+        $licence=$licence->id;
+      else
+        $licence=$site->user->id_licence_default_sas;
+    }
+    else
+      $licence=$site->user->id_licence_default_sas;
+
+    $photographer = new utilisateur($site->db);
+    if (isset($_REQUEST['PhotographerUserId']))
+      $photographer->load_by_id($_REQUEST['PhotographerUserId']);
+
+    $photographer_asso = new asso($site->db);
+    if (isset($_REQUEST['AssoId']))
+      $photographer_asso->load_by_id($_REQUEST['AssoId']);
+
+    $photo->add_videoflv ( $_FILES['imageFile']['tmp_name'],
+                            $_FILES['flvFile']['tmp_name'],
+                            $cat->id,
+                            isset($_REQUEST['Comment']) ? $_REQUEST['Comment'] : "",
+                            $photographer->is_valid() ? $photographer->id : NULL,
+                            false,
+                            $cat->meta_id_asso,
+                            NULL,
+                            $asso->is_valid() ? $asso->id : NULL,
+                            $licence);
 
     echo "<error>0</error>\n";
 
