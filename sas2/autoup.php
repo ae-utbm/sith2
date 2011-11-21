@@ -155,7 +155,7 @@ elseif ( $_REQUEST["act"] == "FetchClubs" )
 }
 elseif ( $_REQUEST["act"] == "FetchLicences" )
 {
-  $asso = new licence($site->db);
+  $licence = new licence($site->db);
   echo "<licences>\n";
 
   $licences=$licence->enumerate();
