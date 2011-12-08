@@ -739,17 +739,14 @@ class asso extends stdentity
     if (strlen($this->nom_unix) <= 0)
       return 0;
 
-    $pendings = array();
-    exec('/usr/local/bin/list_heldmsgs.sh', $pendings);
-
-    foreach ($pendings as $asso_pending)
-    {
-      $asso_pending = explode(":", $asso_pending);
-
-      if ($asso_pending[0] == ($this->nom_unix . ".membres"))
-        return $asso_pending[1];
+    $path = '/var/lib/mailman/data/';
+    $dir = scandir ($path);
+    $count = 0;
+    foreach ($dir as $entry) {
+        if (strpos ($entry, $this->nom_unix . ".membres") !== false)
+            $count++;
     }
-    return 0;
+    return $count;
   }
 
   function get_exist_ml()
