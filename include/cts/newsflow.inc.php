@@ -151,38 +151,42 @@ abstract class newslister extends stdcontents
   function appel_list ( $sql )
   {
     global $topdir;
+    $other_buffer = '';
     if ( $sql->lines > 0 )
     {
-      $this->puts("<div class=\"newsappel\" id=\"newsappel\">\n");
-      $this->puts("<div id=\"hide_apples\">\n");
-      $this->puts("<a href=\"#\" onclick=\"hide_with_cookies('newsappel', 'AE2_HIDE_APPLES'); return false;\">");
-      $this->puts("<img src=\"".$topdir."images/actions/delete.png\" alt=\"faire disparaitre\" title=\"faire disparaitre\"/>");
-      $this->puts("</a>\n");
-      $this->puts("</div>\n");
-      $this->puts("<ul>\n");
+      $this->puts("<div class=\"newsappel\" id=\"newsappel\">\n", $other_buffer);
+      $this->puts("<div id=\"hide_apples\">\n", $other_buffer);
+      $this->puts("<a href=\"#\" onclick=\"hide_with_cookies('newsappel', 'AE2_HIDE_APPLES'); return false;\">", $other_buffer);
+      $this->puts("<img src=\"".$topdir."images/actions/delete.png\" alt=\"faire disparaitre\" title=\"faire disparaitre\"/>", $other_buffer);
+      $this->puts("</a>\n", $other_buffer);
+      $this->puts("</div>\n", $other_buffer);
+      $this->puts("<ul>\n", $other_buffer);
       while ( $row = $sql->get_row())
       {
-        $this->puts("<li><a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a></li>\n");
+        $this->puts("<li><a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a></li>\n", $other_buffer);
       }
-      $this->puts("</ul>\n</div>\n");
+      $this->puts("</ul>\n</div>\n", $other_buffer);
     }
+
+    return $other_buffer;
   }
 
   function notices_list ( $sql, $title = "Informations" )
   {
     global $wwwtopdir, $topdir;
+    $other_buffer = '';
     if ( $sql->lines > 0 )
     {
-      $this->puts("<div class=\"newsnotices\" id=\"newsnotices\">");
-      $this->puts("<div id=\"hide_notice\">\n");
-      $this->puts("<a href=\"#\" onclick=\"hide_with_cookies('newsnotices', 'AE2_HIDE_NOTICE'); return false;\">");
-      $this->puts("<img src=\"".$topdir."images/actions/delete.png\" alt=\"faire disparaire\" title=\"faire disparaire\"/>");
-      $this->puts("</a>\n");
-      $this->puts("</div>\n");
+      $this->puts("<div class=\"newsnotices\" id=\"newsnotices\">", $other_buffer);
+      $this->puts("<div id=\"hide_notice\">\n", $other_buffer);
+      $this->puts("<a href=\"#\" onclick=\"hide_with_cookies('newsnotices', 'AE2_HIDE_NOTICE'); return false;\">", $other_buffer);
+      $this->puts("<img src=\"".$topdir."images/actions/delete.png\" alt=\"faire disparaire\" title=\"faire disparaire\"/>", $other_buffer);
+      $this->puts("</a>\n", $other_buffer);
+      $this->puts("</div>\n", $other_buffer);
       if ( !is_null($title) )
-        $this->puts("<h2>".$title."</h2>\n");
+        $this->puts("<h2>".$title."</h2>\n", $other_buffer);
 
-      $this->puts("<ul>\n");
+      $this->puts("<ul>\n", $other_buffer);
       $n=0;
       while ( $row = $sql->get_row())
       {
@@ -203,20 +207,23 @@ abstract class newslister extends stdcontents
            "&amp;titre_sujet=".urlencode($row['titre_nvl']).
            "\">Réactions</a>";
 
-        $this->puts("<li class=\"nvlitm nvl$n\"><img src=\"$img\" alt=\"\" class=\"nvlicon\" /><a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\" class=\"nvltitre\">".$row['titre_nvl']."</a> <span class=\"when\">$when</span><br/><span class=\"nvlresume\">".doku2xhtml($row['resume_nvl'])."</span><div class=\"clearboth\"></div></li>\n");
+        $this->puts("<li class=\"nvlitm nvl$n\"><img src=\"$img\" alt=\"\" class=\"nvlicon\" /><a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\" class=\"nvltitre\">".$row['titre_nvl']."</a> <span class=\"when\">$when</span><br/><span class=\"nvlresume\">".doku2xhtml($row['resume_nvl'])."</span><div class=\"clearboth\"></div></li>\n", $other_buffer);
         $n = ($n+1)%2;
       }
-      $this->puts("</ul></div>\n");
+      $this->puts("</ul></div>\n", $other_buffer);
     }
+
+    return $other_buffer;
   }
 
   function days_list ( $sql, $title = "Evénements aujourd'hui et dans les prochains jours" )
   {
     global $wwwtopdir, $topdir;
+    $other_buffer = '';
 
-    $this->puts("<div class=\"newssoon\">");
+    $this->puts("<div class=\"newssoon\">", $other_buffer);
     if ( !is_null($title) )
-      $this->puts("<h2>".$title."</h2>\n");
+      $this->puts("<h2>".$title."</h2>\n", $other_buffer);
     if ( $sql->lines > 0 )
     {
       $prevday=null;
@@ -231,10 +238,10 @@ abstract class newslister extends stdcontents
         if ( is_null($prevday) || $prevday != $day )
         {
           if ( !is_null($prevday))
-            $this->puts("</ul>\n");
+            $this->puts("</ul>\n", $other_buffer);
 
-          $this->puts("<h3>".strftime("%A %d %B",$debut)."</h3>\n");
-          $this->puts("<ul>\n");
+          $this->puts("<h3>".strftime("%A %d %B",$debut)."</h3>\n", $other_buffer);
+          $this->puts("<ul>\n", $other_buffer);
           $prevday=$day;
           //$n=0;
         }
@@ -262,33 +269,36 @@ abstract class newslister extends stdcontents
            "\">Réactions</a>";
 
 
-        $this->puts("<li class=\"nvlitm nvl$n\">$img<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\" class=\"nvltitre\">".$row['titre_nvl']."</a> <span class=\"hour\">$hour</span><br/><span class=\"nvlresume\">".doku2xhtml($row['resume_nvl'])."</span><div class=\"clearboth\"></div></li>\n");
+        $this->puts("<li class=\"nvlitm nvl$n\">$img<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\" class=\"nvltitre\">".$row['titre_nvl']."</a> <span class=\"hour\">$hour</span><br/><span class=\"nvlresume\">".doku2xhtml($row['resume_nvl'])."</span><div class=\"clearboth\"></div></li>\n", $other_buffer);
 
 
         $n = ($n+1)%2;
       }
 
-      $this->puts("</ul>\n");
+      $this->puts("</ul>\n", $other_buffer);
     }
     else
-      $this->puts("<p>Rien de prévu pour le moment...</p>\n");
+      $this->puts("<p>Rien de prévu pour le moment...</p>\n", $other_buffer);
 
-    $this->puts("</div>\n");
+    $this->puts("</div>\n", $other_buffer);
+
+    return $other_buffer;
   }
 
 
   function nottomiss_list ( $sql, $title="Prochainement... à ne pas rater !" )
   {
     global $wwwtopdir, $topdir;
+    $other_buffer = '';
 
     if ( $sql->lines > 0 )
     {
-      $this->puts("<div class=\"newsnottomiss\">");
+      $this->puts("<div class=\"newsnottomiss\">", $other_buffer);
 
       if ( !is_null($title) )
-        $this->puts("<h2>".$title."</h2>\n");
+        $this->puts("<h2>".$title."</h2>\n", $other_buffer);
 
-      $this->puts("<ul>\n");
+      $this->puts("<ul>\n", $other_buffer);
 
       while( $row = $sql->get_row() )
       {
@@ -299,16 +309,20 @@ abstract class newslister extends stdcontents
            "&amp;id_asso=".$row['id_asso'].
            "&amp;titre_sujet=".urlencode($row['titre_nvl']).
            "\">Réactions</a>";
-        $this->puts("<li class=\"nvlttls\"><a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">$hour</span></li>");
+        $this->puts("<li class=\"nvlttls\"><a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">$hour</span></li>", $other_buffer);
       }
-      $this->puts("</ul>\n");
-      $this->puts("</div>\n");
+      $this->puts("</ul>\n", $other_buffer);
+      $this->puts("</div>\n", $other_buffer);
     }
+
+    return $other_buffer;
   }
 
-  function puts ( $data )
+  function puts ( $data, &$other_buffer = null )
   {
     $this->buffer .= $data;
+    if ($other_buffer != null)
+        $other_buffer .= $data;
   }
 }
 
@@ -324,74 +338,91 @@ class newsfront extends newslister
   function newsfront ( $db )
   {
     $this->class="nvls";
+    $cacheprefix = null;
+    $cacheexpiry = 3600;
+    $cache = null;
 
-if(!defined("MOBILE")) {
-    $this->title = "Les dernières nouvelles de la vie étudiante de l'UTBM";
-    $cache = new cachedcontents ('newsfront');
-} else { /* MOBILE version */
-    $this->title = "Les news";
-    $cache = new cachedcontents ('mobile_newsfront');
-}
-    if ( $cache->is_cached () ) {
-        $this->buffer .= $cache->get_cache()->buffer;
-        return;
+    if(!defined("MOBILE")) {
+        $this->title = "Les dernières nouvelles de la vie étudiante de l'UTBM";
+        $cacheprefix = "n_";
+    } else { /* MOBILE version */
+        $this->title = "Les news";
+        $cacheprefix = "m_";
     }
 
-if(!defined("MOBILE")) {
-    if(!$_COOKIE['AE2_HIDE_APPLES'])
-    {
-      $sql = new requete($db,"SELECT * FROM nvl_nouvelles " .
-          "INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-          "WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
-          "NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
-      $this->appel_list($sql);
-    }
+    if(!defined("MOBILE")) {
+        if(!$_COOKIE['AE2_HIDE_APPLES']) {
+            $cache = new cachedcontents ($cacheprefix . 'apples');
+            if ($cache->is_cached ())
+                $this->put ($cache->get_cache ());
+            else {
+                $sql = new requete($db,"SELECT * FROM nvl_nouvelles " .
+                                   "INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+                                   "WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
+                                   "NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
+                $cache->set_contents_until ($this->appel_list($sql), $cacheexpiry);
+            }
+        }
 
-    if(!$_COOKIE['AE2_HIDE_NOTICE'])
-    {
-      $sql = new requete($db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso FROM nvl_nouvelles " .
-          "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-          "WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
-          "DATEDIFF(NOW(),date_nvl) < 14 " .
-          "LIMIT 3");
+        if(!$_COOKIE['AE2_HIDE_NOTICE']) {
+            $cache = new cachedcontents ($cacheprefix . 'notice');
+            if ($cache->is_cached ())
+                $this->put ($cache->get_cache ());
+            else {
+                $sql = new requete($db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso FROM nvl_nouvelles " .
+                                   "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
+                                   "WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
+                                   "DATEDIFF(NOW(),date_nvl) < 14 " .
+                                   "LIMIT 3");
 
-      $this->notices_list($sql);
-    }
-    $this->ids=array(0);
-} /* ifndef MOBILE */
+                $cache->set_contents_until ($this->notices_list($sql), $cacheexpiry);
+            }
+        }
+        $this->ids=array(0);
+    } /* ifndef MOBILE */
 
     $sql = new requete($db,"SELECT nvl_nouvelles.*,".
-        "asso.nom_unix_asso, nvl_dates.date_debut_eve, nvl_dates.date_fin_eve " .
-        "FROM nvl_dates " .
-        "INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-        "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-        "WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
-        "NOW() < nvl_dates.date_fin_eve " .
-        "AND DATEDIFF(nvl_dates.date_debut_eve,NOW()) < 14 " .
-        "ORDER BY nvl_dates.date_debut_eve " .
-        "LIMIT 6");
+                       "asso.nom_unix_asso, nvl_dates.date_debut_eve, nvl_dates.date_fin_eve " .
+                       "FROM nvl_dates " .
+                       "INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+                       "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
+                       "WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
+                       "NOW() < nvl_dates.date_fin_eve " .
+                       "AND DATEDIFF(nvl_dates.date_debut_eve,NOW()) < 14 " .
+                       "ORDER BY nvl_dates.date_debut_eve " .
+                       "LIMIT 6");
 
-    if(!defined("MOBILE"))  $this->days_list($sql);
-    else                  $this->days_list($sql, null);
 
-if(!defined("MOBILE")) {
-    $sql = new requete($db,"SELECT nvl_nouvelles.*,".
-        "asso.nom_unix_asso,nvl_dates.date_debut_eve,nvl_dates.date_fin_eve " .
-        "FROM nvl_dates " .
-        "INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-        "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-        "WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
-        "nvl_dates.id_nouvelle NOT IN (".implode(",",$this->ids).") AND " .
-        "NOW() < nvl_dates.date_debut_eve " .
-        "ORDER BY nvl_dates.date_debut_eve " .
-        "LIMIT 10");
+    $cache = new cachedcontents ($cacheprefix . 'nvls');
+    if ($cache->is_cached ())
+        $this->put ($cache->get_cache ());
+    else {
+        if(!defined("MOBILE"))
+            $cache->set_contents_until ($this->days_list($sql), $cacheexpiry);
+        else
+            $cache->set_contents_until ($this->days_list($sql, null), $cacheexpiry);
+    }
 
-    $this->nottomiss_list($sql);
-} /* ifndef MOBILE */
+    if(!defined("MOBILE")) {
+        $cache = new cachedcontents ($cacheprefix . 'nottomiss');
+        if ($cache->is_cached ())
+            $this->put ($cache->get_cache ());
+        else {
+            $sql = new requete($db,"SELECT nvl_nouvelles.*,".
+                               "asso.nom_unix_asso,nvl_dates.date_debut_eve,nvl_dates.date_fin_eve " .
+                               "FROM nvl_dates " .
+                               "INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+                               "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
+                               "WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
+                               "nvl_dates.id_nouvelle NOT IN (".implode(",",$this->ids).") AND " .
+                               "NOW() < nvl_dates.date_debut_eve " .
+                               "ORDER BY nvl_dates.date_debut_eve " .
+                               "LIMIT 10");
 
-    $cache->set_contents_until ($this, 3600);
+            $this->nottomiss_list($sql);
+        }
+    } /* ifndef MOBILE */
   }
-
 }
 
 /**
