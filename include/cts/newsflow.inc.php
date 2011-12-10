@@ -151,7 +151,7 @@ abstract class newslister extends stdcontents
   function appel_list ( $sql )
   {
     global $topdir;
-    $other_buffer = '';
+    $other_buffer = new stdcontents();
     if ( $sql->lines > 0 )
     {
       $this->puts("<div class=\"newsappel\" id=\"newsappel\">\n", $other_buffer);
@@ -174,7 +174,7 @@ abstract class newslister extends stdcontents
   function notices_list ( $sql, $title = "Informations" )
   {
     global $wwwtopdir, $topdir;
-    $other_buffer = '';
+    $other_buffer = new stdcontents();
     if ( $sql->lines > 0 )
     {
       $this->puts("<div class=\"newsnotices\" id=\"newsnotices\">", $other_buffer);
@@ -219,7 +219,7 @@ abstract class newslister extends stdcontents
   function days_list ( $sql, $title = "Evénements aujourd'hui et dans les prochains jours" )
   {
     global $wwwtopdir, $topdir;
-    $other_buffer = '';
+    $other_buffer = new stdcontents();
 
     $this->puts("<div class=\"newssoon\">", $other_buffer);
     if ( !is_null($title) )
@@ -289,7 +289,7 @@ abstract class newslister extends stdcontents
   function nottomiss_list ( $sql, $title="Prochainement... à ne pas rater !" )
   {
     global $wwwtopdir, $topdir;
-    $other_buffer = '';
+    $other_buffer = new stdcontents();
 
     if ( $sql->lines > 0 )
     {
@@ -322,7 +322,7 @@ abstract class newslister extends stdcontents
   {
     $this->buffer .= $data;
     if ($other_buffer != null)
-        $other_buffer .= $data;
+        $other_buffer->buffer .= $data;
   }
 }
 
@@ -354,7 +354,7 @@ class newsfront extends newslister
         if(!$_COOKIE['AE2_HIDE_APPLES']) {
             $cache = new cachedcontents ($cacheprefix . 'apples');
             if ($cache->is_cached ())
-                $this->put ($cache->get_cache ());
+                $this->put ($cache->get_cache ()->buffer);
             else {
                 $sql = new requete($db,"SELECT * FROM nvl_nouvelles " .
                                    "INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
@@ -367,7 +367,7 @@ class newsfront extends newslister
         if(!$_COOKIE['AE2_HIDE_NOTICE']) {
             $cache = new cachedcontents ($cacheprefix . 'notice');
             if ($cache->is_cached ())
-                $this->put ($cache->get_cache ());
+                $this->put ($cache->get_cache ()->buffer);
             else {
                 $sql = new requete($db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso FROM nvl_nouvelles " .
                                    "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
@@ -395,7 +395,7 @@ class newsfront extends newslister
 
     $cache = new cachedcontents ($cacheprefix . 'nvls');
     if ($cache->is_cached ())
-        $this->put ($cache->get_cache ());
+        $this->put ($cache->get_cache ()->buffer);
     else {
         if(!defined("MOBILE"))
             $cache->set_contents_until ($this->days_list($sql), $cacheexpiry);
@@ -406,7 +406,7 @@ class newsfront extends newslister
     if(!defined("MOBILE")) {
         $cache = new cachedcontents ($cacheprefix . 'nottomiss');
         if ($cache->is_cached ())
-            $this->put ($cache->get_cache ());
+            $this->put ($cache->get_cache ()->buffer);
         else {
             $sql = new requete($db,"SELECT nvl_nouvelles.*,".
                                "asso.nom_unix_asso,nvl_dates.date_debut_eve,nvl_dates.date_fin_eve " .
