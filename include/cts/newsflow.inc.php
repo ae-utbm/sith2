@@ -352,7 +352,7 @@ class newsfront extends newslister
 
     if(!defined("MOBILE")) {
         if(!$_COOKIE['AE2_HIDE_APPLES']) {
-            $cache = new cachedcontents ($cacheprefix . 'apples');
+            $cache = new cachedcontents ('apples');
             if ($cache->is_cached ())
                 $this->puts ($cache->get_cache ()->buffer);
             else {
@@ -365,7 +365,7 @@ class newsfront extends newslister
         }
 
         if(!$_COOKIE['AE2_HIDE_NOTICE']) {
-            $cache = new cachedcontents ($cacheprefix . 'notice');
+            $cache = new cachedcontents ('notices');
             if ($cache->is_cached ())
                 $this->puts ($cache->get_cache ()->buffer);
             else {
@@ -404,7 +404,7 @@ class newsfront extends newslister
     }
 
     if(!defined("MOBILE")) {
-        $cache = new cachedcontents ($cacheprefix . 'nottomiss');
+        $cache = new cachedcontents ('nottomiss');
         if ($cache->is_cached ())
             $this->puts ($cache->get_cache ()->buffer);
         else {

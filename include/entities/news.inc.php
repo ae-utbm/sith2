@@ -508,12 +508,13 @@ class nouvelle extends stdentity
   public static function expire_cache_content ()
   {
     global $topdir;
-
     require_once ($topdir. 'include/cts/cached.inc.php');
-    $cache = new cachedcontents ('newsfront');
-    $cache->expire ();
-    $cache = new cachedcontents ('newscalendar');
-    $cache->expire ();
+
+    $toflush = array ('newscalendar', 'apples', 'notices', 'nottomiss', 'm_nvls', 'n_nvls');
+    foreach ($toflush as $item) {
+        $cache = new cachedcontents ($item);
+        $cache->expire ();
+    }
   }
 }
 
