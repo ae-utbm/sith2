@@ -754,9 +754,13 @@ class asso extends stdentity
     if ($mailings_lists != null)
       return $mailings_lists;
 
-    exec("/usr/lib/mailman/bin/list_lists -b | grep '^".$this->nom_unix."\.'", $mailings_lists, $ret);
-    if ($ret != 0)
-      $mailings_lists = array();
+    $path = '/var/lib/mailman/lists/';
+    $dir = scandir ($path);
+    $mailings_lists = array ();
+    foreach ($dir as $entry) {
+        if (strpos ($entry, $this->nom_unix) !== false)
+            $mailings_lists[] = $entry;
+    }
 
     return $mailings_lists;
   }
