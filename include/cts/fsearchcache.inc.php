@@ -21,7 +21,7 @@
  * 02111-1307, USA.
  */
 
-require_once('../redis.inc.php');
+require_once ($topdir.'include/redis.inc.php');
 
 class fsearchcache
 {

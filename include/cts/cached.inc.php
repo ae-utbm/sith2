@@ -9,7 +9,7 @@
  * Dans notre cas, toutes les données cachées sont stockés dans la base 1
  */
 
-require_once ('../redis.inc.php');
+require_once ($topdir.'include/redis.inc.php');
 
 class cachedcontents extends stdcontents
 {
