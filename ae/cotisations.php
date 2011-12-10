@@ -36,6 +36,7 @@ require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
 require_once($topdir. "include/entities/partenariat_utl.inc.php");
+require_once($topdir. "include/cts/fsearchcache.inc.php");
 
 $site = new site ();
 
@@ -673,11 +674,11 @@ elseif ($_REQUEST["action"] == "newstudent")
     exit();
   }
 
-
+  $pass = null;
   $user->new_utbm_user($_REQUEST['nom'],
                        $_REQUEST['prenom'],
                        $_REQUEST['emailutbm'], $_REQUEST['emailutbm'],
-                       null,null,null,null,
+                       $pass,null,null,null,
                        $etudiant,
                        $_REQUEST['droit_image']==true,
                        $nom_ecole);
@@ -694,6 +695,8 @@ elseif ($_REQUEST["action"] == "newstudent")
   else
   {
     $user->load_all_extra();
+    $pcts = new contents("Informations de creation");
+    $pcts->add_paragraph ('Nouvel utilisateur cree, mot de passe temporaire : '.$pass);
     $cts = new contents("Mise à jour des infos indispensable pour l'impression de la carte AE");
     $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
     $frm->add_hidden("action","savecotiz");
