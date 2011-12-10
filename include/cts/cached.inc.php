@@ -8,6 +8,9 @@
  * Cette classe utilise l'instance Redis pour stocker ses valeurs, l'uid devenant la clé
  * Dans notre cas, toutes les données cachées sont stockés dans la base 1
  */
+
+require_once ('../redis.inc.php');
+
 class cachedcontents extends stdcontents
 {
     protected $uid;
@@ -74,8 +77,7 @@ class cachedcontents extends stdcontents
 
     private function get_redis_instance ()
     {
-        $redis = new Redis ();
-        $redis->popen ('/var/run/redis/redis.sock');
+        $redis = redis_open_connection ();
         $redis->select (1);
         return $redis;
     }

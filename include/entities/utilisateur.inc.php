@@ -1238,6 +1238,9 @@ class utilisateur extends stdentity
       $this->invalidate ("email");
       $this->send_first_email($this->email,$password);
     }
+    /* on ajoute le nouvel utilisateur au traitement du cache fsearch */
+    fsearch_revalidate_cache_for ($this->prenom);
+    fsearch_revalidate_cache_for ($this->nom);
 
     return true;
   }
@@ -1329,7 +1332,7 @@ class utilisateur extends stdentity
    * @todo Fonction à revoir complètement (aussi bien usage dans le site que implémentation)
    * @deprecated
    */
-  function new_utbm_user ( $nom, $prenom, $email, $emailutbm, $password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1)
+  function new_utbm_user ( $nom, $prenom, $email, $emailutbm, &$password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1)
   {
     $this->type="std";
 

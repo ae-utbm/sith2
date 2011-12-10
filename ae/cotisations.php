@@ -638,6 +638,11 @@ elseif ($_REQUEST["action"] == "newstudent")
   /* on va lui creer un compte utilisateur */
   $user = new utilisateur($site->db, $site->dbrw);
 
+  /* D'abord on desactive le cache de fastsearch histoire que
+     l'etudiant soit immediatement accessible par fsearch */
+  $cache = new fsearchcache ();
+  $cache->disable_cache_temporarily (5);
+
   /* Si on a le nom d'une ecole parce que c'est un etudiant */
   $email_utbm_needed = false;
   if ($_REQUEST['ecoleform'] == "ecole")

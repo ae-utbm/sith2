@@ -31,34 +31,24 @@ if ( isset($_REQUEST['topdir']) && ($_REQUEST['topdir']=="./" || $_REQUEST['topd
 
 if ( $_REQUEST['module']=="fsearch" )
 {
-  // Une semaine
-  define ('DEFAULT_CACHE_TIMEOUT', 604800);
-
   header("Content-Type: text/html; charset=UTF-8");
 
   if ($_REQUEST["pattern"] == "")
     exit();
 
-  $redis = new Redis ();
-  $redis->pconnect ('/var/run/redis/redis.sock');
-
+  require_once($topdir. "include/cts/fsearchcache.inc.php");
+  $cache = new fsearchcache ();
   $content = null;
-  if ($site->user->is_valid() && $site->user->cotisant) {
-      $content = $redis->get (strtolower ($_REQUEST["pattern"]));
-  }
+  if ($cache->can_get_cached_contents ())
+      $content = $cache->get_cached_contents ($site->user, $_REQUEST["pattern"]);
 
   if ($content == null) {
       require_once($topdir. "include/cts/fsearch.inc.php");
       $fsearch = new fsearch ( $site, false );
       $content = $fsearch->buffer;
-      if (!empty ($content) && strlen ($_REQUEST["pattern"]) > 4) {
-          $key = strtolower($_REQUEST["pattern"]);
-          $redis->set ($key, $content);
-          $redis->expire($key, DEFAULT_CACHE_TIMEOUT);
-      }
+      if (!empty ($content) && strlen ($_REQUEST["pattern"]) > 4)
+          $cache->set_temporarily_cached_contents($_REQUEST["pattern"], $content);
   }
-
-  $redis->close ();
 
   echo $content;
   exit ();

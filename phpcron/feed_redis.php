@@ -26,10 +26,10 @@ $topdir="../";
 
 require_once ($topdir. "include/site.inc.php");
 require_once ($topdir. "include/cts/fsearch.inc.php");
+require_once ($topdir. "include/redis.inc.php");
 
 $site = new site ();
-$redis = new Redis ();
-$redis->pconnect ('127.0.0.1');
+$redis = redis_open_connection ();
 
 function get_char_off ($offset)
 {
