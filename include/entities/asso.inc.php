@@ -250,6 +250,11 @@ class asso extends stdentity
       }
     }
 
+    global $topdir;
+    require_once ($topdir. 'include/cts/fsearchcache.inc.php');
+    fsearch_revalidate_cache_for ($this->nom);
+    fsearch_revalidate_cache_for ($nom);
+
     $this->nom = $nom;
     $this->nom_unix = $nom_unix;
     $this->adresse_postale = $adresse_postale;
@@ -286,8 +291,6 @@ class asso extends stdentity
       array ( "id_asso" => $this->id )
 
       );
-
-
 
   }
 
