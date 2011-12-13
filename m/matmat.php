@@ -43,8 +43,8 @@ if (isset($_REQUEST["simplesearch"])) {
       $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
       $pattern = strtr($pattern, array(' ' => '|'));
 
-      $req = new requete($site->db, "
-            SELECT `utilisateurs`.id_utilisateur,
+      $req = new requete($site->db,
+            "SELECT `utilisateurs`.id_utilisateur,
               `utilisateurs`.nom_utl,
               `utilisateurs`.prenom_utl,
               `utilisateurs`.email_utl,
@@ -59,8 +59,8 @@ if (isset($_REQUEST["simplesearch"])) {
               `utilisateurs`.tel_portable_utl REGEXP '".$pattern."' OR
               `utilisateurs`.email_utl REGEXP '".$pattern."'
             ORDER BY `utilisateurs`.id_utilisateur DESC
-            LIMIT 15
-          ");
+            LIMIT 15"
+        );
 
       while ($row = $req->get_row()) {
         $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$row["id_utilisateur"].".jpg", 0, true);
