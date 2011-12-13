@@ -83,6 +83,14 @@ $cts->add(new tabshead($tabs,
 
 if ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "stats" )
 {
+  $rep = new requete ($site->db, "SELECT COUNT(*) as count ".
+      "FROM `sas_personnes_photos` WHERE id_utilisateur='".$user->id."'");
+  $row = $req->get_row ();
+  if ($row['count'] > 1)
+    $cts->add_paragraph ("<b>Présent sur :</b> " . $row['count'] . " photos.");
+  else
+    $cts->add_paragraph ("<b>Présent sur :</b> " . $row['count'] . " photo.");
+
   $req = new requete($site->db,"SELECT COUNT(liste.id_photo) as `count`, ".
     "liste.id_utilisateur, ".
     "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` ".
