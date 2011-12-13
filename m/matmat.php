@@ -43,36 +43,38 @@ if (isset($_REQUEST["simplesearch"])) {
       $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
       $pattern = strtr($pattern, array(' ' => '|'));
 
-      $req = new requete($site->db, "SELECT `utilisateurs`.id_utilisateur,
-          `utilisateurs`.nom_utl,
-          `utilisateurs`.prenom_utl,
-          `utilisateurs`.email_utl,
-          `utilisateurs`.tel_portable_utl,
-          `utl_etu_utbm`.surnom_utbm,
-          `utl_etu_utbm`.email_utbm
-          FROM `utilisateurs`
-          LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.id_utilisateur=`utilisateurs`.id_utilisateur
-          WHERE `utilisateurs`.nom_utl REGEXP '".$pattern."' OR
-          `utilisateurs`.prenom_utl REGEXP '".$pattern."' OR
-          `utl_etu_utbm`.surnom_utbm REGEXP '".$pattern."' OR
-          `utilisateurs`.tel_portable_utl REGEXP '".$pattern."' OR
-          `utilisateurs`.email_utl REGEXP '".$pattern."'
-          ORDER BY `utilisateurs`.id_utilisateur DESC
-          LIMIT 15");
-
-      $user = new utilisateur($site->db);
+      $req = new requete($site->db, "
+            SELECT `utilisateurs`.id_utilisateur,
+              `utilisateurs`.nom_utl,
+              `utilisateurs`.prenom_utl,
+              `utilisateurs`.email_utl,
+              `utilisateurs`.tel_portable_utl,
+              `utl_etu_utbm`.surnom_utbm,
+              `utl_etu_utbm`.email_utbm
+            FROM `utilisateurs`
+            LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.id_utilisateur=`utilisateurs`.id_utilisateur
+            WHERE `utilisateurs`.nom_utl REGEXP '".$pattern."' OR
+              `utilisateurs`.prenom_utl REGEXP '".$pattern."' OR
+              `utl_etu_utbm`.surnom_utbm REGEXP '".$pattern."' OR
+              `utilisateurs`.tel_portable_utl REGEXP '".$pattern."' OR
+              `utilisateurs`.email_utl REGEXP '".$pattern."'
+            ORDER BY `utilisateurs`.id_utilisateur DESC
+            LIMIT 15
+          ");
 
       while ($row = $req->get_row()) {
         $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$row["id_utilisateur"].".jpg", 0, true);
         $date_prise_vue = $exif["FILE"]["FileDateTime"] ? $exif["FILE"]["FileDateTime"] : '';
 
-        $cts->puts("<div class=\"utl\">");
-        $cts->puts("<b>".$row["prenom_utl"]." ".$row["nom_utl"]."</b><br/>");
-        $cts->puts("<b>".$row["surnom_utbm"]."</b><br/>");
-        $cts->puts("<a href=\"mailto:".$row["email_utl"]."\">".$row["email_utl"]."</a><br/>");
-        $cts->puts("<a href=\"tel:".$row["tel_portable_utl"]."\">".$row["tel_portable_utl"]."</a><br/>");
-        $cts->puts("<img src=\"/var/img/matmatronch/".$row["id_utilisateur"].".identity.jpg?".$date_prise_vue."\"/>");
-        $cts->puts("</div>");
+        $cts->puts(
+            "<div class=\"utl\">\n".
+              "<b>".$row["prenom_utl"]." ".$row["nom_utl"]."</b>\n<br/>\n".
+              "<b>".$row["surnom_utbm"]."</b>\n<br/>\n".
+              "<a href=\"mailto:".$row["email_utl"]."\">".$row["email_utl"]."</a>\n<br/>\n".
+              "<a href=\"tel:".$row["tel_portable_utl"]."\">".$row["tel_portable_utl"]."</a>\n<br/>\n".
+              "<img src=\"/var/img/matmatronch/".$row["id_utilisateur"].".identity.jpg?".$date_prise_vue."\"/>\n".
+            "</div>\n"
+          );
       }
   }
 }
