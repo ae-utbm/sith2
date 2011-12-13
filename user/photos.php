@@ -83,7 +83,7 @@ $cts->add(new tabshead($tabs,
 
 if ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "stats" )
 {
-  $rep = new requete ($site->db, "SELECT COUNT(*) as count ".
+  $req = new requete ($site->db, "SELECT COUNT(*) as count ".
       "FROM `sas_personnes_photos` WHERE id_utilisateur='".$user->id."'");
   $row = $req->get_row ();
   if ($row['count'] > 1)
