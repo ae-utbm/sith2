@@ -965,11 +965,11 @@ if(!defined("MOBILE")) {
 
     $query_fav = $query."AND frm_sujet_utilisateur.etoile_sujet='1' ";
     $query_fav .= "ORDER BY frm_message.date_message DESC ";
-    $query_fav .= "LIMIT 4 ";
+    $query_fav .= "LIMIT 5 ";
 
     $query .= "AND ( frm_sujet_utilisateur.etoile_sujet IS NULL OR frm_sujet_utilisateur.etoile_sujet!='1' ) ";
     $query .= "ORDER BY frm_message.date_message DESC ";
-    $query .= "LIMIT 4 ";
+    $query .= "LIMIT 5 ";
 
     $req = new requete($this->db,$query_fav);
 
@@ -977,7 +977,7 @@ if(!defined("MOBILE")) {
     {
       $cts->add_title(2,"<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">Favoris non lus</a>");
       $list = new itemlist();
-      while ( $row = $req->get_row() )
+      for ($i=0; $i < 4 && $row = $req->get_row(); $i++)
       {
         $list->add("<a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."&amp;spage=firstunread#firstunread\"\">".
         htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8").
@@ -996,7 +996,7 @@ if(!defined("MOBILE")) {
     {
       $cts->add_title(2,"<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">Derniers messages non lus</a>");
       $list = new itemlist();
-      while ( $row = $req->get_row() )
+      for ($i=0; $i < 4 && $row = $req->get_row(); $i++)
       {
         $list->add("<a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."&amp;spage=firstunread#firstunread\"\">".
         htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8").
