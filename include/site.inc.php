@@ -984,7 +984,7 @@ if(!defined("MOBILE")) {
         "</a>");
       }
       $cts->add($list);
-      if ( $req->lines == 4 )
+      if ( $req->lines > 4 )
         $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
     }
 
