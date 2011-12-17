@@ -62,6 +62,13 @@ if (isset($_REQUEST["simplesearch"])) {
             LIMIT 15"
         );
 
+      if ( $req->lines == 0 )
+        $cts->add_title (1, "Aucun résultat");
+      else if ( $req->lines == 1 )
+        $cts->add_title (1, "Résultat");
+      else
+        $cts->add_title (1, "Résultats");
+
       while ($row = $req->get_row()) {
         $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$row["id_utilisateur"].".jpg", 0, true);
         $date_prise_vue = $exif["FILE"]["FileDateTime"] ? $exif["FILE"]["FileDateTime"] : '';
