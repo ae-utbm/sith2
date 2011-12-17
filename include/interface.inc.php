@@ -338,6 +338,7 @@ if(!defined("MOBILE")) {
     }
 } /* ifndef MOBILE */ else {
     if($this->user->is_valid()) {
+      $this->buffer .= "<div id=\"overlay\" onclick=\"updateMenu()\" style=\"display:none\"></div>\n";
       $this->buffer .= "<div id=\"menuContent\" style=\"display:none;\">\n";
 
       $this->buffer .= "<a href=\"./\">Accueil</a>";

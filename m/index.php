@@ -73,6 +73,7 @@ if(!$site->user->is_valid()) {
 /**
  * Display news on the home page
  */
+$site->add_css("/themes/mobile/css/news.css");
 $cts = new contents();
 $cts->add_title(1, "Accueil", "mob_title");
 $site->add_contents($cts);

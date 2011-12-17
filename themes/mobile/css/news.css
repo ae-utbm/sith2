@@ -1,7 +1,7 @@
 /* Copyright 2011
  * - Antoine Tenart < antoine dot tenart at gmail dot com >
  *
- * Ce fichier fait partie du site de l'Association des Étudiants de
+ * Ce fichier fait partie du site de l'Association des étudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
@@ -20,15 +20,35 @@
  * 02111-1307, USA.
  */
 
-function updateMenu () {
-  var elmt = document.getElementById("menuContent");
-  var ovl = document.getElementById("overlay");
+/**
+ * CSS for the mobile version
+ *
+ * Should not include images !! Mobile version should be light.
+ */
 
-  if (elmt.style.display == "none") {
-    elmt.style.display = "block";
-    ovl.style.display = "block";
-  } else {
-    elmt.style.display = "none";
-    ovl.style.display = "none";
-  }
+/**
+ * News
+ */
+
+div.newssoon h3 {
+  border-bottom: 1px solid #808080;
+  margin-left: 1em;
+  font-size:1.2em;
+  color: #336699;
+}
+
+div.newssoon ul {
+  list-style: none;
+  margin-right: 1em;
+}
+
+li.nvlitm .nvltitre {
+  font-size: 1.5em;
+  color: #000;
+  font-weight: bold;
+}
+
+div.newssoon strong {
+  font-size: 0.9em;
+  font-weight: bold;
 }
