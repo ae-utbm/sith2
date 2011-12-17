@@ -138,15 +138,20 @@ div.article .mob_title {
   font-size: 1.5em;
   text-align: center; /* hack */
   margin-bottom: -0.5em;
+  margin-left: -1%;
+  margin-right: -1%;
 }
 
 div.article h1 {
   background-color: #F80;
   color: white;
   text-align: center;
+  margin-left: -1%;
+  margin-right: -1%;
 }
 
 div.article {
   background-color: white;
   text-align: justify;
+  padding: 0 1% 0 1%;
 }
