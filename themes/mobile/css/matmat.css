@@ -36,3 +36,9 @@ div.utl {
   padding: 1em 1em 1em 1em;
   text-align: center;
 }
+
+
+div.utl img {
+  display: block;
+  margin: auto;
+}
