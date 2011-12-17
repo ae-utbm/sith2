@@ -155,3 +155,11 @@ div.article {
   text-align: justify;
   padding: 0 1% 0 1%;
 }
+
+/**
+ * Stuff
+ */
+
+form {
+  text-align: center;
+}
