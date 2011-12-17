@@ -33,7 +33,7 @@ require_once($topdir. "include/site.inc.php");
 $site = new site();
 $site->set_mobile(true);
 $site->start_page("matmatronch", "MatMaTronch");
-$site->add_style ("/themes/mobile/css/matmat.css");
+$site->add_css ("/themes/mobile/css/matmat.css");
 
 
 $cts = new contents();
