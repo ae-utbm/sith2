@@ -136,8 +136,7 @@ div#menuContent a {
 div.article {
   background-color: white;
   text-align: justify;
-  margin-top: 1em;
-  padding: 0 1% 1% 1%;
+  padding: 0 1% 0 1%;
 }
 
 div.article .mob_title {
