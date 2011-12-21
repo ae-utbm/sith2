@@ -739,7 +739,7 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
                                 "apres_chg"=>"Fiches mises à jour depuis le 01/09/2010"),
                           array(),
                           array(),
-                          array("publique_utl"=>array(0=> "Fiches privées", 1=>"Fiches accessibles aux membres de l'ae", 2=>"Fiches accessibles aux membre de l'ae/utbm"))
+                          array("publique_utl"=>array(0=> "Fiches privées", 1=>"Fiches accessibles aux membres de l'ae", 2=>"Fiches accessibles aux membres de l'ae/utbm"))
             ),true);
 
   $cts->add($mcts);
