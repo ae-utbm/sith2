@@ -42,7 +42,6 @@ $site->set_mobile (true);
 
 $cts = new contents ();
 $cts->add_title (1, "Forum", "mob_title");
-$site->add_contents ($cts);
 
 if ($site->user->is_in_group ("ban_forum")) {
   $cts->add_title (1, "Accès interdit");
