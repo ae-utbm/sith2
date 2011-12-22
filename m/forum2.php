@@ -93,7 +93,7 @@ if ($_REQUEST["action"] == "setallread") {
 }
 
 if ($forum->categorie) {
-  $cts->add (new forumslist ($forum, $site->user, "m/"));
+  $cts->add (new forumslist ($forum, $site->user, "./"));
 } else {
   $start = 0;
   $nb_pages = ceil ($forum->nb_sujets / $npp);
@@ -106,7 +106,7 @@ if ($forum->categorie) {
     }
   }
 
-  $cts->add (new sujetslist ($forum, $site->user, "m/", $start, $npp));
+  $cts->add (new sujetslist ($forum, $site->user, "./", $start, $npp));
 
   $entries = array();
   for( $n=0;$n<$nbpages;$n++)
