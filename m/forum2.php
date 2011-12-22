@@ -110,7 +110,7 @@ if ($forum->categorie) {
 
   $entries = array();
   for( $n=0;$n<$nbpages;$n++)
-    $entries[] = array ($n, "forum2/?id_forum=" . $forum->id . "&fpage=" . $n,
+    $entries[] = array ($n, "forum2.php/?id_forum=" . $forum->id . "&fpage=" . $n,
         $n+1);
 
   $cts->add (new tabshead ($entries, floor($start/$npp), "_bottom"));
