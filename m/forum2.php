@@ -92,7 +92,7 @@ if ($_REQUEST["action"] == "setallread") {
   }
 }
 
-if ($forum->category) {
+if ($forum->categorie) {
   $cts->add (new forumslist ($forum, $site->user, "m/"));
 } else {
   $start = 0;
