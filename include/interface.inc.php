@@ -343,7 +343,7 @@ if(!defined("MOBILE")) {
 
       $this->buffer .= "<a href=\"./\">Accueil</a>";
       $this->buffer .= "<a href=\"./matmat.php\">Mat'Matronch</a>";
-      $this->buffer .= "<a href=\"\">Soon</a>";
+      $this->buffer .= "<a href=\"./forum2.php\">Forum</a>";
 
       $this->buffer .= "</div>";
     }
