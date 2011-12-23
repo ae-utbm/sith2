@@ -242,6 +242,7 @@ if (!defined ("MOBILE")) {
         $this->buffer .= "<h2><a href=\"".$page."?id_sujet=".$row['id_sujet']."\">".
                          htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8")."</a></h2>\n";
 
+if (defined ("MOBILE")) {
       if ( !$row['soustitre_sujet'] )
         $this->buffer .= "<p class=\"soustitre\">&nbsp;</p>\n";
       else
@@ -256,7 +257,6 @@ if (!defined ("MOBILE")) {
 
 
       /* actions */
-if (defined ("MOBILE")) {
       if ( !is_array($forum) )
       if (($user->is_valid() && $user->id == $row['id_utilisateur']) ||($forum->is_admin($user)))
       {
