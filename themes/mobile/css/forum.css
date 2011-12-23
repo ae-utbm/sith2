@@ -39,6 +39,8 @@ div.forumsection h2 {
 
 div.forumitem h3 {
   text-align: center;
+  margin: 0;
+  margin-bottom: -0.5em;
 }
 
 div.forumitem {
@@ -46,6 +48,17 @@ div.forumitem {
 }
 
 div.forumitem .dernier {
+  text-align: center;
+  font-size: 0.8em;
+}
+
+div.forumsujet {
+  margin-top: 1em;
+  text-align: center;
+  background-color: #d8e7f3;
+}
+
+div.forumsujet .dernier {
   text-align: center;
   font-size: 0.8em;
 }

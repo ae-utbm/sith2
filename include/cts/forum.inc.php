@@ -256,6 +256,7 @@ if (!defined ("MOBILE")) {
 
 
       /* actions */
+if (defined ("MOBILE")) {
       if ( !is_array($forum) )
       if (($user->is_valid() && $user->id == $row['id_utilisateur']) ||($forum->is_admin($user)))
       {
@@ -272,6 +273,7 @@ if (!defined ("MOBILE")) {
         $this->buffer .= "<p class=\"auteur\">".htmlentities($row['nom_utilisateur_premier_auteur'],ENT_NOQUOTES,"UTF-8")."</p>\n";
 
       $this->buffer .= "<p class=\"nbmessages\">".($row['nb_messages_sujet']-1)."</p>\n";
+}
 
       if ( !is_null($row['id_message']) )
         $this->buffer .= "<p class=\"dernier\"><a href=\"".$page."?id_message=".$row['id_message']."#msg".$row['id_message']."\">".htmlentities($row['nom_utilisateur_dernier_auteur'],ENT_NOQUOTES,"UTF-8")." ".human_date(strtotime($row['date_message']))."</a></p>\n";
