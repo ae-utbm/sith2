@@ -38,7 +38,7 @@ $npp = 20;
 
 $site = new site ();
 $site->set_mobile (true);
-//$site->add_css("/themes/mobile/css/forum2.css");
+$site->add_css("/themes/mobile/css/forum.css");
 
 $cts = new contents ();
 $cts->add_title (1, "Forum", "mob_title");
