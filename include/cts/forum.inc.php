@@ -121,10 +121,12 @@ class forumslist extends stdcontents
     }
     $this->buffer .= "<div class=\"forumlist\">\n";
 
+if (!defined ("MOBILE")) {
     $this->buffer .= "<div class=\"forumhead\">\n";
     $this->buffer .= "<p class=\"nbsujets\">Sujets</p>\n";
     $this->buffer .= "<p class=\"dernier\">Dernier message</p>\n";
     $this->buffer .= "</div>\n";
+}
 
     if ( $sections )
     {
@@ -163,12 +165,14 @@ class forumslist extends stdcontents
       $this->buffer .= "<h3><a href=\"".$page."?id_forum=".$row['id_forum']."\">".
                        htmlentities($row['titre_forum'], ENT_NOQUOTES, "UTF-8")."</a></h3>\n";
 
+if (!defined ("MOBILE")) {
       if ( $row['description_forum'] )
         $this->buffer .= "<p class=\"description\">".htmlentities($row['description_forum'],ENT_NOQUOTES,"UTF-8")."</p>\n";
       else
         $this->buffer .= "<p class=\"description\">&nbsp;</p>\n";
 
       $this->buffer .= "<p class=\"nbsujets\">".$row['nb_sujets_forum']."<br/>&nbsp;</p>\n";
+}
 
       if ( !is_null($row['id_message']) )
       {
@@ -214,11 +218,13 @@ class sujetslist extends stdcontents
 
     $this->buffer .= "<div class=\"forumsujetsliste\">\n";
 
+if (!defined ("MOBILE")) {
     $this->buffer .= "<div class=\"forumhead\">\n";
     $this->buffer .= "<p class=\"auteur\">Auteur</p>\n";
     $this->buffer .= "<p class=\"nbmessages\">Réponses</p>\n";
     $this->buffer .= "<p class=\"dernier\">Dernier message</p>\n";
     $this->buffer .= "</div>\n";
+}
 
     foreach ( $rows as $row )
     {
