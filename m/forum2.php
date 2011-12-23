@@ -92,7 +92,10 @@ if ($_REQUEST["action"] == "setallread") {
   }
 }
 
-if ($forum->categorie) {
+if ($sujet->is_valid ()) {
+  $cts->add (new sujetforum ($forum, $sujet, $site->user, "forum2.php", 0,
+          $npp));
+} elseif ($forum->categorie) {
   $cts->add (new forumslist ($forum, $site->user, "./forum2.php"));
 } else {
   $start = 0;
