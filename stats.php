@@ -550,7 +550,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
   else if ( $month >= 9 )
     $debut_semestre = date("Y")."-08-15";
   else
-    $debut_semestre = (date("Y")-1)."-09-01";
+    $debut_semestre = (date("Y")-1)."-08-15";
   $cts->add_title(2,"Consomateurs : Top 100 (ce semestre)");
 
   if (isset($_REQUEST["details"]))
