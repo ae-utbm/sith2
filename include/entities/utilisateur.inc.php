@@ -1335,10 +1335,10 @@ class utilisateur extends stdentity
   {
     if (!$password)
       $password = genere_pass(7);
-    $this->email_utbm = CheckEmail($email_utbm, 1) ? $email_utbm : null;
+    $this->email_utbm = CheckEmail($email_utbm, 1) ? $emailutbm : null;
     $this->modere = true;
 
-    if (!$this->create_user($nom, $prenom, $email, $password, $droit_image, $date_naissance, $sexe, $this->email_utbm != null, $etudiant == true, $need_validation))
+    if (!$this->create_user($nom, $prenom, $email, $password, $droit_image, $date_naissance, $sexe, true, $etudiant == true, $need_validation))
         return false;
 
     if ($this->etudiant && $nom_ecole)
