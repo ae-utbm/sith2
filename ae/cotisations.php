@@ -116,6 +116,7 @@ function add_new_form($id = null)
   $sub_frm_ident->add_text_field("prenom","Prénom","",true);
 
   $sub_frm_ident->add_text_field("emailutbm","e-mail (UTBM si possible)","",true,false,false,true);
+  $sub_frm_ident->add_checkbox("emailutbmvalid", "Passer la verification d'email et valider immediatement le compte", isset($_SESSION['emailutbmvalid']) && $_SESSION['emailutbmvalid']);
 
   $frm->add($sub_frm_ident);
   $frm->add_info("&nbsp;");
@@ -686,7 +687,10 @@ elseif ($_REQUEST["action"] == "newstudent")
                        $pass,null,null,null,
                        $etudiant,
                        $_REQUEST['droit_image']==true,
-                       $nom_ecole);
+                       $nom_ecole,
+                       null, /* date naissance (default) */
+                       1, /* sexe (default) */
+                       ($_SESSION['emailutbmvalide'] = $_REQUEST['emailutbmvalid']));
 
   if ($user->id < 0)
   {
@@ -701,7 +705,7 @@ elseif ($_REQUEST["action"] == "newstudent")
   {
     $user->load_all_extra();
     $pcts = new contents("Informations de creation");
-    $pcts->add_paragraph ('Nouvel utilisateur cree, mot de passe temporaire : '.$pass);
+    $pcts->add_paragraph ('Nouvel utilisateur créé, mot de passe temporaire : '.$pass);
     $cts = new contents("Mise à jour des infos indispensable pour l'impression de la carte AE");
     $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
     $frm->add_hidden("action","savecotiz");

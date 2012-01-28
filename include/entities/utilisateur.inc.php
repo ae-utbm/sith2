@@ -1332,7 +1332,7 @@ class utilisateur extends stdentity
    * @todo Fonction à revoir complètement (aussi bien usage dans le site que implémentation)
    * @deprecated
    */
-  function new_utbm_user ( $nom, $prenom, $email, $emailutbm, &$password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1)
+  function new_utbm_user ( $nom, $prenom, $email, $emailutbm, &$password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1, $need_validation = true)
   {
     $this->type="std";
 
@@ -1416,7 +1416,6 @@ class utilisateur extends stdentity
     }
 
     $this->set_droit_image($this->droit_image);
-    $this->invalidate ("email");
 
     if ($this->etudiant && $nom_ecole)
     {
@@ -1453,11 +1452,14 @@ class utilisateur extends stdentity
                               'email_utbm'     => $this->email_utbm));
     }
 
-    if ( $this->email_utbm )
-      $this->send_first_email($this->email_utbm,$password);
+    if ($need_validation) {
+        $this->invalidate ("email");
+        if ( $this->email_utbm )
+            $this->send_first_email($this->email_utbm,$password);
 
-    elseif ( $this->email )
-      $this->send_first_email($this->email,$password);
+        elseif ( $this->email )
+            $this->send_first_email($this->email,$password);
+    }
 
     return true;
   }
