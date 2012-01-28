@@ -116,7 +116,7 @@ function add_new_form($id = null)
   $sub_frm_ident->add_text_field("prenom","Prénom","",true);
 
   $sub_frm_ident->add_text_field("emailutbm","e-mail (UTBM si possible)","",true,false,false,true);
-  $sub_frm_ident->add_checkbox("emailutbmvalid", "Passer la verification d'email et valider immediatement le compte", isset($_SESSION['emailutbmvalid']) && $_SESSION['emailutbmvalid']);
+  $sub_frm_ident->add_checkbox("emailutbmvalid", "Sauter la verification d'email et valider immediatement le compte", isset($_SESSION['emailutbmvalid']) && $_SESSION['emailutbmvalid']);
 
   $frm->add($sub_frm_ident);
   $frm->add_info("&nbsp;");
