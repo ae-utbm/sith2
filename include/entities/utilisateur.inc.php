@@ -1195,7 +1195,8 @@ class utilisateur extends stdentity
     $this->utbm = $_utbm;
     $this->etudiant = $_etudiant;
     $this->ancien_etudiant = false;
-    $this->modere = false;
+    if ($this->modere != true)
+        $this->modere = false;
     $this->publique = 2;
     $this->publique_mmtpapier = true;
 
@@ -1207,7 +1208,7 @@ class utilisateur extends stdentity
                               "email_utl" => $this->email,
                               "alias_utl" => $this->alias,
                               "pass_utl" => $this->pass,
-                              "hash_utl" => "",
+                              "hash_utl" => $send_email ? "" : "valid",
                               "sexe_utl" => $this->sexe,
                               "date_naissance_utl" => (is_null($this->date_naissance)
                                 ? null : date("Y-m-d",$this->date_naissance)),
@@ -1233,7 +1234,7 @@ class utilisateur extends stdentity
       return false;
     }
 
-    if($send_email)
+    if ($send_email)
     {
       $this->invalidate ("email");
       $this->send_first_email($this->email,$password);
@@ -1329,93 +1330,16 @@ class utilisateur extends stdentity
 
   /**
    * Inscription par un admin (uniquement)
-   * @todo Fonction à revoir complètement (aussi bien usage dans le site que implémentation)
-   * @deprecated
    */
   function new_utbm_user ( $nom, $prenom, $email, $emailutbm, &$password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1, $need_validation = true)
   {
-    $this->type="std";
-
-    $this->nom = convertir_nom($nom);
-    $this->prenom = convertir_prenom($prenom);
-
-    if (CheckEmail($emailutbm,1))
-      $this->email_utbm = $emailutbm;
-
-    $this->utbm = true;
-
-    $this->email = $email;
-
-    $alias=strtolower($this->prenom{0}.str_replace(' ','',str_replace('-','',$this->nom)));
-    if(strlen($alias)>8)
-      $alias = substr($alias,0,8);
-    $req = new requete($this->db,
-                       'SELECT `alias_utl` '.
-                       'FROM `utilisateurs` '.
-                       'WHERE LOWER(`alias_utl`) LIKE \''.mysql_real_escape_string($alias).'%\' '.
-                       'ORDER BY `alias_utl` DESC '.
-                       'LIMIT 1');
-    if($req->lines==1)
-    {
-      list($_alias)=$req->get_row();
-      if(strlen($_alias)>8)
-        $alias.=((int)substr($_alias,-1)+1);
-      else
-        $alias.=1;
-    }
-    $this->alias = $alias;
-
     if (!$password)
       $password = genere_pass(7);
-
-    $this->pass = crypt($password, "ae");
-    $this->etudiant = $etudiant==true;
-
+    $this->email_utbm = CheckEmail($email_utbm, 1) ? $email_utbm : null;
     $this->modere = true;
-    $this->sexe = $sexe;
-    if ($date_naissance)
-      $this->date_naissance = $date_naissance;
 
-    $this->publique = 2;
-    $this->publique_mmtpapier = true;
-
-    $this->droit_image = $droit_image;
-
-    $sql = new insert ($this->dbrw,
-                       "utilisateurs",
-                       array("type_utl"=>$this->type,
-                             "nom_utl" => $this->nom,
-                             "prenom_utl" => $this->prenom,
-                             "email_utl" => $this->email,
-                             "alias_utl" => $this->alias,
-                             "pass_utl" => $this->pass,
-                             "hash_utl" => "",
-                             "sexe_utl" => $this->sexe,
-                             "date_naissance_utl" => (is_null($this->date_naissance)
-                                ? null : date("Y-m-d",$this->date_naissance)),
-                             "etudiant_utl" => $this->etudiant,
-                             "utbm_utl" => $this->utbm,
-                             "droit_image_utl" => $this->droit_image,
-                             "ancien_etudiant_utl"=> false,
-                             "ae_utl"=>false,
-                             "assidu_utl"=>false,
-                             "amicale_utl"=>false,
-                             "crous_utl"=>false,
-                             "modere_utl"=> $this->modere,
-                             "montant_compte"=> 0,
-                             "publique_utl"=> $this->publique,
-                             "publique_mmtpapier_utl"=>$this->publique_mmtpapier,
-                             "tovalid_utl"=>"none"));
-
-    if ( $sql )
-      $this->id = $sql->get_id();
-    else
-    {
-      $this->id = null;
-      return false;
-    }
-
-    $this->set_droit_image($this->droit_image);
+    if (!$this->create_user($nom, $prenom, $email, $password, $droit_image, $date_naissance, $sexe, $this->email_utbm != null, $etudiant == true, $need_validation))
+        return false;
 
     if ($this->etudiant && $nom_ecole)
     {
@@ -1450,15 +1374,6 @@ class utilisateur extends stdentity
                               'departement_utbm' => $this->departement,
                               'promo_utbm'     => $this->promo_utbm,
                               'email_utbm'     => $this->email_utbm));
-    }
-
-    if ($need_validation) {
-        $this->invalidate ("email");
-        if ( $this->email_utbm )
-            $this->send_first_email($this->email_utbm,$password);
-
-        elseif ( $this->email )
-            $this->send_first_email($this->email,$password);
     }
 
     return true;
