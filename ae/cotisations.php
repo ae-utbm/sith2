@@ -681,6 +681,7 @@ elseif ($_REQUEST["action"] == "newstudent")
   }
 
   $pass = null;
+  $_SESSION['emailutbmvalid'] = $_REQUEST['emailutbmvalid'] == true;
   $user->new_utbm_user($_REQUEST['nom'],
                        $_REQUEST['prenom'],
                        $_REQUEST['emailutbm'], $_REQUEST['emailutbm'],
@@ -690,7 +691,7 @@ elseif ($_REQUEST["action"] == "newstudent")
                        $nom_ecole,
                        null, /* date naissance (default) */
                        1, /* sexe (default) */
-                       ($_SESSION['emailutbmvalid'] = ($_REQUEST['emailutbmvalid'] == true)));
+                       $_REQUEST['emailutbmvalid'] == true);
 
   if ($user->id < 0)
   {
