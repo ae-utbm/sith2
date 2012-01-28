@@ -1331,14 +1331,13 @@ class utilisateur extends stdentity
   /**
    * Inscription par un admin (uniquement)
    */
-  function new_utbm_user ( $nom, $prenom, $email, $emailutbm, &$password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1, $need_validation = true)
+  function new_utbm_user ( $nom, $prenom, $email, $emailutbm, &$password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1, $bypass_validation = false)
   {
     if (!$password)
       $password = genere_pass(7);
-    $this->email_utbm = CheckEmail($email_utbm, 1) ? $emailutbm : null;
     $this->modere = true;
 
-    if (!$this->create_user($nom, $prenom, $email, $password, $droit_image, $date_naissance, $sexe, true, $etudiant == true, $need_validation))
+    if (!$this->create_user($nom, $prenom, $email, $password, $droit_image, $date_naissance, $sexe, true, $etudiant == true, !$bypass_validation))
         return false;
 
     if ($this->etudiant && $nom_ecole)
