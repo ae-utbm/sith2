@@ -720,6 +720,7 @@ elseif ($_REQUEST["action"] == "newstudent")
 
     $frm->add_submit("submit","Enregistrer");
     $cts->add($frm);
+    $site->add_contents($pcts);
     $site->add_contents($cts);
   }
 }
