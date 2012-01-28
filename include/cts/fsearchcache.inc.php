@@ -75,7 +75,7 @@ class fsearchcache
         $input = $this->format_request ($input);
         // add each leading substring of input to be reprocessed
         for ($i = 1; $i < strlen($input); $i++)
-            $this->redis->sAdd (substr($input, 0, $i));
+            $this->redis->sAdd ('_cache_to_process', substr($input, 0, $i));
     }
 
     private function format_request ($request)
