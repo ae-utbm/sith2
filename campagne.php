@@ -83,7 +83,7 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
       {
         $frm->add_info("<b>".$question["nom"]."</b><br />");
         $frm->add_info("<i>".$question["description"]."</i><br />");
-        $frm->add_text_field("reponses[$id]","","",false,500);
+        $frm->add_text_field("reponses[$id]","","",false,80,false,true,null,false,500);
         $frm->add_info("<br />");
       }
       elseif($question["type"]=="textarea")
