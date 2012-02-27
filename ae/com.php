@@ -94,7 +94,7 @@ $sublist->add("<a href=\"weekmail.php\">Weekmail</a>");
 $sublist->add("<a href=\"".$topdir."affiches.php\">Proposer une affiche</a>");
 $sublist->add("<a href=\"".$topdir."affiches.php?page=list\">Affiches actuelles ou à venir</a>");
 $sublist->add("<a href=\"".$topdir."news.php?id_asso=1\">Proposer une nouvelle</a>");
-$sublist->add("<a href=\"".$topdir."https://ae.utbm.fr/asso/campagne.php?id_asso=1\">Organiser une campagne</a>");
+$sublist->add("<a href=\"".$topdir."asso/campagne.php?id_asso=1\">Organiser une campagne</a>");
 $board->add($sublist,true);
 
 $cts->add($board);
