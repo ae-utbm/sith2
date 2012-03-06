@@ -951,11 +951,17 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
                                 "delete" => "Supprimer"),
                           array(), array(), false), true);
 
-  if ($site->user->id == $user->id)
+  if ($site->user->id == $user->id) {
+    $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
+                        ."value=\"+ Importer emploi du temps depuis le mail du SME\" "
+                        ."onclick=\"edt.add_auto('pedagogie/');\" "
+                        ."name=\"add_edt_auto\" id=\"add_edt_auto\"/>");
+
     $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                         ."value=\"+ Ajouter un emploi du temps\" "
                         ."onclick=\"edt.add('pedagogie/');\" "
                         ."name=\"add_edt\" id=\"add_edt\"/>");
+  }
 
   /**
    * Affichage des CV
