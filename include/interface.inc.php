@@ -726,6 +726,7 @@ if(!defined("MOBILE")) { /* ths is too elaborate for a mobile version */
     if(!defined('NOTAE'))
     {
 if(!defined("MOBILE")) {
+      $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=contacts\">CONTACTS</a> ";
       $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">MENTIONS LÉGALES</a> ";
       $this->buffer .= "<a href=\"". $wwwtopdir ."copyright_agent.php\">PROPRIÉTÉ INTELLECTUELLE</a>";
       $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">AIDE ET DOCUMENTATION</a> ";
