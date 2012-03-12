@@ -161,12 +161,15 @@ else
       * autant de fois que de quantite (d'ou la boucle for)
       */
     $cb = true;
+    $no_cb_products = "";
     foreach ($site->cart as $item)
     {
       for ($i = 0; $i < $_SESSION['eboutic_cart'][$item->id]; $i++) {
         $cart_contents[] = $item->id;
-        if (!$item->cb)
+        if (!$item->cb) {
           $cb = false;
+          $no_cb_products .= $item->nom . ' ';
+        }
       }
     }
 
@@ -211,7 +214,8 @@ else
                                  "<p>Au moins un article de votre panier " .
                                  "ne peut être payé avec une carte banquaire. " .
                                  "Veuillez opter pour un paiment par carte " .
-                                 "AE.</p>");
+                                 "AE. (Produits non compatibles : ".
+                                 $no_cb_products.")</p>");
       }
 
       /* recharger son compte AE avec sa carte AE est debile ... */
