@@ -160,10 +160,14 @@ else
       * Si plusieurs articles, ces articles doivent apparaitre
       * autant de fois que de quantite (d'ou la boucle for)
       */
+    $cb = true;
     foreach ($site->cart as $item)
     {
-      for ($i = 0; $i < $_SESSION['eboutic_cart'][$item->id]; $i++)
+      for ($i = 0; $i < $_SESSION['eboutic_cart'][$item->id]; $i++) {
         $cart_contents[] = $item->id;
+        if (!$item->cb)
+          $cb = false;
+      }
     }
 
     /* a ce stade le panier ne peut pas etre vide */
@@ -177,27 +181,38 @@ else
     }
     else
     {
-      /* pas de nouvelle request si total du panier insuffisant */
-      if ($site->total >= EB_TOT_MINI_CB)
-      {
-        $req = new request ($site->dbrw,
-                            $site->user->id,
-                            $site->total,
-                            $cart_contents);
+      /* $cb vaut true si tous les articles du panier peuvent être payés par CB */
+      if ($cb) {
+        /* pas de nouvelle request si total du panier insuffisant */
+        if ($site->total >= EB_TOT_MINI_CB)
+        {
+          $req = new request ($site->dbrw,
+                              $site->user->id,
+                              $site->total,
+                              $cart_contents);
 
-        $accueil->add_title(1,"Paiement par carte bleue");
-        /* le formulaire HTML genere par le binaire sogenactif
-         * nous est envoye de facon brute. Il faut donc le
-         * rajouter a notre objet $accueil "a l'arrache"       */
-        $accueil->add_paragraph ($req->form_html);
+          $accueil->add_title(1,"Paiement par carte bleue");
+         /* le formulaire HTML genere par le binaire sogenactif
+           * nous est envoye de facon brute. Il faut donc le
+           * rajouter a notre objet $accueil "a l'arrache"       */
+         $accueil->add_paragraph ($req->form_html);
+        }
+        else
+        {
+          $accueil->add_paragraph ("<h1>Total insuffisant</h1>" .
+                                   "<p>La depense engendree par vos ".
+                                   "achats actuels est insuffisante ".
+                                   "pour envisager un paiement par ".
+                                   "carte bancaire. Veuillez opter pour ".
+                                   "un paiement par carte AE.</p>");
+        }
+      } else {
+        $accueil->add_paragraph ("<h1>Paiment par CB : impossible</h1>" .
+                                 "<p>Au moins un article de votre panier " .
+                                 "ne peut être payé avec une carte banquaire. " .
+                                 "Veuillez opter pour un paiment par carte " .
+                                 "AE.</p>");
       }
-      else
-        $accueil->add_paragraph ("<h1>Total insuffisant</h1>" .
-                                 "<p>La depense engendree par vos ".
-                                 "achats actuels est insuffisante ".
-                                 "pour envisager un paiement par ".
-                                 "carte bancaire. Veuillez opter pour ".
-                                 "un paiement par carte AE.</p>");
 
       /* recharger son compte AE avec sa carte AE est debile ... */
       if ($site->is_reloading_AE ())

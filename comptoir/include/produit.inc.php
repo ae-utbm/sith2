@@ -80,10 +80,14 @@ class produit extends stdentity
   var $a_retirer;
   /** Infos sur les modalités du retrait */
   var $a_retirer_info;
+  /** Payable par carte bancaire */
+  var $cb;
   /** Envoyable par la poste (booléen) (non disponible pour le moment) */
   var $postable;
   /** Frais de port de l'objet en centimes (non disponible pour le moment) */
   var $frais_port;
+  /** Possibilite d'acheter un plateau (6 pour le prix de 5) */
+  var $plateau;
   /** etat d'un produit hors commerce, gardé pour archive */
   var $archive;
   /** limite du nombre d'achats par personne */
@@ -178,8 +182,10 @@ class produit extends stdentity
       $description_longue,
       $a_retirer,
       $a_retirer_info,
+      $cb,
       $postable,
       $frais_port,
+      $plateau,
       $id_groupe=null,
       $date_fin=null,
       $id_produit_parent=null,
@@ -204,8 +210,10 @@ class produit extends stdentity
 
     $this->a_retirer = $a_retirer?1:0;
     $this->a_retirer_info = $a_retirer_info;
+    $this->cb = $cb;
     $this->postable = $postable?1:0;
     $this->frais_port = intval(frais_port);
+    $this->plateau = $plateau;
 
     $this->id_groupe = $id_groupe?$id_groupe:null;
     $this->date_fin = $date_fin?$date_fin:null;
@@ -234,6 +242,8 @@ class produit extends stdentity
            'postable_prod' => $this->postable,
            'a_retirer_prod'=> $this->a_retirer,
            'a_retirer_info'=> $this->a_retirer_info,
+           'cb' => $this->cb,
+           'plateau' => $this->plateau,
 
            'id_groupe'=>$this->id_groupe,
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
@@ -275,8 +285,10 @@ class produit extends stdentity
          $id_assocpt,
          $a_retirer,
          $a_retirer_info,
+         $cb,
          $postable,
          $frais_port,
+         $plateau,
          $id_groupe=null,
          $date_fin=null,
          $id_produit_parent=null,
@@ -301,8 +313,10 @@ class produit extends stdentity
 
     $this->a_retirer = $a_retirer?1:0;
     $this->a_retirer_info = $a_retirer_info;
+    $this->cb = $cb;
     $this->postable = $postable?1:0;
     $this->frais_port = intval(frais_port);
+    $this->plateau = $plateau;
 
     $this->id_groupe = $id_groupe?$id_groupe:null;
     $this->date_fin = $date_fin?$date_fin:null;
@@ -330,6 +344,8 @@ class produit extends stdentity
            'postable_prod' => $this->postable,
            'a_retirer_prod'=> $this->a_retirer,
            'a_retirer_info'=> $this->a_retirer_info,
+           'cb' => $this->cb,
+           'plateau' => $this->plateau,
 
            'id_groupe'=>$this->id_groupe,
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
@@ -481,8 +497,10 @@ class produit extends stdentity
 
     $this->a_retirer = $row['a_retirer_prod'];
     $this->a_retirer_info = $row['a_retirer_prod_info'];
+    $this->cb = $row['cb'];
     $this->postable = $row['postable_prod'];
     $this->frais_port = $row['frais_port_prod'];
+    $this->plateau = $row['plateau'];
 
     $this->id_groupe = $row['id_groupe'];
     $this->date_fin = is_null($row['date_fin_produit'])?null:strtotime($row['date_fin_produit']);

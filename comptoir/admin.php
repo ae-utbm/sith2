@@ -159,8 +159,10 @@ else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocp
 
     $_REQUEST["a_retirer"],
     $_REQUEST["a_retirer_info"],
+    $_REQUEST["cb"],
     $_REQUEST["postable"],
     $_REQUEST["frais_port"],
+    $_REQUEST["plateau"],
 
     $_REQUEST["id_groupe"],
     $_REQUEST["date_fin"],
@@ -266,8 +268,10 @@ else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod
     $assocpt->id,
     $_REQUEST["a_retirer"],
     $_REQUEST["a_retirer_info"],
+    $_REQUEST["cb"],
     $_REQUEST["postable"],
     $_REQUEST["frais_port"],
+    $_REQUEST["plateau"],
     $_REQUEST["id_groupe"],
     $_REQUEST["date_fin"],
     $produit_parent->id,
@@ -463,6 +467,7 @@ elseif ( $_REQUEST["page"] == "addproduit" )
 
  $frm->add_checkbox("a_retirer","Produit à venir retirer (pour e-boutic)");
  $frm->add_text_field("a_retirer_info","Infos sur le retrait");
+ $frm->add_checkbox("cb","Produit payable par carte banquaire (pour e-boutic)");
  $frm->add_checkbox("postable","Envoyable par la poste (non disponible)",false,true);
  $frm->add_price_field("frais_port","Frais de port");
 
@@ -475,6 +480,8 @@ elseif ( $_REQUEST["page"] == "addproduit" )
 
  $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",-1),false, false, false,false, true);
  $frm->add(generate_subform_stock("Limite par personnes","limite","limite_util","limite_util_value",-1),false, false, false,false, true);
+
+ $frm->add_checkbox("plateau","Produit disponible en plateau (6 pour le prix de 5)");
 
  foreach ( $site->admin_comptoirs as $id => $nom )
  {
@@ -660,6 +667,7 @@ elseif ( $produit->id > 0 )
 
  $frm->add_checkbox("a_retirer","Produit à venir retirer (pour e-boutic)",$produit->a_retirer);
  $frm->add_text_field("a_retirer_info","Infos sur le retrait",$produit->a_retirer_info);
+ $frm->add_checkbox("cb","Produit payable par carte banquaire (pour e-boutic)",$produit->cb);
  $frm->add_checkbox("postable","Envoyable par la poste (non disponible)",$produit->postable,true);
  $frm->add_price_field("frais_port","Frais de port",$produit->frais_port);
 
@@ -671,6 +679,7 @@ elseif ( $produit->id > 0 )
 
  $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",$produit->stock_global),false, false, false,false, true);
  $frm->add(generate_subform_stock("Limite par personnes","limite","limite_util","limite_util_value",$produit->limite_utilisateur),false, false, false,false, true);
+ $frm->add_checkbox("plateau","Produit disponible en plateau (6 pour le prix de 5)",$produit->plateau);
  $frm->add_submit("valid","Enregistrer");
  $cts->add($frm,true);
 
