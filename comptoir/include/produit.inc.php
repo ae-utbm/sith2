@@ -210,10 +210,10 @@ class produit extends stdentity
 
     $this->a_retirer = $a_retirer?1:0;
     $this->a_retirer_info = $a_retirer_info;
-    $this->cb = $cb;
+    $this->cb = $cb?1:0;
     $this->postable = $postable?1:0;
     $this->frais_port = intval(frais_port);
-    $this->plateau = $plateau;
+    $this->plateau = $plateau?1:0;
 
     $this->id_groupe = $id_groupe?$id_groupe:null;
     $this->date_fin = $date_fin?$date_fin:null;
@@ -313,10 +313,10 @@ class produit extends stdentity
 
     $this->a_retirer = $a_retirer?1:0;
     $this->a_retirer_info = $a_retirer_info;
-    $this->cb = $cb;
+    $this->cb = $cb?1:0;
     $this->postable = $postable?1:0;
     $this->frais_port = intval(frais_port);
-    $this->plateau = $plateau;
+    $this->plateau = $plateau?1:0;
 
     $this->id_groupe = $id_groupe?$id_groupe:null;
     $this->date_fin = $date_fin?$date_fin:null;
