@@ -228,6 +228,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   $cam->png_render();
   $cam->destroy_graph();
 
+  exit();
+
   $tbl = new sqltable("results",
                       "Résultats",
                       $answers,
