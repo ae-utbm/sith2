@@ -170,7 +170,7 @@ elseif ( !$typeproduit->is_valid() )
   else {
     $list = new itemlist("Votre panier contient:");
 
-    foreach($site->cart as $item) {
+    foreach($_SESSION['eboutic_cart'][$item_id] as $item) {
       $list->add($_SESSION['eboutic_cart'][$item->id]." - ".$item->nom);
     }
   }
