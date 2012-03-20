@@ -163,6 +163,12 @@ elseif ( !$typeproduit->is_valid() )
 
   $site->add_contents ($accueil);
 
+  $panier = new contents("Mon Panier");
+  $panier->add_paragraph("Liste du panier");
+
+  $site->add_box("panier",$panier);
+  $site->set_side_boxes("right",array("panier"),"panier_right");
+
   $items = new requete($site->db,"SELECT `cpt_mise_en_vente`.*, `cpt_produits`.* , `cpt_type_produit`.`nom_typeprod` ".
             "FROM `cpt_mise_en_vente` ".
             "INNER JOIN `cpt_produits` USING (`id_produit`) ".
