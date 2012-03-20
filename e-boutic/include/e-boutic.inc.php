@@ -338,7 +338,7 @@ class eboutic extends site
     if ($this->cart == false)
       $panier->add_paragraph("Votre panier est vide");
     else {
-      $list = new itemlist("Votre panier contient","panier");
+      $list = new itemlist("Votre panier contient");
 
       foreach($this->cart as $item) {
         $list->add($item->nom."<br><span class=\"prix_box\">".
