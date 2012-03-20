@@ -247,13 +247,13 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                       GROUP BY `valeur_reponse`
                       ORDER BY `id_question`");
 
-  while($row = $req->get_row()) {
+/*while($row = $req->get_row()) {
       $cam->data($row['count'], utf8_decode($row['rle']!=null ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
   }
   $cam->png_render();
   $cam->destroy_graph();
 
-  exit();
+  exit();*/
 
   $id_question_precedente = "";
 
