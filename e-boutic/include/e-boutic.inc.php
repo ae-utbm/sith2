@@ -343,7 +343,7 @@ class eboutic extends site
       foreach($this->cart as $item) {
         $list->add($item->nom."<br><span class=\"prix_box\">".
           $_SESSION['eboutic_cart'][$item->id]." x ".sprintf("%.2f", $item->obtenir_prix(false,$this->user)/100).
-          "</span>");
+          "</span><br>");
       }
       $panier->add($list,true);
       $panier->add_paragraph("<b>Total : </b>".sprintf("%.2f",$this->total/100).
