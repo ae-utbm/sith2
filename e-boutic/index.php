@@ -164,7 +164,18 @@ elseif ( !$typeproduit->is_valid() )
   $site->add_contents ($accueil);
 
   $panier = new contents("Mon Panier");
-  $panier->add_paragraph("Liste du panier");
+
+  if ($site->cart == false)
+    $panier->add_paragraph("Votre panier est vide");
+  else {
+    $list = new itemlist("Votre panier contient:");
+
+    foreach($site->cart as $item) {
+      $list->add($_SESSION['eboutic_cart'][$item->id]." - ".$item->nom);
+    }
+  }
+
+  $panier->add_paragraph("<a href=\"cart.php\">Passer la commande</a>");
 
   $site->add_box("panier",$panier);
   $site->set_side_boxes("right",array("panier"),"panier_right");
