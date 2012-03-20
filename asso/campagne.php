@@ -222,13 +222,6 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
 
-  /*while($row = $req->get_row()) {
-      $cam->data($row['count'], utf8_decode($row['rle']!=null ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
-  }
-  $cam->png_render();
-  $cam->destroy_graph();
-
-  exit();*/
 
   $tbl = new sqltable("results",
                       "Résultats",
@@ -253,6 +246,14 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                           OR `type_question`=\"list\")
                       GROUP BY `valeur_reponse`
                       ORDER BY `id_question`");
+
+  while($row = $req->get_row()) {
+      $cam->data($row['count'], utf8_decode($row['rle']!=null ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
+  }
+  $cam->png_render();
+  $cam->destroy_graph();
+
+  exit();
 
   $id_question_precedente = "";
 
