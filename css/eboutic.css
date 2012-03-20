@@ -151,6 +151,7 @@
 }
 
 .panier {
+  display:block;
   padding-bottom:10px;
 }
 
