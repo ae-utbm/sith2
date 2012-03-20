@@ -184,9 +184,6 @@ elseif ( !$typeproduit->is_valid() )
   while ( $row = $items->get_row() )
     $items_lst->add_item (new vigproduit($row,$site->user));
 
-  /* ajout du panier au site */
-  $site->add_box("panier",$site->get_panierBox());
-  $site->set_side_boxes("right",array("panier"),"panier_right");
 
   /* ajout liste des articles au site */
   $site->add_contents ($items_lst);
@@ -230,6 +227,9 @@ else
   }
   /* fin categorie non vide */
 }
+  /* ajout du panier au site */
+  $site->add_box("panier",$site->get_panierBox());
+  $site->set_side_boxes("right",array("panier"),"panier_right");
 
 /* fin page */
 $site->end_page ();
