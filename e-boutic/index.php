@@ -174,7 +174,7 @@ elseif ( !$typeproduit->is_valid() )
       $list->add($_SESSION['eboutic_cart'][$item->id]." - ".$item->nom);
     }
     $panier->add($list,true);
-    $panier->add_paragraph("<b>Total</b>: $site->total");
+    $panier->add_paragraph("<b>Total</b>:".sprintf("%.2f", $site->total/100)." Euros");
   }
 
   $panier->add_paragraph("<a href=\"cart.php\">Passer la commande</a>");
