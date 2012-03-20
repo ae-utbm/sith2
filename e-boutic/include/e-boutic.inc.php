@@ -346,8 +346,8 @@ class eboutic extends site
           "</span>");
       }
       $panier->add($list,true);
-      $panier->add_paragraph("<span class=\"prix_box\"><b>Total : </b>".sprintf("%.2f",$this->total/100).
-        " Euros</span>");
+      $panier->add_paragraph("<b>Total : </b>".sprintf("%.2f",$this->total/100).
+        " Euros");
       $panier->add_paragraph("<a href=\"cart.php\">Passer la commande</a>");
     }
 
