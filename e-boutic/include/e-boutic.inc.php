@@ -341,12 +341,12 @@ class eboutic extends site
       $list = new itemlist("Votre panier contient");
 
       foreach($this->cart as $item) {
-        $list->add($item->nom."<br><span class=\"prix\">".
+        $list->add($item->nom."<br><span class=\"prix_box\">".
           $_SESSION['eboutic_cart'][$item->id]." x ".sprintf("%.2f", $item->obtenir_prix(false,$this->user)/100).
           "</span>");
       }
       $panier->add($list,true);
-      $panier->add_paragraph("<span class=\"prix\"><b>Total : </b>".sprintf("%.2f",$this->total/100).
+      $panier->add_paragraph("<span class=\"prix_box\"><b>Total : </b>".sprintf("%.2f",$this->total/100).
         " Euros</span>");
       $panier->add_paragraph("<a href=\"cart.php\">Passer la commande</a>");
     }

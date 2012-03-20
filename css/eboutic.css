@@ -144,7 +144,7 @@
   margin:0;
 }
 
-#box .prix {
+.prix_box {
   text-align:right;
   float:right;
   font-style:italic;
