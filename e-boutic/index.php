@@ -131,8 +131,11 @@ if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
 $site->start_page ("e-boutic", "Accueil e-boutic");
 
 /* ajout panier ? */
-if (isset($add_rs))
+if (isset($add_rs)) {
   $site->add_contents ($add_rs);
+  $site->add_box("panier",$site->get_panierBox());
+  $site->set_side_boxes("right",array("panier"),"panier_right");
+}
 
 if(
    $typeproduit->is_valid()
@@ -181,24 +184,8 @@ elseif ( !$typeproduit->is_valid() )
   while ( $row = $items->get_row() )
     $items_lst->add_item (new vigproduit($row,$site->user));
 
-  //Aperçu du panier
-  $panier = new contents("Mon Panier");
-
-  if ($site->cart == false)
-    $panier->add_paragraph("Votre panier est vide");
-  else {
-    $list = new itemlist("Votre panier contient:");
-
-    foreach($site->cart as $item) {
-      $list->add($_SESSION['eboutic_cart'][$item->id]." - ".$item->nom);
-    }
-    $panier->add($list,true);
-    $panier->add_paragraph("<b>Total</b>:".sprintf("%.2f", $site->total/100)." Euros");
-    $panier->add_paragraph("<a href=\"cart.php\">Passer la commande</a>");
-  }
-
   /* ajout du panier au site */
-  $site->add_box("panier",$panier);
+  $site->add_box("panier",$site->get_panierBox());
   $site->set_side_boxes("right",array("panier"),"panier_right");
 
   /* ajout liste des articles au site */

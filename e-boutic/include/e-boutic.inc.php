@@ -328,6 +328,28 @@ class eboutic extends site
     }
     return false;
   }
+
+  /*
+   * fonction retournant le panier courant contenu dans une box
+   */
+  function get_panierBox(){
+    $panier = new contents("Mon Panier");
+
+    if ($this->cart == false)
+      $panier->add_paragraph("Votre panier est vide");
+    else {
+      $list = new itemlist("Votre panier contient");
+
+      foreach($this->cart as $item) {
+        $list->add($_SESSION['eboutic_cart'][$item->id]." - ".$item->nom);
+      }
+      $panier->add($list,true);
+      $panier->add_paragraph("<b>Total</b>".sprintf("%.2f",$site->total/100)." Euros");
+      $panier->add_paragraph("<a href=\"cart.php\">Passer la commande</a>");
+    }
+
+    return $panier;
+  }
 }
 
 ?>
