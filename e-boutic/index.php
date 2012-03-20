@@ -133,8 +133,6 @@ $site->start_page ("e-boutic", "Accueil e-boutic");
 /* ajout panier ? */
 if (isset($add_rs)) {
   $site->add_contents ($add_rs);
-  $site->add_box("panier",$site->get_panierBox());
-  $site->set_side_boxes("right",array("panier"),"panier_right");
 }
 
 if(
