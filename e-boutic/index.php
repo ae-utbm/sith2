@@ -170,9 +170,10 @@ elseif ( !$typeproduit->is_valid() )
   else {
     $list = new itemlist("Votre panier contient:");
 
-    foreach($_SESSION['eboutic_cart'][$item_id] as $item) {
+    foreach($site->cart as $item) {
       $list->add($_SESSION['eboutic_cart'][$item->id]." - ".$item->nom);
     }
+    $panier->add($list,true);
   }
 
   $panier->add_paragraph("<a href=\"cart.php\">Passer la commande</a>");
