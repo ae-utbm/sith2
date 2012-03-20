@@ -150,7 +150,7 @@
   font-style:italic;
 }
 
-li.panier {
+.panier {
   display:block;
   padding-top: 10px;
   margin-bottom:10px;
