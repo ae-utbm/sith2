@@ -25,7 +25,7 @@ $topdir = "../";
 require_once ($topdir. "comptoir/include/comptoirs.inc.php");
 require_once ($topdir. "include/cts/user.inc.php");
 
-$site = new sitecomptoir ();
+$site = new site ();
 
 if ( !$site->user->is_in_group ("root") )
   $site->error_forbidden ("none", "group", 7);
