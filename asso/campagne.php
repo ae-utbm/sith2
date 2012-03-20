@@ -29,6 +29,7 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir."include/cts/board.inc.php");
+require_once($topdir."include/graph.inc.php");
 $site = new site ();
 
 $asso = new asso($site->db,$site->dbrw);
@@ -218,6 +219,14 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   $cts=new contents("Résultats : " . $cpg->nom .
     " (" . $req->lines . " r&eacute;ponse(s))");
+
+  $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
+
+  while($row = $req->get_row()) {
+      $cam->data($row['count'], utf8_decode($row['rle']!=null ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
+  }
+  $cam->png_render();
+  $cam->destroy_graph();
 
   $tbl = new sqltable("results",
                       "Résultats",
