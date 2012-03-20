@@ -163,24 +163,7 @@ elseif ( !$typeproduit->is_valid() )
 
   $site->add_contents ($accueil);
 
-  $panier = new contents("Mon Panier");
 
-  if ($site->cart == false)
-    $panier->add_paragraph("Votre panier est vide");
-  else {
-    $list = new itemlist("Votre panier contient:");
-
-    foreach($site->cart as $item) {
-      $list->add($_SESSION['eboutic_cart'][$item->id]." - ".$item->nom);
-    }
-    $panier->add($list,true);
-    $panier->add_paragraph("<b>Total</b>:".sprintf("%.2f", $site->total/100)." Euros");
-  }
-
-  $panier->add_paragraph("<a href=\"cart.php\">Passer la commande</a>");
-
-  $site->add_box("panier",$panier);
-  $site->set_side_boxes("right",array("panier"),"panier_right");
 
   $items = new requete($site->db,"SELECT `cpt_mise_en_vente`.*, `cpt_produits`.* , `cpt_type_produit`.`nom_typeprod` ".
             "FROM `cpt_mise_en_vente` ".
@@ -198,8 +181,29 @@ elseif ( !$typeproduit->is_valid() )
   while ( $row = $items->get_row() )
     $items_lst->add_item (new vigproduit($row,$site->user));
 
+  //Aperçu du panier
+  $panier = new contents("Mon Panier");
+
+  if ($site->cart == false)
+    $panier->add_paragraph("Votre panier est vide");
+  else {
+    $list = new itemlist("Votre panier contient:");
+
+    foreach($site->cart as $item) {
+      $list->add($_SESSION['eboutic_cart'][$item->id]." - ".$item->nom);
+    }
+    $panier->add($list,true);
+    $panier->add_paragraph("<b>Total</b>:".sprintf("%.2f", $site->total/100)." Euros");
+    $panier->add_paragraph("<a href=\"cart.php\">Passer la commande</a>");
+  }
+
+  /* ajout du panier au site */
+  $site->add_box("panier",$panier);
+  $site->set_side_boxes("right",array("panier"),"panier_right");
+
   /* ajout liste des articles au site */
   $site->add_contents ($items_lst);
+
 
 
 
