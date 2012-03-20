@@ -58,7 +58,7 @@ if ($req->lines < 1) {
   $tot_cpt = $req->lines;
   $tot = 0;
 
-  while ($row = $requete->get_row ()) {
+  while ($row = $req->get_row ()) {
     $debfact = new debitfacture ($site->db, $site->dbrw);
     $vprod = new venteproduit ($site->db, $site->dbrw);
     $cpt = new comptoir ($site->db, $site->dbrw);
