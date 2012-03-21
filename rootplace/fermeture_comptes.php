@@ -50,7 +50,7 @@ $req = new requete ($site->db, "SELECT ae_cotisations.id_utilisateur AS id_utl "
     "WHERE utilisateurs.montant_compte > 0 AND `date_fin_cotis` <= \"".$date." 00:00:00\" ".
     "AND id_cotisation IN (SELECT MAX(inner_cotis.id_cotisation) ".
     "FROM ae_cotisations AS inner_cotis WHERE inner_cotis.id_utilisateur=id_utl ".
-    "GROUP BY inner_cotis.id_utilisateur) LIMIT 1");
+    "GROUP BY inner_cotis.id_utilisateur)");
 
 if ($req->lines < 1) {
   $cts->add_paragraph ("Aucun compte concerné par l'opération. Abort.");
