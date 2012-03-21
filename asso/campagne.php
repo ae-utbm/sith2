@@ -274,6 +274,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   $cam->png_render();
   $cam->destroy_graph();
 
+  exit();
+
   if($req->lines > 0)
   {
     $board = new board();
