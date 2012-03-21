@@ -29,15 +29,11 @@ $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/newsflow.inc.php");
-require_once("include/user.inc.php");
-
 
 $site = new site();
 $site->set_mobile(true);
 
 $site->start_page("acceuil", "Bienvenue");
-
-check_user_validity ();
 
 /**
  * Display news on the home page
