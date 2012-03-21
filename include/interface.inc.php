@@ -159,7 +159,7 @@ class interfaceweb
 
     /* Check if user is connected */
     if(!$this->user->is_valid()) {
-      $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
+      $frm = new form("connect","/connect.php",true,"POST","Connexion");
       $frm->add_select_field("domain",
           "Connexion",
           array("utbm"=>"UTBM / Assidu",
