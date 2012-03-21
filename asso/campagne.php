@@ -198,21 +198,6 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                        "GROUP BY `cpg_reponse`.`id_utilisateur` ".
                        "ORDER BY `nom_utl`");
 
-  /* $req = new requete ($site->db,".
-   * "SELECT `valeur_reponse`,".
-   * "COUNT(*) ".
-   * "FROM `cpg_reponse`".
-   * "WHERE `id_campagne`='".$cpg->id."' ".
-   * "AND `type_question` != text ".
-   * "GROUP BY `valeur_reponse`")
-   *
-   * $group_champs = array();
-   * foreach($group as $id => $answer) {
-   *  group_champs[$id]=$answer["nom"]
-   * }
-   *
-   * */
-
   $answers=array();
   while(list($id_utl,$nom)=$req->get_row())
   {
@@ -277,10 +262,10 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     {
       if($id_question != $id_question_precedente)
       {
-        if($id_question_precdente != "")
-        {
+        //if($id_question_precdente != "")
+        //{
           $board->add($list,true);
-        }
+        //}
 
         $list = new itemlist($nom_question);
       }
