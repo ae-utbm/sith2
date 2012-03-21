@@ -235,6 +235,7 @@ class campagne extends stdentity
 
     return $resultats;
   }
+
   function a_repondu ( $id_utilisateur )
   {
 

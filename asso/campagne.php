@@ -197,6 +197,22 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                        "WHERE `id_campagne`='".$cpg->id."' ".
                        "GROUP BY `cpg_reponse`.`id_utilisateur` ".
                        "ORDER BY `nom_utl`");
+
+  /* $req = new requete ($site->db,".
+   * "SELECT `valeur_reponse`,".
+   * "COUNT(*) ".
+   * "FROM `cpg_reponse`".
+   * "WHERE `id_campagne`='".$cpg->id."' ".
+   * "AND `type_question` != text ".
+   * "GROUP BY `valeur_reponse`")
+   *
+   * $group_champs = array();
+   * foreach($group as $id => $answer) {
+   *  group_champs[$id]=$answer["nom"]
+   * }
+   *
+   * */
+
   $answers=array();
   while(list($id_utl,$nom)=$req->get_row())
   {
@@ -220,8 +236,16 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   $cts=new contents("Résultats : " . $cpg->nom .
     " (" . $req->lines . " r&eacute;ponse(s))");
 
-  $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
 
+  $req = new requete ( $site->db,
+                       "SELECT `utilisateurs`.`id_utilisateur`, ".
+                       "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
+                       "FROM `cpg_reponse` ".
+                       "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
+                       "WHERE `id_campagne`='".$cpg->id."' ".
+                       "GROUP BY `cpg_reponse`.`id_utilisateur` ".
+                       "ORDER BY `nom_utl`");
+  $answers=array();
 
   $tbl = new sqltable("results",
                       "Résultats",
@@ -236,8 +260,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
 
   $req = new requete($site->db,
-                     "SELECT COUNT(`valeur_reponse`) AS `nombre_reponse`,
-                      `id_question`, `nom_question`, `valeur_reponse`
+                      "SELECT `id_question`, `nom_question`, `valeur_reponse`
+                      COUNT(`valeur_reponse`) AS `nombre_reponse`,
                       FROM `cpg_reponse`
                       INNER JOIN `cpg_question` USING(`id_question`)
                       WHERE `id_campagne`='".$cpg->id."'
@@ -246,14 +270,6 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                           OR `type_question`=\"list\")
                       GROUP BY `valeur_reponse`
                       ORDER BY `id_question`");
-
-/*while($row = $req->get_row()) {
-      $cam->data($row['count'], utf8_decode($row['rle']!=null ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
-  }
-  $cam->png_render();
-  $cam->destroy_graph();
-
-  exit();*/
 
   $id_question_precedente = "";
 
