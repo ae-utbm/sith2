@@ -257,12 +257,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
 
-  $tem = "";
   while(list($nombre_reponses, $id_question, $nom_question, $valeur_reponse) = $req->get_row()) {
-    if ($tem == "" || $id_question == $tem) {
       $cam->data($nombre_reponses, $valeur_reponse);
-      $tem = $id_question;
-    }
   }
   $cam->png_render();
   $cam->destroy_graph();
