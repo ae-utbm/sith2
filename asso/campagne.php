@@ -262,6 +262,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
       if ($id_question_precedente != "") {
         $cam->png_render();
         $cam->destroy_graph();
+
+        exit();
         $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
       }
 
@@ -271,8 +273,6 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   $cam->data($nombre_reponses, $valeur_reponse);
   $cam->png_render();
   $cam->destroy_graph();
-
-  exit();
 
   if($req->lines > 0)
   {
