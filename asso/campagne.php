@@ -248,7 +248,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                       `id_question`, `nom_question`, `valeur_reponse`
                       FROM `cpg_reponse`
                       INNER JOIN `cpg_question` USING(`id_question`)
-                      WHERE `cpg_reponse`.`id_campagne`='".$cpg->id."'
+                      WHERE `cpg_question`.`id_campagne`='".$cpg->id."'
                       AND `type_question`!=\"text\"
                       GROUP BY `valeur_reponse`
                       ORDER BY `id_question`");
@@ -260,7 +260,15 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     $board = new board();
     while(list($nombre_reponses, $id_question, $nom_question, $valeur_reponse) = $req->get_row())
     {
-      $list = new itemlist($nom_question);
+      if($id_question != $id_question_precedente)
+      {
+        if($id_question_precdente != "")
+        {
+          $board->add($list,true);
+        }
+
+        $list = new itemlist($nom_question);
+      }
       $list->add($valeur_reponse." : ".$nombre_reponses);
       $id_question_precedente = $id_question;
     }
