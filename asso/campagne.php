@@ -260,15 +260,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     $board = new board();
     while(list($nombre_reponses, $id_question, $nom_question, $valeur_reponse) = $req->get_row())
     {
-      if($id_question != $id_question_precedente)
-      {
-        if($id_question_precdente != "")
-        {
-          $board->add($list,true);
-        }
-
-        $list = new itemlist($nom_question);
-      }
+      $list = new itemlist($nom_question);
       $list->add($valeur_reponse." : ".$nombre_reponses);
       $id_question_precedente = $id_question;
     }
