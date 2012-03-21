@@ -255,17 +255,16 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   $id_question_precedente = "";
 
-  require_once($topdir."include/graph.inc.php");
+ // require_once($topdir."include/graph.inc.php");
 
   $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
+    while ($row = $req->get_row())
+      $cam->data($row['count'], utf8_decode($row['rle']!=null ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
 
-  while(list($nombre_reponses, $id_question, $nom_question, $valeur_reponse) = $req->get_row()) {
-      $cam->data($nombre_reponses, $valeur_reponse);
-  }
-  $cam->png_render();
-  $cam->destroy_graph();
+    $cam->png_render();
+    $cam->destroy_graph();
 
-  exit();
+    exit();
 
   if($req->lines > 0)
   {
