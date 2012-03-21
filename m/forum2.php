@@ -40,6 +40,9 @@ $site = new site ();
 $site->set_mobile (true);
 $site->add_css("/themes/mobile/css/forum.css");
 
+/* Pas de forum mobile pour l'instant */
+if(!$GLOBALS["taiste"]) header("HTTP/1.0 404 Not Found");
+
 $cts = new contents ();
 $cts->add_title (1, "Forum", "mob_title");
 
