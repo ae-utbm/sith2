@@ -227,7 +227,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     }
     $answers[]=$_answers;
   }
-  $answers_champs=array("nom_utilisateur"=>"Utilisateur");
+  $answers_champs=array("nom_utilisateur"=>"Utilisateurs");
   foreach($questions as $id => $question)
   {
     $answers_champs[$id]=$question["nom"];
