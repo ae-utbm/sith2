@@ -273,7 +273,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
       }
   } else {
     $cts2 = new contents("Question!");
-    $cts2->add_paragraph("<center><img src=\"./campagne.php?bananas=cuitasunjour\" alt=\"lalala\"></center>");
+    $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id."&action=results&bananas=cuitasunjour\" alt=\"lalala\"></center>");
     $cts->add($cts2,true);
   }
 
