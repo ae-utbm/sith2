@@ -259,19 +259,10 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   while(list($nombre_reponses, $id_question, $nom_question, $valeur_reponse) = $req->get_row()) {
     if ($id_question != $id_question_precedente) {
-      if ($id_question_precedente != "") {
-        $cam->png_render();
-        $cam->destroy_graph();
-
-        exit();
-        $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
-      }
-
       $cam->data($nombre_reponses, $valeur_reponse);
       $id_question_precedente = $id_question;
     }
   }
-  $cam->data($nombre_reponses, $valeur_reponse);
   $cam->png_render();
   $cam->destroy_graph();
 
