@@ -276,8 +276,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
         $values = array();
         $answer = array();
       }
-      $values->add($nombre_reposes);
-      $answer->add($valeur_reponse);
+      //$values->add($nombre_reposes);
+      //$answer->add($valeur_reponse);
 
       $list->add($valeur_reponse." : ".$nombre_reponses);
       $id_question_precedente = $id_question;
