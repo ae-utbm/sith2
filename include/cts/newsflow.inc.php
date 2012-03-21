@@ -262,11 +262,12 @@ abstract class newslister extends stdcontents
         else
           $hour = "de ".strftime("%H:%M",$debut) . " jusqu'à ".strftime("%H:%M",$fin);
 
-        $hour .= " - <a href=\"forum2/?react=react".
-           "&amp;id_nouvelle=".$row['id_nouvelle'].
-           "&amp;id_asso=".$row['id_asso'].
-           "&amp;titre_sujet=".urlencode($row['titre_nvl']).
-           "\">Réactions</a>";
+        if (!defined ("MOBILE"))
+          $hour .= " - <a href=\"forum2/?react=react".
+            "&amp;id_nouvelle=".$row['id_nouvelle'].
+            "&amp;id_asso=".$row['id_asso'].
+            "&amp;titre_sujet=".urlencode($row['titre_nvl']).
+            "\">Réactions</a>";
 
 
         $this->puts("<li class=\"nvlitm nvl$n\">$img<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\" class=\"nvltitre\">".$row['titre_nvl']."</a> <span class=\"hour\">$hour</span><br/><span class=\"nvlresume\">".doku2xhtml($row['resume_nvl'])."</span><div class=\"clearboth\"></div></li>\n", $other_buffer);
