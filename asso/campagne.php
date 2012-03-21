@@ -40,7 +40,6 @@ if ( $asso->id < 1 )
   exit();
 }
 
-$graph = true;
 if ( !$site->user->is_in_group("gestion_ae") && !$asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU) )
   $site->error_forbidden("presentation");
 
@@ -257,6 +256,10 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   $id_question_precedente = "";
 
+  $graph = false;
+  if (isset($_REQUEST['bananas']) && ($_REQUEST['bananas'] == "cuitasunjour"))
+    $graph = true;
+
   if ($graph) {
     if ($req->lines > 0) {
       $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
@@ -268,6 +271,10 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
       exit();
       }
+  } else {
+    $cts2 = new contents("Question!");
+    $cts2->add_paragraph("<center><img src=\"./campagne.php?bananas=cuitasunjour\"> alt=\"lalala\"</center>");
+    $cts->add($cts2,true);
   }
 
   if($req->lines > 0)
