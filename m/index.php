@@ -29,6 +29,7 @@ $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/newsflow.inc.php");
+require_once("include/user.inc.php");
 
 
 $site = new site();
@@ -36,32 +37,7 @@ $site->set_mobile(true);
 
 $site->start_page("acceuil", "Bienvenue");
 
-if(!$site->user->is_valid()) {
-  /**
-   * For the moment, mobile version is only available for logged users
-   */
-  $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
-  $frm->add_select_field("domain",
-      "Connexion",
-      array("utbm"=>"UTBM / Assidu",
-            "carteae" => "Carte AE",
-            "id"=>"ID",
-            "autre"=>"E-mail",
-            "alias"=>"Alias"));
-  $frm->add_text_field("username","Utilisateur","","",20,true,true,null,false,35);
-  $frm->add_password_field("password","Mot de passe","","",20);
-  $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", true );
-  $frm->add_submit("connect","Se connecter");
-  $frm->add_hidden("mobile");
-  $site->add_contents($frm);
-
-  /* Come back here after connexion completed */
-  $_SESSION['session_redirect'] = "m/";   /* Oh, a diplodocus ! Shhh !! */
-
-  $site->end_page();
-  exit(0);
-}
-
+check_user_validity ();
 
 /**
  * Display news on the home page
