@@ -251,7 +251,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                       WHERE `cpg_question`.`id_campagne`='".$cpg->id."'
                       AND `type_question`!=\"text\"
                       GROUP BY `valeur_reponse`
-                      ORDER BY `id_question`");
+                      ORDER BY `id_question`, `id_campagne`");
 
   $id_question_precedente = "";
 
