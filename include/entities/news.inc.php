@@ -238,7 +238,7 @@ class nouvelle extends stdentity
       }
     }
 
-    if ( $asso->is_valid() )
+    if ( $asso->is_valid() && !defined ("MOBILE") )
     {
       $cts->puts("<div class=\"clearboth\"></div>");
       $cts->add_title(2,"Pour en savoir plus");
