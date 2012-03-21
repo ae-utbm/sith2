@@ -256,8 +256,21 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   $id_question_precedente = "";
 
   $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
-  $values = array();
-  $answer = array();
+
+  while(list($nombre_reponses, $id_question, $nom_question, $valeur_reponse) = $req->get_row()) {
+    if ($id_question != $id_question_precedente) {
+      if ($id_question_precedente != "") {
+        $cam->png_render();
+        $cam->destroy_graph();
+        $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
+      }
+
+      $cam->data($nombre_reponses, $valeur_reponse);
+    }
+  }
+  $cam->data($nombre_reponses, $valeur_reponse);
+  $cam->png_render();
+  $cam->destroy_graph();
 
   if($req->lines > 0)
   {
@@ -272,7 +285,6 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
         }
 
         $list = new itemlist($nom_question);
-        $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
       }
       $list->add($valeur_reponse." : ".$nombre_reponses);
       $id_question_precedente = $id_question;
