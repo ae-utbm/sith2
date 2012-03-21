@@ -256,6 +256,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   $id_question_precedente = "";
 
  // require_once($topdir."include/graph.inc.php");
+  if ($req->lines > 0) {
   $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
   while (list($nb,$id,$nom,$valeur) = $req->get_row())
     $cam->data($nb,$valeur);
@@ -264,6 +265,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   $cam->destroy_graph();
 
   exit();
+  }
 
   if($req->lines > 0)
   {
