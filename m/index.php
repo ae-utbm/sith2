@@ -34,13 +34,6 @@ require_once($topdir. "include/cts/newsflow.inc.php");
 $site = new site();
 $site->set_mobile(true);
 
-/**
- * So we can put it in prod
- * TODO : remove me
- */
-if(!$GLOBALS["taiste"]) header("HTTP/1.0 404 Not Found");
-
-
 $site->start_page("acceuil", "Bienvenue");
 
 if(!$site->user->is_valid()) {
