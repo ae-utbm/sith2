@@ -258,8 +258,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
  // require_once($topdir."include/graph.inc.php");
 
   $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
-    while ($row = $req->get_row())
-      $cam->data($row['count'], utf8_decode($row['rle']!=null ? $GLOBALS['ROLEASSO100'][$row['rle']] : "Autres cotisants"));
+  while (list($nb,$id,$nom,$valeur) = $req->get_row())
+    $cam->data($nb,$valeur);
 
     $cam->png_render();
     $cam->destroy_graph();
