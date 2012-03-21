@@ -156,6 +156,29 @@ class interfaceweb
 
     /* Reset tab menu in mobile mode */
     if(defined("MOBILE")) $this->tab_array = array();
+
+    /* Check if user is connected */
+    if(!$this->user->is_valid()) {
+      $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
+      $frm->add_select_field("domain",
+          "Connexion",
+          array("utbm"=>"UTBM / Assidu",
+              "carteae" => "Carte AE",
+              "id"=>"ID",
+              "autre"=>"E-mail",
+              "alias"=>"Alias"));
+      $frm->add_text_field("username","Utilisateur","","",20,true,true,null,false,35);    $frm->add_password_field("password","Mot de passe","","",20);
+      $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", true );
+      $frm->add_submit("connect","Se connecter");
+      $frm->add_hidden("mobile");
+      $this->add_contents($frm);
+
+      /* Come back here after connexion completed */
+      $_SESSION['session_redirect'] = "m/";   /* Oh, a diplodocus ! Shhh !! */
+
+      $this->end_page();
+      exit(0);
+    }
   }
 
   /** Défini les boites à afficher sur un coté
