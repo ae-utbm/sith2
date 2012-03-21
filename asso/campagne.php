@@ -233,7 +233,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     $answers_champs[$id]=$question["nom"];
   }
 
-  $cts=new contents("Résultat : " . $cpg->nom .
+  $cts=new contents("Résultats : " . $cpg->nom .
     " (" . $req->lines . " r&eacute;ponse(s))");
 
 
@@ -260,8 +260,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
 
   $req = new requete($site->db,
-                      "SELECT `id_question`, `nom_question`, `valeur_reponse`
-                      COUNT(`valeur_reponse`) AS `nombre_reponse`,
+                     "SELECT COUNT(`valeur_reponse`) AS `nombre_reponse`,
+                      `id_question`, `nom_question`, `valeur_reponse`
                       FROM `cpg_reponse`
                       INNER JOIN `cpg_question` USING(`id_question`)
                       WHERE `id_campagne`='".$cpg->id."'
