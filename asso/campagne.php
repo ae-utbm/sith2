@@ -245,7 +245,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                        "WHERE `id_campagne`='".$cpg->id."' ".
                        "GROUP BY `cpg_reponse`.`id_utilisateur` ".
                        "ORDER BY `nom_utl`");
-  $answers=array();
+  //$answers=array();
 
   $tbl = new sqltable("results",
                       "Résultats",
