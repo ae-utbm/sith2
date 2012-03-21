@@ -268,6 +268,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
       }
 
       $cam->data($nombre_reponses, $valeur_reponse);
+      $id_question_precedente = $id_question;
     }
   }
   $cam->data($nombre_reponses, $valeur_reponse);
