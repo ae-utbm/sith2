@@ -255,7 +255,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   $id_question_precedente = "";
 
-  //$cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
+  $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
 
   if($req->lines > 0)
   {
@@ -276,7 +276,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
         $values = array();
         $answer = array();
       }
-      //$values->add($nombre_reposes);
+      array_push($values, $nombre_reposes);
+      array_push($answer, $valeur_reposes);
       //$answer->add($valeur_reponse);
 
       $list->add($valeur_reponse." : ".$nombre_reponses);
