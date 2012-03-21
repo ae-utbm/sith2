@@ -76,7 +76,7 @@ if ($req->lines < 1) {
     $tot += $usr->montant_compte;
 
     $cart[0][0] = 1;
-    $cart[0][1] = $vp;
+    $cart[0][1] = $vprod;
 
     $debfact->debitAE ($usr, $site->user, $cpt, $cart, false);
   }
