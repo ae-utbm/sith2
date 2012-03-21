@@ -255,6 +255,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   $id_question_precedente = "";
 
+  require_once($topdir."include/graph.nc.php");
+
   $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
 
   while(list($nombre_reponses, $id_question, $nom_question, $valeur_reponse) = $req->get_row()) {
