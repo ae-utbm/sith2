@@ -227,13 +227,13 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     }
     $answers[]=$_answers;
   }
-  $answers_champs=array("nom_utilisateur"=>"Utilisateurs");
+  $answers_champs=array("nom_utilisateur"=>"Utilisateur");
   foreach($questions as $id => $question)
   {
     $answers_champs[$id]=$question["nom"];
   }
 
-  $cts=new contents("Résultats : " . $cpg->nom .
+  $cts=new contents("Résultat : " . $cpg->nom .
     " (" . $req->lines . " r&eacute;ponse(s))");
 
 
