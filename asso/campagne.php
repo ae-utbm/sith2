@@ -245,7 +245,6 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                        "WHERE `id_campagne`='".$cpg->id."' ".
                        "GROUP BY `cpg_reponse`.`id_utilisateur` ".
                        "ORDER BY `nom_utl`");
-  //$answers=array();
 
   $tbl = new sqltable("results",
                       "Résultats",
@@ -264,7 +263,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                       `id_question`, `nom_question`, `valeur_reponse`
                       FROM `cpg_reponse`
                       INNER JOIN `cpg_question` USING(`id_question`)
-                      WHERE `id_campagne`='".$cpg->id."'
+                      WHERE `cpg_reponse`.`id_campagne`='".$cpg->id."'
                         AND (`type_question`=\"radio\"
                           OR `type_question`=\"checkbox\"
                           OR `type_question`=\"list\")
