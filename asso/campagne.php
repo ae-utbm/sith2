@@ -262,10 +262,10 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     {
       if($id_question != $id_question_precedente)
       {
-        //if($id_question_precdente != "")
-        //{
+        if($id_question_precdente != "")
+        {
           $board->add($list,true);
-        //}
+        }
 
         $list = new itemlist($nom_question);
       }
