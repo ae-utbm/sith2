@@ -264,9 +264,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                       FROM `cpg_reponse`
                       INNER JOIN `cpg_question` USING(`id_question`)
                       WHERE `cpg_reponse`.`id_campagne`='".$cpg->id."'
-                        AND (`type_question`=\"radio\"
-                          OR `type_question`=\"checkbox\"
-                          OR `type_question`=\"list\")
+                      AND `type_question`!=\"text\"
                       GROUP BY `valeur_reponse`
                       ORDER BY `id_question`");
 
