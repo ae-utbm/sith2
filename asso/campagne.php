@@ -302,7 +302,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   $cts3 = new contents("Les résultats en détail");
   $cts3->add($tbl);
-  $cts->add_contents($cts3);
+  $site->add_contents($cts3);
   $site->add_contents($cts);
 }
 
