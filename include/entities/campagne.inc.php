@@ -221,6 +221,19 @@ class campagne extends stdentity
     return $questions;
   }
 
+  function get_specified_answer($id_question){
+
+    $sql = new requete($this->db,"SELECT COUNT(`valeur_reponse`) AS `nombre_reponse`,
+      `nom_question`, `valeur_reponse`
+      FROM `cpg_reponse`
+      WHERE `id_question`='".$id_question."'
+      AND `type_question`!=\"text\"
+      GROUP BY `valeur_reponse`
+      ORDER BY `id_question`");
+
+    return $sql;
+  }
+
   function get_user_results($id_utilisateur)
   {
     $sql = new requete($this->db, "SELECT `id_question`, `valeur_reponse` " .

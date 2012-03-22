@@ -256,25 +256,49 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   $id_question_precedente = "";
 
+  /*
+   * ** Affichage des graphes **
+   * On calcule le nombre de question dans la campagne en cours.
+   * Si une seule question, on fait un affichage simple sinon
+   * on boucle.
+   */
+
   $graph = false;
   if (isset($_REQUEST['bananas']) && ($_REQUEST['bananas'] == "cuitasunjour"))
     $graph = true;
+  if (isset($_REQUEST['id_banana']) && ($_REQUEST['id_banana']) != -1)
+    $id_question = $_REQUEST['id_banana'];
+  else
+    $graph = false;
 
   if ($graph) {
-    if ($req->lines > 0) {
-      $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
-      while (list($nb,$id,$nom,$valeur) = $req->get_row())
+    $answer = $cpg->get_specified_answer($id_question);
+
+    $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
+
+      while (list($nb,$nom,$valeur) = $answer->get_row()) {
         $cam->data($nb,$valeur);
+      }
 
       $cam->png_render();
       $cam->destroy_graph();
 
       exit();
-      }
   } else {
-    $cts2 = new contents("Question!");
-    $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id."&action=results&bananas=cuitasunjour\" alt=\"lalala\"></center>");
-    $cts->add($cts2,true);
+    $cts2 = new contents("Les résultats");
+
+    $question = $cpg->get_questions();
+
+    foreach($question as $posed) {
+      $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id."&action=results&bananas=cuitasunjour&id_banana=\"".$posed."\" alt=\"lalala\"></center>");
+      $cts->add($cts2,true);
+    }
+
+/*
+    while (list($id_questions) = $req2->get_row()) {
+      $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id."&action=results&bananas=cuitasunjour&id_banana=\"".$id_questions."\" alt=\"lalala\"></center>");
+      $cts->add($cts2,true);
+    }*/
   }
 
   if($req->lines > 0)
