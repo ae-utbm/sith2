@@ -294,7 +294,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
       $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id.
         "&action=results&bananas=cuitasunjour&id_banana=".mysql_escape_string($posed["id"])."\" alt=\"".
         $posed["description"]."\"></center>");
-    $cts->add($cts2,true);
+    $site->add($cts2,true);
       }
     }
 
@@ -302,8 +302,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   $cts3 = new contents("Les résultats en détail");
   $cts3->add($tbl);
-  $site->add_contents($cts3);
   $site->add_contents($cts);
+  $site->add_contents($cts3);
 }
 
 /* modification d'une campagne */
