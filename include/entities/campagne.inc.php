@@ -225,7 +225,7 @@ class campagne extends stdentity
   function get_specified_answer($id_question){
 
     $sql = new requete($this->db,"SELECT COUNT(`valeur_reponse`) AS `nombre_reponse`,
-      `nom_question`, `valeur_reponse`
+      `id_question`,`nom_question`, `valeur_reponse`
       FROM `cpg_reponse`
       INNER JOIN `cpg_question` USING(`id_question`)
       WHERE `id_question`='".$id_question."'

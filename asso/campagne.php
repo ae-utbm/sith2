@@ -276,7 +276,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
     $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
 
-      while (list($nb,$nom,$valeur) = $answer->get_row()) {
+      while (list($nb,$id,$nom,$valeur) = $answer->get_row()) {
         $cam->data($nb,$valeur);
       }
 
