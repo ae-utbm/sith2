@@ -294,7 +294,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
       $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id.
         "&action=results&bananas=cuitasunjour&id_banana=".mysql_escape_string($posed["id"])."\" alt=\"".
         $posed["description"]."\"></center>");
-    $site->add($cts2,true);
+    $site->add_contents($cts2,true);
       }
     }
 
