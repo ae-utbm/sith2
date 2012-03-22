@@ -291,8 +291,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
     foreach($question as $posed) {
       $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id."&action=results&bananas=cuitasunjour&id_banana=".mysql_escape_string($posed["id"])."\" alt=\"lalala\"></center>");
-      $cts->add($cts2,true);
     }
+      $cts->add($cts2,true);
 
 /*
     while (list($id_questions) = $req2->get_row()) {
