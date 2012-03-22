@@ -315,7 +315,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
         $list = new itemlist($nom_question);
       }
-      $list->add($valeur_reponse." : ".$nombre_reponses);
+      $list->add($id_question." - ".$valeur_reponse." : ".$nombre_reponses);
       $id_question_precedente = $id_question;
     }
     $board->add($list,true);
