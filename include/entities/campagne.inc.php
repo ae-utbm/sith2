@@ -227,6 +227,7 @@ class campagne extends stdentity
     $sql = new requete($this->db,"SELECT COUNT(`valeur_reponse`) AS `nombre_reponse`,
       `nom_question`, `valeur_reponse`
       FROM `cpg_reponse`
+      INNER JOIN `cpg_question` USING(`id_question`)
       WHERE `id_question`='".$id_question."'
       AND `type_question`!=\"text\"
       GROUP BY `valeur_reponse`
