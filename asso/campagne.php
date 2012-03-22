@@ -274,7 +274,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   if ($graph) {
     $answer = $cpg->get_specified_answer($id_question);
 
-    $cam = new camembert(700,300,array(),2,0,0,0,0,0,0,10,240);
+    $cam = new camembert(600,300,array(),2,0,0,0,0,0,0,10,240);
 
       while (list($nb,$id,$nom,$valeur) = $answer->get_row()) {
         $cam->data($nb,$valeur);
