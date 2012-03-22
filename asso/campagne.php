@@ -287,10 +287,10 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   } else {
     $cts2 = new contents("Les résultats");
 
-    $question = $cpg->get_questions();
+    $question = $cpg->get_questions_id();
 
     foreach($question as $posed) {
-      $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id."&action=results&bananas=cuitasunjour&id_banana=\"".$posed."\" alt=\"lalala\"></center>");
+      $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id."&action=results&bananas=cuitasunjour&id_banana=\"".$posed["id"]."\" alt=\"lalala\"></center>");
       $cts->add($cts2,true);
     }
 

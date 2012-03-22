@@ -216,7 +216,8 @@ class campagne extends stdentity
                                              "description"=>$row["description_question"],
                                              "type"=>$row["type_question"],
                                              "reponses"=>$row["reponses_question"],
-                                             "limit"=>$row["limites_reponses_question"]);
+                                             "limit"=>$row["limites_reponses_question"],
+                                             "id"=>$row["id_question"]);
     }
     return $questions;
   }
