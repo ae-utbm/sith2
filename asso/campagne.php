@@ -290,38 +290,19 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     foreach($question as $posed) {
 
       if ($cpg->get_specified_answer($posed["id"])->lines > 0) {
-    $cts2 = new contents("Les résultats");
+    $cts2 = new contents($posed["nom"]);
       $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id.
         "&action=results&bananas=cuitasunjour&id_banana=".mysql_escape_string($posed["id"])."\" alt=\"".
-        $posed["description_question"]."\"></center>");
+        $posed["description"]."\"></center>");
     $cts->add($cts2,true);
       }
     }
 
   }
-/*
-  if($req->lines > 0)
-  {
-    $board = new board();
-    while(list($nombre_reponses, $id_question, $nom_question, $valeur_reponse) = $req->get_row())
-    {
-      if($id_question != $id_question_precedente)
-      {
-        if($id_question_precedente != "")
-        {
-          $board->add($list,true);
-        }
 
-        $list = new itemlist($nom_question);
-      }
-      $list->add($id_question." - ".$valeur_reponse." : ".$nombre_reponses);
-      $id_question_precedente = $id_question;
-    }
-    $board->add($list,true);
-    $cts->add($board);
-  }*/
-
-  $cts->add($tbl);
+  $cts3 = new content("Les résultats en détail");
+  $cts3->add($tbl);
+  $cts->add($cts3);
   $site->add_contents($cts);
 }
 
