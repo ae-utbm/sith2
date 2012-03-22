@@ -241,7 +241,6 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                       array(),
                       array(),
                       array() );
-  $cts->add($tbl);
 
 
   $req = new requete($site->db,
@@ -285,21 +284,21 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
       exit();
   } else {
-    $cts2 = new contents("Les résultats");
 
     $question = $cpg->get_questions();
 
     foreach($question as $posed) {
 
       if ($cpg->get_specified_answer($posed["id"])->lines > 0)
+    $cts2 = new contents("Les résultats");
       $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id.
         "&action=results&bananas=cuitasunjour&id_banana=".mysql_escape_string($posed["id"])."\" alt=\"".
         $posed["description_question"]."\"></center>");
-    }
     $cts->add($cts2,true);
+    }
 
   }
-
+/*
   if($req->lines > 0)
   {
     $board = new board();
@@ -319,8 +318,9 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     }
     $board->add($list,true);
     $cts->add($board);
-  }
+  }*/
 
+  $cts->add($tbl);
   $site->add_contents($cts);
 }
 
