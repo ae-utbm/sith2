@@ -300,10 +300,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 
   }
 
-  $cts3 = new contents("Les résultats en détail");
-  $cts3->add($tbl);
+  $cts->add($tbl);
   $site->add_contents($cts);
-  $site->add_contents($cts3);
 }
 
 /* modification d'une campagne */
