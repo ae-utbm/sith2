@@ -274,7 +274,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   if ($graph) {
     $answer = $cpg->get_specified_answer($id_question);
 
-    $cam = new camembert(750,400,array(),2,0,0,0,0,0,0,10,240);
+    $cam = new camembert(500,400,array(),2,0,0,0,0,0,0,10,240);
 
       while (list($nb,$id,$nom,$valeur) = $answer->get_row()) {
         $cam->data($nb,$valeur);
@@ -290,15 +290,12 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     $question = $cpg->get_questions();
 
     foreach($question as $posed) {
-      $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id."&action=results&bananas=cuitasunjour&id_banana=".mysql_escape_string($posed["id"])."\" alt=\"lalala\"></center>");
+      $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id.
+        "&action=results&bananas=cuitasunjour&id_banana=".mysql_escape_string($posed["id"])."\" alt=\"".
+        $posed["description_question"]."\"></center>");
     }
-      $cts->add($cts2,true);
+    $cts->add($cts2,true);
 
-/*
-    while (list($id_questions) = $req2->get_row()) {
-      $cts2->add_paragraph("<center><img src=\"./campagne.php?id_asso=".$asso->id."&id_campagne=".$cpg->id."&action=results&bananas=cuitasunjour&id_banana=\"".$id_questions."\" alt=\"lalala\"></center>");
-      $cts->add($cts2,true);
-    }*/
   }
 
   if($req->lines > 0)
