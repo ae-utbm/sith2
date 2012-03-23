@@ -434,7 +434,7 @@ if(!defined("MOBILE")) {
 
       if ($req->lines > 0) {
         while(list($comptoir,$somme) = $req->get_row()) {
-            $elements[] = "<b>Vas à la caisse ".$comptoir.", ça déborde!</b>";
+            $elements[] = "<b>La caisse ".$comptoir." déborde !</b>";
         }
       }
     }
