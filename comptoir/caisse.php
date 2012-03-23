@@ -283,6 +283,29 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
 
   $row = $req->get_row();
 
+  $cts->add_paragraph("Somme théorique dans les caisses :");
+
+  $caisse = new requete($site->db, "SELECT `nom_cpt`, ROUND(SUM(`montant_rech`)/100,2) as `somme`
+            FROM (
+              SELECT DISTINCT `id_comptoir`, `nom_cpt`,  MAX(`date_releve`) `date_releve`, `caisse_videe`
+              FROM (
+                 SELECT DISTINCT `id_comptoir`,`nom_cpt`
+                 FROM `cpt_comptoir`) comptoir
+              INNER JOIN `cpt_caisse`
+              USING (id_comptoir)
+              GROUP BY `id_comptoir`) caisse
+            INNER JOIN `cpt_rechargements`
+            USING (id_comptoir)
+            WHERE `date_releve` < `date_rech`
+            GROUP BY `id_comptoir`");
+  $liste = new itemlist();
+
+  while(list($comptoir, $somme) = $caisse->get_row()) {
+    $liste->add($comptoir." : ".$somme." euros");
+  }
+
+  $cts->add($liste);
+
   if (is_null($row['somme_especes']) && is_null($row['somme_cheques']))
     $cts->add_paragraph("Pas d'argent à ammener à la banque");
   else
