@@ -414,7 +414,7 @@ if(!defined("MOBILE")) {
     }
 
     if ($this->user->is_in_group("gestion_syscarteae")) {
-      $req = new requete($site->db, "SELECT `nom_cpt`, ROUND(SUM(`montant_rech`)/100,2) as `somme`
+      $req = new requete($this->db, "SELECT `nom_cpt`, ROUND(SUM(`montant_rech`)/100,2) as `somme`
                 FROM (
                   SELECT DISTINCT `id_comptoir`, `nom_cpt`,  MAX(`date_releve`) `date_releve`, `caisse_videe`
                   FROM (
