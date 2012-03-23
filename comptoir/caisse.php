@@ -283,7 +283,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
 
   $row = $req->get_row();
 
-  $cts->add_title(2,"Sommes théoriques des comptoirs");
+  $cts->add_title(2,"Sommes théoriques présentes dans les caisses");
 
   $caisse = new requete($site->db, "SELECT `nom_cpt`, ROUND(SUM(`montant_rech`)/100,2) as `somme`
             FROM (
