@@ -293,6 +293,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
                  FROM `cpt_comptoir`) comptoir
               INNER JOIN `cpt_caisse`
               USING (id_comptoir)
+              WHERE `caisse_videe` = '1'
               GROUP BY `id_comptoir`) caisse
             INNER JOIN `cpt_rechargements`
             USING (id_comptoir)
