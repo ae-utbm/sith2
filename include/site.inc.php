@@ -433,23 +433,12 @@ if(!defined("MOBILE")) {
 
 
       if ($req->lines > 0) {
-
-        if ($req->lines == 1)
-          $list  = new itemlist("<b>Pensez à vider la caisse suivante</b>");
-        else
-          $list = new itemlist("<b>Pensez à vider les caisses suivantes</b>");
-
         while(list($comptoir,$somme) = $req->get_row()) {
-            $list->add($comptoir);
+            $elements[] = "<b>Vas à la caisse ".$comptoir.", ça déborde!</b>";
         }
-
-        $elements[] = $list->html_render();
       }
-
-
-
-
     }
+
     if( $this->user->is_in_group("moderateur_site") )
     {
       $req = new requete($this->db,"SELECT COUNT(*) FROM `nvl_nouvelles`  WHERE `modere_nvl`='0' ");
