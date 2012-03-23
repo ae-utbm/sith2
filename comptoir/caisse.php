@@ -283,7 +283,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
 
   $row = $req->get_row();
 
-  $cts->add_paragraph("Somme théorique dans les caisses :");
+  $cts->add_title(2,"Sommes théoriques des comptoirs");
 
   $caisse = new requete($site->db, "SELECT `nom_cpt`, ROUND(SUM(`montant_rech`)/100,2) as `somme`
             FROM (
@@ -307,6 +307,7 @@ elseif ($site->user->is_in_group("gestion_syscarteae"))
 
   $cts->add($liste);
 
+  $cts->add_title(2,"Sommes à ammener à la banque");
   if (is_null($row['somme_especes']) && is_null($row['somme_cheques']))
     $cts->add_paragraph("Pas d'argent à ammener à la banque");
   else
