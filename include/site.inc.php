@@ -413,6 +413,43 @@ if(!defined("MOBILE")) {
       }
     }
 
+    if ($this->user->is_in_group("gestion_syscarteae")) {
+      $req = new requete($site->db, "SELECT `nom_cpt`, ROUND(SUM(`montant_rech`)/100,2) as `somme`
+                FROM (
+                  SELECT DISTINCT `id_comptoir`, `nom_cpt`,  MAX(`date_releve`) `date_releve`, `caisse_videe`
+                  FROM (
+                     SELECT DISTINCT `id_comptoir`,`nom_cpt`
+                     FROM `cpt_comptoir`) comptoir
+                  INNER JOIN `cpt_caisse`
+                  USING (id_comptoir)
+                  WHERE `caisse_videe` = '1'
+                  GROUP BY `id_comptoir`) caisse
+                INNER JOIN `cpt_rechargements`
+                USING (id_comptoir)
+                WHERE `date_releve` < `date_rech`
+                AND somme >= 1500
+                GROUP BY `id_comptoir`");
+
+
+      if ($req->lines > 0) {
+        $list = new itemlist();
+
+        if ($req->lines == 1)
+          $elements[] = "Pensez à vider la caisse suivante :";
+        else
+          $elements[] = "Pensez à vider les caisses suivantes :";
+
+        while(list($comptoir,$somme) = $req->get_row()) {
+            $list->add($comptoir);
+        }
+
+        $elements[] = $list->html_render();
+      }
+
+
+
+
+    }
     if( $this->user->is_in_group("moderateur_site") )
     {
       $req = new requete($this->db,"SELECT COUNT(*) FROM `nvl_nouvelles`  WHERE `modere_nvl`='0' ");
