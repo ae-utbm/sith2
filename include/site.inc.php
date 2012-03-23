@@ -433,12 +433,12 @@ if(!defined("MOBILE")) {
 
 
       if ($req->lines > 0) {
-        $list = new itemlist();
+        $list = new itemlist("lalala");
 
         if ($req->lines == 1)
-          $elements[] = "Pensez à vider la caisse suivante :";
+          $elements[] = "<b>Pensez à vider la caisse suivante</b> :";
         else
-          $elements[] = "Pensez à vider les caisses suivantes :";
+          $elements[] = "<b>Pensez à vider les caisses suivantes</b> :";
 
         while(list($comptoir,$somme) = $req->get_row()) {
             $list->add($comptoir);
