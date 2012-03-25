@@ -701,46 +701,58 @@ else if ( $_REQUEST["view"] == "options" )
 }
 else if ( $_REQUEST["view"] == "css" )
 {
-  $base_styles = array("base.css"=>"Site AE","base-blackie.css"=>"Blackie","base-verticalie.css"=>"Verticalie");
+  $tabs = array(
+          array("","configurecms.php?view=css", "Version simplifiée"),
+          array("avance","configurecms.php?view=css&version=avance","Version avancée"),
+          );
 
-  if ( file_exists($basedir."/specific/custom.css") )
-    $custom = file_get_contents($basedir."/specific/custom.css");
-  else
-    $custom = "";
-  $cts->add_title(2,"Feuille de style");
-  $frm = new form("setcss","configurecms.php?view=css",true,"POST","CSS");
-  $frm->add_hidden("action","setcss");
-  $frm->add_select_field("css_base","Style de base",$base_styles, $site->config["css.base"]);
-  $frm->add_text_area("data","Code CSS personalisé",$custom,80,20);
-  $frm->add_submit("save","Enregistrer");
-  $cts->add($frm);
+  $cts->add(new tabshead($tabs,$_REQUEST["version"]));
 
-  $cts->add_title(2,"Images pour la feuille de style personalisée");
+  if ($_REQUEST["version"] == "avancé") {
 
-  $files=array();
+    $base_styles = array("base.css"=>"Site AE","base-blackie.css"=>"Blackie","base-verticalie.css"=>"Verticalie");
 
-  $dir = $basedir."/specific/img/";
+    if ( file_exists($basedir."/specific/custom.css") )
+      $custom = file_get_contents($basedir."/specific/custom.css");
+    else
+      $custom = "";
+    $cts->add_title(2,"Feuille de style");
+    $frm = new form("setcss","configurecms.php?view=css",true,"POST","CSS");
+    $frm->add_hidden("action","setcss");
+    $frm->add_select_field("css_base","Style de base",$base_styles, $site->config["css.base"]);
+    $frm->add_text_area("data","Code CSS personalisé",$custom,80,20);
+    $frm->add_submit("save","Enregistrer");
+    $cts->add($frm);
 
-  if (is_dir($dir))
-  {    if ($dh = opendir($dir))
-    {      while (($file = readdir($dh)) !== false)
-      {
-        if ( is_file($dir.$file) )
-          $files[]=array("filename"=>$file,"useincss"=>"img/".$file);
-      }      closedir($dh);    }  }
+    $cts->add_title(2,"Images pour la feuille de style personalisée");
 
-  $cts->add( new sqltable ( "cssimg", "Images", $files,
-  "configurecms.php?view=css", "filename", array("filename"=>"Fichier","useincss"=>"Nom à utiliser dans le code CSS"),
-  array("delete"=>"Supprimer"), array() ));
+    $files=array();
 
-  $cts->add_title(2,"Ajouter une image pour la feuille de style personalisée");
+    $dir = $basedir."/specific/img/";
 
-  $frm = new form("addfile","configurecms.php?view=css");
-  $frm->allow_only_one_usage();
-  $frm->add_hidden("action","addimgfile");
-  $frm->add_file_field("file","Fichier",true);
-  $frm->add_submit("add","Ajouter");
-  $cts->add($frm);
+    if (is_dir($dir))
+    {    if ($dh = opendir($dir))
+      {      while (($file = readdir($dh)) !== false)
+        {
+          if ( is_file($dir.$file) )
+            $files[]=array("filename"=>$file,"useincss"=>"img/".$file);
+        }      closedir($dh);    }  }
+
+    $cts->add( new sqltable ( "cssimg", "Images", $files,
+    "configurecms.php?view=css", "filename", array("filename"=>"Fichier","useincss"=>"Nom à utiliser dans le code CSS"),
+    array("delete"=>"Supprimer"), array() ));
+
+    $cts->add_title(2,"Ajouter une image pour la feuille de style personalisée");
+
+    $frm = new form("addfile","configurecms.php?view=css");
+    $frm->allow_only_one_usage();
+    $frm->add_hidden("action","addimgfile");
+    $frm->add_file_field("file","Fichier",true);
+    $frm->add_submit("add","Ajouter");
+    $cts->add($frm);
+  } else if ($_REQUEST["version" == ""]) {
+
+  }
 }
 else if ( $_REQUEST["view"] == "footer" && isset($site->config['footer']))
 {

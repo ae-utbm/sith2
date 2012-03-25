@@ -142,6 +142,9 @@ class utilisateur extends stdentity
 
   function get_display_name()
   {
+    if ($this->id == null)
+      return "Personne";
+
     return $this->prenom." ".$this->nom;
   }
 
