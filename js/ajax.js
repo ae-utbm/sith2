@@ -72,8 +72,6 @@ function openInContents( name, page, data)
   {
     if (XhrObj.readyState == 4 && XhrObj.status == 200)
       content.innerHTML = XhrObj.responseText ;
-    else
-      content.innerHTML = "personne";
   }
 
   XhrObj.send(null);
