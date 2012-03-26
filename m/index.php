@@ -33,7 +33,7 @@ require_once($topdir. "include/cts/newsflow.inc.php");
 $site = new site();
 $site->set_mobile(true);
 
-$site->start_page("acceuil", "Bienvenue");
+$site->start_page("accueil", "Bienvenue");
 
 /**
  * Display news on the home page
