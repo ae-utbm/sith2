@@ -42,7 +42,7 @@ $board = new board();
 $sublist = new itemlist("Contenu paramétrable");
 $sublist->add("<a href=\"site.php\">Textes paramétrables</a>");
 $sublist->add("<a href=\"weekly_upload.php\">Planning/Photo de la semaine</a>");
-$sublist->add("<a href=\"../article.php?name=info:welcome\">Texte d'acceuil pour les non connectés</a>");
+$sublist->add("<a href=\"../article.php?name=info:welcome\">Texte d'accueil pour les non connectés</a>");
 
 $board->add($sublist,true);
 
