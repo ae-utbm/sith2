@@ -532,6 +532,10 @@ else if ( $site->comptoir->client->id > 0 )
             $vp->produit->nom,
             array(($prix*$nb/100)." &euro;", false, "priceProd".$vp->produit->code_barre)),
           false, "prod".$vp->produit->code_barre);
+
+        if ($nb > 0 && $vp->produit->plateau)
+          $nb -= floor ($nb/6);
+
         $total += $prix*$nb;
       }
     }
