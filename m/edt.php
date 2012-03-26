@@ -32,6 +32,9 @@ require_once($topdir. "include/site.inc.php");
 $site = new site();
 $site->set_mobile(true);
 
+$user = new pedag_user($site->db, $site->dbrw);
+$user->load_by_id($site->user->id);
+
 $site->start_page("Emploi du temps", "Emploi du temps");
 
 $cts = new contents();
