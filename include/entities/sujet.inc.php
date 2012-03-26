@@ -410,7 +410,7 @@ class sujet extends stdentity
           "ORDER BY frm_message.id_message $order ".
           "LIMIT $st, $npp";
 
-      $req_supr = new requete($this->db,$query);
+      $req_supr = new requete($this->db,$query_supr);
 
       // On copie les messages dans l'ordre
       $row_supr = $req_supr->get_row();
