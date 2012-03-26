@@ -69,7 +69,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     } else {
         $util_reporter = $site->user;
         $asso_concerne->load_by_id (1);
-        $util_assignee->load_by_id (-1);
+        $util_assignee->load_by_id (0);
 
     }
 
@@ -87,7 +87,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     if ( $site->user->is_in_group("root") )
       $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     else
-      $frm->add_hidden('prority',0);
+      $frm->add_hidden('priority','');
     $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
     $frm->add_select_field ('type', 'Type', $todo_types, $todo->enh_or_bug);
     $frm->add_text_field ('desc', 'Description', $todo->desc);
