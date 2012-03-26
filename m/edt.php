@@ -28,6 +28,7 @@
 $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
+require_once($topdir. "pedagogie/include/pedag_user.inc.php");
 
 $site = new site();
 $site->set_mobile(true);
