@@ -43,7 +43,7 @@ $cts->add_title(1, "Emploi du temps", "mob_title");
 
 $semestre = SEMESTER_NOW;
 
-$cts->add_paragraph("<center><img src=\"/edt.php?semestre=$semestre&action=print&id_utilisateur=".
+$cts->add_paragraph("<center><img src=\"/pedagogie/edt.php?semestre=$semestre&action=print&id_utilisateur=".
       $user->id."\" alt=\"Emploi du temps ".$semestre."\" /></center>");
 
 
