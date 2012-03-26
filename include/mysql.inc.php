@@ -226,8 +226,8 @@ class insert extends requete {
     $sql2 .= "'0'";
     elseif ( $value === true )
       $sql2 .= "'1'";
-    elseif ($value === -1 )
-      $sql2 .= "''";
+    elseif ($value === "-1" )
+      $sql2 .= "";
     elseif ( is_null($value) )
     $sql2 .= "NULL";
     else

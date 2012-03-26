@@ -69,7 +69,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     } else {
         $util_reporter = $site->user;
         $asso_concerne->load_by_id (1);
-        $util_assignee->load_by_id (0);
+        $util_assignee->load_by_id (-1);
 
     }
 
