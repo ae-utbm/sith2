@@ -34,7 +34,7 @@ require_once($topdir. "include/entities/asso.inc.php");
 
 $site = new site();
 $site->set_mobile(true);
-$site->add_css("/themes/mobile/css/news.css");
+$site->add_css("themes/mobile/css/news.css");
 
 $cts = new contents();
 $cts->add_title(1, "News", "mob_title");
