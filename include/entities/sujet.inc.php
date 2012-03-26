@@ -423,7 +423,7 @@ class sujet extends stdentity
       {
         while (($nmess < sizeof($rows)) && ($row_supr['date_message'] >= $rows[$nmess]['date_message']))
           ++$nmess;
-        array_splice($rows, $nmess-1, 0, array($row_supr));
+        array_splice($rows, $nmess, 0, array($row_supr));
       }
     }
 
