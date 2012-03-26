@@ -112,19 +112,10 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
         $where[] = 'ae_info_todo.status != 5 AND ae_info_todo.status != 2';
     }
 
-    $sql = 'SELECT ae_info_todo.*, asso.nom_asso as nom_asso_concerned, CONCAT(utilisateurs.prenom_utl,\' \',utilisateurs.nom_utl) as nom_utilisateur_assignee, (SELECT status_name FROM ae_info_todo_codetxt WHERE id_code=ae_info_todo.status-1) as status_name, (SELECT priority_name FROM ae_info_todo_codetxt WHERE id_code=ae_info_todo.priority) as priority_name, (SELECT be_name FROM ae_info_todo_codetxt WHERE ae_info_todo_codetxt.id_code=ae_info_todo.enh_or_bug) as be_name, (SELECT CONCAT(utilisateurs.prenom_utl,\' \',utilisateurs.nom_utl) FROM utilisateurs WHERE utilisateurs.id_utilisateur=ae_info_todo.id_utilisateur_reporter) as nom_utilisateur_reporter FROM ae_info_todo INNER JOIN utilisateurs ON utilisateurs.id_utilisateur=ae_info_todo.id_utilisateur_assignee LEFT JOIN asso ON asso.id_asso=ae_info_todo.id_asso_concerned';
-    if (!empty ($where)) {
-        if (count ($where) == 1)
-            $sql .= ' WHERE '.$where[0];
-        else
-            $sql .= ' WHERE '.implode(' AND ', $where);
-    }
-    $sql .=  ' ORDER BY priority DESC, date_deadline, date_submitted';
+    $sql = 'SELECT ae_info_todo.*, asso.nom_asso as nom_asso_concerned, CONCAT(utilisateurs.prenom_utl,\' \',utilisateurs.nom_utl) as nom_utilisateur_assignee, (SELECT status_name FROM ae_info_todo_codetxt WHERE id_code=ae_info_todo.status-1) as status_name, (SELECT priority_name FROM ae_info_todo_codetxt WHERE id_code=ae_info_todo.priority) as priority_name, (SELECT be_name FROM ae_info_todo_codetxt WHERE ae_info_todo_codetxt.id_code=ae_info_todo.enh_or_bug) as be_name, (SELECT CONCAT(utilisateurs.prenom_utl,\' \',utilisateurs.nom_utl) FROM utilisateurs WHERE utilisateurs.id_utilisateur=ae_info_todo.id_utilisateur_reporter) as nom_utilisateur_reporter FROM ae_info_todo WHERE ae_info_todo.id_utilisateur_assignee = \'0\' LEFT JOIN asso ON asso.id_asso=ae_info_todo.id_asso_concerned';
 
-    $req = new requete($site->db, $sql);
+    $tblcts = new contents('Nouvelle(s) tâche(s)');
 
-    $tblcts = new contents('TODO list');
-    $tblcts->add_paragraph ('<a href="?action=nouveau">Ajouter nouveau bug</a>');
     $tbl = new sqltable ('infotodo', 'Liste des tâches', $req, 'infotodo.php', 'id_task',
                          array('nom_utilisateur_reporter' => 'Demandeur',
                                'nom_utilisateur_assignee' => 'Assigné à',
@@ -138,10 +129,40 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
                          array('detail' => 'Détails'),
                          array(),
                          array());
-    $tblcts->add ($tbl);
+
+    $tblcts->add($tbl);
+
+    $sql = 'SELECT ae_info_todo.*, asso.nom_asso as nom_asso_concerned, CONCAT(utilisateurs.prenom_utl,\' \',utilisateurs.nom_utl) as nom_utilisateur_assignee, (SELECT status_name FROM ae_info_todo_codetxt WHERE id_code=ae_info_todo.status-1) as status_name, (SELECT priority_name FROM ae_info_todo_codetxt WHERE id_code=ae_info_todo.priority) as priority_name, (SELECT be_name FROM ae_info_todo_codetxt WHERE ae_info_todo_codetxt.id_code=ae_info_todo.enh_or_bug) as be_name, (SELECT CONCAT(utilisateurs.prenom_utl,\' \',utilisateurs.nom_utl) FROM utilisateurs WHERE utilisateurs.id_utilisateur=ae_info_todo.id_utilisateur_reporter) as nom_utilisateur_reporter FROM ae_info_todo INNER JOIN utilisateurs ON utilisateurs.id_utilisateur=ae_info_todo.id_utilisateur_assignee LEFT JOIN asso ON asso.id_asso=ae_info_todo.id_asso_concerned';
+    if (!empty ($where)) {
+        if (count ($where) == 1)
+            $sql .= ' WHERE '.$where[0];
+        else
+            $sql .= ' WHERE '.implode(' AND ', $where);
+    }
+    $sql .=  ' ORDER BY priority DESC, date_deadline, date_submitted';
+
+    $req = new requete($site->db, $sql);
+
+    $tblcts2 = new contents('TODO list');
+    $tblcts2->add_paragraph ('<a href="?action=nouveau">Ajouter nouveau bug</a>');
+    $tbl = new sqltable ('infotodo', 'Liste des tâches', $req, 'infotodo.php', 'id_task',
+                         array('nom_utilisateur_reporter' => 'Demandeur',
+                               'nom_utilisateur_assignee' => 'Assigné à',
+                               'nom_asso_concerned' => array('Club associé', 'nom_asso'),
+                               'date_deadline' => 'Deadline',
+                               'date_submitted' => 'Date soumission',
+                               'priority_name' => 'Priorité',
+                               'be_name' => 'Type',
+                               'status_name' => 'Statut',
+                               'description' => 'Description'),
+                         array('detail' => 'Détails'),
+                         array(),
+                         array());
+    $tblcts2->add ($tbl);
 
     $site->add_contents ($cts);
     $site->add_contents ($tblcts);
+    $site->add_contents ($tblcts2);
 }
 
 $site->end_page();
