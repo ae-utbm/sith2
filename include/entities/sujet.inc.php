@@ -394,7 +394,7 @@ class sujet extends stdentity
     $rows = array();
 
     $row = $req->get_row();
-    for ($nmess=0; $nmess<$npp; ++$nmess, $row = $req->get_row())
+    for ($nmess=0; ($nmess<$npp) && $row; ++$nmess, $row = $req->get_row())
       $rows[] = $row;
 
     if ($isAdmin)
