@@ -124,7 +124,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
 
     $tblcts = new contents('Nouvelle(s) tâche(s)');
 
-    $tbl = new sqltable ('infotodo', 'Liste des tâches', $req, 'infotodo.php', 'id_task',
+    $tbl = new sqltable ('infotodo2', 'Liste des nouvelles tâches', $req, 'infotodo.php', 'id_task',
                          array('nom_utilisateur_reporter' => 'Demandeur',
                                'nom_asso_concerned' => array('Club associé', 'nom_asso'),
                                'date_deadline' => 'Deadline',
