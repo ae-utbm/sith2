@@ -122,6 +122,8 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     LEFT JOIN asso ON asso.id_asso=ae_info_todo.id_asso_concerned
     WHERE `id_utilisateur_assignee` = \'0\'';
 
+   $req = new requete($site->db,$sql);
+
     $tblcts = new contents('Nouvelle(s) tâche(s)');
 
     $tbl = new sqltable ('infotodo2', 'Liste des nouvelles tâches', $req, 'infotodo.php', 'id_task',
