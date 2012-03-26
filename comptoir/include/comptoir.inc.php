@@ -600,7 +600,14 @@ class comptoir extends stdentity
       }
     }
 
-    if (!$this->client->credit_suffisant($this->calcule_somme () + $prod->obtenir_prix ($this->prix_barman,$this->client)))
+    $ttot = 0;
+
+    if ($prod->plateau)
+      foreach ($this->panier as $tvp)
+        if ($tvp->produit->id == $prod->id)
+          $ttot ++;
+
+    if (($ttot + 1) % 6 != 0 && !$this->client->credit_suffisant($this->calcule_somme () + $prod->obtenir_prix ($this->prix_barman,$this->client)))
     {
       $error = "Solde insuffisant";
       return false;
