@@ -392,7 +392,7 @@ class sujet extends stdentity
     $req = new requete($this->db,$query);
 
     $rows = array();
-  /*
+
     if ($isAdmin)
     {
       $query_supr = "SELECT frm_message.*, ".
@@ -428,10 +428,9 @@ class sujet extends stdentity
       {
         $rows[] = $row_supr;
         $row_supr = $req_supr->get_row();
-      } while ($row_supr[''] < $row['']);
+      } while ($row_supr['date_message'] < $row['date_message']);
     }
     else
-      */
     {
       while ( $row = $req->get_row() )
         $rows[] = $row;
