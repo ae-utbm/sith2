@@ -37,6 +37,11 @@ $cts = new contents("Administration");
 
 $cts->add_paragraph("Révision en production : ".get_rev());
 
+$cts->add_title(2,"Dev");
+$lst = new itemlist();
+$lst->add("<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info (todo)</a>");
+$cts->add($lst);
+
 $cts->add_title(2,"Administration");
 $lst = new itemlist();
 $lst->add("<a href=\"".$topdir."group.php\">Gestion des groupes</a>");
