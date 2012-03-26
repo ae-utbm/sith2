@@ -80,14 +80,14 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     if ( $site->user->is_in_group("root") )
       $frm->add_entity_smartselect ('utilisateur_assignee', 'Assigné à', $util_assignee);
     else
-      $frm->add_hidden('utilisateur_assignee',$util_assignee);
+      $frm->add_hidden('utilisateur_assignee',0);
     $frm->add_entity_smartselect ('asso_concerned', 'Asso lié', $asso_concerne);
     $frm->add_date_field ('date_deadline', 'Deadline', $idtask == -1 ? time () : $todo->date_deadline);
     $frm->add_date_field ('date_submitted', 'Soumis le', $idtask == -1 ? time () : $todo->date_submitted, false, $idtask == -1);
     if ( $site->user->is_in_group("root") )
       $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     else
-      $frm->add_hidden('prority','0');
+      $frm->add_hidden('prority',0);
     $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
     $frm->add_select_field ('type', 'Type', $todo_types, $todo->enh_or_bug);
     $frm->add_text_field ('desc', 'Description', $todo->desc);
