@@ -416,7 +416,7 @@ class sujet extends stdentity
       $row_supr = $req_supr->get_row();
       while ( $row = $req->get_row() )
       {
-        while ($row_supr['date_message'] < $row['date_message'])
+        while ($row_supr && ($row_supr['date_message'] < $row['date_message']))
         {
           $rows[] = $row_supr;
           $row_supr = $req_supr->get_row();
