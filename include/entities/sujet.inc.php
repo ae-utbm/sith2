@@ -281,7 +281,8 @@ class sujet extends stdentity
     $req = new requete($this->db,
       "SELECT COUNT(*) ".
       "FROM `frm_message` ".
-      "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ");
+      "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ".
+      "AND msg_supprime = '0'");
 
     list($this->nb_messages) = $req->get_row();
 
@@ -384,7 +385,7 @@ class sujet extends stdentity
         "LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=frm_message.id_utilisateur ) " .
         "LEFT JOIN utl_etu_utbm ON ( utl_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) " .
         "WHERE id_sujet='".$this->id."' " .
-        ($isAdmin ? "" : "AND msg_supprime='0' ").
+        "AND msg_supprime='0' ".
         "ORDER BY frm_message.id_message $order ".
         "LIMIT $st, $npp";
 
@@ -392,8 +393,48 @@ class sujet extends stdentity
 
     $rows = array();
 
-    while ( $row = $req->get_row() )
-      $rows[] = $row;
+    if ($isAdmin)
+    {
+      $query_supr = "SELECT frm_message.*, ".
+          "COALESCE(
+            utl_etu_utbm.surnom_utbm,
+            CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)
+          ) AS alias_utl, " .
+          "utilisateurs.id_utilisateur, " .
+          "utilisateurs.signature_utl " .
+          "FROM frm_message " .
+          "LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=frm_message.id_utilisateur ) " .
+          "LEFT JOIN utl_etu_utbm ON ( utl_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) " .
+          "WHERE id_sujet='".$this->id."' " .
+          "AND msg_supprime='1' ".
+          "ORDER BY frm_message.id_message $order ".
+          "LIMIT $st, $npp";
+
+      $req_supr = new requete($this->db,$query);
+
+      // On copie les messages dans l'ordre
+      $row_supr = $req_supr->get_row();
+      while ( $row = $req->get_row() )
+      {
+        while ($row_supr['date_message'] < $row['date_message'])
+        {
+          $rows[] = $row_supr;
+          $row_supr = $req_supr->get_row();
+        }
+        $rows[] = $row;
+      }
+      // On copie les derniers messages supprimés
+      do
+      {
+        $rows[] = $row_supr;
+        $row_supr = $req_supr->get_row();
+      } while ($row_supr[''] < $row['']);
+    }
+    else
+    {
+      while ( $row = $req->get_row() )
+        $rows[] = $row;
+    }
 
     return $rows;
   }
