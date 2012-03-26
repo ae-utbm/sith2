@@ -38,7 +38,7 @@ $site->start_page("accueil", "Bienvenue");
 /**
  * Display news on the home page
  */
-$site->add_css("/themes/mobile/css/news.css");
+$site->add_css($topdir."themes/mobile/css/news.css");
 $cts = new contents();
 $cts->add_title(1, "Accueil", "mob_title");
 $site->add_contents($cts);
