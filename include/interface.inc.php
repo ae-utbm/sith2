@@ -368,6 +368,7 @@ if(!defined("MOBILE")) {
       $this->buffer .= "<div id=\"menuContent\" style=\"display:none;\">\n";
 
       $this->buffer .= "<a href=\"./\">Accueil</a>";
+      $this->buffer .= "<a href=\"./edt.php\">Emploi du temps</a>";
       $this->buffer .= "<a href=\"./matmat.php\">Mat'Matronch</a>";
       //$this->buffer .= "<a href=\"./forum2.php\">Forum</a>";
 
