@@ -88,7 +88,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     if ( $site->user->is_in_group("root") )
       $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     else
-      $frm->add_hidden ('priority', $todo->priority);
+      $frm->add_hidden ('priority', $todo_priorities);
 
     $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
     $frm->add_select_field ('type', 'Type', $todo_types, $todo->enh_or_bug);
