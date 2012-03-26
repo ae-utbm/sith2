@@ -387,11 +387,15 @@ class sujet extends stdentity
         "WHERE id_sujet='".$this->id."' " .
         "AND msg_supprime='0' ".
         "ORDER BY frm_message.id_message $order ".
-        "LIMIT $st, $npp";
+        "LIMIT $st, ".($isAdmin ? $npp + 1 : $npp);
 
     $req = new requete($this->db,$query);
 
     $rows = array();
+
+    $row = $req->get_row();
+    for ($nmess=0; $nmess<$npp; ++$nmess, $row = $req->get_row())
+      $rows[] = $row;
 
     if ($isAdmin)
     {
@@ -407,33 +411,20 @@ class sujet extends stdentity
           "LEFT JOIN utl_etu_utbm ON ( utl_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) " .
           "WHERE id_sujet='".$this->id."' " .
           "AND msg_supprime='1' ".
-          "ORDER BY frm_message.id_message $order ".
-          "LIMIT $st, $npp";
+          "AND date_message >= '".$rows[0]['date_message']."'".
+          ($row ? "AND date_message < '".$row['date_message']."'" : "").
+         "ORDER BY frm_message.id_message $order";
 
       $req_supr = new requete($this->db,$query_supr);
 
       // On copie les messages dans l'ordre
-      $row_supr = $req_supr->get_row();
-      while ( $row = $req->get_row() )
+      $nmess = 0;
+      while ( $row_supr = $req_supr->get_row() )
       {
-        while ($row_supr && ($row_supr['date_message'] < $row['date_message']))
-        {
-          $rows[] = $row_supr;
-          $row_supr = $req_supr->get_row();
-        }
-        $rows[] = $row;
+        while (($nmess < $npp) && ($row_supr['date_message'] >= $rows[$npp]['date_message']))
+          ++$npp;
+        array_splice($rows, $npp-1, 0, array($row_supr));
       }
-      // On copie les derniers messages supprimés
-      do
-      {
-        $rows[] = $row_supr;
-        $row_supr = $req_supr->get_row();
-      } while ($row_supr['date_message'] < $row['date_message']);
-    }
-    else
-    {
-      while ( $row = $req->get_row() )
-        $rows[] = $row;
     }
 
     return $rows;
