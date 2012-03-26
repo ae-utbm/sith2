@@ -776,8 +776,13 @@ class comptoir extends stdentity
   function calcule_somme ( )
   {
     $Somme = 0;
+    $track = array ();
     foreach ( $this->panier as $VenteProd )
     {
+      $track[$VenteProd->produit->id] ++;
+      if ($VenteProd->produit->plateau && $track[$VenteProd->produit->id] % 6 == 0)
+        continue;
+
       $Somme += $VenteProd->produit->obtenir_prix($this->prix_barman,$this->user);
     }
     return $Somme;
