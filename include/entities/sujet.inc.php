@@ -397,7 +397,7 @@ class sujet extends stdentity
     for ($nmess=0; ($nmess<$npp) && $row; ++$nmess, $row = $req->get_row())
       $rows[] = $row;
 
-    if ($isAdmin)
+    if ($isAdmin && (sizeof($rows)) > 0)
     {
       $query_supr = "SELECT frm_message.*, ".
           "COALESCE(
