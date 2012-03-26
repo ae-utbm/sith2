@@ -193,15 +193,9 @@ else if ( ($_REQUEST["action"] == "vente" || $_REQUEST["action"] == "ventefin" |
     {
       for ( $i = 0 ; $i<$num ; $i++ )
       {
-        if (($i + 1) / 6 == 0 && $produit->plateau)
-          $produit->prix_vente = $produit->prix_vente_barman = 0;
-
         $ok = $ok & $site->comptoir->ajout_pannier($produit, $err);
         if (!empty($err) && empty($Erreur))
           $Erreur = $err;
-
-        if ($i / (6-1) == 0 && $produit->plateau)
-          $produit->charge_par_code_barre($cbar);
       }
     }
     else

@@ -198,6 +198,10 @@ class debitfacture extends stdentity
     foreach ( $panier as $item )
     {
       list($quantite,$vp) = $item;
+
+      if ($quantite > 0 && $vp->produit->plateau)
+        $quantite -= floor ($quantite/6);
+
       $montant += $quantite * $vp->produit->obtenir_prix($prix_barman,$client );
     }
 
@@ -265,6 +269,12 @@ class debitfacture extends stdentity
 
       $prix = $vp->produit->obtenir_prix($prix_barman,$client);
 
+      $sub_q = 0;
+      if ($quantite > 0 && $vp->produit->plateau)
+        $sub_q = floor ($quantite / 6);
+
+      $quantite -= $sub_q;
+
       $req = new insert ($this->dbrw,
              "cpt_vendu",
              array(
@@ -276,6 +286,20 @@ class debitfacture extends stdentity
                "a_retirer_vente" => $a_retirer,
                "a_expedier_vente" => $a_expedier
              ));
+
+      if ($sub_q > 0) {
+        $req = new insert ($this->dbrw,
+               "cpt_vendu",
+               array(
+                 "id_facture" => $this->id,
+                 "id_produit" => $vp->produit->id,
+                 "id_assocpt" => $vp->produit->id_assocpt,
+                 "quantite" => $sub_q,
+                 "prix_unit" => 0,
+                 "a_retirer_vente" => $a_retirer,
+                 "a_expedier_vente" => $a_expedier
+              ));
+      }
 
         /* Somme de controle utilise */
       if ( $asso_sum && $vp->produit->id_assocpt )
