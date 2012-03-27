@@ -71,7 +71,7 @@ function openInContents( name, page, data)
   XhrObj.onreadystatechange = function()
   {
     if (XhrObj.readyState == 4 && XhrObj.status == 200)
-      content.innerHTML = 'lalala'/*XhrObj.responseText*/ ;
+      content.innerHTML = XhrObj.responseText ;
   }
 
   XhrObj.send(null);

@@ -50,6 +50,8 @@ if ( $_REQUEST['module']=="fsearch" )
           $cache->set_temporarily_cached_contents($_REQUEST["pattern"], $content);
   }
 
+  if ($content == null)
+    $content = "(aucun)";
   echo $content;
   exit ();
 }
