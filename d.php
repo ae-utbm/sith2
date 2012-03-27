@@ -632,7 +632,7 @@ elseif ( $_REQUEST["page"] == "newfolder" && $folder->is_right($site->user,DROIT
   $frm->add_text_area("description","Description","");
   $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",false,true);
   $frm->add_rights_field($folder,true,$folder->is_admin($site->user),"files");
-  if ($site->user->is_in_group("moderateur_site")) $frm->add_checkbox("automodere", "<b>Auto-modération</b>", true);
+  if ($site->user->is_in_group("moderateur_site")) $frm->add_checkbox("automodere", "<b>Auto-modération</b>");
   $frm->add_submit("valid","Ajouter");
 
   $cts->add($frm);
@@ -660,7 +660,7 @@ elseif ( $_REQUEST["page"] == "newfile" && $folder->is_right($site->user,DROIT_A
     $_asso=$folder->id_asso;
   $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$_asso,true);
   $frm->add_rights_field($folder,false,$folder->is_admin($site->user),"files");
-  if ($site->user->is_in_group("moderateur_site")) $frm->add_checkbox("automodere", "<b>Auto-modération</b>", true);
+  if ($site->user->is_in_group("moderateur_site")) $frm->add_checkbox("automodere", "<b>Auto-modération</b>");
   $frm->add_submit("valid","Ajouter");
 
   $cts->add($frm);
