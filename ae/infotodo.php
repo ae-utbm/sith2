@@ -148,7 +148,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
         utilisateurs.id_utilisateur=ae_info_todo.id_utilisateur_reporter) as nom_utilisateur_reporter
     FROM ae_info_todo
     LEFT JOIN asso ON asso.id_asso=ae_info_todo.id_asso_concerned
-    WHERE `id_utilisateur_assignee` = \'0\' AND `status` != \'1\'';
+    WHERE `id_utilisateur_assignee` = \'0\' AND `status` == \'0\'';
 
    $req = new requete($site->db,$sql);
 
