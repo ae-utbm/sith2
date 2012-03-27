@@ -105,7 +105,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     $cts = new contents ('Filtrage');
     $frmfilter = new form('filter', '?', false, 'POST', 'Filter');
     $frmfilter->add_select_field('etat', 'Etat', array('' => 'Tout', 'new' => 'Nouveau', 'resolu' => 'Résolu', 'encours' => 'En cours'), isset ($_REQUEST['etat']) ? $_REQUEST['etat'] : '');
-    $frmfilter->add_checkbox ('onlyme', 'Uniquement ceux assigné à moi', isset ($_REQUEST['onlyme']) ? $_REQUEST['onlyme'] : false);
+    $frmfilter->add_checkbox ('onlyme', 'Uniquement ceux assignés à moi', isset ($_REQUEST['onlyme']) ? $_REQUEST['onlyme'] : false);
     $frmfilter->add_submit ('submit', 'Filtrer');
     $cts->add ($frmfilter, false);
 
