@@ -232,12 +232,8 @@ function fsearch_stop ( )
   if (fsearchres == null)
     fsearchres = document.getElementById('fsearchres');
 
-  /*fsearchres.style.display = 'none';
-  fsearch_display_query='';*/
-                      fsearchres.style.zIndex = 100000;
-                      fsearchres.style.display = 'block';
-                      fsearchres.innerHTML = 'beuh';
-                      fsearch_display_query= pattern;
+  fsearchres.style.display = 'none';
+  fsearch_display_query='';
 }
 
 function fsearch_stop_delayed( field ) {
