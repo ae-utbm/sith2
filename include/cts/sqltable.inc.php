@@ -150,7 +150,11 @@ class sqltable extends stdcontents
 
       $t = $t^1;
 
-      if (in_array($row[$id_field], $hilight))
+
+      $key = array_search($row[$id_field], $hilight);
+      if ($key !== false) {
+        $style = "prio$key";
+      } else if (in_array($row[$id_field], $hilight))
         $style = "hilight";
       else
         $style = "ln$t";

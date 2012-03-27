@@ -2487,6 +2487,10 @@ tr.ln1
 {
   background: #ffffff;
 }
+tr.prio0 
+{
+  background: #B8AEAE;
+}
 tr.hilight
 {
   background: #ffdd77;

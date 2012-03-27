@@ -164,7 +164,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
 
     $tblcts2 = new contents('TODO list');
     $tblcts2->add_paragraph ('<a href="?action=nouveau">Ajouter nouveau bug</a>');
-    $tbl = new sqltable ('infotodo', 'Liste des tâches', $req, 'infotodo.php', 'id_task',
+    $tbl = new sqltable ('infotodo', 'Liste des tâches', $req, 'infotodo.php', 'priority_name',
                          array('nom_utilisateur_reporter' => 'Demandeur',
                                'nom_utilisateur_assignee' => 'Assigné à',
                                'nom_asso_concerned' => array('Club associé', 'nom_asso'),
@@ -176,7 +176,10 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
                                'description' => 'Description'),
                          array('detail' => 'Détails'),
                          array(),
-                         array());
+                         array(),
+                         true,
+                         true,
+                         array('Low'));
     $tblcts2->add ($tbl);
 
     $site->add_contents ($cts);
