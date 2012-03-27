@@ -308,9 +308,13 @@ if($_REQUEST['page'] && $weekmail->is_valid())
       {
         if(is_null($error) && $GLOBALS['svalid_call'])
         {
-          $automodere = $site->user->is_in_group ("gestion_ae") && isset ($_REQUEST['automodere']) && $_REQUEST['automodere'] ? 1 : 0;
+          $automodere = $site->user->is_in_group ("moderateur_site") && isset ($_REQUEST['automodere']) && $_REQUEST['automodere'] ? 1 : 0;
           $weekmail->add_news($_REQUEST['id_utilisateur'],$_REQUEST['id_asso'],$_REQUEST['titre'],$_REQUEST['content'], $automodere);
-          $site->add_contents(new contents(false,'Nouvelle postée et en attente de modération.'));
+
+          if ($automodere)
+            $site->add_contents(new contents(false,'Nouvelle postée.'));
+          else
+            $site->add_contents(new contents(false,'Nouvelle postée et en attente de modération.'));
         }
         else
           $site->add_contents (new error('',$error));
@@ -328,8 +332,8 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     $frm->add_text_field("titre", "Titre : ",'',true,80);
     $frm->add_dokuwiki_toolbar('content',null,null,true);
     $frm->add_text_area("content", "contenu : ",'',80,20,true);
-    if ($site->user->is_in_group ("gestion_ae"))
-        $frm->add_checkbox ('automodere', "Automodération : ");
+    if ($site->user->is_in_group ("moderateur_site"))
+        $frm->add_checkbox ('automodere', "Automodération");
     $frm->add_button('preview','Prévisualiser','javascript:make_preview();');
     $frm->puts("
 <script language=\"javascript\">
