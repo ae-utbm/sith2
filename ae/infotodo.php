@@ -186,7 +186,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
                                'Med'));
     $tblcts2->add ($tbl);
 
-    $site->add_paragraph ('<a href="?action=nouveau">Ajouter nouveau bug</a>');
+    $site->add_contents('<a href="?action=nouveau">Ajouter nouveau bug</a>');
 
     $site->add_contents ($cts);
     $site->add_contents ($tblcts);
