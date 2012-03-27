@@ -458,7 +458,7 @@ if(!defined("MOBILE")) {
         if ($this->user->is_in_group ("root")) {
           $req = new requete ($this->db,
               "SELECT COUNT(*) AS tot FROM `ae_info_todo` ".
-              "WHERE `id_utilisateur_assignee` = '0'".
+              "WHERE `id_utilisateur_assignee` = '0' ".
               "AND `status` = '0'");
           $row = $req->get_row ();
           $i++;
