@@ -28,7 +28,7 @@ require_once($topdir."include/entities/utilisateur.inc.php");
 require_once($topdir."include/entities/asso.inc.php");
 require_once($topdir."include/cts/user.inc.php");
 require_once($topdir."include/entities/todoitem.inc.php");
-require_once($topdir."include/cts/sqltable.inc.php");
+require_once($topdir."include/cts/sqltable_color.inc.php");
 
 $site = new site ();
 
@@ -91,7 +91,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     if ( $site->user->is_in_group("root") )
       $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
     else
-      $frm->add_hidden('status','2');
+      $frm->add_hidden('status','0');
     $frm->add_select_field ('type', 'Type', $todo_types, $todo->enh_or_bug);
     $frm->add_text_field ('desc', 'Description', $todo->desc);
     $frm->add_text_area ('todo', 'Todo', $todo->todo, 80, 10);
@@ -135,7 +135,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
 
     $tblcts = new contents('Nouvelle(s) tâche(s)');
 
-    $tbl = new sqltable ('infotodo2', 'Liste des nouvelles tâches', $req, 'infotodo.php', 'id_task',
+    $tbl = new sqltable_color ('infotodo2', 'Liste des nouvelles tâches', $req, 'infotodo.php', 'id_task',
                          array('nom_utilisateur_reporter' => 'Demandeur',
                                'nom_asso_concerned' => array('Club associé', 'nom_asso'),
                                'date_deadline' => 'Deadline',
