@@ -65,7 +65,7 @@ class sqltable extends stdcontents
    * @param $hilight ids des éléments sélectionnés
    * @param $anchor permet de spécifier un emplacement dans la page de destination (%url%%anchor%%id%)
    **/
-  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array(), $htmlentitize = true, $fjs=true, $hilight=array(), $anchor="")
+  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array(), $htmlentitize = true, $fjs=true, $hilight=array(), $anchor="", $spe_cond="", $spe=array())
   {
     global $topdir,$wwwtopdir;
 
@@ -150,17 +150,15 @@ class sqltable extends stdcontents
 
       $t = $t^1;
 
-
       if (in_array($row[$id_field], $hilight))
         $style = "hilight";
       else {
-        $key = array_search($row[$id_field], $hilight);
+        $key = array_search($row[$spe_cond], $spe);
         if ($key !== false)
           $style = "prio$key";
         else
           $style = "ln$t";
       }
-
       if ( count($batch_actions) )
       {
         $this->buffer .= "<tr id=\"ln[$num]\" class=\"$style\" onMouseDown=\"setPointer('ln$t','$num','click','".$this->id_name."s[','".$formname."');\" onMouseOut=\"setPointer('$style','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
