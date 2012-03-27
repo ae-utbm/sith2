@@ -79,7 +79,7 @@ function increase(code_barre, price, plateau)
 {
 	tdNumber = document.getElementById(idNumberPre+code_barre);
 
-  tmpP = (tdNumber + 1) % 6 == 0 && plateau);
+  tmpP = (parseInt(tdNumber.firstChild.nodeValue) + 1) % 6 == 0 && plateau);
 
 	if (isProductCanBeAdded(price) || tmpP)
 	{
@@ -114,7 +114,7 @@ function decrease(code_barre, price, plateau)
 	{
 		tdNumber.firstChild.nodeValue = nbValue-1;
 
-    if (plateau && tdNumber % 6 != 0) {
+    if (plateau && nbValue % 6 != 0) {
 		  newPrice = Math.round(oldPrice*100-price);
 		  tdPrice.firstChild.nodeValue=newPrice/100 + " \u20AC";
 
