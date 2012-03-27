@@ -233,7 +233,7 @@ function fsearch_stop ( )
     fsearchres = document.getElementById('fsearchres');
 
   fsearchres.style.display = 'none';
-  fsearch_display_query='';
+  fsearch_display_query='nicks';
 }
 
 function fsearch_stop_delayed( field ) {
