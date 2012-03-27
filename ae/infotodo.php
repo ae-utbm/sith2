@@ -149,7 +149,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
                                'status_name' => 'Statut',
                                'description' => 'Description'),
                          array('detail' => 'Détails',
-                               'wontfix' => 'WontFix'),
+                               'stop' => 'stop'),
                          array(),
                          array());
 
