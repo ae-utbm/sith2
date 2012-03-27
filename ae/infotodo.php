@@ -54,11 +54,19 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo->update ();
 }
 
-if ($_REQUEST['action'] == 'done') {
+if (isset($_REQUEST['action']) ) {
   $idtask = isset ($_GET['id_task']) ? intval($_GET['id_task']) : -1;
 
-  if ($idtask != -1)
-    $todo->update_some('status','1',$idtask,array(),1);
+  if ($_REQUEST['action'] == 'stop') {
+    if ($idtask != -1)
+      $todo->update_some('status','1',$idtask,array(),1);
+  }
+
+  if ($_REQUEST['action'] == 'done') {
+    if ($idtask != -1)
+      $todo->update_some('status','4',$idtask,array(),1);
+  }
+
 }
 
 
