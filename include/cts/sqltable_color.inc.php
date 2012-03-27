@@ -153,7 +153,7 @@ class sqltable_color extends stdcontents
       if (in_array($row[$id_field], $hilight))
         $style = "hilight";
       else
-        $style = "ln$t";
+        $style = "ln0";
 
       if ( count($batch_actions) )
       {
