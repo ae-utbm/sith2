@@ -58,11 +58,13 @@ if (isset($_REQUEST['action']) ) {
   $idtask = isset ($_GET['id_task']) ? intval($_GET['id_task']) : -1;
 
   if ($_REQUEST['action'] == 'stop') {
+    $todo = new todoitem ($site->db, $site->dbrw);
     if ($idtask != -1)
       $todo->update_some('status','1',$idtask,array(),1);
   }
 
   if ($_REQUEST['action'] == 'done') {
+    $todo = new todoitem ($site->db, $site->dbrw);
     if ($idtask != -1)
       $todo->update_some('status','4',$idtask,array(),1);
   }
