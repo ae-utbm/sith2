@@ -85,6 +85,13 @@ class todoitem extends stdentity
         $this->todo = $row['todo'];
     }
 
+    function update_some ($what,$value, $id)
+    {
+      $update = new update($this->dbrw, TODO_TABLE,
+        array($what => $value),
+        array('id_task' => $id));
+    }
+
     function update ()
     {
         if ($this->id_task == -1) {
