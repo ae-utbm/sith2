@@ -114,7 +114,7 @@ function decrease(code_barre, price, plateau)
 	{
 		tdNumber.firstChild.nodeValue = nbValue-1;
 
-    if (plateau && nbValue % 6 != 0) {
+    if (!plateau || nbValue % 6 != 0) {
 		  newPrice = Math.round(oldPrice*100-price);
 		  tdPrice.firstChild.nodeValue=newPrice/100 + " \u20AC";
 
@@ -160,7 +160,7 @@ function addToCart(code_barre, nom, prix, plateau)
 	{
 		if (!document.getElementById('prod'+code_barre))
 		{
-			addProductRow(code_barre, nom, prix);
+			addProductRow(code_barre, nom, prix, plateau);
 			addToNewProductsFields(code_barre);
 		}
 		else
@@ -176,7 +176,7 @@ function addToCart(code_barre, nom, prix, plateau)
 	return false;
 }
 
-function addProductRow(code_barre, nom, prix)
+function addProductRow(code_barre, nom, prix, plateau)
 {
 	var table = document.getElementById("panier");
 
@@ -194,14 +194,14 @@ function addProductRow(code_barre, nom, prix)
 	newRow.id = "prod"+code_barre;
 
 	var newCell = newRow.insertCell(-1);
-	newCell.innerHTML = "<a onclick=\"return decrease('"+code_barre+"', "+prix+");\" href=\"#\">-</a>";
+	newCell.innerHTML = "<a onclick=\"return decrease('"+code_barre+"', "+prix+", "+plateau+");\" href=\"#\">-</a>";
 
 	newCell = newRow.insertCell(-1);
 	newCell.id = "nbProd"+code_barre;
 	newCell.innerHTML = "1";
 
 	newCell = newRow.insertCell(-1);
-	newCell.innerHTML = "<a onclick=\"return increase('"+code_barre+"', "+prix+");\" href=\"#\">+</a>";
+	newCell.innerHTML = "<a onclick=\"return increase('"+code_barre+"', "+prix+", "+plateau+");\" href=\"#\">+</a>";
 
 	newCell = newRow.insertCell(-1);
 	newCell.innerHTML = nom;
