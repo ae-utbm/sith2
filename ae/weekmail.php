@@ -281,7 +281,7 @@ if($_REQUEST['page'] && $weekmail->is_valid())
     $frm->add_select_field('modere',
                            'Action',
                            array(''=>'',
-                                 'moderes'=>'Accèpter',
+                                 'moderes'=>'Accepter',
                                  'order'=>'Ordonner',
                                  '-'=>'',
                                  '--'=>'----',
