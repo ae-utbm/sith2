@@ -45,6 +45,8 @@ function setPointer(theClass, currentNum, theAction, basename, the_form)
     color = 'white';
   else if (theAction == 'out' && theClass == 'hilight')
     color = '#ffdd77';
+  else if (theAction == 'out')
+    color = document.getElementById('ln['+currentNum+']').style.backgroundColor;
   else if (theAction == 'click' && document.forms[the_form].elements[basename + currentNum + ']'].checked == true)
   {
     var do_check = document.forms[the_form].elements[basename + currentNum + ']'].checked;
