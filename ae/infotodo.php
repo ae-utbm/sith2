@@ -29,6 +29,7 @@ require_once($topdir."include/entities/asso.inc.php");
 require_once($topdir."include/cts/user.inc.php");
 require_once($topdir."include/entities/todoitem.inc.php");
 require_once($topdir."include/cts/sqltable_color.inc.php");
+require_once($topdir."include/cts/sqltable.inc.php");
 
 $site = new site ();
 
