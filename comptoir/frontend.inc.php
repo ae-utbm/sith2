@@ -526,9 +526,9 @@ else if ( $site->comptoir->client->id > 0 )
       {
         list($nb,$vp) = $info;
         $prix = $vp->produit->obtenir_prix($site->comptoir->prix_barman,$site->comptoir->client);
-        $tbl->add_row(array("<a href=\"#\" onclick=\"return decrease('".$vp->produit->code_barre."', ".$prix.");\">-</a>",
+        $tbl->add_row(array("<a href=\"#\" onclick=\"return decrease('".$vp->produit->code_barre."', ".$prix.", ".$vp->produit->plateau.");\">-</a>",
             array($nb, false, "nbProd".$vp->produit->code_barre),
-            "<a href=\"#\" onclick=\"return increase('".$vp->produit->code_barre."', ".$prix.");\">+</a>",
+            "<a href=\"#\" onclick=\"return increase('".$vp->produit->code_barre."', ".$prix.", ".$vp->produit->plateau.");\">+</a>",
             $vp->produit->nom,
             array(($prix*$nb/100)." &euro;", false, "priceProd".$vp->produit->code_barre)),
           false, "prod".$vp->produit->code_barre);

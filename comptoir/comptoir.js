@@ -75,21 +75,25 @@ function changeActiveTab(eltId) {
 	return false;
 }
 
-function increase(code_barre, price)
+function increase(code_barre, price, plateau)
 {
-	if (isProductCanBeAdded(price))
-	{
-		tdNumber = document.getElementById(idNumberPre+code_barre);
-		tdPrice = document.getElementById(idPricePre+code_barre);
+	tdNumber = document.getElementById(idNumberPre+code_barre);
 
-		newValue = Math.round(parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'))*100+price);
-        
+  tmpP = (tdNumber + 1) % 6 == 0 && plateau);
+
+	if (isProductCanBeAdded(price) || tmpP)
+	{
+		tdPrice = document.getElementById(idPricePre+code_barre);
 		tdNumber.firstChild.nodeValue=parseInt(tdNumber.firstChild.nodeValue)+1;
-		tdPrice.firstChild.nodeValue=newValue/100 + " \u20AC";
+
+    if (!tmpP) {
+		  newValue = Math.round(parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'))*100+price);
+		  tdPrice.firstChild.nodeValue=newValue/100 + " \u20AC";
+
+		  increaseTotal(price);
+    }
 
 		addToNewProductsFields(code_barre);
-
-		increaseTotal(price);
 	}
 	else
 	{
@@ -98,7 +102,7 @@ function increase(code_barre, price)
 	return false;
 }
 
-function decrease(code_barre, price)
+function decrease(code_barre, price, plateau)
 {
 	tdNumber = document.getElementById(idNumberPre+code_barre);
 	tdPrice = document.getElementById(idPricePre+code_barre);
@@ -110,10 +114,12 @@ function decrease(code_barre, price)
 	{
 		tdNumber.firstChild.nodeValue = nbValue-1;
 
-		newPrice = Math.round(oldPrice*100-price);
-		tdPrice.firstChild.nodeValue=newPrice/100 + " \u20AC";
+    if (plateau && tdNumber % 6 != 0) {
+		  newPrice = Math.round(oldPrice*100-price);
+		  tdPrice.firstChild.nodeValue=newPrice/100 + " \u20AC";
 
-		decreaseTotal(price);
+		  decreaseTotal(price);
+    }
 	}
 	else
 	{
