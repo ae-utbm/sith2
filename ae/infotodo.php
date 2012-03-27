@@ -54,6 +54,12 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo->update ();
 }
 
+if ($_REQUEST['action'] == 'done') {
+  $idtask = isset ($_GET['id_task']) ? intval($_GET['id_task']) : -1;
+
+  if ($idtask != -1)
+    $todo->update_some('status','1',$idtask);
+}
 
 
 if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
@@ -74,8 +80,6 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
         $util_assignee->load_by_id (0);
     }
 
-    if ($_REQUEST['action'] == 'done')
-      $todo->update_some('status','1',$idtask);
 
     $frm = new form ('details', 'infotodo.php', false, 'POST', 'TODO');
     $frm->add_hidden ('id_task', $idtask);
