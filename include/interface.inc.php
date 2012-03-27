@@ -461,8 +461,12 @@ if(!defined("MOBILE")) {
               "WHERE `id_utilisateur_assignee` = '0'");
           $row = $req->get_row ();
           $i++;
-          $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info (".
-              $row['tot'].")</a>';";
+
+          if ($row['tot'] > 0)
+            $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info (".
+                $row['tot'].")</a>';";
+          else
+            $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info</a>";
         }
         $i++;
         if($this->user->utbm)
