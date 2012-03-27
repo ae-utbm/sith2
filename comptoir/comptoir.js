@@ -79,7 +79,7 @@ function increase(code_barre, price, plateau)
 {
 	tdNumber = document.getElementById(idNumberPre+code_barre);
 
-  tmpP = (parseInt(tdNumber.firstChild.nodeValue) + 1) % 6 == 0 && plateau);
+  tmpP = (parseInt(tdNumber.firstChild.nodeValue) + 1) % 6 == 0 && plateau;
 
 	if (isProductCanBeAdded(price) || tmpP)
 	{
