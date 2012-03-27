@@ -455,6 +455,10 @@ if(!defined("MOBILE")) {
         }
         $i++;
         $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/outils.php\">Mes outils</a>';";
+        if ($this->user->is_in_group ("root")) {
+          $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info</a>';";
+          $i++;
+        }
         $i++;
         if($this->user->utbm)
         {
