@@ -62,7 +62,7 @@ if ($_REQUEST['action'] == 'done') {
 }
 
 
-if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST != 'stop') {
+if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST['action'] != 'stop') {
     $idtask = isset ($_GET['id_task']) ? intval($_GET['id_task']) : -1;
 
     $todo = new todoitem ($site->db);
