@@ -154,7 +154,7 @@ function decreaseTotal(price)
 	return false;
 }
 
-function addToCart(code_barre, nom, prix)
+function addToCart(code_barre, nom, prix, plateau)
 {
 	if (isProductCanBeAdded(prix))
 	{
@@ -165,7 +165,7 @@ function addToCart(code_barre, nom, prix)
 		}
 		else
 		{
-			increase (code_barre, prix);
+			increase (code_barre, prix, plateau);
 		}
 	}
 	else

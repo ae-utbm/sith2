@@ -53,7 +53,7 @@ class productinfo extends stdcontents
     $prix = $product->obtenir_prix($barman);
 
     $this->title = $product->nom;
-    $this->buffer .= "<a href=\"#\" title=\"Ajouter 1 ".$product->nom." au panier\" onclick=\"return addToCart('$product->code_barre', '".addslashes($product->nom)."', $prix);\">"."\n";
+    $this->buffer .= "<a href=\"#\" title=\"Ajouter 1 ".$product->nom." au panier\" onclick=\"return addToCart('$product->code_barre', '".addslashes($product->nom)."', $prix, $product->plateau);\">"."\n";
     $this->buffer .= "<div id=\"product".$product->id."\" class=\"productinfo\">\n";
 
       $this->buffer .= "<h3>". $product->nom . "</h3>\n";
