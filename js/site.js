@@ -33,7 +33,7 @@
  *
  * @return  boolean  whether pointer is set or not
  */
-function setPointer(theClass, currentNum, theAction, basename, the_form, previsousColor)
+function setPointer(theClass, currentNum, theAction, basename, the_form)
 {
   var color;
   var obj = document.getElementById('ln['+currentNum+']');
@@ -46,7 +46,7 @@ function setPointer(theClass, currentNum, theAction, basename, the_form, previso
   else if (theAction == 'out' && theClass == 'hilight')
     color = '#ffdd77';
   else if (theAction == 'out')
-    color = previousColor;
+    color = null;
   else if (theAction == 'click' && document.forms[the_form].elements[basename + currentNum + ']'].checked == true)
   {
     var do_check = document.forms[the_form].elements[basename + currentNum + ']'].checked;
