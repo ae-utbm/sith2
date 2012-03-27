@@ -54,11 +54,9 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo->update ();
 }
 
-if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'stop') {
 
 
-
-if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' ) {
+if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
     $idtask = isset ($_GET['id_task']) ? intval($_GET['id_task']) : -1;
 
     $todo = new todoitem ($site->db);
@@ -76,10 +74,8 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' ) {
         $util_assignee->load_by_id (0);
     }
 
-    if ($_REQUEST['action'] == 'stop') {
-      $todo->update_some('status','1', $idtask);
-    }
-
+    if ($_REQUEST['action'] == 'done')
+      $todo->update_some('status','1',$idtask);
 
     $frm = new form ('details', 'infotodo.php', false, 'POST', 'TODO');
     $frm->add_hidden ('id_task', $idtask);
@@ -109,7 +105,6 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' ) {
     $cts->add_paragraph ('<a href="infotodo.php">Retour à la liste</a>');
     $cts->add ($frm);
     $site->add_contents ($cts);
-    }
 } else {
     $cts = new contents ('Filtrage');
     $frmfilter = new form('filter', '?', false, 'POST', 'Filter');
