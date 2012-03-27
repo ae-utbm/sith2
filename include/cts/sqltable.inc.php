@@ -165,7 +165,7 @@ class sqltable extends stdcontents
         $this->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$this->id_name."s[$num]\" value=\"".$row[$id_field]."\" onClick=\"setPointer('ln$t','$num','click','".$this->id_name."s[','".$formname."');\"/></td>\n";
       }
       else
-        $this->buffer .= "<tr id=\"ln[$num]\" class=\"$style\" onMouseDown=\"setPointer('$style','$num','click');\" onMouseOut=\"setPointer('$style','$num','out');\" onMouseOver=\"setPointer('$style','$num','over');\">\n";
+        $this->buffer .= "<tr id=\"ln[$num]\" class=\"$style\" onMouseDown=\"setPointer('ln$t','$num','click');\" onMouseOut=\"setPointer('$style','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
 
       $num++;
       foreach ( $cols as $key => $name )

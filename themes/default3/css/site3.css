@@ -2487,9 +2487,17 @@ tr.ln1
 {
   background: #ffffff;
 }
-tr.prio0
+tr.prio2
 {
-  background: #2633B1;
+  background: #FFD363;
+}
+tr.prio3
+{
+  background: #FFA063;
+}
+tr.prio4
+{
+  background: #FF6563;
 }
 tr.hilight
 {

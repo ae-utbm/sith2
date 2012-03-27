@@ -181,7 +181,9 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit') {
                          array(),
                          "",
                          'priority_name',
-                         array('Low'));
+                         array('Critical',
+                               'High',
+                               'Med'));
     $tblcts2->add ($tbl);
 
     $site->add_contents ($cts);
