@@ -312,6 +312,8 @@ class update extends requete {
       $sql .= "`" . $key . "`='1'";
     elseif ( is_null($value) )
       $sql .= "`" . $key . "`= NULL";
+    elseif ( $value === '')
+      $sql .= "`" . $key . "` = ''";
     else
        $sql .= "`" . $key . "`= '" . mysql_escape_string($value) . "'";
 
