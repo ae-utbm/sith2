@@ -58,7 +58,7 @@ if ($_REQUEST['action'] == 'done') {
   $idtask = isset ($_GET['id_task']) ? intval($_GET['id_task']) : -1;
 
   if ($idtask != -1)
-    $todo->update_some('status','1',$idtask);
+    $todo->update_some('status','1',$idtask,array(),1);
 }
 
 
