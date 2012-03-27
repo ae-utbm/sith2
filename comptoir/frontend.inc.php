@@ -525,12 +525,15 @@ else if ( $site->comptoir->client->id > 0 )
       foreach ( $panier as $info )
       {
         list($nb,$vp) = $info;
-        if ($nb > 0 && $vp->produit->plateau) $nb -= floor ($nb/6);
+        $nbP = $nb;
+        if ($nb > 0 && $vp->produit->plateau) {
+          $nb -= floor ($nb/6);
+        }
 
         $prix = $vp->produit->obtenir_prix($site->comptoir->prix_barman,$site->comptoir->client);
 
         $tbl->add_row(array("<a href=\"#\" onclick=\"return decrease('".$vp->produit->code_barre."', ".$prix.", ".$vp->produit->plateau.");\">-</a>",
-            array($nb, false, "nbProd".$vp->produit->code_barre),
+            array($nbP, false, "nbProd".$vp->produit->code_barre),
             "<a href=\"#\" onclick=\"return increase('".$vp->produit->code_barre."', ".$prix.", ".$vp->produit->plateau.");\">+</a>",
             $vp->produit->nom,
             array(($prix*$nb/100)." &euro;", false, "priceProd".$vp->produit->code_barre)),
