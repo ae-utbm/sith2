@@ -216,7 +216,7 @@ abstract class newslister extends stdcontents
     return $other_buffer;
   }
 
-  function days_list ( $sql, $title = "Evénements aujourd'hui et dans les prochains jours" )
+  function days_list ( $sql, $title = "Événements aujourd'hui et dans les prochains jours" )
   {
     global $wwwtopdir, $topdir;
     $other_buffer = new stdcontents();
