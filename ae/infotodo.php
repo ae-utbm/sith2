@@ -60,20 +60,26 @@ if (isset($_REQUEST['action']) ) {
   if ($_REQUEST['action'] == 'stop') {
     $todo = new todoitem ($site->db, $site->dbrw);
     if ($idtask != -1)
-      $todo->update_some('status','1',$idtask,array(),1);
+      $todo->update_some('status','1',$idtask);
   }
 
   if ($_REQUEST['action'] == 'done') {
     $todo = new todoitem ($site->db, $site->dbrw);
     if ($idtask != -1)
-      $todo->update_some('status','4',$idtask,array(),1);
+      $todo->update_some('status','4',$idtask);
+  }
+
+  if ($_REQUEST['action'] == 'accord') {
+    $todo = new todoitem ($site->db, $site->dbrw);
+    if ($idtask != -1)
+      $todo->update_some('status','3',$idtask);
   }
 
 }
 
 
 if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST['action'] != 'stop'
-  && $_REQUEST['action'] != 'done') {
+  && $_REQUEST['action'] != 'done' && $_REQUEST['action'] != 'accord') {
     $idtask = isset ($_GET['id_task']) ? intval($_GET['id_task']) : -1;
 
     $todo = new todoitem ($site->db);
@@ -155,7 +161,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     $tblcts = new contents('Nouvelle(s) tâche(s)');
 
     if ( $site->user->is_in_group("root") )
-       $col = array('view' => 'Détails',
+       $col = array('edit' => 'Détails',
          'stop' => 'WontFix');
     else
       $col = array('view' => 'Détails');
@@ -187,9 +193,9 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     $req = new requete($site->db, $sql);
 
     if ( $site->user->is_in_group("root") )
-       $col = array('view' => 'Détails',
-         'done' => 'Done',
-         'accord' => 'InProgress');
+       $col = array('edit' => 'Détails',
+         'accord' => 'InProgress',
+         'done' => 'Done');
     else
       $col = array('view' => 'Détails');
 
