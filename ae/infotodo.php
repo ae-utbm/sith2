@@ -96,7 +96,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
         $util_assignee->load_by_id (0);
     }
 
-    $enable = $util_reporter->alias == $site->user->alias || $site->user->is_in_group("root")? true : false;
+    $enable = $util_reporter->id == $site->user->id || $site->user->is_in_group("root")? true : false;
 
     $frm = new form ('details', 'infotodo.php', false, 'POST', 'TODO');
     $frm->add_hidden ('id_task', $idtask);
