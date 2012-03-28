@@ -156,6 +156,8 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
 
    $req = new requete($site->db,$sql);
 
+   $show_tblcts = $req->lines > 0;
+
     $tblcts = new contents('Nouvelle(s) tâche(s)');
 
     if ( $site->user->is_in_group("root") )
@@ -188,6 +190,8 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     $sql .=  ' ORDER BY priority DESC, date_submitted';
 
     $req = new requete($site->db, $sql);
+
+   $show_tblcts2 = $req->lines > 0;
 
     if ( $site->user->is_in_group("root") )
        $col = array('edit' => 'Détails',
@@ -224,8 +228,10 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
 
     $site->add_contents ($intro);
     $site->add_contents ($cts);
-    $site->add_contents ($tblcts);
-    $site->add_contents ($tblcts2);
+    if ($show_tblcts)
+      $site->add_contents ($tblcts);
+    if ($show_tblcts2)
+      $site->add_contents ($tblcts2);
 }
 
 $site->end_page();
