@@ -456,18 +456,21 @@ if(!defined("MOBILE")) {
         $i++;
         $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/outils.php\">Mes outils</a>';";
         if ($this->user->is_in_group ("root")) {
+          $i++;
           $req = new requete ($this->db,
               "SELECT COUNT(*) AS tot FROM `ae_info_todo` ".
               "WHERE `id_utilisateur_assignee` = '0' ".
               "AND `status` = '0'");
-          $row = $req->get_row ();
-          $i++;
 
-          if ($row['tot'] > 0)
-            $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info (".
-                $row['tot'].")</a>';";
-          else
+          if ($req->lines > 0) {
+            $row = $req->get_row ();
+
+            if ($row['tot'] > 0)
+              $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info (".
+                    $row['tot'].")</a>';";
+          } else {
             $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info</a>";
+          }
         }
         $i++;
         if($this->user->utbm)
