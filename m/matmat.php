@@ -71,7 +71,7 @@ if (isset($_REQUEST["simplesearch"])) {
               (CASE WHEN ".$cond_tel." THEN 1 ELSE 0 END) +
               (CASE WHEN ".$cond_mail." THEN 1 ELSE 0 END) DESC,
               `utilisateurs`.id_utilisateur DESC
-            LIMIT 15"
+            LIMIT 10"
         );
 
       if ( $req->lines == 0 )
