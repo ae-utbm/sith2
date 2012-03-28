@@ -199,7 +199,7 @@ class debitfacture extends stdentity
     {
       list($quantite,$vp) = $item;
 
-      if ($quantite > 0 && $vp->produit->plateau)
+      if ($quantite > 0 && $vp->produit->plateau && !$prix_barman)
         $quantite -= floor ($quantite/6);
 
       $montant += $quantite * $vp->produit->obtenir_prix($prix_barman,$client );
@@ -270,7 +270,7 @@ class debitfacture extends stdentity
       $prix = $vp->produit->obtenir_prix($prix_barman,$client);
 
       $sub_q = 0;
-      if ($quantite > 0 && $vp->produit->plateau)
+      if ($quantite > 0 && $vp->produit->plateau && !$prix_barman)
         $sub_q = floor ($quantite / 6);
 
       $quantite -= $sub_q;
