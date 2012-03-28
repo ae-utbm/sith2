@@ -96,6 +96,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
         $util_assignee->load_by_id (0);
     }
 
+    $enable = $util_reporter->alias == $site->user->alias || $site->user->is_in_group("root")? true : false;
 
     $frm = new form ('details', 'infotodo.php', false, 'POST', 'TODO');
     $frm->add_hidden ('id_task', $idtask);
@@ -116,10 +117,8 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     else
       $frm->add_hidden('status','0');
     $frm->add_select_field ('type', 'Type', $todo_types, $todo->enh_or_bug);
-    $frm->add_text_field ('desc', 'Description', $todo->desc,false,false,false,
-      $util_reporter->alias == $site->user->alias || $site->user->is_in_group("root")? true : false);
-    $frm->add_text_area ('todo', 'Todo', $todo->todo, 80, 10, false, false,
-      $util_reporter->alias == $site->user->alias || $site->user->is_in_group("root")? false : true);
+    $frm->add_text_field ('desc', 'Description', $todo->desc,false,false,false, $enable);
+    $frm->add_text_area ('todo', 'Todo', $todo->todo, 80, 10, false, false, $enable);
     $frm->add_submit ('submit', 'Valider');
 
     $cts = new contents ('Détail');

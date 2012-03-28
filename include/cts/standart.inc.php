@@ -829,7 +829,7 @@ class form extends stdcontents
     $this->_render_name($name,$title,$required);
     $this->buffer .= "<div class=\"formfield\"><textarea name=\"$name\" id=\"textarea_".$this->name."_".$name."\" rows=\"$height\" cols=\"$width\"";
 
-    if ($enable)
+    if (!$enable)
       $this->buffer .= " disabled=\"disabled\"";
 
     $this->buffer .= ">";
