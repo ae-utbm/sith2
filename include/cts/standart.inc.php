@@ -822,12 +822,19 @@ class form extends stdcontents
    * @param $height  Hauteur du champs en lignes (3)
    * @param $required  Précise si le champ est obligatoire
    */
-  function add_text_area ( $name, $title, $value="", $width=40, $height=3, $required = false, $allow_extend=false, $enable=false)
+  function add_text_area ( $name, $title, $value="", $width=40, $height=3, $required = false, $allow_extend=false, $enable=true)
   {
     if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
-    $this->buffer .= "<div class=\"formfield\"><textarea name=\"$name\" id=\"textarea_".$this->name."_".$name."\" rows=\"$height\" cols=\"$width\" disabled=\"$enable\">";
+    $this->buffer .= "<div class=\"formfield\"><textarea name=\"$name\" id=\"textarea_".$this->name."_".$name."\" rows=\"$height\" cols=\"$width\"";
+
+    if ($enable)
+      $this->buffer .= " disabled=\"disabled\"";
+
+    $this->buffer .= ">";
+
+
 
     $this->buffer .= htmlentities($value,ENT_NOQUOTES,"UTF-8")."</textarea>";
     if($allow_extend)
