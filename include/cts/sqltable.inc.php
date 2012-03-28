@@ -64,8 +64,12 @@ class sqltable extends stdcontents
    * @param $htmlentitize indique si les entrées du tableau doivent être passées par la fonction htmlentities()
    * @param $hilight ids des éléments sélectionnés
    * @param $anchor permet de spécifier un emplacement dans la page de destination (%url%%anchor%%id%)
+   * @param $spe_cond permet de definir une colonne de la reponse sql afin d'appliquer un style css specifique
+   * @param $spe liste des valeurs pouvant être matché pour l'application du css
    **/
-  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array(), $htmlentitize = true, $fjs=true, $hilight=array(), $anchor="", $spe_cond="", $spe=array())
+  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions,
+    $enumerated=array(), $htmlentitize = true, $fjs=true, $hilight=array(), $anchor="",
+    $td=array(), $spe=array())
   {
     global $topdir,$wwwtopdir;
 
@@ -153,11 +157,18 @@ class sqltable extends stdcontents
       if (in_array($row[$id_field], $hilight))
         $style = "hilight";
       else {
-        $key = array_search($row[$spe_cond], $spe);
-        if ($key !== false)
-          $style = "prio$key";
-        else
-          $style = "ln$t";
+
+          foreach ($td as $name => $values) {
+            $key = array_search($row[$name], $values['values']);
+
+            if ($key !== false) {
+              $style = $values['css'].$key;
+              break;
+            }
+          }
+
+          if (!isset($style))
+            $style = "ln$t";
       }
       if ( count($batch_actions) )
       {

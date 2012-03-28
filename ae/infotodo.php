@@ -218,10 +218,10 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
                          true,
                          array(),
                          "",
-                         'priority_name',
-                         array('Critical',
-                               'High',
-                               'Med'));
+                         array('priority_name' => array('css' => 'prio',
+                                                        'values' => array('Critical',
+                                                                          'High',
+                                                                          'Med'))));
     $tblcts2->add ($tbl);
 
     $intro = new contents();
