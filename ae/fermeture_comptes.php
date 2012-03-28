@@ -53,39 +53,62 @@ $req = new requete ($site->db, "SELECT ae_cotisations.id_utilisateur AS id_utl "
     "GROUP BY inner_cotis.id_utilisateur)");
 
 if ($req->lines < 1) {
-  $cts->add_paragraph ("Aucun compte concerné par l'opération. Abort.");
+  $cts->add_paragraph ("Aucun compte concerné par l'opération.");
 } else {
-  $tot_cpt = $req->lines;
-  $tot = 0;
+  if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'close_accounts') {
+    $tot_cpt = $req->lines;
+    $tot = 0;
 
-  while ($row = $req->get_row ()) {
-    $debfact = new debitfacture ($site->db, $site->dbrw);
-    $vprod = new venteproduit ($site->db, $site->dbrw);
-    $cpt = new comptoir ($site->db, $site->dbrw);
-    $usr = new utilisateur ($site->db, $site->dbrw);
-    $cart = array();
+    while ($row = $req->get_row ()) {
+      $debfact = new debitfacture ($site->db, $site->dbrw);
+      $vprod = new venteproduit ($site->db, $site->dbrw);
+      $cpt = new comptoir ($site->db, $site->dbrw);
+      $usr = new utilisateur ($site->db, $site->dbrw);
+      $cart = array();
 
-    $cpt->load_by_id (6); // Bureau AE Belfort
+      $cpt->load_by_id (6); // Bureau AE Belfort
 
-    $usr->load_by_id ($row['id_utl']);
+      $usr->load_by_id ($row['id_utl']);
 
-    $vprod->load_by_id (338, 6); // Produit "Clôture compte"
-    $vprod->produit->prix_vente_barman =
-      $vprod->produit->prix_vente = $usr->montant_compte;
-    $vprod->produit->id_assocpt = 0;
-    $tot += $usr->montant_compte;
+      $vprod->load_by_id (338, 6); // Produit "Clôture compte"
+      $vprod->produit->prix_vente_barman =
+          $vprod->produit->prix_vente = $usr->montant_compte;
+      $vprod->produit->id_assocpt = 0;
+      $tot += $usr->montant_compte;
 
-    $cart[0][0] = 1;
-    $cart[0][1] = $vprod;
+      $cart[0][0] = 1;
+      $cart[0][1] = $vprod;
 
-    $debfact->debitAE ($usr, $site->user, $cpt, $cart, false);
+      $debfact->debitAE ($usr, $site->user, $cpt, $cart, false);
+    }
+
+    $cts->add_paragraph ($tot_cpt ." comptes clôturés pour un total de ". $tot/100 ." euros.");
+  } else {
+    $req2 = new requete ($site->db, "SELECT SUM(utilisateurs.montant_compte) AS montant, COUNT(*) as tot FROM `ae_cotisations` ".
+        "LEFT JOIN utilisateurs ON utilisateurs.id_utilisateur=ae_cotisations.id_utilisateur ".
+        "WHERE utilisateurs.montant_compte > 0 AND `date_fin_cotis` <= \"".$date." 00:00:00\" ".
+        "AND id_cotisation IN (SELECT MAX(inner_cotis.id_cotisation) ".
+        "FROM ae_cotisations AS inner_cotis WHERE inner_cotis.id_utilisateur=id_utl ".
+        "GROUP BY inner_cotis.id_utilisateur)");
+
+    if ($req2->lines > 0) {
+      $row = $req2->get_lines ();
+      if ($row['tot'] > 1)
+        $cts->add_paragraph ($row['tot']." comptes peuvent être clôturés pour un total de ". $row['montant']." euro(s).");
+      else
+        $cts->add_paragraph ("1 compte peut être clôturé pour un total de ". $row['montant']." euro(s).");
+    }
+
+    $frm = new form ("askclose", "./fermeture_comptes.php", false, "POST", "Clôturer les comptes des non cotisants de plus de 2 ans");
+    $frm->add_hidden ("action", "close_accounts");
+    $frm->add_submit ("valid", "Procéder à l'opération");
   }
 
-  $cts->add_paragraph ($tot_cpt ." comptes clôturés pour un total de ". $tot/100 ." euros.");
 }
 
 
-$site->add_contents($cts);
-$site->end_page();
+$site->add_contents ($cts);
+if (isset ($frm)) $site->add_contents ($frm);
+$site->end_page ();
 
 ?>
