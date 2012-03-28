@@ -88,7 +88,7 @@ if ($req->lines < 1 && false) {
         "LEFT JOIN utilisateurs ON utilisateurs.id_utilisateur=ae_cotisations.id_utilisateur ".
         "WHERE utilisateurs.montant_compte > 0 AND `date_fin_cotis` <= \"".$date." 00:00:00\" ".
         "AND id_cotisation IN (SELECT MAX(inner_cotis.id_cotisation) ".
-        "FROM ae_cotisations AS inner_cotis WHERE inner_cotis.id_utilisateur=id_utl ".
+        "FROM ae_cotisations AS inner_cotis WHERE inner_cotis.id_utilisateur=ae_cotisations.id_utilisateur ".
         "GROUP BY inner_cotis.id_utilisateur)");
 
     if ($req2->lines > 0) {
