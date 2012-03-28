@@ -92,7 +92,7 @@ if ($req->lines < 1 && false) {
         "GROUP BY inner_cotis.id_utilisateur)");
 
     if ($req2->lines > 0) {
-      $row = $req2->get_lines ();
+      $row = $req2->get_row ();
       if ($row['tot'] > 1)
         $cts->add_paragraph ($row['tot']." comptes peuvent être clôturés pour un total de ". $row['montant']." euro(s).");
       else
