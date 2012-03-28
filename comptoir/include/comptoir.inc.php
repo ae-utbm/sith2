@@ -602,7 +602,7 @@ class comptoir extends stdentity
 
     $ttot = 0;
 
-    if ($prod->plateau)
+    if ($prod->plateau && !$this->prix_barman)
       foreach ($this->panier as $tvp)
         if ($tvp->produit->id == $prod->id)
           $ttot ++;
@@ -787,7 +787,7 @@ class comptoir extends stdentity
     foreach ( $this->panier as $VenteProd )
     {
       $track[$VenteProd->produit->id] ++;
-      if ($VenteProd->produit->plateau && $track[$VenteProd->produit->id] % 6 == 0)
+      if ($VenteProd->produit->plateau && !$this->prix_barman && $track[$VenteProd->produit->id] % 6 == 0)
         continue;
 
       $Somme += $VenteProd->produit->obtenir_prix($this->prix_barman,$this->user);
