@@ -44,7 +44,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo->id_user_assignee = $_REQUEST['utilisateur_assignee'];
     $todo->id_asso_concerned = $_REQUEST['asso_concerned'];
     $todo->date_submitted = $_REQUEST['date_submitted'];
-    $todo->priority = $_REQUEST['date_submitted'];
+    $todo->priority = $_REQUEST['priority'];
     $todo->status = $_REQUEST['status'];
     $todo->enh_or_bug = $_REQUEST['type'];
     $todo->desc = $_REQUEST['desc'];
@@ -110,7 +110,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     if ( $site->user->is_in_group("root") )
       $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     else
-      $frm->add_hidden('priority','');
+      $frm->add_hidden('priority','0');
     if ( $site->user->is_in_group("root") )
       $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
     else
