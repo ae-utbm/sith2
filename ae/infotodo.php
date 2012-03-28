@@ -113,10 +113,10 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     else
       $frm->add_hidden('priority','0');
     if ( $site->user->is_in_group("root") )
-      $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status,"", false, $enable);
+      $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
     else
       $frm->add_hidden('status','0');
-    $frm->add_select_field ('type', 'Type', $todo_types, $todo->enh_or_bug);
+    $frm->add_select_field ('type', 'Type', $todo_types, $todo->enh_or_bug, "", false, $enable);
     $frm->add_text_field ('desc', 'Description', $todo->desc,false,false,false, $enable);
     $frm->add_text_area ('todo', 'Todo', $todo->todo, 80, 10, false, false, $enable);
     $frm->add_submit ('submit', 'Valider');
