@@ -465,7 +465,7 @@ if(!defined("MOBILE")) {
           if ($req->lines > 0) {
             $row = $req->get_row ();
 
-            if ($row['tot'] > 0)
+            if (isset($row['tot']) && $row['tot'] > 0)
               $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info (".
                     $row['tot'].")</a>';";
             else
