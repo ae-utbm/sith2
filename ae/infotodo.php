@@ -155,10 +155,10 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     $tblcts = new contents('Nouvelle(s) tâche(s)');
 
     if ( $site->user->is_in_group("root") )
-       $col = array('detail' => 'Détails',
+       $col = array('view' => 'Détails',
          'stop' => 'WontFix');
     else
-      $col = array('detail' => 'Détails');
+      $col = array('view' => 'Détails');
 
         $tbl = new sqltable ('infotodo2', 'Liste des nouvelles tâches', $req, 'infotodo.php', 'id_task',
                          array('nom_utilisateur_reporter' => 'Demandeur',
@@ -187,10 +187,11 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     $req = new requete($site->db, $sql);
 
     if ( $site->user->is_in_group("root") )
-       $col = array('detail' => 'Détails',
-         'done' => 'Done');
+       $col = array('view' => 'Détails',
+         'done' => 'Done',
+         'accord' => 'InProgress');
     else
-      $col = array('detail' => 'Détails');
+      $col = array('view' => 'Détails');
 
     $tblcts2 = new contents('TODO list');
     $tbl = new sqltable ('infotodo', 'Liste des tâches', $req, 'infotodo.php', 'id_task',
