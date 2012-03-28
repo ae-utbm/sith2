@@ -221,7 +221,9 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
                          array('priority_name' => array('css' => 'prio',
                                                         'values' => array('Critical',
                                                                           'High',
-                                                                          'Med'))),
+                                                                          'Med',
+                                                                          'Low',
+                                                                          'Invalid'))),
                          array('InProgress' => 'inprog'));
     $tblcts2->add ($tbl);
 
