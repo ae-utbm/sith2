@@ -96,7 +96,7 @@ if ($req->lines < 1 && false) {
       if ($row['tot'] > 1)
         $cts->add_paragraph ($row['tot']." comptes peuvent être clôturés pour un total de ". $row['montant']." euro(s).");
       else
-        $cts->add_paragraph ("1 compte peut être clôturé pour un total de ". $row['montant']." euro(s).");
+        $cts->add_paragraph ($row['tot']." compte peut être clôturé pour un total de ". $row['montant']." euro(s).");
     }
 
     $frm = new form ("askclose", "./fermeture_comptes.php", false, "POST", "Clôturer les comptes des non cotisants de plus de 2 ans");
