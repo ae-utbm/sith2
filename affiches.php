@@ -108,7 +108,7 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
                      $_REQUEST['horaires'],
                      (isset($_REQUEST['frequence'])) ? $_REQUEST['frequence'] : 1);
 
-    if ($site->user->is_in_group("moderateur_site"))
+    if ($site->user->is_in_group("moderateur_site") && $_REQUEST['automodere'])
       $affiche->validate($site->user->id);
   }
 }
@@ -132,6 +132,8 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
 
   if ($site->user->is_in_group("moderateur_site"))
     $frm->add_select_field("frequence", "Fréquence :", array(0=>"Désactivée", 1=>"Une fois par cycle", 2=>"Deux fois par cycle", 3=>"Trois fois par cycle"), $affiche->frequence);
+
+  if ($site->user->is_in_group("moderateur_site")) $frm->add_checkbox("automodere", "<b>Auto-modération</b>", true);
 
   $frm->add_submit("valid","Enregistrer");
 
@@ -296,7 +298,7 @@ if ( $suitable && isset($_REQUEST["submit"]) )
                   $_REQUEST['horaires'],
                   (isset($_REQUEST['frequence'])) ? $_REQUEST['frequence'] : 1);
 
-  if ($site->user->is_in_group("moderateur_site"))
+  if ($site->user->is_in_group("moderateur_site") && $_REQUEST['automodere'])
     $affiche->validate($site->user->id);
 
   unset($_REQUEST["debut"]);
@@ -335,6 +337,8 @@ else
   $frm->add_file_field("affiche_file","Affiche");
   $frm->add_info("Fichier PNG ou JPEG");
 }
+
+if ($site->user->is_in_group("moderateur_site")) $frm->add_checkbox("automodere", "<b>Auto-modération</b>");
 
 $frm->add_submit ("submit","Proposer l'affiche");
 
