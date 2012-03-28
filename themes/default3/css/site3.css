@@ -2501,7 +2501,7 @@ tr.prio0
 }
 .inprog
 {
-  font-style: bold;
+  font-weight: bold;
   color: #00840F;
 }
 tr.hilight
