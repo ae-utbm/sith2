@@ -109,11 +109,11 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     $frm->add_entity_smartselect ('asso_concerned', 'Asso lié', $asso_concerne);
     $frm->add_date_field ('date_submitted', 'Soumis le', $idtask == -1 ? time () : $todo->date_submitted, false, false);
     if ( $site->user->is_in_group("root") )
-      $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority,"",false,$enable);
+      $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     else
       $frm->add_hidden('priority','0');
     if ( $site->user->is_in_group("root") )
-      $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status);
+      $frm->add_select_field ('status', 'Statut', $todo_status, $todo->status,"", false, $enable);
     else
       $frm->add_hidden('status','0');
     $frm->add_select_field ('type', 'Type', $todo_types, $todo->enh_or_bug);
