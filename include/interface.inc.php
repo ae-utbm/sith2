@@ -380,14 +380,16 @@ if(!defined("MOBILE")) {
     $this->buffer .= "<div id='header'>\n";
     if(!defined('NOTAE'))
     {
-      $important=$this->get_param('box.Important');
-      if(!empty($important) && $important!="<p />")
-      {
-        $this->buffer .= "<div class=\"box\" id=\"important\">\n";
-        $this->buffer .= "<a class=\"logo\" href=\"http://ae.utbm.fr\"></a>";
-        $this->buffer .= "<div class=\"body\">\n";
-        $this->buffer .= $important. "\n";
-        $this->buffer .= "</div></div>\n";
+      if (!defined ("MOBILE")) {
+        $important=$this->get_param('box.Important');
+        if(!empty($important) && $important!="<p />")
+        {
+          $this->buffer .= "<div class=\"box\" id=\"important\">\n";
+          $this->buffer .= "<a class=\"logo\" href=\"http://ae.utbm.fr\"></a>";
+          $this->buffer .= "<div class=\"body\">\n";
+          $this->buffer .= $important. "\n";
+          $this->buffer .= "</div></div>\n";
+        }
       }
 
       //if (isset($_SERVER['HTTPS']))
