@@ -226,7 +226,8 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     $tblcts2->add ($tbl);
 
     $intro = new contents();
-    $intro->add_paragraph ('<a href="?action=nouveau">Ajouter nouveau bug</a>');
+    $intro->add_paragraph ('<a href="?action=nouveau">Reporter un bug / demander une fonctionnalité</a>');
+    $intro->add_paragraph ('<a href="'.$topdir.'wiki2/?name=ae:info:done">Effectué depuis le dernier passage en production</a>');
 
     $site->add_contents ($intro);
     $site->add_contents ($cts);
