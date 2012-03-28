@@ -44,8 +44,8 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo->id_user_assignee = $_REQUEST['utilisateur_assignee'];
     $todo->id_asso_concerned = $_REQUEST['asso_concerned'];
     $todo->date_submitted = time ();
-    $todo->priority = $_REQUEST['priority'];
-    $todo->status = $_REQUEST['status'];
+    $todo->priority = intval ($_REQUEST['priority']);
+    $todo->status = intval ($_REQUEST['status']);
     $todo->enh_or_bug = $_REQUEST['type'];
     $todo->desc = $_REQUEST['desc'];
     $todo->todo = $_REQUEST['todo'];
