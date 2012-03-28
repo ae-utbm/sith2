@@ -822,7 +822,7 @@ class form extends stdcontents
    * @param $height  Hauteur du champs en lignes (3)
    * @param $required  Précise si le champ est obligatoire
    */
-  function add_text_area ( $name, $title, $value="", $width=40, $height=3, $required = false, $allow_extend=false, $enable=true)
+  function add_text_area ( $name, $title, $value="", $width=40, $height=3, $required = false, $allow_extend=false, $enable=false)
   {
     if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     $this->buffer .= "<div class=\"formrow\">\n";
