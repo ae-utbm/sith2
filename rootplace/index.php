@@ -67,7 +67,7 @@ $cts->add_title(2,"Maintenance");
 $lst = new itemlist();
 $lst->add("<a href=\"droits.php\">Expiration des droits</a>");
 $lst->add("<a href=\"pollcoti.php\">Expiration des cotisations</a>");
-$lst->add("<a href=\"fermeture_comptes.php\">Clôture des comptes des non cotisants de plus de 2 ans</a>");
+$lst->add("<a href=\"".$topdir."ae/fermeture_comptes.php\">Clôture des comptes des non cotisants de plus de 2 ans</a>");
 //$lst->add("<a href=\"repairdb.php\">Auto-Reparation de la base de données</a>");
 $lst->add("<a href=\"affiches_cleanup.php\">Nettoyage des affiches</a>");
 $lst->add("<a href=\"checkup_files.php\">Verification des fichiers</a>");
