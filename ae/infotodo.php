@@ -116,7 +116,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     else
       $frm->add_hidden('status','0');
     $frm->add_select_field ('type', 'Type', $todo_types, $todo->enh_or_bug);
-    $frm->add_text_field ('desc', 'Description', $todo->desc,false,false,false,$util_reporter == $site->user || $site->user->is_in_group("root")? true : false);
+    $frm->add_text_field ('desc', 'Description', $todo->desc,false,false,false,$util_reporter === $site->user || $site->user->is_in_group("root")? true : false);
     $frm->add_text_area ('todo', 'Todo', $todo->todo, 80, 10);
     $frm->add_submit ('submit', 'Valider');
 
