@@ -52,7 +52,7 @@ $req = new requete ($site->db, "SELECT ae_cotisations.id_utilisateur AS id_utl "
     "FROM ae_cotisations AS inner_cotis WHERE inner_cotis.id_utilisateur=id_utl ".
     "GROUP BY inner_cotis.id_utilisateur)");
 
-if ($req->lines < 1 && false) {
+if ($req->lines < 1) {
   $cts->add_paragraph ("Aucun compte concerné par l'opération.");
 } else {
   if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'close_accounts') {
