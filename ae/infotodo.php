@@ -43,7 +43,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo->id_user_reporter = $_REQUEST['utilisateur_reporter'];
     $todo->id_user_assignee = $_REQUEST['utilisateur_assignee'];
     $todo->id_asso_concerned = $_REQUEST['asso_concerned'];
-    $todo->date_submitted = $_REQUEST['date_submitted'];
+    $todo->date_submitted = time ();
     $todo->priority = !is_null ($_REQUEST['priority']) ? $_REQUEST['priority'] : '0';
     $todo->status = !is_null ($_REQUEST['status']) ? $_REQUEST['status'] : '0';
     $todo->enh_or_bug = $_REQUEST['type'];
