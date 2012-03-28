@@ -27,7 +27,7 @@ require_once ($topdir. "include/cts/user.inc.php");
 
 $site = new site ();
 
-if ( !$site->user->is_in_group ("root") )
+if (!$site->user->is_in_group ("root") && !$site->user->is_in_group ("compta_admin"))
   $site->error_forbidden ("none", "group", 7);
 
 $site->start_page ("none", "Administration");
