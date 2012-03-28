@@ -2111,6 +2111,12 @@ if ( isset($_REQUEST["magicform"]) )
 
   if ( $_REQUEST["magicform"]["boolean"] )
   {
+    foreach ($_REQUEST["magicform"]["boolean"] as $name => $value)
+      set_request_fname_unprotect($name, ($value == $true));
+  }
+  if ($_REQUEST["magicform"]["files"])
+  {
+    require_once($topdir."include/entities/files.inc.php");
     $db = new mysqlae(); // $site n'est pas encore dispo...
     foreach ( $_REQUEST["magicform"]["files"] as $name => $value )
     {
