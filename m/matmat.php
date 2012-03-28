@@ -44,6 +44,12 @@ if (isset($_REQUEST["simplesearch"])) {
       $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
       $pattern = strtr($pattern, array(' ' => '|'));
 
+      $cond_nom = "`utilisateurs`.nom_utl REGEXP '".$pattern."'";
+      $cond_prenom = "`utilisateurs`.prenom_utl REGEXP '".$pattern."'";
+      $cond_surnom = "`utl_etu_utbm`.surnom_utbm REGEXP '".$pattern."'";
+      $cond_tel = "`utilisateurs`.tel_portable_utl REGEXP '".$pattern."'";
+      $cond_mail = "`utilisateurs`.email_utl REGEXP '".$pattern."'";
+
       $req = new requete($site->db,
             "SELECT `utilisateurs`.id_utilisateur,
               `utilisateurs`.nom_utl,
@@ -54,11 +60,11 @@ if (isset($_REQUEST["simplesearch"])) {
               `utl_etu_utbm`.email_utbm
             FROM `utilisateurs`
             LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.id_utilisateur=`utilisateurs`.id_utilisateur
-            WHERE `utilisateurs`.nom_utl REGEXP '".$pattern."' OR
-              `utilisateurs`.prenom_utl REGEXP '".$pattern."' OR
-              `utl_etu_utbm`.surnom_utbm REGEXP '".$pattern."' OR
-              `utilisateurs`.tel_portable_utl REGEXP '".$pattern."' OR
-              `utilisateurs`.email_utl REGEXP '".$pattern."'
+            WHERE ".$cond_nom." OR
+              ".$cond_prenom." OR
+              ".$cond_surnom." OR
+              ".$cond_tel." OR
+              ".$cond_mail."
             ORDER BY `utilisateurs`.id_utilisateur DESC
             LIMIT 15"
         );
