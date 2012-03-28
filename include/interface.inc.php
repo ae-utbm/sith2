@@ -469,9 +469,9 @@ if(!defined("MOBILE")) {
               $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info (".
                     $row['tot'].")</a>';";
             else
-              $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info</a>";
+              $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info</a>';";
           } else {
-            $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info</a>";
+            $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info</a>';";
           }
         }
         $i++;
