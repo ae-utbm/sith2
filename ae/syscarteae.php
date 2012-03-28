@@ -217,7 +217,7 @@ $tabs = array(array("","ae/syscarteae.php", "Résumé"),
       array("factures","ae/syscarteae.php?view=factures", "Appels à facture"),
       array("comptes","ae/syscarteae.php?view=comptes", "Comptes"),
       array("retrait","ae/syscarteae.php?view=retrait", "Produits non retirés"),
-      array("remb","ae/syscarteae.php?view=remb", "Reboursement")
+      array("remb","ae/syscarteae.php?view=remb", "Remboursement")
       );
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
@@ -232,7 +232,7 @@ if (   $_REQUEST["view"] == "remb" )
           .number_format($user->montant_compte/100, 2)." €.",
           "doremb".$user->id, 1 ) )
     {
-      $cts->add_title(2,"Reboursement de ".$user->get_html_link());
+      $cts->add_title(2,"Remboursement de ".$user->get_html_link());
 
       require_once ($topdir . "comptoir/include/comptoir.inc.php");
       require_once ($topdir . "comptoir/include/comptoirs.inc.php");
