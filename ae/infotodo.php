@@ -106,7 +106,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     else
       $frm->add_hidden('utilisateur_assignee',0);
     $frm->add_entity_smartselect ('asso_concerned', 'Asso lié', $asso_concerne);
-    $frm->add_date_field ('date_submitted', 'Soumis le', $idtask == -1 ? time () : $todo->date_submitted, false, $idtask == -1);
+    $frm->add_date_field ('date_submitted', 'Soumis le', $idtask == -1 ? time () : $todo->date_submitted, false, false);
     if ( $site->user->is_in_group("root") )
       $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     else
