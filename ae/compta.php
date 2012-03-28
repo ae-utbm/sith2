@@ -45,6 +45,10 @@ $sublist->add("<a href=\"".$topdir."comptoir/admin.php\">Comptoirs AE</a>");
 $sublist->add("<a href=\"".$topdir."compta/eticket.php\">Gestion E-tickets</a>");
 $board->add($sublist,true);
 
+$sublist = new itemlist ("Opérations diverses", "boxlist");
+$sublist->add ("<a href=\"".$topdir."ae/fermeture_comptes.php\">Clôture des comptes des non cotisants de plus de 2 ans</a>");
+$board->add ($sublist, true);
+
 $cts->add($board);
 
 $site->add_contents($cts);
