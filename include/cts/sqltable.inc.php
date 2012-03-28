@@ -64,8 +64,8 @@ class sqltable extends stdcontents
    * @param $htmlentitize indique si les entrées du tableau doivent être passées par la fonction htmlentities()
    * @param $hilight ids des éléments sélectionnés
    * @param $anchor permet de spécifier un emplacement dans la page de destination (%url%%anchor%%id%)
-   * @param $spe_cond permet de definir une colonne de la reponse sql afin d'appliquer un style css specifique
-   * @param $spe liste des valeurs pouvant être matché pour l'application du css
+   * @param $td permet de spécifier un style à une ligne selon un critère (array(col_name => array('css' => classe_css, 'values' => valeur du critère)))
+   * @param $col_css permet de spécifier un style à certaines cellules selon son contenu (array(valeur à trouver => class_css))
    **/
   function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions,
     $enumerated=array(), $htmlentitize = true, $fjs=true, $hilight=array(), $anchor="",

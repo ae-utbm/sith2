@@ -822,7 +822,7 @@ class form extends stdcontents
    * @param $height  Hauteur du champs en lignes (3)
    * @param $required  Précise si le champ est obligatoire
    */
-  function add_text_area ( $name, $title, $value="", $width=40, $height=3, $required = false, $allow_extend=false, $enable=false)
+  function add_text_area ( $name, $title, $value="", $width=40, $height=3, $required = false, $allow_extend=false, $enable=true)
   {
     if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     $this->buffer .= "<div class=\"formrow\">\n";
@@ -2111,13 +2111,6 @@ if ( isset($_REQUEST["magicform"]) )
 
   if ( $_REQUEST["magicform"]["boolean"] )
   {
-    foreach ( $_REQUEST["magicform"]["boolean"] as $name => $value )
-      set_request_fname_unprotect($name,($value == "true"));
-  }
-
-  if ( $_REQUEST["magicform"]["files"] )
-  {
-    require_once($topdir . "include/entities/files.inc.php");
     $db = new mysqlae(); // $site n'est pas encore dispo...
     foreach ( $_REQUEST["magicform"]["files"] as $name => $value )
     {
