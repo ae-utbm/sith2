@@ -36,7 +36,6 @@ class todoitem extends stdentity
     var $id_user_reporter;
     var $id_user_assignee;
     var $id_asso_concerned;
-    var $date_deadline;
     var $date_submitted;
     var $priority;
     var $enh_or_bug;
@@ -54,7 +53,7 @@ class todoitem extends stdentity
         $this->enh_or_bug = 0;
         $this->desc = '';
         $this->todo = '';
-        $this->date_submitted = $this->date_deadline = time();
+        $this->date_submitted = time();
     }
 
     function load_by_id ($id)
@@ -77,7 +76,6 @@ class todoitem extends stdentity
         $this->id_user_assignee = $row['id_utilisateur_assignee'];
         $this->id_asso_concerned = $row['id_asso_concerned'];
         $this->date_submitted = strtotime($row['date_submitted']);
-        $this->date_deadline = strtotime($row['date_deadline']);
         $this->priority = $row['priority'];
         $this->enh_or_bug = $row['enh_or_bug'];
         $this->status = $row['status'];
@@ -100,7 +98,6 @@ class todoitem extends stdentity
                                             'id_utilisateur_assignee' => $this->id_user_assignee,
                                             'id_asso_concerned' => $this->id_asso_concerned,
                                             'date_submitted' => date("Y-m-d", $this->date_submitted),
-                                            'date_deadline' => date("Y-m-d", $this->date_deadline),
                                             'priority' => $this->priority,
                                             'enh_or_bug' => $this->enh_or_bug,
                                             'status' => $this->status,
@@ -114,7 +111,6 @@ class todoitem extends stdentity
                                          'id_utilisateur_assignee' => $this->id_user_assignee,
                                          'id_asso_concerned' => $this->id_asso_concerned,
                                          'date_submitted' => date("Y-m-d", $this->date_submitted),
-                                         'date_deadline' => date("Y-m-d", $this->date_deadline),
                                          'priority' => $this->priority,
                                          'enh_or_bug' => $this->enh_or_bug,
                                          'status' => $this->status,

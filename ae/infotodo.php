@@ -43,7 +43,6 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo->id_user_reporter = $_REQUEST['utilisateur_reporter'];
     $todo->id_user_assignee = $_REQUEST['utilisateur_assignee'];
     $todo->id_asso_concerned = $_REQUEST['asso_concerned'];
-    $todo->date_deadline = $_REQUEST['date_deadline'];
     $todo->date_submitted = $_REQUEST['date_submitted'];
     $todo->priority = $_REQUEST['priority'];
     $todo->status = $_REQUEST['status'];
@@ -107,7 +106,6 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
     else
       $frm->add_hidden('utilisateur_assignee',0);
     $frm->add_entity_smartselect ('asso_concerned', 'Asso lié', $asso_concerne);
-    $frm->add_date_field ('date_deadline', 'Deadline', $idtask == -1 ? time () : $todo->date_deadline);
     $frm->add_date_field ('date_submitted', 'Soumis le', $idtask == -1 ? time () : $todo->date_submitted, false, $idtask == -1);
     if ( $site->user->is_in_group("root") )
       $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
@@ -169,7 +167,6 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
         $tbl = new sqltable ('infotodo2', 'Liste des nouvelles tâches', $req, 'infotodo.php', 'id_task',
                          array('nom_utilisateur_reporter' => 'Demandeur',
                                'nom_asso_concerned' => array('Club associé', 'nom_asso'),
-                               'date_deadline' => 'Deadline',
                                'date_submitted' => 'Date soumission',
                                'priority_name' => 'Priorité',
                                'be_name' => 'Type',
@@ -188,7 +185,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
         else
             $sql .= ' WHERE '.implode(' AND ', $where);
     }
-    $sql .=  ' ORDER BY priority DESC, date_deadline, date_submitted';
+    $sql .=  ' ORDER BY priority DESC, date_submitted';
 
     $req = new requete($site->db, $sql);
 
@@ -204,7 +201,6 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
                          array('nom_utilisateur_reporter' => 'Demandeur',
                                'nom_utilisateur_assignee' => 'Assigné à',
                                'nom_asso_concerned' => array('Club associé', 'nom_asso'),
-                               'date_deadline' => 'Deadline',
                                'date_submitted' => 'Date soumission',
                                'priority_name' => 'Priorité',
                                'be_name' => 'Type',
