@@ -69,7 +69,7 @@ class sqltable extends stdcontents
    **/
   function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions,
     $enumerated=array(), $htmlentitize = true, $fjs=true, $hilight=array(), $anchor="",
-    $td=array(), $spe=array())
+    $td=array(), $col_css=array())
   {
     global $topdir,$wwwtopdir;
 
@@ -273,8 +273,9 @@ class sqltable extends stdcontents
         else
           {
             if ($htmlentitize)
-              if ($row[$key] == "InProgress")
-                $this->buffer .= "<span class=\"\">".htmlentities($row[$key],ENT_NOQUOTES,"UTF-8")."</span>";
+
+              if (isset($col_css[$row[$key]]))
+                $this->buffer .= "<span class=\"".$col_css[$row[$key]]."\">".htmlentities($row[$key],ENT_NOQUOTES,"UTF-8")."</span>";
               else
                 $this->buffer .= htmlentities($row[$key],ENT_NOQUOTES,"UTF-8");
             else

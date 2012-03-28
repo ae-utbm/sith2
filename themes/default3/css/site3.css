@@ -2499,6 +2499,11 @@ tr.prio0
 {
   background: #FF6563;
 }
+tr.inprog
+{
+  font-style: bold;
+  color: #00840F;
+}
 tr.hilight
 {
   background: #ffdd77;
