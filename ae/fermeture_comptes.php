@@ -93,6 +93,9 @@ if ($req->lines < 1 && false) {
 
     if ($req2->lines > 0) {
       $row = $req2->get_row ();
+
+      if (is_null ($row['montant'])) $row['montant'] = 0;
+
       if ($row['tot'] > 1)
         $cts->add_paragraph ($row['tot']." comptes peuvent être clôturés pour un total de ". $row['montant']." euro(s).");
       else
