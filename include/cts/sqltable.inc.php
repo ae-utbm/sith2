@@ -273,7 +273,10 @@ class sqltable extends stdcontents
         else
           {
             if ($htmlentitize)
-              $this->buffer .= htmlentities($row[$key],ENT_NOQUOTES,"UTF-8");
+              if ($row[$key] == "InProgress")
+                $this->buffer .= "<span class=\"\">".htmlentities($row[$key],ENT_NOQUOTES,"UTF-8")."</span>";
+              else
+                $this->buffer .= htmlentities($row[$key],ENT_NOQUOTES,"UTF-8");
             else
               $this->buffer .= $row[$key];
           }
