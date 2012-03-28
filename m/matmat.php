@@ -65,7 +65,12 @@ if (isset($_REQUEST["simplesearch"])) {
               ".$cond_surnom." OR
               ".$cond_tel." OR
               ".$cond_mail."
-            ORDER BY `utilisateurs`.id_utilisateur DESC
+            ORDER BY (CASE WHEN ".$cond_nom." THEN 1 ELSE 0 END) +
+              (CASE WHEN ".$cond_prenom." THEN 1 ELSE 0 END) +
+              (CASE WHEN ".$cond_surnom." THEN 1 ELSE 0 END) +
+              (CASE WHEN ".$cond_tel." THEN 1 ELSE 0 END) +
+              (CASE WHEN ".$cond_mail." THEN 1 ELSE 0 END) DESC,
+              `utilisateurs`.id_utilisateur DESC
             LIMIT 15"
         );
 
