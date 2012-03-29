@@ -44,9 +44,11 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo->id_user_assignee = $_REQUEST['utilisateur_assignee'];
     $todo->id_asso_concerned = $_REQUEST['asso_concerned'];
 
+    /*
     $todo_date =  new todoitem ($site->db);
     $todo_date->load_by_id ($todo->id_task);
-    $todo->date_submitted = isset($todo_date->date_submitted) ? $todo_date->date_submitted : time();
+    $todo->date_submitted = isset($todo_date->date_submitted) ? $todo_date->date_submitted : time();*/
+    $todo->date_submitted = isset($_REQUEST['date_submittd']) ? $_REQUEST['date_submitted'] : time();
 
     $todo->priority = intval ($_REQUEST['priority']);
     $todo->status = intval ($_REQUEST['status']);
@@ -112,6 +114,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] != 'commit' && $_REQUEST[
       $frm->add_hidden('utilisateur_assignee',0);
     $frm->add_entity_smartselect ('asso_concerned', 'Asso lié', $asso_concerne);
     $frm->add_date_field ('date_submitted', 'Soumis le', $idtask == -1 ? time () : $todo->date_submitted, false, false);
+    $_REQUEST['date_submitted'] = $todo->date_submitted;
     if ( $site->user->is_in_group("root") )
       $frm->add_select_field ('priority', 'Priorité', $todo_priorities, $todo->priority);
     else
