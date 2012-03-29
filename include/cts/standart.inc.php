@@ -2112,7 +2112,7 @@ if ( isset($_REQUEST["magicform"]) )
   if ( $_REQUEST["magicform"]["boolean"] )
   {
     foreach ($_REQUEST["magicform"]["boolean"] as $name => $value)
-      set_request_fname_unprotect($name, ($value == $true));
+      set_request_fname_unprotect($name, ($value == "true"));
   }
   if ($_REQUEST["magicform"]["files"])
   {
