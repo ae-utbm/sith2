@@ -48,7 +48,7 @@ if (isset ($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     $todo_date =  new todoitem ($site->db);
     $todo_date->load_by_id ($todo->id_task);
     $todo->date_submitted = isset($todo_date->date_submitted) ? $todo_date->date_submitted : time();*/
-    $todo->date_submitted = isset($_REQUEST['date_submittd']) ? $_REQUEST['date_submitted'] : time();
+    $todo->date_submitted = isset($_REQUEST['date_submitted']) ? $_REQUEST['date_submitted'] : time();
 
     $todo->priority = intval ($_REQUEST['priority']);
     $todo->status = intval ($_REQUEST['status']);
