@@ -65,7 +65,7 @@ if (isset($_REQUEST["simplesearch"])) {
               ".$cond_surnom." OR
               ".$cond_tel." OR
               ".$cond_mail.")
-              AND `utilisateurs`.publique_utl >= ".($site->user->cotisant?'1':'2')."
+              AND `utilisateurs`.publique_utl >= '".($site->user->cotisant?'1':'2')."'
             ORDER BY (CASE WHEN ".$cond_nom." THEN 1 ELSE 0 END) +
               (CASE WHEN ".$cond_prenom." THEN 1 ELSE 0 END) +
               (CASE WHEN ".$cond_surnom." THEN 1 ELSE 0 END) +
