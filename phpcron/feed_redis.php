@@ -21,7 +21,7 @@
  * 02111-1307, USA.
  */
 
-$_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/taiste/phpcron";
+$_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/phpcron";
 $topdir="../";
 
 require_once ($topdir. "include/site.inc.php");
