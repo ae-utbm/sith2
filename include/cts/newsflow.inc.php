@@ -420,7 +420,7 @@ class newsfront extends newslister
                                "ORDER BY nvl_dates.date_debut_eve " .
                                "LIMIT 10");
 
-            $this->nottomiss_list($sql);
+            $cache->set_contents_until ($this->nottomiss_list($sql), $cacheexpiry);
         }
     } /* ifndef MOBILE */
   }
