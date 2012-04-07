@@ -973,7 +973,7 @@ if(defined("MOBILE") && !$GLOBALS["taiste"]) $this->buffer = strtr($this->buffer
    * @param $section Section de la page de confirmation
    * @param $message Message à afficher
    * @param $uid identifiant unique de la question
-   * @param $level niveau d'incidence (0:pas grave, 1:peu risqué, 2:trés risqué, 3:risque la colère des administrateurs)
+   * @param $level niveau d'incidence (0:pas grave, 1:peu risqué, 2:très risqué, 3:risque la colère des administrateurs)
    */
   function is_sure ( $section,$message,$uid=null,$level=0 )
   {
