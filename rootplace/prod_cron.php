@@ -123,7 +123,7 @@ if($_REQUEST["view"]=="commit")
 else
 {
   if ($_REQUEST["action"] == "passprod" && $Ok) {
-    $cts->add_paragraph("Passage en prod programmé dans les deux minutes à venir");
+    $cts->add_paragraph("<b>Passage en prod programmé dans les deux minutes à venir.</b>");
   } else {
     $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Passer en production");
     $frm->allow_only_one_usage();
