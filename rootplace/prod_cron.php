@@ -84,9 +84,7 @@ $cts->add_paragraph("Révision en production : ".get_rev());
 
 if ( $Ok )
 {
-  if ( $_REQUEST["action"] == "passprod" )
-    $cts->add_paragraph("Passage en prod programmé dans les deux minutes à venir");
-  elseif ( $_REQUEST["action"] == "scriptprod" )
+  if ( $_REQUEST["action"] == "scriptprod" )
     $cts->add_paragraph("Script de passage en prod modifié");
   elseif( $_REQUEST["action"] == "commit" )
     $cts->add_paragraph("Script de post commit modifié");
@@ -124,11 +122,15 @@ if($_REQUEST["view"]=="commit")
 }
 else
 {
-  $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Passer en production");
-  $frm->allow_only_one_usage();
-  $frm->add_hidden("action","passprod");
-  $frm->add_submit("valid","Valider");
-  $cts->add($frm,true);
+  if ($_REQUEST["action"] == "passprod" && $Ok) {
+    $cts->add_paragraph("Passage en prod programmé dans les deux minutes à venir");
+  } else {
+    $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Passer en production");
+    $frm->allow_only_one_usage();
+    $frm->add_hidden("action","passprod");
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
+  }
 }
 
 $site->add_contents($cts);
