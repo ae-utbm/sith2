@@ -280,7 +280,7 @@ if ( count($conds) >= 1 )
 
 
   $cts->add_title(2,"Sommes");
-  $cts->add_paragraph("Quantitée : $qte unités<br/>" .
+  $cts->add_paragraph("Quantité : $qte unités<br/>" .
                       "Chiffre d'affaire: ".($sum/100)." Euros<br/>" .
                       "Prix countant total estimé* : ".($sumcoutant/100)." Euros");
 
