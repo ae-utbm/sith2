@@ -165,10 +165,10 @@ else
     $cts->add_paragraph("<a href=\"?listing\">Liste des inscrits</a>");
 
   $intro = "
-  <b>25ème FIMU : les 11, 12 et 13 Juin 2011</b>
+  <b>26ème FIMU : les 26, 27 et 28 Mai 2012</b>
 <br />
 <br />
-  L'AE vous permet de vous inscrire en ligne pour être bénévole au FIMU 2011. Le formulaire suivant est la copie conforme de la feuille que vous pourrez trouver dans les points de distribution.
+  L'AE vous permet de vous inscrire en ligne pour être bénévole au FIMU 2012. Le formulaire suivant est la copie conforme de la feuille que vous pourrez trouver dans les points de distribution.
 <br />
 <br />
   Les informations personnelles (telles que votre nom, prénom, adresse...) seront remplies à partir de vos informations Matmatronch', vous n'avez plus qu'à indiquer vos disponibilités et vos souhaits d'affectation.
@@ -214,12 +214,12 @@ else
 
   $subfrm = new form("fimu_inscr", "index.php", true, "POST", "Disponibilités");
     //$subfrm->add_info("Il est fortement souhaitable que vous soyez disponible 3 jours consécutifs minimum");
-    $subfrm->add_checkbox("jour1", "Jeudi 9 Juin");
-    $subfrm->add_checkbox("jour2", "Vendredi 10 Juin");
-    $subfrm->add_checkbox("jour3", "Samedi 11 Juin");
-    $subfrm->add_checkbox("jour4", "Dimanche 12 Juin");
-    $subfrm->add_checkbox("jour5", "Lundi 13 Juin");
-    $subfrm->add_checkbox("jour6", "Mardi 14 Juin");
+    $subfrm->add_checkbox("jour1", "Jeudi 24 Mai");
+    $subfrm->add_checkbox("jour2", "Vendredi 25 Mai");
+    $subfrm->add_checkbox("jour3", "Samedi 26 Mai");
+    $subfrm->add_checkbox("jour4", "Dimanche 27 Mai");
+    $subfrm->add_checkbox("jour5", "Lundi 28 Mai");
+    $subfrm->add_checkbox("jour6", "Mardi 29 Mai");
   $frm->add($subfrm);
 
   $subfrm = new form("fimu_inscr", "index.php", true, "POST", "<a href='http://ae.utbm.fr/article.php?name=fimu_info'>Souhaits de poste <img src='$topdir/images/tipp.png' /></a>");
