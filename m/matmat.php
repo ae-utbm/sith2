@@ -39,6 +39,12 @@ $site->add_css ("/themes/mobile/css/matmat.css");
 $cts = new contents();
 $cts->add_title(1, "Mat'Matronch", "mob_title");
 
+if (!$site->user->ae && !$site->user->utbm) {
+  $cts->add_paragraph ("Section réservée aux cotisants AE et aux membres de l'UTBM.");
+  $site->add_contents ($cts);
+  $site->end_page ();
+}
+
 if (isset($_REQUEST["simplesearch"])) {
     if (isset($_REQUEST["pattern"])) {
       $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
