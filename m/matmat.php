@@ -43,6 +43,7 @@ if (!$site->user->ae && !$site->user->utbm) {
   $cts->add_paragraph ("Section réservée aux cotisants AE et aux membres de l'UTBM.");
   $site->add_contents ($cts);
   $site->end_page ();
+  exit (0);
 }
 
 if (isset($_REQUEST["simplesearch"])) {
