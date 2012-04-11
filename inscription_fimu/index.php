@@ -266,7 +266,7 @@ else
     $subfrm->add_radiobox_field("voiture", "Possession d'une voiture personnelle", $ouinon, "N");
 
     $subfrm2 = new form("fimu_inscr", "index.php");
-      $subfrm2->add_radiobox_field("afps", "Titulaire d'un diplôme de premiers secours (AFPS...)", $ouinon, "N");
+      $subfrm2->add_radiobox_field("afps", "Titulaire d'un diplôme de premiers secours (PSC1,...)", $ouinon, "N");
       $subfrm2->add_text_field("type_afps", "Lequel", "", false, 35);
     $subfrm->add($subfrm2, false, false, false, false, true);
 
