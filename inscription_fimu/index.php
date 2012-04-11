@@ -159,7 +159,8 @@ else
 /*******************************************************************
  * Start fimu_inscr form
  */
-  //$site->error_forbidden("accueil","reserved");
+
+  //$site->error_forbidden("accueil","reserved"); //Commenter pour activer les inscriptions
 
   if ($site->user->is_in_group("gestion_fimu"))
     $cts->add_paragraph("<a href=\"?listing\">Liste des inscrits</a>");
