@@ -121,6 +121,7 @@ div#menuContent a {
 
 div#menuContent p {
   color: white;
+         background-color: #555;
   display: block;
   font-size: 2em;
   padding-top: 0.5em;
