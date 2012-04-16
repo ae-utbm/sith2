@@ -330,18 +330,19 @@ if(!defined("MOBILE")) {
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";
 if(!defined("MOBILE")) {
+  $ovl = false;
     if (!isset ($_SESSION["mobile_disclaimer"])) {
       /* If a mobile user agent is detected, display a disclaimer */
       $mobile_ua = "/(android|up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone)/";
       if (preg_match ($mobile_ua, strtolower ($_SERVER['HTTP_USER_AGENT']))) {
         $this->buffer .= "<div id=\"mobile_disclaimer\">\n";
-        $this->buffer .= "<script>document.getElementById('overlay').style.display='block';</script>";
         $this->buffer .= "Redirection vers la version<br /> mobile du site : ";
         $this->buffer .= "<br /><a href=\"/m\">oui</a> - ";
         $this->buffer .= "<a href=\"/\">non</a>";
         $this->buffer .= "</div>\n";
 
         //$_SESSION["mobile_disclaimer"] = false;
+        $ovl = true;
       }
     }
 
@@ -351,7 +352,7 @@ if(!defined("MOBILE")) {
       /* Come back here after ! */
       $_SESSION['session_redirect'] = $_SERVER["REQUEST_URI"];
 
-      $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:none\"></div>\n";
+      $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:". ($ovl ? 'block' : 'none') ."\"></div>\n";
       $this->buffer .= '<div id="passwordbox" style="display:none">';
       $this->buffer .= '<img id="close" src="'.$topdir.'images/actions/delete.png" onclick="hideConnexionBox()" alt="Fermer" ';
       $this->buffer .= 'title="Fermer" />';
