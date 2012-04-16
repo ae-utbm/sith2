@@ -43,6 +43,7 @@ if ( $_REQUEST['module']=="fsearch" )
       $content = $cache->get_cached_contents ($site->user, $_REQUEST["pattern"]);
 
   if ($content == null) {
+    echo "null";
       require_once($topdir. "include/cts/fsearch.inc.php");
       $fsearch = new fsearch ( $site, false );
       $content = $fsearch->buffer;
