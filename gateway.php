@@ -42,14 +42,14 @@ if ( $_REQUEST['module']=="fsearch" )
   if ($cache->can_get_cached_contents ())
       $content = $cache->get_cached_contents ($site->user, $_REQUEST["pattern"]);
 
-  //if ($content == null) {
+  if ($content == null) {
     echo "null";
       require_once($topdir. "include/cts/fsearch.inc.php");
       $fsearch = new fsearch ( $site, false );
       $content = $fsearch->buffer;
       if (!empty ($content) && strlen ($_REQUEST["pattern"]) > 4)
           $cache->set_temporarily_cached_contents($_REQUEST["pattern"], $content);
-  //}
+  }
 
   echo $content;
   exit ();
