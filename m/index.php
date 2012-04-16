@@ -27,7 +27,9 @@
 
 $topdir = "../";
 
-echo $_SERVER['HTTP_USER_AGENT'];
+$mobile_ua = "/(android|up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone)/";
+if (preg_match ($mobile_ua, strtolower ($_SERVER['HTTP_USER_AGENT'])))
+  echo 'MOBILE !';
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/newsflow.inc.php");
