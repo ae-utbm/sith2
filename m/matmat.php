@@ -30,11 +30,10 @@ $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 
 function handle_phone ($ph) {
-  $reg = "(\+|(0[1-9]))([0-9]+)";
+  $reg = "$\+|(0[1-9])([0-9]+)$";
   preg_match ($reg, $ph, $m);
 
-  foreach ($m as $k => $foo)
-    echo $foo .'\n';
+  print_r ($m);
 }
 
 handle_phone ("0344446785");
