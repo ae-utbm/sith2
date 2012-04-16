@@ -779,6 +779,14 @@ function hideConnexionBox()
   elem.style.display = 'none';
   return false;
 }
+function handleDisclaimer () {
+  elem = document.getElementById ('overlay');
+  if (elem.style.display == 'none')
+    elem.style.display = 'block';
+  else
+    elem.style.display = 'none';
+  return false;
+}
 
 function center(name)
 {
