@@ -34,11 +34,6 @@ function handle_phone ($ph) {
   return preg_replace ($reg, "$3", $ph);
 }
 
-echo handle_phone ("lol 0344446785 kwain");
-echo "\n\n";
-echo handle_phone ("gnah +33645783290 dovcuwvr");
-
-
 $site = new site();
 $site->set_mobile(true);
 $site->start_page("matmatronch", "MatMaTronch");
@@ -58,6 +53,8 @@ if (!$site->user->ae && !$site->user->utbm) {
 if (isset($_REQUEST["simplesearch"])) {
     if (isset($_REQUEST["pattern"])) {
       $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
+      $pattern = hande_phone ($pattern);
+      echo $pattern;
       $pattern = strtr($pattern, array(' ' => '|'));
 
       $cond_nom = "`utilisateurs`.nom_utl REGEXP '".$pattern."'";
