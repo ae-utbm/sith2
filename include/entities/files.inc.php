@@ -201,7 +201,7 @@ class dfile extends fs
     $this->date_ajout = time();
     $this->date_modif = time();
     $this->modere=false;
-    $this->auto_modere();
+    $this->auto_mod();
 
     $this->nom_fichier= $this->get_free_filename($id_folder,$file['name']);
     $this->taille=$file['size'];
@@ -274,7 +274,7 @@ class dfile extends fs
     $this->date_ajout = $dateajout;
     $this->date_modif = $dateajout;
     $this->modere=$modere;
-    $this->auto_modere();
+    $this->auto_mod();
 
     $this->nom_fichier= $this->get_free_filename($id_folder,$filename);
     $this->taille=$filesize;
@@ -401,7 +401,7 @@ class dfile extends fs
     $this->id_rev_file = $sql->get_id();
     $this->date_modif=time();
     $this->modere=false;
-    $this->auto_modere();
+    $this->auto_mod();
 
     $sql = new update ($this->dbrw,
       "d_file",
@@ -470,7 +470,7 @@ class dfile extends fs
     $this->date_ajout = time();
     $this->date_modif = time();
     $this->modere=false;
-    $this->auto_modere();
+    $this->auto_mod();
     $this->nom_fichier= $this->get_free_filename($id_folder,$filename);
     $this->taille=$filesize;
     $this->mime_type=$mime_type; // ou mime_content_type($file['tmp_name']);
@@ -522,6 +522,11 @@ class dfile extends fs
   {
     $this->id_folder = $id_folder;
     $this->id_folder_parent = $id_folder;
+
+    $parent = $this->get_parent ();
+    if (!is_null ($parent))
+      if ($parent->auto_modere)
+        return false;
 
     if ( is_null($new_nom_fichier) )
       $this->nom_fichier= $this->get_free_filename($id_folder,$this->nom_fichier);
@@ -820,7 +825,7 @@ class dfile extends fs
    * Procède à l'auto-modération du fichier si possible.
    * L'auto modération est possible sur les fichiers à accès "restreint".
    */
-  function auto_modere()
+  function auto_mod()
   {
     if ( $this->modere )
       return;
@@ -828,7 +833,11 @@ class dfile extends fs
     if ( (DROIT_LECTURE & ($this->droits_acces)) == DROIT_LECTURE )
       return;
 
-    if ( $this->id_groupe >= 10000 && $this->id_groupe < 20000 )
+    $parent = $this->get_parent ();
+    if (is_null ($parent))
+      return;
+
+    if (!$parent->auto_modere)
       return;
 
     $this->modere = true;
