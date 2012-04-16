@@ -59,7 +59,7 @@
 body
 {
   background: #CCCCCC;
-  background-image: url("http://ar.chroot-me.in/random/FooBar/patron.jpg.png");
+  background-image: url("../images/global-top.png");
   margin: 0;
   padding: 0;
   background-repeat: no-repeat;
