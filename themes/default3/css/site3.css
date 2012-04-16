@@ -293,11 +293,12 @@ div#fsearchbox input
   z-index: 100;
   left: 15%;
   border: 5px solid #555;
-  font-size: 2.5em;
+  font-size: 4em;
 }
 
 #mobile_disclaimer a {
   text-decoration: none;
+  font-size: 4em;
 }
 
 /*liste déroulante de la barre du haut---------------------------------*/
