@@ -680,13 +680,13 @@ elseif ( isset($_SESSION["d_clipboard"]) && $_REQUEST["action"] == "paste" )
       if ( $folder->is_right($site->user,DROIT_AJOUTITEM) )
       {
         $inffile->load_by_id($id);
-        $inffile->move_to($folder->id);
+        $inffile->move_to($folder->id, null, $site->user->is_in_group ("moderateur_site"));
       }
     }
     elseif ( $folder->is_right($site->user,DROIT_AJOUTCAT) )
     {
       $inffolder->load_by_id($id);
-      $inffolder->move_to($folder->id);
+      $inffolder->move_to($folder->id, null, $site->user->is_in_group ("moderateu    r_site"));
     }
   }
 

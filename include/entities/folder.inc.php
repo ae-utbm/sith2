@@ -352,7 +352,7 @@ class dfolder extends fs
    * Deplace le fichier dans un autre dossier
    * @param $id_folder Titre du dossier
    */
-  function move_to ( $id_folder, $new_nom_fichier=null )
+  function move_to ( $id_folder, $new_nom_fichier=null, $force = false )
   {
     if ( is_null($this->id_folder_parent) )
       return false;
@@ -361,9 +361,6 @@ class dfolder extends fs
     $pfolder->load_by_id($id_folder);
 
     $parent = $this->get_parent ();
-    if (!is_null ($parent))
-      if ($parent->auto_modere)
-        return false;
 
     while ( $pfolder->is_valid() )
     {
@@ -386,6 +383,12 @@ class dfolder extends fs
       "id_folder_parent"=>$this->id_folder_parent),
       array("id_folder"=>$this->id)
       );
+
+    if (!is_null ($parent))
+      if ($parent->auto_modere && !$force) {
+        $this->set_modere (false);
+        $this->auto_mod ();
+      }
 
     return true;
   }

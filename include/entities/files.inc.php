@@ -518,12 +518,9 @@ class dfile extends fs
    * Deplace le fichier dans un autre dossier
    * @param $id_folder Titre du dossier
    */
-  function move_to ( $id_folder, $new_nom_fichier=null )
+  function move_to ( $id_folder, $new_nom_fichier=null, $force = false )
   {
     $parent = $this->get_parent ();
-    if (!is_null ($parent))
-      if ($parent->auto_modere)
-        return false;
 
     $this->id_folder = $id_folder;
     $this->id_folder_parent = $id_folder;
@@ -538,6 +535,12 @@ class dfile extends fs
       array("nom_fichier_file"=>$this->nom_fichier,"id_folder"=>$this->id_folder),
       array("id_file"=>$this->id)
       );
+
+    if (!is_null ($parent))
+      if ($parent->auto_modere && !$force) {
+        $this->set_modere (false);
+        $this->auto_mod ();
+      }
 
     return true;
   }
