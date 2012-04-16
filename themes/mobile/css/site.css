@@ -127,6 +127,7 @@ div#menuContent p {
   padding-bottom: 0.5em;
   border-bottom: 5px dashed #555;
   margin-bottom: -5px;  /* little hack */
+  margin-top: -5px;
 }
 
 #overlay {
