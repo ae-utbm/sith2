@@ -330,6 +330,20 @@ if(!defined("MOBILE")) {
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";
 if(!defined("MOBILE")) {
+    if (isset ($_SESSION["mobile_disclaimer"])) {
+      /* If a mobile user agent is detected, display a disclaimer */
+      $mobile_ua = "/(android|up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone)/";
+      if (preg_match ($mobile_ua, strtolower ($_SERVER['HTTP_USER_AGENT']))) {
+        $this->buffer .= "<div id=\"mobile_disclaimer\">\n";
+        $this->buffer .= "Redirection vers la version mobile du site : ";
+        $this->buffer .= "<a href=\"/m\">oui</a> - ";
+        $this->buffer .= "<a href=\"/\">non</a>";
+        $this->buffer .= "</div>\n";
+
+        $_SESSION["mobile_disclaimer"] = false;
+      }
+    }
+
     $this->buffer .= "<div id=\"dropmenudiv\" onmouseover=\"clearhidemenu()\" onmouseout=\"dynamichide(event)\"></div>\n";
     if(!$this->user->is_valid())
     {
