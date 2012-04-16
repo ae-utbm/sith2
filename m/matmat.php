@@ -31,14 +31,12 @@ require_once($topdir. "include/site.inc.php");
 
 function handle_phone ($ph) {
   $reg = "$(\+|(0[1-9]))([0-9]+)$";
-  preg_match ($reg, $ph, $m);
-
-  print_r ($m);
+  return preg_replace ($reg, "$3", $ph);
 }
 
-handle_phone ("0344446785");
+echo handle_phone ("lol 0344446785 kwain");
 echo "\n\n";
-handle_phone ("+33645783290");
+echo handle_phone ("gnah +33645783290 dovcuwvr");
 
 
 $site = new site();
