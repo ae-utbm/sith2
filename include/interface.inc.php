@@ -330,8 +330,8 @@ if(!defined("MOBILE")) {
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";
 if(!defined("MOBILE")) {
-  $ovl = false;
-    if (!isset ($_SESSION["mobile_disclaimer"])) {
+    $ovl = false;
+    if (!isset ($_SESSION["mobile_disclaimer"]) || true) {
       /* If a mobile user agent is detected, display a disclaimer */
       $mobile_ua = "/(android|up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone)/";
       if (preg_match ($mobile_ua, strtolower ($_SERVER['HTTP_USER_AGENT']))) {
