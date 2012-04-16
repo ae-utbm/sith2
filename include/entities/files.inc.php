@@ -520,13 +520,13 @@ class dfile extends fs
    */
   function move_to ( $id_folder, $new_nom_fichier=null )
   {
-    $this->id_folder = $id_folder;
-    $this->id_folder_parent = $id_folder;
-
     $parent = $this->get_parent ();
     if (!is_null ($parent))
       if ($parent->auto_modere)
         return false;
+
+    $this->id_folder = $id_folder;
+    $this->id_folder_parent = $id_folder;
 
     if ( is_null($new_nom_fichier) )
       $this->nom_fichier= $this->get_free_filename($id_folder,$this->nom_fichier);

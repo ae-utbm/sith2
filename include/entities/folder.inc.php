@@ -360,7 +360,7 @@ class dfolder extends fs
     $pfolder = new dfolder($this->db);
     $pfolder->load_by_id($id_folder);
 
-    $parent = $pfolder->get_parent ();
+    $parent = $this->get_parent ();
     if (!is_null ($parent))
       if ($parent->auto_modere)
         return false;
