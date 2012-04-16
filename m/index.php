@@ -27,6 +27,8 @@
 
 $topdir = "../";
 
+echo $_SERVER['HTTP_USER_AGENT'];
+
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/newsflow.inc.php");
 
