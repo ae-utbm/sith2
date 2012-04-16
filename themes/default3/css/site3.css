@@ -281,6 +281,25 @@ div#fsearchbox input
   height:9px;
 }
 
+#mobile_disclaimer
+{
+  width = 70%;
+  color: white;
+  background-color: #38c;
+  text-align: center;
+  position: absolute;
+  font-weight: bold;
+  margin-top: 20%;
+  z-index: 100;
+  left: 15%;
+  border: 5px solid #555;
+  font-size: 2.5em;
+}
+
+#mobile_disclaimer a {
+  text-decoration: none;
+}
+
 /*liste déroulante de la barre du haut---------------------------------*/
 #dropmenudiv, #assos, #login
 {
