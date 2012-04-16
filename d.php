@@ -598,6 +598,8 @@ if ( $_REQUEST["action"] == "save" && $folder->is_right($site->user,DROIT_ECRITU
     $asso = new asso($site->db);
     $asso->load_by_id($_REQUEST["id_asso"]);
     $folder->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
+    if ($site->user->is_in_group ("root"))
+      $folder->set_auto_moderated ($_REQUEST['auto_moderated']);
     $folder->update_folder ( $_REQUEST["nom"],$_REQUEST["description"], $asso->id );
   }
 
@@ -612,6 +614,8 @@ elseif ( $_REQUEST["action"] == "edit" && $folder->is_right($site->user,DROIT_EC
   $frm->add_text_area("description","Description",$folder->description);
   $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$folder->id_asso,true);
   $frm->add_rights_field($folder,true,$folder->is_admin($site->user),"files");
+  if ($site->user->is_in_group("root"))
+    $frm->add_checkbox("auto_moderated", "<b>Les fichiers ajoutés à ce dossier ne nécessitent pas de modération. ATTENTION, DANGEREUX !</b>");
   $frm->add_submit("valid","Enregistrer");
   $cts->add($frm);
   $site->add_contents($cts);

@@ -208,7 +208,7 @@ class dfolder extends fs
     $this->droits_acces = $row['droits_acces_folder'];
     $this->modere = $row['modere_folder'];
 
-    $this->auto_modere = $row['auto_modere'];
+    $this->auto_moderated = $row['auto_moderated'];
   }
 
   /**
@@ -228,7 +228,7 @@ class dfolder extends fs
     $this->date_ajout = time();
     $this->date_modif = time();
     $this->modere=(is_null($id_folder_parent) && !is_null($id_asso))?true:false;
-    $this->auto_mod();
+    $this->auto_modere();
 
     $this->_compute_nom_fichier();
 
@@ -385,9 +385,9 @@ class dfolder extends fs
       );
 
     if (!is_null ($parent))
-      if ($parent->auto_modere && !$force) {
+      if ($parent->auto_moderated && !$force) {
         $this->set_modere (false);
-        $this->auto_mod ();
+        $this->auto_modere ();
       }
 
     return true;
@@ -507,6 +507,11 @@ class dfolder extends fs
   {
     $this->modere=$modere;
     $sql = new update($this->dbrw,"d_folder",array("modere_folder"=>$this->modere),array("id_folder"=>$this->id));
+  }
+
+  function set_auto_moderated ($modere) {
+    $this->auto_moderated = $modere;
+    new update ($this->dbrw,"d_folder",array("auto_moderated"=>$modere),array("id_folder"=>$this->id));
   }
 
   /**
@@ -653,7 +658,7 @@ class dfolder extends fs
    * Procède à l'auto-modération du dossier si possible.
    * L'auto modération est possible sur les fichiers à accès "restreint".
    */
-  function auto_mod()
+  function auto_modere()
   {
     if ( $this->modere )
       return;
@@ -665,7 +670,7 @@ class dfolder extends fs
     if (is_null ($parent));
       return;
 
-    if (!$parent->auto_modere)
+    if (!$parent->auto_moderated)
       return;
 
     $this->modere = true;

@@ -201,7 +201,7 @@ class dfile extends fs
     $this->date_ajout = time();
     $this->date_modif = time();
     $this->modere=false;
-    $this->auto_mod();
+    $this->auto_modere();
 
     $this->nom_fichier= $this->get_free_filename($id_folder,$file['name']);
     $this->taille=$file['size'];
@@ -274,7 +274,7 @@ class dfile extends fs
     $this->date_ajout = $dateajout;
     $this->date_modif = $dateajout;
     $this->modere=$modere;
-    $this->auto_mod();
+    $this->auto_modere();
 
     $this->nom_fichier= $this->get_free_filename($id_folder,$filename);
     $this->taille=$filesize;
@@ -401,7 +401,7 @@ class dfile extends fs
     $this->id_rev_file = $sql->get_id();
     $this->date_modif=time();
     $this->modere=false;
-    $this->auto_mod();
+    $this->auto_modere();
 
     $sql = new update ($this->dbrw,
       "d_file",
@@ -470,7 +470,7 @@ class dfile extends fs
     $this->date_ajout = time();
     $this->date_modif = time();
     $this->modere=false;
-    $this->auto_mod();
+    $this->auto_modere();
     $this->nom_fichier= $this->get_free_filename($id_folder,$filename);
     $this->taille=$filesize;
     $this->mime_type=$mime_type; // ou mime_content_type($file['tmp_name']);
@@ -537,9 +537,9 @@ class dfile extends fs
       );
 
     if (!is_null ($parent))
-      if ($parent->auto_modere && !$force) {
+      if ($parent->auto_moderated && !$force) {
         $this->set_modere (false);
-        $this->auto_mod ();
+        $this->auto_modere ();
       }
 
     return true;
@@ -828,7 +828,7 @@ class dfile extends fs
    * Procède à l'auto-modération du fichier si possible.
    * L'auto modération est possible sur les fichiers à accès "restreint".
    */
-  function auto_mod()
+  function auto_modere()
   {
     if ( $this->modere )
       return;
@@ -840,7 +840,7 @@ class dfile extends fs
     if (is_null ($parent))
       return;
 
-    if (!$parent->auto_modere)
+    if (!$parent->auto_moderated)
       return;
 
     $this->modere = true;
