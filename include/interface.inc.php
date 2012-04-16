@@ -347,7 +347,7 @@ if(!defined("MOBILE")) {
     }
 
     $this->buffer .= "<div id=\"dropmenudiv\" onmouseover=\"clearhidemenu()\" onmouseout=\"dynamichide(event)\"></div>\n";
-    $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:". ($ovl ? 'block' : 'none') ."\"></div>\n";
+    $this->buffer .= "<div id=\"overlay\" ". (!$ovl ? "onclick=\"hideConnexionBox()\"" : "") ." style=\"display:". ($ovl ? 'block' : 'none') ."\"></div>\n";
     if(!$this->user->is_valid())
     {
       /* Come back here after ! */
