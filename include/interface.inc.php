@@ -334,7 +334,7 @@ if(!defined("MOBILE")) {
       /* If a mobile user agent is detected, display a disclaimer */
       $mobile_ua = "/(android|up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone)/";
       if (preg_match ($mobile_ua, strtolower ($_SERVER['HTTP_USER_AGENT']))) {
-        $this->buffer .= "<div onload=\"handleDisclaimer()\" id=\"mobile_disclaimer\">\n";
+        $this->buffer .= "<div onload=\"document.getElementById('overlay').style.display='block';\" id=\"mobile_disclaimer\">\n";
         $this->buffer .= "Redirection vers la version<br /> mobile du site : ";
         $this->buffer .= "<br /><a href=\"/m\">oui</a> - ";
         $this->buffer .= "<a href=\"/\">non</a>";
