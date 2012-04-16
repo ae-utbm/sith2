@@ -294,7 +294,7 @@ div#fsearchbox input
   left: 15%;
   border: 5px solid #555;
   font-size: 6em;
-display: block;
+  padding: 1em;
 }
 
 #mobile_disclaimer a {
