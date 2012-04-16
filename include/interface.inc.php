@@ -335,7 +335,7 @@ if(!defined("MOBILE")) {
       $mobile_ua = "/(android|up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone)/";
       if (preg_match ($mobile_ua, strtolower ($_SERVER['HTTP_USER_AGENT']))) {
         $this->buffer .= "<div id=\"mobile_disclaimer\">\n";
-        $this->buffer .= "Redirection vers la version mobile du site : ";
+        $this->buffer .= "Redirection vers la version<br /> mobile du site : ";
         $this->buffer .= "<br /><a href=\"/m\">oui</a> - ";
         $this->buffer .= "<a href=\"/\">non</a>";
         $this->buffer .= "</div>\n";
