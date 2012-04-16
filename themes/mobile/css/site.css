@@ -119,6 +119,16 @@ div#menuContent a {
   margin-bottom: -5px;  /* little hack */
 }
 
+div#menuContent p {
+  color: white;
+  display: block;
+  font-size: 2.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 5px dashed #555;
+  margin-bottom: -5px;  /* little hack */
+}
+
 #overlay {
   background-image: url("../images/overlay.png");
   position: absolute;
