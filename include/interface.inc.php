@@ -344,6 +344,9 @@ if(!defined("MOBILE")) {
       }
     }
 
+    // FOR TESTS ONLY
+    session_destroy ();
+
     $this->buffer .= "<div id=\"dropmenudiv\" onmouseover=\"clearhidemenu()\" onmouseout=\"dynamichide(event)\"></div>\n";
     if(!$this->user->is_valid())
     {
