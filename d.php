@@ -615,7 +615,7 @@ elseif ( $_REQUEST["action"] == "edit" && $folder->is_right($site->user,DROIT_EC
   $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$folder->id_asso,true);
   $frm->add_rights_field($folder,true,$folder->is_admin($site->user),"files");
   if ($site->user->is_in_group("root"))
-    $frm->add_checkbox("auto_moderated", "<b>Les fichiers ajoutés à ce dossier ne nécessitent pas de modération. ATTENTION, DANGEREUX !</b>");
+    $frm->add_checkbox("auto_moderated", "<b>Les fichiers ajoutés à ce dossier ne nécessitent pas de modération. ATTENTION, DANGEREUX !</b>", $folder->auto_moderated);
   $frm->add_submit("valid","Enregistrer");
   $cts->add($frm);
   $site->add_contents($cts);
