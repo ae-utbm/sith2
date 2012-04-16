@@ -340,11 +340,9 @@ if(!defined("MOBILE")) {
         $this->buffer .= "<a href=\"/\">non</a>";
         $this->buffer .= "</div>\n";
 
-        $_SESSION["mobile_disclaimer"] = false;
+        //$_SESSION["mobile_disclaimer"] = false;
       }
     }
-
-    session_destroy ();
 
     $this->buffer .= "<div id=\"dropmenudiv\" onmouseover=\"clearhidemenu()\" onmouseout=\"dynamichide(event)\"></div>\n";
     if(!$this->user->is_valid())
