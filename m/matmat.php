@@ -29,6 +29,18 @@ $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
 
+function handle_phone ($ph) {
+  $reg = "\+|(0[1-9])([0-9]+)";
+  preg_match ($reg, $ph, $m);
+
+  foreach ($m as $foo)
+    echo $foo .'\n';
+}
+
+handle_phone ("0344446785");
+echo "\n\n";
+handle_phone ("+33645783290");
+
 
 $site = new site();
 $site->set_mobile(true);
