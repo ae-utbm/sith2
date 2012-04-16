@@ -293,7 +293,7 @@ div#fsearchbox input
   z-index: 100;
   border: 5px solid #555;
   font-size: 6em;
-  padding: 1em;
+  padding: 0.5em;
 }
 
 #mobile_disclaimer a {
