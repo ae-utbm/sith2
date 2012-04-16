@@ -54,7 +54,6 @@ if (isset($_REQUEST["simplesearch"])) {
     if (isset($_REQUEST["pattern"])) {
       $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
       $pattern = handle_phone ($pattern);
-      echo $pattern;
       $pattern = strtr($pattern, array(' ' => '|'));
 
       $cond_nom = "`utilisateurs`.nom_utl REGEXP '".$pattern."'";
