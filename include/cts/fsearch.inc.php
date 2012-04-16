@@ -87,7 +87,7 @@ class fsearch extends stdcontents
     $pattern = preg_replace('/(o|O|Ò|ò|ô|Ô)/i','(o|O|Ò|ò|ô|Ô)',$pattern);
     $pattern = preg_replace('/(u|ù|ü|û|Ü|Û|Ù)/i','(u|ù|ü|û|Ü|Û|Ù)',$pattern);
     $pattern = preg_replace('/(n|ñ|Ñ)/i','(n|ñ|Ñ)',$pattern);
-    $pattern = preg_replace('(\d+)', '(0+)$0', $pattern);
+    $pattern = preg_replace('(\d+)', '(0*)$0', $pattern);
     $sqlpattern = mysql_real_escape_string($pattern);
     $pattern = '/'.$pattern.'/i';
 
