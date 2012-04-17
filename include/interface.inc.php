@@ -386,7 +386,8 @@ if(!defined("MOBILE")) {
       $this->buffer .= "<a href=\"./\">Accueil</a>";
       $this->buffer .= "<a href=\"./edt.php\">Emploi du temps</a>";
       $this->buffer .= "<a href=\"./matmat.php\">Mat'Matronch</a>";
-      $this->buffer .= "<p>Compte AE : ". (sprintf("%.2f", $this->user->montant_compte/100)) ."</p>";
+      if ($this->user->ae)
+        $this->buffer .= "<p>Compte AE : ". (sprintf("%.2f", $this->user->montant_compte/100)) ."</p>";
       //$this->buffer .= "<a href=\"./forum2.php\">Forum</a>";
 
       $this->buffer .= "</div>";
