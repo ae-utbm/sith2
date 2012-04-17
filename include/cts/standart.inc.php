@@ -694,6 +694,10 @@ class form extends stdcontents
         "<img src=\"".$siteroot."/images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" title=\"".$infos[0]."\" />".
         "</a> \n";
     }
+
+    // PUT AN IMAGE
+    $this->buffer .= "<a onclick=\"nl2doku (". $id .")\">Auto new lines</a>";
+
     if(!$simple)
     {
       $this->buffer .=
