@@ -1,5 +1,5 @@
 idNumberPre = "nbProd";
-idPidPricePrepriceProd";
+idPricePre = "priceProd";
 idTabsList = "productsTabs";
 idPlatProd = "platProd";
 
