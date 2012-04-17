@@ -509,7 +509,7 @@ function insert_tags2(objid, lft, rgt, deftext)
 function nl2doku (id) {
   var reg1 = /([^\n\\])\n([^\n])/g;
   var reg2 = /(\*|-)(.+)\\\\/g;
-  var d = document.getElementById (b);
+  var d = document.getElementById (id);
 
   d.value = d.value.replace (reg1, '$1\\\\\n$2'). replace (reg2, '$1$2');
 }
