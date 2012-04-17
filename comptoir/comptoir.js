@@ -1,5 +1,5 @@
 idNumberPre = "nbProd";
-idPricePre = "priceProd";
+idPidPricePrepriceProd";
 idTabsList = "productsTabs";
 idPlatProd = "platProd";
 
@@ -208,7 +208,7 @@ function addProductRow(code_barre, nom, prix, plateau)
 	newCell.innerHTML = "<a onclick=\"return decrease('"+code_barre+"', "+prix+", "+plateau+");\" href=\"#\">-</a>";
 
 	newCell = newRow.insertCell(-1);
-	newCell.id = "nbProd"+code_barre;
+	newCell.id = idNumberPre+code_barre;
 	newCell.innerHTML = "1";
 
 	newCell = newRow.insertCell(-1);
@@ -222,7 +222,7 @@ function addProductRow(code_barre, nom, prix, plateau)
   newCell.innerHTML = '';
 
 	newCell = newRow.insertCell(-1);
-	newCell.id = "priceProd"+code_barre;
+	newCell.id = idPricePre+code_barre;
 	newCell.innerHTML = prix/100+" \u20AC";
 
 	increaseTotal(prix);
