@@ -218,7 +218,7 @@ function addProductRow(code_barre, nom, prix, plateau)
 	newCell.innerHTML = nom;
 
   newCell = newRow.insertCell(-1);
-  newCell.id = idPlatProd;
+  newCell.id = idPlatProd+code_barre;
   newCell.innerHTML = '';
 
 	newCell = newRow.insertCell(-1);
