@@ -535,7 +535,7 @@ else if ( $site->comptoir->client->id > 0 )
         $tbl->add_row(array("<a href=\"#\" onclick=\"return decrease('".$vp->produit->code_barre."', ".$prix.", ".(($vp->produit->plateau && !$site->comptoir->prix_barman) ? '1' : '0').");\">-</a>",
             array($nbP, false, "nbProd".$vp->produit->code_barre),
             "<a href=\"#\" onclick=\"return increase('".$vp->produit->code_barre."', ".$prix.", ".(($vp->produit->plateau && !$site->comptoir->prix_barman) ? '1' : '0').");\">+</a>",
-            array ($vp->produit->nom, false,"prodName".$vp->produit->code_barre),
+            array($vp->produit->nom, false,"prodName".$vp->produit->code_barre),
             array(($prix*$nb/100)." &euro;", false, "priceProd".$vp->produit->code_barre)),
           false, "prod".$vp->produit->code_barre);
 

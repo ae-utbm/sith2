@@ -1,6 +1,7 @@
 idNumberPre = "nbProd";
 idPricePre = "priceProd";
 idTabsList = "productsTabs";
+idProdName = "prodName";
 
 var total;
 var currentBalance;
@@ -95,7 +96,7 @@ function increase(code_barre, price, plateau)
 
     if (plateau) {
       if (parseInt(tdNumber.firstChild.nodeValue) >= 6)
-        document.getElementById('prodName'+code_barre).style.color = 'green';
+        document.getElementById(idProdName+code_barre).style.color = 'green';
     }
 
 		addToNewProductsFields(code_barre);
@@ -128,7 +129,7 @@ function decrease(code_barre, price, plateau)
 
     if (plateau) {
       if (parseInt(tdNumber.firstChild.nodeValue) < 6)
-        document.getElementById('prodName'+code_barre).style.color = 'black';
+        document.getElementById(idProdName+code_barre).style.color = 'black';
     }
 	}
 	else
@@ -214,6 +215,7 @@ function addProductRow(code_barre, nom, prix, plateau)
 	newCell.innerHTML = "<a onclick=\"return increase('"+code_barre+"', "+prix+", "+plateau+");\" href=\"#\">+</a>";
 
 	newCell = newRow.insertCell(-1);
+  newCell.id = idProdName+code_barre;
 	newCell.innerHTML = nom;
 
 	newCell = newRow.insertCell(-1);
