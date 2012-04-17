@@ -93,6 +93,13 @@ function increase(code_barre, price, plateau)
 		  increaseTotal(price);
     }
 
+    if (plateau) {
+      if (parseInt(tdNumber.firstChild.nodeValue) >= 6))
+        document.getElementById('prodName'+code_barre).style.color = 'green';
+      else
+        document.getElementById('prodName'+code_barre).style.color = 'black';
+    }
+
 		addToNewProductsFields(code_barre);
 	}
 	else
