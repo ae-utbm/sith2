@@ -536,7 +536,7 @@ else if ( $site->comptoir->client->id > 0 )
             array($nbP, false, "nbProd".$vp->produit->code_barre),
             "<a href=\"#\" onclick=\"return increase('".$vp->produit->code_barre."', ".$prix.", ".(($vp->produit->plateau && !$site->comptoir->prix_barman) ? '1' : '0').");\">+</a>",
             $vp->produit->nom,
-            array ("P", false, "platProd".$vp->produit->code_barre),
+            array ("", false, "platProd".$vp->produit->code_barre),
             array(($prix*$nb/100)." &euro;", false, "priceProd".$vp->produit->code_barre)),
           false, "prod".$vp->produit->code_barre);
 
@@ -548,7 +548,7 @@ else if ( $site->comptoir->client->id > 0 )
 
   if ( $site->comptoir->mode != "book" )
   {
-    $tbl->add_row(array("", "", "", "Total: ", array(($total/100)." &euro;", false, "priceTotal")), "total", "total");
+    $tbl->add_row(array("", "", "", "", "Total: ", array(($total/100)." &euro;", false, "priceTotal")), "total", "total");
   }
 
   $cts->add($tbl);
