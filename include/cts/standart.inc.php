@@ -696,7 +696,7 @@ class form extends stdcontents
     }
 
     // PUT AN IMAGE
-    $this->buffer .= "<a onclick=\"nl2doku ('". $id ."');\">Auto new lines</a>";
+    $this->buffer .= "<a onclick=\"nl2doku ('". $id ."');\"><img src=\"". $siteroot ."/images/toolbar/2slashes.png\" alt=\"2slashes\" /></a>";
 
     if(!$simple)
     {
