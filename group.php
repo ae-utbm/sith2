@@ -75,7 +75,7 @@ if (  $grp->id > 0)
         _log($site->dbrw,"Retrait d'un utilisateur du groupe ". $grp->nom,"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user);
       }
       else
-        $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes système.";
+        $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes dont vous n'êtes pas membre ou les groupes systèmes.";
     }
     elseif ( $_REQUEST["action"] == "deletes" && !empty($_REQUEST["id_utilisateurs"]) )
     {
@@ -90,7 +90,7 @@ if (  $grp->id > 0)
         }
       }
       else
-        $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes système.";
+        $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes dont vous n'êtes pas membre ou les groupes systèmes.";
     }
     elseif ( $_REQUEST["action"] == "add" )
     {
@@ -105,7 +105,7 @@ if (  $grp->id > 0)
         }
       }
       else
-        $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes systèmes.";
+        $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes dont vous n'êtes pas membre ou les groupes systèmes.";
     }
   }
   $site->start_page("accueil","Groupe");
