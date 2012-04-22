@@ -230,6 +230,12 @@ class dfolder extends fs
     $this->modere=(is_null($id_folder_parent) && !is_null($id_asso))?true:false;
     $this->auto_modere();
 
+    $parent = $this->get_parent ();
+    if (!is_null ($parent))
+      $am = $parent->auto_moderated;
+    else
+      $am = 0;
+
     $this->_compute_nom_fichier();
 
     $sql = new insert ($this->dbrw,
@@ -247,7 +253,7 @@ class dfolder extends fs
         "id_groupe_admin"=>$this->id_groupe_admin,
         "droits_acces_folder"=>$this->droits_acces,
         "modere_folder"=>$this->modere,
-        "auto_moderated"=>$this->auto_moderated // the parent's one !
+        "auto_moderated"=>$am
         )
       );
     if ( $sql )
