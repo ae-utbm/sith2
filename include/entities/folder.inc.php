@@ -246,7 +246,8 @@ class dfolder extends fs
         "id_groupe"=>$this->id_groupe,
         "id_groupe_admin"=>$this->id_groupe_admin,
         "droits_acces_folder"=>$this->droits_acces,
-        "modere_folder"=>$this->modere
+        "modere_folder"=>$this->modere,
+        "auto_moderated"=>$this->auto_moderated // the parent's one !
         )
       );
     if ( $sql )
