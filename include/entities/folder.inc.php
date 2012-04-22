@@ -670,7 +670,7 @@ class dfolder extends fs
     if ( $this->modere )
       return;
 
-    if ( $this->droits_acces & 1 )
+    if ((DROIT_LECTURE & ($this->droits_acces)) == DROIT_LECTURE)
       return;
 
     $parent = $this->get_parent ();
