@@ -66,7 +66,7 @@ if (  $grp->id > 0)
       if ( ($grp->id != 7
             && $grp->id != 46
             && $grp->id != 47
-            && $site->user->id != intval($_REQUEST["id_utilisateur"])
+            && $site->user->is_in_group_id ($grp->id)
            ) || $site->user->is_in_group("root") )
       {
         $grp->remove_user_from_group($_REQUEST["id_utilisateur"]);
@@ -79,17 +79,14 @@ if (  $grp->id > 0)
     }
     elseif ( $_REQUEST["action"] == "deletes" && !empty($_REQUEST["id_utilisateurs"]) )
     {
-      if ( ($grp->id != 7 && $grp->id != 46 && $grp->id != 47) || $site->user->is_in_group("root") )
+      if ( ($grp->id != 7 && $grp->id != 46 && $grp->id != 47 && $site->user->is_in_group_id ($grp->id)) || $site->user->is_in_group("root") )
       {
         foreach($_REQUEST["id_utilisateurs"] as $id_utilisateur)
         {
-          if($site->user->is_in_group("root") || intval($id_utilisateur) == $site->user->id)
-          {
             $grp->remove_user_from_group($id_utilisateur);
             $user = new utilisateur($site->db);
             $user->load_by_id($id_utilisateur);
             _log($site->dbrw,"Retrait d'un utilisateur du groupe ". $grp->nom,"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user);
-          }
         }
       }
       else
@@ -97,11 +94,11 @@ if (  $grp->id > 0)
     }
     elseif ( $_REQUEST["action"] == "add" )
     {
-      if ( ($grp->id != 7 && $grp->id != 46 && $grp->id != 47) || $site->user->is_in_group("root") )
+      if ( ($grp->id != 7 && $grp->id != 46 && $grp->id != 47 && $site->user->is_in_group_id ($grp->id)) || $site->user->is_in_group("root") )
       {
         $user = new utilisateur($site->dbrw);
         $user->load_by_id($_REQUEST["id_utilisateur"]);
-        if ( $user->id > 0 && ($user->id!=$site->user->id || $site->user->is_in_group("root")))
+        if ( $user->id > 0 )
         {
           $grp->add_user_to_group($user->id);
           _log($site->dbrw,"Ajout d'un utilisateur au groupe ". $grp->nom,"Ajout de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") au groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user);
