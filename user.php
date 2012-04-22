@@ -279,7 +279,7 @@ elseif ( $_REQUEST["action"] == "addfillot" && $can_edit )
 }
 // Definition des groupe
 elseif ( $_REQUEST["action"] == "setgroups" &&
-         (($site->user->is_in_group("gestion_ae") && $site->user->id != $user->id )
+         ($site->user->is_in_group("gestion_ae")
          ||$site->user->is_in_group("root")) )
 {
   $req = new requete($site->db,
@@ -295,6 +295,9 @@ elseif ( $_REQUEST["action"] == "setgroups" &&
     $old=$row["id_utilisateur"]!="";
     if ( $new != $old )
     {
+      if (!$site->user->is_in_group_id ($row["id_groupe"]) && !$site->user->is_in_group("root"))
+        continue;
+
       if ( $new )
       {
         if ( ($row["id_groupe"] != 7 && $row["id_groupe"] != 46 && $row["id_groupe"] != 47) || $site->user->is_in_group("root") )
