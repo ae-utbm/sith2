@@ -1424,7 +1424,6 @@ if(!defined("MOBILE")) {
     header("Content-Type: ".$mime_type);
     header("Content-Disposition: filename=\"".$uid."\"");
     header("Content-Transfert-Encoding: binary");
-    header("Content-Length: ". filesize($file));
 
     // The file, only the file
     ob_clean ();
