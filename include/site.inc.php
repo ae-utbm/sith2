@@ -1379,8 +1379,6 @@ if(!defined("MOBILE")) {
 
   function return_file (  $uid, $mime_type, $mtime, $size, $file )
   {
-    echo $mime_type;
-    exit ();
     // Ferme la session si elle est encore ouverte
     if ( !isset($GLOBALS['nosession']) )
       session_write_close();
