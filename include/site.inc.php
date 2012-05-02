@@ -1424,11 +1424,15 @@ if(!defined("MOBILE")) {
     header("Content-Type: ".$mime_type);
     header("Content-Disposition: filename=\"".$uid."\"");
 
+    apache_setenv ('no-gzip', '1');
+
     // The file, only the file
     ob_clean ();
     flush ();
 
     readfile($file);
+
+    apache_setenv ('no-gzip', '0');
     exit();
   }
 
