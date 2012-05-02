@@ -1424,6 +1424,10 @@ if(!defined("MOBILE")) {
     header("Content-Type: ".$mime_type);
     header("Content-Disposition: filename=\"".$uid."\"");
 
+    // The file, only the file
+    ob_clean ();
+    flush ();
+
     readfile($file);
     exit();
   }
