@@ -1423,11 +1423,6 @@ if(!defined("MOBILE")) {
     header("Content-Length: ".$size, true);
     header("Content-Type: ".$mime_type);
     header("Content-Disposition: filename=\"".$uid."\"");
-    header("Content-Transfert-Encoding: binary");
-
-    // The file, only the file
-    ob_clean ();
-    flush ();
 
     readfile($file);
     exit();
