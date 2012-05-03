@@ -150,7 +150,7 @@ class campagne extends stdentity
         "nom_campagne" => $this->nom,
         "description_campagne" => $description,
         "date_debut_campagne" => $begin_date,
-        "date_fin_campagne" => date("Y-m-d",$this->end_date),
+        "date_fin_campagne" => $this->end_date,
         "id_groupe" => $id_groupe
         ),array("id_campagne"=>$this->id)
       );
