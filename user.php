@@ -1053,7 +1053,7 @@ elseif ( $_REQUEST["view"]=="assos" )
 
   if ( $can_edit )
   {
-    $frm = new form("addme","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","S'inscire aux nouvelles d'une activité");
+    $frm = new form("addme","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","S'inscrire aux nouvelles d'une activité");
     if ( $ErreurAddMe )
       $frm->error($ErreurAddMe);
     $frm->add_hidden("action","addme");
