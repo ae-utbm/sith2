@@ -358,7 +358,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
     $site->error_not_found("presentation");
     exit();
   }
-  $cpg->update_campagne($_REQUEST["nom"],$_REQUEST["description"],$cpg->date,$_REQUEST["end_date"],$_REQUEST["id_groupe"]);
+  $cpg->update_campagne($_REQUEST["nom"],$_REQUEST["description"],strtotime($cpg->date),$_REQUEST["end_date"],$_REQUEST["id_groupe"]);
 
 
   foreach ( $_REQUEST["questions"] as $id_question=>$rep )
