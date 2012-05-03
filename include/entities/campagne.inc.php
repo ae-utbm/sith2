@@ -138,7 +138,7 @@ class campagne extends stdentity
    * @param $begin_date date de début
    * @param $end_date date de fin
    */
-  function update_campagne ($nom, $description, $begin_date, $end_date)
+  function update_campagne ($nom, $description, $begin_date, $end_date, $id_groupe)
   {
     $this->nom = $nom;
     $this->description=$descritpion;
@@ -150,7 +150,8 @@ class campagne extends stdentity
         "nom_campagne" => $this->nom,
         "description_campagne" => $description,
         "date_debut_campagne" => $begin_date,
-        "date_fin_campagne" => date("Y-m-d",$this->end_date)
+        "date_fin_campagne" => date("Y-m-d",$this->end_date),
+        "id_groupe" => $id_groupe
         ),array("id_campagne"=>$this->id)
       );
   }
