@@ -311,7 +311,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
 
   $frm = new form("editcpg","./campagne.php",true,"POST","Edition campagne ".$cpg->id);
   $frm->add_hidden("id_campagne",$cpg->id);
-  $frm->add_date_field("end_date", "Date de fin de validite : ",$cpg->end_date,true);
+  $frm->add_date_field("end_date", "Date de fin de validite : ",strtotime($cpg->end_date),true);
   $frm->add_text_field("nom", "Nom de la campagne",$cpg->nom,true,80);
   $frm->add_text_area("description", "Description de la campagne",$cpg->description);
   $frm->add_entity_select("id_groupe", "Groupe concern&eacute;", $site->db, "group",$cpg->group,true);
@@ -358,7 +358,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
     $site->error_not_found("presentation");
     exit();
   }
-  $cpg->update_campagne($_REQUEST["nom"],$_REQUEST["description"],$cpg->date,strtotime($_REQUEST["end_date"]),$_REQUEST["id_groupe"]);
+  $cpg->update_campagne($_REQUEST["nom"],$_REQUEST["description"],$cpg->date,$_REQUEST["end_date"],$_REQUEST["id_groupe"]);
 
 
   foreach ( $_REQUEST["questions"] as $id_question=>$rep )
