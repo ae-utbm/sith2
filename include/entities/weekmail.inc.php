@@ -401,8 +401,9 @@ L\'AE';
     $mailer = new mailer('Association des Etudiants <ae@utbm.fr>',
                          '[weekmail] '.$this->titre);
     $mailer->add_dest(array('etudiants@utbm.fr',
-                            'enseignants@utbm.fr',
-                            'iatoss@utbm.fr',
+                            //'enseignants@utbm.fr',
+                            //'iatoss@utbm.fr',
+                            'personnels@utbm.fr',
                             'aude.petit@utbm.fr',
                             'info@ml.aeinfo.net'));
     $this->rendu_html = $this->_render_html();
