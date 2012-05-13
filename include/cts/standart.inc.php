@@ -695,8 +695,8 @@ class form extends stdcontents
         "</a> \n";
     }
 
-    // PUT AN IMAGE
-    $this->buffer .= "<a onclick=\"nl2doku ('". $id ."');\"><img src=\"". $siteroot ."/images/toolbar/2slashes.png\" alt=\"2slashes\" /></a>";
+    $this->buffer .= "<a onclick=\"nl2doku ('". $id ."');\"><img src=\"". $siteroot ."/images/toolbar/2slashes.png\" alt=\"2slashes\"
+        title=\"Complète les retours à la ligne\" /></a>";
 
     if(!$simple)
     {
