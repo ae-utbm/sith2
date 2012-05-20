@@ -58,12 +58,8 @@
 }
 body
 {
-  /* FF1J THEME MODIF
-  background: #CCCCCC; */
-  background: #BB0E21;
-  /* FF1J THEME MODIF
-  background-image: url("../images/global-top.png"); */
-  background-image: url("../images/theme-ff1j-2012.jpg");
+  background: #CCCCCC;
+  background-image: url("../images/global-top.png");
   margin: 0;
   padding: 0;
   background-repeat: no-repeat;
@@ -539,9 +535,7 @@ p.matmatronch_warning
 {
   font-size:12px;
   margin-left:10px;
-  /* FF1J THEME MODIF
-  color:#555; */
-  color: white;
+  color:#555;
 }
 #endsitelinks a:hover
 {
