@@ -58,12 +58,8 @@
 }
 body
 {
-  /** FIMU2012
   background: #CCCCCC;
   background-image: url("../images/global-top.png");
-  */
-  background: #30476F;
-  background-image: url("../images/theme-fimu-2012.jpg");
   margin: 0;
   padding: 0;
   background-repeat: no-repeat;
@@ -539,18 +535,12 @@ p.matmatronch_warning
 {
   font-size:12px;
   margin-left:10px;
-  /** FIMU 2012
   color:#555;
-  **/
-  color: white;
 }
 #endsitelinks a:hover
 {
   text-decoration: none;
-  /** FIMU 2012
   color:#774499;
-  **/
-  color: pink;
 }
 div.important p
 {
