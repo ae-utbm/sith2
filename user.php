@@ -295,7 +295,12 @@ elseif ( $_REQUEST["action"] == "setgroups" &&
     $old=$row["id_utilisateur"]!="";
     if ( $new != $old )
     {
-      if (!$site->user->is_in_group_id ($row["id_groupe"]) && !$site->user->is_in_group("root"))
+      $safe_groups = array (50 /* visu_cotisants */, 29 /* blacklist_machines */,
+                      30 /* gestion_machines */, 52 /* gestion_fimu */,
+                      42 /* nouveaux_diplomes */ );
+
+      if (!$site->user->is_in_group_id ($row["id_groupe"]) && !$site->user->is_in_group("root")
+          && !($site->user->is_in_group("gestion_ae") && in_array ($row["id_groupe"], $safe_groups)))
         continue;
 
       if ( $new )
