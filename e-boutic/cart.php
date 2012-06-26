@@ -212,7 +212,7 @@ else
       } else {
         $accueil->add_paragraph ("<h1>Paiment par CB : impossible</h1>" .
                                  "<p>Au moins un article de votre panier " .
-                                 "ne peut être payé avec une carte banquaire. " .
+                                 "ne peut être payé avec une carte bancaire. " .
                                  "Veuillez opter pour un paiment par carte " .
                                  "AE. (Produits non compatibles : ".
                                  $no_cb_products.")</p>");

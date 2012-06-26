@@ -467,7 +467,7 @@ elseif ( $_REQUEST["page"] == "addproduit" )
 
  $frm->add_checkbox("a_retirer","Produit à venir retirer (pour e-boutic)");
  $frm->add_text_field("a_retirer_info","Infos sur le retrait");
- $frm->add_checkbox("cb","Produit payable par carte banquaire (pour e-boutic)");
+ $frm->add_checkbox("cb","Produit payable par carte bancaire (pour e-boutic)");
  $frm->add_checkbox("postable","Envoyable par la poste (non disponible)",false,true);
  $frm->add_price_field("frais_port","Frais de port");
 
@@ -667,7 +667,7 @@ elseif ( $produit->id > 0 )
 
  $frm->add_checkbox("a_retirer","Produit à venir retirer (pour e-boutic)",$produit->a_retirer);
  $frm->add_text_field("a_retirer_info","Infos sur le retrait",$produit->a_retirer_info);
- $frm->add_checkbox("cb","Produit payable par carte banquaire (pour e-boutic)",$produit->cb);
+ $frm->add_checkbox("cb","Produit payable par carte bancaire (pour e-boutic)",$produit->cb);
  $frm->add_checkbox("postable","Envoyable par la poste (non disponible)",$produit->postable,true);
  $frm->add_price_field("frais_port","Frais de port",$produit->frais_port);
 
