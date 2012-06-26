@@ -58,8 +58,12 @@
 }
 body
 {
+  /* THEME SDF
   background: #CCCCCC;
   background-image: url("../images/global-top.png");
+  */
+  background: #B7BBBE;
+  background-image: url("../images/theme-sdf-P12.jpg");
   margin: 0;
   padding: 0;
   background-repeat: no-repeat;
