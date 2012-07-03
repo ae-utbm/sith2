@@ -1,6 +1,6 @@
 <?php
-/* Copyright 2011
- * - Jeremie Laval <jeremie dot laval at gmail dot com>
+/* Copyright 2012
+ * - Antoine Tenart <atenart at n0 dot pe>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr
@@ -25,7 +25,7 @@ function redis_open_connection ()
 {
     $redis = new Redis ();
     $redis->pconnect ('192.168.2.219');
-    $redis->auth ('plsqc');
+    $redis->auth ('mdp_redis');
     return $redis;
 }
 
