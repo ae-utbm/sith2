@@ -31,7 +31,7 @@
 /* On interdit le chargement de ce script si il ne vient pas du site
    officiel */
 
-if( !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21|ae2)\//', $_SERVER['SCRIPT_FILENAME'])
+if( !preg_match('/^\/var\/www\/(taiste|ae2)\//', $_SERVER['SCRIPT_FILENAME'])
     && !ereg("^/var/www/ae/accounts/([a-z0-9][a-Z0-9_-]*)/aecms",$_SERVER['SCRIPT_FILENAME']) )
 {
 	/* On est peut_etre dans le cas d'une utilisation "home" */
@@ -53,11 +53,11 @@ else
     function mysqlae ($type = "ro") {
 
       if ($type == "rw") {
-	if ( ! $this->mysql('ae_read_write', 'NwCkpDc', 'localhost', 'ae2')) {
+	if ( ! $this->mysql('ae_rw', 'NwCkpDc', '192.168.2.219', 'ae2')) {
 	  return FALSE;
 	}
       } else {
-	if ( ! $this->mysql('ae_read_only', 'ljjTutG', 'localhost', 'ae2')) {
+	if ( ! $this->mysql('ae_ro', 'ljjTutG', '192.168.2.219', 'ae2')) {
 	  return FALSE;
 	}
       }
