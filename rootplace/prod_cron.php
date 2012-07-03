@@ -23,7 +23,7 @@
  */
 define("PROD_CRON", "/var/www/cron_update.sh");
 define("PROD_SCRIPT", "/var/www/update-official-www.sh");
-define("POST_COMMIT_SCRIPT", "/var/lib/svn/aeinfo/ae2/hooks/post-commit");
+define("POST_COMMIT_SCRIPT", "/data/svn/aeinfo/ae2/hooks/post-commit");
 $topdir="../";
 
 require_once($topdir. "include/site.inc.php");
