@@ -109,35 +109,35 @@ class userinfo extends stdcontents
 
       $this->buffer .= "<div class=\"photo\" style=\"height: 120px; float: left;\">";
 
-      if ($user->id && file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
+      if ($user->id && file_exists($topdir."data/matmatronch/".$user->id.".identity.jpg"))
       {
         $date_prise_vue = "";
         $exif = @exif_read_data("/data/matmatronch/".$user->id.".identity.jpg", 0, true);
         if ( $exif["FILE"]["FileDateTime"] )
           $date_prise_vue = $exif["FILE"]["FileDateTime"];
-        $size = getimagesize($topdir."var/img/matmatronch/".$user->id.".identity.jpg");
+        $size = getimagesize($topdir."data/matmatronch/".$user->id.".identity.jpg");
         /* laissons une marge de 50px */
         $width = $size[0] + 50;
         $height = $size[1] + 75;
         $this->buffer .= "<a href=\"javascript:openMatmatronch('".
-        $user->id."','".$width."','".$height."')\"><img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."\" alt=\"\" class=\"fiche_image\" title=\"Cliquez pour agrandir l'image\" alt=\"Cliquez pour agrandir l'image\"/></a>\n";
+        $user->id."','".$width."','".$height."')\"><img src=\"".$topdir."data/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."\" alt=\"\" class=\"fiche_image\" title=\"Cliquez pour agrandir l'image\" alt=\"Cliquez pour agrandir l'image\"/></a>\n";
       }
-      elseif ( $user->id && file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
+      elseif ( $user->id && file_exists($topdir."data/matmatronch/".$user->id.".jpg"))
       {
         $date_prise_vue = "";
         $exif = @exif_read_data("/data/matmatronch/".$user->id.".jpg", 0, true);
         if ( $exif["FILE"]["FileDateTime"] )
           $date_prise_vue = $exif["FILE"]["FileDateTime"];
-        $size = getimagesize($topdir."var/img/matmatronch/".$user->id.".jpg");
+        $size = getimagesize($topdir."data/matmatronch/".$user->id.".jpg");
         /* laissons une marge de 50px */
         $width = $size[0] + 50;
         $height = $size[1] + 75;
         $this->buffer .= "<a href=\"javascript:openMatmatronch('". $topdir. "','".
-          $user->id."','".$width."','".$height."')\"><img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."\" alt=\"\" class=\"fiche_image\" title=\"Cliquez pour agrandir l'image\" alt=\"Cliquez pour agrandire l'image\"/></a>\n";
+          $user->id."','".$width."','".$height."')\"><img src=\"".$topdir."data/matmatronch/".$user->id.".jpg?".$date_prise_vue."\" alt=\"\" class=\"fiche_image\" title=\"Cliquez pour agrandir l'image\" alt=\"Cliquez pour agrandire l'image\"/></a>\n";
 
       }
       else
-        $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image\" />\n";
+        $this->buffer .= "<img src=\"/data/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image\" />\n";
 
       $this->buffer .= "</div>";
 
@@ -369,12 +369,12 @@ class userinfo extends stdcontents
     }
     $this->buffer .= "</div>";
 
-    if (file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
-      $this->buffer .= "<img src=\"".$topdir."/var/img/matmatronch/".$user->id.".jpg\" class=\"fiche_image_full\"/>\n";
-    elseif (file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
-      $this->buffer .= "<img src=\"".$topdir."/var/img/matmatronch/".$user->id.".identity.jpg\" class=\"fiche_image_full\"/>\n<br /><i>(Photo MatMatronch non pr&eacute;sente&nbsp;!)</i>\n";
+    if (file_exists($topdir."data/matmatronch/".$user->id.".jpg"))
+      $this->buffer .= "<img src=\"".$topdir."/data/matmatronch/".$user->id.".jpg\" class=\"fiche_image_full\"/>\n";
+    elseif (file_exists($topdir."data/matmatronch/".$user->id.".identity.jpg"))
+      $this->buffer .= "<img src=\"".$topdir."/data/matmatronch/".$user->id.".identity.jpg\" class=\"fiche_image_full\"/>\n<br /><i>(Photo MatMatronch non pr&eacute;sente&nbsp;!)</i>\n";
     else
-      $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image_full\" />\n";
+      $this->buffer .= "<img src=\"/data/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image_full\" />\n";
 
       $this->buffer .= "<br/><br/><div class=\"citation\" style=\"width: 250px; text-align: center;\"><i>".$user->citation."</i></div>";
       $this->buffer .= "</div>";
@@ -443,7 +443,7 @@ class userinfov2 extends stdcontents
       if ( $exif["FILE"]["FileDateTime"] )
         $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
-      $img = "/var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue;
+      $img = "/data/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue;
       $imgclass="idimg";
     }
 
@@ -467,28 +467,28 @@ class userinfov2 extends stdcontents
       $this->buffer .= "<div class=\"switchphoto\">";
 
       $this->buffer .= "<div class=\"photommt\">";
-      if (file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
+      if (file_exists($topdir."data/matmatronch/".$user->id.".jpg"))
       {
         $exif = @exif_read_data("/data/matmatronch/".$user->id.".jpg", 0, true);
         if ( $exif["FILE"]["FileDateTime"] )
           $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
-        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."'); return false;\">";
-        $this->buffer .= "<img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo\" /></a>";
+        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."data/matmatronch/".$user->id.".jpg?".$date_prise_vue."'); return false;\">";
+        $this->buffer .= "<img src=\"".$topdir."data/matmatronch/".$user->id.".jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo\" /></a>";
       }
       else
         $this->buffer .= "<img src=\"".$topdir."images/icons/128/blackbox.png"."\" class=\"switchnone\" alt=\"Photo\" />";
       $this->buffer .= "</div>\n";
 
       $this->buffer .= "<div class=\"photoid\">";
-      if (file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
+      if (file_exists($topdir."data/matmatronch/".$user->id.".identity.jpg"))
       {
         $exif = @exif_read_data("/data/matmatronch/".$user->id.".identity.jpg", 0, true);
         if ( $exif["FILE"]["FileDateTime"] )
           $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
-        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."'); return false;\">";
-        $this->buffer .= "<img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo d'identite\" /></a>";
+        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."data/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."'); return false;\">";
+        $this->buffer .= "<img src=\"".$topdir."data/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo d'identite\" /></a>";
       }
       else
         $this->buffer .= "<img src=\"".$topdir."images/icons/128/blackbox.png"."\" class=\"switchnone\" alt=\"Photo d'identite\" />";
@@ -501,8 +501,8 @@ class userinfov2 extends stdcontents
         if ( $exif["FILE"]["FileDateTime"] )
           $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
-        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."var/img/matmatronch/".$user->id.".blouse.mini.jpg?".$date_prise_vue."'); return false;\">";
-        $this->buffer .= "<img src=\"".$topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo de la blouse\" /></a>";
+        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."data/matmatronch/".$user->id.".blouse.mini.jpg?".$date_prise_vue."'); return false;\">";
+        $this->buffer .= "<img src=\"".$topdir."data/matmatronch/".$user->id.".blouse.mini.jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo de la blouse\" /></a>";
       }
       else
         $this->buffer .= "<img src=\"".$topdir."images/icons/128/blackbox.png"."\" class=\"switchnone\" alt=\"Photo de la blouse\" />";

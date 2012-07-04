@@ -117,10 +117,10 @@ if ( isset($_REQUEST["id_election"]))
 
           $cdts[$id_liste] .= "<div class=\"candidat\"><br/>";
 
-          if ( file_exists($topdir."var/img/matmatronch/".$srow['id_utilisateur'].".identity.jpg") )
-            $cdts[$id_liste] .= "<img src=\"/var/img/matmatronch/".$srow['id_utilisateur'].".identity.jpg\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
+          if ( file_exists($topdir."data/matmatronch/".$srow['id_utilisateur'].".identity.jpg") )
+            $cdts[$id_liste] .= "<img src=\"/data/matmatronch/".$srow['id_utilisateur'].".identity.jpg\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
           else
-            $cdts[$id_liste] .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
+            $cdts[$id_liste] .= "<img src=\"/data/matmatronch/na.gif"."\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
 
           $cdts[$id_liste] .= $srow['prenom_utl']." ".$srow['nom_utl'];
 
@@ -228,10 +228,10 @@ if ( isset($_REQUEST["id_election"]))
 
         $cdts[$id_liste] .= "<div class=\"candidat\"><input type=\"radio\" id=\"$idradio\" name=\"vote[$id_poste]\" value=\"".$srow['id_utilisateur']."\" /><br/>";
 
-        if ( file_exists($topdir."var/img/matmatronch/".$srow['id_utilisateur'].".identity.jpg") )
-          $cdts[$id_liste] .= "<img src=\"/var/img/matmatronch/".$srow['id_utilisateur'].".identity.jpg\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
+        if ( file_exists($topdir."data/matmatronch/".$srow['id_utilisateur'].".identity.jpg") )
+          $cdts[$id_liste] .= "<img src=\"/data/matmatronch/".$srow['id_utilisateur'].".identity.jpg\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
         else
-          $cdts[$id_liste] .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
+          $cdts[$id_liste] .= "<img src=\"/data/matmatronch/na.gif"."\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
 
         $cdts[$id_liste] .= $srow['prenom_utl']." ".$srow['nom_utl'];
 

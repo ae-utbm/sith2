@@ -145,12 +145,12 @@ class fsearch extends stdcontents
 
           $this->buffer .= '<li><div class="imguser"><img src="';
 
-          if (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg"))
-            $this->buffer .= $wwwtopdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
-          elseif (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg"))
-            $this->buffer .= $wwwtopdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
+          if (file_exists($topdir."data/matmatronch/".$row['id_utilisateur'].".identity.jpg"))
+            $this->buffer .= $wwwtopdir."data/matmatronch/".$row['id_utilisateur'].".identity.jpg";
+          elseif (file_exists($topdir."data/matmatronch/".$row['id_utilisateur'].".jpg"))
+            $this->buffer .= $wwwtopdir."data/matmatronch/".$row['id_utilisateur'].".jpg";
           else
-            $this->buffer .= $wwwtopdir."var/img/matmatronch/na.gif";
+            $this->buffer .= $wwwtopdir."data/matmatronch/na.gif";
 
           $this->buffer .= "\" /></div><a href=\"".$wwwtopdir."user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"".$wwwtopdir."images/icons/16/user.png\" class=\"icon\" alt=\"\" /> $nom</a></li>";
 

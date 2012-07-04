@@ -96,7 +96,7 @@ class pdfcarteae extends FPDF
 
     $this->Image($this->img_front[$infos['type_carte']],$x,$y,$this->width,$this->height);
 
-    $src = "../var/img/matmatronch/".$infos['id'].".identity.jpg";
+    $src = "../data/matmatronch/".$infos['id'].".identity.jpg";
 
     $this->Image($src,
         $x+$this->pos[$infos['type_carte']]['photo']['x'],

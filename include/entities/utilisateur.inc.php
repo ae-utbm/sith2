@@ -1868,10 +1868,10 @@ L'équipe info AE";
     }
 */
 
-    if ( file_exists($topdir."var/img/matmatronch/".$this->id.".identity.jpg"))
+    if ( file_exists($topdir."data/matmatronch/".$this->id.".identity.jpg"))
     {
       echo "PHOTO;TYPE=JPEG;BASE64:\n";
-      echo "  ".chunk_split(base64_encode(file_get_contents($topdir."var/img/matmatronch/".$this->id.".identity.jpg")),76,"\n  ");
+      echo "  ".chunk_split(base64_encode(file_get_contents($topdir."data/matmatronch/".$this->id.".identity.jpg")),76,"\n  ");
       echo "\n";
     }
     echo "END:VCARD\n";
@@ -1887,11 +1887,11 @@ L'équipe info AE";
   {
     global $topdir;
 
-    if ( file_exists($topdir."var/img/matmatronch/".$this->id.".identity.jpg"))
-      return "var/img/matmatronch/".$this->id.".identity.jpg";
+    if ( file_exists($topdir."data/matmatronch/".$this->id.".identity.jpg"))
+      return "data/matmatronch/".$this->id.".identity.jpg";
 
-    if ( file_exists($topdir."var/img/matmatronch/".$this->id.".jpg"))
-      return "var/img/matmatronch/".$this->id.".jpg";
+    if ( file_exists($topdir."data/matmatronch/".$this->id.".jpg"))
+      return "data/matmatronch/".$this->id.".jpg";
 
     return "images/icons/128/unknown.png";
   }
@@ -2214,19 +2214,19 @@ L'équipe info AE";
     foreach($no_matter as $table)
       new delete($this->dbrw,$table,array("id_utilisateur"=>$this->id));
 
-    $p1 = $topdir."var/img/matmatronch/".$this->id.".identity.jpg";
+    $p1 = $topdir."data/matmatronch/".$this->id.".identity.jpg";
     if ( file_exists($p1) )
       unlink($p1);
 
-    $p1 = $topdir."var/img/matmatronch/".$this->id.".jpg";
+    $p1 = $topdir."data/matmatronch/".$this->id.".jpg";
     if ( file_exists($p1) )
       unlink($p1);
 
-    $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.jpg";
+    $p1 = $topdir."data/matmatronch/".$this->id.".blouse.jpg";
     if ( file_exists($p1) )
       unlink($p1);
 
-    $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.mini.jpg";
+    $p1 = $topdir."data/matmatronch/".$this->id.".blouse.mini.jpg";
     if ( file_exists($p1) )
       unlink($p1);
 
@@ -2364,26 +2364,26 @@ L'équipe info AE";
 
     //5- Procède aux opérations sur fichiers
 
-    $p1 = $topdir."var/img/matmatronch/".$this->id.".identity.jpg";
-    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".identity.jpg";
+    $p1 = $topdir."data/matmatronch/".$this->id.".identity.jpg";
+    $p2 = $topdir."data/matmatronch/".$replacement->id.".identity.jpg";
 
     if ( !file_exists($p2) && file_exists($p1) )
       rename($p1,$p2);
 
-    $p1 = $topdir."var/img/matmatronch/".$this->id.".jpg";
-    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".jpg";
+    $p1 = $topdir."data/matmatronch/".$this->id.".jpg";
+    $p2 = $topdir."data/matmatronch/".$replacement->id.".jpg";
 
     if ( !file_exists($p2) && file_exists($p1) )
       rename($p1,$p2);
 
-    $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.jpg";
-    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".blouse.jpg";
+    $p1 = $topdir."data/matmatronch/".$this->id.".blouse.jpg";
+    $p2 = $topdir."data/matmatronch/".$replacement->id.".blouse.jpg";
 
     if ( !file_exists($p2) && file_exists($p1) )
       rename($p1,$p2);
 
-    $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.mini.jpg";
-    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".blouse.mini.jpg";
+    $p1 = $topdir."data/matmatronch/".$this->id.".blouse.mini.jpg";
+    $p2 = $topdir."data/matmatronch/".$replacement->id.".blouse.mini.jpg";
 
     if ( !file_exists($p2) && file_exists($p1) )
       rename($p1,$p2);

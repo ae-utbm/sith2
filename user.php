@@ -773,9 +773,9 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_hidden("action","setphotos");
 
     $subfrm = new form("mmt",null,null,null,"Avatar");
-    if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".jpg") )
+    if ( file_exists( $topdir."data/matmatronch/".$user->id.".jpg") )
     {
-      $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".filemtime($topdir."var/img/matmatronch/".$user->id.".jpg")."\" alt=\"\" width=\"100\" /><br/>");
+      $subfrm->add_info("<img src=\"".$topdir."data/matmatronch/".$user->id.".jpg?".filemtime($topdir."data/matmatronch/".$user->id.".jpg")."\" alt=\"\" width=\"100\" /><br/>");
     }
     $subfrm->add_file_field ( "mmtfile", "Fichier" );
     $subfrm->add_checkbox("delete_mmt","Supprimer mon avatar");
@@ -783,9 +783,9 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
 
     $subfrm = new form("idt",null,null,null,"Photo identit&eacute; (carte AE et matmatronch)");
 
-    if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".identity.jpg") )
+    if ( file_exists( $topdir."data/matmatronch/".$user->id.".identity.jpg") )
     {
-      $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".filemtime($topdir."var/img/matmatronch/".$user->id.".identity.jpg")."\" alt=\"\" width=\"100\" /><br/>");
+      $subfrm->add_info("<img src=\"".$topdir."data/matmatronch/".$user->id.".identity.jpg?".filemtime($topdir."data/matmatronch/".$user->id.".identity.jpg")."\" alt=\"\" width=\"100\" /><br/>");
 
       if ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae"))
       {
@@ -812,8 +812,8 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_hidden("action","setblouse");
     $subfrm = new form("blouse",null,null,null,"Photo de la blouse");
 
-    if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg") )
-      $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg\" alt=\"\" width=\"100\" /><br/>");
+    if ( file_exists( $topdir."data/matmatronch/".$user->id.".blouse.mini.jpg") )
+      $subfrm->add_info("<img src=\"".$topdir."data/matmatronch/".$user->id.".blouse.mini.jpg\" alt=\"\" width=\"100\" /><br/>");
 
     $subfrm->add_file_field ( "blousefile", "Fichier" );
     $subfrm->add_checkbox("delete_blouse","Supprimer la photo de ma blouse");

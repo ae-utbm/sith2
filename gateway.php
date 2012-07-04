@@ -164,12 +164,12 @@ elseif ( $_REQUEST['module']=="userfield" )
   {
     $buffer .=  "<li><div class=\"imguser\"><img src=\"";
 
-    if (file_exists($topdir."var/img/matmatronch/".$id.".identity.jpg"))
-      $buffer .=  $wwwtopdir."var/img/matmatronch/".$id.".identity.jpg";
-    elseif (file_exists($topdir."var/img/matmatronch/".$id.".jpg"))
-      $buffer .=  $wwwtopdir."var/img/matmatronch/".$id.".jpg";
+    if (file_exists($topdir."data/matmatronch/".$id.".identity.jpg"))
+      $buffer .=  $wwwtopdir."data/matmatronch/".$id.".identity.jpg";
+    elseif (file_exists($topdir."data/matmatronch/".$id.".jpg"))
+      $buffer .=  $wwwtopdir."data/matmatronch/".$id.".jpg";
     else
-      $buffer .=  $wwwtopdir."var/img/matmatronch/na.gif";
+      $buffer .=  $wwwtopdir."data/matmatronch/na.gif";
 
     $buffer .=  "\" /></div><a href=\"#\" onclick=\"userselect_set_user('$wwwtopdir','".$_REQUEST["ref"]."',$id,'".addslashes(htmlspecialchars($email))."'); return false;\">".htmlspecialchars($email)."</a></li>";
   }
@@ -192,10 +192,10 @@ elseif ( $_REQUEST['module']=="userinfo" )
   if ( $user->id < 0 )
     $user = &$site->user;
 
-  if (file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
-    echo "<img src=\"".$wwwtopdir."var/img/matmatronch/".$user->id.".jpg\" alt=\"\" />\n";
+  if (file_exists($topdir."data/matmatronch/".$user->id.".identity.jpg"))
+    echo "<img src=\"".$wwwtopdir."data/matmatronch/".$user->id.".jpg\" alt=\"\" />\n";
   else
-    echo "<img src=\"".$wwwtopdir."var/img/matmatronch/na.gif"."\" alt=\"\" />\n";
+    echo "<img src=\"".$wwwtopdir."data/matmatronch/na.gif"."\" alt=\"\" />\n";
 
   echo "<p class=\"nomprenom\">". $user->prenom . " " . $user->nom . "</p>";
   if ( $user->surnom )

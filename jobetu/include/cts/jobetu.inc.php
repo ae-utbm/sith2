@@ -249,8 +249,8 @@ class annonce_box extends stdcontents
           $this->buffer .= "</div> \n</div>";
         }
 
-        if( file_exists($topdir."var/img/matmatronch/".$usr->id.".identity.jpg") )
-          $img = $topdir."var/img/matmatronch/".$usr->id.".identity.jpg";
+        if( file_exists($topdir."data/matmatronch/".$usr->id.".identity.jpg") )
+          $img = $topdir."data/matmatronch/".$usr->id.".identity.jpg";
         else
           $img = $topdir."/images/icons/128/unknown.png";
         $this->buffer .= "<div class=\"desc_user_photo\"> <img src=\"$img\" width=80 alt=\"Photo de $usr->prenom $usr->nom\" /></div>\n ";

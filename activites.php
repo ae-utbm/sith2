@@ -104,10 +104,10 @@ else
     {
 
       $img = $topdir."images/icons/128/user.png";
-      if ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
-        $img = $topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
-      elseif ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg") )
-        $img = $topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
+      if ( file_exists($topdir."data/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
+        $img = $topdir."data/matmatronch/".$row['id_utilisateur'].".identity.jpg";
+      elseif ( file_exists($topdir."data/matmatronch/".$row['id_utilisateur'].".jpg") )
+        $img = $topdir."data/matmatronch/".$row['id_utilisateur'].".jpg";
 
       $gal->add_item(
       "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"$img\" alt=\"Photo\" height=\"105\"></a>",

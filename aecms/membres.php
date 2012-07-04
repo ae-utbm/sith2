@@ -84,8 +84,8 @@ while ( $row = $req->get_row() )
 {
 
   $img = $wwwtopdir."images/icons/128/user.png";
-  if ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
-    $img = "/var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
+  if ( file_exists($topdir."data/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
+    $img = "/data/matmatronch/".$row['id_utilisateur'].".identity.jpg";
 
   if ( $row['desc_role'] )
     $role = $row['desc_role'];
