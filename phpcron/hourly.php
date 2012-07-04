@@ -27,7 +27,7 @@ $galaxy->update();
 for($i=0;$i<45;$i++) // Environs 1100 cycles/jours
   $galaxy->cycle();
 
-  $galaxy->mini_render($topdir."var/mini_galaxy.png");
+  $galaxy->mini_render($topdir."data/img/mini_galaxy.png");
 
 
 // Tâche 2 [verous]

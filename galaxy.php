@@ -57,7 +57,7 @@ define('AREA_HEIGHT',500);
 
 if ( $_REQUEST["action"] == "area_image" || $_REQUEST["action"] == "area_html"  )
 {
-  $lastModified = gmdate('D, d M Y H:i:s', filemtime("var/mini_galaxy.png") ) . ' GMT';
+  $lastModified = gmdate('D, d M Y H:i:s', filemtime("data/img/mini_galaxy.png") ) . ' GMT';
   $etag=md5($_SERVER['SCRIPT_FILENAME']."?".$_SERVER['QUERY_STRING'].'#'.$lastModified);
 
   if ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) )
@@ -279,7 +279,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square13\"></div>
 <div class=\"square\" id=\"square14\"></div>
 <div class=\"square\" id=\"square15\"></div>
-<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
+<div class=\"map\" id=\"map\"><img src=\"data/img/mini_galaxy.png\" />
 <div class=\"position\" id=\"position\"></div></div></div><script>init_galaxy($tx,$ty,\"&highlight=$hl\");</script>");
 
 
@@ -373,7 +373,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square13\"></div>
 <div class=\"square\" id=\"square14\"></div>
 <div class=\"square\" id=\"square15\"></div>
-<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
+<div class=\"map\" id=\"map\"><img src=\"data/img/mini_galaxy.png\" />
 <div class=\"position\" id=\"position\"></div></div></div><script>init_galaxy($goX,$goY,\"\");</script>");
 
 //$cts->add_paragraph("<a href=\"var/galaxy.png\">Tout galaxy sur une seule image</a>");
