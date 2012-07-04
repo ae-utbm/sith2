@@ -129,7 +129,7 @@ class photo extends basedb
    */
   function get_abs_path ( )
   {
-    return "/var/www/ae/accounts/sas/photos/".date("Y/m/d",$this->date_prise_vue)."/";
+    return "/var/www/ae2/data/sas/".date("Y/m/d",$this->date_prise_vue)."/";
   }
 
   /**
@@ -167,14 +167,14 @@ class photo extends basedb
    */
   function make_path ( )
   {
-    if ( !is_dir(  "/var/www/ae/accounts/sas/photos/".date("Y",$this->date_prise_vue)."/") )
-      mkdir( "/var/www/ae/accounts/sas/photos/".date("Y",$this->date_prise_vue)."/");
+    if ( !is_dir(  "/var/www/ae2/data/sas/".date("Y",$this->date_prise_vue)."/") )
+      mkdir( "/var/www/ae2/data/sas/".date("Y",$this->date_prise_vue)."/");
 
-    if ( !is_dir(  "/var/www/ae/accounts/sas/photos/".date("Y/m",$this->date_prise_vue)."/") )
-      mkdir( "/var/www/ae/accounts/sas/photos/".date("Y/m",$this->date_prise_vue)."/");
+    if ( !is_dir(  "/var/www/ae2/data/sas/".date("Y/m",$this->date_prise_vue)."/") )
+      mkdir( "/var/www/ae2/data/sas/".date("Y/m",$this->date_prise_vue)."/");
 
-    if ( !is_dir(  "/var/www/ae/accounts/sas/photos/".date("Y/m/d",$this->date_prise_vue)."/") )
-      mkdir( "/var/www/ae/accounts/sas/photos/".date("Y/m/d",$this->date_prise_vue)."/");
+    if ( !is_dir(  "/var/www/ae2/data/sas/".date("Y/m/d",$this->date_prise_vue)."/") )
+      mkdir( "/var/www/ae2/data/sas/".date("Y/m/d",$this->date_prise_vue)."/");
 
   }
 
