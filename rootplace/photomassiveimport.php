@@ -75,9 +75,9 @@ if(isset($_POST['action'])
           $id = $user->id;
 
           if ($avatar)
-            exec("/usr/share/php5/exec/convert ".OUTPUT_DIR.$f." -rotate ".$rotation." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".jpg");
+            exec("/usr/share/php5/exec/convert ".OUTPUT_DIR.$f." -rotate ".$rotation." -thumbnail 225x300 /data/matmatronch/".$id.".jpg");
           else
-            exec("/usr/share/php5/exec/convert ".OUTPUT_DIR.$f." -rotate ".$rotation." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
+            exec("/usr/share/php5/exec/convert ".OUTPUT_DIR.$f." -rotate ".$rotation." -thumbnail 225x300 /data/matmatronch/".$id.".identity.jpg");
         }
       }
       // Delete temp img
