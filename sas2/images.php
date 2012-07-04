@@ -68,7 +68,7 @@ if ( $id_photo > 0 )
     $site->return_simplefile( "pherror", "image/png", $topdir."images/actions/delete.png");
   }
 
-  $abs_file = $photo->get_rel_path().$photo->id;
+  $abs_file = $photo->get_abs_path().$photo->id;
 
   if ( $mode == "flv" && $photo->type_media == MEDIA_VIDEOFLV )
   {
