@@ -48,7 +48,7 @@ $fiche->add_title(2,htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8"
 
 if (file_exists("/data/matmatronch/".$user->id.".identity.i.jpg"))
 {
-  $fiche->puts("<p align=\"center\"><img src=\"/data/matmatronch/".$user->id.".identity.i.jpg\" /></p>");
+  $fiche->puts("<p align=\"center\"><img src=\"/var/img/matmatronch/".$user->id.".identity.i.jpg\" /></p>");
 }
 else if (file_exists("/data/matmatronch/".$user->id.".identity.jpg"))
 {
@@ -56,11 +56,11 @@ else if (file_exists("/data/matmatronch/".$user->id.".identity.jpg"))
   $dest = "/data/matmatronch/".$user->id.".identity.i.jpg";
   print_r(exec("/usr/share/php5/exec/convert $src -thumbnail 64x64 -quality 95 $dest"));
 
-  $fiche->puts("<p align=\"center\"><img src=\"/data/matmatronch/".$user->id.".identity.i.jpg\" /></p>");
+  $fiche->puts("<p align=\"center\"><img src=\"/var/img/matmatronch/".$user->id.".identity.i.jpg\" /></p>");
 }
 else if (file_exists("/data/matmatronch/".$user->id.".i.jpg"))
 {
-  $fiche->puts("<p align=\"center\"><img src=\"/data/matmatronch/".$user->id.".i.jpg\" /></p>");
+  $fiche->puts("<p align=\"center\"><img src=\"/var/img/matmatronch/".$user->id.".i.jpg\" /></p>");
 }
 else if (file_exists("/data/matmatronch/".$user->id.".jpg"))
 {
@@ -68,7 +68,7 @@ else if (file_exists("/data/matmatronch/".$user->id.".jpg"))
   $dest = "/data/matmatronch/".$user->id.".i.jpg";
   print_r(exec("/usr/share/php5/exec/convert $src -thumbnail 64x64 -quality 95 $dest"));
 
-  $fiche->puts("<p align=\"center\"><img src=\"/data/matmatronch/".$user->id.".i.jpg\" /></p>");
+  $fiche->puts("<p align=\"center\"><img src=\"/var/img/matmatronch/".$user->id.".i.jpg\" /></p>");
 }
 
 

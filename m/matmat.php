@@ -102,7 +102,7 @@ if (isset($_REQUEST["simplesearch"])) {
             "<div class=\"utl\">\n".
               "<b>".$row["prenom_utl"]." ".$row["nom_utl"]."</b>\n<br/>\n".
               "<b>".$row["surnom_utbm"]."</b>\n<br/>\n".
-              "<img src=\"/data/matmatronch/".$row["id_utilisateur"].".identity.jpg?".$date_prise_vue."\"/>\n".
+              "<img src=\"/var/img/matmatronch/".$row["id_utilisateur"].".identity.jpg?".$date_prise_vue."\"/>\n".
               "<a href=\"mailto:".$row["email_utl"]."\">".$row["email_utl"]."</a>\n<br/>\n".
               "<a href=\"tel:".$row["tel_portable_utl"]."\">".$row["tel_portable_utl"]."</a>\n<br/>\n".
             "</div>\n"

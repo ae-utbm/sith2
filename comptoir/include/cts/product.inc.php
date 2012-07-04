@@ -68,7 +68,7 @@ class productinfo extends stdcontents
           $this->buffer .= "<img src=\"".$wwwtopdir."../d.php?id_file=".$product->id_file."&amp;action=download&amp;download=preview\" alt=\"\" class=\"fiche_image\" title=\"".$produit->nom."\" alt=\"".$produit->nom."\"/>\n";
       }
       else
-        $this->buffer .= "<img src=\"/data/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image\" />\n";
+        $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image\" />\n";
 
       $this->buffer .= "</div>";
 
