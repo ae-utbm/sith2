@@ -112,7 +112,7 @@ class userinfo extends stdcontents
       if ($user->id && file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
       {
         $date_prise_vue = "";
-        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
+        $exif = @exif_read_data("/data/matmatronch/".$user->id.".identity.jpg", 0, true);
         if ( $exif["FILE"]["FileDateTime"] )
           $date_prise_vue = $exif["FILE"]["FileDateTime"];
         $size = getimagesize($topdir."var/img/matmatronch/".$user->id.".identity.jpg");
@@ -125,7 +125,7 @@ class userinfo extends stdcontents
       elseif ( $user->id && file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
       {
         $date_prise_vue = "";
-        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
+        $exif = @exif_read_data("/data/matmatronch/".$user->id.".jpg", 0, true);
         if ( $exif["FILE"]["FileDateTime"] )
           $date_prise_vue = $exif["FILE"]["FileDateTime"];
         $size = getimagesize($topdir."var/img/matmatronch/".$user->id.".jpg");
@@ -437,9 +437,9 @@ class userinfov2 extends stdcontents
     $img = $topdir."images/icons/128/unknown.png";
     $date_prise_vue = "";
 
-    if (file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg"))
+    if (file_exists("/data/matmatronch/".$user->id.".identity.jpg"))
     {
-      $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
+      $exif = @exif_read_data("/data/matmatronch/".$user->id.".identity.jpg", 0, true);
       if ( $exif["FILE"]["FileDateTime"] )
         $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
@@ -469,7 +469,7 @@ class userinfov2 extends stdcontents
       $this->buffer .= "<div class=\"photommt\">";
       if (file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
       {
-        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
+        $exif = @exif_read_data("/data/matmatronch/".$user->id.".jpg", 0, true);
         if ( $exif["FILE"]["FileDateTime"] )
           $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
@@ -483,7 +483,7 @@ class userinfov2 extends stdcontents
       $this->buffer .= "<div class=\"photoid\">";
       if (file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
       {
-        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
+        $exif = @exif_read_data("/data/matmatronch/".$user->id.".identity.jpg", 0, true);
         if ( $exif["FILE"]["FileDateTime"] )
           $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
@@ -495,9 +495,9 @@ class userinfov2 extends stdcontents
       $this->buffer .= "</div>\n";
 
       $this->buffer .= "<div class=\"photoblouse\">";
-      if (file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg"))
+      if (file_exists("/data/matmatronch/".$user->id.".blouse.mini.jpg"))
       {
-        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg", 0, true);
+        $exif = @exif_read_data("/data/matmatronch/".$user->id.".blouse.mini.jpg", 0, true);
         if ( $exif["FILE"]["FileDateTime"] )
           $date_prise_vue = $exif["FILE"]["FileDateTime"];
 

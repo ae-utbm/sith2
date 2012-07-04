@@ -95,7 +95,7 @@ if (isset($_REQUEST["simplesearch"])) {
         $cts->add_title (1, "Résultats");
 
       while ($row = $req->get_row()) {
-        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$row["id_utilisateur"].".jpg", 0, true);
+        $exif = @exif_read_data("/data/matmatronch/".$row["id_utilisateur"].".jpg", 0, true);
         $date_prise_vue = $exif["FILE"]["FileDateTime"] ? $exif["FILE"]["FileDateTime"] : '';
 
         $cts->puts(

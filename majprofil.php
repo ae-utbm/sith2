@@ -254,7 +254,7 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
 
   $cts->add_paragraph("Nous attirons votre attention sur les &eacute;l&eacute;ments suivants :");
 
-  if ( $user->utbm && !$user->ancien_etudiant && !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg") )
+  if ( $user->utbm && !$user->ancien_etudiant && !file_exists("/data/matmatronch/" . $user->id .".identity.jpg") )
   {
     $cts->add_title(2,"Vous n'avez pas de photo d'identité");
 
@@ -277,7 +277,7 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
     if ( $carte->is_valid() )
     {
       if ( $carte->etat_vie_carte == CETAT_ATTENTE &&
-        !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg") )
+        !file_exists("/data/matmatronch/" . $user->id .".identity.jpg") )
       {
         $cts->add_title(2,"Votre carte AE");
         $cts->add_paragraph("Vous devez ajouter une photo pour que votre carte AE soit imprimée.");

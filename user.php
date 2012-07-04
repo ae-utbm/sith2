@@ -482,7 +482,7 @@ elseif ( $_REQUEST["action"] == "serviceident" && $can_edit  )
 
 if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/ae2/var/img") )
 {
-  $dest_idt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
+  $dest_idt = "/data/matmatronch/".$user->id.".identity.jpg";
   if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )
   {
     $src = $_FILES['idtfile']['tmp_name'];
@@ -494,7 +494,7 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/
     }
   }
 
-  $dest_mmt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg";
+  $dest_mmt = "/data/matmatronch/".$user->id.".jpg";
   if( isset($_REQUEST['delete_mmt']) && file_exists($dest_mmt))
     unlink($dest_mmt);
   if ( is_uploaded_file($_FILES['mmtfile']['tmp_name'])  )
@@ -503,7 +503,7 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/
     exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_mmt");
   }
 
-  $dest_idt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
+  $dest_idt = "/data/matmatronch/".$user->id.".identity.jpg";
   if(isset($_REQUEST['delete_idt']) && file_exists($dest_idt)
      && ($site->user->is_asso_role ( 27, 1 )
    || $site->user->is_in_group("gestion_ae")))
@@ -515,8 +515,8 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/
 
 if ( $_REQUEST["action"] == "setblouse" && $can_edit )
 {
-  $dest = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.jpg";
-  $dest_mini = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg";
+  $dest = "/data/matmatronch/".$user->id.".blouse.jpg";
+  $dest_mini = "/data/matmatronch/".$user->id.".blouse.mini.jpg";
   if( isset($_REQUEST['delete_blouse']) && file_exists($dest))
   {
     unlink($dest);
@@ -1273,7 +1273,7 @@ else
   {
     $cts->add_title(2, "Cotisation AE");
 
-    if ($can_edit && !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg"))
+    if ($can_edit && !file_exists("/data/matmatronch/" . $user->id .".identity.jpg"))
       $cts->add_paragraph("<img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION</b>: " .
                           "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id.
                           "\">Photo d'identit&eacute; non pr&eacute;sente !</a>");
