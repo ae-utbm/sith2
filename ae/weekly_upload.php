@@ -40,11 +40,11 @@ $site->add_contents($cts);
 
 $cts = new contents("Planning");
 
-if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setplanning" )
+if ( is_dir("/var/www/var/img") && $_REQUEST["action"] == "setplanning" )
 {
-  $dest_small = "/var/www/ae/www/ae2/var/img/com/planning-small.jpg";
-  $dest_diapo = "/var/www/ae/www/ae2/var/img/com/planning-diapo.jpg";
-  $dest_full  = "/var/www/ae/www/ae2/var/img/com/planning.jpg";
+  $dest_small = "/var/www/var/img/com/planning-small.jpg";
+  $dest_diapo = "/var/www/var/img/com/planning-diapo.jpg";
+  $dest_full  = "/var/www/var/img/com/planning.jpg";
   if ( isset($_REQUEST['delete']) && file_exists($topdir."var/img/com/planning.jpg"))
   {
     if (!unlink($dest_small))
@@ -79,7 +79,7 @@ if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setplannin
 }
 else
 {
-  if (file_exists("/var/www/ae/www/ae2/var/img/com/planning.jpg"))
+  if (file_exists("/var/www/var/img/com/planning.jpg"))
   {
     $cts->add_paragraph("<img src=\"".$topdir."var/img/com/planning-small.jpg\" />".
                         "<br/><br/>Fichier planning modifié pour la dernière fois le : " .
@@ -99,11 +99,11 @@ $site->add_contents($cts);
 
 $cts = new contents("Photo de la semaine");
 
-if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setweekly_photo" )
+if ( is_dir("/var/www/var/img") && $_REQUEST["action"] == "setweekly_photo" )
 {
-  $dest_small = "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg";
-  $dest_diapo = "/var/www/ae/www/ae2/var/img/com/weekly_photo-diapo.jpg";
-  $dest_full  = "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg";
+  $dest_small = "/var/www/var/img/com/weekly_photo-small.jpg";
+  $dest_diapo = "/var/www/var/img/com/weekly_photo-diapo.jpg";
+  $dest_full  = "/var/www/var/img/com/weekly_photo.jpg";
 
   if ( isset($_REQUEST['delete']) && file_exists($topdir."var/img/com/weekly_photo.jpg"))
   {
@@ -128,9 +128,9 @@ if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setweekly_
       else
       {
         $src = $_FILES['file']['tmp_name'];
-        $dest_small = "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg";
-        $dest_diapo = "/var/www/ae/www/ae2/var/img/com/weekly_photo-diapo.jpg";
-        $dest_full  = "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg";
+        $dest_small = "/var/www/var/img/com/weekly_photo-small.jpg";
+        $dest_diapo = "/var/www/var/img/com/weekly_photo-diapo.jpg";
+        $dest_full  = "/var/www/var/img/com/weekly_photo.jpg";
 
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 140x100 -quality 95 \"$dest_small\""));
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 680x510 -quality 95 \"$dest_diapo\""));
@@ -153,7 +153,7 @@ if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setweekly_
 }
 else
 {
-  if (file_exists("/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg"))
+  if (file_exists("/var/www/var/img/com/weekly_photo.jpg"))
   {
     $cts->add_paragraph("<img src=\"".$topdir."var/img/com/weekly_photo-small.jpg\" />".
                         "<br/><br/>Fichier photo de la semaine modifié pour la dernière fois le : " .
