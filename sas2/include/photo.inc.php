@@ -133,7 +133,7 @@ class photo extends basedb
   }
   /** on va arreter d'etre cons -s- */
   function get_rel_path () {
-    return $rootdir."data/sas/".date("Y/m/d",$this->date_prise_vue)."/";
+    return "/data/sas/".date("Y/m/d",$this->date_prise_vue)."/";
   }
 
   /**
