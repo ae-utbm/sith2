@@ -137,7 +137,7 @@ class userinfo extends stdcontents
 
       }
       else
-        $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image\" />\n";
+        $this->buffer .= "<img src=\"/data/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image\" />\n";
 
       $this->buffer .= "</div>";
 
@@ -370,11 +370,11 @@ class userinfo extends stdcontents
     $this->buffer .= "</div>";
 
     if (file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
-      $this->buffer .= "<img src=\"".$topdir."/var/img/matmatronch/".$user->id.".jpg\" class=\"fiche_image_full\"/>\n";
+      $this->buffer .= "<img src=\"".$topdir."/data/matmatronch/".$user->id.".jpg\" class=\"fiche_image_full\"/>\n";
     elseif (file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
-      $this->buffer .= "<img src=\"".$topdir."/var/img/matmatronch/".$user->id.".identity.jpg\" class=\"fiche_image_full\"/>\n<br /><i>(Photo MatMatronch non pr&eacute;sente&nbsp;!)</i>\n";
+      $this->buffer .= "<img src=\"".$topdir."/data/matmatronch/".$user->id.".identity.jpg\" class=\"fiche_image_full\"/>\n<br /><i>(Photo MatMatronch non pr&eacute;sente&nbsp;!)</i>\n";
     else
-      $this->buffer .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image_full\" />\n";
+      $this->buffer .= "<img src=\"/data/matmatronch/na.gif"."\" alt=\"\" class=\"fiche_image_full\" />\n";
 
       $this->buffer .= "<br/><br/><div class=\"citation\" style=\"width: 250px; text-align: center;\"><i>".$user->citation."</i></div>";
       $this->buffer .= "</div>";
@@ -443,7 +443,7 @@ class userinfov2 extends stdcontents
       if ( $exif["FILE"]["FileDateTime"] )
         $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
-      $img = "/var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue;
+      $img = "/data/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue;
       $imgclass="idimg";
     }
 

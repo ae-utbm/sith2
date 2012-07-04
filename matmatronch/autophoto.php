@@ -42,7 +42,7 @@ if ( $_REQUEST["page"] == "avatars" )
   if ( $_REQUEST["action"] == "agree" )
   {
     $id = intval(array_shift($ids));
-    copy("../var/img/matmatronch/".$id.".jpg","../var/img/matmatronch/".$id.".identity.jpg");
+    copy("/data/matmatronch/".$id.".jpg","/data/matmatronch/".$id.".identity.jpg");
   }
   elseif ( $_REQUEST["action"] == "reject" )
   {
@@ -57,7 +57,7 @@ if ( $_REQUEST["page"] == "avatars" )
     $site->start_page("matmatronch","Administration");
 
     $cts = new contents("Photos manquantes");
-    $cts->add_paragraph("<img src=\"../var/img/matmatronch/".$id.".jpg\" />");
+    $cts->add_paragraph("<img src=\"/data/matmatronch/".$id.".jpg\" />");
 
     $cts->add_paragraph("<a href=\"?page=avatars&amp;action=reject&amp;id_utilisateurs=$ids\">Refuser</a>");
     $cts->add_paragraph("<a href=\"?page=avatars&amp;action=agree&amp;id_utilisateurs=$ids\">Accepter</a>");
@@ -91,13 +91,13 @@ $sas_todo=array();
 $user = new utilisateur($site->db);
 while ( $row = $req->get_row() )
 {
-	if ( !file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
+	if ( !file_exists("/data/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
 	{
     $user->_load_all($row);
 
     $info = "";
 
-	  if ( file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".jpg"))
+	  if ( file_exists("/data/matmatronch/" . $row['id_utilisateur'] .".jpg"))
 	  {
       $info = ", avartar disponible";
       $avatar_todo[] = $user->id;

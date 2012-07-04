@@ -468,7 +468,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
       $ville->load_by_id($user->id_ville);
       $pays->load_by_id($user->id_pays);
 
-      $cts->add(new image($user->prenom . " " . $user->nom,$topdir."/var/img/matmatronch/".$user->id.".identity.jpg","fiche_image"));
+      $cts->add(new image($user->prenom . " " . $user->nom,$topdir."/data/matmatronch/".$user->id.".identity.jpg","fiche_image"));
       $cts->add_paragraph(
                           "<b>". $user->prenom . " " . $user->nom . "</b><br/>" .
                           $user->surnom."<br/>\n".
