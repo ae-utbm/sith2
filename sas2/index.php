@@ -385,13 +385,13 @@ if ( $photo->is_valid() )
   elseif ( $_REQUEST["action"] == "setweekly" &&  $site->user->is_in_group ("moderateur_site") )
   {
     copy($photo->get_abs_path().$photo->id.".jpg",
-         "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg");
+         "/var/www/ae2/data/com/weekly_photo.jpg");
 
     copy($photo->get_abs_path().$photo->id.".diapo.jpg",
-         "/var/www/ae/www/ae2/var/img/com/weekly_photo-diapo.jpg");
+         "/var/www/ae2/data/com/weekly_photo-diapo.jpg");
 
     copy($photo->get_abs_path().$photo->id.".vignette.jpg",
-         "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg");
+         "/var/www/ae2/data/com/weekly_photo-small.jpg");
 
     new update ($site->dbrw,"site_boites",
       array ("contenu_boite" => $cat->nom),

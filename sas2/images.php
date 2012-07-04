@@ -28,27 +28,30 @@ $site = new sas();
 
 $site->allow_only_logged_users("sas");
 
-if ( ereg("^(.*)/([0-9]*).jpg$",$_SERVER["argv"][0],$regs) )
+$q = $_SERVER['QUERY_STRING'];
+$q = htmlspecialchars ($q);
+
+if ( ereg("^(.*)/([0-9]*).jpg$",$q,$regs) )
 {
   $id_photo = intval($regs[2]);
   $mode = "";
 }
-else if ( ereg("^(.*)/([0-9]*).vignette.jpg$",$_SERVER["argv"][0],$regs) )
+else if ( ereg("^(.*)/([0-9]*).vignette.jpg$",$q,$regs) )
 {
   $id_photo = intval($regs[2]);
   $mode = "vignette";
 }
-else if ( ereg("^(.*)/([0-9]*).diapo.jpg$",$_SERVER["argv"][0],$regs) )
+else if ( ereg("^(.*)/([0-9]*).diapo.jpg$",$q,$regs) )
 {
   $id_photo = intval($regs[2]);
   $mode = "diapo";
 }
-else if ( ereg("^(.*)/([0-9]*).flv$",$_SERVER["argv"][0],$regs) )
+else if ( ereg("^(.*)/([0-9]*).flv$",$q,$regs) )
 {
   $id_photo = intval($regs[2]);
   $mode = "flv";
 }
-else if ( ereg("^/(.*)$",$_SERVER["argv"][0]) )
+else if ( ereg("^/(.*)$",$q) )
 {
   $path = $_SERVER["argv"][0];
 }
