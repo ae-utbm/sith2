@@ -131,6 +131,10 @@ class photo extends basedb
   {
     return "/var/www/ae2/data/sas/".date("Y/m/d",$this->date_prise_vue)."/";
   }
+  /** on va arreter d'etre cons -s- */
+  function get_rel_path () {
+    return $rootdir."data/sas/".date("Y/m/d",$this->date_prise_vue)."/";
+  }
 
   /**
    * Verifie si tous les droits sont acquis, et en cas de changement met à jour la base de donnés.
