@@ -44,7 +44,7 @@ class sas extends site
 
     $this->site();
 
-      if ( ($this->get_param("closed.sas",false) && !$this->user->is_in_group("root")) || !is_dir("/var/www/ae/accounts/sas")	)
+      if ( ($this->get_param("closed.sas",false) && !$this->user->is_in_group("root")) || !is_dir("/var/www/ae2/data/sas")	)
       $this->fatal_partial("sas");
 /*    if ( $GLOBALS["taiste"] )
       $this->set_side_boxes("right",array("monsas"));
