@@ -96,9 +96,9 @@ function checkup_dir(&$lst,&$excepted,$folder)
 
 }
 
-checkup_dir($lst,$excepted,$topdir."var/files/");
-checkup_dir($lst,$excepted_thumb,$topdir."var/files/thumb/");
-checkup_dir($lst,$excepted_preview,$topdir."var/files/preview/");
+checkup_dir($lst,$excepted,$topdir."data/files/");
+checkup_dir($lst,$excepted_thumb,$topdir."data/files/thumb/");
+checkup_dir($lst,$excepted_preview,$topdir."data/files/preview/");
 
 
 

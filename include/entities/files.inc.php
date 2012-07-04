@@ -552,7 +552,7 @@ class dfile extends fs
   function get_real_filename()
   {
     global $topdir;
-    return $topdir."var/files/".$this->id.".".$this->id_rev_file;
+    return $topdir."data/files/".$this->id.".".$this->id_rev_file;
   }
 
   /**
@@ -563,9 +563,9 @@ class dfile extends fs
   {
     global $topdir;
     if( $this->mime_type=="image/png" )
-      return $topdir."var/files/thumb/".$this->id.".png";
+      return $topdir."data/files/thumb/".$this->id.".png";
     else
-      return $topdir."var/files/thumb/".$this->id.".jpg";
+      return $topdir."data/files/thumb/".$this->id.".jpg";
   }
 
   /**
@@ -601,9 +601,9 @@ class dfile extends fs
   {
     global $topdir;
     if( $this->mime_type=="image/png" )
-      return $topdir."var/files/preview/".$this->id.".png";
+      return $topdir."data/files/preview/".$this->id.".png";
     else
-      return $topdir."var/files/preview/".$this->id.".jpg";
+      return $topdir."data/files/preview/".$this->id.".jpg";
   }
 
   /**
