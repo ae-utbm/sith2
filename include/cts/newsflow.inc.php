@@ -192,8 +192,8 @@ abstract class newslister extends stdcontents
       {
         if ( $row['id_asso'] )
         {
-          $img = "/var/img/logos/".$row['nom_unix_asso'].".icon.png";
-          if ( !file_exists("/var/www/ae/www".$img) )
+          $img = "/data/img/logos/".$row['nom_unix_asso'].".icon.png";
+          if ( !file_exists("/var/www/ae2".$img) )
             $img = $wwwtopdir."images/default/news.icon.png";
         }
         else
@@ -249,7 +249,7 @@ abstract class newslister extends stdcontents
         if ( $row['id_asso'] )
         {
           $img = "<a href=\"asso.php?id_asso=".$row['id_asso']."\"><img src=\"/var/img/logos/".$row['nom_unix_asso'].".icon.png\" alt=\"\" class=\"nvlicon\" /></a>";
-          if ( !file_exists("/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso'].".icon.png") )
+          if ( !file_exists("/var/www/ae2/data/img/logos/".$row['nom_unix_asso'].".icon.png") )
             $img = "<a href=\"asso.php?id_asso=".$row['id_asso']."\"><img src=\"".$wwwtopdir."images/default/news.icon.png\" alt=\"\" class=\"nvlicon\" /></a>";
         }
         else

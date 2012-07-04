@@ -96,15 +96,15 @@ if ( $_REQUEST["action"] == "generate" )
     $barcode = $row['cbar_objet'];
     $name = $row['nom_objet'];
 
-    $src = "/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso_gest'].".png";
-    $logo = "/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso_gest'].".jpg";
+    $src = "/var/www/ae2/data/img/logos/".$row['nom_unix_asso_gest'].".png";
+    $logo = "/var/www/ae2/data/img/logos/".$row['nom_unix_asso_gest'].".jpg";
     if ( !file_exists($logo) && file_exists($src) )
       exec(escapeshellcmd("/usr/share/php5/exec/convert $src -background white $logo"));
 
     if ( !file_exists($logo) )
     {
-      $src = "/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso_prop'].".png";
-      $logo = "/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso_prop'].".jpg";
+      $src = "/var/www/ae2/data/img/logos/".$row['nom_unix_asso_prop'].".png";
+      $logo = "/var/www/ae2/data/img/logos/".$row['nom_unix_asso_prop'].".jpg";
 
       if ( !file_exists($logo) && file_exists($src) )
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -background white $logo"));

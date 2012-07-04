@@ -45,7 +45,7 @@ class img_watermark
   var $opacity;
 
   function img_watermark ($image_to_mark,
-                          $watermark = "/var/www/ae/www/var/img/ae_watermark.png",
+                          $watermark = "/data/img/ae_watermark.png",
                           $opacity = 9)
   {
     $this->opacity = $opacity;

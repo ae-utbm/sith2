@@ -2,7 +2,7 @@
 if(!isset($argc))
   exit();
 
-$_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/phpcron";
+$_SERVER['SCRIPT_FILENAME']="/var/www/ae2/phpcron";
 
 /*
  * hourly

@@ -119,15 +119,15 @@ else if ( isset($_REQUEST["id_asso"]) )
 
       }
     }
-    else if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST['action'] == "setlogo"  )
+    else if ( is_dir("/var/www/ae2/data/img") && $_REQUEST['action'] == "setlogo"  )
     {
       if ( is_uploaded_file($_FILES['logofile']['tmp_name']) )
       {
         $src = $_FILES['logofile']['tmp_name'];
 
-        $dest_small ="/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".small.png";
-        $dest_icon = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".icon.png";
-        $dest_full = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg";
+        $dest_small ="/var/www/ae2/data/img/logos/".$asso->nom_unix.".small.png";
+        $dest_icon = "/var/www/ae2/data/img/logos/".$asso->nom_unix.".icon.png";
+        $dest_full = "/var/www/ae2/data/img/logos/".$asso->nom_unix.".jpg";
 
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 80x80 $dest_small"));
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -resize 48x48 -size 48x48 xc:transparent +swap -gravity center -composite $dest_icon"));
@@ -229,10 +229,6 @@ else if ( isset($_REQUEST["id_asso"]) )
   }
 
 
-  /*$img = "/var/img/logos/".$asso->nom_unix.".small.png";
-  if ( file_exists("/var/www/ae/www/ae2".$img) )
-    $cts->add(new image($asso->nom, $img, "newsimg"));*/
-
   $page = new page($site->db);
   $page->load_by_pagename("activites:".$asso->nom_unix);
 
@@ -274,9 +270,9 @@ else if ( isset($_REQUEST["id_asso"]) )
       $gal = new gallery($vocable,"clubsgal");
       while ( $row = $req->get_row() )
       {
-        $img = "/var/img/logos/".$row['nom_unix_asso'].".small.png";
+        $img = "/data/img/logos/".$row['nom_unix_asso'].".small.png";
 
-        if ( !file_exists("/var/www/ae/www/ae2".$img) )
+        if ( !file_exists("/var/www/ae2".$img) )
         {
           $gal->add_item(
             "<a href=\"asso.php?id_asso=".$row['id_asso']."\">&nbsp;<img src=\"images/icons/128/asso.png\" alt=\"\" class=\"nope\" />&nbsp;</a>",

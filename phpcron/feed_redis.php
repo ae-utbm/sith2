@@ -21,7 +21,7 @@
  * 02111-1307, USA.
  */
 
-$_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/phpcron";
+$_SERVER['SCRIPT_FILENAME']="/var/www/ae2/phpcron";
 $topdir="../";
 
 require_once ($topdir. "include/site.inc.php");

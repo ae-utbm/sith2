@@ -28,8 +28,8 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir . "include/cts/user.inc.php");
 
 // Ne pas oublier le dernier '/'
-define('SAVE_DIR', '/var/www/ae/www/var/tmp/');
-define('OUTPUT_DIR', '/var/www/ae/www/var/tmp/matmat/');
+define('SAVE_DIR', '/var/www/var/tmp/');
+define('OUTPUT_DIR', '/var/www/var/tmp/matmat/');
 
 $site = new site ();
 
@@ -40,7 +40,7 @@ $site->start_page("none","Administration");
 
 if(isset($_POST['action'])
    && $_POST['action']=='bloubiboulga'
-   && is_dir("/var/www/ae/www/ae2/var/img")
+   && is_dir("/var/www/ae2/data/img")
    && file_exists (SAVE_DIR.$_POST['zipeuh']))
 {
   mkdir(OUTPUT_DIR);
@@ -90,7 +90,7 @@ if(isset($_POST['action'])
 $cts = new contents("Administration/Import massif de photos matmatronch");
 $frm = new form("photos","?",true,"POST","Et paf les photos");
 $frm->add_hidden("action","bloubiboulga");
-$frm->add_text_field ( "zipeuh", 'Nom du fichier (à balancer dans /var/www/ae/www/var/tmp/)', '', true);
+$frm->add_text_field ( "zipeuh", 'Nom du fichier (à balancer dans /var/www/var/tmp/)', '', true);
 $frm->add_text_field ( "rotate", 'Rotation à appliquer en degré', '+90', true);
 $frm->add_checkbox ( "carteae", "Les boulets qui ont fait les photos ont utilisé les numéros de carte AE" );
 $frm->add_submit("paff","Et paf!");

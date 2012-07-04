@@ -92,8 +92,8 @@ if ( $_REQUEST["action"] == "genfact" )
     $asso->load_by_id($row['id_asso']);
     if ( !$asso->is_valid() )
       continue;
-    if(file_exists("/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg"))
-      $logo="/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg";
+    if(file_exists("/var/www/ae2/data/img/logos/".$asso->nom_unix.".jpg"))
+      $logo="/var/www/ae2/data/img/logos/".$asso->nom_unix.".jpg";
     else
       $logo="";
     if($asso->id==1)//ae
@@ -159,8 +159,8 @@ elseif ( $_REQUEST["action"] == "genonefact" )
 
   $facturing_infos = array ('name' => $asso->nom,
        'addr' => explode("\n",utf8_decode($asso->adresse_postale)));
-  if(file_exists("/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg"))
-    $facturing_infos['logo'] = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg";
+  if(file_exists("/var/www/ae2/data/img/logos/".$asso->nom_unix.".jpg"))
+    $facturing_infos['logo'] = "/var/www/ae2/data/img/logos/".$asso->nom_unix.".jpg";
 
   $date_facturation = date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
 

@@ -24,7 +24,7 @@
  */
 
 $topdir = "../";
-define('MAGPIE_CACHE_DIR', '/var/www/ae/www/var/cache/planet/');
+define('MAGPIE_CACHE_DIR', '/var/www/var/cache/planet/');
 define('MAGPIE_CACHE_ON', true);
 define('MAGPIE_CACHE_AGE', 70*60); //une heure et dix minutes (le cache est regénéré automatiquement)
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");

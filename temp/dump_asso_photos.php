@@ -6,7 +6,7 @@
 
 if(!isset($_SERVER['SCRIPT_FILENAME']))
 {
-  $_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/taiste/temp";
+  $_SERVER['SCRIPT_FILENAME']="/var/www/ae2/taiste/temp";
   $topdir=$_SERVER['SCRIPT_FILENAME']."/../";
 }
 else
@@ -118,7 +118,7 @@ foreach($photos as $id)
 if($bouh)
 {
   exec("/bin/tar czf /tmp/".$asso->nom_unix.".tar.gz /tmp/".$asso->nom_unix);
-  exec("/bin/mv /tmp/".$asso->nom_unix.".tar.gz /var/www/ae/www/var/");
+  exec("/bin/mv /tmp/".$asso->nom_unix.".tar.gz /var/www/var/");
   exec("/bin/rm -Rf /tmp/".$asso->nom_unix);
 }
 

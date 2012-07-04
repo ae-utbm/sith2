@@ -35,7 +35,7 @@ require_once ("./include/answer.inc.php");
 /* fonction rapide de log des retours */
 function log_success ($message)
 {
-  $fp = fopen("/var/www/ae/www/ae2/e-boutic/.autorep.log", "a+");
+  $fp = fopen("/var/www/ae2/e-boutic/.autorep.log", "a+");
   fwrite($fp, $message . "\n");
   fclose($fp);
 }

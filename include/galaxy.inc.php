@@ -475,7 +475,7 @@ class galaxy
 
     $img2 = imagecreatetruecolor($this->width/100,$this->height/100);
     imagecopyresampled($img2,$img,0,0,0,0,$this->width/100,$this->height/100,$this->width/50,$this->height/50);
-    if(is_writable("/var/www/ae/www/ae2/var/"))
+    if(is_writable("/var/www/var/"))
       imagepng($img2,$mini_target);
     imagedestroy($img2);
     imagedestroy($img);

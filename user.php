@@ -480,7 +480,7 @@ elseif ( $_REQUEST["action"] == "serviceident" && $can_edit  )
   $user->gen_serviceident();
 }
 
-if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/ae2/var/img") )
+if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/data/matmatronch/") )
 {
   $dest_idt = "/data/matmatronch/".$user->id.".identity.jpg";
   if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )

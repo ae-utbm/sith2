@@ -32,7 +32,7 @@ $timing["all"] -= microtime(true);
 
 setlocale(LC_ALL,"fr_FR.UTF8");
 
-if( !strncmp('/var/www/ae/www/taiste', $_SERVER['SCRIPT_FILENAME'], 22) )
+if( !strncmp('/var/www/taiste', $_SERVER['SCRIPT_FILENAME'], 22) )
   $GLOBALS["taiste"] = true;
 else
   $GLOBALS["taiste"] = false;

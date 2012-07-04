@@ -107,15 +107,15 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         /* on déplace les photos matmat */
 
         /* avatar forum */
-        $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".jpg";
+        $_photo =  "/var/www/ae2/data/matmatronch/" . $id . ".jpg";
         if(file_exists($_photo))
           @unlink($_photo);
 
         /* photo mmt */
-        $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".identity.jpg";
-        $photo = "/var/www/ae/www/var/matmatronch/" . $_id . ".identity.jpg";
-        $_identityi =  "/var/www/ae/www/var/matmatronch/" . $id . ".identity.i.jpg";
-        $identityi = "/var/www/ae/www/var/matmatronch/" . $_id . ".identity.i.jpg";
+        $_photo =  "/var/www/ae2/data/matmatronch/" . $id . ".identity.jpg";
+        $photo = "/var/www/ae2/data/matmatronch/" . $_id . ".identity.jpg";
+        $_identityi =  "/var/www/ae2/data/matmatronch/" . $id . ".identity.i.jpg";
+        $identityi = "/var/www/ae2/data/matmatronch/" . $_id . ".identity.i.jpg";
         if(!file_exists($photo) && file_exists($_photo))
         {
           @copy($_photo, $photo);
@@ -128,8 +128,8 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         }
 
         /* blouse */
-        $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.jpg";
-        $_blousemini =  "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.mini.jpg";
+        $_photo =  "/var/www/ae2/data/matmatronch/" . $id . ".blouse.jpg";
+        $_blousemini =  "/var/www/ae2/data/matmatronch/" . $id . ".blouse.mini.jpg";
         if(file_exists($_photo))
         {
           @unlink($_photo);
