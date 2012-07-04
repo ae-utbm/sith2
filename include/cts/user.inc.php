@@ -443,7 +443,7 @@ class userinfov2 extends stdcontents
       if ( $exif["FILE"]["FileDateTime"] )
         $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
-      $img = "/data/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue;
+      $img = $topdir . "data/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue;
       $imgclass="idimg";
     }
 
