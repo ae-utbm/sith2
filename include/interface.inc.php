@@ -494,7 +494,7 @@ if(!defined("MOBILE")) {
             $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."ae/infotodo.php\">Tâches équipe info</a>';";
           }
           $i++;
-          $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."/taiste/\">/taiste</a>';";
+          $this->buffer .= "menu_utilisateur[$i]='<a href=\"/taiste/\">/taiste</a>';";
         }
         $i++;
         if($this->user->utbm)
