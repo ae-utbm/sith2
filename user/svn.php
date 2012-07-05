@@ -146,7 +146,7 @@ if($req->lines != 0)
                         ));
 }
 
-$req = new requete($site->db,"SELECT `nom`, CONCAT('https://ae.utbm.fr/svn/pub/',`nom`) AS `url`, `right` FROM `svn_member_depot` ".
+$req = new requete($site->db,"SELECT `nom`, CONCAT('https://ae.utbm.fr/svn/public/',`nom`) AS `url`, `right` FROM `svn_member_depot` ".
                              "INNER JOIN `svn_depot` USING(`id_depot`) ".
                              "WHERE `id_utilisateur`='".$site->user->id."' AND `type`='public'");
 if($req->lines != 0)
