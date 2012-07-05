@@ -110,7 +110,7 @@ $frm->add_submit("valid","Valider"); $cts->add($frm,true);
 */
 
 /* ici faire la liste des dépots privés, publiques et aeinfo */
-$req = new requete($site->db,"SELECT `nom`, CONCAT('https://ae.utbm.fr/svn/',`nom`) AS `url`, `right` FROM `svn_member_depot` ".
+$req = new requete($site->db,"SELECT `nom`, CONCAT('https://ae.utbm.fr/svn/aeinfo/',`nom`) AS `url`, `right` FROM `svn_member_depot` ".
                              "INNER JOIN `svn_depot` USING(`id_depot`) ".
                              "WHERE `id_utilisateur`='".$site->user->id."' AND `type`='aeinfo'");
 if($req->lines != 0)
@@ -128,7 +128,7 @@ if($req->lines != 0)
                         ));
 }
 
-$req = new requete($site->db,"SELECT `nom`, CONCAT('https://ae.utbm.fr/svn-private/',`nom`) AS `url`, `right` FROM `svn_member_depot` ".
+$req = new requete($site->db,"SELECT `nom`, CONCAT('https://ae.utbm.fr/svn/private/',`nom`) AS `url`, `right` FROM `svn_member_depot` ".
                              "INNER JOIN `svn_depot` USING(`id_depot`) ".
                              "WHERE `id_utilisateur`='".$site->user->id."' AND `type`='private'");
 if($req->lines != 0)
@@ -146,7 +146,7 @@ if($req->lines != 0)
                         ));
 }
 
-$req = new requete($site->db,"SELECT `nom`, CONCAT('https://ae.utbm.fr/svn-pub/',`nom`) AS `url`, `right` FROM `svn_member_depot` ".
+$req = new requete($site->db,"SELECT `nom`, CONCAT('https://ae.utbm.fr/svn/pub/',`nom`) AS `url`, `right` FROM `svn_member_depot` ".
                              "INNER JOIN `svn_depot` USING(`id_depot`) ".
                              "WHERE `id_utilisateur`='".$site->user->id."' AND `type`='public'");
 if($req->lines != 0)
