@@ -79,7 +79,7 @@ $wwwtopdir = "./";
  * Repertoire de stockage des fichiers de configurations des AEMCS
  * @ingroup aecms
  */
-define("CMS_CONFIGPATH","/var/www/ae/www/taiste/var/aecms");
+define("CMS_CONFIGPATH","/var/www/var/aecms_conf");
 if(defined('CMS_ALTERNATE'))
   define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".".CMS_ALTERNATE.".conf.php");
 else
