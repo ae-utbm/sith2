@@ -37,7 +37,7 @@
    officiel et qu'il n'y a pas de conf personnelle */
 
 if( !preg_match('/^\/var\/www\/(taiste|ae2)\//', $_SERVER['SCRIPT_FILENAME'])
-    && !ereg("^/data/accounts/([a-z0-9][a-z0-9_-]*)/aecms",$_SERVER['SCRIPT_FILENAME']) )
+    && !ereg("^/var/www/accounts/([a-z0-9][a-z0-9_-]*)/aecms",$_SERVER['SCRIPT_FILENAME']) )
 {
   /* On est peut_etre dans le cas d'une utilisation "home" */
   if (file_exists($topdir . "include/mysqlae_home.inc.php"))
