@@ -365,7 +365,7 @@ if ( $suitable && isset($_REQUEST["preview"]) )
 
   $cts = new contents($_REQUEST["title"]);
 
-  $img = "var/img/logos/".$asso->nom_unix.".small.png";
+  $img = "data/img/logos/".$asso->nom_unix.".small.png";
   if ( !file_exists($img) )
     $img = "images/default/news.small.png";
 
