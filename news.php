@@ -366,7 +366,7 @@ if ( $suitable && isset($_REQUEST["preview"]) )
   $cts = new contents($_REQUEST["title"]);
 
   $img = "data/img/logos/".$asso->nom_unix.".small.png";
-  if ( !file_exists("/data/img/logos/".$asso->nom_unix.".small.png") )
+  if ( !file_exists("/var/www/ae2/data/img/logos/".$asso->nom_unix.".small.png") )
     $img = "images/default/news.small.png";
 
   $cts->add(new image($asso->nom, $img, "newsimg"));
