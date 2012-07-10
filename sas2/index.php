@@ -736,7 +736,8 @@ if ( $cat->id == 1 )
 
   $cts = new contents("Ajouts r&eacute;cents");
 
-  $cts->add(cats_produde_gallery($cat->get_recent_photos_categories($site->user,$grps)));
+  $cts->add_paragraph ("<b>En maintenance.</b>");
+  //$cts->add(cats_produde_gallery($cat->get_recent_photos_categories($site->user,$grps)));
 
   $site->add_contents($cts);
 
