@@ -28,7 +28,7 @@ $site = new sas();
 
 $site->allow_only_logged_users("sas");
 
-$q = $_SERVER['QUERY_STRING'];
+$q = $_SERVER["argv"][0];
 $q = htmlspecialchars ($q);
 
 if ( ereg("^(.*)/([0-9]*).jpg$",$q,$regs) )
