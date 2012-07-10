@@ -186,7 +186,7 @@ class nouvelle extends stdentity
 
     if ( $asso->is_valid() )
     {
-      if ( !file_exists($topdir."var/img/logos/".$asso->nom_unix.".small.png") )
+      if ( !file_exists($topdir."data/img/logos/".$asso->nom_unix.".small.png") )
         $img =  $wwwtopdir."images/default/news.small.png";
       else
         $img = "/data/img/logos/".$asso->nom_unix.".small.png";
