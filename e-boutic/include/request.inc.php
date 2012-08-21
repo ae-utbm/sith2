@@ -12,7 +12,7 @@
 require_once ("e-boutic.inc.php");
 
 
-$location = "/home/ae-web/sogenactif/";
+$location = "/usr/share/php5/sogenactif/";
 
 /**
  * Permet d'élaborer une requête vers les serveurs Sogenactif

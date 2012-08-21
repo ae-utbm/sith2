@@ -8,8 +8,7 @@
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
  */
-//$location = "/usr/share/php5/exec/sogenactif/";
-$location = "/home/ae-web/sogenactif/";
+$location = "/usr/share/php5/sogenactif/";
 
 
 require_once ("e-boutic.inc.php");
