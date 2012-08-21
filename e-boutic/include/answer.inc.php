@@ -8,7 +8,8 @@
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
  */
-$location = "/usr/share/php5/exec/sogenactif/";
+//$location = "/usr/share/php5/exec/sogenactif/";
+$location = "/home/ae-web/sogenactif/";
 
 
 require_once ("e-boutic.inc.php");
@@ -95,7 +96,16 @@ class answer
     $path_bin = $location  . "bin/response";
 
     /* on appelle le binaire */
-    $ret = exec($path_bin . $args);
+    //$ret = exec($path_bin . $args);
+    $conn = ssh2_connect ('192.168.2.220', 22);
+    if (ssh2_auth_password ($conn, 'ae-web', 'plopaize')) {
+      $stream = ssh2_exec ($conn, $path_bin . $args);
+      stream_set_blocking ($stream, true);
+      $ret = stream_get_contents ($stream);
+      fclose ($stream);
+    } else {
+      $ret = "Erreur. Paiement par CB temporairement indisponible.";
+    }
 
     /* on explose le retour */
     $ret = explode("!", $ret);

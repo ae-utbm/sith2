@@ -12,7 +12,7 @@
 require_once ("e-boutic.inc.php");
 
 
-$location = "/usr/share/php5/exec/sogenactif/";
+$location = "/home/ae-web/sogenactif/";
 
 /**
  * Permet d'élaborer une requête vers les serveurs Sogenactif
@@ -110,7 +110,16 @@ class request
     $parm .= (" transaction_id=".$this->transid);
 
     /* on appelle le binaire */
-    $ret = exec($location . "bin/request " . $parm);
+    //$ret = exec($location . "bin/request " . $parm);
+    $conn = ssh2_connect ('192.168.2.220', 22);
+    if (ssh2_auth_password ($conn, 'ae-web', 'plopaize')) {
+      $stream = ssh2_exec ($conn, $location . "bin/request " . $parm);
+      stream_set_blocking ($stream, true);
+      $ret = stream_get_contents ($stream);
+      fclose ($stream);
+    } else {
+      $ret = "Erreur. Paiement par CB temporairement indisponible.";
+    }
 
     /* on découpe le résultat à la manière sogenactif */
     $ret = explode("!", $ret);
