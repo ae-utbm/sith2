@@ -348,8 +348,8 @@ class catphoto extends basedb
 
   function get_recent_photos_categories ($user, $grps )
   {
-      // pas tres beau, mais ca marche...
-      return new requete($this->db, "SELECT ( SELECT sas_photos.id_photo ".
+      // pas tres beau, mais ca marche...  <- NO SHIT
+      /*return new requete($this->db, "SELECT ( SELECT sas_photos.id_photo ".
         "FROM sas_photos " .
         "LEFT JOIN sas_personnes_photos ON " .
           "(sas_personnes_photos.id_photo=sas_photos.id_photo " .
@@ -375,7 +375,16 @@ class catphoto extends basedb
         "(sas_cat_photos.id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_catph & 0x100) AND sas_cat_photos.id_utilisateur='".$user->id."')) " .
         "ORDER BY 1 DESC " .
-        "LIMIT 4");
+        "LIMIT 4");*/
+    
+    return new requete ($this->db,
+        "SELECT sas_photos.id_photo, sas_cat_photos.id_catph
+         FROM sas_cat_photos
+         INNER JOIN sas_photos           ON sas_photos.id_catph = sas_cat_photos.id_catph
+         INNER JOIN sas_personnes_photos ON sas_personnes_photos.id_photo = sas_photos.id_photo
+         INNER JOIN asso_membre          ON asso_membre.id_asso = sas_photos.meta_id_asso_ph
+         WHERE 
+         ");
 
   }
 

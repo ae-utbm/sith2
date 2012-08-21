@@ -35,7 +35,7 @@
  * false si en test (rien ne passe alors par le circuit bancaire)
  * true  si en production (tout est sérieux);
  */
-define ("STO_PRODUCTION", true );
+define ("STO_PRODUCTION", false );
 /*
  * identifiant du comptoir e-boutic dans les tables MySQL
  */
