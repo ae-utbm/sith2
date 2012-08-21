@@ -117,7 +117,6 @@ class request
       stream_set_blocking ($stream, true);
       $ret = stream_get_contents ($stream);
       fclose ($stream);
-      echo $ret;
     } else {
       $ret = "Erreur. Paiement par CB temporairement indisponible.";
     }
