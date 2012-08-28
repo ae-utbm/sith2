@@ -32,7 +32,8 @@
  */
 
 // Force le passage en HTTPS, pour éviter le risque d'interception des données
-if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" )
+//if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" )
+if (isset ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != "on")
 {
 	header("Location: https://ae.utbm.fr".$_SERVER["REQUEST_URI"]);
 	exit();
