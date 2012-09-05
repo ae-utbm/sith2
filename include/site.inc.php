@@ -572,7 +572,7 @@ if(!defined("MOBILE")) {
         $elements[] = "<b>Vous n'avez pas mis &agrave; jour votre fiche Matmatronch depuis ".round((time() - $this->user->date_maj)/(24*60*60))." jours !</b> : <a href=\"".$topdir."majprofil.php\">La mettre &agrave; jour</a>";
 
 
-    if( $this->user->is_in_group("sas_admin") && (!$this->get_param("closed.sas",false) && is_dir("/var/www/ae/accounts/sas")) )
+    if( $this->user->is_in_group("sas_admin") && (!$this->get_param("closed.sas",false) && is_dir("/var/www/ae2/data/sas")) )
     {
       $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_cat_photos` WHERE `modere_catph`='0' ");
       list($ncat) = $req->get_row();
@@ -591,7 +591,7 @@ if(!defined("MOBILE")) {
       }
     }
 
-    if( !$this->get_param("closed.sas",false) && is_dir("/var/www/ae/accounts/sas"))
+    if( !$this->get_param("closed.sas",false) && is_dir("/var/www/ae2/data/sas"))
     {
       $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `id_utilisateur`='".$this->user->id."' AND `vu_phutl`='0' AND `modere_phutl`='1'");
       list($nphoto) = $req->get_row();
@@ -612,7 +612,7 @@ if(!defined("MOBILE")) {
       $elements[] = "<a href=\"".$topdir."e-boutic/?cat=23\"><b>Votre cotisation &agrave; l'AE est expir&eacute;e !</b> Renouvelez l&agrave; en ligne avec E-boutic.</a>";
     }
 
-    if ( !$this->user->droit_image && !$this->get_param("closed.sas",false) && is_dir("/var/www/ae/accounts/sas") )
+    if ( !$this->user->droit_image && !$this->get_param("closed.sas",false) && is_dir("/var/www/ae2/data/sas") )
     {
       $sql = new requete($this->db,
         "SELECT COUNT(*) " .
