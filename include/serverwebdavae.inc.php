@@ -85,7 +85,7 @@ class webdavserverae extends HTTP_WebDAV_Server
     */
   function checkAuth($type, $username, $password)
   {
-    if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" ) // on n'est pas en HTTPS : Pas d'auth, accès anonyme
+    if (isset ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != "on") // on n'est pas en HTTPS : Pas d'auth, accès anonyme
       return true;
 
     if ( $type == "digest" ) // Digest not supported
@@ -94,7 +94,7 @@ class webdavserverae extends HTTP_WebDAV_Server
     if ( $username == "anonymous" )
       return true;
 
-    if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
+    if ( preg_match('/^\/var\/www\/taiste\//', $_SERVER['SCRIPT_FILENAME']) )
     {
       $this->user->load_by_alias($username);
       return true;

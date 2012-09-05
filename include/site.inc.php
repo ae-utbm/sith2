@@ -36,7 +36,7 @@
 if ( !isset($GLOBALS['nosession']) )
   session_start();
 
-if ( $_SERVER["REMOTE_ADDR"] == "127.0.1.1" )
+if ( isset ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on" )
   $GLOBALS["is_using_ssl"] = true;
 
 require_once($topdir . "include/interface.inc.php");
