@@ -1359,8 +1359,9 @@ class utilisateur extends stdentity
       }
     }
 
-    if (CheckEmail($emailutbm,1))
-    {
+    // new_UTBM_user : so he/she is from utbm ...
+    //if (CheckEmail($emailutbm,1))
+    //{
       $this->promo_utbm = $promo;
       $this->semestre = $semestre;
       $this->email_utbm = $emailutbm;
@@ -1376,7 +1377,7 @@ class utilisateur extends stdentity
                               'departement_utbm' => $this->departement,
                               'promo_utbm'     => $this->promo_utbm,
                               'email_utbm'     => $this->email_utbm));
-    }
+    //}
 
     return true;
   }
