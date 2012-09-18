@@ -378,8 +378,13 @@ class catphoto extends basedb
         "LIMIT 4");*/
     
     // On va tenter de faire une requete qui attaque pas
-    $req = new requete ($this->db,
-        "SELECT `id_catph`, `nom_catph`, `id_photo`
+    return $req = new requete ($this->db,
+        "SELECT `id_catph`, `nom_catph`,
+             (SELECT `id_photo`
+              FROM `sas_photos`
+              WHERE `id_photo` = `sas_cat_photos`.`id_photo`
+              AND `droits_acquis` = '1'
+              AND (droits_acces_ph & 0x1))
          FROM `sas_cat_photos`
          WHERE
          (
@@ -390,22 +395,6 @@ class catphoto extends basedb
          )
          ORDER BY `id_catph` DESC
          LIMIT 4");
-
-    while ($row = $req->get_row ()) {
-      $req2 = new requete ($this->db,
-          "SELECT `id_photo`
-           FROM `sas_photos`
-           WHERE `id_photo` = '".$row['id_photo']."'
-           AND `droits_acquis` = '1'
-           AND (droits_acces_ph & 0x1)");
-
-      if ($req->lines == 0)
-        $row['id_photo'] = NULL;
-
-      $cats[] = $row;
-    }
-
-    return $cats;
   }
 
 
