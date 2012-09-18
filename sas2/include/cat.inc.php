@@ -389,7 +389,7 @@ class catphoto extends basedb
           ((droits_acces_catph & 0x100) AND sas_cat_photos.id_utilisateur='".$user->id."')
          )
          ORDER BY `id_catph` DESC
-         LIMIT 4");
+         LIMIT 5");
   }
 
 
