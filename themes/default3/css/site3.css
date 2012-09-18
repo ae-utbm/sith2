@@ -269,6 +269,7 @@ div#fsearchbox input
   float:left;
   height:20px;
   width:70px;
+  text-align: left;
 }
 #head_comptoirs a
 {
