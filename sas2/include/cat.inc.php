@@ -377,15 +377,35 @@ class catphoto extends basedb
         "ORDER BY 1 DESC " .
         "LIMIT 4");*/
     
-    return new requete ($this->db,
-        "SELECT sas_photos.id_photo, sas_cat_photos.id_catph
-         FROM sas_cat_photos
-         INNER JOIN sas_photos           ON sas_photos.id_catph = sas_cat_photos.id_catph
-         INNER JOIN sas_personnes_photos ON sas_personnes_photos.id_photo = sas_photos.id_photo
-         INNER JOIN asso_membre          ON asso_membre.id_asso = sas_photos.meta_id_asso_ph
-         WHERE 
-         ");
+    // On va tenter de faire une requete qui attaque pas
+    $req = new requete ($this->db,
+        "SELECT `id_catph`, `nom_catph`, `id_photo`
+         FROM `sas_cat_photos`
+         WHERE
+         (
+          (`droits_acces_catph` & 0x1) OR
+          ((`droits_acces_catph` & 0x10) AND ".$user->get_grps_authorization_fragment ('date_debut_catph', $grps, 'id_groupe').") OR
+          (`id_groupe_admin` IN ($grps)) OR
+          ((droits_acces_catph & 0x100) AND sas_cat_photos.id_utilisateur='".$user->id."')
+         )
+         ORDER BY `id_catph` DESC
+         LIMIT 4");
 
+    while ($raw = $req->get_raw ()) {
+      $req2 = new requete ($this->db,
+          "SELECT `id_photo`
+           FROM `sas_photos`
+           WHERE `id_photo` = '".$raw['id_photo']."'
+           AND `droits_acquis` = '1'
+           AND (droits_acces_ph & 0x1)");
+
+      if ($req->lines == 0)
+        $raw['id_photo'] = NULL;
+
+      $cats[] = $raw;
+    }
+
+    return $cats;
   }
 
 
