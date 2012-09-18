@@ -391,18 +391,18 @@ class catphoto extends basedb
          ORDER BY `id_catph` DESC
          LIMIT 4");
 
-    while ($raw = $req->get_raw ()) {
+    while ($row = $req->get_row ()) {
       $req2 = new requete ($this->db,
           "SELECT `id_photo`
            FROM `sas_photos`
-           WHERE `id_photo` = '".$raw['id_photo']."'
+           WHERE `id_photo` = '".$row['id_photo']."'
            AND `droits_acquis` = '1'
            AND (droits_acces_ph & 0x1)");
 
       if ($req->lines == 0)
-        $raw['id_photo'] = NULL;
+        $row['id_photo'] = NULL;
 
-      $cats[] = $raw;
+      $cats[] = $row;
     }
 
     return $cats;
