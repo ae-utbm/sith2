@@ -34,7 +34,7 @@ $site->start_page ("none", "Fix accounts");
 
 $cts = new contents ("<a href=\"./\">Administration</a> / Fix accounts");
 
-$req = new requete ("SELECT `id_utilisateur`
+$req = new requete ($site->db, "SELECT `id_utilisateur`
                      FROM `utilisateurs`
                      WHERE `utbm_utl` = '1'
                      AND `id_utilisateur` NOT IN
@@ -43,7 +43,7 @@ $req = new requete ("SELECT `id_utilisateur`
 $l = $req->lines;
 if ($req->lines > 0) {
   while ($row = $req->get_row ()) {
-    $r = new insert ($site->dbrw,
+    new insert ($site->dbrw,
         "utl_etu_utbm",
         array ("id_utilisateur" => $row['id_utilisateur']));
   }
