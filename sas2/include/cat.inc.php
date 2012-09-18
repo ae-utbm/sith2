@@ -379,12 +379,7 @@ class catphoto extends basedb
     
     // On va tenter de faire une requete qui attaque pas
     return $req = new requete ($this->db,
-        "SELECT `id_catph`, `nom_catph`,
-             (SELECT `id_photo`
-              FROM `sas_photos`
-              WHERE `id_catph` = `sas_cat_photos`.`id_catph`
-              AND `droits_acquis` = '1'
-              AND (droits_acces_ph & 0x1))
+        "SELECT `id_catph`, `nom_catph`, `id_photo`
          FROM `sas_cat_photos`
          WHERE
          (
