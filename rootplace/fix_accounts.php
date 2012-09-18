@@ -43,7 +43,7 @@ $req = new requete ("SELECT `id_utilisateur`
 $l = $req->lines;
 if ($req->lines > 0) {
   while ($row = $req->get_row ()) {
-    new insert ($site->dbrw,
+    $r = new insert ($site->dbrw,
         "utl_etu_utbm",
         array ("id_utilisateur" => $row['id_utilisateur']));
   }
