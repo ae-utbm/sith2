@@ -382,7 +382,7 @@ class catphoto extends basedb
         "SELECT `id_catph`, `nom_catph`,
              (SELECT `id_photo`
               FROM `sas_photos`
-              WHERE `id_capth` = `sas_cat_photos`.`id_capth`
+              WHERE `id_catph` = `sas_cat_photos`.`id_catph`
               AND `droits_acquis` = '1'
               AND (droits_acces_ph & 0x1))
          FROM `sas_cat_photos`
