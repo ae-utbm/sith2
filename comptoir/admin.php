@@ -795,7 +795,7 @@ elseif ( $typeprod->id > 0 )
 elseif ( $comptoir->id > 0 )
 {
 
-  $allow_editteam = ($comptoir->groupe_vendeurs == 5) || ($comptoir->groupe_vendeurs == 16);
+  $allow_editteam = ($comptoir->groupe_vendeurs == 5) || ($comptoir->groupe_vendeurs == 16) || ($comptoir->groupe_vendeurs == 57);
 
 
 
