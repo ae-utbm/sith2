@@ -58,10 +58,8 @@
 }
 body
 {
-  /*background: #CCCCCC;*/
-  /*background-image: url("../images/global-top.png");*/
-  background: #2D87C3;
-  background-image: url("../images/fond-congres2012.jpg");
+  background: #CCCCCC;
+  background-image: url("../images/global-top.png");
   margin: 0;
   padding: 0;
   background-repeat: no-repeat;
