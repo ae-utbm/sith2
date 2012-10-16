@@ -111,7 +111,7 @@ class request
 
     /* on appelle le binaire */
     //$ret = exec($location . "bin/request " . $parm);
-    $conn = ssh2_connect ('192.168.2.220', 22);
+    $conn = ssh2_connect ('192.168.2.220', 22, array('hostkey' => 'ssh-rsa'));
     if (ssh2_auth_pubkey_file ($conn, 'ae-web', '/var/www/id_rsa_ae-web', '/var/www/id_rsa_ae-web.pub')) {
       $stream = ssh2_exec ($conn, $location . "bin/request " . $parm);
       stream_set_blocking ($stream, true);
