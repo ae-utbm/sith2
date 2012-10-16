@@ -96,8 +96,8 @@ class answer
 
     /* on appelle le binaire */
     //$ret = exec($path_bin . $args);
-    $conn = ssh2_connect ('192.168.2.220', 22);
-    if (ssh2_auth_pubkey_file ($conn, 'ae-web', '/var/www/id_rsa_ae-web', '/var/www/id_rsa_ae-web.pub')) {
+    $conn = ssh2_connect ('192.168.2.220', 22, array('hostkey' => 'ssh-rsa'));
+    if (ssh2_auth_pubkey_file ($conn, 'ae-web', '/var/www/id_rsa_ae-web.pub', '/var/www/id_rsa_ae-web')) {
       $stream = ssh2_exec ($conn, $path_bin . $args);
       stream_set_blocking ($stream, true);
       $ret = stream_get_contents ($stream);
