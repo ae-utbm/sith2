@@ -58,12 +58,8 @@
 }
 body
 {
-  /*
   background: #CCCCCC;
   background-image: url("../images/global-top.png");
-  */
-  background: #0c0a15;
-  background-image: url("../images/fond-gala2012.jpg");
   margin: 0;
   padding: 0;
   background-repeat: no-repeat;
