@@ -45,6 +45,9 @@ $site->add_css("css/doku.css");
 $site->add_rss("Les 40 derniers messages du forum de l'AE",
          "rss.php");
 
+// TMP
+if($site->user->is_in_group("root"))
+{
 
 if($site->user->is_in_group("ban_forum"))
 {
@@ -1189,4 +1192,10 @@ $site->add_contents($cts);
 
 $site->end_page();
 
+//TMP
+}else{
+  $site->add_contents(new error("Le forum est fermé pour maintenance.",false));
+  $site->end_page();
+  exit();
+}
 ?>
