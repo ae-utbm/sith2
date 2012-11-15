@@ -42,6 +42,24 @@ require_once($topdir . "sas2/include/cat.inc.php");
 require_once($topdir . "include/cts/forum.inc.php");
 
 $site = new site ();
+
+if (!$site->get_param ("forum_open", false)) {
+  if (!$site->user->is_in_group ("moderateur_forum") &&
+      !$site->user->is_in_group ("root")) {
+    $site->start_page ("forum", "Forum");
+    $cts = new contents ("Forum fermé",
+        $site->get_param ("forum_message", "Maintenance."));
+    $site->add_contents ($cts);
+    $site->end_page();
+    exit();
+  } else {
+    $cts = new contents ();
+    $cts->add_paragraph ("<b>Attention, forum fermé aux non-modérateurs : ".
+        $site->get_param ("forum_message", "Maintenance.")."</b>");
+    $site->add_contents ($cts);
+  }
+}
+
 $site->add_css("css/forum.css");
 
 $forum = new forum($site->db);
