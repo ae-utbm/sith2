@@ -50,13 +50,13 @@ if (isset ($_REQUEST['action'])) {
 $cts = new contents ("<a href=\"./\">Administration</a> / <a href=\"forum.php\">forum</a>");
 
 if ($site->get_param ('forum_open', true))
-  $cts->add_paragraph ('<a href="forum.php?action=closeforum">Fermer le forum</a>');
+  $cts->add_paragraph ('<a href="?action=closeforum">Fermer le forum</a>');
 else
-  $cts->add_paragraph ('<a href="forum.php?action=openforum">Ouvrir le forum</a>');
+  $cts->add_paragraph ('<a href="?action=openforum">Ouvrir le forum</a>');
 
 $site->add_contents ($cts);
 
-$frm = new form ('editmessage', './', true, 'post');
+$frm = new form ('editmessage', 'forum.php', true, 'post');
 $frm->add_hidden ('action','changemessage');
 $frm->add_text_field ('message', 'Message d\'alerte',
     $site->get_param ('forum_message'));
