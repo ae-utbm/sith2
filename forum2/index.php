@@ -41,7 +41,7 @@ require_once($topdir . "include/cts/forum.inc.php");
 
 $site = new site ();
 
-if (!$site->get_param ("forum_open", true)) {
+if (!$site->get_param ("forum_open", false)) {
   if (!$site->user->is_in_group ("moderateur_forum") &&
       !$site->user->is_in_group ("root")) {
     $site->start_page ("forum", "Forum");
