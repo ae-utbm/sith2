@@ -50,9 +50,9 @@ if (isset ($_REQUEST['action'])) {
 $cts = new contents ("<a href=\"./\">Administration</a> / <a href=\"forum.php\">forum</a>");
 
 if ($site->get_param ('forum_open', true))
-  $cts->add_paragraph ('<a href="?action=closeforum">Fermer le forum</a>');
+  $cts->add_paragraph ('<a href="forum.php?action=closeforum">Fermer le forum</a>');
 else
-  $cts->add_paragraph ('<a href="?action=openforum">Ouvrir le forum</a>');
+  $cts->add_paragraph ('<a href="forum.php?action=openforum">Ouvrir le forum</a>');
 
 $site->add_contents ($cts);
 
