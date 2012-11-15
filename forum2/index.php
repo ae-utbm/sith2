@@ -43,7 +43,7 @@ $site = new site ();
 
 if (!$site->get_param ("forum_open", true)) {
   if (!$site->user->is_in_group ("moderateur_forum") &&
-      !$site->user->is_in_group ("root")) {
+      !$site->user->is_in_group ("root") && false) {
     $site->start_page ("forum", "Forum");
     $cts = new contents ("Forum fermé",
         $site->get_param ("forum_message", "Maintenance."));
