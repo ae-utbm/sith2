@@ -318,7 +318,9 @@ if(!defined("MOBILE")) {
       $slides->add_slide($this->get_weekly_photo_contents());
       $slides->add_slide($this->get_planning_contents());
       $slides->add_slide($this->get_planning_permanences_contents());
-      if ($this->user->is_valid())
+      if ($this->user->is_valid() && ($site->get_param ("forum_open", false)
+            || $site->user->is_in_group ("moderateur_forum")
+            || $site->user->is_in_group ("root")))
         $slides->add_slide($this->get_forum_box());
       if(!$slides->is_empty())
          $this->add_box("info_en_boucle",$slides);
