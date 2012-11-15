@@ -40,14 +40,27 @@ require_once($topdir . "sas2/include/cat.inc.php");
 require_once($topdir . "include/cts/forum.inc.php");
 
 $site = new site ();
+
+if (!$site->get_param ("forum_open", true)) {
+  if (!$site->user->is_in_group ("moderateur_forum")) {
+    $site->start_page ("forum", "Forum");
+    $cts = new contents ("Forum fermé",
+        $site->get_param ("forum_message", "Maintenance."));
+    $site->add_contents ($cts);
+    $site->end_page();
+    exit();
+  } else {
+    $cts = new contents ();
+    $cts->add_paragraph ("<b>Attention, forum fermé aux non-modérateurs : ".
+        $site->get_param ("forum_message", "Maintenance.")."</b>");
+    $site->add_contents ($cts);
+  }
+}
+
 $site->add_css("css/forum.css");
 $site->add_css("css/doku.css");
 $site->add_rss("Les 40 derniers messages du forum de l'AE",
          "rss.php");
-
-// TMP
-if($site->user->is_in_group("gestion_ae"))
-{
 
 if($site->user->is_in_group("ban_forum"))
 {
@@ -1192,10 +1205,5 @@ $site->add_contents($cts);
 
 $site->end_page();
 
-//TMP
-}else{
-  $site->add_contents(new error("Le forum est fermé pour maintenance.",false));
-  $site->end_page();
-  exit();
-}
+exit();
 ?>
