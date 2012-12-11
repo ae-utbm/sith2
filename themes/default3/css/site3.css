@@ -58,10 +58,8 @@
 }
 body
 {
-  /*background: #CCCCCC;*/
-  background: black;
-  /*background-image: url("../images/global-top.png");*/
-  background-image: url("../images/theme-pere200-2012.jpg");
+  background: #CCCCCC;
+  background-image: url("../images/global-top.png");
   margin: 0;
   padding: 0;
   background-repeat: no-repeat;
