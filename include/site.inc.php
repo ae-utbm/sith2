@@ -685,6 +685,8 @@ if(!defined("MOBILE")) {
    */
   function get_sondage()
   {
+    global $topdir;
+
     $sdn = new sondage($this->db,$this->dbrw);
 
     $sdn->load_lastest();
