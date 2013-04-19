@@ -36,7 +36,6 @@ $info->add_paragraph("Le Mat'Matronch donne enfin un nom a un visage, le numero 
 $list = new itemlist("Voir aussi");
 $list->add("<a href=\"javascript:window.external.AddSearchProvider('http://ae.utbm.fr/matmatronch/matmatronch.xml');\">Extension Firefox</a>");
 $list->add("La version mobile : <a href=\"http://ae.utbm.fr/i/\">http://ae.utbm.fr/i/</a> <a href=\"".$topdir."iinfo.php\">Informations</a>");
-$list->add("<a href=\"mapfrance.php\">La carte de France de l'AE</a>");
 $info->add($list,true);
 
 $list = new itemlist("Aide");
