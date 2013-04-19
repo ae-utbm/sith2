@@ -130,8 +130,7 @@ $info->add_paragraph("<a href=\"/petitgeni/?page=malin_offre\"><img src=\"/petit
 $info->add_paragraph("<a href=\"/petitgeni/?page=malin_proposition\"><img src=\"/petitgeni/styles/defaut/malin_proposition.png\" alt=\"\" /><br />Ajouter une fiche</a>","center");
 $info->add_paragraph("<a href=\"/petitgeni/?page=malin_pdf\"><img src=\"/petitgeni/styles/defaut/malin_pdf.png\" alt=\"\" /><br />Obtenir le pdf</a>","center");
 $info->add_paragraph("&nbsp;");
-$info->add_paragraph("La version mobile :");
-$info->add_paragraph("<a href=\"http://ae.utbm.fr/i/pg/\">http://ae.utbm.fr/i/pg/</a><br/><a href=\"".$topdir."iinfo.php\">Plus d'informations...</a>","center");
+$info->add_paragraph("<a href=\"".$topdir."iinfo.php\">Plus d'informations...</a>","center");
 $site->add_box("pgmalin",$info);
 
 $site->set_side_boxes("right",array("pginfo","pgmalin"),"pg_right");
