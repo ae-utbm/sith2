@@ -761,7 +761,9 @@ if ( $sujet->is_valid() )
 
   if ( $message->is_valid() )
   {
-    $req = new requete($site->db,"SELECT id_message FROM frm_message WHERE id_sujet='".mysql_real_escape_string($sujet->id)."' ORDER BY date_message");
+    $req = new requete($site->db,"SELECT id_message FROM frm_message WHERE id_sujet='"
+	.mysql_real_escape_string($sujet->id).
+	"' AND msg_supprime='0' ORDER BY date_message");
 
     $ids = array();
     while ( list($id) = $req->get_row() )
