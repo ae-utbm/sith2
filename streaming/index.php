@@ -83,7 +83,7 @@ $site->set_side_boxes("left",array());
 $site->set_side_boxes("right",array());
 
 
-$site->start_page("accueil","Remise des diplômes 2011");
+$site->start_page("accueil","Remise des diplômes 2012");
 
 $cts = new contents("Présentation");
 $cts->add_paragraph("<div align=\"center\"><img src=\"".$event["bandeau"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" /><br /><img src=\"".$event["photo"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" /></div>");
@@ -92,7 +92,7 @@ $site->add_contents($cts);
 
 $cts = new contents("Suivre en direct");
 $cts->add_paragraph("Pour profiter au mieux et de manière plus fiable de cette diffusion, nous vous recommandons l'utilisation du logiciel libre <a href=\"http://www.videolan.org\">VideoLan</a>. Ce logiciel est disponible au <a href=\"http://www.videolan.org/vlc/\">téléchargement</a> pour toutes les plateformes (MS Windows, Mac OS X et Linux compris bien sûr).");
-$cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, ouvrez le lien suivant : <b><a href=\"http://ae.utbm.fr/streaming/stream.m3u\">ici</a></b>");
+$cts->add_paragraph("Pour accéder au streaming, ouvrez le lien suivant avec <b>VideoLan</b> : <b>http://ae-streaming.utbm.fr/rdd</b>");
 $site->add_contents($cts);
 
 $cts = new contents("Propulsé par ...");
