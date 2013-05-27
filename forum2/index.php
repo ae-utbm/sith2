@@ -924,7 +924,7 @@ if ( $sujet->is_valid() )
       $max_id_message = null;
     else
     {
-      $req = new requete($site->db,"SELECT id_message FROM frm_message WHERE id_sujet='".mysql_real_escape_string($sujet->id)."' ORDER BY date_message LIMIT $num,1");
+      $req = new requete($site->db,"SELECT id_message FROM frm_message WHERE id_sujet='".mysql_real_escape_string($sujet->id)."' AND msg_supprime='0' ORDER BY date_message LIMIT $num,1");
       list($max_id_message) = $req->get_row();
     }
 
