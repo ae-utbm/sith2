@@ -111,47 +111,50 @@ class forumslist extends stdcontents
   {
 
     $rows = $forum->get_sub_forums($user);
-
-    $sections=true;
-
-    foreach ( $rows as $row )
+    if(sizeof($rows) != 0)
     {
-      if ( !$row['categorie_forum'] )
-        $sections = false;
-    }
-    $this->buffer .= "<div class=\"forumlist\">\n";
 
-if (!defined ("MOBILE")) {
-    $this->buffer .= "<div class=\"forumhead\">\n";
-    $this->buffer .= "<p class=\"nbsujets\">Sujets</p>\n";
-    $this->buffer .= "<p class=\"dernier\">Dernier message</p>\n";
-    $this->buffer .= "</div>\n";
-}
-
-    if ( $sections )
-    {
-      $sforum = new forum ( $forum->db );
+      $sections=true;
 
       foreach ( $rows as $row )
       {
-        $sforum->_load($row);
-        $srows = $sforum->get_sub_forums($user,$row["non_lu"]);
-        $this->_render_section ( $sforum, $srows, $page );
+        if ( !$row['categorie_forum'] )
+          $sections = false;
       }
+      $this->buffer .= "<div class=\"forumlist\">\n";
+
+      if (!defined ("MOBILE")) {
+        $this->buffer .= "<div class=\"forumhead\">\n";
+        $this->buffer .= "<p class=\"nbsujets\">Sujets</p>\n";
+        $this->buffer .= "<p class=\"dernier\">Dernier message</p>\n";
+        $this->buffer .= "</div>\n";
+      }
+
+      if ( $sections )
+      {
+        $sforum = new forum ( $forum->db );
+
+        foreach ( $rows as $row )
+        {
+          $sforum->_load($row);
+          $srows = $sforum->get_sub_forums($user,$row["non_lu"]);
+          $this->_render_section ( $sforum, $srows, $page );
+        }
+      }
+      else
+        $this->_render_section ( $forum, $rows, $page );
+
+      $this->buffer .= "</div>\n";
+
     }
-    else
-      $this->_render_section ( $forum, $rows, $page );
-
-    $this->buffer .= "</div>\n";
-
-
   }
 
   function _render_section ( &$forum, &$rows, $page )
   {
     $this->buffer .= "<div class=\"forumsection\">\n";
 
-    $this->buffer .= "<h2>".htmlentities($forum->titre,ENT_NOQUOTES,"UTF-8")."</h2>\n";
+    if($forum->categorie)
+      $this->buffer .= "<h2>".htmlentities($forum->titre,ENT_NOQUOTES,"UTF-8")."</h2>\n";
 
     foreach ( $rows as $row )
     {

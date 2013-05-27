@@ -1171,6 +1171,7 @@ if ( $forum->categorie )
 }
 else
 {
+  $cts->add(new forumslist($forum, $site->user, "./"));
 // Liste des sujets
   $npp=40;
   $start=0;
