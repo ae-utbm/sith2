@@ -338,7 +338,7 @@ if(!defined("MOBILE")) {
         $this->buffer .= "<div id=\"mobile_disclaimer\">\n";
         $this->buffer .= "Redirection vers la version<br /> mobile du site : ";
         $this->buffer .= "<br /><a href=\"/m\">oui</a> - ";
-        $this->buffer .= "<a href=\"/\">non</a>";
+        $this->buffer .= "<a href=\"#\">non</a>";
         $this->buffer .= "</div>\n";
 
         $_SESSION["mobile_disclaimer"] = false;
