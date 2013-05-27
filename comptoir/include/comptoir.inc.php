@@ -264,7 +264,7 @@ class comptoir extends stdentity
     {
       $Op = new utilisateur ($this->db,$this->dbrw);
       $Op->load_by_id ($uid);
-      if (($Op->is_valid()) && $Op->is_in_group_id($this->groupe_vendeurs))
+      if (($Op->is_valid()) && ($Op->is_in_group_id($this->groupe_vendeurs) || $Op->is_in_group_id(9)))
       {
         $this->operateurs[] = $Op;
 
