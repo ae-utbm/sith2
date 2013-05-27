@@ -155,6 +155,11 @@ class forumslist extends stdcontents
 
     if($forum->categorie)
       $this->buffer .= "<h2>".htmlentities($forum->titre,ENT_NOQUOTES,"UTF-8")."</h2>\n";
+    else
+      if(sizeof($rows) == 1)
+        $this->buffer .= "<h2>Sous-Forum</h2>\n";
+      else
+        $this->buffer .= "<h2>Sous-Forums</h2>\n";
 
     foreach ( $rows as $row )
     {

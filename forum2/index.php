@@ -1171,7 +1171,6 @@ if ( $forum->categorie )
 }
 else
 {
-  $cts->add(new forumslist($forum, $site->user, "./"));
 // Liste des sujets
   $npp=40;
   $start=0;
@@ -1191,6 +1190,7 @@ else
 
   $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a> <a href=\"?id_forum=".$forum->id."&amp;page=post\"><img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" />Nouveau sujet</a>","frmtools");
 
+  $cts->add(new forumslist($forum, $site->user, "./"));
   $cts->add(new sujetslist($forum, $site->user, "./", $start, $npp));
 
   $entries=array();
