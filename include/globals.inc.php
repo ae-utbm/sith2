@@ -191,7 +191,7 @@ function CheckEmail($email, $type = 0)
 
   if ($type == 0)
     {
-      if (ereg("^([a-z\-]+)\.([a-z0-9\-]+)$", $email))
+      if (filter_var($email,FILTER_VALIDATE_EMAIL))
   return true;
       else
   return false;
@@ -217,7 +217,7 @@ function CheckEmail($email, $type = 0)
 
   elseif ($type == 3)
     {
-      if (ereg("^([A-Za-z0-9\._-]+)@([A-Za-z0-9_-]+)\.([A-Za-z0-9\._-]*)$", $email))
+      if (filter_var( $email,FILTER_VALIDATE_EMAIL))
   return true;
       else
   return false;
