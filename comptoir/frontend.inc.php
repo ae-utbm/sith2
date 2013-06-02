@@ -538,7 +538,7 @@ else if ( $site->comptoir->client->id > 0 )
             "<a href=\"#\" onclick=\"return increase('".$vp->produit->code_barre."', ".$prix.", ".$prixBarman.", ".(($vp->produit->plateau) ? '1' : '0').", ".(($site->comptoir->prix_barman)?'1':'0').");\">+</a>",
             $vp->produit->nom,
             array ($nbP >= 6 ? "P" : "", false, "platProd".$vp->produit->code_barre),
-            array(($prix*$nb/100)." &euro;", false, "priceProd".$vp->produit->code_barre)),
+            array(((($site->comptoir->prix_barman)?$prixBarman:$prix)*$nb/100)." &euro;", false, "priceProd".$vp->produit->code_barre)),
           false, "prod".$vp->produit->code_barre);
 
         $total += $prix*$nb;
