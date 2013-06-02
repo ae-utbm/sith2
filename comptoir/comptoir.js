@@ -81,7 +81,7 @@ function increase(code_barre, price, barmanPrice, plateau, barman)
 	tdNumber = document.getElementById(idNumberPre+code_barre);
 	tdPrice = document.getElementById(idPricePre+code_barre);
 	nombre = (parseInt(tdNumber.firstChild.nodeValue) + 1);
-	nombrePlateau = nombre - floor(nombre/6);
+	nombrePlateau = nombre - Math.floor(nombre/6);
 
 	prixActuel = parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'));
 	prixBarman = nombre * barmanPrice;
