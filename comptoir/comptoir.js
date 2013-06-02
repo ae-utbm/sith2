@@ -83,7 +83,7 @@ function increase(code_barre, price, barmanPrice, plateau, barman)
 	nombre = (parseInt(tdNumber.firstChild.nodeValue) + 1);
 	nombrePlateau = nombre - Math.floor(nombre/6);
 
-	prixActuel = parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'));
+	prixActuel = parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'))*100;
 	prixBarman = nombre * barmanPrice;
 	prix = (plateau ? nombrePlateau:nombre)*price;
 	diff = ((barman && (prixBarman < prix))?prixBarman:prix) - prixActuel;
@@ -119,7 +119,7 @@ function decrease(code_barre, price, barmanPrice, plateau, barman)
 	nombre = (parseInt(tdNumber.firstChild.nodeValue)-1);
 	nombrePlateau = nombre - Math.floor(nombre/6);
 
-	prixActuel = parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'));
+	prixActuel = parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'))*100;
 	prixBarman = nombre * barmanPrice;
 	prix = (plateau ? nombrePlateau:nombre)*price;
 	diff = prixActuel - ((barman && (prixBarman < prix))?prixBarman:prix);
