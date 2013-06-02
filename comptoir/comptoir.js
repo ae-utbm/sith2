@@ -129,7 +129,7 @@ function decrease(code_barre, price, barmanPrice, plateau, barman)
 	{
 		tdNumber.firstChild.nodeValue = nombre;
 
-		  newPrice = Math.round(prixActuel*100-diff);
+		  newPrice = Math.round(prixActuel-diff);
 		  tdPrice.firstChild.nodeValue=newPrice/100 + " \u20AC";
 
 		  decreaseTotal(diff);
