@@ -783,16 +783,17 @@ class comptoir extends stdentity
   function calcule_somme ( )
   {
     $Somme = 0;
+    $SommeBarman = 0;
     $track = array ();
     foreach ( $this->panier as $VenteProd )
     {
       $track[$VenteProd->produit->id] ++;
+      $SommeBarman += $VenteProd->produit->obtenir_prix($this->prix_barman,$this->user);
       if ($VenteProd->produit->plateau && !$this->prix_barman && $track[$VenteProd->produit->id] % 6 == 0)
-        continue;
-
-      $Somme += $VenteProd->produit->obtenir_prix($this->prix_barman,$this->user);
+	      continue;
+      $Somme += $VenteProd->produit->obtenir_prix(false,$this->user);
     }
-    return $Somme;
+    return $Somme<$SommeBarman?$Somme:$SommeBarman;
   }
 
   /**
