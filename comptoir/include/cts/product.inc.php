@@ -50,10 +50,11 @@ class productinfo extends stdcontents
   {
     global $topdir;
 
-    $prix = $product->obtenir_prix($barman);
+    $prix = $product->obtenir_prix(false);
+    $prixBarman = $product->obtenir_prix(true);
 
     $this->title = $product->nom;
-    $this->buffer .= "<a href=\"#\" title=\"Ajouter 1 ".$product->nom." au panier\" onclick=\"return addToCart('$product->code_barre', '".addslashes($product->nom)."', $prix, ".(($product->plateau && !$barman) ? '1' : '0').");\">"."\n";
+    $this->buffer .= "<a href=\"#\" title=\"Ajouter 1 ".$product->nom." au panier\" onclick=\"return addToCart('$product->code_barre', '".addslashes($product->nom)."', $prix, "."', $prixBarman, ".(($product->plateau) ? '1' : '0').', '.(($barman) ? '1' : '0').");\">"."\n";
     $this->buffer .= "<div id=\"product".$product->id."\" class=\"productinfo\">\n";
 
       $this->buffer .= "<h3>". $product->nom . "</h3>\n";

@@ -76,23 +76,27 @@ function changeActiveTab(eltId) {
 	return false;
 }
 
-function increase(code_barre, price, plateau)
+function increase(code_barre, price, barmanPrice, plateau, barman)
 {
 	tdNumber = document.getElementById(idNumberPre+code_barre);
+	tdPrice = document.getElementById(idPricePre+code_barre);
+	nombre = (parseInt(tdNumber.firstChild.nodeValue) + 1);
+	nombrePlateau = nombre - floor(nombre/6);
 
-  tmpP = (parseInt(tdNumber.firstChild.nodeValue) + 1) % 6 == 0 && plateau;
+	prixActuel = parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'));
+	prixBarman = nombre * barmanPrice;
+	prix = (plateau ? nombrePlateau:nombre)*price;
+	diff = ((barman && (prixBarman < prix))?prixBarman:prix) - prixActuel;
 
-	if (isProductCanBeAdded(price) || tmpP)
+	if (isProductCanBeAdded(diff))
 	{
 		tdPrice = document.getElementById(idPricePre+code_barre);
 		tdNumber.firstChild.nodeValue=parseInt(tdNumber.firstChild.nodeValue)+1;
 
-    if (!tmpP) {
-		  newValue = Math.round(parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'))*100+price);
+		  newValue = Math.round(parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'))*100+diff);
 		  tdPrice.firstChild.nodeValue=newValue/100 + " \u20AC";
 
-		  increaseTotal(price);
-    }
+		  increaseTotal(diff);
 
     if (plateau) {
       if (parseInt(tdNumber.firstChild.nodeValue) >= 6)
@@ -108,24 +112,27 @@ function increase(code_barre, price, plateau)
 	return false;
 }
 
-function decrease(code_barre, price, plateau)
+function decrease(code_barre, price, barmanPrice, plateau, barman)
 {
 	tdNumber = document.getElementById(idNumberPre+code_barre);
 	tdPrice = document.getElementById(idPricePre+code_barre);
+	nombre = (parseInt(tdNumber.firstChild.nodeValue)-1);
+	nombrePlateau = nombre - floor(nombre/6);
 
-	nbValue = parseInt(tdNumber.firstChild.nodeValue);
-	oldPrice = parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'));
+	prixActuel = parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'));
+	prixBarman = nombre * barmanPrice;
+	prix = (plateau ? nombrePlateau:nombre)*price;
+	diff = prixActuel - ((barman && (prixBarman < prix))?prixBarman:prix);
 
-	if (nbValue>0)
+
+	if (nombre>0)
 	{
-		tdNumber.firstChild.nodeValue = nbValue-1;
+		tdNumber.firstChild.nodeValue = nombre;
 
-    if (!plateau || nbValue % 6 != 0) {
-		  newPrice = Math.round(oldPrice*100-price);
+		  newPrice = Math.round(oldPrice*100-diff);
 		  tdPrice.firstChild.nodeValue=newPrice/100 + " \u20AC";
 
-		  decreaseTotal(price);
-    }
+		  decreaseTotal(diff);
 
     if (plateau) {
       if (parseInt(tdNumber.firstChild.nodeValue) < 6)
@@ -165,18 +172,18 @@ function decreaseTotal(price)
 	return false;
 }
 
-function addToCart(code_barre, nom, prix, plateau)
+function addToCart(code_barre, nom, prix, prixBarman, plateau, barman)
 {
-	if (isProductCanBeAdded(prix))
+	if (isProductCanBeAdded(barman?prixBarman:prix))
 	{
 		if (!document.getElementById('prod'+code_barre))
 		{
-			addProductRow(code_barre, nom, prix, plateau);
+			addProductRow(code_barre, nom, prix, prixBarman, plateau, barman);
 			addToNewProductsFields(code_barre);
 		}
 		else
 		{
-			increase (code_barre, prix, plateau);
+			increase (code_barre, prix, prixBarman, plateau, barman);
 		}
 	}
 	else
@@ -187,7 +194,7 @@ function addToCart(code_barre, nom, prix, plateau)
 	return false;
 }
 
-function addProductRow(code_barre, nom, prix, plateau)
+function addProductRow(code_barre, nom, prix, prixBarman, plateau, barman)
 {
 	var table = document.getElementById("panier");
 
@@ -205,14 +212,14 @@ function addProductRow(code_barre, nom, prix, plateau)
 	newRow.id = "prod"+code_barre;
 
 	var newCell = newRow.insertCell(-1);
-	newCell.innerHTML = "<a onclick=\"return decrease('"+code_barre+"', "+prix+", "+plateau+");\" href=\"#\">-</a>";
+	newCell.innerHTML = "<a onclick=\"return decrease('"+code_barre+"', "+prix+", "+prixBarman+", "+plateau+", "+barman+");\" href=\"#\">-</a>";
 
 	newCell = newRow.insertCell(-1);
 	newCell.id = idNumberPre+code_barre;
 	newCell.innerHTML = "1";
 
 	newCell = newRow.insertCell(-1);
-	newCell.innerHTML = "<a onclick=\"return increase('"+code_barre+"', "+prix+", "+plateau+");\" href=\"#\">+</a>";
+	newCell.innerHTML = "<a onclick=\"return increase('"+code_barre+"', "+prix+", "+prixBarman+", "+plateau+", "+barman+");\" href=\"#\">+</a>";
 
 	newCell = newRow.insertCell(-1);
 	newCell.innerHTML = nom;
@@ -223,9 +230,9 @@ function addProductRow(code_barre, nom, prix, plateau)
 
 	newCell = newRow.insertCell(-1);
 	newCell.id = idPricePre+code_barre;
-	newCell.innerHTML = prix/100+" \u20AC";
+	newCell.innerHTML = (barman?prixBarman:prix)/100+" \u20AC";
 
-	increaseTotal(prix);
+	increaseTotal(barman?prixBarman:prix);
 }
 
 function checkBarCodeInput()
