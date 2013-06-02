@@ -530,11 +530,12 @@ else if ( $site->comptoir->client->id > 0 )
           $nb -= floor ($nb/6);
         }
 
-        $prix = $vp->produit->obtenir_prix($site->comptoir->prix_barman,$site->comptoir->client);
+	$prix = $vp->produit->obtenir_prix(false,$site->comptoir->client);
+	$prixBarman = $vp->produit->obtenir_prix(true,$site->comptoir->client);
 
-        $tbl->add_row(array("<a href=\"#\" onclick=\"return decrease('".$vp->produit->code_barre."', ".$prix.", ".(($vp->produit->plateau) ? '1' : '0').', '.(($site->comptoir->prix_barman)?'1':'0').");\">-</a>",
+        $tbl->add_row(array("<a href=\"#\" onclick=\"return decrease('".$vp->produit->code_barre."', ".$prix."', ".$prixBarman.", ".(($vp->produit->plateau) ? '1' : '0').', '.(($site->comptoir->prix_barman)?'1':'0').");\">-</a>",
             array($nbP, false, "nbProd".$vp->produit->code_barre),
-            "<a href=\"#\" onclick=\"return increase('".$vp->produit->code_barre."', ".$prix.", ".(($vp->produit->plateau) ? '1' : '0').", ".(($site->comptoir->prix_barman)?'1':'0').");\">+</a>",
+            "<a href=\"#\" onclick=\"return increase('".$vp->produit->code_barre."', ".$prix."', ".$prixBarman.", ".(($vp->produit->plateau) ? '1' : '0').", ".(($site->comptoir->prix_barman)?'1':'0').");\">+</a>",
             $vp->produit->nom,
             array ($nbP >= 6 ? "P" : "", false, "platProd".$vp->produit->code_barre),
             array(($prix*$nb/100)." &euro;", false, "priceProd".$vp->produit->code_barre)),
