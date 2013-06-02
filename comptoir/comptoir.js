@@ -28,7 +28,7 @@ function getTotal() {
 	{
 		total = Math.round(parseFloat(document.getElementById('priceTotal').firstChild.nodeValue.replace(',', '.'))*100);
 	}
-	return total;
+	return Math.round(total);
 }
 
 function addTotal(price) {
