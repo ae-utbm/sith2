@@ -111,19 +111,19 @@ elseif ( $_REQUEST["action"] == "delcomptoir" && $site->user->is_in_group("gesti
 	exit();
  $req = new requete($site->db,
   "SELECT `nom_cpt` " .
-  "FROM `cpt_comptoir` WHERE id_comptoir = ".$_REQUEST["id_comptoir"].
+  "FROM `cpt_comptoir` WHERE id_comptoir = ".intval($_REQUEST["id_comptoir"]).
   " ORDER BY `nom_cpt`");
  if(!(list($nom_comptoir) = $req->get_row()))
 	exit();
  $req = new requete($site->db,
   "SELECT `nom_cpt` " .
-  "FROM `cpt_comptoir` WHERE id_comptoir = ".$_REQUEST["id_comptoir_succ"].
+  "FROM `cpt_comptoir` WHERE id_comptoir = ".intval($_REQUEST["id_comptoir_succ"]).
   " ORDER BY `nom_cpt`");
  if(!(list($nom_comptoir_succ) = $req->get_row()))
 	exit();
  $cts = new contents("Suppression du comptoir ".$nom_comptoir." avec basculement sur ".$nom_comptoir_succ."?");
- $frm = new form ("delcomptoir","admin.php",true,"POST","Suppression d'un comptoir");
- $frm->add_hidden("action","delcomptoir");
+ $frm = new form ("delcomptoir","admin.php",true,"POST","Suppression du comptoir \"".$nom_comptoir."\" avec basculement sur \"".$nom_comptoir_succ."\"?");
+ $frm->add_hidden("action","dodelcomptoir");
  $frm->add_hidden("id_comptoir",$_REQUEST["id_comptoir"]);
  $frm->add_hidden("id_comptoir_succ",$_REQUEST["id_comptoir_succ"]);
  $frm->add_submit("valid","Supprimer");
@@ -132,6 +132,34 @@ elseif ( $_REQUEST["action"] == "delcomptoir" && $site->user->is_in_group("gesti
  $site->add_contents($cts);
  $site->end_page();
  exit();
+}
+elseif ( $_REQUEST["action"] == "dodelcomptoir" && $site->user->is_in_group("gestion_ae") )
+{
+ $id_comptoir = intval($_REQUEST["id_comptoir"]);
+ $id_comptoir_succ = intval($_REQUEST["id_comptoir_succ"]);
+ if($id_comptoir == $id_comptoir_succ)
+  exit();
+ $requete_caisse = "UPDATE cpt_caisse SET id_comptoir = ".$id_comptoir_succ." WHERE id_comptoir = ".$id_comptoir;
+ $requete_debitfacture = "UPDATE cpt_debitfacture SET id_comptoir = ".$id_comptoir_succ." WHERE id_comptoir = ".$id_comptoir;
+ $requete_mise_en_vente = "UPDATE cpt_mise_en_vente SET id_comptoir = ".$id_comptoir_succ." WHERE id_comptoir = ".$id_comptoir;
+ $requete_rechargement = "UPDATE cpt_rechargement SET id_comptoir = ".$id_comptoir_succ." WHERE id_comptoir = ".$id_comptoir;
+ $requete_tracking = "UPDATE cpt_tracking SET id_comptoir = ".$id_comptoir_succ." WHERE id_comptoir = ".$id_comptoir;
+ $requete_verrou = "UPDATE cpt_verrou SET id_comptoir = ".$id_comptoir_succ." WHERE id_comptoir = ".$id_comptoir;
+ $requete_comptoir = "DELETE FROM cpt_comptoir WHERE id_comptoir = ".$id_comptoir;
+ $site->start_page("services","Administration des comptoirs");
+ $cts = new contents("Suppression du comptoir ".$nom_comptoir." avec basculement sur ".$nom_comptoir_succ." finie.");
+ $cts->add_paragraph($requete_caisse);
+ $cts->add_paragraph($requete_debitfacture);
+ $cts->add_paragraph($requete_mise_en_vente);
+ $cts->add_paragraph($requete_rechargement);
+ $cts->add_paragraph($requete_tracking);
+ $cts->add_paragraph($requete_verrou);
+ $cts->add_paragraph($requete_comptoir);
+ $site->add_contents($cts);
+ $site->end_page();
+ exit();
+
+ 
 }
 /*
  Ajout d'un type de produit
