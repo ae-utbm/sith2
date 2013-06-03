@@ -108,6 +108,9 @@ elseif ( $_REQUEST["action"] == "delcomptoir" && $site->user->is_in_group("gesti
 {
  $site->start_page("services","Administration des comptoirs");
  $cts = new contents("Parametres recu: comptoir: ".$_REQUEST["id_comptoir"].", successeur: ".$_REQUEST["id_comptoir_succ"]);
+ $site->add_contents($cts);
+ $site->end_page();
+ exit();
 }
 /*
  Ajout d'un type de produit
