@@ -789,7 +789,7 @@ class comptoir extends stdentity
     {
       $track[$VenteProd->produit->id] ++;
       $SommeBarman += $VenteProd->produit->obtenir_prix($this->prix_barman,$this->user);
-      if ($VenteProd->produit->plateau && !$this->prix_barman && $track[$VenteProd->produit->id] % 6 == 0)
+      if ($VenteProd->produit->plateau && $track[$VenteProd->produit->id] % 6 == 0)
 	      continue;
       $Somme += $VenteProd->produit->obtenir_prix(false,$this->user);
     }
