@@ -24,15 +24,15 @@ function getTabsId()
 }
 
 function getTotal() {
-	if (typeof(total)=='undefined')
+	//if (typeof(total)=='undefined')
 	{
 		total = Math.round(parseFloat(document.getElementById('priceTotal').firstChild.nodeValue.replace(',', '.'))*100);
 	}
-	return Math.round(total);
+	return total;
 }
 
 function addTotal(price) {
-	if (typeof(total)=='undefined')
+	//if (typeof(total)=='undefined')
 	{
 		total = Math.round(parseFloat(document.getElementById('priceTotal').firstChild.nodeValue.replace(',', '.'))*100);
 	}
