@@ -541,7 +541,7 @@ else if ( $site->comptoir->client->id > 0 )
             array(((($site->comptoir->prix_barman)?$prixBarman:$prix)*$nb/100)." &euro;", false, "priceProd".$vp->produit->code_barre)),
           false, "prod".$vp->produit->code_barre);
 
-        $total += $prix*$nb;
+        $total += (($site->comptoir->prix_barman)?$prixBarman:$prix)*$nb;
       }
     }
 

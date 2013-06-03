@@ -43,6 +43,7 @@ function addTotal(price) {
 	{
 		total=0;
 	}
+	document.getElementById('priceTotal').firstChild.nodeValue = total/100;
 
 	return total;
 }
