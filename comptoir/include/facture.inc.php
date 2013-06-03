@@ -271,13 +271,24 @@ class debitfacture extends stdentity
         }
       }
 
-      $prix = $vp->produit->obtenir_prix($prix_barman,$client);
+      $prix = $vp->produit->obtenir_prix(false,$client);
+      $prixBarman = $vp->produit->obtenir_prix($prix_barman,$client);
 
       $sub_q = 0;
-      if ($quantite > 0 && $vp->produit->plateau && !$prix_barman)
-        $sub_q = floor ($quantite / 6);
+      if ($quantite > 0 && $vp->produit->plateau)
+	      $sub_q = floor ($quantite / 6);
 
-      $quantite -= $sub_q;
+      $prixFinal = 0;
+      if(($prix*($quantite-$sub_q))<($prixBarman*$quantite))
+      {
+	      $quantite -= $sub_q;
+	      $prixFinal = $prix;
+      }
+      else
+      {
+	      $prixFinal = $prixBarman;
+	      $sub_q = 0;
+      }
 
       $req = new insert ($this->dbrw,
              "cpt_vendu",
@@ -286,7 +297,7 @@ class debitfacture extends stdentity
                "id_produit" => $vp->produit->id,
                "id_assocpt" => $vp->produit->id_assocpt,
                "quantite" => $quantite,
-               "prix_unit" => $prix,
+               "prix_unit" => $prixFinal,
                "a_retirer_vente" => $a_retirer,
                "a_expedier_vente" => $a_expedier
              ));
@@ -308,10 +319,10 @@ class debitfacture extends stdentity
         /* Somme de controle utilise */
       if ( $asso_sum && $vp->produit->id_assocpt )
         $sql = new requete($this->dbrw,"UPDATE `cpt_association`
-                          SET `montant_ventes_asso` = `montant_ventes_asso` + ".($prix*$quantite)."
+                          SET `montant_ventes_asso` = `montant_ventes_asso` + ".($prixFinal*$quantite)."
               WHERE `id_assocpt` = '" . $vp->produit->id_assocpt ."'");
 
-      $vp->vendu_bloque($vendeur,$client,$prix,$quantite);
+      $vp->vendu_bloque($vendeur,$client,$prixFinal,$quantite);
     }
   }
 
