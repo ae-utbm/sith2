@@ -118,6 +118,8 @@ function decrease(code_barre, price, barmanPrice, plateau, barman)
 	tdNumber = document.getElementById(idNumberPre+code_barre);
 	tdPrice = document.getElementById(idPricePre+code_barre);
 	nombre = (parseInt(tdNumber.firstChild.nodeValue)-1);
+	if(nombre<0)
+		nombre = 0;
 	nombrePlateau = nombre - Math.floor(nombre/6);
 
 	prixActuel = parseFloat(tdPrice.firstChild.nodeValue.replace(',', '.'))*100;
@@ -126,8 +128,6 @@ function decrease(code_barre, price, barmanPrice, plateau, barman)
 	diff = prixActuel - ((barman && (prixBarman < prix))?prixBarman:prix);
 
 
-	if (nombre>0)
-	{
 		tdNumber.firstChild.nodeValue = nombre;
 
 		  newPrice = Math.round(prixActuel-diff);
@@ -139,13 +139,6 @@ function decrease(code_barre, price, barmanPrice, plateau, barman)
       if (parseInt(tdNumber.firstChild.nodeValue) < 6)
         document.getElementById(idPlatProd+code_barre).innerHTML = '';
     }
-	}
-	else
-	{
-		tdNumber.firstChild.nodeValue = 0;
-		tdPrice.firstChild.nodeValue = 0 + " \u20AC";
-	}
-
 	addToNewProductsFields("-"+code_barre);
 
 	return false;
