@@ -416,12 +416,21 @@ if ( $_REQUEST["page"] == "addcomptoir" && $site->user->is_in_group("gestion_ae"
 }
 elseif ( $_REQUEST["page"] == "delcomptoir" && $site->user->is_in_group("gestion_ae") )
 {
+ $req = new requete($site->db,
+  "SELECT `id_comptoir`,`nom_cpt` " .
+  "FROM `cpt_comptoir`  " .
+  "ORDER BY `nom_cpt`");
+ $liste_comptoir = array();
+ while( list($id_cmpt,$nom_cmpt) = $req->get_row() )
+ {
+	$liste_comptoir[$id_cmpt] = $nom_cmpt;
+ }
  $site->start_page("services","Administration des comptoirs");
  $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / Supprimer un comptoir");
  $frm = new form ("delcomptoir","admin.php",true,"POST","Suppression d'un comptoir");
  $frm->add_hidden("action","delcomptoir");
- $frm->add_entity_select("id_comptoir", "Comptoir", $site->db, "cpt_comptoir");
- $frm->add_entity_select("id_comptoir_succ", "Comptoir successeur", $site->db, "cpt_comptoir");
+ $frm->add_select_field("id_comptoir","Comptoir",$liste_comptoir);
+ $frm->add_select_field("id_comptoir_succ","Comptoir successeur",$liste_comptoir);
  $frm->add_submit("valid","Supprimer");
  $cts->add($frm,true);
  $site->add_contents($cts);
