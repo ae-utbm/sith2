@@ -469,10 +469,8 @@ else if ( $site->comptoir->client->id > 0 )
   $annees = date('Y', $secondes) - 1970;
   if(is_null($dob))
     $cts->add_paragraph('Attention, l\'age de ce cotisant est inconnu','linfo');
-  elseif($annees < 16)
-    $cts->add_paragraph('Attention, ce cotisant n\'a pas 16 ans et ne peut donc pas acheter d\'alcool','linfo');
   elseif($annees < 18)
-    $cts->add_paragraph('Attention, ce cotisant n\'a pas 18 ans et ne peut donc pas acheter d\'alcool fort','linfo');
+    $cts->add_paragraph('Attention, ce cotisant n\'a pas 18 ans et ne peut donc pas acheter d\'alcool','linfo');
   if ( $message )
     $cts->add_paragraph($message,"linfo");
 
