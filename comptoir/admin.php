@@ -104,6 +104,11 @@ if ( $_REQUEST["action"] == "addcomptoir" && $site->user->is_in_group("gestion_a
     _log($site->dbrw,"Ajout d'un comptoir","Ajout du comptoir \"".$comptoir->nom."\" de type ".$comptoir->type.", administré par le groupe ".$grp_admins->nom." (id : ".$grp_admins->id.") et tenu par le groupe ".$grp_vendeurs->nom." (id : ".$grp_vendeurs->id.")","Comptoirs".$site->user);
  }
 }
+elseif ( $_REQUEST["action"] == "delcomptoir" && $site->user->is_in_group("gestion_ae") )
+{
+ $site->start_page("services","Administration des comptoirs");
+ $cts = new contents("Parametres recu: comptoir: ".$_REQUEST["id_comptoir"].", successeur: ".$_REQUEST["id_comptoir_succ"]);
+}
 /*
  Ajout d'un type de produit
 */
@@ -404,6 +409,20 @@ if ( $_REQUEST["page"] == "addcomptoir" && $site->user->is_in_group("gestion_ae"
  $frm->add_entity_select("id_salle", "Salle", $site->db, "salle",false,true);
   $frm->add_radiobox_field("rechargement", "Rechargement", array(1 => "Activé", 0 => "Désactivé"), 1, -1);
  $frm->add_submit("valid","Ajouter");
+ $cts->add($frm,true);
+ $site->add_contents($cts);
+ $site->end_page();
+ exit();
+}
+elseif ( $_REQUEST["page"] == "delcomptoir" && $site->user->is_in_group("gestion_ae") )
+{
+ $site->start_page("services","Administration des comptoirs");
+ $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / Supprimer un comptoir");
+ $frm = new form ("delcomptoir","admin.php",true,"POST","Suppression d'un comptoir");
+ $frm->add_hidden("action","delcomptoir");
+ $frm->add_entity_select("id_comptoir", "Comptoir", $site->db, "cpt_comptoir");
+ $frm->add_entity_select("id_comptoir_succ", "Comptoir successeur", $site->db, "cpt_comptoir");
+ $frm->add_submit("valid","Supprimer");
  $cts->add($frm,true);
  $site->add_contents($cts);
  $site->end_page();
@@ -952,6 +971,7 @@ if ( $site->user->is_in_group("gestion_ae") )
 {
  $lst = new itemlist("Administration");
  $lst->add("<a href=\"admin.php?page=addcomptoir\">Ajouter un comptoir</a>");
+ $lst->add("<a href=\"admin.php?page=delcomptoir\">Supprimer un comptoir</a>");
  $lst->add("<a href=\"admin.php?page=addasso\">Ajouter une association</a>");
  $lst->add("<a href=\"facture.php\">Génération des factures</a>");
  $cts->add($lst,true);
