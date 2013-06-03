@@ -195,17 +195,21 @@ class debitfacture extends stdentity
   function calcul_montant ( $panier, $prix_barman, &$client )
   {
     $montant = 0;
+    $montantBarman = 0;
+
     foreach ( $panier as $item )
     {
       list($quantite,$vp) = $item;
 
-      if ($quantite > 0 && $vp->produit->plateau && !$prix_barman)
+      $montantBarman += $quantite * $vp->produit->obtenir_prix($prix_barman,$client );
+
+      if ($quantite > 0 && $vp->produit->plateau)
         $quantite -= floor ($quantite/6);
 
-      $montant += $quantite * $vp->produit->obtenir_prix($prix_barman,$client );
+      $montant += $quantite * $vp->produit->obtenir_prix(false,$client );
     }
 
-    return $montant;
+    return ($montantBarman<$montant)?$montantBarman:$montant;
   }
 
   /**
