@@ -107,7 +107,28 @@ if ( $_REQUEST["action"] == "addcomptoir" && $site->user->is_in_group("gestion_a
 elseif ( $_REQUEST["action"] == "delcomptoir" && $site->user->is_in_group("gestion_ae") )
 {
  $site->start_page("services","Administration des comptoirs");
- $cts = new contents("Parametres recu: comptoir: ".$_REQUEST["id_comptoir"].", successeur: ".$_REQUEST["id_comptoir_succ"]);
+ if($_REQUEST["id_comptoir"] == $_REQUEST["id_comptoir_succ"])
+	exit();
+ $req = new requete($site->db,
+  "SELECT `nom_cpt` " .
+  "FROM `cpt_comptoir` WHERE id_comptoir = ".$_REQUEST["id_comptoir"].
+  " ORDER BY `nom_cpt`");
+ if(!(list($nom_comptoir) = $req->get_row()))
+	exit();
+ $req = new requete($site->db,
+  "SELECT `nom_cpt` " .
+  "FROM `cpt_comptoir` WHERE id_comptoir = ".$_REQUEST["id_comptoir_succ"].
+  " ORDER BY `nom_cpt`");
+ if(!(list($nom_comptoir_succ) = $req->get_row()))
+	exit();
+ $cts = new contents("Suppression du comptoir ".$nom_comptoir." avec basculement sur ".$nom_comptoir_succ."?");
+ $frm = new form ("delcomptoir","admin.php",true,"POST","Suppression d'un comptoir");
+ $frm->add_hidden("action","delcomptoir");
+ $frm->add_hidden("id_comptoir",$_REQUEST["id_comptoir"]);
+ $frm->add_hidden("id_comptoir_succ",$_REQUEST["id_comptoir_succ"]);
+ $frm->add_submit("valid","Supprimer");
+ $cts->add($frm,true);
+ 
  $site->add_contents($cts);
  $site->end_page();
  exit();
