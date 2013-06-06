@@ -82,6 +82,7 @@ if ( $salle->is_valid() )
     $sql = new requete ( $site->db, "SELECT COUNT(*) FROM `inv_objet` WHERE `id_salle`='".$salle->id."'" );
     list($count) = $sql->get_row();
     $tabs[] = array("inv","salle.php?id_salle=".$salle->id."&view=inv", "Inventaire ($count)");
+    $tabs[] = array("inv","salle.php?id_salle=".$salle->id."&view=edit", "Editer");
   }
 
   if ( $_REQUEST["action"] == "addasso" )
@@ -316,6 +317,22 @@ if ( $salle->is_valid() )
     $cts->add_paragraph("<a href=\"asso/invlist.php?id_salle=".$salle->id."\">Imprimer relevés</a>");
     $cts->add($tbl);
 
+  }
+  elseif ( $_REQUEST["view"] == "edit" && $site->user->is_in_group("gestion_ae") )
+  {	
+    $frm = new form("editsalle","salle.php?id_salle=".$salle->id,true,"POST","Editer la salle");
+    $frm->add_hidden("action","edit");
+    $frm->add_text_field("nom","Nom",$salle->nom,true);
+    $frm->add_text_field("etage","Etage",$salle->etage,true);
+    $frm->add_checkbox("fumeur","Fumeur",$salle->fumeur);
+    $frm->add_checkbox("convention","Convention de locaux",$salle->convention);
+    $frm->add_checkbox("bar_bdf","La salle contient un bar géré par le BDF",$salle->bar_bdf);
+    $frm->add_checkbox("reservable","Reservable",$salle->reservable);
+    $frm->add_text_field("surface","Surface",$salle->surface);
+    $frm->add_text_field("tel","Téléphone",$salle->tel);
+    $frm->add_text_area("notes","Notes",$salle->notes);
+    $frm->add_submit("valid","Editer");
+    $cts->add($frm,true);
   }
   else
   {
