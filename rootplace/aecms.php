@@ -40,16 +40,16 @@ $site = new site ();
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
 
-if( !preg_match('/^\/var\/www\/ae\/www\/ae2\//', $_SERVER['SCRIPT_FILENAME']) )
-  $aecms_home = "/var/www/ae/www/taiste/aecms";
+if( !preg_match('/^\/var\/www\/ae2\//', $_SERVER['SCRIPT_FILENAME']) )
+  $aecms_home = "/var/www/taiste/aecms";
 else
-  $aecms_home = "/var/www/ae/www/ae2/aecms";
+  $aecms_home = "/var/www/ae2/aecms";
 
 /**
  * Repertoire où se trouvent les racines des AECMS (sites des activités)
  * @ingroup aecms
  */
-define("AECMS_ACCOUNTS","/var/www/ae/accounts/");
+define("AECMS_ACCOUNTS","/var/www/ae2/accounts/");
 
 
 function list_aecms ()
@@ -153,7 +153,7 @@ RewriteRule ^css/(.*)$  aecms/css/$1 [L]
 
 function raz_aecms ( $id_asso )
 {
-  $file = $topdir."var/aecms/cms".$id_asso.".conf.php";
+  $file = $topdir."var/aecms_conf/cms".$id_asso.".conf.php";
   return unlink($file);
 }
 
