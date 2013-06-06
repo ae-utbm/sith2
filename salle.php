@@ -128,7 +128,7 @@ if ( $salle->is_valid() )
       if($req->is_success())
       {
         $req = new requete($site->dbrw, "DELETE FROM sl_salle WHERE id_salle = ".$salle->id);
-        $cts->add_paragraph($req->is_success()?("Suppression de la salle".$salle->id." reussi"):("Echec de la suppression de la salle ".$salle->id));
+        $cts->add_paragraph($req->is_success()?("Suppression de la salle ".$salle->id." reussi"):("Echec de la suppression de la salle ".$salle->id));
       }
     }
 
