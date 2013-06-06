@@ -529,7 +529,7 @@ else if ( $site->comptoir->client->id > 0 )
         }
 
 	$prix = $vp->produit->obtenir_prix(false,$site->comptoir->client);
-	$prixBarman = $vp->produit->obtenir_prix(true,$site->comptoir->client);
+	$prixBarman = $vp->produit->obtenir_prix($site->comptoir->prix_barman,$site->comptoir->client);
 	$prixCalc = $nb * $prix;
 	$prixBarmanCalc = $nbP*$prixBarman;
 	$prixFinal = ($prixCalc<$prixBarmanCalc)?$prixCalc:$prixBarmanCalc;
