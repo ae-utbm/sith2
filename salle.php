@@ -104,6 +104,7 @@ if ( $salle->is_valid() )
  
   if( $_REQUEST["action"] == "dosuppr" && $site->user->is_in_group("gestion_ae"))
   {
+    $cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link()." / ".$salle->get_html_link());
     $suppr_possible = true;
     $liste_table = "SELECT table_name FROM information_schema.columns WHERE table_schema = 'ae2' AND column_name = 'id_salle' AND table_name != 'sl_salle' AND table_name != 'sl_reservation'";
     $req_liste = new requete($site->db,$liste_table);
@@ -130,6 +131,10 @@ if ( $salle->is_valid() )
         $cts->add_paragraph($req->is_success()?("Suppression de la salle".$salle->id." reussi"):("Echec de la suppression de la salle ".$salle->id));
       }
     }
+
+    $site->add_contents($cts);
+    $site->end_page();
+    exit();
   }
 
   if ( $_REQUEST["action"] == "weekplanning" )
