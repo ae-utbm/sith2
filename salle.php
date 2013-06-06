@@ -93,6 +93,14 @@ if ( $salle->is_valid() )
       $salle->add_asso($asso->id);
   }
 
+  if( $_REQUEST["action"] == "edit" && $site->user->is_in_group("gestion_ae"))
+  {
+    if ($_REQUEST["nom"] != "" && $_REQUEST["etage"]  != "")
+    {
+      $salle->update ( $_REQUEST["nom"], $_REQUEST["etage"], $_REQUEST["fumeur"], $_REQUEST["convention"], $_REQUEST["reservable"], $_REQUEST["surface"], $_REQUEST["tel"], $_REQUEST["notes"], $_REQUEST['bar_bdf'] );
+    }
+  }
+
   if ( $_REQUEST["action"] == "weekplanning" )
   {
     $today = mktime ( 0, 0, 0, date("m"),  date("d"), date("Y") );
