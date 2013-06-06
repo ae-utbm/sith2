@@ -101,6 +101,36 @@ if ( $salle->is_valid() )
       $salle->update ( $_REQUEST["nom"], $_REQUEST["etage"], $_REQUEST["fumeur"], $_REQUEST["convention"], $_REQUEST["reservable"], $_REQUEST["surface"], $_REQUEST["tel"], $_REQUEST["notes"], $_REQUEST['bar_bdf'] );
     }
   }
+ 
+  if( $_REQUEST["action"] == "dosuppr" && $site->user->is_in_group("gestion_ae"))
+  {
+    $suppr_possible = true;
+    $liste_table = "SELECT table_name FROM information_schema.columns WHERE table_schema = 'ae2' AND column_name = 'id_salle' AND table_name != 'sl_salle' AND table_name != 'sl_reservation'";
+    $req_liste = new requete($site->db,$liste_table);
+    while( list($table_name) = $req_liste->get_row())
+    {
+	$req = new requete($site->db,"SELECT * FROM ".$table_name." WHERE id_salle = ".$salle->id);
+	if($req->lines > 0)
+	{
+		$suppr_possible = false;
+		$cts->add_paragraph("Attention, table liee ".$table_name." non vide");
+	}
+    }
+    if(!$suppr_possible)
+    {
+      $cts->add_paragraph("Erreur, suppression impossible");
+    }
+    else
+    {
+      $req = new requete($site->dbrw,"DELETE FROM sl_reservation WHERE id_salle = ".$salle->id);
+      $cts->add_paragraph($req->is_success()?("Suppression de ".$req->lines." reservations"):"Echec de la suppression des reservations");
+      if($req->is_success())
+      {
+        $req = new requete($site->dbrw, "DELETE FROM sl_salle WHERE id_salle = ".$salle->id);
+        $cts->add_paragraph($req->is_success()?("Suppression de la salle".$salle->id." reussi"):("Echec de la suppression de la salle ".$salle->id));
+      }
+    }
+  }
 
   if ( $_REQUEST["action"] == "weekplanning" )
   {
