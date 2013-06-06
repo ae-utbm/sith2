@@ -345,15 +345,28 @@ if ( $salle->is_valid() )
   }
   elseif ( $_REQUEST["view"] == "suppr" && $site->user->is_in_group("gestion_ae") )
   {
-    $liste_table = "SELECT table_name FROM information_schema.columns WHERE table_schema = 'ae2' AND column_name = 'id_salle' AND table_name != 'sl_salle'";
+    $suppr_possible = true;
+    $liste_table = "SELECT table_name FROM information_schema.columns WHERE table_schema = 'ae2' AND column_name = 'id_salle' AND table_name != 'sl_salle' AND table_name != 'sl_reservation'";
     $req_liste = new requete($site->db,$liste_table);
     while( list($table_name) = $req_liste->get_row())
     {
 	$req = new requete($site->db,"SELECT * FROM ".$table_name." WHERE id_salle = ".$salle->id);
 	if($req->lines > 0)
 	{
+		$suppr_possible = false;
 		$cts->add_paragraph("Attention, table liee ".$table_name." non vide");
 	}
+    }
+    if($suppr_possible)
+    {
+      $frm = new form("dosuppr","salle.php?id_salle=".$salle->id,true,"POST","Supprimer la salle");
+      $frm->add_hidden("action","dosuppr");
+      $frm->add_submit("valid","Confirmer la suppression");
+      $cts->add($frm,true);
+    }
+    else
+    {
+      $cts->add_paragraph("Suppression impossible");
     }
   }
   else
