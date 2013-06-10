@@ -355,7 +355,7 @@ if ( $salle->is_valid() )
       "Inventaire", $req, "objtype.php",
       "id_objet",
       array("nom_objet"=>"Objet","nom_objtype"=>"Type","nom_asso_gest"=>"Gestionnaire","nom_asso_prop"=>"Propriétaire"),
-      array(), array(), array()
+      array("delete"), array(), array()
       );
 
     $cts->add_paragraph("<a href=\"asso/invlist.php?id_salle=".$salle->id."\">Imprimer relevés</a>");
