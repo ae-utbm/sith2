@@ -355,7 +355,7 @@ if ( $salle->is_valid() )
       "Inventaire", $req, "objtype.php",
       "id_objet",
       array("nom_objet"=>"Objet","nom_objtype"=>"Type","nom_asso_gest"=>"Gestionnaire","nom_asso_prop"=>"Propriétaire"),
-      array("delete"), array(), array()
+      array(), array(), array()
       );
 
     $cts->add_paragraph("<a href=\"asso/invlist.php?id_salle=".$salle->id."\">Imprimer relevés</a>");
@@ -438,7 +438,7 @@ if ( $salle->is_valid() )
       "Associations", $req, "salle.php?id_salle=".$salle->id,
       "id_asso",
       array("nom_asso"=>"Association"),
-      array(), array(),array()
+      $site->user->is_in_group("gestion_ae")?array("delete" => "Supprimer"):array(), array(),array()
       );
     $cts->add($tbl,true);
   }
