@@ -93,6 +93,15 @@ if ( $salle->is_valid() )
     if ( $asso->id > 0 )
       $salle->add_asso($asso->id);
   }
+ 
+
+  if( $_REQUEST["action"] == "deleteAssoSalle" && $site->user->is_in_group("gestion_ae"))
+  {
+    $asso = new asso($site->db);
+    $asso->load_by_id($_REQUEST["id_asso"]);
+    if ( $asso->id > 0 )
+      $salle->remove_asso($asso->id);
+  }
 
   if( $_REQUEST["action"] == "edit" && $site->user->is_in_group("gestion_ae"))
   {
@@ -438,7 +447,7 @@ if ( $salle->is_valid() )
       "Associations", $req, "salle.php?id_salle=".$salle->id,
       "id_asso",
       array("nom_asso"=>"Association"),
-      $site->user->is_in_group("gestion_ae")?array("delete" => "Supprimer"):array(), array(),array()
+      $site->user->is_in_group("gestion_ae")?array("deleteAssoSalle" => "Retirer l'association"):array(), array(),array()
       );
     $cts->add($tbl,true);
   }
