@@ -53,7 +53,7 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 
   $res = new contents("Merci","Merci de votre participation.");
   foreach($_REQUEST["reponses"] as $id => $value)
-	$res->add_paragraph($id.trim($value));
+	$res->add_paragraph($id.is_string($value));
 
   $site->add_contents($res);
     
