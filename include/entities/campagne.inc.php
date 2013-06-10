@@ -286,6 +286,8 @@ class campagne extends stdentity
     if ( !empty($answers) )
     {
       foreach($answers as $id => $value)
+	if(is_string($value))
+		$value = trim($value);
 	if(!empty($value))
 	{
         	$sql = new insert($this->dbrw,
