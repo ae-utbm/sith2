@@ -51,7 +51,7 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
   if ( $_REQUEST["id_campagne"] == $cpg->id )
     $cpg->repondre($site->user->id,$_REQUEST["reponses"]);
 
-  $res = new contents("Merci","Votre participation.");
+  $res = new contents("Merci","Merci de votre participation.");
 
   $site->add_contents($res);
     
