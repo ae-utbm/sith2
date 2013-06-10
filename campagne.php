@@ -54,6 +54,8 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
   $res = new contents("Merci","Votre participation.");
   foreach($_REQUEST["reponses"] as $id => $value)
     $res->add_paragraph($id." : ".$value);
+
+  $site->add_contents($res);
     
   unset($_REQUEST['id_campagne']);
 }
