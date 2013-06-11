@@ -79,9 +79,10 @@ $cts = new contents("Test");
 
 $planning = new planning2($site->db, $site->dbrw);
 
-$id_planning = $planning->add("Test",0,0,true,'2013-06-11 00:00:00','2013-06-12 00:00:00');
-if(!$id_planning)
-	echo "Erreur creation planning";
+$planning->load_by_id(2);
+//$id_planning = $planning->add("Test",0,0,true,'2013-06-11 00:00:00','2013-06-12 00:00:00');
+if(is_null($planning->id))
+	echo "Erreur chargement planning";
 echo mysql_error ();
 
 
