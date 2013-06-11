@@ -18,6 +18,11 @@
  */
 $topdir = "../";
 
+// Rapporter les E_NOTICE peut vous aider ? am?liorer vos scripts
+// (variables non initialis?es, variables mal orthographi?es..)
+error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+ini_set('display_errors', '1');
+
 /*
  * "inclusion" de tous les fichiers requis,
  *
