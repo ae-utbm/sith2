@@ -12,7 +12,7 @@ class planning2 extends stdentity
 	function load_by_id( $id )
 	{
 		$req = new requete( $this->db, "SELECT * from `pl2_planning`
-						WHERE `id_planning2` = '".
+						WHERE `id_planning` = '".
 						mysql_real_escape_string($id).
 						"' LIMIT 1");
 		if( $req->lines != 1 )
@@ -26,7 +26,7 @@ class planning2 extends stdentity
 
 	function _load( $row )
 	{
-		$this->id		= $row['id_planning2'];
+		$this->id		= $row['id_planning'];
 		$this->group		= $row['id_group'];
 		$this->admin_group	= $row['id_admin_group'];
 		$this->name		= $row['name_planning'];
