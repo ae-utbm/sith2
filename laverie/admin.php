@@ -514,6 +514,13 @@ elseif ( $_REQUEST["view"] == "jt" ) // Jetons
   $frm->add_submit("valid","Valider");
   $cts->add($frm,true);
 
+  $frm = new form("deljetons", "admin.php?id_salle=$id_salle&view=jt",false,"POST","Supprimer des jetons");
+  $frm->add_hidden("action","deljetons");
+  $frm->add_select_field("type","Type de jetons",$GLOBALS['types_jeton']);
+  $frm->add_text_area("data","Numéros (séparé par des espaces)");
+  $frm->add_submit("valid","Valider");
+  $cts->add($frm,true);
+
   $frm = new form("limitjetons", "admin.php?id_salle=$id_salle&view=jt",false,"POST","Limiter les jetons par personne");
   $frm->add_hidden('action', 'chgjetlimit');
   $frm->add_select_field('nombre', 'Nombre de jeton', array(0 => 'Illimité',
