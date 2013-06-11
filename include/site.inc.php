@@ -521,7 +521,7 @@ if(!defined("MOBILE")) {
     if ( $this->user->is_in_group("gestion_emprunts") )
     {
       $req = new requete($this->db,"SELECT COUNT(*) " .
-        "FROM inv_emprunt WHERE etat_emprunt=0 ");
+        "FROM inv_emprunt WHERE etat_emprunt=0 AND date_fin_emprunt > NOW() ");
       list($count) = $req->get_row();
 
       if ( $count > 0 )

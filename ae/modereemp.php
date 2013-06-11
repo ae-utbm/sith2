@@ -104,7 +104,7 @@ if ( $_REQUEST["view"] == "" )
       "INNER JOIN inv_objet ON inv_emprunt_objet.id_objet=inv_objet.id_objet " .
       "INNER JOIN inv_type_objets ON inv_objet.id_objtype=inv_type_objets.id_objtype " .
       "LEFT JOIN asso ON inv_emprunt.id_asso=asso.id_asso " .
-      "WHERE etat_emprunt=0 " .
+      "WHERE etat_emprunt=0 AND date_fin_emprunt > NOW() " .
       "ORDER BY etat_emprunt,date_debut_emp");
 
   $cts->add(new sqltable(
