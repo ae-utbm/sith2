@@ -406,13 +406,13 @@ elseif ( $_REQUEST["view"] == "bc" ) // Mauvais clients
     ON mc_jeton_utilisateur.id_utilisateur = utilisateurs.id_utilisateur
     WHERE mc_jeton_utilisateur.retour_jeton IS NULL
     AND `retour_jeton` IS NULL
-    AND (DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) > 10)
+    AND (DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) > 30)
     GROUP BY mc_jeton_utilisateur.id_utilisateur
     ORDER BY nombre DESC");
 
 
   $table = new sqltable("toploosers",
-  "Top des mauvais clients (jetons non rendus depuis plus de 10 jours)",
+  "Top des mauvais clients (jetons non rendus depuis plus de 30 jours)",
   $sql,
   "admin.php?id_salle=$id_salle&view=bc",
   "id_utilisateur",
