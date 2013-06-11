@@ -428,6 +428,35 @@ elseif ( $_REQUEST["view"] == "bc" ) // Mauvais clients
 
   $cts->add($table, true);
 
+  $sql = new requete($site->db, "SELECT nom_jeton,
+    CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur,
+    DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) AS duree
+    FROM mc_jeton_utilisateur
+    JOIN mc_jeton
+    ON mc_jeton.id_jeton = mc_jeton_utilisateur.id_jeton
+    LEFT JOIN utilisateurs
+    ON mc_jeton_utilisateur.id_utilisateur = utilisateurs.id_utilisateur
+    LEFT JOIN utl_groupe
+    ON utilisateurs.id_utilisateur = utl_groupe.id_utilisateur
+    WHERE mc_jeton_utilisateur.retour_jeton IS NULL
+    AND `retour_jeton` IS NULL
+    AND utl_groupe.id_groupe = 29
+    AND (DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) > 30)
+    GROUP BY mc_jeton_utilisateur.id_utilisateur
+    ORDER BY duree DESC, nom_jeton DESC");
+
+  $table = new sqltable("hopelessjetons",
+      "Jetons empruntés par des personnes bloquées",
+      $sql,
+      "admin.php?id_salle=$id_salle&view=bc",
+      "nom_jeton",
+      array("nom_jeton" => "Jeton", "nom_utilisateur" => "Utilisateur", "duree" => "Depuis (jours)"),
+      array(),
+      array(),
+      array()  );
+
+  $cts->add($table, true);
+
   $sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
     CONCAT(utilisateurs.prenom_utl,' ', utilisateurs.nom_utl) AS nom_utilisateur
     FROM utl_groupe INNER JOIN utilisateurs ON utilisateurs.id_utilisateur = utl_groupe.id_utilisateur
