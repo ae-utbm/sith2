@@ -158,11 +158,11 @@ elseif ( $_REQUEST["action"] == "deljetons" )
       {
         if($jeton->delete( $id_salle, $_REQUEST["type"], $nom_jeton ))
 	{
-	  $cts->add_paragraph("Jeton $nom_jeton emprunt?, suppression impossible");
+	  $cts->add_paragraph("Jeton $nom_jeton emprunté, suppression impossible.");
 	}
 	else
 	{
-	  $cts->add_paragraph("Jeton $nom_jeton supprim?");
+	  $cts->add_paragraph("Jeton $nom_jeton supprimé.");
 	}
       }
       else
