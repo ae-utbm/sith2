@@ -84,7 +84,6 @@ if(!$id_planning)
 	echo "Erreur creation planning";
 echo mysql_error ();
 
-$planning->remove();
 
 
 ?>
