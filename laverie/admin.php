@@ -142,6 +142,36 @@ elseif ( $_REQUEST["action"] == "newjetons" )
 
   $cts->add_paragraph("Fait.");
 }
+elseif ( $_REQUEST["action"] == "deljetons" )
+{
+  $cts->add_title(2,"Suppression des jetons");
+
+  $jetons = explode(" ",$_REQUEST["data"]);
+  $jeton = new jeton($site->db,$site->dbrw);
+
+  foreach ( $jetons as $nom_jeton )
+  {
+    $nom_jeton = trim($nom_jeton);
+    if ( !empty($nom_jeton) )
+    {
+      if ( $jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
+      {
+        if($jeton->delete( $id_salle, $_REQUEST["type"], $nom_jeton ))
+	{
+	  $cts->add_paragraph("Jeton $nom_jeton emprunt?, suppression impossible");
+	}
+	else
+	{
+	  $cts->add_paragraph("Jeton $nom_jeton supprim?");
+	}
+      }
+      else
+        $cts->add_paragraph("Jeton $nom_jeton inexistant.");
+    }
+  }
+
+  $cts->add_paragraph("Fait.");
+}
 elseif($_REQUEST['action'] == "blacklist")
 {
   if ( !isset($_REQUEST['id_utilisateurs']) )
