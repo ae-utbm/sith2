@@ -68,7 +68,7 @@ class planningv extends stdcontents
 	$is_multi_day = true;
 	if( date("Y m d",strtotime($start)) === date("Y m d",strtotime($end)) || $force_single_column)
 		$is_multi_day = false;
-	$this->buffer .= "<p>".date("Y m d",$start)." ".date("Y m d",$start)." $is_multi_day</p>";
+	$this->buffer .= "<p>".date("Y m d",$start)." ".date("Y m d",$end)." $is_multi_day</p>";
 		
 
 	$gaps_names = $planning->get_gaps_names();
@@ -82,7 +82,7 @@ class planningv extends stdcontents
 		$end = strtotime($end);
 		while( $start < $end )
 		{
-			$this->buffer .= "<th>".date("l d/m")."</th>";
+			$this->buffer .= "<th>".date("l d/m",$start)."</th>";
 			$start += 24*3600;
 		}
 		$this->buffer .= "</tr><tr><td><table><tr>";
