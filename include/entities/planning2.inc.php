@@ -123,7 +123,7 @@ class planning2 extends stdentity
 			return -1;
 		if($this->weekly)
 		{
-			if($end >= 7*24*3600)
+			if($end >= $this->weekly*24*3600)
 				return -1;
 		}
 		$sql = new insert ($this->dbrw,
@@ -161,7 +161,7 @@ class planning2 extends stdentity
 			return -1;
 		if($this->weekly)
 		{
-			if($end >= 7*24*3600)
+			if($end >= $this->weekly*24*3600)
 				return -1;
 		}
 		$sql = new update ($this->dbrw,
@@ -341,6 +341,18 @@ class planning2 extends stdentity
 			"SELECT id_gap FROM pl2_gap WHERE id_planning = $this->id");
 	}
 
+	function get_gaps_names()
+	{
+		return new requete($this->db,
+			"SELECT DISTINCT gap_name FROM pl2_gap WHERE id_planning = $this->id");
+	}
+
+	function get_gaps_from_names( $name )
+	{
+		return new requete($this->db,
+			"SELECT id_gap FROM pl2_gap WHERE id_planning = $this->id AND gap_name = '$name'");
+	}
+
 	function get_users_for_gap( $gap_id, $date )
 	{
 		
@@ -353,8 +365,9 @@ class planning2 extends stdentity
 
 		if($this->weekly)
 		{
-			// Permet de recuperer le debut de la semaine
-			$date = strtotime(date('o-\\WW',$date));
+			/*$date = strtotime(date('o-\\WW',$date));*/
+			$diff = $date - $this->start;
+			$date = $date - ($diff % ($this->weekly*3600*24));
 			$start = strtotime($start)+$date;
 			$end = strtotime($end)+$date;
 			$start =date("Y-m-d H:i:s",$start);
