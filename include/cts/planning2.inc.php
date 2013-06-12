@@ -91,7 +91,7 @@ class planningv extends stdcontents
 					}
 					if($count < $gap_count)
 					{
-						$this->buffer .= " ".($gap_count - $count)." personnes manquantes";
+						$this->buffer .= " ".($gap_count - $count)." personne(s) manquante(s)";
 					}
 				}
 			}
