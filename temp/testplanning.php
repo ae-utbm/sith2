@@ -84,31 +84,8 @@ $planning->load_by_id(2);
 if(is_null($planning->id))
 	echo "Erreur chargement planning";
 
-$gaps = $planning->get_gaps();
-
-while( list($gap_id) = $gaps->get_row())
-{
-	$start = date("Y-m-d H:i:s",12*3600);
-	$end = date("Y-m-d H:i:s",13*3600);
-	$date = strtotime('2013-06-15 00:00:00');
-	$date = strtotime(date('o-\\WW',$date));
-                        $start = strtotime($start)+$date;
-                        $end = strtotime($end)+$date;
-                        $start =date("Y-m-d H:i:s",$start);
-                        $end =date("Y-m-d H:i:s",$end);
-	echo date("Y-m-d H:i:s",$date)."\n";
-	echo "$start\n";
-	echo "$end\n";
-	$users = $planning->get_users_for_gap($gap_id,strtotime('2013-06-15 00:00:00'));
-	list( $id_utl, $nom_utl) = $users->get_row();
-	echo "Utl $id_utl: $nom_utl\n";
-	$planning->get_users_for_gap($gap_id,strtotime('2013-06-25 00:00:00'));
-	list( $id_utl, $nom_utl) = $users->get_row();
-	echo "Utl $id_utl: $nom_utl\n";
-	$planningv = new planningv("Plop",$site->db,2,strtotime('2013-06-15 00:00:00'), strtotime('2013-06-25 00:00:00'));
-	$cts->add($planningv,true);
-}
-
+$planningv = new planningv("Plop",$site->db,2,strtotime('2013-06-15 00:00:00'), strtotime('2013-06-25 00:00:00'));
+$cts->add($planningv,true);
 $site->add_contents($cts);
 $site->end_page();
 
