@@ -62,6 +62,7 @@ class planningv extends stdcontents
 	$gaps_names = $planning->get_gaps_names();
 	$this->buffer .= "<table>\n<tr>\n";
 	$names = array();
+	$this->buffer .= "<td>$planning->name</td>";
 	while( list( $name ) = $gaps_names->get_row() )
 	{
 		$names[] = $name;
