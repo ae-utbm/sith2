@@ -112,26 +112,29 @@ class planningv extends stdcontents
 			$buffer = "";
 			$gaps->go_first();
 			$has_gap = false;
+			$total_gap = 0;
 			$count = 0;
 			while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 			{
 				if($gap_name === $name && $gap_start <= $last_time && $gap_end >= $time)
 				{
 					$has_gap = true;
+					$total_gap += $gap_count;
 					foreach(  $gaps_data[$gap_id] as $gap_data)
 					{
 						$count++;
 						$buffer .= ($count==1?"":", ").$gap_data[1];
 					}
-					if($count < $gap_count)
-					{
-						$buffer .= ($count?" et ":"").($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"");
-					}
 				}
 			}
+			if($count < $total_gap)
+			{
+				$buffer .= ($count?" et ":"").($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"");
+			}
+			
 			if($has_gap)
 			{
-				if($count < $gap_count)
+				if($count < $total_gap)
 					$this->buffer .= "<td class=\"pl2_gap_partial\">".$buffer."</td>";
 				else
 					$this->buffer .= "<td class=\"pl2_gap_full\">".$buffer."</td>";
