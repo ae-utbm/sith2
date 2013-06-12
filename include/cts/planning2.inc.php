@@ -83,6 +83,7 @@ class planningv extends stdcontents
 		while( $start < $end )
 		{
 			$this->buffer .= "<th>".date("l d/m")."</th>";
+			$start += 24*3600;
 		}
 		$this->buffer .= "</tr><tr><td><table><tr>";
 	}
