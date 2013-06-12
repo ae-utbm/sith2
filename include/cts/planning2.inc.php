@@ -101,6 +101,7 @@ class planningv extends stdcontents
 		$back_time = $time;
 		if(!( date("Y m d",$time) === date("Y m d",$last_time) || $force_single_column))
 		{
+			$this->buffer .= "<p>yay</p>\n";
 			$time = strtotime(date("Y-m-d 23:59:59",$last_time));
 		}
 		$this->buffer .= "<tr>\n<td>".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
