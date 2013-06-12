@@ -88,8 +88,8 @@ $gaps = $planning->get_gaps();
 
 while( list($gap_id) = $gaps->get_row())
 {
-	$start = 12*3600;
-	$end = 13*3600;
+	$start = date("Y-m-d H:i:s",12*3600);
+	$end = date("Y-m-d H:i:s",13*3600);
 	$date = strtotime('2013-06-15 00:00:00');
 	$date = strtotime(date('o-\\WW',$date));
                         $start = strtotime($start)+$date;
