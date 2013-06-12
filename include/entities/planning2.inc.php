@@ -117,9 +117,9 @@ class planning2 extends stdentity
 			return -1;
 		if($start >= $end)
 			return -1;
-		if($start < $this->start)
+		if($weekly && $start < $this->start)
 			return -1;
-		if($end > $this->end)
+		if($weekly && $end > $this->end)
 			return -1;
 		if($this->weekly)
 		{
@@ -307,7 +307,6 @@ class planning2 extends stdentity
                        array(
 			     "id_gap" => $gap_id,
                              "id_utilisateur" => $user_id,
-			     "weekly" => $weekly,
 			     "start" => date("Y-m-d H:i:s",$start),
                              "end" => date("Y-m-d H:i:s",$end)
                             )
