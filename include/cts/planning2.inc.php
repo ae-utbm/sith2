@@ -74,19 +74,22 @@ class planningv extends stdcontents
 		$is_multi_day = false;
 
 	$gaps_names = $planning->get_gaps_names();
-	$this->buffer .= "<table>\n<tr>\n";
 	$names = array();
 	if($is_multi_day)
 	{
+		$this->buffer .= "<table class=\"pl2_multi\">\n<tr>\n";
 		while( $start < $end )
 		{
 			$this->buffer .= "<th>".date("l d/m",$start)."</th>";
 			$start += 24*3600;
 		}
-		$this->buffer .= "</tr><tr><td><table><tr><th></th>";
+		$this->buffer .= "</tr><tr><td><table class=\"pl2_mono\"><tr><th></th>";
 	}
 	else
+	{
+		$this->buffer .= "<table class=\"pl2_mono\">\n<tr>\n";
 		$this->buffer .= "<th></th>";
+	}
 	while( list( $name ) = $gaps_names->get_row() )
 	{
 		$names[] = $name;
@@ -103,10 +106,9 @@ class planningv extends stdcontents
 		{
 			$time = date("Y-m-d 23:59:59",strtotime($last_time));
 		}
-		$this->buffer .= "<tr>\n<td>".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
+		$this->buffer .= "<tr>\n<td class=\"pl2_horaires\">".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
 		foreach($names as $name)
 		{
-			$this->buffer .= "<td>";
 			$gaps->go_first();
 			$has_gap = false;
 			$count = 0;
@@ -118,23 +120,29 @@ class planningv extends stdcontents
 					foreach(  $gaps_data[$gap_id] as $gap_data)
 					{
 						$count++;
-						$this->buffer .= ($count==1?"":", ").$gap_data[1];
+						$buffer .= ($count==1?"":", ").$gap_data[1];
 					}
 					if($count < $gap_count)
 					{
-						$this->buffer .= ($count?" et ":"").($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"");
+						$buffer .= ($count?" et ":"").($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"");
 					}
 				}
 			}
-			if(!$has_gap)
-				$this->buffer .= "";
-			$this->buffer .= "</td>";
+			if($has_gap)
+			{
+				if($count < $gap_count)
+					$this->buffer .= "<td class=\"pl2_gap_partial\">".$buffer."</td>";
+				else
+					$this->buffer .= "<td class=\"pl2_gap_full\">".$buffer."</td>";
+			}
+			else
+				$this->buffer .= "<td class=\"pl2_no_gap\"></td>";
 		}
 		
 		$this->buffer .= "</tr>\n";
 		if(!( date("Y m d",strtotime($back_time)) === date("Y m d",strtotime($last_time)) || $force_single_column))
 		{
-			$this->buffer .= "</table></td><td><table><tr><th></th>";
+			$this->buffer .= "</table></td><td><table class=\"pl2_mono\"><tr><th></th>";
 			foreach($names as $name)
 				$this->buffer .= "<th>$name</th>\n";
 			$this->buffer .= "</tr>";
