@@ -66,7 +66,7 @@ class planningv extends stdcontents
 		$end = $tmp;
 
 	$is_multi_day = true;
-	if( date("Y m d",$start) === date("Y m d",$end) || $force_single_column)
+	if( date("Y m d",strtotime($start)) === date("Y m d",strtotime($end)) || $force_single_column)
 		$is_multi_day = false;
 	$this->buffer .= "<p>".date("Y m d",$start)." ".date("Y m d",$start)." $is_multi_day</p>";
 		
