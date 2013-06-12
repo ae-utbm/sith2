@@ -288,7 +288,7 @@ class planning2 extends stdentity
 			 )");
 		if($sql->lines > 0)
 			return false;
-		$users = get_max_users_for($gap_id,$start,$end);
+		$users = $this->get_max_users_for($gap_id,$start,$end);
 		$sql = new requete($this->db,
 			"SELECT max_users FROM pl2_gap
 			 WHERE id_gap = $gap_id");
@@ -300,7 +300,7 @@ class planning2 extends stdentity
 
 	function add_user_to_gap( $gap_id, $user_id, $start, $end)
 	{
-		if(!is_user_addable($gap_id,$user_id,$start,$end))
+		if(!$this->is_user_addable($gap_id,$user_id,$start,$end))
 			return -1;
 		$sql = new insert ($this->dbrw,
                        "pl2_user_gap",
