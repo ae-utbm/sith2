@@ -49,7 +49,7 @@ class planningv extends stdcontents
 
 	$gaps = $planning->get_gaps($start, $end);
 
-	while( list( $gap_id, $gap_start, $gap_end, $gap_name) = $gaps->get_row())
+	while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 	{
 		$users = $planning->get_users_for_gap($gap_id,$start);
 		while( list( $utl, $nom_utl ) = $users->get_row() ){
@@ -77,12 +77,17 @@ class planningv extends stdcontents
 		{
 			$this->buffer .= "<td>";
 			$gaps->go_first();
-			while( list( $gap_id, $gap_start, $gap_end, $gap_name) = $gaps->get_row())
+			$has_gap = false;
+			$count = 0;
+			while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 			{
-				if($gap_name === $name)
+				if($gap_name === $name && $gap_start >= $last_time && $gap_end <= $time)
 				{
+					$has_gap = true;
 					foreach(  $gaps_data[$gap_id] as $gap_data)
+					{
 						$this->buffer .= $gap_data[1]." ";
+					}
 				}
 			}
 			$this->buffer .= "</td>";
