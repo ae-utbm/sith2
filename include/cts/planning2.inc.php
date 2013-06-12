@@ -76,10 +76,8 @@ class planningv extends stdcontents
 	$gaps_names = $planning->get_gaps_names();
 	$this->buffer .= "<table>\n<tr>\n";
 	$names = array();
-	$this->buffer .= "<th>$planning->name</th>";
 	if($is_multi_day)
 	{
-		$this->buffer .= "</tr><tr>";
 		while( $start < $end )
 		{
 			$this->buffer .= "<th>".date("l d/m",$start)."</th>";
@@ -87,6 +85,8 @@ class planningv extends stdcontents
 		}
 		$this->buffer .= "</tr><tr><td><table><tr><th></th>";
 	}
+	else
+		$this->buffer .= "<th></th>";
 	while( list( $name ) = $gaps_names->get_row() )
 	{
 		$names[] = $name;
@@ -97,6 +97,12 @@ class planningv extends stdcontents
 	list( $last_time ) = $gaps_time->get_row();
 	while( list( $time ) = $gaps_time->get_row())
 	{
+		$back_time = $time;
+		if(( date("Y m d",$time) === date("Y m d",$last_time) || $force_single_column))
+		{
+			$time = strtotime(date("Y-m-d 23:59:59",$last_time));
+		}
+	changement:
 		$this->buffer .= "<tr>\n<td>".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
 		foreach($names as $name)
 		{
@@ -126,7 +132,17 @@ class planningv extends stdcontents
 		}
 		
 		$this->buffer .= "</tr>\n";
-		$last_time = $time;
+		if(( date("Y m d",$back_time) === date("Y m d",$last_time) || $force_single_column))
+		{
+			$this->buffer .= "</table></td><td><table><tr>";
+			foreach($names as $name)
+				$this->buffer .= "<th>$name</th>\n";
+			$this->buffer .= "</tr>";
+			$last_time = strtotime(date("Y-m-d 00:00:00",$time));
+			$time = $back_time;
+		}
+		else
+			$last_time = $time;
 	}
 	
 	if($is_multi_day)
