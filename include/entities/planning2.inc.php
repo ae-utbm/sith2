@@ -366,9 +366,11 @@ class planning2 extends stdentity
 					utl_etu_utbm.surnom_utbm, 
 					CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) 
 				as `nom_utilisateur`
-			 FROM id_user_gap
+			 FROM pl2_user_gap
 			 JOIN utilisateurs
-			 ON utilisateurs.id_utilisateur = id_user_gap.id_utilisateur
+			 ON utilisateurs.id_utilisateur = pl2_user_gap.id_utilisateur
+			 JOIN utl_etu_utbm
+			 ON utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur
 			 WHERE id_gap = $gap_id
 			 AND utilisateurs.id_utilisateur NOT IN
 			 (	SELECT id_utilisateur FROM pl2_absence
@@ -377,8 +379,8 @@ class planning2 extends stdentity
 				WHERE (pl2_absence.start < '$start' AND pl2_absence.end > '$start')
 				OR  (pl2_absence.start < '$end' AND pl2_absence.start > '$start')
 			 )
-			 AND id_user_gap.start <= '$start'
-			 AND id_user_gap.end >= '$end'");
+			 AND pl2_user_gap.start <= '$start'
+			 AND pl2_user_gap.end >= '$end'");
 		
 	}
 	
