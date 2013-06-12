@@ -102,7 +102,7 @@ while( list($gap_id) = $gaps->get_row())
 	$users = $planning->get_users_for_gap($gap_id,strtotime('2013-06-15 00:00:00'));
 	list( $id_utl, $nom_utl) = $users->get_row();
 	echo "Utl $id_utl: $nom_utl\n";
-	echo $planning->get_users_for_gap($gap_id,strtotime('2013-06-25 00:00:00'));
+	$planning->get_users_for_gap($gap_id,strtotime('2013-06-25 00:00:00'));
 	list( $id_utl, $nom_utl) = $users->get_row();
 	echo "Utl $id_utl: $nom_utl\n";
 }
