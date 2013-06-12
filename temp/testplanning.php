@@ -89,6 +89,12 @@ $gaps = $planning->get_gaps();
 while( list($gap_id) = $gaps->get_row())
 {
 	$planning->add_user_to_gap($gap_id,8276,strtotime('2013-06-12 00:00:00'), strtotime('2013-06-20 00:00:00'));
+	$users = $planning->get_users_for_gap($gap_id,strtotime('2013-06-15 00:00:00'));
+	list( $id_utl, $nom_utl) = $users->get_row();
+	echo "Utl $id_utl: $nom_utl\n";
+	echo $planning->get_users_for_gap($gap_id,strtotime('2013-06-25 00:00:00'));
+	list( $id_utl, $nom_utl) = $users->get_row();
+	echo "Utl $id_utl: $nom_utl\n";
 }
 
 echo mysql_error ();
