@@ -99,10 +99,9 @@ class planningv extends stdcontents
 	{
 	changement:
 		$back_time = $time;
-		$this->buffer .= "<p>".date("Y m d",$time)." ".date("Y m d",$last_time)."</p>\n";
-		if(!( date("Y m d",$time) === date("Y m d",$last_time) || $force_single_column))
+		if(!( date("Y m d",strtotime($time)) === date("Y m d",strtotime($last_time)) || $force_single_column))
 		{
-			$time = strtotime(date("Y-m-d 23:59:59",$last_time));
+			$time = date("Y-m-d 23:59:59",strtotime($last_time));
 		}
 		$this->buffer .= "<tr>\n<td>".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
 		foreach($names as $name)
@@ -133,13 +132,13 @@ class planningv extends stdcontents
 		}
 		
 		$this->buffer .= "</tr>\n";
-		if(!( date("Y m d",$back_time) === date("Y m d",$last_time) || $force_single_column))
+		if(!( date("Y m d",strtotime($back_time)) === date("Y m d",strtotime($last_time)) || $force_single_column))
 		{
 			$this->buffer .= "</table></td><td><table><tr>";
 			foreach($names as $name)
 				$this->buffer .= "<th>$name</th>\n";
 			$this->buffer .= "</tr>";
-			$last_time = strtotime(date("Y-m-d 00:00:00",$time));
+			$last_time = date("Y-m-d 00:00:00",strtotime($time));
 			$time = $back_time;
 			goto changement;
 		}
