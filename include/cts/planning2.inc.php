@@ -86,7 +86,12 @@ class planningv extends stdcontents
 					$has_gap = true;
 					foreach(  $gaps_data[$gap_id] as $gap_data)
 					{
-						$this->buffer .= $gap_data[1]." ";
+						$count++;
+						$this->buffer .= ($count==1?"":", ").$gap_data[1];
+					}
+					if($count < $gap_count)
+					{
+						$this->buffer .= " ".($gap_count - $count)." personnes manquantes";
 					}
 				}
 			}
