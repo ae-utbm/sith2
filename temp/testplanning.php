@@ -88,7 +88,15 @@ $gaps = $planning->get_gaps();
 
 while( list($gap_id) = $gaps->get_row())
 {
-	$planning->add_user_to_gap($gap_id,8276,strtotime('2013-06-12 00:00:00'), strtotime('2013-06-20 00:00:00'));
+	$date = strtotime('2013-06-15 00:00:00');
+	$date = strtotime(date('o-\\WW',$date));
+                        $start = strtotime($start)+$date;
+                        $end = strtotime($end)+$date;
+                        $start =date("Y-m-d H:i:s",$start);
+                        $end =date("Y-m-d H:i:s",$end);
+	echo "$date\n";
+	echo "$start\n";
+	echo "$end\n";
 	$users = $planning->get_users_for_gap($gap_id,strtotime('2013-06-15 00:00:00'));
 	list( $id_utl, $nom_utl) = $users->get_row();
 	echo "Utl $id_utl: $nom_utl\n";
