@@ -6,11 +6,13 @@
 table.pl2_multi{
 	border-collapse: collapse;
 	border: 1px solid #e8eef7;
+	width: 100%;
 }	
  
 table.pl2_mono{
 	border-collapse: collapse;
 	border: 1px solid #e8eef7;
+	width: 100%;
 }	
  
 td.pl2_horaires{
