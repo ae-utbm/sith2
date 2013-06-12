@@ -31,7 +31,7 @@
  * @author Julien Etelain
  * @ingroup display_cts
  */
-class weekplanning extends stdcontents
+class planningv extends stdcontents
 {
 
     var $planning;
@@ -48,7 +48,7 @@ class weekplanning extends stdcontents
 	$planning->load_by_id($id_planning);
 
 	$gaps = $planning->get_gaps($start, $end);
-//	$tmp_gaps = $gaps;
+	$tmp_gaps = clone $gaps;
 
 	while( list( $gap_id, $gap_start, $gap_end, $gap_name) = $tmp_gaps->get_row())
 	{
@@ -75,7 +75,7 @@ class weekplanning extends stdcontents
 		foreach($names as $name)
 		{
 			$this->buffer .= "<td>";
-			$tmp_gaps = $gaps;
+			$tmp_gaps = clone $gaps;
 			while( list( $gap_id, $gap_start, $gap_end, $gap_name) = $tmp_gaps->get_row())
 			{
 				if($gap_name === $name)
