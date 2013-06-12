@@ -42,6 +42,7 @@ class planningv extends stdcontents
      */
     function planningv ( $titre, $db, $id_planning, $start, $end, $force_single_column = false)
     {
+	setlocale(LC_ALL, 'fr_FR');
         $this->title=false;
 
 	$planning = new planning2($db, $db);
@@ -60,16 +61,17 @@ class planningv extends stdcontents
 
 	$gaps_time = $planning->get_gaps_time($start, $end);
 
+	$week_start = $planning->get_week_start(start);
 	list( $start ) = $gaps_time->get_row();
 	$end = $start;
 	while( list($tmp) = $gaps_time->get_row() )
 		$end = $tmp;
+	$start = strtotime($start) + $date;
+	$end = strtotime($end) + $date;
 
 	$is_multi_day = true;
-	if( date("Y m d",strtotime($start)) === date("Y m d",strtotime($end)) || $force_single_column)
+	if( date("Y m d",$start) === date("Y m d",$end) || $force_single_column)
 		$is_multi_day = false;
-	$this->buffer .= "<p>".date("Y m d",$start)." ".date("Y m d",$end)." $is_multi_day</p>";
-		
 
 	$gaps_names = $planning->get_gaps_names();
 	$this->buffer .= "<table>\n<tr>\n";
@@ -78,14 +80,12 @@ class planningv extends stdcontents
 	if($is_multi_day)
 	{
 		$this->buffer .= "</tr><tr>";
-		$start = strtotime($start);
-		$end = strtotime($end);
 		while( $start < $end )
 		{
 			$this->buffer .= "<th>".date("l d/m",$start)."</th>";
 			$start += 24*3600;
 		}
-		$this->buffer .= "</tr><tr><td><table><tr>";
+		$this->buffer .= "</tr><tr><td><table><tr><th></th>";
 	}
 	while( list( $name ) = $gaps_names->get_row() )
 	{
