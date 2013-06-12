@@ -81,7 +81,7 @@ class planningv extends stdcontents
 			$count = 0;
 			while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 			{
-				if($gap_name === $name && $gap_start >= $last_time && $gap_end <= $time)
+				if($gap_name === $name && $gap_start <= $last_time && $gap_end >= $time)
 				{
 					$has_gap = true;
 					foreach(  $gaps_data[$gap_id] as $gap_data)
