@@ -66,8 +66,8 @@ class planningv extends stdcontents
 	$end = $start;
 	while( list($tmp) = $gaps_time->get_row() )
 		$end = $tmp;
-	$start = strtotime($start) + $date;
-	$end = strtotime($end) + $date;
+	$start = strtotime($start) + $week_start;
+	$end = strtotime($end) + $week_start;
 
 	$is_multi_day = true;
 	if( date("Y m d",$start) === date("Y m d",$end) || $force_single_column)
