@@ -99,7 +99,7 @@ class planningv extends stdcontents
 	{
 	changement:
 		$back_time = $time;
-		if(( date("Y m d",$time) === date("Y m d",$last_time) || $force_single_column))
+		if(!( date("Y m d",$time) === date("Y m d",$last_time) || $force_single_column))
 		{
 			$time = strtotime(date("Y-m-d 23:59:59",$last_time));
 		}
@@ -132,7 +132,7 @@ class planningv extends stdcontents
 		}
 		
 		$this->buffer .= "</tr>\n";
-		if(( date("Y m d",$back_time) === date("Y m d",$last_time) || $force_single_column))
+		if(!( date("Y m d",$back_time) === date("Y m d",$last_time) || $force_single_column))
 		{
 			$this->buffer .= "</table></td><td><table><tr>";
 			foreach($names as $name)
