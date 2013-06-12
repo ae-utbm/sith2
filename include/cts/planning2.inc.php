@@ -80,7 +80,7 @@ class planningv extends stdcontents
 		$this->buffer .= "<table class=\"pl2_multi\">\n<tr>\n";
 		while( $start < $end )
 		{
-			$this->buffer .= "<th>".date("l d/m",$start)."</th>";
+			$this->buffer .= "<th class=\"pl2_day_name\">".date("l d/m",$start)."</th>";
 			$start += 24*3600;
 		}
 		$this->buffer .= "</tr><tr><td><table class=\"pl2_mono\"><tr><th></th>";
@@ -93,7 +93,7 @@ class planningv extends stdcontents
 	while( list( $name ) = $gaps_names->get_row() )
 	{
 		$names[] = $name;
-		$this->buffer .= "<th>$name</th>\n";
+		$this->buffer .= "<th class=\"pl2_gap_name\">$name</th>\n";
 	}
 	$this->buffer .= "</tr>\n";
 	$gaps_time->go_first();
