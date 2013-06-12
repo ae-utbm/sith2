@@ -109,6 +109,7 @@ class planningv extends stdcontents
 		$this->buffer .= "<tr>\n<td class=\"pl2_horaires\">".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
 		foreach($names as $name)
 		{
+			$buffer = "";
 			$gaps->go_first();
 			$has_gap = false;
 			$count = 0;
