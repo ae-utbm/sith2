@@ -117,9 +117,9 @@ class planning2 extends stdentity
 			return -1;
 		if($start >= $end)
 			return -1;
-		if($weekly && $start < $this->start)
+		if($this->weekly && $start < $this->start)
 			return -1;
-		if($weekly && $end > $this->end)
+		if($this->weekly && $end > $this->end)
 			return -1;
 		if($this->weekly)
 		{
