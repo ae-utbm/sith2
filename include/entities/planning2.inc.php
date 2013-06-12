@@ -335,22 +335,79 @@ class planning2 extends stdentity
 			 WHERE id_utilisateur = $user_id");
 	}
 
-	function get_gaps()
+	function get_gaps( $start, $end )
 	{
-		return new requete($this->db,
-			"SELECT id_gap FROM pl2_gap WHERE id_planning = $this->id");
+		if($this->week)
+			return new requete($this->db,
+				"SELECT id_gap, start, end, gap_name FROM pl2_gap 
+				 WHERE id_planning = $this->id 
+				 ORDER BY start ASC");
+		else
+			return new requete($this->db,
+                                "SELECT id_gap, start, end, gap_name FROM pl2_gap 
+                                 WHERE id_planning = $this->id
+				 AND end > '".date("Y-m-d H:i:s",$start)."'
+				 AND start < '".date("Y-m-d H:i:s",$end)."'
+                                 ORDER BY start ASC");
+	}
+
+	function get_gaps_time( $start, $end )
+	{
+		if($this->week)
+			return new requete($this->db,
+				"SELECT start as date FROM pl2_gap 
+				 WHERE id_planning = $this->id 
+				 UNION DISTINCT SELECT end as date 
+				 FROM pl2_gap 
+				 WHERE id_planning = $this->id 
+				 ORDER BY date ASC");
+		else
+			return new requete($this->db,
+                                "SELECT start as date FROM pl2_gap 
+                                 WHERE id_planning = $this->id
+				 AND end > '".date("Y-m-d H:i:s",$start)."'
+				 AND start < '".date("Y-m-d H:i:s",$end)."'
+                                 UNION DISTINCT
+				 SELECT end as date FROM pl2_gap 
+                                 WHERE id_planning = $this->id
+				 AND end > '".date("Y-m-d H:i:s",$start)."'
+				 AND start < '".date("Y-m-d H:i:s",$end)."'
+                                 ORDER BY date ASC");
 	}
 
 	function get_gaps_names()
 	{
 		return new requete($this->db,
-			"SELECT DISTINCT gap_name FROM pl2_gap WHERE id_planning = $this->id");
+			"SELECT DISTINCT gap_name FROM pl2_gap WHERE id_planning = $this->id ORDER BY gap_name");
 	}
 
 	function get_gaps_from_names( $name )
 	{
 		return new requete($this->db,
-			"SELECT id_gap FROM pl2_gap WHERE id_planning = $this->id AND gap_name = '$name'");
+			"SELECT id_gap FROM pl2_gap WHERE id_planning = $this->id AND gap_name = '$name' ORDER BY start");
+	}
+
+	function get_week_start( $date )
+	{
+		if($this->weekly)
+		{
+			$diff = $date - $this->start;
+                        $date = $date - ($diff % ($this->weekly*3600*24));
+		}
+		else
+		{
+			$req = new requete($this->db,
+				"SELECT start FROM pl2_gap 
+				 WHERE id_planning = $this->id
+				 AND start > ".date("Y-m-d H:i:s",$date)."
+				 ORDER BY start ASC LIMIT 1");
+			if($req->lines == 1)
+			{
+				list( $tmp ) = $req->get_row();
+				$date = strtotime( $tmp );
+			}
+		}
+		return $date;
 	}
 
 	function get_users_for_gap( $gap_id, $date )

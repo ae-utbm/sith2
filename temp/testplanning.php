@@ -43,7 +43,7 @@ require_once($topdir."include/entities/planning2.inc.php");
  * applications lourdes (un bouton, un datagrid...)
  * en reprennant le parallèle avec le modèle MVC, ici c'est le V : View
  */
-require_once($topdir."include/cts/planning.inc.php");
+require_once($topdir."include/cts/planning2.inc.php");
 
 /*
  * Une fois que l'on a inclus tout ce dont on a besoin, on crée une instance de
@@ -105,7 +105,13 @@ while( list($gap_id) = $gaps->get_row())
 	$planning->get_users_for_gap($gap_id,strtotime('2013-06-25 00:00:00'));
 	list( $id_utl, $nom_utl) = $users->get_row();
 	echo "Utl $id_utl: $nom_utl\n";
+	$planningv = new planningv("Plop",$site->db,2,strtotime('2013-06-15 00:00:00'), strtotime('2013-06-25 00:00:00'));
+	$cts->add($planningv,true);
 }
+
+$site->add_contents($cts);
+$site->end_page();
+
 
 echo mysql_error ();
 
