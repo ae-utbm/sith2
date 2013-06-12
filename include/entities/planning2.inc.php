@@ -337,7 +337,7 @@ class planning2 extends stdentity
 
 	function get_gaps( $start, $end )
 	{
-		if($this->week)
+		if($this->weekly)
 			return new requete($this->db,
 				"SELECT id_gap, start, end, gap_name FROM pl2_gap 
 				 WHERE id_planning = $this->id 
@@ -353,7 +353,7 @@ class planning2 extends stdentity
 
 	function get_gaps_time( $start, $end )
 	{
-		if($this->week)
+		if($this->weekly)
 			return new requete($this->db,
 				"SELECT start as date FROM pl2_gap 
 				 WHERE id_planning = $this->id 
