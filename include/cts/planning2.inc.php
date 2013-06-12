@@ -138,8 +138,8 @@ class planningv extends stdcontents
 			foreach($names as $name)
 				$this->buffer .= "<th>$name</th>\n";
 			$this->buffer .= "</tr>";
-			$last_time = date("Y-m-d 00:00:00",strtotime($time));
 			$time = $back_time;
+			$last_time = date("Y-m-d 00:00:00",strtotime($time));
 			//goto changement;
 		}
 		else
