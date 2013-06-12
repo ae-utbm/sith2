@@ -48,9 +48,8 @@ class planningv extends stdcontents
 	$planning->load_by_id($id_planning);
 
 	$gaps = $planning->get_gaps($start, $end);
-	$tmp_gaps = clone $gaps;
 
-	while( list( $gap_id, $gap_start, $gap_end, $gap_name) = $tmp_gaps->get_row())
+	while( list( $gap_id, $gap_start, $gap_end, $gap_name) = $gaps->get_row())
 	{
 		$users = $planning->get_users_for_gap($gap_id,$start);
 		while( list( $utl, $nom_utl ) = $users->get_row() ){
@@ -75,8 +74,8 @@ class planningv extends stdcontents
 		foreach($names as $name)
 		{
 			$this->buffer .= "<td>";
-			$tmp_gaps = clone $gaps;
-			while( list( $gap_id, $gap_start, $gap_end, $gap_name) = $tmp_gaps->get_row())
+			$gaps->go_first();
+			while( list( $gap_id, $gap_start, $gap_end, $gap_name) = $gaps->get_row())
 			{
 				if($gap_name === $name)
 				{
