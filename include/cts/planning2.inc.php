@@ -82,7 +82,7 @@ class planningv extends stdcontents
 				if($gap_name === $name)
 				{
 					foreach(  $gaps_data[$gap_id] as $gap_data)
-						$this->buffer .= $gap_data[0]." ";
+						$this->buffer .= $gap_data[1]." ";
 				}
 			}
 			$this->buffer .= "</td>";
