@@ -44,7 +44,7 @@ class planningv extends stdcontents
     {
         $this->title=false;
 
-	$planning = new planning2($db, null);
+	$planning = new planning2($db, $db);
 	$planning->load_by_id($id_planning);
 
 	$gaps = $planning->get_gaps($start, $end);
