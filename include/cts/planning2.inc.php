@@ -140,7 +140,7 @@ class planningv extends stdcontents
 			$this->buffer .= "</tr>";
 			$time = $back_time;
 			$last_time = date("Y-m-d 00:00:00",strtotime($time));
-			//goto changement;
+			goto changement;
 		}
 		else
 			$last_time = $time;
