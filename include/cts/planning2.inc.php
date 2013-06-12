@@ -134,7 +134,7 @@ class planningv extends stdcontents
 		$this->buffer .= "</tr>\n";
 		if(!( date("Y m d",strtotime($back_time)) === date("Y m d",strtotime($last_time)) || $force_single_column))
 		{
-			$this->buffer .= "</table></td><td><table><tr>";
+			$this->buffer .= "</table></td><td><table><tr><th></th>";
 			foreach($names as $name)
 				$this->buffer .= "<th>$name</th>\n";
 			$this->buffer .= "</tr>";
