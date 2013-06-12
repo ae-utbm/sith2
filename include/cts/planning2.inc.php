@@ -62,11 +62,11 @@ class planningv extends stdcontents
 	$gaps_names = $planning->get_gaps_names();
 	$this->buffer .= "<table>\n<tr>\n";
 	$names = array();
-	$this->buffer .= "<td>$planning->name</td>";
+	$this->buffer .= "<th>$planning->name</th>";
 	while( list( $name ) = $gaps_names->get_row() )
 	{
 		$names[] = $name;
-		$this->buffer .= "<td>$name</td>\n";
+		$this->buffer .= "<th>$name</th>\n";
 	}
 	$this->buffer .= "</tr>\n";
 	list( $last_time ) = $gaps_time->get_row();
