@@ -68,11 +68,11 @@ class planningv extends stdcontents
 		$names[] = $name;
 		$this->buffer .= "<td>$name</td>\n";
 	}
-	$this->buffer .= "</tr>\n<tr>";
+	$this->buffer .= "</tr>\n";
 	list( $last_time ) = $gaps_time->get_row();
 	while( list( $time ) = $gaps_time->get_row())
 	{
-		$this->buffer .= "<td>".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
+		$this->buffer .= "<tr>\n<td>".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
 		foreach($names as $name)
 		{
 			$this->buffer .= "<td>";
@@ -98,11 +98,12 @@ class planningv extends stdcontents
 			$this->buffer .= "</td>";
 		}
 		
+		$this->buffer .= "</tr>\n";
 		$last_time = $time;
 	}
 	
 
-        $this->buffer .= "</tr>\n</table>\n";
+        $this->buffer .= "\n</table>\n";
 
     }
 
