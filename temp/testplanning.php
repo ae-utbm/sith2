@@ -84,7 +84,12 @@ $planning->load_by_id(2);
 if(is_null($planning->id))
 	echo "Erreur chargement planning";
 
-$planning->add_gap(12*3600,13*3600,"Midi",2);
+$gaps = $planning->get_gaps();
+
+while( list($gap_id) = $gaps->get_row())
+{
+	$planning->add_user_to_gap($gap_id,8276,strtotime('2013-06-12 00:00:00'), strtotime('2013-06-20 00:00:00'));
+}
 
 echo mysql_error ();
 

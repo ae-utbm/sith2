@@ -335,6 +335,12 @@ class planning2 extends stdentity
 			 WHERE id_utilisateur = $user_id");
 	}
 
+	function get_gaps()
+	{
+		return new requete($this->db,
+			"SELECT id_gap FROM pl2_gap WHERE id_planning = $this->id");
+	}
+
 	function get_users_for_gap( $gap_id, $date )
 	{
 		
