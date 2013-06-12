@@ -40,7 +40,7 @@ class planningv extends stdcontents
      * @param $titre Titre du contenu
      * @param $db Connection à la base de donnée
      */
-    function planningv ( $titre, $db, $id_planning, $start, $end)
+    function planningv ( $titre, $db, $id_planning, $start, $end, $force_single_column = false)
     {
         $this->title=false;
 
@@ -59,10 +59,32 @@ class planningv extends stdcontents
 	}
 
 	$gaps_time = $planning->get_gaps_time($start, $end);
+
+	list( $start ) = $gaps_time->get_row();
+	$end = $start;
+	while( list($tmp) = $gaps_time->get_row() )
+		$end = $tmp;
+
+	$is_multi_day = true;
+	if( date("Y m d",$start) === date("Y m d",$end) || $force_single_column)
+		$is_multi_day = false;
+		
+
 	$gaps_names = $planning->get_gaps_names();
 	$this->buffer .= "<table>\n<tr>\n";
 	$names = array();
 	$this->buffer .= "<th>$planning->name</th>";
+	if($is_multi_day)
+	{
+		$this->buffer .= "</tr><tr>";
+		$start = strtotime($start);
+		$end = strtotime($end);
+		while( $start < $end )
+		{
+			$this->buffer .= "<th>".date("l d/m")."</th>";
+		}
+		$this->buffer .= "</tr><tr><td><table><tr>";
+	}
 	while( list( $name ) = $gaps_names->get_row() )
 	{
 		$names[] = $name;
@@ -104,6 +126,10 @@ class planningv extends stdcontents
 		$last_time = $time;
 	}
 	
+	if($is_multi_day)
+	{
+		$this->buffer .= "</table></td></tr>";
+	}
 
         $this->buffer .= "\n</table>\n";
 
