@@ -96,7 +96,7 @@ while( list($gap_id) = $gaps->get_row())
                         $end = strtotime($end)+$date;
                         $start =date("Y-m-d H:i:s",$start);
                         $end =date("Y-m-d H:i:s",$end);
-	echo "$date\n";
+	echo date("Y-m-d H:i:s",$date)."\n";
 	echo "$start\n";
 	echo "$end\n";
 	$users = $planning->get_users_for_gap($gap_id,strtotime('2013-06-15 00:00:00'));
