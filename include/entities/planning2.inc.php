@@ -339,12 +339,12 @@ class planning2 extends stdentity
 	{
 		if($this->weekly)
 			return new requete($this->db,
-				"SELECT id_gap, start, end, gap_name FROM pl2_gap 
+				"SELECT id_gap, start, end, name_gap FROM pl2_gap 
 				 WHERE id_planning = $this->id 
 				 ORDER BY start ASC");
 		else
 			return new requete($this->db,
-                                "SELECT id_gap, start, end, gap_name FROM pl2_gap 
+                                "SELECT id_gap, start, end, name_gap FROM pl2_gap 
                                  WHERE id_planning = $this->id
 				 AND end > '".date("Y-m-d H:i:s",$start)."'
 				 AND start < '".date("Y-m-d H:i:s",$end)."'
@@ -378,7 +378,7 @@ class planning2 extends stdentity
 	function get_gaps_names()
 	{
 		return new requete($this->db,
-			"SELECT DISTINCT gap_name FROM pl2_gap WHERE id_planning = $this->id ORDER BY gap_name");
+			"SELECT DISTINCT name_gap FROM pl2_gap WHERE id_planning = $this->id ORDER BY name_gap");
 	}
 
 	function get_gaps_from_names( $name )
