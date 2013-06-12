@@ -48,7 +48,7 @@ class weekplanning extends stdcontents
 	$planning->load_by_id($id_planning);
 
 	$gaps = $planning->get_gaps($start, $end);
-	$tmp_gaps = $gaps;
+//	$tmp_gaps = $gaps;
 
 	while( list( $gap_id, $gap_start, $gap_end, $gap_name) = $tmp_gaps->get_row())
 	{
