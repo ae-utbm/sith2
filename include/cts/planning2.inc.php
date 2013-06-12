@@ -70,7 +70,7 @@ class planningv extends stdcontents
 	list( $last_time ) = $gaps_time->get_row();
 	while( list( $time ) = $gaps_time->get_row())
 	{
-		$this->buffer .= "<td>".date("H:i",$last_time)."-".date("H:i",$time)."</td>";
+		$this->buffer .= "<td>".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
 		foreach($names as $name)
 		{
 			$this->buffer .= "<td>";
