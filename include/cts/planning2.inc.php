@@ -91,6 +91,7 @@ class planningv extends stdcontents
 		$this->buffer .= "<th>$name</th>\n";
 	}
 	$this->buffer .= "</tr>\n";
+	$gaps_time->go_first();
 	list( $last_time ) = $gaps_time->get_row();
 	while( list( $time ) = $gaps_time->get_row())
 	{
