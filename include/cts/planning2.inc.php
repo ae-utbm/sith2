@@ -61,7 +61,7 @@ class planningv extends stdcontents
 
 	$gaps_time = $planning->get_gaps_time($start, $end);
 
-	$week_start = $planning->get_week_start(start);
+	$week_start = $planning->get_week_start($start);
 	list( $start ) = $gaps_time->get_row();
 	$end = $start;
 	while( list($tmp) = $gaps_time->get_row() )
