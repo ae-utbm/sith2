@@ -56,6 +56,7 @@ require_once($topdir."include/cts/planning2.inc.php");
  */
 $site = new site();
 
+$site->add_css("css/planning2.css");
 /*
  * Cette page n'est accessible qu'aux utilisateurs connecté, on appelle
  * donc la fonction consacrée. Si l'utilisateur n'est pas connecté,

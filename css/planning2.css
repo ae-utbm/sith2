@@ -1,0 +1,27 @@
+/**
+ * CSS Document
+ */
+ 
+ 
+table.pl2_multi{
+	border-collapse: collapse;
+	border: 1px solid #e8eef7;
+}	
+ 
+table.pl2_mono{
+	border-collapse: collapse;
+	border: 1px solid #e8eef7;
+}	
+ 
+td.pl2_horaires{
+}
+
+td.pl2_gap_partial{
+}
+
+td.pl2_gap_full{
+}
+
+td.pl2_no_gap{
+}
+
