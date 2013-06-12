@@ -95,6 +95,8 @@ class planningv extends stdcontents
 					}
 				}
 			}
+			if($has_gap)
+				$this->buffer .= "N/A";
 			$this->buffer .= "</td>";
 		}
 		
