@@ -61,6 +61,7 @@ class planningv extends stdcontents
 	$gaps_time = $planning->get_gaps_time($start, $end);
 	$gaps_names = $planning->get_gaps_names();
 	$this->buffer .= "<table>\n<tr>\n";
+	$names = array();
 	while( list( $name ) = $gaps_names->get_row() )
 	{
 		$names[] = $name;
