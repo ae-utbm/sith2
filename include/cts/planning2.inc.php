@@ -63,6 +63,7 @@ class planningv extends stdcontents
 	$buffer .= $body;
 	$buffer .= "</td></tr></table>";
 	
+	return $buffer;
 	
     }
 
