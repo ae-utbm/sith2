@@ -414,7 +414,7 @@ class planning2 extends stdentity
 				$date = strtotime( $tmp );
 			}
 		}
-		return $date;
+		return strtotime(date("Y-m-d 00:00:00",$date));
 	}
 
 	function get_users_for_gap( $gap_id, $date )
