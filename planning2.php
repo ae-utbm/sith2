@@ -50,10 +50,30 @@ if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
 		if($planning->weekly)
 		{
 			$frm->add_date_field("start", "Date de debut ",$planning->start,true);
-			$frm->add_date_field("start", "Date de fin ",$planning->end,true);
+			$frm->add_date_field("end", "Date de fin ",$planning->end,true);
 		}
 		$frm->add_submit("do_add_to_gap","Valider");
 		$cts->add($frm);
+	}
+}
+
+if($_REQUEST["action"] === "do_add_to_gap" && isset($_REQUEST["gap_id"]))
+{
+	if(!$planning->weekly || (isset($_REQUEST["start"]) && isset($_REQUEST["end"])))
+	{
+		$gap_id = $_REQUEST["gap_id"];
+		$user_id = $site->user->id;
+		$start = $_REQUEST["start"];
+		$end = $_REQUEST["end"];
+		if($planning->is_user_addable($gap_id, $user_id, $start, $end ))
+		{
+			$planning->add_user_to_gap($gap_id, $user_id, $start, $end );
+			$cts->add_paragraph("Ajout effectue.");
+		}
+		else
+		{
+			$cts->add_paragraph("Impossible de vous ajouter.");
+		}
 	}
 }
 
