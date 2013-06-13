@@ -49,8 +49,8 @@ if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
 		$frm->add_hidden("gap_id",$gap_id);
 		if($planning->weekly)
 		{
-			$frm->add_date_field("start", "Date de debut ",strtotime($planning->start),true);
-			$frm->add_date_field("start", "Date de fin ",strtotime($planning->end),true);
+			$frm->add_date_field("start", "Date de debut ",$planning->start,true);
+			$frm->add_date_field("start", "Date de fin ",$planning->end,true);
 		}
 		$frm->add_submit("do_add_to_gap","Valider");
 		$cts->add($frm);
