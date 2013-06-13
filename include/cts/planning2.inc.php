@@ -24,6 +24,7 @@
 /**
  * @file
  */
+require_once($topdir."include/cts/standart.inc.php");
 
 /**
  * Affiche un planning hebdomadaire
