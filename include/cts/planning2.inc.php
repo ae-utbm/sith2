@@ -40,7 +40,7 @@ class planningv extends stdcontents
     function make_mono($body,$names,$used_names)
     {
 	$buffer = "<table class=\"pl2_mono\">\n<tr>\n";
-        $buffer .= "<th></th>";
+        $buffer .= "<th class=\"pl2_horaires\"></th>";
 	foreach($names as $name)
 	{
 		if(in_array($name,$used_names,true))
