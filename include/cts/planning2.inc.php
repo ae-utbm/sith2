@@ -148,7 +148,8 @@ class planningv extends stdcontents
 					$has_gap = true;
 					$new_day = false;
 					$total_gap += $gap_count;
-					foreach(  $gaps_data[$gap_id] as $gap_data)
+					$my_gap = $gaps_data[$gap_id];
+					foreach(  $my_gap as $gap_data)
 					{
 						$count++;
 						$buffer .= ($count==1?"":", ").$gap_data[1];
