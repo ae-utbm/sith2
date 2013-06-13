@@ -35,6 +35,7 @@ class planningv extends stdcontents
 {
 
     var $planning;
+    var $week_start;
 
 
     function make_mono($body,$names,$used_names)
@@ -59,7 +60,7 @@ class planningv extends stdcontents
 	$buffer = "<table class=\"pl2_multi\">\n<tr>\n";
 	foreach($days as $day)
 	{
-		$buffer .= "<th class=\"pl2_day_name\">".date("l d/m",strtotime($day))."</th>";
+		$buffer .= "<th class=\"pl2_day_name\">".date("l d/m",strtotime($day)+$this->week_start)."</th>";
 	}
 	$buffer .= "</tr>\n<tr><td class=\"pl2_multi\">";
 	$buffer .= $body;
