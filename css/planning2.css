@@ -38,8 +38,16 @@ td.pl2_horaires {
 }
 
 th.pl2_gap_name{
-background: none repeat scroll 0 0 #E8EEF7;
+    background: none repeat scroll 0 0 #E8EEF7;
     border-bottom: medium none #FFFFFF;
     border-color: #FFFFFF;
     font-weight: bold;
+}
+
+td.pl2_multi {
+     vertical-align: top;
+}
+
+div.pl2_horaires {
+     text-align: right;
 }
