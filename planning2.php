@@ -23,20 +23,16 @@
  $topdir = "./";
 setlocale(LC_ALL,"fr_FR.UTF8");
 
-include($topdir. "include/site.inc.php");
-
-require_once($topdir. "include/cts/sqltable.inc.php");
-require_once($topdir. "include/entities/sitebat.inc.php");
-require_once($topdir. "include/entities/batiment.inc.php");
-require_once($topdir. "include/entities/salle.inc.php");
-require_once($topdir. "include/entities/asso.inc.php");
-require_once($topdir. "include/cts/planning.inc.php");
+require_once($topdir. "include/cts/planning2.inc.php");
+require_once($topdir. "include/entities/planning2.inc.php");
 
 $site = new site ();
 $site->add_css($topdir . "css/planning2.css");
 
+$planning = new planning2($site->db, $site->dbrw);
+
 if (isset($_REQUEST["id_planning"]))
-  $salle->load_by_id($_REQUEST["id_planning"]);
+  $planning->load_by_id($_REQUEST["id_planning"]);
 
 $cts = new contents($planning->name);
 
