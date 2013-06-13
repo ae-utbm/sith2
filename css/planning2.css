@@ -15,9 +15,6 @@ table.pl2_mono{
 	width: 100%;
 }	
  
-td.pl2_horaires{
-}
-
 div.pl2_gap_partial{
 	background: none repeat scroll 0 0 #FFFFCC;
 	border: 1px solid #EEAC00;
@@ -31,3 +28,18 @@ div.pl2_gap_full{
 div.pl2_no_gap{
 }
 
+td.pl2_horaires {
+     background: none repeat scroll 0pt 0pt #E8EEF7;
+     border-bottom: medium none #FFFFFF;
+     border-color: #FFFFFF;
+     font-weight: bold;
+     text-align: right;
+     height: 100%;
+}
+
+th.pl2_gap_name{
+background: none repeat scroll 0 0 #E8EEF7;
+    border-bottom: medium none #FFFFFF;
+    border-color: #FFFFFF;
+    font-weight: bold;
+}
