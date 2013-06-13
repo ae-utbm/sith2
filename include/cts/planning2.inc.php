@@ -135,12 +135,12 @@ class planningv extends stdcontents
 			if($has_gap)
 			{
 				if($count < $total_gap)
-					$this->buffer .= "<td class=\"pl2_gap_partial\">".$buffer."</td>";
+					$this->buffer .= "<td><div class=\"pl2_gap_partial\">".$buffer."</div></td>";
 				else
-					$this->buffer .= "<td class=\"pl2_gap_full\">".$buffer."</td>";
+					$this->buffer .= "<td><div class=\"pl2_gap_full\">".$buffer."</div></td>";
 			}
 			else
-				$this->buffer .= "<td class=\"pl2_no_gap\"></td>";
+				$this->buffer .= "<td><div class=\"pl2_no_gap\"></div></td>";
 		}
 		
 		$this->buffer .= "</tr>\n";
