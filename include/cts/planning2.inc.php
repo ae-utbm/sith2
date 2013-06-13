@@ -78,7 +78,7 @@ class planningv extends stdcontents
      */
     function planningv ( $titre, $db, $id_planning, $start, $end, $force_single_column = false)
     {
-	setlocale(LC_ALL, 'fr_FR');
+	setlocale(LC_ALL, "fr_FR.UTF8");
         $this->title=false;
 
 	$planning = new planning2($db, $db);

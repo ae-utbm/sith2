@@ -23,6 +23,8 @@
  $topdir = "./";
 setlocale(LC_ALL,"fr_FR.UTF8");
 
+include($topdir. "include/site.inc.php");
+
 require_once($topdir. "include/cts/planning2.inc.php");
 require_once($topdir. "include/entities/planning2.inc.php");
 
