@@ -18,12 +18,16 @@ table.pl2_mono{
 td.pl2_horaires{
 }
 
-td.pl2_gap_partial{
+div.pl2_gap_partial{
+	background: none repeat scroll 0 0 #FFFFCC;
+	border: 1px solid #EEAC00;
+	overflow: auto;
+	padding: 1px;
 }
 
-td.pl2_gap_full{
+div.pl2_gap_full{
 }
 
-td.pl2_no_gap{
+div.pl2_no_gap{
 }
 
