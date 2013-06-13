@@ -76,7 +76,7 @@ class planningv extends stdcontents
      * @param $titre Titre du contenu
      * @param $db Connection à la base de donnée
      */
-    function planningv ( $titre, $db, $id_planning, $start, $end, $force_single_column = false)
+    function planningv ( $titre, $db, $id_planning, $start, $end, $force_single_column = false, $user_id = 0)
     {
 	setlocale(LC_ALL, "fr_FR.UTF8");
         $this->title=false;
@@ -156,7 +156,10 @@ class planningv extends stdcontents
 					foreach(  $my_gap as $gap_data)
 					{
 						$count++;
-						$buffer .= ($count==1?"":", ").$gap_data[1];
+						if($gap_data[0] == $user_id )
+							$buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&gap_id=$gap_id&id_planning=$planning->id\">".$gap_data[1]."</a>";
+						else
+							$buffer .= ($count==1?"":", ").$gap_data[1];
 						
 					}
 					if($count < $gap_count)
