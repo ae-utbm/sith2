@@ -38,7 +38,7 @@ $site->add_css($topdir . "css/planning2.css");
 if (isset($_REQUEST["id_planning"]))
   $salle->load_by_id($_REQUEST["id_salle"]);
 
-$cts = new contents($sitebat->get_html_link()." / ".$planning->name);
+$cts = new contents($planning->name);
 
 $site->add_contents($cts);
 $site->end_page();
