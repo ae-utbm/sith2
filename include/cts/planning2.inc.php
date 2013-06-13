@@ -48,6 +48,8 @@ class planningv extends stdcontents
 			$buffer .= "<th class=\"pl2_gap_name\">$name</th>\n";
 		}
 	}
+	$buffer .= "</tr>";
+	$buffer .= $body;
 	$buffer .= "</table>";
 	return $buffer;
     }
