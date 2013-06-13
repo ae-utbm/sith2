@@ -38,6 +38,10 @@ if (isset($_REQUEST["id_planning"]))
 
 $cts = new contents($planning->name);
 
+$planningv = new planningv("",$site->db,$planning->id, time(), time()+7*24*3600);
+
+$cts->add($planningv);
+
 $site->add_contents($cts);
 $site->end_page();
 ?>
