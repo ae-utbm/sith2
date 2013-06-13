@@ -296,12 +296,12 @@ class planning2 extends stdentity
 			 AND id_planning IN (SELECT id_planning FROM pl2_gap WHERE id_gap = '$gap_id')
 			 AND 
 			 (
-			 	(	 start <= '".date("Y-m-d H:i:s",$end)."'
-					 AND start >= '".date("Y-m-d H:i:s",$start)."'
+			 	(	 pl2_user_gap.start <= '".date("Y-m-d H:i:s",$end)."'
+					 AND pl2_user_gap.start >= '".date("Y-m-d H:i:s",$start)."'
 				)
 			  	OR
-				(        end >= '".date("Y-m-d H:i:s",$start)."'
-					 AND end <= '".date("Y-m-d H:i:s",$end)."'
+				(        pl2_user_gap.end >= '".date("Y-m-d H:i:s",$start)."'
+					 AND pl2_user_gap.end <= '".date("Y-m-d H:i:s",$end)."'
 				)
 			 )");
 		if($sql->lines > 0)
