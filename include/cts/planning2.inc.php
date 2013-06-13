@@ -170,7 +170,7 @@ class planningv extends stdcontents
 			$buffer_jour .= $buffer_ligne;
 		if(!( date("Y m d",strtotime($back_time)) === date("Y m d",strtotime($last_time)) || $force_single_column))
 		{
-			$buffer_mono .= make_mono($buffer_jour,$names,$used_names);
+			$buffer_mono .= $this->make_mono($buffer_jour,$names,$used_names);
 			$buffer_jour = "";
 			$used_names = array();
 			$buffer_mono .= "</td><td>";
@@ -183,10 +183,11 @@ class planningv extends stdcontents
 		else
 			$last_time = $time;
 	}
+	$this->make_mono($buffer_jour,$names,$used_names);
 	
 	if($is_multi_day)
 	{
-		$this->buffer .= make_multi($buffer_mono,$days);
+		$this->buffer .= $this->make_multi($buffer_mono,$days);
 	}
 	else
 		$this->buffer .= $buffer_mono;
