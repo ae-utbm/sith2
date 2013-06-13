@@ -97,6 +97,7 @@ class planningv extends stdcontents
 	}
 	$this->buffer .= "</tr>\n";
 	$gaps_time->go_first();
+	$new_day = true;
 	list( $last_time ) = $gaps_time->get_row();
 	while( list( $time ) = $gaps_time->get_row())
 	{
@@ -106,7 +107,7 @@ class planningv extends stdcontents
 		{
 			$time = date("Y-m-d 23:59:59",strtotime($last_time));
 		}
-		$this->buffer .= "<tr>\n<td class=\"pl2_horaires\">".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
+		$buffer_ligne = "<tr>\n<td class=\"pl2_horaires\">".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
 		foreach($names as $name)
 		{
 			$buffer = "";
@@ -119,6 +120,7 @@ class planningv extends stdcontents
 				if($gap_name === $name && $gap_start <= $last_time && $gap_end >= $time)
 				{
 					$has_gap = true;
+					$new_day = false;
 					$total_gap += $gap_count;
 					foreach(  $gaps_data[$gap_id] as $gap_data)
 					{
@@ -135,15 +137,17 @@ class planningv extends stdcontents
 			if($has_gap)
 			{
 				if($count < $total_gap)
-					$this->buffer .= "<td><div class=\"pl2_gap_partial\">".$buffer."</div></td>";
+					$buffer_ligne .= "<td><div class=\"pl2_gap_partial\">".$buffer."</div></td>";
 				else
-					$this->buffer .= "<td><div class=\"pl2_gap_full\">".$buffer."</div></td>";
+					$buffer_ligne .= "<td><div class=\"pl2_gap_full\">".$buffer."</div></td>";
 			}
 			else
-				$this->buffer .= "<td><div class=\"pl2_no_gap\"></div></td>";
+				$buffer_ligne .= "<td><div class=\"pl2_no_gap\"></div></td>";
 		}
 		
-		$this->buffer .= "</tr>\n";
+		$buffer_ligne .= "</tr>\n";
+		if(!$new_day)
+			$this->buffer .= $buffer_ligne;
 		if(!( date("Y m d",strtotime($back_time)) === date("Y m d",strtotime($last_time)) || $force_single_column))
 		{
 			$this->buffer .= "</table></td><td><table class=\"pl2_mono\"><tr><th></th>";
@@ -151,6 +155,7 @@ class planningv extends stdcontents
 				$this->buffer .= "<th>$name</th>\n";
 			$this->buffer .= "</tr>";
 			$time = $back_time;
+			$new_day = true;
 			$last_time = date("Y-m-d 00:00:00",strtotime($time));
 			goto changement;
 		}
