@@ -76,7 +76,7 @@ class planningv extends stdcontents
      * @param $titre Titre du contenu
      * @param $db Connection à la base de donnée
      */
-    function planningv ( $titre, $db, $id_planning, $start, $end, $force_single_column = false, $user_id = 0)
+    function planningv ( $titre, $db, $id_planning, $start, $end, $user_id=0, $force_single_column = false)
     {
 	setlocale(LC_ALL, "fr_FR.UTF8");
         $this->title=false;
