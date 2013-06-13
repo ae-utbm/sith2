@@ -127,6 +127,7 @@ class planningv extends stdcontents
 		if(!( date("Y m d",strtotime($time)) === date("Y m d",strtotime($last_time)) || $force_single_column))
 		{
 			$time = date("Y-m-d 23:59:59",strtotime($last_time));
+			$new_day = true;
 		}
 		$buffer_ligne = "<tr>\n<td class=\"pl2_horaires\">".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
 		foreach($names as $name)
