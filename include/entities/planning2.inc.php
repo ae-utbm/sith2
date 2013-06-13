@@ -476,7 +476,7 @@ class planning2 extends stdentity
 			 FROM pl2_user_gap
 			 JOIN utilisateurs
 			 ON utilisateurs.id_utilisateur = pl2_user_gap.id_utilisateur
-			 JOIN utl_etu_utbm
+			 LEFT OUTER JOIN utl_etu_utbm
 			 ON utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur
 			 WHERE id_gap = $gap_id
 			 AND utilisateurs.id_utilisateur NOT IN
