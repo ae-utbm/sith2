@@ -35,6 +35,37 @@ class planningv extends stdcontents
 {
 
     var $planning;
+
+
+    function make_mono($body,$names,$used_names)
+    {
+	$buffer = "<table class=\"pl2_mono\">\n<tr>\n";
+        $buffer .= "<th></th>";
+	foreach($names as $name)
+	{
+		if(in_array($name,$used_names,true))
+		{
+			$buffer .= "<th class=\"pl2_gap_name\">$name</th>\n";
+		}
+	}
+	$buffer .= "</table>";
+	return $buffer;
+    }
+ 
+    function make_multi($body,$days)
+    {
+	$buffer = "<table class=\"pl2_multi\">\n<tr>\n";
+	foreach($days as $day)
+	{
+		$buffer .= "<th class=\"pl2_day_name\">".date("l d/m",$day)."</th>";
+	}
+	$buffer .= "</tr>\n<tr><td>";
+	$buffer .= $body;
+	$buffer .= "</td></tr></table>";
+	
+	
+    }
+
     /**
      * Génére un planning hebdomadaire
      * @param $titre Titre du contenu
@@ -75,30 +106,17 @@ class planningv extends stdcontents
 
 	$gaps_names = $planning->get_gaps_names();
 	$names = array();
-	if($is_multi_day)
-	{
-		$this->buffer .= "<table class=\"pl2_multi\">\n<tr>\n";
-		while( $start < $end )
-		{
-			$this->buffer .= "<th class=\"pl2_day_name\">".date("l d/m",$start)."</th>";
-			$start += 24*3600;
-		}
-		$this->buffer .= "</tr><tr><td><table class=\"pl2_mono\"><tr><th></th>";
-	}
-	else
-	{
-		$this->buffer .= "<table class=\"pl2_mono\">\n<tr>\n";
-		$this->buffer .= "<th></th>";
-	}
 	while( list( $name ) = $gaps_names->get_row() )
 	{
 		$names[] = $name;
-		$this->buffer .= "<th class=\"pl2_gap_name\">$name</th>\n";
 	}
-	$this->buffer .= "</tr>\n";
 	$gaps_time->go_first();
 	$new_day = true;
 	list( $last_time ) = $gaps_time->get_row();
+	$buffer_mono = "";
+	$buffer_jour = "";
+	$used_names = array();
+	$days[] = $last_time;
 	while( list( $time ) = $gaps_time->get_row())
 	{
 	changement:
@@ -119,6 +137,8 @@ class planningv extends stdcontents
 			{
 				if($gap_name === $name && $gap_start <= $last_time && $gap_end >= $time)
 				{
+					if(!in_array($name,$used_names,true))
+						$used_names[] = $name;
 					$has_gap = true;
 					$new_day = false;
 					$total_gap += $gap_count;
@@ -147,16 +167,17 @@ class planningv extends stdcontents
 		
 		$buffer_ligne .= "</tr>\n";
 		if(!$new_day)
-			$this->buffer .= $buffer_ligne;
+			$buffer_jour .= $buffer_ligne;
 		if(!( date("Y m d",strtotime($back_time)) === date("Y m d",strtotime($last_time)) || $force_single_column))
 		{
-			$this->buffer .= "</table></td><td><table class=\"pl2_mono\"><tr><th></th>";
-			foreach($names as $name)
-				$this->buffer .= "<th>$name</th>\n";
-			$this->buffer .= "</tr>";
+			$buffer_mono .= make_mono($buffer_jour,$names,$used_names);
+			$buffer_jour = "";
+			$used_names = array();
+			$buffer_mono .= "</td><td>";
 			$time = $back_time;
 			$new_day = true;
 			$last_time = date("Y-m-d 00:00:00",strtotime($time));
+			$days[] = $time;
 			goto changement;
 		}
 		else
@@ -165,10 +186,10 @@ class planningv extends stdcontents
 	
 	if($is_multi_day)
 	{
-		$this->buffer .= "</table></td></tr>";
+		$this->buffer .= make_multi($buffer_mono,$days);
 	}
-
-        $this->buffer .= "\n</table>\n";
+	else
+		$this->buffer .= $buffer_mono;
 
     }
 
