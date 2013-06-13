@@ -276,6 +276,24 @@ class planning2 extends stdentity
 		$sql = new requete($this->db, 
 			"SELECT * from pl2_user_gap
 			 WHERE id_gap = '$gap_id'
+			 AND id_utilisateur = '$user_id'
+			 AND 
+			 (
+			 	(	 start <= '".date("Y-m-d H:i:s",$end)."'
+					 AND start >= '".date("Y-m-d H:i:s",$start)."'
+				)
+			  	OR
+				(        end >= '".date("Y-m-d H:i:s",$start)."'
+					 AND end <= '".date("Y-m-d H:i:s",$end)."'
+				)
+			 )");
+		if($sql->lines > 0)
+			return false;
+		$sql = new requete($this->db, 
+			"SELECT * from pl2_user_gap
+			 JOIN pl2_gap ON pl2_gap.id_gap = pl2_user_gap.id_gap
+			 WHERE id_utilisateur = '$user_id'
+			 AND id_planning IN (SELECT id_planning FROM pl2_gap WHERE id_gap = '$gap_id')
 			 AND 
 			 (
 			 	(	 start <= '".date("Y-m-d H:i:s",$end)."'
