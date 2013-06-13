@@ -146,7 +146,7 @@ class planningv extends stdcontents
 				$count = 0;
 				if($gap_name === $name && $gap_start <= $last_time && $gap_end >= $time)
 				{
-					$buffer .= "<span class=\"pl2_names\">";
+					$buffer .= "<div class=\"pl2_names\">";
 					if(!in_array($name,$used_names,true))
 						$used_names[] = $name;
 					$has_gap = true;
@@ -163,7 +163,7 @@ class planningv extends stdcontents
 					{
 						$buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
 					}
-					$buffer .= "</span>";
+					$buffer .= "</div>";
 				}
 				$total_count += $count;
 			}
