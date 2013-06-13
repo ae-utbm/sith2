@@ -381,6 +381,13 @@ class planning2 extends stdentity
 			"SELECT DISTINCT name_gap FROM pl2_gap WHERE id_planning = $this->id ORDER BY name_gap");
 	}
 
+	function get_gap_info( $gap_id )
+	{
+		return new requete($this->db,
+                        "SELECT id_gap, name_gap, start, end FROM pl2_gap 
+			 WHERE id_gap = $gap_id");
+	}
+
 	function get_gaps_from_names( $name )
 	{
 		return new requete($this->db,
