@@ -89,10 +89,12 @@ class planningv extends stdcontents
 	$gaps_data = array();
 	while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 	{
+		$gap_data = array();
 		$users = $planning->get_users_for_gap($gap_id,$start);
 		while( list( $utl, $nom_utl ) = $users->get_row() ){
-			$gaps_data[$gap_id][] = array( 0 => $utl, 1 => $nom_utl);
+			$gap_data[] = array( 0 => $utl, 1 => $nom_utl);
 		}
+		$gaps_data[$gap_id] = $gap_data;
 	}
 
 	$gaps_time = $planning->get_gaps_time($start, $end);
