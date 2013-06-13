@@ -50,7 +50,7 @@ if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
 		if($planning->weekly)
 		{
 			$week_start = $planning->get_week_start( time());
-			$frm->add_info("Creneau du ".date("l H:i",$week_start+strtotime($start))." au ".date("l H:i",$week_start+strtotime($end))).
+			$frm->add_info("Creneau du ".date("%A %H:%M",$week_start+strtotime($start))." au ".date("%A %H:%M",$week_start+strtotime($end))).
 			$frm->add_date_field("start", "Date de debut ",$planning->start,true);
 			$frm->add_date_field("end", "Date de fin ",$planning->end,true);
 		}
