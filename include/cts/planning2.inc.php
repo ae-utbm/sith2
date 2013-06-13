@@ -183,7 +183,7 @@ class planningv extends stdcontents
 		else
 			$last_time = $time;
 	}
-	$this->make_mono($buffer_jour,$names,$used_names);
+	$buffer_mono .= $this->make_mono($buffer_jour,$names,$used_names);
 	
 	if($is_multi_day)
 	{
