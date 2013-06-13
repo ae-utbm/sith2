@@ -140,9 +140,11 @@ class planningv extends stdcontents
 			$gaps->go_first();
 			$has_gap = false;
 			$total_gap = 0;
-			$count = 0;
+			$total_count = 0;
 			while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 			{
+				$count = 0;
+				$buffer .= "<span class=\"pl2_names\">";
 				if($gap_name === $name && $gap_start <= $last_time && $gap_end >= $time)
 				{
 					if(!in_array($name,$used_names,true))
@@ -157,15 +159,17 @@ class planningv extends stdcontents
 						$buffer .= ($count==1?"":", ").$gap_data[1];
 					}
 				}
-			}
-			if($count < $total_gap)
-			{
-				$buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action_add_to_gap&gap_id=$gap_id&id_planning=$planning->id\">".($total_gap - $count)." personne".(($total_gap - $count)>=2?"s":"")."</a>";
+				$total_count += $count;
+				if($count < $gap_count)
+				{
+					$buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
+				}
+				$buffer .= "</span>";
 			}
 			
 			if($has_gap)
 			{
-				if($count < $total_gap)
+				if($total_count < $total_gap)
 					$buffer_ligne .= "<td><div class=\"pl2_gap_partial\">".$buffer."</div></td>";
 				else
 					$buffer_ligne .= "<td><div class=\"pl2_gap_full\">".$buffer."</div></td>";
