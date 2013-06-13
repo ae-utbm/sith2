@@ -23,6 +23,10 @@ div.pl2_gap_partial{
 }
 
 div.pl2_gap_full{
+	background: none repeat scroll 0 0 #FFFFCC;
+	border: 1px solid #EEAC00;
+	overflow: auto;
+	padding: 1px;
 }
 
 div.pl2_no_gap{
