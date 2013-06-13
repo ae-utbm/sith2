@@ -59,7 +59,7 @@ class planningv extends stdcontents
 	$buffer = "<table class=\"pl2_multi\">\n<tr>\n";
 	foreach($days as $day)
 	{
-		$buffer .= "<th class=\"pl2_day_name\">".date("l d/m",$day)."</th>";
+		$buffer .= "<th class=\"pl2_day_name\">".date("l d/m",strtotime($day))."</th>";
 	}
 	$buffer .= "</tr>\n<tr><td class=\"pl2_multi\">";
 	$buffer .= $body;
