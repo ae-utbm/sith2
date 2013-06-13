@@ -160,7 +160,7 @@ class planningv extends stdcontents
 			}
 			if($count < $total_gap)
 			{
-				$buffer .= ($count?" et ":"").($total_gap - $count)." personne".(($total_gap - $count)>=2?"s":"");
+				$buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php\">".($total_gap - $count)." personne".(($total_gap - $count)>=2?"s":"")."</a>";
 			}
 			
 			if($has_gap)
