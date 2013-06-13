@@ -40,7 +40,7 @@ $cts = new contents($planning->name);
 
 if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
 {
-	$gap = $planning->get_gap_info();
+	$gap = $planning->get_gap_info( $gap_id );
 	if( list ( $id_gap, $name_gap, $start, $end ) = $gap->get_row())
 	{
 		$frm = new form("add_to_gap","./planning2.php",true,"POST","Permanence sur le creneau $name_gap de $planning->name");
