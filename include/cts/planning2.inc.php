@@ -129,7 +129,7 @@ class planningv extends stdcontents
 			$time = date("Y-m-d 23:59:59",strtotime($last_time));
 			$new_day = true;
 		}
-		$buffer_ligne = "<tr>\n<td class=\"pl2_horaires\">".date("H:i",strtotime($last_time))."-".date("H:i",strtotime($time))."</td>";
+		$buffer_ligne = "<tr>\n<td class=\"pl2_horaires\"><div class=\"pl2_horaires\">".date("H:i",strtotime($last_time))." - ".date("H:i",strtotime($time))."</div></td>";
 		foreach($names as $name)
 		{
 			$buffer = "";
