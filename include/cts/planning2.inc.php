@@ -61,7 +61,7 @@ class planningv extends stdcontents
 	{
 		$buffer .= "<th class=\"pl2_day_name\">".date("l d/m",$day)."</th>";
 	}
-	$buffer .= "</tr>\n<tr><td>";
+	$buffer .= "</tr>\n<tr><td class=\"pl2_multi\">";
 	$buffer .= $body;
 	$buffer .= "</td></tr></table>";
 	
@@ -177,7 +177,7 @@ class planningv extends stdcontents
 			$buffer_mono .= $this->make_mono($buffer_jour,$names,$used_names);
 			$buffer_jour = "";
 			$used_names = array();
-			$buffer_mono .= "</td><td>";
+			$buffer_mono .= "</td><td class=\"pl2_multi\">";
 			$time = $back_time;
 			$new_day = true;
 			$last_time = date("Y-m-d 00:00:00",strtotime($time));
