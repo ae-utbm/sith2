@@ -32,9 +32,10 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 
 $site = new site ();
 $site->add_css($topdir . "css/planning2.css");
+$site->start_page("plannings","Plannings");
 
 if ( !$site->user->is_valid() )
-  $site->error_forbidden("planning");
+  $site->error_forbidden("plannings");
 
 if(!isset($_REQUEST["id_planning"]))
 {
