@@ -163,7 +163,8 @@ class planningv extends stdcontents
 					foreach(  $my_gap as $gap_data)
 					{
 						$count++;
-						if($gap_data[0] == $site->user->id )
+						if($gap_data[0] == $site->user->id || $site->user->is_in_group_id($planning->admin_group)
+							|| $site->user->is_in_group("gestion_ae"))
 							$buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$planning->id\">".$gap_data[1]."</a>";
 						else
 							$buffer .= ($count==1?"":", ").$gap_data[1];
