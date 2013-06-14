@@ -27,12 +27,48 @@ include($topdir. "include/site.inc.php");
 
 require_once($topdir. "include/cts/planning2.inc.php");
 require_once($topdir. "include/entities/planning2.inc.php");
+require_once($topdir. "include/cts/sqltable.inc.php");
+
 
 $site = new site ();
 $site->add_css($topdir . "css/planning2.css");
 
 if ( !$site->user->is_valid() )
   $site->error_forbidden("planning");
+
+if(!isset($_REQUEST["id_planning"]))
+{
+	$grps = $site->user->get_groups_csv();
+	$sql = new requete($site->db,
+		"SELECT id_planning, name_planning, start, end FROM pl2_planning
+		 WHERE end > NOW() 
+		 AND
+		 (
+			is_public = 1
+			OR
+			id_groupe IN ($grps)
+			OR
+			id_admin_group IN ($grps)
+		 )
+		 ORDER BY name_planning ASC");
+	$table = new sqltable("listeplannings", 
+			"Plannings actuels", 
+			$sql, 
+			"planning2.php",
+			array(
+				"name_planning" => "Nom",
+				"start"		=> "Date de debut",
+				"end"		=> "Date de fin"
+			),
+			array("details" => "Details"),
+			array(),
+			array());
+	$cts = new contents("Liste des plannings");
+	$cts->add($table);
+	$site->add_contents($cts);
+	$site->end_page();
+	exit();
+}
 
 $planning = new planning2($site->db, $site->dbrw);
 
