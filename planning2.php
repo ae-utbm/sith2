@@ -55,6 +55,7 @@ if(!isset($_REQUEST["id_planning"]))
 			"Plannings actuels", 
 			$sql, 
 			"planning2.php",
+			"id_planning",
 			array(
 				"name_planning" => "Nom",
 				"start"		=> "Date de debut",
