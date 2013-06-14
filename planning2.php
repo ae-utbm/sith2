@@ -79,7 +79,7 @@ if($_REQUEST["action"] === "remove_from_gap" && isset($_REQUEST["user_gap_id"]))
 	$user_gap = $planning->get_user_gap_info($user_gap_id);
 	if( list( $gap_id, $id_utl, $user_gap_start, $user_gap_end ) = $user_gap->get_row())
 	{
-		if( $id_utl != $site->user->id && !$site->user->is_in_group_id($planning->admin_group) )
+		if( $id_utl != $site->user->id && !$site->user->is_in_group_id($planning->admin_group) && !$site->user->is_in_group("gestion_ae") )
 		{
 			$cts->add_paragraph("Vous n'avez pas le droit de faire cela.");
 			$site->add_contents($cts);
@@ -92,7 +92,18 @@ if($_REQUEST["action"] === "remove_from_gap" && isset($_REQUEST["user_gap_id"]))
 			$frm = new form("remove_from_gap","./planning2.php?id_planning=".$planning->id,true,"POST","Permanence sur le creneau $name_gap de $planning->name");
 			$frm->add_hidden("action","do_remove_from_gap");
 			$frm->add_hidden("user_gap_id",$user_gap_id);
-			$frm->add_info("Vous desinscrire du ".strftime("%A %H:%M",$week_start+strtotime($start))." au ".strftime("%A %H:%M",$week_start+strtotime($end))."?");
+			if($id_utl != $site->user->id)
+			{
+				$user = new utilisateur($site->db);
+				$user->load_by_id($id_utl);
+				$frm->add_info("Desinscrir ".$user->get_surnom_or_alias()." du ".strftime("%A %H:%M",$week_start+strtotime($start)).
+					" au ".strftime("%A %H:%M",$week_start+strtotime($end))."?");
+			}
+			else
+			{
+				$frm->add_info("Vous desinscrire du ".strftime("%A %H:%M",$week_start+strtotime($start)).
+					" au ".strftime("%A %H:%M",$week_start+strtotime($end))."?");
+			}
 			$frm->add_submit("do_add_to_gap","Valider");
 			$cts->add($frm);
 		}
@@ -105,7 +116,7 @@ if($_REQUEST["action"] === "do_remove_from_gap" && isset($_REQUEST["user_gap_id"
 	$user_gap = $planning->get_user_gap_info($user_gap_id);
 	if( list( $gap_id, $id_utl, $user_gap_start, $user_gap_end ) = $user_gap->get_row())
 	{
-		if( $id_utl != $site->user->id )
+		if( $id_utl != $site->user->id && !$site->user->is_in_group_id($planning->admin_group) && !$site->user->is_in_group("gestion_ae"))
 		{
 			$cts->add_paragraph("Vous n'avez pas le droit de faire cela.");
 			$site->add_contents($cts);
