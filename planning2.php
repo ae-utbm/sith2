@@ -134,7 +134,7 @@ if($_REQUEST["action"] === "remove_from_gap" && isset($_REQUEST["user_gap_id"]))
 			{
 				$user = new utilisateur($site->db);
 				$user->load_by_id($id_utl);
-				$frm->add_info("Desinscrir ".$user->get_surnom_or_alias()." du ".strftime("%A %H:%M",$week_start+strtotime($start)).
+				$frm->add_info("Desinscrire ".$user->get_surnom_or_alias()." du ".strftime("%A %H:%M",$week_start+strtotime($start)).
 					" au ".strftime("%A %H:%M",$week_start+strtotime($end))."?");
 			}
 			else
