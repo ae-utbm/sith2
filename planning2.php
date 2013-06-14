@@ -46,7 +46,7 @@ if(!isset($_REQUEST["id_planning"]))
 		 (
 			is_public = 1
 			OR
-			id_groupe IN ($grps)
+			id_group IN ($grps)
 			OR
 			id_admin_group IN ($grps)
 		 )
