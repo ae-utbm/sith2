@@ -8,6 +8,7 @@ class planning2 extends stdentity
 	var $admin_group;
 	var $start;
 	var $end;
+	var $is_public;
 
 	function load_by_id( $id )
 	{
@@ -33,9 +34,10 @@ class planning2 extends stdentity
 		$this->weekly		= $row['weekly_planning'];
 		$this->start		= strtotime($row['start']);
 		$this->end		= strtotime($row['end']);
+		$this->is_public	= $row['is_public'];
 	}
 
-	function add ( $name, $group, $admin_group, $weekly, $start, $end )
+	function add ( $name, $group, $admin_group, $weekly, $start, $end, $is_public = true )
 	{
 		$this->name = $name;
 		$this->group = $group;
@@ -43,6 +45,7 @@ class planning2 extends stdentity
 		$this->weekly = $weekly;
 		$this->start = $start;
 		$this->end = $end;
+		$this->is_public= $is_public;
 
 		$sql = new insert ($this->dbrw,
                        "pl2_planning",
@@ -52,7 +55,8 @@ class planning2 extends stdentity
 			     "id_admin_group" => $this->admin_group,
 			     "start" => date("Y-m-d H:i:s",$this->start),
 			     "end" => date("Y-m-d H:i:s",$this->end),
-                             "weekly_planning" => $this->weekly
+                             "weekly_planning" => $this->weekly,
+                             "is_public" => $this->is_public
                             )
                       );
 		if ( !$sql->is_success() )
@@ -66,13 +70,14 @@ class planning2 extends stdentity
 		return true;
 	}
 
-	function update ( $name, $group, $admin_group, $start, $end )
+	function update ( $name, $group, $admin_group, $start, $end , $is_public)
 	{
 		$this->name = $name;
 		$this->group = $group;
 		$this->admin_group = $admin_group;
 		$this->start = $start;
 		$this->end = $end;
+		$this->is_public = $is_public;
 
 		$sql = new update ($this->dbrw,
                        "pl2_planning",
@@ -82,7 +87,8 @@ class planning2 extends stdentity
 			     "id_admin_group" => $this->admin_group,
 			     "start" => date("Y-m-d H:i:s",$this->start),
 			     "end" => date("Y-m-d H:i:s",$this->end),
-                             "weekly_planning" => $this->weekly
+                             "weekly_planning" => $this->weekly,
+                             "is_public" => $this->is_public
                             ),
 			array("id_planning" => $this->id)
                       );

@@ -76,13 +76,19 @@ class planningv extends stdcontents
      * @param $titre Titre du contenu
      * @param $db Connection à la base de donnée
      */
-    function planningv ( $titre, $db, $id_planning, $start, $end, $user_id=0, $force_single_column = false)
+    function planningv ( $titre, $db, $id_planning, $start, $end, $site, $force_single_column = false)
     {
 	setlocale(LC_ALL, "fr_FR.UTF8");
         $this->title=false;
 
 	$planning = new planning2($db, $db);
 	$planning->load_by_id($id_planning);
+	
+	if(!$site->user->is_in_group_id($planning->group))
+	{
+		$this->buffer .= "<p>Droits insuffisants pour lire ce planning</p>";
+		return;
+	}
 
 	$gaps = $planning->get_gaps($start, $end);
 
@@ -156,7 +162,7 @@ class planningv extends stdcontents
 					foreach(  $my_gap as $gap_data)
 					{
 						$count++;
-						if($gap_data[0] == $user_id )
+						if($gap_data[0] == $site->user->id )
 							$buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$planning->id\">".$gap_data[1]."</a>";
 						else
 							$buffer .= ($count==1?"":", ").$gap_data[1];
