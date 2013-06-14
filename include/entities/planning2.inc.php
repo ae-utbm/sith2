@@ -418,6 +418,13 @@ class planning2 extends stdentity
 			 WHERE id_gap = $gap_id");
 	}
 
+	function get_user_gap_info( $user_gap_id )
+	{
+		return new requete($this->db,
+                        "SELECT id_gap, id_utilisateur, start, end FROM pl2_user_gap
+			 WHERE id_user_gap = $user_gap_id");
+	}
+
 	function get_gaps_from_names( $name )
 	{
 		return new requete($this->db,
@@ -472,7 +479,8 @@ class planning2 extends stdentity
 				IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,
 					utl_etu_utbm.surnom_utbm, 
 					CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) 
-				as `nom_utilisateur`
+				as `nom_utilisateur`,
+				pl2_user_gap.id_user_gap as id_user_gap
 			 FROM pl2_user_gap
 			 JOIN utilisateurs
 			 ON utilisateurs.id_utilisateur = pl2_user_gap.id_utilisateur

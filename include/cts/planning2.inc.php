@@ -91,8 +91,8 @@ class planningv extends stdcontents
 	{
 		$gap_data = array();
 		$users = $planning->get_users_for_gap($gap_id,$start);
-		while( list( $utl, $nom_utl ) = $users->get_row() ){
-			$gap_data[] = array( 0 => $utl, 1 => $nom_utl);
+		while( list( $utl, $nom_utl, $user_gap_id ) = $users->get_row() ){
+			$gap_data[] = array( 0 => $utl, 1 => $nom_utl, 2=> $user_gap_id);
 		}
 		$gaps_data[$gap_id] = $gap_data;
 	}
@@ -157,7 +157,7 @@ class planningv extends stdcontents
 					{
 						$count++;
 						if($gap_data[0] == $user_id )
-							$buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&gap_id=$gap_id&id_planning=$planning->id\">".$gap_data[1]."</a>";
+							$buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$planning->id\">".$gap_data[1]."</a>";
 						else
 							$buffer .= ($count==1?"":", ").$gap_data[1];
 						

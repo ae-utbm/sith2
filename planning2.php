@@ -31,6 +31,9 @@ require_once($topdir. "include/entities/planning2.inc.php");
 $site = new site ();
 $site->add_css($topdir . "css/planning2.css");
 
+if ( !$site->user->is_valid() )
+  $site->error_forbidden("planning");
+
 $planning = new planning2($site->db, $site->dbrw);
 
 if (isset($_REQUEST["id_planning"]))
@@ -60,6 +63,32 @@ if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
 		}
 		$frm->add_submit("do_add_to_gap","Valider");
 		$cts->add($frm);
+	}
+}
+
+if($_REQUEST["action"] === "remove_from_gap" && isset($_REQUEST["user_gap_id"]))
+{
+	$user_gap_id = $_REQUEST["user_gap_id"];
+	$user_gap = $planning->get_user_gap_info($user_gap_id);
+	if( list( $gap_id, $id_utl, $user_gap_start, $user_gap_end ) = $user_gap->get_row())
+	{
+		if( $id_utl != $site->user->id )
+		{
+			$cts->add_paragraph("Vous n'avez pas le droit de faire cela.");
+			$site->add_contents($cts);
+			$site->end_page();
+			exit();
+		}
+		$gap = $planning->get_gap_info( $gap_id );
+		if( list ( $id_gap, $name_gap, $start, $end ) = $gap->get_row())
+		{
+			$frm = new form("remove_from_gap","./planning2.php?id_planning=".$planning->id,true,"POST","Permanence sur le creneau $name_gap de $planning->name");
+			$frm->add_hidden("action","do_remove_from_gap");
+			$frm->add_hidden("user_gap_id",$gap_id);
+			$frm->add_info("Vous desinscrire du ".strftime("%A %H:%M",$week_start+strtotime($start))." au ".strftime("%A %H:%M",$week_start+strtotime($end))."?");
+			$frm->add_submit("do_add_to_gap","Valider");
+			$cts->add($frm);
+		}
 	}
 }
 
