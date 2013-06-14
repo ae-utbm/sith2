@@ -134,7 +134,7 @@ if($_REQUEST["action"] === "do_add_to_gap" && isset($_REQUEST["gap_id"]))
 	}
 }
 
-$planningv = new planningv("",$site->db,$planning->id, time(), time()+7*24*3600, $site->user->id);
+$planningv = new planningv("",$site->db,$planning->id, time(), time()+7*24*3600, $site);
 
 $cts->add($planningv);
 
