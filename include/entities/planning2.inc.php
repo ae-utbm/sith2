@@ -421,7 +421,7 @@ class planning2 extends stdentity
 	{
 		return new requete($this->db,
                         "SELECT id_gap, name_gap, start, end FROM pl2_gap 
-			 WHERE id_gap = $gap_id");
+			 WHERE id_gap = $gap_id AND id_planning = $this->id");
 	}
 
 	function get_user_gap_info( $user_gap_id )

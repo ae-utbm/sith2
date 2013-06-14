@@ -44,6 +44,13 @@ $cts = new contents($planning->name);
 if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
 {
 	$gap_id = $_REQUEST["gap_id"];
+	if( !$site->user->is_in_group_id($planning->admin_group) && !$site->user->is_in_group_id($planning->group) )
+	{
+		$cts->add_paragraph("Vous n'avez pas le droit de faire cela.");
+		$site->add_contents($cts);
+		$site->end_page();
+		exit();
+	}
 	$gap = $planning->get_gap_info( $gap_id );
 	if( list ( $id_gap, $name_gap, $start, $end ) = $gap->get_row())
 	{
@@ -72,7 +79,7 @@ if($_REQUEST["action"] === "remove_from_gap" && isset($_REQUEST["user_gap_id"]))
 	$user_gap = $planning->get_user_gap_info($user_gap_id);
 	if( list( $gap_id, $id_utl, $user_gap_start, $user_gap_end ) = $user_gap->get_row())
 	{
-		if( $id_utl != $site->user->id )
+		if( $id_utl != $site->user->id && !$site->user->is_in_group_id($planning->admin_group) )
 		{
 			$cts->add_paragraph("Vous n'avez pas le droit de faire cela.");
 			$site->add_contents($cts);

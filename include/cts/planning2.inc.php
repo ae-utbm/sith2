@@ -84,7 +84,8 @@ class planningv extends stdcontents
 	$planning = new planning2($db, $db);
 	$planning->load_by_id($id_planning);
 	
-	if(!$site->user->is_in_group_id($planning->group))
+	if(!$site->user->is_in_group_id($planning->group) && !$site->user->is_in_group_id($planning->admin_group) 
+		&& !$planning->is_public && !$site->user->is_in_group("gestion_ae"))
 	{
 		$this->buffer .= "<p>Droits insuffisants pour lire ce planning</p>";
 		return;
