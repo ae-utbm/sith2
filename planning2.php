@@ -40,7 +40,7 @@ if(!isset($_REQUEST["id_planning"]))
 {
 	$grps = $site->user->get_groups_csv();
 	$sql = new requete($site->db,
-		"SELECT id_planning, name_planning, start, end FROM pl2_planning
+		"SELECT id_planning, name_planning, DATE(start), DATE(end) FROM pl2_planning
 		 WHERE end > NOW() 
 		 AND
 		 (
