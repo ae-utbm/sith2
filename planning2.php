@@ -77,7 +77,7 @@ if($_REQUEST["view"] === "new")
 		0,-1,false,array(),false);
 	$frm->add_date_field("start", "Date de debut ",time(),true);
 	$frm->add_date_field("end", "Date de fin ",time()+86400,true);
-	$frm->add_checkbox("is_public","Publique",true,true);
+	$frm->add_checkbox("is_public","Publique",false,false);
 	$frm->add_submit("new","Valider");
 	$cts->add($frm);
 
