@@ -37,7 +37,7 @@ $site->start_page("plannings","Plannings");
 if ( !$site->user->is_valid() || $_REQUEST["view"] ===  true)
   $site->error_forbidden("plannings");
 
-if(!isset($_REQUEST["id_planning"]) || c)
+if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
 {
 	$grps = $site->user->get_groups_csv();
 	$sql = new requete($site->db,
@@ -87,9 +87,12 @@ if(isset($_REQUEST["id_planning"]))
 }
 $tabs[] = array("new","planning2.php?view=new&id_planning=".$planning->id,"Ajouter un planning");
 $tabs[] = array("edit","planning2.php?view=edit&id_planning=".$planning->id,"Editer un planning");
-$tabs[] = array("del","planning2.php?view=del&id_planning=".$planning->id,"Suppreimeirra un planning");
+$tabs[] = array("del","planning2.php?view=del&id_planning=".$planning->id,"Supprimer un planning");
 
-$cts->add(new tabshead($tabs,"res"));
+if(isset($_REQUEST["gap_id"]))
+	$cts->add(new tabshead($tabs,$_REQUEST["gap_id"]));
+else
+	$cts->add(new tabshead($tabs,"list"));
 
 
 
