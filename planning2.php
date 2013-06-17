@@ -246,10 +246,10 @@ if($_REQUEST["view"] === "edit" && isset($_REQUEST["id_planning"]))
 {
 	$frm = new form("edit","planning2.php",true,"POST","Edition du planning");
 	$frm->add_hidden("action","edit");
-	$frm->add_text_field("name","Nom",$planning->nom,true);
-	$frm->add_date_field("start", "Date de debut ",time(),true);
-	$frm->add_date_field("end", "Date de fin ",time()+86400,true);
-	$frm->add_checkbox("is_public","Publique",false,false);
+	$frm->add_text_field("name","Nom",$planning->name,true);
+	$frm->add_date_field("start", "Date de debut ",$planning->start,true);
+	$frm->add_date_field("end", "Date de fin ",$planning->end,true);
+	$frm->add_checkbox("is_public","Publique",$planning->is_public,false);
 	$frm->add_submit("edit","Valider");
 	$cts->add($frm);
 
