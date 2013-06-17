@@ -63,6 +63,13 @@ if(isset($_REQUEST["view"]))
 else
 	$cts->add(new tabshead($tabs,"lst"));
 
+if($_REQUEST["view"] === "new")
+{
+	$site->add_contents($cts);
+        $site->end_page();
+        exit();
+}
+
 if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
 {
 	$grps = $site->user->get_groups_csv();
