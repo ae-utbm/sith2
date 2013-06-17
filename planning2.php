@@ -37,6 +37,28 @@ $site->start_page("plannings","Plannings");
 if ( !$site->user->is_valid() || $_REQUEST["view"] ===  true)
   $site->error_forbidden("plannings");
 
+
+$planning = new planning2($site->db, $site->dbrw);
+
+if (isset($_REQUEST["id_planning"]))
+  $planning->load_by_id($_REQUEST["id_planning"]);
+
+$cts = new contents($planning->name);
+
+$tabs = array(array("lst","planning2.php","Liste"));
+if(isset($_REQUEST["id_planning"]))
+{
+	$tabs[] = array("view","planning2.php?id_planning=","Voir");
+	$tabs[] = array("edit","planning2.php?view=edit&id_planning=".$planning->id,"Editer le planning");
+	$tabs[] = array("del","planning2.php?view=del&id_planning=".$planning->id,"Supprimer le planning");
+}
+$tabs[] = array("new","planning2.php?view=new","Ajouter un planning");
+
+if(isset($_REQUEST["view"]))
+	$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+else
+	$cts->add(new tabshead($tabs,"list"));
+
 if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
 {
 	$grps = $site->user->get_groups_csv();
@@ -72,27 +94,6 @@ if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
 	exit();
 }
 
-$planning = new planning2($site->db, $site->dbrw);
-
-if (isset($_REQUEST["id_planning"]))
-  $planning->load_by_id($_REQUEST["id_planning"]);
-
-$cts = new contents($planning->name);
-
-$tabs = array(array("lst","planning2.php","Liste"));
-$tabs[] = array("lst","planning2.php","Liste");
-if(isset($_REQUEST["id_planning"]))
-{
-	$tabs[] = array("view","planning2.php?id_planning=","Liste");
-}
-$tabs[] = array("new","planning2.php?view=new&id_planning=".$planning->id,"Ajouter un planning");
-$tabs[] = array("edit","planning2.php?view=edit&id_planning=".$planning->id,"Editer un planning");
-$tabs[] = array("del","planning2.php?view=del&id_planning=".$planning->id,"Supprimer un planning");
-
-if(isset($_REQUEST["gap_id"]))
-	$cts->add(new tabshead($tabs,$_REQUEST["gap_id"]));
-else
-	$cts->add(new tabshead($tabs,"list"));
 
 
 
