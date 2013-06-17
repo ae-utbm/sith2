@@ -65,6 +65,22 @@ else
 
 if($_REQUEST["view"] === "new")
 {
+	$frm = new form("new","./planning2.php?id_planning=".$planning->id,true,"POST","Nouveau planning");
+	$frm->add_hidden("action","new");
+	$frm->add_entity_select( "rights_id_group_admin", "Propri&eacute;taire", $site->db, "group",0);
+	$frm->add_entity_select( "rights_id_group", "Groupe", $site->db, "group",0);
+
+	$frm->add_radiobox_field("weekly","Periodicite",
+		array(	0=>"Ponctuel",
+			7=>"Hebdomadaire",
+			14=>"Bihebdomadaire"),
+		0,-1,false,array(),false);
+	$frm->add_date_field("start", "Date de debut ",time(),true);
+	$frm->add_date_field("end", "Date de fin ",time()+86400,true);
+	$frm->add_checkbox("is_public","Publique",false,true);
+	$frm->add_submit("new","Valider");
+	$cts->add($frm);
+
 	$site->add_contents($cts);
         $site->end_page();
         exit();
