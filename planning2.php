@@ -63,64 +63,6 @@ if(isset($_REQUEST["view"]))
 else
 	$cts->add(new tabshead($tabs,"lst"));
 
-if($_REQUEST["view"] === "new")
-{
-	$frm = new form("new","planning2.php",true,"POST","Nouveau planning");
-	$frm->add_hidden("action","new");
-	$frm->add_text_field("name","Nom","",true);
-	$frm->add_entity_select( "id_group_admin", "Propri&eacute;taire", $site->db, "group",0);
-	$frm->add_entity_select( "id_group", "Groupe", $site->db, "group",0);
-
-	$frm->add_radiobox_field("weekly","Periodicite",
-		array(	0=>"Ponctuel",
-			7=>"Hebdomadaire",
-			14=>"Bihebdomadaire"),
-		0,-1,false,array(),false);
-	$frm->add_date_field("start", "Date de debut ",time(),true);
-	$frm->add_date_field("end", "Date de fin ",time()+86400,true);
-	$frm->add_checkbox("is_public","Publique",false,false);
-	$frm->add_submit("new","Valider");
-	$cts->add($frm);
-
-	$site->add_contents($cts);
-        $site->end_page();
-        exit();
-}
-
-if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
-{
-	$grps = $site->user->get_groups_csv();
-	$sql = new requete($site->db,
-		"SELECT id_planning, name_planning, DATE(start) as start, DATE(end) as end FROM pl2_planning
-		 WHERE end > NOW() 
-		 AND
-		 (
-			is_public = 1
-			OR
-			id_group IN ($grps)
-			OR
-			id_admin_group IN ($grps)
-		 )
-		 ORDER BY name_planning ASC");
-	$table = new sqltable("listeplannings", 
-			"Plannings actuels", 
-			$sql, 
-			"planning2.php?view=view",
-			"id_planning",
-			array(
-				"name_planning" => "Nom",
-				"start"		=> "Date de debut",
-				"end"		=> "Date de fin"
-			),
-			array("details" => "Details"),
-			array(),
-			array());
-	$cts->add($table);
-	$site->add_contents($cts);
-	$site->end_page();
-	exit();
-}
-
 
 
 if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"]) 
@@ -256,6 +198,69 @@ if($_REQUEST["action"] === "do_add_to_gap" && isset($_REQUEST["gap_id"]))
 		}
 	}
 }
+
+
+
+
+if($_REQUEST["view"] === "new")
+{
+	$frm = new form("new","planning2.php",true,"POST","Nouveau planning");
+	$frm->add_hidden("action","new");
+	$frm->add_text_field("name","Nom","",true);
+	$frm->add_entity_select( "id_group_admin", "Propri&eacute;taire", $site->db, "group",0);
+	$frm->add_entity_select( "id_group", "Groupe", $site->db, "group",0);
+
+	$frm->add_radiobox_field("weekly","Periodicite",
+		array(	0=>"Ponctuel",
+			7=>"Hebdomadaire",
+			14=>"Bihebdomadaire"),
+		0,-1,false,array(),false);
+	$frm->add_date_field("start", "Date de debut ",time(),true);
+	$frm->add_date_field("end", "Date de fin ",time()+86400,true);
+	$frm->add_checkbox("is_public","Publique",false,false);
+	$frm->add_submit("new","Valider");
+	$cts->add($frm);
+
+	$site->add_contents($cts);
+        $site->end_page();
+        exit();
+}
+
+if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
+{
+	$grps = $site->user->get_groups_csv();
+	$sql = new requete($site->db,
+		"SELECT id_planning, name_planning, DATE(start) as start, DATE(end) as end FROM pl2_planning
+		 WHERE end > NOW() 
+		 AND
+		 (
+			is_public = 1
+			OR
+			id_group IN ($grps)
+			OR
+			id_admin_group IN ($grps)
+		 )
+		 ORDER BY name_planning ASC");
+	$table = new sqltable("listeplannings", 
+			"Plannings actuels", 
+			$sql, 
+			"planning2.php?view=view",
+			"id_planning",
+			array(
+				"name_planning" => "Nom",
+				"start"		=> "Date de debut",
+				"end"		=> "Date de fin"
+			),
+			array("details" => "Details"),
+			array(),
+			array());
+	$cts->add($table);
+	$site->add_contents($cts);
+	$site->end_page();
+	exit();
+}
+
+
 
 $planningv = new planningv("",$site->db,$planning->id, time(), time()+7*24*3600, $site);
 
