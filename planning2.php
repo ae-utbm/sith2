@@ -96,8 +96,6 @@ if($_REQUEST["action"] === "edit" && isset($_REQUEST["start"])
 			$cts->add_paragraph("Echec de la modification du planning");
 	}
 }
-else
-	$cts->add_paragraph("Dafuk?");
 
 if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"]) 
 	&& isset($_REQUEST["id_group"]) && isset($_REQUEST["start"]) 
@@ -257,7 +255,6 @@ if($_REQUEST["view"] === "edit" && isset($_REQUEST["id_planning"]))
 	$frm->add_checkbox("is_public","Publique",$planning->is_public,false);
 	$frm->add_submit("edit","Valider");
 	$cts->add($frm);
-
 }
 
 if($_REQUEST["view"] === "new")

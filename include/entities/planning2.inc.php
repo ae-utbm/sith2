@@ -92,6 +92,7 @@ class planning2 extends stdentity
                             ),
 			array("id_planning" => $this->id)
                       );
+		return $sql->is_success();
 	}
 
 	function remove()
