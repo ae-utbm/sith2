@@ -246,6 +246,7 @@ if($_REQUEST["view"] === "edit" && isset($_REQUEST["id_planning"]))
 {
 	$frm = new form("edit","planning2.php",true,"POST","Edition du planning");
 	$frm->add_hidden("action","edit");
+	$frm->add_hidden("id_planning",$planning->id);
 	$frm->add_text_field("name","Nom",$planning->name,true);
 	$frm->add_date_field("start", "Date de debut ",$planning->start,true);
 	$frm->add_date_field("end", "Date de fin ",$planning->end,true);
