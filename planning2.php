@@ -80,19 +80,21 @@ if($_REQUEST["action"] === "edit" && isset($_REQUEST["start"])
 	&& isset($_REQUEST["name"]) && isset($_REQUEST["id_planning"]))
 {
 	$id_group_admin = $planning->admin_group;
-	if(!$site->user->is_in_group_id($id_group_admin))
-		$cts->add_paragraph("Vous n'avez l'autorisation de faire cela");
+	if(!$site->user->is_in_group_id($id_group_admin) && !$site->user->is_in_group("gestion_ae"))
+		$cts->add_paragraph("Vous n'avez l'autorisation de faire cela");	else
+	{
 
-	$id_group = $planning->group;
-	$start = $_REQUEST["start"];
-	$end = $_REQUEST["end"];
-	$is_public = $_REQUEST["is_public"];
-	$name = $_REQUEST["name"];
+		$id_group = $planning->group;
+		$start = $_REQUEST["start"];
+		$end = $_REQUEST["end"];
+		$is_public = $_REQUEST["is_public"];
+		$name = $_REQUEST["name"];
 
-	if($planning->add($name,$id_group, $id_group_admin, $start, $end, $is_public))
-		$cts->add_paragraph("Modification du planning reussi");
-	else
-		$cts->add_paragraph("Echec de la modification du planning");
+		if($planning->add($name,$id_group, $id_group_admin, $start, $end, $is_public))
+			$cts->add_paragraph("Modification du planning reussi");
+		else
+			$cts->add_paragraph("Echec de la modification du planning");
+	}
 }
 
 if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"]) 
