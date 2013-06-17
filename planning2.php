@@ -51,8 +51,9 @@ else
 
 $tabs = array(array("lst","planning2.php","Liste"));
 if(isset($_REQUEST["id_planning"]))
-{
 	$tabs[] = array("view","planning2.php?view=view&id_planning=".$planning->id,"Voir");
+if(isset($_REQUEST["id_planning"]))
+{
 	$tabs[] = array("edit","planning2.php?view=edit&id_planning=".$planning->id,"Editer le planning");
 	$tabs[] = array("del","planning2.php?view=del&id_planning=".$planning->id,"Supprimer le planning");
 }
