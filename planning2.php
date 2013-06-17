@@ -43,12 +43,16 @@ $planning = new planning2($site->db, $site->dbrw);
 if (isset($_REQUEST["id_planning"]))
   $planning->load_by_id($_REQUEST["id_planning"]);
 
-$cts = new contents($planning->name);
+$cts = null;
+if($planning->id && !($_REQUEST["view"] === "lst"))
+	$cts = new contents($planning->name);
+else
+	$cts = new contents("Liste des Plannings");
 
 $tabs = array(array("lst","planning2.php","Liste"));
 if(isset($_REQUEST["id_planning"]))
 {
-	$tabs[] = array("view","planning2.php?id_planning=","Voir");
+	$tabs[] = array("view","planning2.php?id_planning=".$planning->id,"Voir");
 	$tabs[] = array("edit","planning2.php?view=edit&id_planning=".$planning->id,"Editer le planning");
 	$tabs[] = array("del","planning2.php?view=del&id_planning=".$planning->id,"Supprimer le planning");
 }
@@ -87,7 +91,6 @@ if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
 			array("details" => "Details"),
 			array(),
 			array());
-	$cts = new contents("Liste des plannings");
 	$cts->add($table);
 	$site->add_contents($cts);
 	$site->end_page();
