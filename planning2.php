@@ -63,7 +63,17 @@ if(isset($_REQUEST["view"]))
 else
 	$cts->add(new tabshead($tabs,"lst"));
 
-
+if($_REQUEST["action"] === "del" && isset($_REQUEST["id_planning"]))
+{
+	if(!($site->user->is_in_group_id($planning->admin_group))
+		&& !($site->user->is_in_group("gestion_ae")))
+		$cts->add_paragraph("Vous n'avez pas le droit de faire cela");
+	else
+	{
+		$planning->remove();
+		$cts->add_paragraph("Suppression terminee");
+	}
+}
 
 if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"]) 
 	&& isset($_REQUEST["id_group"]) && isset($_REQUEST["start"]) 
@@ -201,6 +211,13 @@ if($_REQUEST["action"] === "do_add_to_gap" && isset($_REQUEST["gap_id"]))
 
 
 
+if($_REQUEST["view"] === "new")
+{
+	$frm = new form("del","planning2.php",true,"POST","Suppression du planning \"$planning->name\"?");
+	$frm->add_hidden("action","del");
+	$frm->add_hidden("id_planning",$planning->id);
+	$frm->add_submit("del","Supprimer");
+}
 
 if($_REQUEST["view"] === "new")
 {
