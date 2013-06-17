@@ -90,7 +90,7 @@ if($_REQUEST["action"] === "edit" && isset($_REQUEST["start"])
 		$is_public = $_REQUEST["is_public"];
 		$name = $_REQUEST["name"];
 
-		if($planning->add($name,$id_group, $id_group_admin, $start, $end, $is_public))
+		if($planning->update($name,$id_group, $id_group_admin, $start, $end, $is_public))
 			$cts->add_paragraph("Modification du planning reussi");
 		else
 			$cts->add_paragraph("Echec de la modification du planning");
