@@ -52,7 +52,7 @@ else
 $tabs = array(array("lst","planning2.php","Liste"));
 if(isset($_REQUEST["id_planning"]))
 {
-	$tabs[] = array("view","planning2.php?id_planning=".$planning->id,"Voir");
+	$tabs[] = array("view","planning2.php?view=view&id_planning=".$planning->id,"Voir");
 	$tabs[] = array("edit","planning2.php?view=edit&id_planning=".$planning->id,"Editer le planning");
 	$tabs[] = array("del","planning2.php?view=del&id_planning=".$planning->id,"Supprimer le planning");
 }
@@ -61,7 +61,7 @@ $tabs[] = array("new","planning2.php?view=new","Ajouter un planning");
 if(isset($_REQUEST["view"]))
 	$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 else
-	$cts->add(new tabshead($tabs,"list"));
+	$cts->add(new tabshead($tabs,"lst"));
 
 if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
 {
