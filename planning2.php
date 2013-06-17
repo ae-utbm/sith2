@@ -214,6 +214,7 @@ if($_REQUEST["action"] === "do_add_to_gap" && isset($_REQUEST["gap_id"]))
 if($_REQUEST["view"] === "del")
 {
 	$frm = new form("del","planning2.php",true,"POST","Suppression du planning \"$planning->name\"?");
+	$frm->add_info("Suppression du planning \"$planning->name\"?");
 	$frm->add_hidden("action","del");
 	$frm->add_hidden("id_planning",$planning->id);
 	$frm->add_submit("del","Supprimer");
