@@ -81,7 +81,7 @@ if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
 	$table = new sqltable("listeplannings", 
 			"Plannings actuels", 
 			$sql, 
-			"planning2.php",
+			"planning2.php?view=view",
 			"id_planning",
 			array(
 				"name_planning" => "Nom",
