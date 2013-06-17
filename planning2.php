@@ -65,10 +65,11 @@ else
 
 if($_REQUEST["view"] === "new")
 {
-	$frm = new form("new","./planning2.php?id_planning=".$planning->id,true,"POST","Nouveau planning");
+	$frm = new form("new","planning2.php",true,"POST","Nouveau planning");
 	$frm->add_hidden("action","new");
-	$frm->add_entity_select( "rights_id_group_admin", "Propri&eacute;taire", $site->db, "group",0);
-	$frm->add_entity_select( "rights_id_group", "Groupe", $site->db, "group",0);
+	$frm->add_text_field("name","Nom","",true);
+	$frm->add_entity_select( "id_group_admin", "Propri&eacute;taire", $site->db, "group",0);
+	$frm->add_entity_select( "id_group", "Groupe", $site->db, "group",0);
 
 	$frm->add_radiobox_field("weekly","Periodicite",
 		array(	0=>"Ponctuel",
@@ -121,6 +122,28 @@ if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
 }
 
 
+
+if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"]) 
+	&& isset($_REQUEST["id_group"]) && isset($_REQUEST["start"]) 
+	&& isset($_REQUEST["end"]) && isset($_REQUEST["is_public"])
+	&& isset($_REQUEST["name"]) && isset($_REQUEST["weekly"]))
+{
+	$id_group_admin = $_REQUEST["id_group_admin"];
+	if(!$site->user->is_in_group_id($id_group_admin))
+		$cts->add_paragraph("Vous n'avez l'autorisation de faire cela");
+
+	$id_group = $_REQUEST["id_group"];
+	$start = $_REQUEST["start"];
+	$end = $_REQUEST["end"];
+	$is_public = $_REQUEST["is_public"];
+	$name = $_REQUEST["name"];
+	$weekly = $_REQUEST["weekly"];
+
+	if($planning->add($name,$id_group, $id_group_admin, $weekly, $start, $end, $is_public))
+		$cts->add_paragraph("Ajout du planning reussi");
+	else
+		$cts->add_paragraph("Echec de l'ajout du planning");
+}
 
 
 if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
