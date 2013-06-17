@@ -34,10 +34,10 @@ $site = new site ();
 $site->add_css($topdir . "css/planning2.css");
 $site->start_page("plannings","Plannings");
 
-if ( !$site->user->is_valid() )
+if ( !$site->user->is_valid() || $_REQUEST["view"] ===  true)
   $site->error_forbidden("plannings");
 
-if(!isset($_REQUEST["id_planning"]))
+if(!isset($_REQUEST["id_planning"]) || c)
 {
 	$grps = $site->user->get_groups_csv();
 	$sql = new requete($site->db,
@@ -78,6 +78,20 @@ if (isset($_REQUEST["id_planning"]))
   $planning->load_by_id($_REQUEST["id_planning"]);
 
 $cts = new contents($planning->name);
+
+$tabs = array(array("lst","planning2.php","Liste"));
+$tabs[] = array("lst","planning2.php","Liste");
+if(isset($_REQUEST["id_planning"]))
+{
+	$tabs[] = array("view","planning2.php?id_planning=","Liste");
+}
+$tabs[] = array("new","planning2.php?view=new&id_planning=".$planning->id,"Ajouter un planning");
+$tabs[] = array("edit","planning2.php?view=edit&id_planning=".$planning->id,"Editer un planning");
+$tabs[] = array("del","planning2.php?view=del&id_planning=".$planning->id,"Suppreimeirra un planning");
+
+$cts->add(new tabshead($tabs,"res"));
+
+
 
 if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
 {
