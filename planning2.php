@@ -75,6 +75,26 @@ if($_REQUEST["action"] === "del" && isset($_REQUEST["id_planning"]))
 	}
 }
 
+if($_REQUEST["action"] === "edit" && isset($_REQUEST["start"]) 
+	&& isset($_REQUEST["end"]) && isset($_REQUEST["is_public"])
+	&& isset($_REQUEST["name"]) && isset($_REQUEST["id_planning"]))
+{
+	$id_group_admin = $planning->admin_group;
+	if(!$site->user->is_in_group_id($id_group_admin))
+		$cts->add_paragraph("Vous n'avez l'autorisation de faire cela");
+
+	$id_group = $planning->group;
+	$start = $_REQUEST["start"];
+	$end = $_REQUEST["end"];
+	$is_public = $_REQUEST["is_public"];
+	$name = $_REQUEST["name"];
+
+	if($planning->add($name,$id_group, $id_group_admin, $start, $end, $is_public))
+		$cts->add_paragraph("Modification du planning reussi");
+	else
+		$cts->add_paragraph("Echec de la modification du planning");
+}
+
 if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"]) 
 	&& isset($_REQUEST["id_group"]) && isset($_REQUEST["start"]) 
 	&& isset($_REQUEST["end"]) && isset($_REQUEST["is_public"])
@@ -211,7 +231,7 @@ if($_REQUEST["action"] === "do_add_to_gap" && isset($_REQUEST["gap_id"]))
 
 
 
-if($_REQUEST["view"] === "del")
+if($_REQUEST["view"] === "del" && isset($_REQUEST["id_planning"]))
 {
 	$frm = new form("del","planning2.php",true,"POST","Suppression du planning \"$planning->name\"?");
 	$frm->add_info("Suppression du planning \"$planning->name\"?");
@@ -219,6 +239,20 @@ if($_REQUEST["view"] === "del")
 	$frm->add_hidden("id_planning",$planning->id);
 	$frm->add_submit("del","Supprimer");
 	$cts->add($frm);
+}
+
+
+if($_REQUEST["view"] === "edit" && isset($_REQUEST["id_planning"]))
+{
+	$frm = new form("edit","planning2.php",true,"POST","Edition du planning");
+	$frm->add_hidden("action","edit");
+	$frm->add_text_field("name","Nom",$planning->nom,true);
+	$frm->add_date_field("start", "Date de debut ",time(),true);
+	$frm->add_date_field("end", "Date de fin ",time()+86400,true);
+	$frm->add_checkbox("is_public","Publique",false,false);
+	$frm->add_submit("edit","Valider");
+	$cts->add($frm);
+
 }
 
 if($_REQUEST["view"] === "new")
