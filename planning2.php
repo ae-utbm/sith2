@@ -217,6 +217,7 @@ if($_REQUEST["view"] === "new")
 	$frm->add_hidden("action","del");
 	$frm->add_hidden("id_planning",$planning->id);
 	$frm->add_submit("del","Supprimer");
+	$cts->add($frm);
 }
 
 if($_REQUEST["view"] === "new")
