@@ -182,7 +182,7 @@ class planningv extends stdcontents
 					if($show_admin && (	$site->user->is_in_group_id($planning->admin_group) 
 								|| $site->user->is_in_group("gestion_ae")))
 					{
-						$buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_data[2]&id_planning=$planning->id\">Supprimer</a>";
+						$buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=$planning->id\">Supprimer</a>";
 					}
 					$buffer .= "</div>";
 				}
