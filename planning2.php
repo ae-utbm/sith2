@@ -151,8 +151,8 @@ if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"])
 	else
 	{
 		$id_group = $_REQUEST["id_group"];
-		$start = $_REQUEST["start"];
-		$end = $_REQUEST["end"];
+		$start = $_REQUEST["start"]-date("Z");
+		$end = $_REQUEST["end"] - date("Z");
 		$is_public = isset($_REQUEST["is_public"])&& $_REQUEST["is_public"];
 		$name = $_REQUEST["name"];
 		$weekly = $_REQUEST["weekly"];
@@ -285,7 +285,7 @@ if($_REQUEST["view"] === "new_gap" && isset($_REQUEST["id_planning"]))
 	$frm->add_text_field("name","Nom","",true);
 	$frm->add_text_field("max_users","Nombre de personne","1",true);
 	$frm->add_datetime_field("start", "Debut ",$planning->start-date("Z"),true);
-	$frm->add_datetime_field("end", "Fin ",$planning->start-date("Z"),true);
+	$frm->add_datetime_field("end", "Fin ",$planning->end-date("Z"),true);
 	$frm->add_submit("new_gap","Valider");
 	$cts->add($frm);
 }
