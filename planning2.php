@@ -144,8 +144,8 @@ if($_REQUEST["action"] === "edit" && isset($_REQUEST["start"])
 
 if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"]) 
 	&& isset($_REQUEST["id_group"]) && isset($_REQUEST["start"]) 
-	&& isset($_REQUEST["end"]) && isset($_REQUEST["is_public"])
-	&& isset($_REQUEST["name"]) && isset($_REQUEST["weekly"]))
+	&& isset($_REQUEST["end"]) && isset($_REQUEST["name"]) 
+	&& isset($_REQUEST["weekly"]))
 {
 	$id_group_admin = $_REQUEST["id_group_admin"];
 	if(!$site->user->is_in_group_id($id_group_admin))
