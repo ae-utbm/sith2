@@ -118,8 +118,8 @@ if($_REQUEST["action"] === "del_gap" && isset($_REQUEST["id_planning"]) && isset
 }
 
 if($_REQUEST["action"] === "edit" && isset($_REQUEST["start"]) 
-	&& isset($_REQUEST["end"]) && isset($_REQUEST["is_public"])
-	&& isset($_REQUEST["name"]) && isset($_REQUEST["id_planning"]))
+	&& isset($_REQUEST["end"]) && isset($_REQUEST["name"]) 
+	&& isset($_REQUEST["id_planning"]))
 {
 	$id_group_admin = $planning->admin_group;
 	if(!$site->user->is_in_group_id($id_group_admin) && !$site->user->is_in_group("gestion_ae"))
@@ -129,7 +129,7 @@ if($_REQUEST["action"] === "edit" && isset($_REQUEST["start"])
 		$id_group = $planning->group;
 		$start = $_REQUEST["start"];
 		$end = $_REQUEST["end"];
-		$is_public = $_REQUEST["is_public"];
+		$is_public = isset($_REQUEST["is_public"])&&$_REQUEST["is_public"];
 		$name = $_REQUEST["name"];
 
 		if($planning->update($name,$id_group, $id_group_admin, $start, $end, $is_public))
