@@ -88,8 +88,8 @@ if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"])
 	}
 	else
 	{
-		$start = $_REQUEST["start"];
-		$end = $_REQUEST["end"];
+		$start = $_REQUEST["start"]+date("Z");
+		$end = $_REQUEST["end"]+date("Z");
 		$start -= $planning->get_week_start($start);
 		$end -= $planning->get_week_start($end);
 		$name = $_REQUEST["name"];
@@ -127,8 +127,8 @@ if($_REQUEST["action"] === "edit" && isset($_REQUEST["start"])
 	{
 
 		$id_group = $planning->group;
-		$start = $_REQUEST["start"]-date("Z");
-		$end = $_REQUEST["end"]-date("Z");
+		$start = $_REQUEST["start"]+date("Z");
+		$end = $_REQUEST["end"]+date("Z");
 		$is_public = isset($_REQUEST["is_public"])&&$_REQUEST["is_public"];
 		$name = $_REQUEST["name"];
 
@@ -151,8 +151,8 @@ if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"])
 	else
 	{
 		$id_group = $_REQUEST["id_group"];
-		$start = $_REQUEST["start"]-date("Z");
-		$end = $_REQUEST["end"] - date("Z");
+		$start = $_REQUEST["start"]+date("Z");
+		$end = $_REQUEST["end"] + date("Z");
 		$is_public = isset($_REQUEST["is_public"])&& $_REQUEST["is_public"];
 		$name = $_REQUEST["name"];
 		$weekly = $_REQUEST["weekly"];
@@ -261,8 +261,8 @@ if($_REQUEST["action"] === "do_add_to_gap" && isset($_REQUEST["gap_id"]))
 	{
 		$gap_id = $_REQUEST["gap_id"];
 		$user_id = $site->user->id;
-		$start = $_REQUEST["start"];
-		$end = $_REQUEST["end"];
+		$start = $_REQUEST["start"]+date("Z");
+		$end = $_REQUEST["end"]+date("Z");
 		if($planning->is_user_addable($gap_id, $user_id, $start, $end ))
 		{
 			$planning->add_user_to_gap($gap_id, $user_id, $start, $end );
