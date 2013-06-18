@@ -446,7 +446,9 @@ class planning2 extends stdentity
 		if($this->weekly)
 		{
 			$diff = $date - $this->start;
+			echo $diff;
                         $date = $date - ($diff % ($this->weekly*3600*24));
+			echo ($diff % ($this->weekly*3600*24));
 		}
 		else
 		{
