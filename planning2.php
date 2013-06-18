@@ -57,6 +57,7 @@ if(isset($_REQUEST["id_planning"]) && $planning->id
 {
 	$tabs[] = array("edit","planning2.php?view=edit&id_planning=".$planning->id,"Editer le planning");
 	$tabs[] = array("del","planning2.php?view=del&id_planning=".$planning->id,"Supprimer le planning");
+	$tabs[] = array("new_gap","planning2.php?view=new_gap&id_planning=".$planning->id,"Ajouter un creneau");
 }
 $tabs[] = array("new","planning2.php?view=new","Ajouter un planning");
 
@@ -234,6 +235,30 @@ if($_REQUEST["action"] === "do_add_to_gap" && isset($_REQUEST["gap_id"]))
 }
 
 
+if($_REQUEST["view"] === "new_gap" && isset($_REQUEST["id_planning"]))
+{
+	$frm = new form("new_gap","planning2.php",true,"POST","Nouveau creneau sur le planning \"$planning->name\"?");
+	$frm->add_info("Nouveau creneau sur le planning \"$planning->name\"?");
+	$frm->add_hidden("action","new_gap");
+	$frm->add_hidden("id_planning",$planning->id);
+	$frm->add_text_field("max_users","Nombre de personne","1",true);
+	$frm->add_date_field("start", "Debut ",$planning->start,true);
+	$frm->add_date_field("end", "Fin ",$planning->end,true);
+	$frm->add_submit("new_gap","Valider");
+	$cts->add($frm);
+}
+
+
+if($_REQUEST["view"] === "del_gap" && isset($_REQUEST["id_planning"]) && isset($_REQUEST["id_gap"]))
+{
+	$frm = new form("del_gap","planning2.php",true,"POST","Suppression du creneau ?");
+	$frm->add_info("Suppression du creneau ?");
+	$frm->add_hidden("action","del_gap");
+	$frm->add_hidden("id_planning",$planning->id);
+	$frm->add_hidden("id_gap",$_REQUEST["id_gap"]);
+	$frm->add_submit("del_gap","Supprimer le creneau");
+	$cts->add($frm);
+}
 
 if($_REQUEST["view"] === "del" && isset($_REQUEST["id_planning"]))
 {
@@ -244,7 +269,6 @@ if($_REQUEST["view"] === "del" && isset($_REQUEST["id_planning"]))
 	$frm->add_submit("del","Supprimer");
 	$cts->add($frm);
 }
-
 
 if($_REQUEST["view"] === "edit" && isset($_REQUEST["id_planning"]))
 {
