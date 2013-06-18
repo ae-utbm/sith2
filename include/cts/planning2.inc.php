@@ -73,7 +73,7 @@ class planningv extends stdcontents
      * @param $titre Titre du contenu
      * @param $db Connection à la base de donnée
      */
-    function planningv ( $titre, $db, $id_planning, $start, $end, $site, $force_single_column = false)
+    function planningv ( $titre, $db, $id_planning, $start, $end, $site, $force_single_column = false, $show_admin = false)
     {
 	setlocale(LC_ALL, "fr_FR.UTF8");
         $this->title=false;
@@ -178,6 +178,11 @@ class planningv extends stdcontents
 					if($count < $gap_count)
 					{
 						$buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
+					}
+					if($show_admin && (	$site->user->is_in_group_id($planning->admin_group) 
+								|| $site->user->is_in_group("gestion_ae")))
+					{
+						$buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_data[2]&id_planning=$planning->id\">Supprimer</a>";
 					}
 					$buffer .= "</div>";
 				}
