@@ -184,6 +184,7 @@ if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
 		if($planning->weekly)
 		{
 			$week_start = $planning->get_week_start( time());
+			$cts->add_paragraph(date_default_timezone_get());
 			$frm->add_info("Creneau du ".strftime("%A %H:%M",$week_start+strtotime($start))." au ".strftime("%A %H:%M",$week_start+strtotime($end))).
 			$frm->add_date_field("start", "Date de debut ",$planning->start,true);
 			$frm->add_date_field("end", "Date de fin ",$planning->end,true);
@@ -228,7 +229,7 @@ if($_REQUEST["action"] === "remove_from_gap" && isset($_REQUEST["user_gap_id"]))
 				$frm->add_info("Vous desinscrire du ".strftime("%A %H:%M",$week_start+strtotime($start)).
 					" au ".strftime("%A %H:%M",$week_start+strtotime($end))."?");
 			}
-			$frm->add_submit("do_add_to_gap","Valider");
+			$frm->add_submit("do_remove_from_gap","Valider");
 			$cts->add($frm);
 		}
 	}
