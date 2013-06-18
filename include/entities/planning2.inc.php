@@ -32,10 +32,9 @@ class planning2 extends stdentity
 		$this->admin_group	= $row['id_admin_group'];
 		$this->name		= $row['name_planning'];
 		$this->weekly		= $row['weekly_planning'];
-		$this->start		= strtotime($row['start']);
-		$this->end		= strtotime($row['end']);
+		$this->start		= strtotime($row['start']." UTC");
+		$this->end		= strtotime($row['end']." UTC");
 		$this->is_public	= $row['is_public'];
-		echo gmdate("Y-m-d H:i:s",$this->start);
 	}
 
 	function add ( $name, $group, $admin_group, $weekly, $start, $end, $is_public = true )
