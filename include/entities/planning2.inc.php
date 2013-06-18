@@ -101,7 +101,7 @@ class planning2 extends stdentity
 						WHERE id_planning = ".$this->id);
 		while(list($gap_id) = $sql->get_row())
 		{
-			delete_gap( $gap_id );
+			$this->delete_gap( $gap_id );
 		}
 		$sql = new delete($this->dbrw, "pl2_absence",
 			array(
