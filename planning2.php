@@ -388,7 +388,7 @@ if(!isset($_REQUEST["id_planning"]) || $_REQUEST["view"] === "lst")
 
 
 
-$planningv = new planningv("",$site->db,$planning->id, time(), time()+7*24*3600, $site);
+$planningv = new planningv("",$site->db,$planning->id, time(), time()+7*24*3600, $site, false, true);
 
 $cts->add($planningv);
 
