@@ -282,8 +282,8 @@ if($_REQUEST["view"] === "new_gap" && isset($_REQUEST["id_planning"]))
 	$frm->add_hidden("id_planning",$planning->id);
 	$frm->add_text_field("name","Nom","",true);
 	$frm->add_text_field("max_users","Nombre de personne","1",true);
-	$frm->add_date_field("start", "Debut ",$planning->start,true);
-	$frm->add_date_field("end", "Fin ",$planning->end,true);
+	$frm->add_datetime_field("start", "Debut ",$planning->start,true);
+	$frm->add_datetime_field("end", "Fin ",$planning->end,true);
 	$frm->add_submit("new_gap","Valider");
 	$cts->add($frm);
 }
