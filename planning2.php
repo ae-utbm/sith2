@@ -94,7 +94,7 @@ if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"])
 		$end -= $planning->get_week_start($end);
 		$name = $_REQUEST["name"];
 		$max_users = $_REQUEST["max_users"];
-		$cts->add_paragraph("Ajout de $name de $start a $end avec $max_users");
+		$cts->add_paragraph("Ajout de $name de $start a $end avec $max_users (".date("Z").")");
 
 		if($planning->add_gap($start, $end, $name, $max_users) != -1)
 			$cts->add_paragraph("Ajout du creneau reussi");
