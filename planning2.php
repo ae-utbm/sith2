@@ -78,6 +78,28 @@ if($_REQUEST["action"] === "del" && isset($_REQUEST["id_planning"]))
 	}
 }
 
+if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"]) 
+	&& isset($_REQUEST["end"]) && isset($_REQUEST["max_users"])
+	&& isset($_REQUEST["name"]) && isset($_REQUEST["id_planning"]))
+{
+	if(!$site->user->is_in_group_id($planning->admin_group))
+	{
+		$cts->add_paragraph("Vous n'avez l'autorisation de faire cela");
+	}
+	else
+	{
+		$start = $_REQUEST["start"];
+		$end = $_REQUEST["end"];
+		$name = $_REQUEST["name"];
+		$max_users = $_REQUEST["max_users"];
+
+		if($planning->add_gap($start, $end, $name, $max_users) != -1)
+		$cts->add_paragraph("Ajout du creneau reussi");
+	else
+		$cts->add_paragraph("Echec de l'ajout du creneau");
+	}
+}
+
 if($_REQUEST["action"] === "del_gap" && isset($_REQUEST["id_planning"]) && isset($_REQUEST["id_gap"]))
 {
 	if(!($site->user->is_in_group_id($planning->admin_group))
@@ -121,19 +143,22 @@ if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"])
 {
 	$id_group_admin = $_REQUEST["id_group_admin"];
 	if(!$site->user->is_in_group_id($id_group_admin))
-		$cts->add_paragraph("Vous n'avez l'autorisation de faire cela");
-
-	$id_group = $_REQUEST["id_group"];
-	$start = $_REQUEST["start"];
-	$end = $_REQUEST["end"];
-	$is_public = $_REQUEST["is_public"];
-	$name = $_REQUEST["name"];
-	$weekly = $_REQUEST["weekly"];
-
-	if($planning->add($name,$id_group, $id_group_admin, $weekly, $start, $end, $is_public))
-		$cts->add_paragraph("Ajout du planning reussi");
+	{
+		$cts->add_paragraph("Vous n'avez l'autorisation de faire cela");	}
 	else
-		$cts->add_paragraph("Echec de l'ajout du planning");
+	{
+		$id_group = $_REQUEST["id_group"];
+		$start = $_REQUEST["start"];
+		$end = $_REQUEST["end"];
+		$is_public = $_REQUEST["is_public"];
+		$name = $_REQUEST["name"];
+		$weekly = $_REQUEST["weekly"];
+
+		if($planning->add($name,$id_group, $id_group_admin, $weekly, $start, $end, $is_public))
+			$cts->add_paragraph("Ajout du planning reussi");
+		else
+			$cts->add_paragraph("Echec de l'ajout du planning");
+	}
 }
 
 
@@ -255,6 +280,7 @@ if($_REQUEST["view"] === "new_gap" && isset($_REQUEST["id_planning"]))
 	$frm->add_info("Nouveau creneau sur le planning \"$planning->name\"?");
 	$frm->add_hidden("action","new_gap");
 	$frm->add_hidden("id_planning",$planning->id);
+	$frm->add_text_field("name","Nom","",true);
 	$frm->add_text_field("max_users","Nombre de personne","1",true);
 	$frm->add_date_field("start", "Debut ",$planning->start,true);
 	$frm->add_date_field("end", "Fin ",$planning->end,true);
