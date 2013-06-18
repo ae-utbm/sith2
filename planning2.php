@@ -88,11 +88,13 @@ if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"])
 	}
 	else
 	{
-		$timeOffset = date("O") / 100 * 60 * 60 -3600;
+		//$timeOffset = date("O") / 100 * 60 * 60 -3600;
 		$start = $_REQUEST["start"];
-		$start -= $timeOffset;
+		$start = strtotime( date("Y-m-d H:i:s",$start)." UTC");
+		//$start -= $timeOffset;
 		$end = $_REQUEST["end"];
-		$end -= $timeOffset;
+		$end = strtotime( date("Y-m-d H:i:s",$end)." UTC");
+		//$end -= $timeOffset;
 		$start -= $planning->get_week_start($start);
 		$end -= $planning->get_week_start($end);
 		$name = $_REQUEST["name"];
