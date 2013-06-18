@@ -53,8 +53,8 @@ class planning2 extends stdentity
                              "name_planning" => $this->name,
 			     "id_group" => $this->group,
 			     "id_admin_group" => $this->admin_group,
-			     "start" => gmdate("Y-m-d H:i:s",$this->start),
-			     "end" => gmdate("Y-m-d H:i:s",$this->end),
+			     "start" => date("Y-m-d H:i:s",$this->start),
+			     "end" => date("Y-m-d H:i:s",$this->end),
                              "weekly_planning" => $this->weekly,
                              "is_public" => $this->is_public
                             )
@@ -85,8 +85,8 @@ class planning2 extends stdentity
                              "name_planning" => $this->name,
 			     "id_group" => $this->group,
 			     "id_admin_group" => $this->admin_group,
-			     "start" => gmdate("Y-m-d H:i:s",$this->start),
-			     "end" => gmdate("Y-m-d H:i:s",$this->end),
+			     "start" => date("Y-m-d H:i:s",$this->start),
+			     "end" => date("Y-m-d H:i:s",$this->end),
                              "weekly_planning" => $this->weekly,
                              "is_public" => $this->is_public
                             ),
@@ -445,11 +445,8 @@ class planning2 extends stdentity
 	{
 		if($this->weekly)
 		{
-			echo "$date\n";
 			$diff = $date - $this->start;
-			echo "$diff\n";
                         $date = $date - ($diff % ($this->weekly*3600*24));
-			echo ($diff % ($this->weekly*3600*24))."\n";
 		}
 		else
 		{
