@@ -53,8 +53,8 @@ class planning2 extends stdentity
                              "name_planning" => $this->name,
 			     "id_group" => $this->group,
 			     "id_admin_group" => $this->admin_group,
-			     "start" => date("Y-m-d H:i:s",$this->start),
-			     "end" => date("Y-m-d H:i:s",$this->end),
+			     "start" => gmdate("Y-m-d H:i:s",$this->start),
+			     "end" => gmdate("Y-m-d H:i:s",$this->end),
                              "weekly_planning" => $this->weekly,
                              "is_public" => $this->is_public
                             )
@@ -85,8 +85,8 @@ class planning2 extends stdentity
                              "name_planning" => $this->name,
 			     "id_group" => $this->group,
 			     "id_admin_group" => $this->admin_group,
-			     "start" => date("Y-m-d H:i:s",$this->start),
-			     "end" => date("Y-m-d H:i:s",$this->end),
+			     "start" => gmdate("Y-m-d H:i:s",$this->start),
+			     "end" => gmdate("Y-m-d H:i:s",$this->end),
                              "weekly_planning" => $this->weekly,
                              "is_public" => $this->is_public
                             ),
@@ -458,10 +458,10 @@ class planning2 extends stdentity
 			if($req->lines == 1)
 			{
 				list( $tmp ) = $req->get_row();
-				$date = strtotime( $tmp );
+				$date = strtotime( $tmp." UTC" );
 			}
 		}
-		return strtotime(gmdate("Y-m-d 00:00:00",$date));
+		return strtotime(gmdate("Y-m-d 00:00:00",$date)." UTC");
 	}
 
 	function get_users_for_gap( $gap_id, $date )
