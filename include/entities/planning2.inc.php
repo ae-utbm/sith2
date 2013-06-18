@@ -53,8 +53,8 @@ class planning2 extends stdentity
                              "name_planning" => $this->name,
 			     "id_group" => $this->group,
 			     "id_admin_group" => $this->admin_group,
-			     "start" => date("Y-m-d H:i:s",$this->start),
-			     "end" => date("Y-m-d H:i:s",$this->end),
+			     "start" => gmdate("Y-m-d H:i:s",$this->start),
+			     "end" => gmdate("Y-m-d H:i:s",$this->end),
                              "weekly_planning" => $this->weekly,
                              "is_public" => $this->is_public
                             )
@@ -85,8 +85,8 @@ class planning2 extends stdentity
                              "name_planning" => $this->name,
 			     "id_group" => $this->group,
 			     "id_admin_group" => $this->admin_group,
-			     "start" => date("Y-m-d H:i:s",$this->start),
-			     "end" => date("Y-m-d H:i:s",$this->end),
+			     "start" => gmdate("Y-m-d H:i:s",$this->start),
+			     "end" => gmdate("Y-m-d H:i:s",$this->end),
                              "weekly_planning" => $this->weekly,
                              "is_public" => $this->is_public
                             ),
@@ -138,8 +138,8 @@ class planning2 extends stdentity
                        array(
 			     "id_planning" => $this->id,
                              "name_gap" => $gap_name,
-			     "start" => date("Y-m-d H:i:s",$start),
-                             "end" => date("Y-m-d H:i:s",$end),
+			     "start" => gmdate("Y-m-d H:i:s",$start),
+                             "end" => gmdate("Y-m-d H:i:s",$end),
 			     "max_users" => $max_users
                             )
                       );
@@ -177,8 +177,8 @@ class planning2 extends stdentity
 			     "id_planning" => $this->id,
                              "name_gap" => $gap_name,
 			     "max_users" => $max_users,
-			     "start" => date("Y-m-d H:i:s",$start),
-                             "end" => date("Y-m-d H:i:s",$end)
+			     "start" => gmdate("Y-m-d H:i:s",$start),
+                             "end" => gmdate("Y-m-d H:i:s",$end)
                             ),
 		       array(
 			     "id_gap" => $gap_id
@@ -233,8 +233,8 @@ class planning2 extends stdentity
 				 ON pl2_gap.id_gap = pl2_user_gap.id_gap
 				 AND pl2_user_gap.id_utilisateur = pl2_absence.id_utilisateur
 				 WHERE pl2_gap.id_gap = '$gap_id'
-				 AND pl2_absence.start < '".date("Y-m-d H:i:s",$end)."'
-				 AND pl2_absence.end > '".date("Y-m-d H:i:s",$new_start)."'");
+				 AND pl2_absence.start < '".gmdate("Y-m-d H:i:s",$end)."'
+				 AND pl2_absence.end > '".gmdate("Y-m-d H:i:s",$new_start)."'");
 			if($sql->lines <= 0)
 				$to_break = true;
 			else
@@ -248,8 +248,8 @@ class planning2 extends stdentity
 				"SELECT min(end) FROM pl2_user_gap
 				 JOIN pl2_gap
 				 ON pl2_gap.id_gap = pl2_user_gap.id_gap
-				 WHERE pl2_user_gap.start <= '".date("Y-m-d H:i:s",$new_start)."' 
-				 AND pl2_user_gap.end > '".date("Y-m-d H:i:s",$new_start)."'");
+				 WHERE pl2_user_gap.start <= '".gmdate("Y-m-d H:i:s",$new_start)."' 
+				 AND pl2_user_gap.end > '".gmdate("Y-m-d H:i:s",$new_start)."'");
 
 			if($sql->lines <= 0)
 				if($to_break)
@@ -267,8 +267,8 @@ class planning2 extends stdentity
 				"SELECT count(*) FROM pl2_user_gap
         	                 JOIN pl2_gap ON pl2_gap.id_gap = pl2_user_gap.id_gap
                 	         WHERE pl2_gap.id_gap = '$gap_id'
-				 AND pl2_user_gap.start <= '".date("Y-m-d H:i:s",$new_start)."'
-				 AND pl2_user_gap.end >= '".date("Y-m-d H:i:s",$date_min)."'");
+				 AND pl2_user_gap.start <= '".gmdate("Y-m-d H:i:s",$new_start)."'
+				 AND pl2_user_gap.end >= '".gmdate("Y-m-d H:i:s",$date_min)."'");
 			if(!$sql->is_success())
 			{
 				exit();
@@ -289,12 +289,12 @@ class planning2 extends stdentity
 			 AND id_utilisateur = '$user_id'
 			 AND 
 			 (
-			 	(	 start <= '".date("Y-m-d H:i:s",$end)."'
-					 AND start >= '".date("Y-m-d H:i:s",$start)."'
+			 	(	 start <= '".gmdate("Y-m-d H:i:s",$end)."'
+					 AND start >= '".gmdate("Y-m-d H:i:s",$start)."'
 				)
 			  	OR
-				(        end >= '".date("Y-m-d H:i:s",$start)."'
-					 AND end <= '".date("Y-m-d H:i:s",$end)."'
+				(        end >= '".gmdate("Y-m-d H:i:s",$start)."'
+					 AND end <= '".gmdate("Y-m-d H:i:s",$end)."'
 				)
 			 )");
 		if($sql->lines > 0)
@@ -306,12 +306,12 @@ class planning2 extends stdentity
 			 AND id_planning IN (SELECT id_planning FROM pl2_gap WHERE id_gap = '$gap_id')
 			 AND 
 			 (
-			 	(	 pl2_user_gap.start <= '".date("Y-m-d H:i:s",$end)."'
-					 AND pl2_user_gap.start >= '".date("Y-m-d H:i:s",$start)."'
+			 	(	 pl2_user_gap.start <= '".gmdate("Y-m-d H:i:s",$end)."'
+					 AND pl2_user_gap.start >= '".gmdate("Y-m-d H:i:s",$start)."'
 				)
 			  	OR
-				(        pl2_user_gap.end >= '".date("Y-m-d H:i:s",$start)."'
-					 AND pl2_user_gap.end <= '".date("Y-m-d H:i:s",$end)."'
+				(        pl2_user_gap.end >= '".gmdate("Y-m-d H:i:s",$start)."'
+					 AND pl2_user_gap.end <= '".gmdate("Y-m-d H:i:s",$end)."'
 				)
 			 )
 			 AND
@@ -347,8 +347,8 @@ class planning2 extends stdentity
                        array(
 			     "id_gap" => $gap_id,
                              "id_utilisateur" => $user_id,
-			     "start" => date("Y-m-d H:i:s",$start),
-                             "end" => date("Y-m-d H:i:s",$end)
+			     "start" => gmdate("Y-m-d H:i:s",$start),
+                             "end" => gmdate("Y-m-d H:i:s",$end)
                             )
                       );
 		if ( !$sql->is_success() )
@@ -386,8 +386,8 @@ class planning2 extends stdentity
 			return new requete($this->db,
                                 "SELECT id_gap, start, end, name_gap FROM pl2_gap 
                                  WHERE id_planning = $this->id
-				 AND end > '".date("Y-m-d H:i:s",$start)."'
-				 AND start < '".date("Y-m-d H:i:s",$end)."'
+				 AND end > '".gmdate("Y-m-d H:i:s",$start)."'
+				 AND start < '".gmdate("Y-m-d H:i:s",$end)."'
                                  ORDER BY start ASC");
 	}
 
@@ -405,13 +405,13 @@ class planning2 extends stdentity
 			return new requete($this->db,
                                 "SELECT start as date FROM pl2_gap 
                                  WHERE id_planning = $this->id
-				 AND end > '".date("Y-m-d H:i:s",$start)."'
-				 AND start < '".date("Y-m-d H:i:s",$end)."'
+				 AND end > '".gmdate("Y-m-d H:i:s",$start)."'
+				 AND start < '".gmdate("Y-m-d H:i:s",$end)."'
                                  UNION DISTINCT
 				 SELECT end as date FROM pl2_gap 
                                  WHERE id_planning = $this->id
-				 AND end > '".date("Y-m-d H:i:s",$start)."'
-				 AND start < '".date("Y-m-d H:i:s",$end)."'
+				 AND end > '".gmdate("Y-m-d H:i:s",$start)."'
+				 AND start < '".gmdate("Y-m-d H:i:s",$end)."'
                                  ORDER BY date ASC");
 	}
 
@@ -453,7 +453,7 @@ class planning2 extends stdentity
 			$req = new requete($this->db,
 				"SELECT start FROM pl2_gap 
 				 WHERE id_planning = $this->id
-				 AND start > ".date("Y-m-d H:i:s",$date)."
+				 AND start > ".gmdate("Y-m-d H:i:s",$date)."
 				 ORDER BY start ASC LIMIT 1");
 			if($req->lines == 1)
 			{
@@ -461,7 +461,7 @@ class planning2 extends stdentity
 				$date = strtotime( $tmp );
 			}
 		}
-		return strtotime(date("Y-m-d 00:00:00",$date));
+		return strtotime(gmdate("Y-m-d 00:00:00",$date));
 	}
 
 	function get_users_for_gap( $gap_id, $date )
@@ -481,8 +481,8 @@ class planning2 extends stdentity
 			$date = $date - ($diff % ($this->weekly*3600*24));
 			$start = strtotime($start)+$date;
 			$end = strtotime($end)+$date;
-			$start =date("Y-m-d H:i:s",$start);
-			$end =date("Y-m-d H:i:s",$end);	
+			$start =gmdate("Y-m-d H:i:s",$start);
+			$end =gmdate("Y-m-d H:i:s",$end);	
 		}
 		return new requete($this->db,
 			"SELECT utilisateurs.id_utilisateur as id_utilisateur, 
