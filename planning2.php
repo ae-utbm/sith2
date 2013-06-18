@@ -156,7 +156,7 @@ if($_REQUEST["action"] === "new" && isset($_REQUEST["id_group_admin"])
 		$id_group = $_REQUEST["id_group"];
 		$start = $_REQUEST["start"];
 		$end = $_REQUEST["end"];
-		$is_public = $_REQUEST["is_public"];
+		$is_public = isset($_REQUEST["is_public"])&& $_REQUEST["is_public"];
 		$name = $_REQUEST["name"];
 		$weekly = $_REQUEST["weekly"];
 
