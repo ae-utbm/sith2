@@ -35,6 +35,7 @@ class planning2 extends stdentity
 		$this->start		= strtotime($row['start']);
 		$this->end		= strtotime($row['end']);
 		$this->is_public	= $row['is_public'];
+		echo date($this->start);
 	}
 
 	function add ( $name, $group, $admin_group, $weekly, $start, $end, $is_public = true )
