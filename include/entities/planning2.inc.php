@@ -479,8 +479,8 @@ class planning2 extends stdentity
 			/*$date = strtotime(date('o-\\WW',$date));*/
 			$diff = $date - $this->start;
 			$date = $date - ($diff % ($this->weekly*3600*24));
-			$start = strtotime($start)+$date;
-			$end = strtotime($end)+$date;
+			$start = strtotime($start." UTC")+$date;
+			$end = strtotime($end." UTC")+$date;
 			$start =gmdate("Y-m-d H:i:s",$start);
 			$end =gmdate("Y-m-d H:i:s",$end);	
 		}
