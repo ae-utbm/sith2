@@ -78,6 +78,20 @@ if($_REQUEST["action"] === "del" && isset($_REQUEST["id_planning"]))
 	}
 }
 
+if($_REQUEST["action"] === "del_gap" && isset($_REQUEST["id_planning"]) && isset($_REQUEST["id_gap"]))
+{
+	if(!($site->user->is_in_group_id($planning->admin_group))
+		&& !($site->user->is_in_group("gestion_ae")))
+		$cts->add_paragraph("Vous n'avez pas le droit de faire cela");
+	else
+	{
+		if($planning->delete_gap( $_REQUEST["id_gap"]))
+			$cts->add_paragraph("Suppression terminee");
+		else
+			$cts->add_paragraph("Echec de la suppression");
+	}
+}
+
 if($_REQUEST["action"] === "edit" && isset($_REQUEST["start"]) 
 	&& isset($_REQUEST["end"]) && isset($_REQUEST["is_public"])
 	&& isset($_REQUEST["name"]) && isset($_REQUEST["id_planning"]))

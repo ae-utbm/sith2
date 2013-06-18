@@ -193,11 +193,14 @@ class planning2 extends stdentity
                        		"id_gap" => $gap_id
 			)
                 );
+		if(!$sql->is_success())
+			return false;
 		$sql = new delete($this->dbrw, "pl2_gap",
 			array(
                              "id_gap" => $gap_id
                             )
                        );
+		return $sql->is_success();
 	}
 
 	function get_max_users_for( $gap_id, $start, $end )
