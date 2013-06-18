@@ -184,8 +184,8 @@ if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
 		if($planning->weekly)
 		{
 			$frm->add_info("Creneau du ".strftime("%A %H:%M",strtotime($start))." au ".strftime("%A %H:%M",strtotime($end))).
-			$frm->add_date_field("start", "Date de debut ",$planning->start,true);
-			$frm->add_date_field("end", "Date de fin ",$planning->end,true);
+			$frm->add_date_field("start", "Date de debut ",-1,true);
+			$frm->add_date_field("end", "Date de fin ",-1,true);
 		}
 		else
 		{
@@ -284,8 +284,8 @@ if($_REQUEST["view"] === "new_gap" && isset($_REQUEST["id_planning"]))
 	$frm->add_hidden("id_planning",$planning->id);
 	$frm->add_text_field("name","Nom","",true);
 	$frm->add_text_field("max_users","Nombre de personne","1",true);
-	$frm->add_datetime_field("start", "Debut ",$planning->start,true);
-	$frm->add_datetime_field("end", "Fin ",$planning->end,true);
+	$frm->add_datetime_field("start", "Debut ",-1,true);
+	$frm->add_datetime_field("end", "Fin ",-1,true);
 	$frm->add_submit("new_gap","Valider");
 	$cts->add($frm);
 }
@@ -318,8 +318,8 @@ if($_REQUEST["view"] === "edit" && isset($_REQUEST["id_planning"]))
 	$frm->add_hidden("action","edit");
 	$frm->add_hidden("id_planning",$planning->id);
 	$frm->add_text_field("name","Nom",$planning->name,true);
-	$frm->add_date_field("start", "Date de debut ",$planning->start,true);
-	$frm->add_date_field("end", "Date de fin ",$planning->end,true);
+	$frm->add_date_field("start", "Date de debut ",$planning->start-date("Z"),true);
+	$frm->add_date_field("end", "Date de fin ",$planning->end-date("Z"),true);
 	$frm->add_checkbox("is_public","Publique",$planning->is_public,false);
 	$frm->add_submit("edit","Valider");
 	$cts->add($frm);
@@ -338,8 +338,8 @@ if($_REQUEST["view"] === "new")
 			7=>"Hebdomadaire",
 			14=>"Bihebdomadaire"),
 		0,-1,false,array(),false);
-	$frm->add_date_field("start", "Date de debut ",time(),true);
-	$frm->add_date_field("end", "Date de fin ",time()+86400,true);
+	$frm->add_date_field("start", "Date de debut ",-1,true);
+	$frm->add_date_field("end", "Date de fin ",-1,true);
 	$frm->add_checkbox("is_public","Publique",false,false);
 	$frm->add_submit("new","Valider");
 	$cts->add($frm);
