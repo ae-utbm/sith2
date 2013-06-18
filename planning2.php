@@ -88,8 +88,8 @@ if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"])
 	}
 	else
 	{
-		$start = $_REQUEST["start"];
-		$end = $_REQUEST["end"];
+		$start = $_REQUEST["start"]-date("Z");
+		$end = $_REQUEST["end"]-date("Z");
 		$start -= $planning->get_week_start($start);
 		$end -= $planning->get_week_start($end);
 		$name = $_REQUEST["name"];
@@ -127,8 +127,8 @@ if($_REQUEST["action"] === "edit" && isset($_REQUEST["start"])
 	{
 
 		$id_group = $planning->group;
-		$start = $_REQUEST["start"];
-		$end = $_REQUEST["end"];
+		$start = $_REQUEST["start"]-date("Z");
+		$end = $_REQUEST["end"]-date("Z");
 		$is_public = isset($_REQUEST["is_public"])&&$_REQUEST["is_public"];
 		$name = $_REQUEST["name"];
 
