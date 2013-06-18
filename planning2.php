@@ -88,7 +88,7 @@ if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"])
 	}
 	else
 	{
-		$timeOffset = date("O") / 100 * 60 * 60;
+		$timeOffset = 0;//date("O") / 100 * 60 * 60;
 		$start = $_REQUEST["start"];
 		$start -= $timeOffset;
 		$end = $_REQUEST["end"];
