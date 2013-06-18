@@ -143,6 +143,14 @@ class planningv extends stdcontents
 		$buffer_ligne = "<tr>\n<td class=\"pl2_horaires\"><div class=\"pl2_horaires\">".date("H:i",strtotime($last_time))." - ".date("H:i",strtotime($time))."</div></td>";
 		foreach($names as $name)
 		{
+			$gaps->go_first();
+			while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
+				if($gap_name === $name && $gap_start <= $last_time && $gap_end >= $time)
+					if(!in_array($name,$used_names,true))
+                                                $used_names[] = $name;
+		}
+		foreach($used_names as $name)
+		{
 			$buffer = "";
 			$gaps->go_first();
 			$has_gap = false;
