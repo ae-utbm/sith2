@@ -88,8 +88,11 @@ if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"])
 	}
 	else
 	{
+		$timeOffset = date("O") / 100 * 60 * 60;
 		$start = $_REQUEST["start"];
+		$start -= $timeOffset;
 		$end = $_REQUEST["end"];
+		$end -= $timeOffset;
 		$start -= $planning->get_week_start($start);
 		$end -= $planning->get_week_start($end);
 		$name = $_REQUEST["name"];
@@ -183,9 +186,7 @@ if($_REQUEST["action"] === "add_to_gap" && isset($_REQUEST["gap_id"]))
 		$frm->add_hidden("gap_id",$gap_id);
 		if($planning->weekly)
 		{
-			$week_start = $planning->get_week_start( time());
-			$cts->add_paragraph(date_default_timezone_get());
-			$frm->add_info("Creneau du ".strftime("%A %H:%M",$week_start+strtotime($start))." au ".strftime("%A %H:%M",$week_start+strtotime($end))).
+			$frm->add_info("Creneau du ".strftime("%A %H:%M",strtotime($start))." au ".strftime("%A %H:%M",strtotime($end))).
 			$frm->add_date_field("start", "Date de debut ",$planning->start,true);
 			$frm->add_date_field("end", "Date de fin ",$planning->end,true);
 		}
@@ -221,8 +222,8 @@ if($_REQUEST["action"] === "remove_from_gap" && isset($_REQUEST["user_gap_id"]))
 			{
 				$user = new utilisateur($site->db);
 				$user->load_by_id($id_utl);
-				$frm->add_info("Desinscrire ".$user->get_surnom_or_alias()." du ".strftime("%A %H:%M",$week_start+strtotime($start)).
-					" au ".strftime("%A %H:%M",$week_start+strtotime($end))."?");
+				$frm->add_info("Desinscrire ".$user->get_surnom_or_alias()." du ".strftime("%A %H:%M",strtotime($start)).
+					" au ".strftime("%A %H:%M",strtotime($end))."?");
 			}
 			else
 			{
