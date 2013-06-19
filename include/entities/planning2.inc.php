@@ -384,7 +384,7 @@ class planning2 extends stdentity
 				 ORDER BY start ASC");
 		else
 			return new requete($this->db,
-                                "SELECT id_gap, start, end, name_gap FROM pl2_gap 
+                                "SELECT id_gap, start, end, name_gap, max_users FROM pl2_gap 
                                  WHERE id_planning = $this->id
 				 AND end > '".gmdate("Y-m-d H:i:s",$start)."'
 				 AND start < '".gmdate("Y-m-d H:i:s",$end)."'
