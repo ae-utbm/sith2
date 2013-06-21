@@ -220,7 +220,7 @@ class planningv extends stdcontents
 			$time = $back_time;
 			$new_day = true;
 			$last_time = date("Y-m-d 00:00:00",strtotime($last_time)+86400);
-			$days[] = $time;
+			$days[] = $last_time;
 			goto changement;
 		}
 		else
