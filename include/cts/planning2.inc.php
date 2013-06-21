@@ -143,8 +143,20 @@ class planningv extends stdcontents
 		if(!( date("Y m d",strtotime($time)) === date("Y m d",strtotime($last_time)) 
 			|| $force_single_column))
 		{
-			$time = date("Y-m-d 23:59:59",strtotime($last_time));
 			$new_day = true;
+			if(date("H:i:s",strtotime($last_time)) == "23:59:59")
+			{
+				$buffer_mono .= $this->make_mono($buffer_jour,$used_names);
+				$buffer_jour = "";
+				$used_names = array();
+				$buffer_mono .= "</td><td class=\"pl2_multi\">";
+				$time = $back_time;
+				$last_time = date("Y-m-d 00:00:00",strtotime($last_time)+86400);
+				$days[] = $last_time;
+				goto changement;
+			}
+
+			$time = date("Y-m-d 23:59:59",strtotime($last_time));
 		}
 		$buffer_ligne = "<tr>\n<td class=\"pl2_horaires\"><div class=\"pl2_horaires\">".date("H:i",strtotime($last_time))." - ".date("H:i",strtotime($time))."</div></td>";
 		foreach($names as $name)
