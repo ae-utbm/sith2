@@ -95,9 +95,9 @@ if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"])
 			$start -= $planning->get_week_start($start);
 			$end -= $planning->get_week_start($end);
 		}
-		if(date("i:s",$start) === "00:00")
+		if(date("s",$start) === "00")
 			$start++;
-		if(date("i:s",$end) === "00:00")
+		if(date("s",$end) === "00")
 			$end--;
 
 		$name = $_REQUEST["name"];
