@@ -97,6 +97,7 @@ if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"])
 		}
 		if(date("H:i:s",$end) === "00:00:00")
 			$end--;
+		echo date("H:i:s",$end)."\n";
 
 		$name = $_REQUEST["name"];
 		$max_users = $_REQUEST["max_users"];
