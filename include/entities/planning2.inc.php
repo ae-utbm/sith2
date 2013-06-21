@@ -333,6 +333,16 @@ class planning2 extends stdentity
 					pl2_gap.end >= (SELECT start FROM pl2_gap WHERE id_gap = '$gap_id')
                                         AND pl2_gap.end <= (SELECT end FROM pl2_gap WHERE id_gap = '$gap_id')
 				)
+				OR
+				(
+					pl2_gap.start <= (SELECT start FROM pl2_gap WHERE id_gap = '$gap_id')
+                                        AND pl2_gap.end >= (SELECT end FROM pl2_gap WHERE id_gap = '$gap_id')
+				)
+				OR
+				(
+					pl2_gap.start >= (SELECT start FROM pl2_gap WHERE id_gap = '$gap_id')
+                                        AND pl2_gap.end <= (SELECT end FROM pl2_gap WHERE id_gap = '$gap_id')
+				)
 			 )");
 		if($sql->lines > 0)
 			return false;
