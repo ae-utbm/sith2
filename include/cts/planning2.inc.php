@@ -140,7 +140,8 @@ class planningv extends stdcontents
 	{
 	changement:
 		$back_time = $time;
-		if(!( date("Y m d",strtotime($time)) === date("Y m d",strtotime($last_time)) || $force_single_column))
+		if(!( !(date("H:i:s",$time) === "00:00:00") && date("Y m d",strtotime($time)) === date("Y m d",strtotime($last_time)) 
+			|| $force_single_column))
 		{
 			$time = date("Y-m-d 23:59:59",strtotime($last_time));
 			$new_day = true;
@@ -211,7 +212,8 @@ class planningv extends stdcontents
 		$buffer_ligne .= "</tr>\n";
 		if(!$new_day)
 			$buffer_jour .= $buffer_ligne;
-		if(!( date("Y m d",strtotime($back_time)) === date("Y m d",strtotime($last_time)) || $force_single_column))
+		if(!( !(date("H:i:s",$time) === "00:00:00") && date("Y m d",strtotime($back_time)) === date("Y m d",strtotime($last_time)) 
+			|| $force_single_column))
 		{
 			$buffer_mono .= $this->make_mono($buffer_jour,$used_names);
 			$buffer_jour = "";
