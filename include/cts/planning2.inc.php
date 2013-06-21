@@ -130,117 +130,65 @@ class planningv extends stdcontents
 		$names[] = $name;
 	}
 	$gaps_time->go_first();
-	$new_day = true;
-	list( $last_time ) = $gaps_time->get_row();
-	$buffer_mono = "";
-	$buffer_jour = "";
-	$used_names = array();
-	$days[] = $last_time;
-	while( list( $time ) = $gaps_time->get_row())
+	$days = array();
+	$current_day = null;
+	while(list( $time ) = $gaps_time->get_row())
 	{
-	changement:
-		$back_time = $time;
-		if(!( date("Y m d",strtotime($time)) === date("Y m d",strtotime($last_time)) 
-			|| $force_single_column))
+		if($current_day == null)
+			$current_day = gmdate("Y-m-d 00:00:00",$time);
+		while($current_day != gmdate("Y-m-d",strtotime($time)))
 		{
-			$new_day = true;
-			if(date("H:i:s",strtotime($last_time)) == "23:59:59")
-			{
-				$buffer_mono .= $this->make_mono($buffer_jour,$used_names);
-				$buffer_jour = "";
-				$used_names = array();
-				$buffer_mono .= "</td><td class=\"pl2_multi\">";
-				$time = $back_time;
-				$last_time = date("Y-m-d 00:00:00",strtotime($last_time)+86400);
-				$days[] = $last_time;
-				goto changement;
-			}
+			$days[$current_day][] = $gmdate("Y-m-d 23:59:59",strtotime($current_day));
+			$current_day = gmdate("Y-m-d 00:00:00",strtotime($current_day)+86400);
+			$days[$current_day][] = $gmdate("Y-m-d 00:00:00",strtotime($current_day));
+		}
 
-			$time = date("Y-m-d 23:59:59",strtotime($last_time));
-		}
-		$buffer_ligne = "<tr>\n<td class=\"pl2_horaires\"><div class=\"pl2_horaires\">".date("H:i",strtotime($last_time))." - ".date("H:i",strtotime($time))."</div></td>";
-		foreach($names as $name)
+		if(!in_array($time,$days[$current_day],true))
 		{
-			$gaps->go_first();
-			while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
-				if($gap_name === $name && $gap_start <= $last_time && $gap_end >= $time)
-					if(!in_array($name,$used_names,true))
-                                                $used_names[] = $name;
+			$days[$current_day][] = $time;
 		}
-		foreach($used_names as $name)
-		{
-			$buffer = "";
-			$gaps->go_first();
-			$has_gap = false;
-			$total_gap = 0;
-			$total_count = 0;
-			while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
-			{
-				$count = 0;
-				if($gap_name === $name && $gap_start <= $last_time && $gap_end >= $time)
-				{
-					$buffer .= "<div class=\"pl2_names\">";
-					if(!in_array($name,$used_names,true))
-						$used_names[] = $name;
-					$has_gap = true;
-					$new_day = false;
-					$total_gap += $gap_count;
-					$my_gap = $gaps_data[$gap_id];
-					foreach(  $my_gap as $gap_data)
-					{
-						$count++;
-						if($gap_data[0] == $site->user->id || $site->user->is_in_group_id($planning->admin_group)
-							|| $site->user->is_in_group("gestion_ae"))
-							$buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$planning->id\">".$gap_data[1]."</a>";
-						else
-							$buffer .= ($count==1?"":", ").$gap_data[1];
-						
-					}
-					if($count < $gap_count)
-					{
-						$buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
-					}
-					if($show_admin && (	$site->user->is_in_group_id($planning->admin_group) 
-								|| $site->user->is_in_group("gestion_ae")))
-					{
-						$buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=$planning->id\">Supprimer</a>";
-					}
-					$buffer .= "</div>";
-				}
-				$total_count += $count;
-			}
-			
-			if($has_gap)
-			{
-				if($total_count < $total_gap)
-					$buffer_ligne .= "<td><div class=\"pl2_gap_partial\">".$buffer."</div></td>";
-				else
-					$buffer_ligne .= "<td><div class=\"pl2_gap_full\">".$buffer."</div></td>";
-			}
-			else
-				$buffer_ligne .= "<td><div class=\"pl2_no_gap\"></div></td>";
-		}
-		
-		$buffer_ligne .= "</tr>\n";
-		if(!$new_day)
-			$buffer_jour .= $buffer_ligne;
-		if(!( date("Y m d",strtotime($back_time)) === date("Y m d",strtotime($last_time)) 
-			|| $force_single_column))
-		{
-			$buffer_mono .= $this->make_mono($buffer_jour,$used_names);
-			$buffer_jour = "";
-			$used_names = array();
-			$buffer_mono .= "</td><td class=\"pl2_multi\">";
-			$time = $back_time;
-			$new_day = true;
-			$last_time = date("Y-m-d 00:00:00",strtotime($last_time)+86400);
-			$days[] = $last_time;
-			goto changement;
-		}
-		else
-			$last_time = $time;
 	}
-	$buffer_mono .= $this->make_mono($buffer_jour,$used_names);
+	foreach($days as $day)
+	{
+		$day_buffer = "";
+		$last_time = null;
+		$used_names = array();
+		foreach($day as $time)
+		{
+			list( $current_day ) = $day;
+			$current_day_start = strtotime(date("Y-m-d 00:00:00",strtotime($current_day)));
+			$current_day_end = strtotime(date("Y-m-d 23:59:59",strtotime($current_day)));
+			foreach($names as $name)
+                	{
+                        	$gaps->go_first();
+	                        while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
+				{
+					$gap_start = strtotime($gap_start);
+					$gap_end = strtotime($gap_end);
+        	                        if($gap_name === $name 
+						&& ( ($gap_start >= $current_day_start && $gap_start <= $current_day_end)
+						||  ($gap_end >= $current_day_start && $gap_end <= $current_day_end) 
+						|| ($gap_start <= $current_day_start && $gap_end >= $current_day_end) ))
+                	                        if(!in_array($name,$used_names,true))
+                        	                        $used_names[] = $name;
+				}
+                	}
+			$line_buffer = "";
+			if($last_time == null)
+			{
+				$last_time = $time;
+				continue;
+			}
+			$line_buffer .= "<tr>\n";
+			$line_buffer .= "<td>".date("H:i", $last_time)." - ".date("H:i", $time)."</td>";
+			$line_buffer .= "<td>";	
+			
+			
+			$line_buffer .= "</td>";
+			$line_buffer .= "</tr>\n";
+		}
+	}
+
 	
 	if($is_multi_day)
 	{
