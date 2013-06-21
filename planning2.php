@@ -97,7 +97,8 @@ if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"])
 		}
 		if(gmdate("H:i:s",$end) === "00:00:00")
 			$end--;
-		echo gmdate("H:i:s",$end)."\n";
+		if(gmdate("H:i:s",$start) === "00:00:00")
+			$start++;
 
 		$name = $_REQUEST["name"];
 		$max_users = $_REQUEST["max_users"];
