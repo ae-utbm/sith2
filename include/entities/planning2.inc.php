@@ -313,6 +313,14 @@ class planning2 extends stdentity
 				(        pl2_user_gap.end >= '".gmdate("Y-m-d H:i:s",$start)."'
 					 AND pl2_user_gap.end <= '".gmdate("Y-m-d H:i:s",$end)."'
 				)
+			  	OR
+				(        pl2_user_gap.start <= '".gmdate("Y-m-d H:i:s",$start)."'
+					 AND pl2_user_gap.end >= '".gmdate("Y-m-d H:i:s",$end)."'
+				)
+			  	OR
+				(        pl2_user_gap.start >= '".gmdate("Y-m-d H:i:s",$start)."'
+					 AND pl2_user_gap.end <= '".gmdate("Y-m-d H:i:s",$end)."'
+				)
 			 )
 			 AND
 			 (
