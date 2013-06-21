@@ -108,8 +108,16 @@ class planningv extends stdcontents
 	$end = $start;
 	while( list($tmp) = $gaps_time->get_row() )
 		$end = $tmp;
-	$start = strtotime($start) + $this->week_start;
-	$end = strtotime($end) + $this->week_start;
+	if($planning->weekly)
+	{
+		$start = strtotime($start) + $this->week_start;
+		$end = strtotime($end) + $this->week_start;
+	}
+	else
+	{
+		$start = strtotime($start);
+		$end = strtotime($end);
+	}
 
 	$is_multi_day = true;
 	if( date("Y m d",$start) === date("Y m d",$end) || $force_single_column)
@@ -211,7 +219,7 @@ class planningv extends stdcontents
 			$buffer_mono .= "</td><td class=\"pl2_multi\">";
 			$time = $back_time;
 			$new_day = true;
-			$last_time = date("Y-m-d 00:00:00",strtotime($time));
+			$last_time = date("Y-m-d 00:00:00",strtotime($last_time)+86400);
 			$days[] = $time;
 			goto changement;
 		}

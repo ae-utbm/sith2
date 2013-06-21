@@ -263,8 +263,25 @@ if($_REQUEST["action"] === "do_add_to_gap" && isset($_REQUEST["gap_id"]))
 	{
 		$gap_id = $_REQUEST["gap_id"];
 		$user_id = $site->user->id;
-		$start = $_REQUEST["start"]+date("Z");
-		$end = $_REQUEST["end"]+date("Z");
+		$start = null;
+		$end = null;
+		if(!$planning->weekly)
+		{
+			$sql = $planning->get_gap_info($gap_id);
+			if(!(list($tmp, $tmp2, $start, $end) = $sql->get_row() ))
+			{
+				$site->add_contents($cts);
+			        $site->end_page();
+			        exit();
+			}
+			$start = strtotime($start." UTC");
+			$end = strtotime($end." UTC");
+		}
+		else
+		{
+			$start = $_REQUEST["start"]+date("Z");
+			$end = $_REQUEST["end"]+date("Z");
+		}
 		if($planning->is_user_addable($gap_id, $user_id, $start, $end ))
 		{
 			$planning->add_user_to_gap($gap_id, $user_id, $start, $end );
