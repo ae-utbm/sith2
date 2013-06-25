@@ -57,9 +57,13 @@ class planningv extends stdcontents
     function make_multi($days)
     {
 	$buffer = "<table class=\"pl2_multi\">\n<tr>\n";
+	$head = 0;
 	foreach(array_keys($days) as $day)
 	{
+		$head++;
 		$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($this->planning->weekly)?($this->week_start):0))."</th>";
+		if($head >= $this->days_per_row)
+			break;
 	}
 	$buffer .= "</tr>\n<tr>";
 	$col = 0;
@@ -73,9 +77,14 @@ class planningv extends stdcontents
 		{
 			$buffer .= "</tr></table>";
 			$buffer .= "<table class=\"pl2_multi\">\n<tr>\n";
+			$header = -$col;
 			foreach(array_keys($days) as $day)
 			{
-				$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($this->planning->weekly)?($this->week_start):0))."</th>";
+				$header ++;
+				if($header >= 0)
+					$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($this->planning->weekly)?($this->week_start):0))."</th>";
+				if($header >= $this->days_per_row)
+					break;
 			}
 			$buffer .= "</tr>\n<tr>";
 		}
