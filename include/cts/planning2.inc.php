@@ -225,6 +225,7 @@ class planningv extends stdcontents
 								$end_time = strtotime($gap_end);
 						}
 					}
+					echo "end_time: $end_time ".date("Y-m-d H:i:s",$end_time);
 					$end_times[$name] = $end_time;
 					$span = 0;
 					$tmp_day = $day;
