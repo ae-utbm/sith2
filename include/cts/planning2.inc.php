@@ -58,9 +58,9 @@ class planningv extends stdcontents
 	$buffer = "<table class=\"pl2_multi\">\n<tr>\n";
 	foreach($days as $day)
 	{
-		echo $planning->weekly."\n";
-		echo (strtotime($day." UTC")+(($planning->weekly)?($this->week_start):0))."\n";
-		$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($planning->weekly)?($this->week_start):0))."</th>";
+		echo $this->planning->weekly."\n";
+		echo (strtotime($day." UTC")+(($this->planning->weekly)?($this->week_start):0))."\n";
+		$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($this->planning->weekly)?($this->week_start):0))."</th>";
 	}
 	$buffer .= "</tr>\n<tr><td class=\"pl2_multi\">";
 	$buffer .= $body;
@@ -80,37 +80,37 @@ class planningv extends stdcontents
 	setlocale(LC_ALL, "fr_FR.UTF8");
         $this->title=false;
 
-	$planning = new planning2($db, $db);
-	$planning->load_by_id($id_planning);
+	$this->planning = new planning2($db, $db);
+	$this->planning->load_by_id($id_planning);
 	
-	if(!$site->user->is_in_group_id($planning->group) && !$site->user->is_in_group_id($planning->admin_group) 
-		&& !$planning->is_public && !$site->user->is_in_group("gestion_ae"))
+	if(!$site->user->is_in_group_id($this->planning->group) && !$site->user->is_in_group_id($this->planning->admin_group) 
+		&& !$this->planning->is_public && !$site->user->is_in_group("gestion_ae"))
 	{
 		$this->buffer .= "<p>Droits insuffisants pour lire ce planning</p>";
 		return;
 	}
 
-	$gaps = $planning->get_gaps($start, $end);
+	$gaps = $this->planning->get_gaps($start, $end);
 
 	$gaps_data = array();
 	while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 	{
 		$gap_data = array();
-		$users = $planning->get_users_for_gap($gap_id,$start);
+		$users = $this->planning->get_users_for_gap($gap_id,$start);
 		while( list( $utl, $nom_utl, $user_gap_id ) = $users->get_row() ){
 			$gap_data[] = array( 0 => $utl, 1 => $nom_utl, 2=> $user_gap_id);
 		}
 		$gaps_data[$gap_id] = array( "id" => $gap_id, "start" => $gap_start, "end" => $gap_end, "name" => $gap_name, "count" => $gap_count, "user" => $gap_data);
 	}
 
-	$gaps_time = $planning->get_gaps_time($start, $end);
+	$gaps_time = $this->planning->get_gaps_time($start, $end);
 
-	$this->week_start = $planning->get_week_start($start);
+	$this->week_start = $this->planning->get_week_start($start);
 	list( $start ) = $gaps_time->get_row();
 	$end = $start;
 	while( list($tmp) = $gaps_time->get_row() )
 		$end = $tmp;
-	if($planning->weekly)
+	if($this->planning->weekly)
 	{
 		$start = strtotime($start) + $this->week_start;
 		$end = strtotime($end) + $this->week_start;
@@ -125,7 +125,7 @@ class planningv extends stdcontents
 	if( date("Y m d",$start) === date("Y m d",$end) || $force_single_column)
 		$is_multi_day = false;
 
-	$gaps_names = $planning->get_gaps_names();
+	$gaps_names = $this->planning->get_gaps_names();
 	$names = array();
 	while( list( $name ) = $gaps_names->get_row() )
 	{
@@ -254,21 +254,21 @@ class planningv extends stdcontents
 						foreach(  $my_gap["user"] as $gap_data)
 						{
 							$count++;
-							if($gap_data[0] == $site->user->id || $site->user->is_in_group_id($planning->admin_group)
+							if($gap_data[0] == $site->user->id || $site->user->is_in_group_id($this->planning->admin_group)
 								|| $site->user->is_in_group("gestion_ae"))
-								$cell_buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$planning->id\">".$gap_data[1]."</a>";
+								$cell_buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$this->planning->id\">".$gap_data[1]."</a>";
 							else
 								$cell_buffer .= ($count==1?"":", ").$gap_data[1];
 
 						}
 						if($count < $gap_count)
 						{
-							$cell_buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
+							$cell_buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$this->planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
 						}
-						if($show_admin && (     $site->user->is_in_group_id($planning->admin_group)
+						if($show_admin && (     $site->user->is_in_group_id($this->planning->admin_group)
 							|| $site->user->is_in_group("gestion_ae")))
 						{
-							$cell_buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=$planning->id\">Supprimer</a>";
+							$cell_buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=$this->planning->id\">Supprimer</a>";
 						}
 						$cell_buffer .= "</div>";
 						$totalCount += $count;
@@ -283,21 +283,21 @@ class planningv extends stdcontents
 						foreach(  $my_gap["user"] as $gap_data)
 						{
 							$count++;
-							if($gap_data[0] == $site->user->id || $site->user->is_in_group_id($planning->admin_group)
+							if($gap_data[0] == $site->user->id || $site->user->is_in_group_id($this->planning->admin_group)
 								|| $site->user->is_in_group("gestion_ae"))
-								$cell_buffer .= ($count==1?"Continué: ":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$planning->id\">".$gap_data[1]."</a>";
+								$cell_buffer .= ($count==1?"Continué: ":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$this->planning->id\">".$gap_data[1]."</a>";
 							else
 								$cell_buffer .= ($count==1?"Continué: ":", ").$gap_data[1];
 
 						}
 						if($count < $gap_count)
 						{
-							$cell_buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
+							$cell_buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$this->planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
 						}
-						if($show_admin && (     $site->user->is_in_group_id($planning->admin_group)
+						if($show_admin && (     $site->user->is_in_group_id($this->planning->admin_group)
 							|| $site->user->is_in_group("gestion_ae")))
 						{
-							$cell_buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=$planning->id\">Supprimer</a>";
+							$cell_buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=$this->planning->id\">Supprimer</a>";
 						}
 						$cell_buffer .= "</div>";
 						$totalCount += $count;
