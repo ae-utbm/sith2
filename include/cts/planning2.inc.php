@@ -190,7 +190,7 @@ class planningv extends stdcontents
 			
 			foreach($used_names as $name)
 			{
-				if(strtotime($time) <= $end_times[$name])
+				if(strtotime($last_time) <= $end_times[$name])
 					continue;
 				$new_gaps = array();
 				$curr_gaps = array();
@@ -198,12 +198,12 @@ class planningv extends stdcontents
 				while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 				{
 					if($gap_name === $name
-						&& strtotime($gap_start) === strtotime($time))
+						&& strtotime($gap_start) === strtotime($last_time))
 						$new_gaps[] = $gap_id;
-					echo $gap_start."\n".$time."\n\n";
+					echo $gap_start."\n".$last_time."\n\n";
 					if($gap_name === $name
-						&& strtotime($gap_start) < strtotime($time)
-						&& strtotime($gap_end) > strtotime($time))
+						&& strtotime($gap_start) < strtotime($last_time)
+						&& strtotime($gap_end) > strtotime($last_time))
 						$curr_gaps[] = array("id" => $gap_id, "end" => $gap_end);
 				}
 				if(empty($new_gaps) && empty($curr_gaps))
@@ -217,9 +217,9 @@ class planningv extends stdcontents
 					while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 					{
 						if($gap_name === $name
-							&& strtotime($gap_end) > strtotime($time))
+							&& strtotime($gap_end) > strtotime($last_time))
 						{
-							if(strtotime($gap_start) < $end_time && strtotime($gap_start) > strtotime($time))
+							if(strtotime($gap_start) < $end_time && strtotime($gap_start) > strtotime($last_time))
 								$end_time = strtotime($gap_start);
 							
 							if(strtotime($gap_end) < $end_time)
@@ -231,7 +231,7 @@ class planningv extends stdcontents
 					for($i = 0; $i < count($day); $i++)
 					{
 						$tmp_time = $day[$i];
-						if(strtotime($tmp_time) >= strtotime($time)
+						if(strtotime($tmp_time) >= strtotime($last_time)
 							&& strtotime($tmp_time) <= $end_time)
 						{
 							$span++;
@@ -287,6 +287,7 @@ class planningv extends stdcontents
 			}
 			
 			$line_buffer .= "</tr>\n";
+			$last_time = $time;
 		}
 		$day_buffer .= $this->make_mono($line_buffer,$used_names);
 
