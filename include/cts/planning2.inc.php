@@ -240,13 +240,13 @@ class planningv extends stdcontents
 					$totalCount = 0;
 					$cell_buffer = "";
 
+					var_dump($new_gaps);
 					foreach($new_gaps as $gap_id)
 					{
 						$count = 0;
 						$my_gap = $gaps_data[$gap_id];
 						$gap_count = $my_gap["count"];
 						$cell_buffer .= "<div class=\"pl2_names\">";
-						var_dump($my_gap["user"]);
 						foreach(  $my_gap["user"] as $gap_data)
 						{
 							$count++;
