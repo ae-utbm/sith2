@@ -140,7 +140,6 @@ class planningv extends stdcontents
 	{
 		if($current_day === null)
 			$current_day = strtotime(gmdate("Y-m-d 00:00:00",strtotime($time." UTC"))." UTC");
-		echo gmdate("Y-m-d 00:00:00",$current_day);
 		while($current_day < strtotime(gmdate("Y-m-d 00:00:00",strtotime($time))))
 		{
 			$days[gmdate("Y-m-d 00:00:00",$current_day)][] = gmdate("Y-m-d 23:59:59",$current_day);
@@ -153,7 +152,6 @@ class planningv extends stdcontents
 			$days[gmdate("Y-m-d 00:00:00",$current_day)][] = $time;
 		}
 	}
-	var_dump($days);
 
 	$day_buffer = "";
 	foreach($days as $day)
@@ -161,8 +159,8 @@ class planningv extends stdcontents
 		$last_time = null;
 		$used_names = array();
 		list( $current_day ) = $day;
-		$current_day_start = strtotime(date("Y-m-d 00:00:00",strtotime($current_day)));
-		$current_day_end = strtotime(date("Y-m-d 23:59:59",strtotime($current_day)));
+		$current_day_start = strtotime(date("Y-m-d 00:00:00",strtotime($current_day." UTC"))." UTC");
+		$current_day_end = strtotime(date("Y-m-d 23:59:59",strtotime($current_day." UTC"))." UTC");
 		$used_names = array();
 		foreach($names as $name)
 		{
