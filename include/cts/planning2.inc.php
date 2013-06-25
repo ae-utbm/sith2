@@ -164,6 +164,7 @@ class planningv extends stdcontents
 		$used_names = array();
 		foreach($names as $name)
 		{
+			$end_times[$name] = -1;
 			$gaps->go_first();
 			while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 			{
@@ -178,8 +179,6 @@ class planningv extends stdcontents
 			}
 		}
 		$line_buffer = "";
-		foreach($end_times as $endtime)
-			$endtime = -1;
 		foreach($day as $time)
 		{
 			if($last_time === null)
