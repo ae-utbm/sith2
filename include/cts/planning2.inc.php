@@ -183,9 +183,11 @@ class planningv extends stdcontents
 						$used_names[] = $name;
 			}
 		}
-		$line_buffer = "";
+		$lines_buffer = "";
 		foreach($day as $time)
 		{
+			$line_buffer = "";
+			$is_empty = false;
 			if($last_time === null)
 			{
 				$last_time = $time;
@@ -219,6 +221,7 @@ class planningv extends stdcontents
 				}
 				else
 				{
+					$is_empty = false;
 					$end_time = PHP_INT_MAX;
 					$gaps->go_first();
 					while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
@@ -322,11 +325,13 @@ class planningv extends stdcontents
 			}
 			
 			$line_buffer .= "</tr>\n";
+			if(!$is_empty)
+				$lines_buffer .= $line_buffer;
 			$last_time = $time;
 		}
 		$tmp_names = $used_names;
 		reset($tmp_names);
-		$day_buffer .= $this->make_mono($line_buffer,$tmp_names);
+		$day_buffer .= $this->make_mono($lines_buffer,$tmp_names);
 
 		if($is_multi_day)
 			$day_buffer .= " </td><td class=\"pl2_multi\"> ";
