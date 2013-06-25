@@ -127,6 +127,9 @@ class planningv extends stdcontents
 	$names = array();
 	while( list( $name ) = $gaps_names->get_row() )
 	{
+		$name = trim($name);
+		if(empty($name))
+			continue;
 		$names[] = $name;
 		$end_times[$name] = 0;
 	}
