@@ -152,6 +152,7 @@ class planningv extends stdcontents
 			$days[gmdate("Y-m-d 00:00:00",$current_day)][] = $time;
 		}
 	}
+	var_dump($days);
 
 	$day_buffer = "";
 	foreach($days as $day)
@@ -178,7 +179,6 @@ class planningv extends stdcontents
 			}
 		}
 		$line_buffer = "";
-		var_dump($day);
 		foreach($day as $time)
 		{
 			if($last_time == null)
