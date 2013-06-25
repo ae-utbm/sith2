@@ -186,7 +186,7 @@ class planningv extends stdcontents
 				continue;
 			}
 			$line_buffer .= "<tr>\n";
-			$line_buffer .= "<td>".date("H:i", $last_time)." - ".date("H:i", $time)."</td>";
+			$line_buffer .= "<td>".date("H:i", strtotime($last_time))." - ".date("H:i", strtotime($time))."</td>";
 			
 			foreach($used_names as $name)
 			{
