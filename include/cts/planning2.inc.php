@@ -163,8 +163,11 @@ class planningv extends stdcontents
 		}
 	}
 
-	$day_buffer = "";
-	foreach($days as $day)
+	if($is_multi_day)
+		$days_buffer = array();
+	else
+		$days_buffer = "";
+	foreach($days as $day_key => $day)
 	{
 		$last_time = null;
 		$used_names = array();
@@ -336,14 +339,18 @@ class planningv extends stdcontents
 		}
 		$tmp_names = $used_names;
 		reset($tmp_names);
-		$day_buffer .= $this->make_mono($lines_buffer,$tmp_names);
+		if(!$is_multi_day)
+			$days_buffer = $this->make_mono($lines_buffer,$tmp_names);
+		else
+			if(!empty($lines_buffer))
+				$days_buffer[$day_key] .= $this->make_mono($lines_buffer,$tmp_names);
 
 	}
 
 	
 	if($is_multi_day)
 	{
-		$this->buffer .= $this->make_multi($day_buffer,array_keys($days));
+		$this->buffer .= $this->make_multi($days_buffer);
 	}
 	else
 		$this->buffer .= $day_buffer;
