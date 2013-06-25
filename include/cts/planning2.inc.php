@@ -225,11 +225,11 @@ class planningv extends stdcontents
 					$end_times[$name] = $end_time;
 					$span = 0;
 					$tmp_day = $day;
-					$tmp_day.reset();
+					reset($tmp_day);
 					foreach($tmp_day as $tmp_time)
 					{
-						if($strtotime($tmp_time) > strtotime($time)
-							&& $strtotime($tmp_time) <= $end_time)
+						if(strtotime($tmp_time) > strtotime($time)
+							&& strtotime($tmp_time) <= $end_time)
 							$span++;
 					}
 					$totalMax = 0;
