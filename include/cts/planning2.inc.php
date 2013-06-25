@@ -188,7 +188,7 @@ class planningv extends stdcontents
 			}
 			echo $last_time."-".$time."\n";
 			$line_buffer .= "<tr>\n";
-			$line_buffer .= "<td>".date("H:i", strtotime($last_time))." - ".date("H:i", strtotime($time))."</td>";
+			$line_buffer .= "<td><div class=\"pl2_horaires\">".date("H:i", strtotime($last_time))." - ".date("H:i", strtotime($time))."</div></td>";
 			
 			foreach($used_names as $name)
 			{
