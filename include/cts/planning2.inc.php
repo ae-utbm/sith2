@@ -73,7 +73,7 @@ class planningv extends stdcontents
 		$buffer .= "<td class=\"pl2_multi\">";
 		$buffer .= $body;
 		$buffer .= "</td>";
-		if($col % $this->days_per_row)
+		if(($col % $this->days_per_row) == 0)
 		{
 			$buffer .= "</tr></table>";
 			$buffer .= "<table class=\"pl2_multi\">\n<tr>\n";
