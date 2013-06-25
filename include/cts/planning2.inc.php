@@ -178,6 +178,8 @@ class planningv extends stdcontents
 			}
 		}
 		$line_buffer = "";
+		foreach($endtimes as $endtime)
+			$endtime = -1;
 		foreach($day as $time)
 		{
 			if($last_time === null)
