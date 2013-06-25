@@ -58,7 +58,8 @@ class planningv extends stdcontents
 	$buffer = "<table class=\"pl2_multi\">\n<tr>\n";
 	foreach($days as $day)
 	{
-		echo (strtotime($day)+(($planning->weekly)?($this->week_start):0))."\n";
+		echo $this->week_start."\n";
+		echo (strtotime($day." UTC")+(($planning->weekly)?($this->week_start):0))."\n";
 		$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($planning->weekly)?($this->week_start):0))."</th>";
 	}
 	$buffer .= "</tr>\n<tr><td class=\"pl2_multi\">";
