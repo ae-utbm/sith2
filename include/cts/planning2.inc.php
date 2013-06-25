@@ -98,7 +98,7 @@ class planningv extends stdcontents
 		while( list( $utl, $nom_utl, $user_gap_id ) = $users->get_row() ){
 			$gap_data[] = array( 0 => $utl, 1 => $nom_utl, 2=> $user_gap_id);
 		}
-		$gaps_data[$gap_id] = $gap_data;
+		$gaps_data[$gap_id] = array( "id" => $gap_id, "start" => $gap_start, "end" => $gap_end, "name" => $gap_name, "count" => $gap_count, "user" => $gap_data);
 	}
 
 	$gaps_time = $planning->get_gaps_time($start, $end);
@@ -128,6 +128,7 @@ class planningv extends stdcontents
 	while( list( $name ) = $gaps_names->get_row() )
 	{
 		$names[] = $name;
+		$end_times[$name] = 0;
 	}
 	$gaps_time->go_first();
 	$days = array();
@@ -148,9 +149,10 @@ class planningv extends stdcontents
 			$days[$current_day][] = $time;
 		}
 	}
+
+	$day_buffer = "";
 	foreach($days as $day)
 	{
-		$day_buffer = "";
 		$last_time = null;
 		$used_names = array();
 		list( $current_day ) = $day;
@@ -185,6 +187,8 @@ class planningv extends stdcontents
 			
 			foreach($used_names as $name)
 			{
+				if(strtotime($time) <= $end_times[$name])
+					continue;
 				$new_gaps = array();
 				$curr_gaps = array();
 				$gaps->go_first();
@@ -204,31 +208,93 @@ class planningv extends stdcontents
 				}
 				else
 				{
+					$end_time = PHP_INT_MAX;
+					$gaps->go_first();
+					while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
+					{
+						if($gap_name === $name
+							&& strtotime($gap_end) > strtotime($time))
+						{
+							if(strtotime($gap_start) < $end_time && strtotime($gap_start) > strtotime($time))
+								$end_time = strtotime($gap_start);
+							
+							if(strtotime($gap_end) < $end_time)
+								$end_time = strtotime($gap_end);
+						}
+					}
+					$end_times[$name] = $end_time;
+					$span = 0;
+					$tmp_day = clone $day;
+					$tmp_day.reset();
+					foreach($tmp_day as $tmp_time)
+					{
+						if($strtotime($tmp_time) > strtotime($time)
+							&& $strtotime($tmp_time) <= $end_time)
+							$span++;
+					}
+					$totalMax = 0;
+					$totalCount = 0;
+					$cell_buffer = "";
 
 					foreach($new_gaps as $gap_id)
 					{
+						$count = 0;
 						$my_gap = $gaps_data[$gap_id];
-						foreach(  $my_gap as $gap_data)
+						$gap_count = $my_gap["count"];
+						$cell_buffer .= "<div class=\"pl2_names\">";
+						foreach(  $my_gap["user"] as $gap_data)
 						{
+							$count++;
+							if($gap_data[0] == $site->user->id || $site->user->is_in_group_id($planning->admin_group)
+								|| $site->user->is_in_group("gestion_ae"))
+								$cell_buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$planning->id\">".$gap_data[1]."</a>";
+							else
+								$cell_buffer .= ($count==1?"":", ").$gap_data[1];
 
 						}
+						if($count < $gap_count)
+						{
+							$cell_buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
+						}
+						if($show_admin && (     $site->user->is_in_group_id($planning->admin_group)
+							|| $site->user->is_in_group("gestion_ae")))
+						{
+							$cell_buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=$planning->id\">Supprimer</a>";
+						}
+						$cell_buffer .= "</div>";
+						$totalCount += $count;
+						$totalMax += $gap_count;
 					}
-					$line_buffer .= "<td>";
-					$line_buffer .= "</td>";
+					if($totalCount < $totalMax)
+					{
+						$line_buffer .= "<td rowspan=$span><div class=\"pl2_gap_partial\">";
+						$line_buffer .= $cell_buffer;
+						$line_buffer .= "</div></td>";
+					}
+					else
+					{
+						$line_buffer .= "<td rowspan=$span><div class=\"pl2_gap_full\">";
+						$line_buffer .= $cell_buffer;
+						$line_buffer .= "</div></td>";
+					}
 				}
 			}
 			
 			$line_buffer .= "</tr>\n";
+			$day_buffer .= make_mono($line_buffer,$used_names);
 		}
+
+		if($is_multi_day)
+			$day_buffer .= " </td><td class=\"pl2_multi\"> ";
 	}
 
 	
 	if($is_multi_day)
 	{
-		$this->buffer .= $this->make_multi($buffer_mono,$days);
+		$this->buffer .= $this->make_multi($day_buffer,array_keys($days));
 	}
 	else
-		$this->buffer .= $buffer_mono;
+		$this->buffer .= $day_buffer;
 
     }
 
