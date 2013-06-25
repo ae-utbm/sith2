@@ -104,6 +104,7 @@ class planningv extends stdcontents
 	$gaps_time = $planning->get_gaps_time($start, $end);
 
 	$this->week_start = $planning->get_week_start($start);
+	echo $this->week_start;
 	list( $start ) = $gaps_time->get_row();
 	$end = $start;
 	while( list($tmp) = $gaps_time->get_row() )
@@ -186,7 +187,6 @@ class planningv extends stdcontents
 				$last_time = $time;
 				continue;
 			}
-			echo $last_time."-".$time."\n";
 			$line_buffer .= "<tr>\n";
 			$line_buffer .= "<td class=\"pl2_horaires\"><div class=\"pl2_horaires\">".date("H:i", strtotime($last_time))."-".date("H:i", strtotime($time))."</div></td>";
 			
