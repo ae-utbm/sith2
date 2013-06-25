@@ -29,7 +29,7 @@ require_once($topdir."include/cts/standart.inc.php");
 /**
  * Affiche un planning hebdomadaire
  *
- * @author Julien Etelain
+ * @author Simon Le Lann
  * @ingroup display_cts
  */
 class planningv extends stdcontents
@@ -153,26 +153,27 @@ class planningv extends stdcontents
 		$day_buffer = "";
 		$last_time = null;
 		$used_names = array();
+		list( $current_day ) = $day;
+		$current_day_start = strtotime(date("Y-m-d 00:00:00",strtotime($current_day)));
+		$current_day_end = strtotime(date("Y-m-d 23:59:59",strtotime($current_day)));
+		$used_names = array();
+		foreach($names as $name)
+		{
+			$gaps->go_first();
+			while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
+			{
+				$gap_start = strtotime($gap_start);
+				$gap_end = strtotime($gap_end);
+				if($gap_name === $name 
+					&& ( ($gap_start >= $current_day_start && $gap_start <= $current_day_end)
+					||  ($gap_end >= $current_day_start && $gap_end <= $current_day_end) 
+					|| ($gap_start <= $current_day_start && $gap_end >= $current_day_end) ))
+					if(!in_array($name,$used_names,true))
+						$used_names[] = $name;
+			}
+		}
 		foreach($day as $time)
 		{
-			list( $current_day ) = $day;
-			$current_day_start = strtotime(date("Y-m-d 00:00:00",strtotime($current_day)));
-			$current_day_end = strtotime(date("Y-m-d 23:59:59",strtotime($current_day)));
-			foreach($names as $name)
-                	{
-                        	$gaps->go_first();
-	                        while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
-				{
-					$gap_start = strtotime($gap_start);
-					$gap_end = strtotime($gap_end);
-        	                        if($gap_name === $name 
-						&& ( ($gap_start >= $current_day_start && $gap_start <= $current_day_end)
-						||  ($gap_end >= $current_day_start && $gap_end <= $current_day_end) 
-						|| ($gap_start <= $current_day_start && $gap_end >= $current_day_end) ))
-                	                        if(!in_array($name,$used_names,true))
-                        	                        $used_names[] = $name;
-				}
-                	}
 			$line_buffer = "";
 			if($last_time == null)
 			{
@@ -181,10 +182,42 @@ class planningv extends stdcontents
 			}
 			$line_buffer .= "<tr>\n";
 			$line_buffer .= "<td>".date("H:i", $last_time)." - ".date("H:i", $time)."</td>";
-			$line_buffer .= "<td>";	
 			
+			foreach($used_names as $name)
+			{
+				$new_gaps = array();
+				$curr_gaps = array();
+				$gaps->go_first();
+				while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
+				{
+					if($gap_name === $name
+						&& $gap_start === $time)
+						$new_gaps[] = $gap_id;
+					if($gap_name === $name
+						&& strtotime($gap_start) < strtotime($time)
+						&& strtotime($gap_end) > strtotime($time))
+						$curr_gaps[] = array("id" => $gap_id, "end" => $gap_end);
+				}
+				if(empty($new_gaps) && empty($curr_gaps))
+				{
+					$line_buffer .= "<td class=\"pl2_no_gap\"></td>";
+				}
+				else
+				{
+
+					foreach($new_gaps as $gap_id)
+					{
+						$my_gap = $gaps_data[$gap_id];
+						foreach(  $my_gap as $gap_data)
+						{
+
+						}
+					}
+					$line_buffer .= "<td>";
+					$line_buffer .= "</td>";
+				}
+			}
 			
-			$line_buffer .= "</td>";
 			$line_buffer .= "</tr>\n";
 		}
 	}
