@@ -236,8 +236,9 @@ class planningv extends stdcontents
 							&& strtotime($tmp_time) <= $end_time)
 						{
 							$span++;
-							echo "time: ".strtotime($time)." ".date("Y-m-d H:i:s",strtotime($tmp_time));
 						}
+						echo "time: ".strtotime($time)." ".date("Y-m-d H:i:s",strtotime($tmp_time))."\n";
+						echo "tmp_time: ".strtotime($tmp_time)." ".date("Y-m-d H:i:s",strtotime($tmp_time))."\n";
 					}
 					$totalMax = 0;
 					$totalCount = 0;
