@@ -281,7 +281,7 @@ class planningv extends stdcontents
 			}
 			
 			$line_buffer .= "</tr>\n";
-			$day_buffer .= make_mono($line_buffer,$used_names);
+			$day_buffer .= $this->make_mono($line_buffer,$used_names);
 		}
 
 		if($is_multi_day)
