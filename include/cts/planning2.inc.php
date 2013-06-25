@@ -191,7 +191,7 @@ class planningv extends stdcontents
 			
 			foreach($used_names as $name)
 			{
-				echo "$name, $last_time\n";
+				echo "$name, $last_time, $end_times[$name]\n";
 				if(strtotime($last_time) <= $end_times[$name])
 					continue;
 				$new_gaps = array();
