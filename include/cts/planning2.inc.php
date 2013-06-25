@@ -58,6 +58,7 @@ class planningv extends stdcontents
 	$buffer = "<table class=\"pl2_multi\">\n<tr>\n";
 	foreach($days as $day)
 	{
+		echo (strtotime($day)+(($planning->weekly)?($this->week_start):0))."\n";
 		$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($planning->weekly)?($this->week_start):0))."</th>";
 	}
 	$buffer .= "</tr>\n<tr><td class=\"pl2_multi\">";
@@ -104,7 +105,6 @@ class planningv extends stdcontents
 	$gaps_time = $planning->get_gaps_time($start, $end);
 
 	$this->week_start = $planning->get_week_start($start);
-	echo $this->week_start;
 	list( $start ) = $gaps_time->get_row();
 	$end = $start;
 	while( list($tmp) = $gaps_time->get_row() )
