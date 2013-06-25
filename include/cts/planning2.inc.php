@@ -180,12 +180,12 @@ class planningv extends stdcontents
 		$line_buffer = "";
 		foreach($day as $time)
 		{
-			echo $time."\n";
 			if($last_time === null)
 			{
 				$last_time = $time;
 				continue;
 			}
+			echo $last_time."-".$time."\n";
 			$line_buffer .= "<tr>\n";
 			$line_buffer .= "<td>".date("H:i", strtotime($last_time))." - ".date("H:i", strtotime($time))."</td>";
 			
