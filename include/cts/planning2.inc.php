@@ -147,7 +147,7 @@ class planningv extends stdcontents
 			$days[gmdate("Y-m-d 00:00:00",$current_day)][] = gmdate("Y-m-d 00:00:00",$current_day);
 		}
 
-		if(!in_array($time,$days[gmdate("Y-m-d 00:00:00",$current_day)],true))
+		if(is_null($days[gmdate("Y-m-d 00:00:00",$current_day)]) || !in_array($time,$days[gmdate("Y-m-d 00:00:00",$current_day)],true))
 		{
 			$days[gmdate("Y-m-d 00:00:00",$current_day)][] = $time;
 		}
@@ -178,7 +178,7 @@ class planningv extends stdcontents
 			}
 		}
 		$line_buffer = "";
-		foreach($endtimes as $endtime)
+		foreach($end_times as $endtime)
 			$endtime = -1;
 		foreach($day as $time)
 		{
