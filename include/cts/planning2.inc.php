@@ -289,7 +289,9 @@ class planningv extends stdcontents
 			$line_buffer .= "</tr>\n";
 			$last_time = $time;
 		}
-		$day_buffer .= $this->make_mono($line_buffer,$used_names);
+		$tmp_names = $used_names;
+		reset($tmp_names);
+		$day_buffer .= $this->make_mono($line_buffer,$tmp_names);
 
 		if($is_multi_day)
 			$day_buffer .= " </td><td class=\"pl2_multi\"> ";
