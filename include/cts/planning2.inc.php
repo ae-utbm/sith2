@@ -53,16 +53,21 @@ class planningv extends stdcontents
 	return $buffer;
     }
  
-    function make_multi($body,$days)
+    function make_multi($days)
     {
 	$buffer = "<table class=\"pl2_multi\">\n<tr>\n";
-	foreach($days as $day)
+	foreach(array_keys($days) as $day)
 	{
 		$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($this->planning->weekly)?($this->week_start):0))."</th>";
 	}
-	$buffer .= "</tr>\n<tr><td class=\"pl2_multi\">";
-	$buffer .= $body;
-	$buffer .= "</td></tr></table>";
+	$buffer .= "</tr>\n<tr>";
+	foreach($days as $body)
+	{
+		$buffer .= "<td class=\"pl2_multi\">";
+		$buffer .= $body;
+		$buffer .= "</td>";
+	}
+	$buffer .= "</tr></table>";
 	
 	return $buffer;
 	
@@ -333,8 +338,6 @@ class planningv extends stdcontents
 		reset($tmp_names);
 		$day_buffer .= $this->make_mono($lines_buffer,$tmp_names);
 
-		if($is_multi_day)
-			$day_buffer .= " </td><td class=\"pl2_multi\"> ";
 	}
 
 	
