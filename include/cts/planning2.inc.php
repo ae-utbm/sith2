@@ -181,7 +181,7 @@ class planningv extends stdcontents
 		foreach($day as $time)
 		{
 			echo $time."\n";
-			if($last_time == null)
+			if($last_time === null)
 			{
 				$last_time = $time;
 				continue;
