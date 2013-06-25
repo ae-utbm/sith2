@@ -198,7 +198,7 @@ class planningv extends stdcontents
 				while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 				{
 					if($gap_name === $name
-						&& $gap_start === $time)
+						&& strtotime($gap_start) === strtotime($time))
 						$new_gaps[] = $gap_id;
 					if($gap_name === $name
 						&& strtotime($gap_start) < strtotime($time)
