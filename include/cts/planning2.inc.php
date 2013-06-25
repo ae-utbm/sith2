@@ -70,10 +70,18 @@ class planningv extends stdcontents
 		$buffer .= $body;
 		$buffer .= "</td>";
 		if($col % $this->days_per_row)
+		{
+			$buffer .= "</tr></table>";
+			$buffer .= "<table class=\"pl2_multi\">\n<tr>\n";
+			foreach(array_keys($days) as $day)
+			{
+				$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($this->planning->weekly)?($this->week_start):0))."</th>";
+			}
 			$buffer .= "</tr>\n<tr>";
+		}
 	}
-	$buffer .= "</tr></table>";
-	
+		$buffer .= "</tr></table>";
+		
 	return $buffer;
 	
     }
