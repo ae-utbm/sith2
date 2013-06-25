@@ -37,6 +37,7 @@ class planningv extends stdcontents
 
     var $planning;
     var $week_start;
+    var $days_per_row;
 
 
     function make_mono($body,$used_names)
@@ -61,11 +62,15 @@ class planningv extends stdcontents
 		$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($this->planning->weekly)?($this->week_start):0))."</th>";
 	}
 	$buffer .= "</tr>\n<tr>";
+	$col = 0;
 	foreach($days as $body)
 	{
+		$col++;
 		$buffer .= "<td class=\"pl2_multi\">";
 		$buffer .= $body;
 		$buffer .= "</td>";
+		if($col % $this->days_per_row)
+			$buffer .= "</tr>\n<tr>";
 	}
 	$buffer .= "</tr></table>";
 	
@@ -78,10 +83,11 @@ class planningv extends stdcontents
      * @param $titre Titre du contenu
      * @param $db Connection à la base de donnée
      */
-    function planningv ( $titre, $db, $id_planning, $start, $end, $site, $force_single_column = false, $show_admin = false)
+    function planningv ( $titre, $db, $id_planning, $start, $end, $site, $force_single_column = false, $show_admin = false, $days_per_row = 4)
     {
 	setlocale(LC_ALL, "fr_FR.UTF8");
-        $this->title=false;
+	$this->title=false;
+	$this->days_per_row = $days_per_row;
 
 	$this->planning = new planning2($db, $db);
 	$this->planning->load_by_id($id_planning);
