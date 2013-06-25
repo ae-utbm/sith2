@@ -202,6 +202,7 @@ class planningv extends stdcontents
 						&& strtotime($gap_start) === strtotime($last_time))
 					{
 						$new_gaps[] = $gap_id;
+						echo "$gap_name, $gap_start";
 					}
 					if($gap_name === $name
 						&& strtotime($gap_start) < strtotime($last_time)
