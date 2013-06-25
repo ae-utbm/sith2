@@ -177,9 +177,9 @@ class planningv extends stdcontents
 						$used_names[] = $name;
 			}
 		}
+		$line_buffer = "";
 		foreach($day as $time)
 		{
-			$line_buffer = "";
 			if($last_time == null)
 			{
 				$last_time = $time;
@@ -284,8 +284,8 @@ class planningv extends stdcontents
 			}
 			
 			$line_buffer .= "</tr>\n";
-			$day_buffer .= $this->make_mono($line_buffer,$used_names);
 		}
+		$day_buffer .= $this->make_mono($line_buffer,$used_names);
 
 		if($is_multi_day)
 			$day_buffer .= " </td><td class=\"pl2_multi\"> ";
