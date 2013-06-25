@@ -224,7 +224,7 @@ class planningv extends stdcontents
 					}
 					$end_times[$name] = $end_time;
 					$span = 0;
-					$tmp_day = clone $day;
+					$tmp_day = $day;
 					$tmp_day.reset();
 					foreach($tmp_day as $tmp_time)
 					{
