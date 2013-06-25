@@ -14,6 +14,7 @@ table.pl2_mono{
 	border-spacing: 2px;
 	border: 1px solid #e8eef7;
 	width: 100%;
+	height: 100%;
 }	
  
 td.pl2_gap_partial{
@@ -51,6 +52,7 @@ th.pl2_gap_name{
 
 td.pl2_multi {
      vertical-align: top;
+     height: 100%;
 }
 
 div.pl2_horaires {
