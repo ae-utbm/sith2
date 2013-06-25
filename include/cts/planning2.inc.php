@@ -131,7 +131,7 @@ class planningv extends stdcontents
 		if(empty($name))
 			continue;
 		$names[] = $name;
-		$end_times[$name] = 0;
+		$end_times[$name] = -1;
 	}
 	$gaps_time->go_first();
 	$days = array();
