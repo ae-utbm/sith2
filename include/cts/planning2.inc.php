@@ -142,9 +142,14 @@ class planningv extends stdcontents
 			$current_day = strtotime(gmdate("Y-m-d 00:00:00",strtotime($time." UTC"))." UTC");
 		while($current_day < strtotime(gmdate("Y-m-d 00:00:00",strtotime($time))))
 		{
-			$days[gmdate("Y-m-d 00:00:00",$current_day)][] = gmdate("Y-m-d 23:59:59",$current_day);
+
+			if(is_null($days[gmdate("Y-m-d 00:00:00",$current_day)]) 
+				|| !in_array(gmdate("Y-m-d 23:59:59",$current_day),$days[gmdate("Y-m-d 00:00:00",$current_day)],true))
+				$days[gmdate("Y-m-d 00:00:00",$current_day)][] = gmdate("Y-m-d 23:59:59",$current_day);
 			$current_day += 86400;
-			$days[gmdate("Y-m-d 00:00:00",$current_day)][] = gmdate("Y-m-d 00:00:00",$current_day);
+			if(is_null($days[gmdate("Y-m-d 00:00:00",$current_day)]) 
+				|| !in_array(gmdate("Y-m-d 00:00:00",$current_day),$days[gmdate("Y-m-d 00:00:00",$current_day)],true))
+				$days[gmdate("Y-m-d 00:00:00",$current_day)][] = gmdate("Y-m-d 00:00:00",$current_day);
 		}
 
 		if(is_null($days[gmdate("Y-m-d 00:00:00",$current_day)]) || !in_array($time,$days[gmdate("Y-m-d 00:00:00",$current_day)],true))
