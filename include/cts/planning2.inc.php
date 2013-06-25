@@ -263,7 +263,7 @@ class planningv extends stdcontents
 						}
 						if($count < $gap_count)
 						{
-							$cell_buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$this->planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
+							$cell_buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=".$this->planning->id."\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
 						}
 						if($show_admin && (     $site->user->is_in_group_id($this->planning->admin_group)
 							|| $site->user->is_in_group("gestion_ae")))
