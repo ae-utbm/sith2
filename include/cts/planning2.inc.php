@@ -229,7 +229,6 @@ class planningv extends stdcontents
 					$end_times[$name] = $end_time;
 					$span = 0;
 					$tmp_day = $day;
-					reset($tmp_day);
 					foreach($tmp_day as $tmp_time)
 					{
 						if(strtotime($tmp_time) > strtotime($time)
@@ -237,7 +236,7 @@ class planningv extends stdcontents
 						{
 							$span++;
 						}
-						echo "time: ".strtotime($time)." ".date("Y-m-d H:i:s",strtotime($tmp_time))."\n";
+						echo "time: ".strtotime($time)." ".date("Y-m-d H:i:s",strtotime($time))."\n";
 						echo "tmp_time: ".strtotime($tmp_time)." ".date("Y-m-d H:i:s",strtotime($tmp_time))."\n";
 					}
 					$totalMax = 0;
