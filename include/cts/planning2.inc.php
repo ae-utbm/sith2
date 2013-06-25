@@ -167,8 +167,8 @@ class planningv extends stdcontents
 			$gaps->go_first();
 			while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
 			{
-				$gap_start = strtotime($gap_start);
-				$gap_end = strtotime($gap_end);
+				$gap_start = strtotime($gap_start." UTC");
+				$gap_end = strtotime($gap_end." UTC");
 				if($gap_name === $name 
 					&& ( ($gap_start >= $current_day_start && $gap_start <= $current_day_end)
 					||  ($gap_end >= $current_day_start && $gap_end <= $current_day_end) 
