@@ -41,6 +41,7 @@ td.pl2_horaires {
      font-weight: bold;
      text-align: right;
      height: 100%;
+     width: 0;
 }
 
 th.pl2_gap_name{
