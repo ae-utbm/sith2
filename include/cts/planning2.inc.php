@@ -139,7 +139,7 @@ class planningv extends stdcontents
 	while(list( $time ) = $gaps_time->get_row())
 	{
 		if($current_day == null)
-			$current_day = strtotime(gmdate("Y-m-d 00:00:00",$time));
+			$current_day = strtotime(gmdate("Y-m-d 00:00:00",strtotime($time)));
 		while($current_day < strtotime(gmdate("Y-m-d 00:00:00",strtotime($time))))
 		{
 			$days[gmdate("Y-m-d 00:00:00",$current_day)][] = gmdate("Y-m-d 23:59:59",$current_day);
