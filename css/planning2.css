@@ -10,19 +10,20 @@ table.pl2_multi{
 }	
  
 table.pl2_mono{
-	border-collapse: collapse;
+	border-collapse: separate;
+	border-spacing: 2px;
 	border: 1px solid #e8eef7;
 	width: 100%;
 }	
  
-div.pl2_gap_partial{
+td.pl2_gap_partial{
 	background: none repeat scroll 0 0 #FFFFCC;
 	border: 1px solid #EEAC00;
 	overflow: auto;
 	padding: 1px;
 }
 
-div.pl2_gap_full{
+td.pl2_gap_full{
 	background: none repeat scroll 0 0 #FFFFCC;
 	border: 1px solid #EEAC00;
 	overflow: auto;
