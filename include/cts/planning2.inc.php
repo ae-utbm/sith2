@@ -225,7 +225,6 @@ class planningv extends stdcontents
 								$end_time = strtotime($gap_end);
 						}
 					}
-					echo "end_time: $end_time ".date("Y-m-d H:i:s",$end_time);
 					$end_times[$name] = $end_time;
 					$span = 0;
 					for($i = 0; $i < count($day); $i++)
@@ -236,8 +235,6 @@ class planningv extends stdcontents
 						{
 							$span++;
 						}
-						echo "time: ".strtotime($time)." ".date("Y-m-d H:i:s",strtotime($time))."\n";
-						echo "tmp_time: ".strtotime($tmp_time)." ".date("Y-m-d H:i:s",strtotime($tmp_time))."\n";
 					}
 					$totalMax = 0;
 					$totalCount = 0;
@@ -249,6 +246,7 @@ class planningv extends stdcontents
 						$my_gap = $gaps_data[$gap_id];
 						$gap_count = $my_gap["count"];
 						$cell_buffer .= "<div class=\"pl2_names\">";
+						echo $my_gap["user"]."\n";
 						foreach(  $my_gap["user"] as $gap_data)
 						{
 							$count++;
@@ -274,13 +272,13 @@ class planningv extends stdcontents
 					}
 					if($totalCount < $totalMax)
 					{
-						$line_buffer .= "<td rowspan=$span>$cell_buffer<div class=\"pl2_gap_partial\">";
+						$line_buffer .= "<td rowspan=$span><div class=\"pl2_gap_partial\">";
 						$line_buffer .= $cell_buffer;
 						$line_buffer .= "</div></td>";
 					}
 					else
 					{
-						$line_buffer .= "<td rowspan=$span>$cell_buffer<div class=\"pl2_gap_full\">";
+						$line_buffer .= "<td rowspan=$span><div class=\"pl2_gap_full\">";
 						$line_buffer .= $cell_buffer;
 						$line_buffer .= "</div></td>";
 					}
