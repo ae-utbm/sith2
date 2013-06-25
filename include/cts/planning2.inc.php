@@ -304,13 +304,13 @@ class planningv extends stdcontents
 					}
 					if($totalCount < $totalMax)
 					{
-						$line_buffer .= "<td rowspan=$span><div class=\"pl2_gap_partial\">";
+						$line_buffer .= "<td class=\"pl2_gap_partial\" rowspan=$span><div class=\"pl2_gap_partial\">";
 						$line_buffer .= $cell_buffer;
 						$line_buffer .= "</div></td>";
 					}
 					else
 					{
-						$line_buffer .= "<td rowspan=$span><div class=\"pl2_gap_full\">";
+						$line_buffer .= "<td class=\"pl2_gap_full\" rowspan=$span><div class=\"pl2_gap_full\">";
 						$line_buffer .= $cell_buffer;
 						$line_buffer .= "</div></td>";
 					}
