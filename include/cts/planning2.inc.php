@@ -231,7 +231,7 @@ class planningv extends stdcontents
 					for($i = 0; $i < count($day); $i++)
 					{
 						$tmp_time = $day[$i];
-						if(strtotime($tmp_time) > strtotime($time)
+						if(strtotime($tmp_time) >= strtotime($time)
 							&& strtotime($tmp_time) <= $end_time)
 						{
 							$span++;
