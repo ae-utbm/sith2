@@ -256,7 +256,7 @@ class planningv extends stdcontents
 							$count++;
 							if($gap_data[0] == $site->user->id || $site->user->is_in_group_id($this->planning->admin_group)
 								|| $site->user->is_in_group("gestion_ae"))
-								$cell_buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$this->planning->id\">".$gap_data[1]."</a>";
+								$cell_buffer .= ($count==1?"":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=".$this->planning->id."\">".$gap_data[1]."</a>";
 							else
 								$cell_buffer .= ($count==1?"":", ").$gap_data[1];
 
@@ -268,7 +268,7 @@ class planningv extends stdcontents
 						if($show_admin && (     $site->user->is_in_group_id($this->planning->admin_group)
 							|| $site->user->is_in_group("gestion_ae")))
 						{
-							$cell_buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=$this->planning->id\">Supprimer</a>";
+							$cell_buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=".$this->planning->id."\">Supprimer</a>";
 						}
 						$cell_buffer .= "</div>";
 						$totalCount += $count;
@@ -285,19 +285,19 @@ class planningv extends stdcontents
 							$count++;
 							if($gap_data[0] == $site->user->id || $site->user->is_in_group_id($this->planning->admin_group)
 								|| $site->user->is_in_group("gestion_ae"))
-								$cell_buffer .= ($count==1?"Continué: ":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=$this->planning->id\">".$gap_data[1]."</a>";
+								$cell_buffer .= ($count==1?"Continué: ":", ")."<a href=\"./planning2.php?action=remove_from_gap&user_gap_id=$gap_data[2]&id_planning=".$this->planning->id."\">".$gap_data[1]."</a>";
 							else
 								$cell_buffer .= ($count==1?"Continué: ":", ").$gap_data[1];
 
 						}
 						if($count < $gap_count)
 						{
-							$cell_buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=$this->planning->id\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
+							$cell_buffer .= ($count?" et ":"")."<a class=\"pl2_link\" href=\"./planning2.php?action=add_to_gap&gap_id=$gap_id&id_planning=".$this->planning->id."\">".($gap_count - $count)." personne".(($gap_count - $count)>=2?"s":"")."</a>";
 						}
 						if($show_admin && (     $site->user->is_in_group_id($this->planning->admin_group)
 							|| $site->user->is_in_group("gestion_ae")))
 						{
-							$cell_buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=$this->planning->id\">Supprimer</a>";
+							$cell_buffer .= " <a href=\"./planning2.php?view=del_gap&id_gap=$gap_id&id_planning=".$this->planning->id."\">Supprimer</a>";
 						}
 						$cell_buffer .= "</div>";
 						$totalCount += $count;
