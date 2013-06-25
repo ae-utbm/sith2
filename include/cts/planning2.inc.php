@@ -190,8 +190,8 @@ class planningv extends stdcontents
 			
 			foreach($used_names as $name)
 			{
-				if(strtotime($last_time) <= $end_times[$name])
-					continue;
+				//if(strtotime($last_time) <= $end_times[$name])
+				//	continue;
 				$new_gaps = array();
 				$curr_gaps = array();
 				$gaps->go_first();
@@ -241,7 +241,6 @@ class planningv extends stdcontents
 					$totalCount = 0;
 					$cell_buffer = "";
 
-					var_dump($new_gaps);
 					foreach($new_gaps as $gap_id)
 					{
 						$count = 0;
