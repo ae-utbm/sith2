@@ -246,7 +246,7 @@ class planningv extends stdcontents
 						$my_gap = $gaps_data[$gap_id];
 						$gap_count = $my_gap["count"];
 						$cell_buffer .= "<div class=\"pl2_names\">";
-						echo $my_gap["user"]."\n";
+						var_dump($my_gap["user"]);
 						foreach(  $my_gap["user"] as $gap_data)
 						{
 							$count++;
