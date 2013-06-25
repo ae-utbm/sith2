@@ -81,7 +81,7 @@ class planningv extends stdcontents
 			foreach(array_keys($days) as $day)
 			{
 				$header ++;
-				if($header >= 0)
+				if($header > 0)
 					$buffer .= "<th class=\"pl2_day_name\">".strftime("%A %d/%m",strtotime($day)+(($this->planning->weekly)?($this->week_start):0))."</th>";
 				if($header >= $this->days_per_row)
 					break;
