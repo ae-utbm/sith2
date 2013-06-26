@@ -135,6 +135,11 @@ class planningv extends stdcontents
 	}
 
 	$gaps_time = $this->planning->get_gaps_time($start, $end);
+	if(empty($gaps_data))
+	{
+		$this->buffer .= "<p>Erreur: Heures des creneaux non trouvees</p>";
+		return;
+	}
 
 	$this->week_start = $this->planning->get_week_start($start);
 	list( $start ) = $gaps_time->get_row();
