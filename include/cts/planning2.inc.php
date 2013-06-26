@@ -242,7 +242,7 @@ class planningv extends stdcontents
 			{
 				if(strtotime($last_time." UTC") <= $end_times[$name])
 				{
-					$is_empty = false;
+					//$is_empty = false;
 					continue;
 				}
 				$new_gaps = array();
