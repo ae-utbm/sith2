@@ -135,7 +135,7 @@ class planningv extends stdcontents
 	}
 
 	$gaps_time = $this->planning->get_gaps_time($start, $end);
-	if(empty($gaps_data))
+	if($gaps_time->lines <= 0)
 	{
 		$this->buffer .= "<p>Erreur: Heures des creneaux non trouvees</p>";
 		return;
