@@ -61,4 +61,6 @@ td.pl2_multi {
 
 div.pl2_horaires {
      text-align: right;
+     position: relative;
+     height: 100%;
 }
