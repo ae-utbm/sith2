@@ -367,7 +367,7 @@ class planningv extends stdcontents
 			}
 			
 			$line_buffer .= "</tr>\n";
-			if(!$is_empty)
+			//if(!$is_empty)
 				$lines_buffer .= $line_buffer;
 			$last_time = $time;
 		}
