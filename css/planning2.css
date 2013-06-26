@@ -6,14 +6,14 @@
 table.pl2_multi{
 	border-collapse: collapse;
 	border: 1px solid #e8eef7;
-	width: 100%;
+	width: 0;
 }	
  
 table.pl2_mono{
 	border-collapse: separate;
 	border-spacing: 2px;
 	border: 1px solid #e8eef7;
-	width: 100%;
+	width: 0;
 	height: 100%;
 }	
  
