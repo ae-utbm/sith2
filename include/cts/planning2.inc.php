@@ -128,6 +128,11 @@ class planningv extends stdcontents
 		}
 		$gaps_data[$gap_id] = array( "id" => $gap_id, "start" => $gap_start, "end" => $gap_end, "name" => $gap_name, "count" => $gap_count, "user" => $gap_data);
 	}
+	if(empty($gaps_data))
+	{
+		$this->buffer .= "<p>Aucun creneau</p>";
+		return;
+	}
 
 	$gaps_time = $this->planning->get_gaps_time($start, $end);
 
