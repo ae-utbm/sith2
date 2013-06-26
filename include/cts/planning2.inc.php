@@ -242,7 +242,7 @@ class planningv extends stdcontents
 			{
 				if(strtotime($last_time." UTC") <= $end_times[$name])
 				{
-					//$is_empty = false;
+					$is_empty = false;
 					continue;
 				}
 				$new_gaps = array();
@@ -266,6 +266,7 @@ class planningv extends stdcontents
 				}
 				else
 				{
+					$is_empty = false;
 					$end_time = PHP_INT_MAX;
 					$gaps->go_first();
 					while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
