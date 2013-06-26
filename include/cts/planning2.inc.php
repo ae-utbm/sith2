@@ -386,7 +386,7 @@ class planningv extends stdcontents
 		$this->buffer .= $this->make_multi($days_buffer);
 	}
 	else
-		$this->buffer .= $day_buffer;
+		$this->buffer .= $days_buffer;
 
     }
 
