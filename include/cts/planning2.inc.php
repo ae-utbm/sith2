@@ -38,11 +38,12 @@ class planningv extends stdcontents
     var $planning;
     var $week_start;
     var $days_per_row;
+    var $is_multi_day;
 
 
     function make_mono($body,$used_names)
     {
-	$buffer = "<table class=\"pl2_mono\">\n<tr>\n";
+	$buffer = "<table class=\"".(($this->is_multi_day)?"pl2_mono_multi ":"")."pl2_mono\">\n<tr>\n";
         $buffer .= "<th class=\"pl2_gap_name\"></th>";
 	foreach($used_names as $name)
 	{
@@ -157,9 +158,9 @@ class planningv extends stdcontents
 		$end = strtotime($end);
 	}
 
-	$is_multi_day = true;
+	$this->is_multi_day = true;
 	if( date("Y m d",$start) === date("Y m d",$end) || $force_single_column)
-		$is_multi_day = false;
+		$this->is_multi_day = false;
 
 	$gaps_names = $this->planning->get_gaps_names();
 	$names = array();
@@ -196,7 +197,7 @@ class planningv extends stdcontents
 		}
 	}
 
-	if($is_multi_day)
+	if($this->is_multi_day)
 		$days_buffer = array();
 	else
 		$days_buffer = "";
@@ -372,7 +373,7 @@ class planningv extends stdcontents
 		}
 		$tmp_names = $used_names;
 		reset($tmp_names);
-		if(!$is_multi_day)
+		if(!$this->is_multi_day)
 			$days_buffer = $this->make_mono($lines_buffer,$tmp_names);
 		else
 			if(!empty($lines_buffer))
@@ -381,7 +382,7 @@ class planningv extends stdcontents
 	}
 
 	
-	if($is_multi_day)
+	if($this->is_multi_day)
 	{
 		$this->buffer .= $this->make_multi($days_buffer);
 	}

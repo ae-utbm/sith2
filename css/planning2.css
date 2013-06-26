@@ -14,8 +14,11 @@ table.pl2_mono{
 	border-spacing: 2px;
 	border: 1px solid #e8eef7;
 	width: 0;
-	height: 100%;
 }	
+
+table.pl2_mono_multi{
+	height: 100%;
+}
  
 td.pl2_gap_partial{
 	background: none repeat scroll 0 0 #FFFFCC;
