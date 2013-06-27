@@ -213,7 +213,7 @@ class wikicontents extends contents
 
   function html_render()
   {
-    if ( $this->buffer )
+    if ( $this->buffer && !preg_match("/pl2_multi/i",$this->buffer) )
       return $this->buffer;
 
     return $this->buffer = doku2xhtml($this->contents);
