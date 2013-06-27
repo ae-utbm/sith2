@@ -691,6 +691,9 @@ class emprunt extends stdentity /*inv_emprunt*/
             "id_emprunt"=>$this->id,
             "id_objet"=>$id_objet
           ) );
+    $sql = new requete($this->db, "SELECT * FROM inv_emprunt_objet WHERE id_emprunt = $this->id");
+    if($sql->is_success() && $sql->lines == 0)
+	$this->remove_emp();
   }
 
   function remove_emp()
