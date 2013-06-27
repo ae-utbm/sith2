@@ -60,6 +60,7 @@ if (!$site->get_param ("forum_open", false)) {
 
 $site->add_css("css/forum.css");
 $site->add_css("css/doku.css");
+$site->add_css("css/planning2.css");
 $site->add_rss("Les 40 derniers messages du forum de l'AE",
          "rss.php");
 
