@@ -403,10 +403,10 @@ class planning2 extends stdentity
 		else
 			return new requete($this->db,
                                 "SELECT id_gap, start, end, name_gap, max_users FROM pl2_gap 
-                                 WHERE id_planning = $this->id
-				 AND end > '".gmdate("Y-m-d H:i:s",$start)."'
-				 AND start < '".gmdate("Y-m-d H:i:s",$end)."'
-                                 ORDER BY start ASC");
+                                 WHERE id_planning = $this->id ".
+				 (is_null($start)?"":("AND end > '".gmdate("Y-m-d H:i:s",$start)."' ")).
+				 (is_null($end)?"":("AND start < '".gmdate("Y-m-d H:i:s",$end)."' ")).
+                                 "ORDER BY start ASC");
 	}
 
 	function get_gaps_time( $start, $end )
