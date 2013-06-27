@@ -30,6 +30,7 @@
  * 02111-1307, USA.
  */
 
+require_once($topdir . "include/cts/planning2.inc.php");
 
 class dokusyntax
 {
@@ -133,6 +134,14 @@ class dokusyntax
     $text = htmlspecialchars($text);
 
 
+    while( preg_match("/\[planning=(.*?)/\]/i",$text,$matches) )
+    {
+      $site = $GLOBALS['site'];
+      $planningv = new planningv("",$site->db,intval($matches[1]), time(), time()+7*24*3600, $site);
+      $text = preg_replace("/\[planning=(.*?)/\]/i",
+                           $planningv->get_buffer(),
+             $text);
+    }
 
     //citation
     $text = str_replace( CHR(10), "__slash_n__" , $text );

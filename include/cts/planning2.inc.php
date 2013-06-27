@@ -394,6 +394,11 @@ class planningv extends stdcontents
 
     }
 
+    function get_buffer()
+    {
+       return $this->buffer;
+    }
+
 
 }
 
