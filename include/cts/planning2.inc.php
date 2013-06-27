@@ -121,7 +121,11 @@ class planningv extends stdcontents
 		return;
 	}
 
-	$gaps = $this->planning->get_gaps($start, $end);
+	$gaps = null;
+	if($this->planning->weekly)
+		$gaps = $this->planning->get_gaps($start, $end);
+	else
+		$gaps = $this->planning->get_gaps(null, null);
 
 	$gaps_data = array();
 	while( list( $gap_id, $gap_start, $gap_end, $gap_name, $gap_count) = $gaps->get_row())
@@ -139,6 +143,7 @@ class planningv extends stdcontents
 		return;
 	}
 
+	$gaps_time = null;
 	if($this->planning->weekly)
 		$gaps_time = $this->planning->get_gaps_time($start, $end);
 	else
