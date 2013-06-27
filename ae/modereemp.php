@@ -101,8 +101,8 @@ if ( $_REQUEST["view"] == "" )
       "FROM inv_emprunt " .
       "LEFT OUTER JOIN inv_emprunt_objet ON inv_emprunt_objet.id_emprunt=inv_emprunt.id_emprunt " .
       "INNER JOIN utilisateurs ON utilisateurs.id_utilisateur=inv_emprunt.id_utilisateur " .
-      "INNER JOIN inv_objet ON inv_emprunt_objet.id_objet=inv_objet.id_objet " .
-      "INNER JOIN inv_type_objets ON inv_objet.id_objtype=inv_type_objets.id_objtype " .
+      "LEFT OUTER JOIN inv_objet ON inv_emprunt_objet.id_objet=inv_objet.id_objet " .
+      "LEFT OUTER JOIN inv_type_objets ON inv_objet.id_objtype=inv_type_objets.id_objtype " .
       "LEFT JOIN asso ON inv_emprunt.id_asso=asso.id_asso " .
       "WHERE etat_emprunt=0 AND date_fin_emp >= NOW() " .
       "ORDER BY etat_emprunt,date_debut_emp");
