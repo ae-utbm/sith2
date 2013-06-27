@@ -80,6 +80,11 @@ class stdcontents
       return $this->buffer;
   }
 
+  function is_cachable()
+  {
+      return true;
+  }
+
 }
 
 /** Conteneur de conteneurs, titre et paragraphes
@@ -213,10 +218,18 @@ class wikicontents extends contents
 
   function html_render()
   {
-    if ( $this->buffer && (preg_match("/pl2_multi/i",$this->buffer) === 0) )
+    if ( $this->buffer )
       return $this->buffer;
 
     return $this->buffer = doku2xhtml($this->contents);
+  }
+
+  function is_cachable()
+  { 
+    if ( $this->buffer && (preg_match("/pl2_multi/i",$this->buffer) === 0) )
+	return true;
+    else
+	return false;
   }
 }
 

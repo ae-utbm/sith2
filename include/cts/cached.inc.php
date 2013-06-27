@@ -55,7 +55,8 @@ class cachedcontents extends stdcontents
         $this->title = $contents->title;
         $this->buffer = "<!-- C".date ("d/m/Y H:i:s")." -->".$contents->html_render();
 
-        $this->redis->set ($this->uid, $this->title."\n".$this->buffer);
+	if($contents->is_cachable())
+        	$this->redis->set ($this->uid, $this->title."\n".$this->buffer);
         return $this;
     }
 
