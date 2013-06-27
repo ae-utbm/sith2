@@ -597,6 +597,9 @@ class wiki extends basedb
   function get_stdcontents()
   {
     global $conf;
+    global $site;
+
+    $site->add_css("css/planning2.css");
 
     $cache = new cachedcontents("wiki".$this->id."-".$this->rev_id);
     if ( $cache->is_cached() )
