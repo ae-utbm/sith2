@@ -138,7 +138,7 @@ class dokusyntax
     {
       $site = $GLOBALS['site'];
       $planningv = new planningv("",$site->db,intval($matches[1]), time(), time()+7*24*3600, $site);
-      echo "<!--".$planningv->get_buffer()."-->"; 
+      echo "<!-- Buffer:".$planningv->get_buffer()."-->"; 
       $text = preg_replace("/\[planning=(.*?)\/\]/i",
                            $planningv->get_buffer(),
              $text);
