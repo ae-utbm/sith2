@@ -98,8 +98,8 @@ if ( $_REQUEST["view"] == "" )
       "asso.nom_asso, asso.id_asso, " .
       "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`," .
       "`utilisateurs`.`id_utilisateur` " .
-      "FROM inv_emprunt_objet " .
-      "RIGHT OUTER JOIN inv_emprunt ON inv_emprunt_objet.id_emprunt=inv_emprunt.id_emprunt " .
+      "FROM inv_emprunt " .
+      "LEFT OUTER JOIN inv_emprunt_objet ON inv_emprunt_objet.id_emprunt=inv_emprunt.id_emprunt " .
       "INNER JOIN utilisateurs ON utilisateurs.id_utilisateur=inv_emprunt.id_utilisateur " .
       "INNER JOIN inv_objet ON inv_emprunt_objet.id_objet=inv_objet.id_objet " .
       "INNER JOIN inv_type_objets ON inv_objet.id_objtype=inv_type_objets.id_objtype " .
