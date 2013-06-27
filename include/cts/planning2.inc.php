@@ -377,7 +377,7 @@ class planningv extends stdcontents
 		$tmp_names = $used_names;
 		reset($tmp_names);
 		if(!$this->is_multi_day)
-			$days_buffer = $this->make_mono($lines_buffer,$tmp_names);
+			$days_buffer .= $this->make_mono($lines_buffer,$tmp_names);
 		else
 			if(!empty($lines_buffer))
 				$days_buffer[$day_key] .= $this->make_mono($lines_buffer,$tmp_names);
