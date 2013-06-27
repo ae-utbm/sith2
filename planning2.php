@@ -95,10 +95,6 @@ if($_REQUEST["action"] === "new_gap" && isset($_REQUEST["start"])
 			$start -= $planning->get_week_start($start);
 			$end -= $planning->get_week_start($end);
 		}
-		if(gmdate("H:i:s",$end) === "00:00:00")
-			$end--;
-		if(gmdate("H:i:s",$start) === "00:00:00")
-			$start++;
 
 		$name = $_REQUEST["name"];
 		$max_users = $_REQUEST["max_users"];
