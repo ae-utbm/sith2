@@ -422,10 +422,10 @@ class planning2 extends stdentity
 		else
 			return new requete($this->db,
                                 "SELECT start as date FROM pl2_gap 
-                                 WHERE id_planning = $this->id
-				 AND end > '".gmdate("Y-m-d H:i:s",$start)."'
-				 AND start < '".gmdate("Y-m-d H:i:s",$end)."'
-                                 UNION DISTINCT
+                                 WHERE id_planning = $this->id ".
+				 (is_null($start)?"":("AND end > '".gmdate("Y-m-d H:i:s",$start)."' ")).
+				 (is_null($end)?"":("AND start < '".gmdate("Y-m-d H:i:s",$end)."' ")).
+                                 "UNION DISTINCT
 				 SELECT end as date FROM pl2_gap 
                                  WHERE id_planning = $this->id ".
 				 (is_null($start)?"":("AND end > '".gmdate("Y-m-d H:i:s",$start)."' ")).
