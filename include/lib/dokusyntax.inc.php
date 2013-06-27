@@ -138,6 +138,7 @@ class dokusyntax
     while( preg_match("/\[planning=(.*?)\/\]/i",$text,$matches) )
     {
       $site = $GLOBALS['site'];
+      $site->add_css($topdir . "css/planning2.css");
       $planningv = new planningv("",$site->db,intval($matches[1]), time(), time()+7*24*3600, $site);
       $text = preg_replace("/\[planning=(.*?)\/\]/i",
                            $planningv->get_buffer(),
