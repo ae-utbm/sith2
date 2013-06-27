@@ -134,7 +134,7 @@ class dokusyntax
     $text = htmlspecialchars($text);
 
 
-    while( preg_match("/\[planning=(.*?)/\]/i",$text,$matches) )
+    while( preg_match("/\[planning=(.*?)\/\]/i",$text,$matches) )
     {
       $site = $GLOBALS['site'];
       $planningv = new planningv("",$site->db,intval($matches[1]), time(), time()+7*24*3600, $site);
