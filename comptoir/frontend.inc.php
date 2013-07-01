@@ -296,7 +296,7 @@ else if ( $_REQUEST["action"] == "recharge" && count($site->comptoir->operateurs
   elseif ( $id_typepaie == PAIE_CHEQUE && $montant < 500  )
     $RechargementErreur = "Montant du chèque trop faible : 5 Euros minimum (et 100 Euros maximum) par chèque.";
 
-  elseif ( $id_typepaie == PAIE_ESPECS && $montant > 50000  )
+  elseif ( $id_typepaie == PAIE_ESPECS && $montant > 5000  )
     $RechargementErreur = "Montant en espèces trop important : 50 Euros maximum (et 2 Euros minimum) par espèces.";
   elseif ( $id_typepaie == PAIE_ESPECS && $montant < 200  )
     $RechargementErreur = "Montant en espèces trop faible : 2 Euros minimum (et 50 Euros maximum) par espèces.";
