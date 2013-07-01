@@ -820,6 +820,7 @@ class comptoir extends stdentity
            "FROM `cpt_mise_en_vente` ".
            "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` = `cpt_mise_en_vente`.`id_produit` " .
            "WHERE `cpt_mise_en_vente`.`id_comptoir` = '".intval($this->id)."' ".
+	   "AND cpt_produits.cbarre_prod > '' ".
            "AND (`cpt_produits`.`date_fin_produit` IS NULL OR `cpt_produits`.`date_fin_produit`>NOW()) ".
            "ORDER BY `cpt_produits`.`id_typeprod`, `cpt_produits`.`nom_prod`";
 
