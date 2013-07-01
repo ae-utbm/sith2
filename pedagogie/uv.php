@@ -451,7 +451,7 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_commentaire']))
     $frm->add_select_field('travail','Charge de travail', $VAL_TRAVAIL, 2);
     $frm->add_select_field('enseignement','Qualité de l\'enseignement', $VAL_ENSEIGNEMENT, 2);
     $frm->add_select_field('generale','<b>Note générale</b>', $VAL_GENERALE, 2);
-    $frm->add_dokuwiki_toolbar("new_comment_".$uv->id);
+    $frm->add_dokuwiki_toolbar("content");
     $frm->add_text_area("content", "Contenu", false, 80, 10, true);
     $frm->add_submit("send", "Enregistrer");
     $cts->add($frm);
@@ -526,7 +526,7 @@ if(isset($_REQUEST['id']) || isset($_REQUEST['id_commentaire']))
     $frm->add_select_field('travail','Charge de travail', $VAL_TRAVAIL, $com->note_travail);
     $frm->add_select_field('enseignement','Qualité de l\'enseignement', $VAL_ENSEIGNEMENT, $com->note_enseignement);
     $frm->add_select_field('generale','<b>Note générale</b>', $VAL_GENERALE, $com->note_generale);
-    $frm->add_dokuwiki_toolbar("new_comment_".$uv->id);
+    $frm->add_dokuwiki_toolbar("content");
     $frm->add_text_area("content", "Contenu", $com->content, 80, 10, true);
     $frm->add_submit("send", "Enregistrer");
     $cts->add($frm);
