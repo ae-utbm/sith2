@@ -1118,7 +1118,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
 {
   $user->load_all_extra();
   /* groupes */
-  $frm = new form("setattributes","user.php?view=groups&id_utilisateur=".$user->id,false,"POST","Attribus");
+  $frm = new form("setattributes","user.php?view=groups&id_utilisateur=".$user->id,false,"POST","Attributs");
   $frm->add_hidden("action","setattributes");
   $frm->add_checkbox("ae","ae",$user->ae,true);
   $frm->add_checkbox("assidu","assidu",$user->assidu,true);
