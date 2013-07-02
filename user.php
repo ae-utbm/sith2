@@ -233,7 +233,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     if ($user->saveinfos())
     {
       if ( $site->user->id != $user->id )
-        _log($site->dbrw,"Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de <a href=\"$wwwtopdir"."user.php?id_utilisateur=".$user->id."\" >".$user->nom." ".$user->prenom." (id : ".$user->id.")</a> modifiée","Fiche MMT",$site->user);
+        _log($site->dbrw,"Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de <a href=\"../user.php?id_utilisateur=".$user->id."\" >".$user->nom." ".$user->prenom." (id : ".$user->id.")</a> modifiée","Fiche MMT",$site->user);
       header("Location: ".$topdir."user.php?id_utilisateur=".$user->id);
       exit();
     }
