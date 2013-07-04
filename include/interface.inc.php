@@ -301,7 +301,7 @@ else
       }
     }
     foreach ( $this->extracss as $url )
-      if(file_exists(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")))
+      if(file_exists(htmlentities($fstopdir . $url,ENT_COMPAT,"UTF-8")))
         $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".
              htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")."?".
              filemtime(htmlentities($fstopdir . $url,ENT_COMPAT,"UTF-8"))."\" />\n";
