@@ -53,7 +53,7 @@ require_once($topdir . "include/cts/standart.inc.php");
   else
   {
     $wwwtopdir = "/";
-    $fstopdir = $_SERVER['DOCUMENT_ROOT'];
+    $fstopdir = $_SERVER['DOCUMENT_ROOT']."/";
   }
 //}
 
