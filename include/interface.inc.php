@@ -32,11 +32,10 @@ $timing["all"] -= microtime(true);
 
 setlocale(LC_ALL,"fr_FR.UTF8");
 
-if( !strncmp('/var/www/taiste', $_SERVER['SCRIPT_FILENAME'], 22) )
+if( !strncmp('/var/www/taiste', $_SERVER['SCRIPT_FILENAME'], 15) )
   $GLOBALS["taiste"] = true;
 else
   $GLOBALS["taiste"] = false;
-echo strncmp('/var/www/taiste', $_SERVER['SCRIPT_FILENAME'], 15);
 
 require_once($topdir . "include/mysql.inc.php");
 require_once($topdir . "include/mysqlae.inc.php");
