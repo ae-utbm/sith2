@@ -471,7 +471,7 @@ class planning2 extends stdentity
 			$req = new requete($this->db,
 				"SELECT start FROM pl2_gap 
 				 WHERE id_planning = $this->id
-				 AND start > ".gmdate("Y-m-d H:i:s",$date)."
+				 AND start > '".gmdate("Y-m-d H:i:s",$date)."'
 				 ORDER BY start ASC LIMIT 1");
 			if($req->lines == 1)
 			{
