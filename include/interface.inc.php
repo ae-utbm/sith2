@@ -46,13 +46,17 @@ require_once($topdir . "include/cts/standart.inc.php");
 //if ( !isset($wwwtopdir) )
 //{
   if($GLOBALS["taiste"])
+  {
     $wwwtopdir = "/taiste/";
+    $fstopdir = $_SERVER['DOCUMENT_ROOT']."/../taiste/";
+  }
   else
+  {
     $wwwtopdir = "/";
+    $fstopdir = $_SERVER['DOCUMENT_ROOT'];
+  }
 //}
 
-//if( !isset($fstopdir) )
-  $fstopdir = $_SERVER['DOCUMENT_ROOT'].$wwwtopdir;
 
 /** Classe générant l'interface
  * @see site
