@@ -267,7 +267,7 @@ class interfaceweb
    */
   function end_page () // <=> html_render
   {
-    global $wwwtopdir,$topdir,$timing ;
+    global $fstopdir, $wwwtopdir,$topdir,$timing ;
     $timing["render"] -= microtime(true);
 
     header("Content-Type: text/html; charset=utf-8");
@@ -858,7 +858,7 @@ if(defined("MOBILE") && !$GLOBALS["taiste"]) $this->buffer = strtr($this->buffer
    */
   function popup_end_page ()
   {
-    global $wwwtopdir ;
+    global $fstopdir, $wwwtopdir ;
 
     header("Content-Type: text/html; charset=utf-8");
 
