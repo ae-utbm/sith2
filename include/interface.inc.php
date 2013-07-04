@@ -43,15 +43,15 @@ require_once($topdir . "include/entities/std.inc.php");
 require_once($topdir . "include/entities/utilisateur.inc.php");
 require_once($topdir . "include/cts/standart.inc.php");
 
-if ( !isset($wwwtopdir) )
-{
+//if ( !isset($wwwtopdir) )
+//{
   if($GLOBALS["taiste"])
     $wwwtopdir = "/taiste/";
   else
     $wwwtopdir = "/";
-}
+//}
 
-if( !isset($fstopdir) )
+//if( !isset($fstopdir) )
   $fstopdir = $_SERVER['DOCUMENT_ROOT'].$wwwtopdir;
 
 /** Classe générant l'interface
