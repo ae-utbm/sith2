@@ -36,7 +36,7 @@ if( !strncmp('/var/www/taiste', $_SERVER['SCRIPT_FILENAME'], 22) )
   $GLOBALS["taiste"] = true;
 else
   $GLOBALS["taiste"] = false;
-echo strncmp('/var/www/taiste', $_SERVER['SCRIPT_FILENAME'], 22);
+echo strncmp('/var/www/taiste', $_SERVER['SCRIPT_FILENAME'], 15);
 
 require_once($topdir . "include/mysql.inc.php");
 require_once($topdir . "include/mysqlae.inc.php");
