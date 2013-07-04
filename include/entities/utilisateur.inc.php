@@ -884,7 +884,20 @@ class utilisateur extends stdentity
 
     if ( $this->etudiant || $this->ancien_etudiant )
     {
-      new update($this->dbrw,
+      $req = new requete($this->db,"SELECT id_utilisateur FROM utl_etu WHERE id_utilisateur='".mysql_real_escape_string($this->id)."'");
+
+      if ( $req->lines == 0 )
+        new insert($this->dbrw,
+                        "utl_etu",
+                        array('citation' => $this->citation,
+                              'adresse_parents' => $this->adresse_parents,
+                              'id_ville' => $this->id_ville_parents,
+                              'id_pays' => $this->id_pays_parents,
+                              'tel_parents' => $this->tel_parents,
+                              'nom_ecole_etudiant' => $this->nom_ecole_etudiant),
+                        array('id_utilisateur' => $this->id));
+      else
+        new update($this->dbrw,
                         "utl_etu",
                         array('citation' => $this->citation,
                               'adresse_parents' => $this->adresse_parents,
@@ -898,7 +911,21 @@ class utilisateur extends stdentity
 
     if ( $this->utbm )
     {
-      new update($this->dbrw,
+      $req = new requete($this->db,"SELECT id_utilisateur FROM utl_etu WHERE id_utilisateur='".mysql_real_escape_string($this->id)."'");
+
+      if ( $req->lines == 0 )
+        new insert($this->dbrw,
+                        "utl_etu_utbm",
+                        array('semestre_utbm' => $this->semestre,
+                              'role_utbm' => $this->role,
+                              'departement_utbm' => $this->departement,
+                              'filiere_utbm' => $this->filiere,
+                              'surnom_utbm' => (!empty($this->surnom) ? $this->surnom : null),
+                              'promo_utbm' => $this->promo_utbm,
+                              'date_diplome_utbm'=> ($this->date_diplome_utbm!=NULL)?date("Y-m-d H:i:s",$this->date_diplome_utbm):NULL),
+                        array( 'id_utilisateur' => $this->id));
+      else
+        new update($this->dbrw,
                         "utl_etu_utbm",
                         array('semestre_utbm' => $this->semestre,
                               'role_utbm' => $this->role,
