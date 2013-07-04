@@ -316,16 +316,16 @@ else
     if ( !empty($this->meta_description) )
       $this->buffer .= "<meta name=\"description\" content=\"".htmlentities($this->meta_description,ENT_COMPAT,"UTF-8")."\" />\n";
 
-    $this->buffer .= "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico?".filemtime($wwwtopdir."favicon.ico")."\" />\n";
+    $this->buffer .= "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico?".filemtime($fstopdir."favicon.ico")."\" />\n";
 if(!defined("MOBILE")) {
     $this->buffer .= "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
-    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js?".filemtime($wwwtopdir . "js/site.js")."\"></script>\n";
-    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js?".filemtime($wwwtopdir . "js/ajax.js")."\"></script>\n";
-    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js?".filemtime($wwwtopdir . "js/dnds.js")."\"></script>\n";
-    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/box_slideshow.js?".filemtime($wwwtopdir . "js/box_slideshow.js")."\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js?".filemtime($fstopdir . "js/site.js")."\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js?".filemtime($fstopdir . "js/ajax.js")."\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js?".filemtime($fstopdir . "js/dnds.js")."\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/box_slideshow.js?".filemtime($fstopdir . "js/box_slideshow.js")."\"></script>\n";
 }else {
     /*  add manualy extra js scripts. Mobile version have to be light ! */
-    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/mobile.js?".filemtime($wwwtopdir . "js/mobile.js")."\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/mobile.js?".filemtime($fstopdir . "js/mobile.js")."\"></script>\n";
 }
 
     foreach ( $this->extrajs as $url )
@@ -868,8 +868,8 @@ if(defined("MOBILE") && !$GLOBALS["taiste"]) $this->buffer = strtr($this->buffer
     $this->buffer .= "<head>\n";
     $this->buffer .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
     $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
-    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($wwwtopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
-    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css?".filemtime($wwwtopdir ."css/popup.css")."\" />\n";
+    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($fstopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
+    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css?".filemtime($fstopdir ."css/popup.css")."\" />\n";
     foreach ( $this->extracss as $url )
       $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"). "\" />\n";
 
