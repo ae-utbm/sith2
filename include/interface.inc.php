@@ -288,19 +288,19 @@ else
     {
       $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")."</title>\n";
       if(isset($this->css))
-        $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . $this->css."?".filemtime($wwwtopdir . $this->css)."\" title=\"AE2-NEW2\" />\n";
+        $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . $this->css."?".filemtime($fstopdir . $this->css)."\" title=\"AE2-NEW2\" />\n";
       else {
 if(!defined("MOBILE"))
-      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($wwwtopdir . "themes/default3/css/site3.css")."\" title=\"AE2-NEW3\" />\n";
+      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($fstopdir . "themes/default3/css/site3.css")."\" title=\"AE2-NEW3\" />\n";
 else
-      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/mobile/css/site.css?".filemtime($wwwtopdir . "themes/mobile/css/site.css")."\" title=\"AE2-MOBILE\" />\n";
+      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/mobile/css/site.css?".filemtime($fstopdir . "themes/mobile/css/site.css")."\" title=\"AE2-MOBILE\" />\n";
       }
     }
     foreach ( $this->extracss as $url )
       if(file_exists(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")))
         $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".
              htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")."?".
-             filemtime(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"))."\" />\n";
+             filemtime(htmlentities($fstopdir . $url,ENT_COMPAT,"UTF-8"))."\" />\n";
 
     foreach ( $this->alternate as $row )
     {
@@ -329,7 +329,7 @@ if(!defined("MOBILE")) {
 }
 
     foreach ( $this->extrajs as $url )
-      $this->buffer .= "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."?".filemtime(htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8"))."\"></script>\n";
+      $this->buffer .= "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."?".filemtime(htmlentities($fstopdir.$url,ENT_QUOTES,"UTF-8"))."\"></script>\n";
 
     $this->buffer .= "</head>\n";
 
