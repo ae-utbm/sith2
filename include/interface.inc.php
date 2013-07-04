@@ -51,6 +51,9 @@ if ( !isset($wwwtopdir) )
     $wwwtopdir = "/";
 }
 
+if( !isset($fstopdir) )
+  $fstopdir = $_SERVER['DOCUMENT_ROOT'].$wwwtopdir;
+
 /** Classe générant l'interface
  * @see site
  * @ingroup display
@@ -277,9 +280,9 @@ class interfaceweb
     {
       $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
 if(!defined("MOBILE"))
-      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($wwwtopdir . "themes/default3/css/site3.css")."\" title=\"AE2-NEW3\" />\n";
+      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?".filemtime($fstopdir . "themes/default3/css/site3.css")."\" title=\"AE2-NEW3\" />\n";
 else
-      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/mobile/css/site.css?".filemtime($wwwtopdir . "themes/mobile/css/site.css")."\" title=\"AE2-MOBILE\" />\n";
+      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/mobile/css/site.css?".filemtime($fstopdir . "themes/mobile/css/site.css")."\" title=\"AE2-MOBILE\" />\n";
     }
     else
     {
