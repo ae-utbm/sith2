@@ -28,7 +28,7 @@ require_once("carteae.inc.php");
 
 
 $GLOBALS["utbm_roles"] = array("etu"=>"Étudiant", "adm"=>"Personnel administratif", "ens"=>"Enseignant", "per"=>"Personnel", "doc"=>"Doctorant","anc"=>"Ancien étudiant","srv"=>"Service");
-$GLOBALS["utbm_departements"] = array("tc"=>"TC", "gi"=>"GI", "imap"=>"IMAP", "gesc"=>"GESC", "mc"=>"MC", "edim"=>"EDIM", "huma"=>"Humanités", "na"=>"N/A");
+$GLOBALS["utbm_departements"] = array("tc"=>"TC", "gi"=>"GI", "imap"=>"IMAP", "imsi"=>"IMSI", "ee"=>"EE", "gesc"=>"GESC", "mc"=>"MC", "edim"=>"EDIM", "huma"=>"Humanités", "na"=>"N/A");
 
 /**
  * Classe permetant la gestion d'un utilisateur

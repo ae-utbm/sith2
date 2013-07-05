@@ -95,7 +95,7 @@ $uvcomm_qualite = array ('-1' => 'Sans avis',
        '4'=>'Excellente');
 
 
-$departements = array('Humanites', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
+$departements = array('Humanites', 'TC', 'GESC', 'EE', 'GI', 'IMAP', 'IMSI', 'GMC', 'EDIM');
 
 
 /** tableaux sur la catégorisation des UVs à l'intérieur des départements */
@@ -113,6 +113,11 @@ $gesc_cat  = array(''=> null,
        'TM' => 'TM',
        'RN' => 'RN',
        'EX' => 'EX');
+$ee_cat  = array(''=> null,
+       'CS' => 'CS',
+       'TM' => 'TM',
+       'RN' => 'RN',
+       'EX' => 'EX');
 $gi_cat    = array('' => null,
        'CS' => 'CS',
        'TM' => 'TM',
@@ -126,6 +131,12 @@ $gmc_cat   = array('' => null,
        'EX' => 'EX');
 
 $imap_cat  = array('' => null,
+       'CS' => 'CS',
+       'TM' => 'TM',
+       'RN' => 'RN',
+       'EX' => 'EX');
+
+$imsi_cat  = array('' => null,
        'CS' => 'CS',
        'TM' => 'TM',
        'RN' => 'RN',

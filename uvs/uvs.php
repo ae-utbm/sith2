@@ -340,6 +340,11 @@ if (($site->user->is_in_group('gestion_ae'))
       $departements[] = 'GESC';
       $stats_by_depts['GESC'] = $_REQUEST['cat_gesc'];
     }
+  if ($_REQUEST['EE'] == 1)
+    {
+      $departements[] = 'EE';
+      $stats_by_depts['EE'] = $_REQUEST['cat_ee'];
+    }
   if ($_REQUEST['GI'] == 1)
     {
       $departements[] = 'GI';
@@ -349,6 +354,11 @@ if (($site->user->is_in_group('gestion_ae'))
     {
       $departements[] = 'IMAP';
       $stats_by_depts['IMAP'] = $_REQUEST['cat_imap'];
+    }
+  if ($_REQUEST['IMSI'] == 1)
+    {
+      $departements[] = 'IMSI';
+      $stats_by_depts['IMSI'] = $_REQUEST['cat_imsi'];
     }
   if ($_REQUEST['GMC'] == 1)
     {
@@ -550,17 +560,17 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                 "TC",
                 in_array('TC', $uvdept));
 
-      $edituv->add_checkbox('GESC',
-                "GESC",
-                in_array('GESC', $uvdept));
+      $edituv->add_checkbox('EE',
+                "EE",
+                in_array('EE', $uvdept));
 
       $edituv->add_checkbox('GI',
                 "GI",
                 in_array('GI', $uvdept));
 
-      $edituv->add_checkbox('IMAP',
-                "IMAP",
-                in_array('IMAP', $uvdept));
+      $edituv->add_checkbox('IMSI',
+                "IMSI",
+                in_array('IMSI', $uvdept));
 
       $edituv->add_checkbox('GMC',
                 "GMC",
@@ -582,18 +592,18 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
             $edituv->add_select_field('cat_tc',
                           "Catégorie de l'UV au département TC",
                           $tc_cat, $cat_by_depts[$dept]);
-          else if ($dept == 'GESC')
-            $edituv->add_select_field('cat_gesc',
-                          "Catégorie de l'UV au département GESC",
-                          $gesc_cat, $cat_by_depts[$dept]);
+          else if ($dept == 'EE')
+            $edituv->add_select_field('cat_ee',
+                          "Catégorie de l'UV au département EE",
+                          $ee_cat, $cat_by_depts[$dept]);
           else if ($dept == 'GI')
             $edituv->add_select_field('cat_gi',
                           "Catégorie de l'UV au département GI",
                           $gi_cat, $cat_by_depts[$dept]);
-          else if ($dept == 'IMAP')
-            $edituv->add_select_field('cat_imap',
-                          "Catégorie de l'UV au département IMAP",
-                          $imap_cat, $cat_by_depts[$dept]);
+          else if ($dept == 'IMSI')
+            $edituv->add_select_field('cat_imsi',
+                          "Catégorie de l'UV au département IMSI",
+                          $imsi_cat, $cat_by_depts[$dept]);
           else if ($dept == 'GMC')
             $edituv->add_select_field('cat_gmc',
                           "Catégorie de l'UV au département GMC",
@@ -838,14 +848,14 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
         $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=207\"><b>Site de l'UTBM</b>, information sur le département des Humanités</a>";
       if ($departement == 'TC')
         $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=205\"><b>Site de l'UTBM</b>, information sur le département de Tronc Commun</a>";
-      if ($departement == 'GESC')
+      if ($departement == 'EE')
         $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=70\"><b>Site de l'UTBM</b>, information sur le département du Génie Electrique et ".
-          "Systèmes de Commande (GESC)</a>";
+          "Systèmes de Commande (EE)</a>";
       if ($departement == 'GI')
         $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=67\"><b>Site de l'UTBM</b>, information sur le département du Génie Informatique (GI)</a>";
-      if ($departement == 'IMAP')
+      if ($departement == 'IMSI')
         $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=69\"><b>Site de l'UTBM</b>, information sur le département de l'Ingénierie et".
-          " management de process (IMAP)</a>";
+          " management de process (IMSI)</a>";
       if ($departement == 'GMC')
         $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=68\"><b>Site de l'UTBM</b>, information sur le département du Génie Mécanique ".
           "et conception (GMC)</a>";

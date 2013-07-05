@@ -122,12 +122,16 @@ define("DPT_GESC",  4);
 define("DPT_IMAP",  5);
 define("DPT_GMC",   6);
 define("DPT_EDIM",  7);
+define("DPT_EE",    8);
+define("DPT_IMSI",  9);
 $_DPT = array(
   DPT_HUMA => array('short'=>'Humas', 'long'=>"Humanités"),
   DPT_TC => array('short'=>'TC', 'long'=>"Tronc Commun"),
   DPT_GI => array('short'=>'GI', 'long'=>"Informatique"),
   DPT_GESC => array('short'=>'GESC', 'long'=>"Génie Électrique et Systèmes de Commande"),
   DPT_IMAP => array('short'=>'IMAP', 'long'=>"Ingénierie et Management de Process"),
+  DPT_EE => array('short'=>'EE', 'long'=>"Génie Électrique et Systèmes de Commande"),
+  DPT_IMSI => array('short'=>'IMSI', 'long'=>"Ingénierie et Management de Process"),
   DPT_GMC => array('short'=>'MC', 'long'=>"Mécanique et Conception"),
   DPT_EDIM => array('short'=>'EDIM', 'long'=>"Ergonomie, Design et Ingénierie Mécanique")
 );
