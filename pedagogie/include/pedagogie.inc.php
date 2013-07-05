@@ -130,8 +130,8 @@ $_DPT = array(
   DPT_GI => array('short'=>'GI', 'long'=>"Informatique"),
   DPT_GESC => array('short'=>'GESC', 'long'=>"Génie Électrique et Systèmes de Commande"),
   DPT_IMAP => array('short'=>'IMAP', 'long'=>"Ingénierie et Management de Process"),
-  DPT_EE => array('short'=>'EE', 'long'=>"Génie Électrique et Systèmes de Commande"),
-  DPT_IMSI => array('short'=>'IMSI', 'long'=>"Ingénierie et Management de Process"),
+  DPT_EE => array('short'=>'EE', 'long'=>"Énergie et Environnement"),
+  DPT_IMSI => array('short'=>'IMSI', 'long'=>"Ingénierie et Management des Systèmes Industriels"),
   DPT_GMC => array('short'=>'MC', 'long'=>"Mécanique et Conception"),
   DPT_EDIM => array('short'=>'EDIM', 'long'=>"Ergonomie, Design et Ingénierie Mécanique")
 );
