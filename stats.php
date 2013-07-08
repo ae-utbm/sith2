@@ -619,10 +619,9 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     if (isset($_REQUEST["fcsoldes"]))
     {
       $cols["total"] = "Total";
-      $cols["total_db"] = "Total (dB€)";
     }
 
-    $tbl = new sqltable("top10",
+    $tbl = new sqltable("touttop10",
                         "Consomateurs : Top 100 (tout les semestres)", $req, "stats.php",
                          "id_utilisateur",
                          $cols,
