@@ -599,6 +599,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
     $cts->add($tbl);
 
+    $cts->add_title(2,"Consomateurs : Top 100 (tous les semestres)");
     $req = new requete ($site->db, "SELECT `utilisateurs`.`id_utilisateur`,  
            IF(MONTH(date_facture) BETWEEN 2 AND 7, CONCAT('P',YEAR(date_facture)), CONCAT('A',YEAR(date_facture))) as `semestre`, 
            IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`,    
@@ -622,7 +623,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     }
 
     $tbl = new sqltable("touttop10",
-                        "Consomateurs : Top 100 (tout les semestres)", $req, "stats.php",
+                        "Consomateurs : Top 100 (tous les semestres)", $req, "stats.php",
                          "id_utilisateur",
                          $cols,
                          array(),
