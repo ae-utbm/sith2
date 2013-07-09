@@ -704,23 +704,23 @@ class form extends stdcontents
     {
       $this->buffer .=
         "<a onclick=\"insert_tags2('".$id."','".$infos[1]."','".$infos[2]."','".$infos[3]."');\" />".
-        "<img src=\"".$siteroot."/images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" title=\"".$infos[0]."\" />".
+        "<img src=\"".$siteroot."images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" title=\"".$infos[0]."\" />".
         "</a> \n";
     }
 
-    $this->buffer .= "<a onclick=\"nl2doku ('". $id ."');\"><img src=\"". $siteroot ."/images/toolbar/2slashes.png\" alt=\"2slashes\"
+    $this->buffer .= "<a onclick=\"nl2doku ('". $id ."');\"><img src=\"". $siteroot ."images/toolbar/2slashes.png\" alt=\"2slashes\"
         title=\"Complète les retours à la ligne\" /></a>";
 
     if(!$simple)
     {
       $this->buffer .=
         "<a onclick=\"selectWikiImage('".$siteroot."','".$id."','$context');\" />".
-        "<img src=\"".$siteroot."/images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
+        "<img src=\"".$siteroot."images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
         "</a> \n";
 
       $this->buffer .=
         "<a onclick=\"selectWikiFile('".$siteroot."','".$id."','$context');\" />".
-        "<img src=\"".$siteroot."/images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
+        "<img src=\"".$siteroot."images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
         "</a> \n";
       $this->buffer .= " - <a href=\"".$siteroot."article.php?name=docs:syntax\" target=\"_blank\">aide sur la syntaxe</a>\n";
     }
