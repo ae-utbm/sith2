@@ -278,6 +278,7 @@ class comptoir extends stdentity
 
         if ( $req->lines == 0 ) // rien n'a été affecté, donc on re-crée une entrée
         {
+          _log($this->dbrw, "Entree de tracking absente", serialize(debug_backtrace()), "Comptoir", $Op);
           $req = new insert ($this->dbrw,
              "cpt_tracking",
              array(
@@ -387,6 +388,15 @@ class comptoir extends stdentity
 
     $_SESSION["Comptoirs"][$this->id]["operateurs"][] = $user->id;
 
+    // On ferme toute entree precedente
+    $req = new requete ($this->dbrw,
+       "UPDATE `cpt_tracking` SET `closed_time`='".date("Y-m-d H:i:s")."'
+        WHERE `closed_time` IS NULL
+        AND `id_utilisateur` = '".mysql_real_escape_string($user->id)."'
+        AND `id_comptoir` = '".mysql_real_escape_string($this->id)."'");
+
+    if ( $req->lines != 0 ) // Ca ne devrait pas arriver
+        _log($this->dbrw, "Reconnexion de barman", serialize(debug_backtrace()), "Comptoir", $user);
     // crée l'entrée de tracking pour le barman
     $req = new insert ($this->dbrw,
            "cpt_tracking",
