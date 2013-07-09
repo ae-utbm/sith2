@@ -271,7 +271,7 @@ class comptoir extends stdentity
         // Met à jour l'entrée de tracking de chaque barmen
         $req = new requete ($this->dbrw,
            "UPDATE `cpt_tracking` SET `activity_time`='".date("Y-m-d H:i:s")."'
-            WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
+            WHERE `activity_time` >= '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
             AND `closed_time` IS NULL
             AND `id_utilisateur` = '".mysql_real_escape_string($Op->id)."'
             AND `id_comptoir` = '".mysql_real_escape_string($this->id)."'");
