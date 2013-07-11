@@ -662,10 +662,10 @@ foreach($_DPT as $dept=>$desc){
   $cts->add(new uv_dept_table($uvlist));
 }
 $orphans = uv::get_list($site->db, null, null);
-if(!empty($orphan))
+if(!empty($orphans))
 {
   $cts->add_title(2,"UV sans departements");
-  $cts->add(new uv_dept_table($orphan));
+  $cts->add(new uv_dept_table($orphans));
 }
 $site->add_contents($cts);
 $site->end_page();
