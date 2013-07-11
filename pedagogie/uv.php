@@ -664,7 +664,8 @@ foreach($_DPT as $dept=>$desc){
 $orphans = uv::get_list($site->db, null, null);
 if(!empty($orphans))
 {
-  $cts->add_title(2,"UV sans departements");
+  $cts->add_title(2,"UVs sans département");
+
   $cts->add(new uv_dept_table($orphans));
 }
 $site->add_contents($cts);
