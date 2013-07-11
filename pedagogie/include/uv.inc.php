@@ -658,6 +658,13 @@ class uv extends stdentity
                 WHERE `pedag_uv_dept`.`departement` = ".$dept;
       $where = true;
     }
+    if(is_null($dept))
+    {
+      $req .= " LEFT OUTER JOIN `pedag_uv_dept` 
+		ON `pedag_uv`.`id_uv` = `pedag_uv_dept`.`id_uv`
+		WHERE `pedag_uv_dept`.`departement` IS NULL";
+      $where = true;
+    }
     if(!is_null($type) && array_key_exists($type, $_TYPE)){
       if($where)
         $req .= " AND";
