@@ -650,7 +650,10 @@ class uv extends stdentity
    * retourne la liste des uvs et leurs infos
    */
   public static function get_list(&$db, $type=null, $dept=null){
-    $req = "SELECT * FROM `pedag_uv`";
+    $req = "SELECT `pedag_uv`.`id_uv` as id_uv, `pedag_uv`.`code` as code,
+		`pedag_uv`.`intitule` as intitule, `pedag_uv`.`type` as type, 
+		`pedag_uv`.`responsable` as responsable, 
+		`pedag_uv`.`semestre` as semestre FROM `pedag_uv`";
     $where=false;
     global $_DPT;
     if(!is_null($dept) && array_key_exists($dept, $_DPT)){
