@@ -194,7 +194,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm = new form("editmain", "uv.php?action=save", true, "post", "Informations principales");
   $frm->add_hidden("id", $uv->id);
   $frm->add_text_field("code", "Code", $uv->code, true, 4, false, false);
-  $frm->add_text_field("intitule", "Intitulé", $uv->intitule, true, 128);
+  $frm->add_text_field("intitule", "Intitulé", $uv->intitule, true, strlen($uv->intitule), false,true,null,false,128);
   $frm->add_text_field("responsable", "Responsable", $uv->responsable);
 
   $avail_type=array();
