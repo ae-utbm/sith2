@@ -195,7 +195,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm->add_hidden("id", $uv->id);
   $frm->add_text_field("code", "Code", $uv->code, true, 4, false, false);
   $frm->add_text_field("intitule", "Intitulé", $uv->intitule, true, strlen($uv->intitule), false,true,null,false,128);
-  $frm->add_text_field("responsable", "Responsable", $uv->responsable);
+  $frm->add_text_field("responsable", "Responsable", $uv->responsable,true,strlen($uv->responsable),false,true,null,false,64);
 
   $avail_type=array();
   foreach($_TYPE as $type=>$desc)
