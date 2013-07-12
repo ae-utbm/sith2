@@ -134,25 +134,7 @@ class dokusyntax
 
     $text = htmlspecialchars($text);
 
-    while( preg_match("/\[planning=(.*?)\/(false|true)\/(.*?)\]/i",$text,$matches) )
-    {
-      $site = $GLOBALS['site'];
-      $planningv = new planningv("",$site->db,intval($matches[1]), time(), time()+7*24*3600, $site,$matches[2]==="true",false,intval($matches[3]));
-      $text = preg_replace("/\[planning=(.*?)\]/i",
-                           $planningv->get_buffer(),
-             $text);
-    }
-
-
-    while( preg_match("/\[planning=(.*?)\]/i",$text,$matches) )
-    {
-      $site = $GLOBALS['site'];
-      $planningv = new planningv("",$site->db,intval($matches[1]), time(), time()+7*24*3600, $site);
-      $text = preg_replace("/\[planning=(.*?)\]/i",
-                           $planningv->get_buffer(),
-             $text);
-    }
-
+    
     //citation
     $text = str_replace( CHR(10), "__slash_n__" , $text );
     while( preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/i",$text) )
@@ -188,6 +170,26 @@ class dokusyntax
 
     /* deuxième pass pour les formatages simples */
     $text = $this->simpleformat($text);
+
+    while( preg_match("/\[planning=(.*?)\/(false|true)\/(.*?)\]/i",$text,$matches) )
+    {
+      $site = $GLOBALS['site'];
+      $planningv = new planningv("",$site->db,intval($matches[1]), time(), time()+7*24*3600, $site,$matches[2]==="true",false,intval($matches[3]));
+      $text = preg_replace("/\[planning=(.*?)\]/i",
+                           $planningv->get_buffer(),
+             $text);
+    }
+
+
+    while( preg_match("/\[planning=(.*?)\]/i",$text,$matches) )
+    {
+      $site = $GLOBALS['site'];
+      $planningv = new planningv("",$site->db,intval($matches[1]), time(), time()+7*24*3600, $site);
+      $text = preg_replace("/\[planning=(.*?)\]/i",
+                           $planningv->get_buffer(),
+             $text);
+    }
+
 
     /* troisième pass - insert les trucs de la première pass */
     reset($table);
