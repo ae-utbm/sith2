@@ -1219,7 +1219,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_mois
       	while ($row = $req->get_row())
         	$datas[$row['mois']] = $row['somme'];
 
-      	$hist = new histogram($datas, "Consommation par mois");
+      	$hist = new histogram($datas, "Consommation par mois", true);
 	$hist->png_render();
       	$hist->destroy();
 

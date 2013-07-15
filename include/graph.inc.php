@@ -352,7 +352,7 @@ class histogram
   var $data_file;
   var $img_file;
 
-  function histogram($plots, $title)
+  function histogram($plots, $title, $rotatelabel = false)
   {
     /* identifiant de graphique */
     $this->graph_id = substr(md5(microtime(true)), 0, 6);
@@ -371,7 +371,7 @@ class histogram
                  "set style fill solid border -1\n".
                  "set boxwidth 0.9\n".
                  "set title \"".$title."\"\n".
-                 "set xtics border nomirror offset character 0,0,0\n".
+                 "set xtics border nomirror ".($rotatelabel?"rotate ":"")."offset character 0,0,0\n".
                  "plot '".$this->data_file."' using 2:xtic(1) title col";
 
     $minvalue = 0;
