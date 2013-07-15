@@ -1175,7 +1175,31 @@ elseif ( ($_REQUEST["view"]=="groups") &&
       $cts->add($frm, true);
   }
 }
+elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_jour" && $user->etudiant &&
+         ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
+{	
+	$req = new requete($site->db, "SELECT SUM(montant_facture) as somme, HOUR(TIME(date_facture)) as heure 
+			FROM `cpt_debitfacture` WHERE id_utilisateur = $user->id AND mode_paiement = 'AE' GROUP BY heure");
+	$datas = array("Consommation" => "Par heure");
+      	while ($row = $req->get_row())
+        	$datas[$row['heure']] = $row['somme'];
 
+      	$hist = new histogram($datas, "Consommation par heure");
+	$hist->png_render();
+      	$hist->destroy();
+
+      	exit();
+}
+elseif ( ($_REQUEST["view"]=="stats") && $user->etudiant &&
+         ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
+{
+	$req = new requete($site->db, "SELECT visites FROM utl_etu WHERE `id_utilisateur`=".$user->id);
+	list( $visites ) = $req->get_row();
+	$cts->add_paragraph("Vous avez eu $visites visites sur votre fiche.");
+
+	$req = new requete($site->db, "SELECT visites FROM utl_etu WHERE `id_utilisateur`=".$user->id);
+		
+}
 else
 {
   if ( $site->user->id != $user->id )
