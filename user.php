@@ -1191,6 +1191,23 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_jour
 
       	exit();
 }
+elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_semaine" && $user->etudiant &&
+         ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
+{	
+	require_once($topdir . "include/graph.inc.php");
+	$req = new requete($site->db, "SELECT SUM(montant_facture/100) as somme, DAYOFWEEK(DATE(date_facture)) as jour 
+			FROM `cpt_debitfacture` WHERE id_utilisateur = $user->id AND mode_paiement = 'AE' GROUP BY heure");
+	$datas = array("Consommation" => "Consommation");
+	$jour = array( 1 => "Dim", 2 => "Lun", 3 => "Mar", 4 => "Mer", 5 => "Jeu", 6 => "Ven", 7 => "Sam" );
+      	while ($row = $req->get_row())
+        	$datas[$jour[$row['jour']]] = $row['somme'];
+
+      	$hist = new histogram($datas, "Consommation par jour de la semaine");
+	$hist->png_render();
+      	$hist->destroy();
+
+      	exit();
+}
 elseif ( ($_REQUEST["view"]=="stats") && $user->etudiant &&
          ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
 {
