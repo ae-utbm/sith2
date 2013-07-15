@@ -1178,6 +1178,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
 elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_jour" && $user->etudiant &&
          ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
 {	
+	require_once($topdir . "include/graph.inc.php");
 	$req = new requete($site->db, "SELECT SUM(montant_facture) as somme, HOUR(TIME(date_facture)) as heure 
 			FROM `cpt_debitfacture` WHERE id_utilisateur = $user->id AND mode_paiement = 'AE' GROUP BY heure");
 	$datas = array("Consommation" => "Par heure");
