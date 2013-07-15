@@ -404,11 +404,14 @@ elseif ( $_REQUEST["view"] == "bc" ) // Mauvais clients
     FROM mc_jeton_utilisateur
     LEFT JOIN utilisateurs
     ON mc_jeton_utilisateur.id_utilisateur = utilisateurs.id_utilisateur
+    LEFT JOIN mc_jeton
+    ON mc_jeton_utilisateur.id_jeton = mc_jeton.id_jeton
     WHERE mc_jeton_utilisateur.retour_jeton IS NULL
     AND `retour_jeton` IS NULL
     AND utilisateurs.id_utilisateur NOT IN (SELECT id_utilisateur FROM utl_groupe WHERE id_groupe = 29) 
     AND (DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) > 30)
-    GROUP BY mc_jeton_utilisateur.id_utilisateur
+    AND mc_jeton.id_salle = ".intval($id_salle).
+    " GROUP BY mc_jeton_utilisateur.id_utilisateur
     ORDER BY nombre DESC, duree DESC");
 
 
