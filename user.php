@@ -1180,7 +1180,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_jour
 {	
 	require_once($topdir . "include/graph.inc.php");
 	$req = new requete($site->db, "SELECT SUM(montant_facture/100) as somme, HOUR(TIME(date_facture)) as heure 
-			FROM `cpt_debitfacture` WHERE id_utilisateur = $user->id AND mode_paiement = 'AE' GROUP BY heure");
+			FROM `cpt_debitfacture` WHERE id_utilisateur_client = $user->id AND mode_paiement = 'AE' GROUP BY heure");
 	$datas = array("Consommation" => "Consommation");
       	while ($row = $req->get_row())
         	$datas[$row['heure']] = $row['somme'];
@@ -1196,7 +1196,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_sema
 {	
 	require_once($topdir . "include/graph.inc.php");
 	$req = new requete($site->db, "SELECT SUM(montant_facture/100) as somme, DAYOFWEEK(DATE(date_facture)) as jour 
-			FROM `cpt_debitfacture` WHERE id_utilisateur = $user->id AND mode_paiement = 'AE' GROUP BY jour");
+			FROM `cpt_debitfacture` WHERE id_utilisateur_client = $user->id AND mode_paiement = 'AE' GROUP BY jour");
 	$datas = array("Consommation" => "Consommation");
 	$jour = array( 1 => "Dim", 2 => "Lun", 3 => "Mar", 4 => "Mer", 5 => "Jeu", 6 => "Ven", 7 => "Sam" );
       	while ($row = $req->get_row())
@@ -1212,8 +1212,9 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_mois
          ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
 {	
 	require_once($topdir . "include/graph.inc.php");
-	$req = new requete($site->db, "SELECT SUM(montant_facture/100) as somme, CONCAT(MONTH(date_facture),'/',YEAR(date_facture)) as mois
-			FROM `cpt_debitfacture` WHERE id_utilisateur = $user->id AND mode_paiement = 'AE' GROUP BY mois");
+	$req = new requete($site->db, "SELECT SUM(montant_facture/100) as somme, DATE_FORMAT(date_facture,'%m/%y') as mois, 
+			date_facture as date
+			FROM `cpt_debitfacture` WHERE id_utilisateur_client = $user->id AND mode_paiement = 'AE' GROUP BY mois ORDER BY date");
 	$datas = array("Consommation" => "Consommation");
       	while ($row = $req->get_row())
         	$datas[$row['mois']] = $row['somme'];
