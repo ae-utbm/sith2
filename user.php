@@ -1181,7 +1181,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_jour
 	require_once($topdir . "include/graph.inc.php");
 	$req = new requete($site->db, "SELECT SUM(montant_facture) as somme, HOUR(TIME(date_facture)) as heure 
 			FROM `cpt_debitfacture` WHERE id_utilisateur = $user->id AND mode_paiement = 'AE' GROUP BY heure");
-	$datas = array("Consommation" => "");
+	$datas = array("Consommation" => "Consommation");
       	while ($row = $req->get_row())
         	$datas[$row['heure']] = $row['somme'];
 
