@@ -395,7 +395,7 @@ elseif ( $_REQUEST["view"] == "bc" ) // Mauvais clients
   $sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton,
     mc_jeton_utilisateur.id_utilisateur,
     mc_jeton_utilisateur.retour_jeton,
-    COUNT(id_jeton) AS nombre,
+    COUNT(mc_jeton_utilisateur.id_jeton) AS nombre,
     utilisateurs.nom_utl,
     utilisateurs.prenom_utl,
     utilisateurs.id_utilisateur,
