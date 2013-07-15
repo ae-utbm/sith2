@@ -1208,6 +1208,22 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_sema
 
       	exit();
 }
+elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_mois" && $user->etudiant &&
+         ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
+{	
+	require_once($topdir . "include/graph.inc.php");
+	$req = new requete($site->db, "SELECT SUM(montant_facture/100) as somme, CONCAT(MONTH(date_facture),'/',YEAR(date_facture)) as mois
+			FROM `cpt_debitfacture` WHERE id_utilisateur = $user->id AND mode_paiement = 'AE' GROUP BY mois");
+	$datas = array("Consommation" => "Consommation");
+      	while ($row = $req->get_row())
+        	$datas[$row['mois']] = $row['somme'];
+
+      	$hist = new histogram($datas, "Consommation par mois");
+	$hist->png_render();
+      	$hist->destroy();
+
+      	exit();
+}
 elseif ( ($_REQUEST["view"]=="stats") && $user->etudiant &&
          ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
 {
