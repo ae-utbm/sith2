@@ -445,6 +445,7 @@ elseif ( $_REQUEST["view"] == "bc" ) // Mauvais clients
     AND `retour_jeton` IS NULL
     AND utl_groupe.id_groupe = 29
     AND (DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) > 30)
+    AND mc_jeton.id_salle = ".intval($id_salle)." 
     GROUP BY mc_jeton_utilisateur.id_utilisateur
     ORDER BY duree DESC, nom_jeton DESC");
 
