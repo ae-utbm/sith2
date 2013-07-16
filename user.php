@@ -1232,6 +1232,12 @@ elseif ( ($_REQUEST["view"]=="stats") && $user->etudiant &&
 	list( $visites ) = $req->get_row();
 	$cts->add_paragraph("Vous avez eu $visites visites sur votre fiche.");
 
+	$cts2 = new contents("Historique des consommations");
+	$cts2->add_paragraph("<center><img src=\"./user.php?view=stats&graph=stat_comptoir_jour\" alt=\"Stats conso par heure\" /></center>");
+	$cts2->add_paragraph("<center><img src=\"./user.php?view=stats&graph=stat_comptoir_semaine\" alt=\"Stats conso par jour de la semaine\" /></center>");
+	$cts2->add_paragraph("<center><img src=\"./user.php?view=stats&graph=stat_comptoir_mois\" alt=\"Stats conso par mois\" /></center>");
+	$cts->add($cts2,true);
+
 	$req = new requete($site->db, "SELECT cpt_produits.id_produit as id, cpt_produits.nom_prod as nom, COUNT(*) as nombre FROM cpt_produits
 					JOIN cpt_vendu ON cpt_vendu.id_produit = cpt_produits.id_produit
 					JOIN cpt_debitfacture ON cpt_debitfacture.id_facture = cpt_vendu.id_facture
