@@ -273,7 +273,10 @@ class planning2 extends stdentity
 				if(is_null($date_min) && $to_break)
 					break;
 			}
-
+			if(is_null($date_min))
+			{
+				$date_min = $date_absence;
+			}
 			$date_min = ($date_min<$date_absence)?$date_min:$date_absence;
 			
 			$sql = new requete($this->db,
