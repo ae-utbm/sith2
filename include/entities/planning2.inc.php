@@ -375,7 +375,7 @@ class planning2 extends stdentity
 	function add_user_to_gap( $gap_id, $user_id, $start, $end)
 	{
 		$gap_id = intval($gap_id);
-		$user_id = $intval($user_id);
+		$user_id = intval($user_id);
 		$start = mysql_real_escape_string($start);
 		$end = mysql_real_escape_string($end);
 		if(!$this->is_user_addable($gap_id,$user_id,$start,$end))
