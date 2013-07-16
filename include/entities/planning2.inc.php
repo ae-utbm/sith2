@@ -277,7 +277,11 @@ class planning2 extends stdentity
 			{
 				$date_min = $date_absence;
 			}
-			$date_min = ($date_min<$date_absence)?$date_min:$date_absence;
+			elseif(is_null($date_absence))
+			{
+			}
+			else
+				$date_min = ($date_min<$date_absence)?$date_min:$date_absence;
 			
 			$sql = new requete($this->db,
 				"SELECT count(*) FROM pl2_user_gap
