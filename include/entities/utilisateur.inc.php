@@ -2049,7 +2049,8 @@ L'équipe info AE";
                     array("assos","user.php?view=assos&id_utilisateur=".$this->id, "Associations"),
                     array("photos","user/photos.php?id_utilisateur=".$this->id, "Photos"),
                     array("galaxy","galaxy.php?id_utilisateur=".$this->id, "Galaxy"),
-                    array("pedagogie","user.php?view=pedagogie&id_utilisateur=".$this->id, "Pédagogie") );
+                    array("pedagogie","user.php?view=pedagogie&id_utilisateur=".$this->id, "Pédagogie"),
+                    array("assos","user.php?view=stats&id_utilisateur=".$this->id, "Statistiques"));
 
       if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
       {
