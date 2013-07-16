@@ -266,8 +266,10 @@ class planning2 extends stdentity
 				 AND pl2_user_gap.end > '".gmdate("Y-m-d H:i:s",$new_start)."'");
 
 			if($sql->lines <= 0)
+			{
 				if($to_break)
 					break;
+			}
 			else
 			{
 				$date_min = null;
