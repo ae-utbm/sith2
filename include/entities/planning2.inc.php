@@ -216,7 +216,6 @@ class planning2 extends stdentity
 
 	function get_max_users_for( $gap_id, $start, $end )
 	{
-		return 1;
 		$gap_id = intval($gap_id);
 		$start = mysql_escape_string($start);
 		$end = mysql_escape_string($end);
@@ -253,6 +252,7 @@ class planning2 extends stdentity
 				$to_break = true;
 			else
 			{
+				$date_absence = null;
 				list( $date_absence ) = $sql->get_row();
 				if(is_null($date_absence))
 					$to_break = true;
@@ -270,6 +270,7 @@ class planning2 extends stdentity
 					break;
 			else
 			{
+				$date_min = null;
 				list( $date_min ) = $sql->get_row();
 				if(is_null($date_min) && $to_break)
 					break;
