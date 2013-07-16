@@ -75,6 +75,9 @@ if($_REQUEST["action"] === "del" && isset($_REQUEST["id_planning"]))
 	{
 		$planning->remove();
 		$cts->add_paragraph("Suppression terminee");
+		$site->add_contents($cts);
+		$site->end_page();
+		exit();
 	}
 }
 
