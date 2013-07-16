@@ -1175,7 +1175,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
       $cts->add($frm, true);
   }
 }
-elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_jour" && $user->etudiant &&
+elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_jour" && ($user->etudiant || $user->ancien_etudiant) &&
          ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
 {	
 	require_once($topdir . "include/graph.inc.php");
@@ -1191,7 +1191,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_jour
 
       	exit();
 }
-elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_semaine" && $user->etudiant &&
+elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_semaine" && ($user->etudiant || $user->ancien_etudiant) &&
          ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
 {	
 	require_once($topdir . "include/graph.inc.php");
@@ -1208,7 +1208,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_sema
 
       	exit();
 }
-elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_mois" && $user->etudiant &&
+elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_mois" && ($user->etudiant || $user->ancien_etudiant) &&
          ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
 {	
 	require_once($topdir . "include/graph.inc.php");
@@ -1225,7 +1225,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_mois
 
       	exit();
 }
-elseif ( ($_REQUEST["view"]=="stats") && $user->etudiant &&
+elseif ( ($_REQUEST["view"]=="stats") && ($user->etudiant || $user->ancien_etudiant) &&
          ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
 {
 	$req = new requete($site->db, "SELECT visites FROM utl_etu WHERE `id_utilisateur`=".$user->id);
