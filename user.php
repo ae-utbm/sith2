@@ -1237,7 +1237,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $user->etudiant &&
 					JOIN cpt_debitfacture ON cpt_debitfacture.id_facture = cpt_vendu.id_facture
 					WHERE cpt_debitfacture.id_utilisateur_client = $user->id
 					AND (cpt_produits.id_typeprod < 10 OR cpt_produits.id_typeprod = 27)
-					GROUP BY id ORDER BY nombre DESC");
+					GROUP BY id ORDER BY nombre DESC LIMIT 10");
 		
     $cts->add(new sqltable(
       "topconso",
