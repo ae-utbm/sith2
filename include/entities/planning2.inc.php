@@ -216,6 +216,7 @@ class planning2 extends stdentity
 
 	function get_max_users_for( $gap_id, $start, $end )
 	{
+		return 1;
 		$gap_id = intval($gap_id);
 		$start = mysql_escape_string($start);
 		$end = mysql_escape_string($end);
