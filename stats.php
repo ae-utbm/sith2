@@ -709,7 +709,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
 	$cts->add(new sqltable(
       	    	"barmens",
-      		"Barmens : Nombre de commande ce semestre", $req, "",
+      		"Barmens : Nombre de commande (ce semestre)", $req, "",
 		"",
 	        array("nom_utilisateur"=>"Barmen", "nombre_commande" => "Nombre de commande" ,"total"=>"Somme totale"),
 	        array(), array(),
@@ -732,7 +732,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
 	$cts->add(new sqltable(
       	    	"barmens",
-      		"Barmens : Montant vendu ce semestre", $req, "",
+      		"Barmens : Montant vendu (ce semestre)", $req, "",
 		"",
 	        array("nom_utilisateur"=>"Barmen", "nombre_commande" => "Nombre de commande" ,"total"=>"Somme totale"),
 	        array(), array(),
