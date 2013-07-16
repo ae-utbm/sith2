@@ -2049,14 +2049,14 @@ L'équipe info AE";
                     array("assos","user.php?view=assos&id_utilisateur=".$this->id, "Associations"),
                     array("photos","user/photos.php?id_utilisateur=".$this->id, "Photos"),
                     array("galaxy","galaxy.php?id_utilisateur=".$this->id, "Galaxy"),
-                    array("pedagogie","user.php?view=pedagogie&id_utilisateur=".$this->id, "Pédagogie"),
-                    array("stats","user.php?view=stats&id_utilisateur=".$this->id, "Statistiques"));
+                    array("pedagogie","user.php?view=pedagogie&id_utilisateur=".$this->id, "Pédagogie"));
 
       if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
       {
         $tabs[]=array("resa","user/reservations.php?id_utilisateur=".$this->id, "Reservations");
         $tabs[]=array("emp","user/emprunts.php?id_utilisateur=".$this->id, "Emprunts");
         $tabs[]=array("compte","user/compteae.php?id_utilisateur=".$this->id, "Compte AE");
+        $tabs[]=array("stats","user.php?view=stats&id_utilisateur=".$this->id, "Statistiques");
       }
     }
 
