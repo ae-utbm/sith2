@@ -1239,7 +1239,8 @@ elseif ( ($_REQUEST["view"]=="stats") && ($user->etudiant || $user->ancien_etudi
 	$cts->add($cts2,true);
 
 	$req = new requete($site->db, "SELECT cpt_produits.id_produit as id, cpt_produits.nom_prod as nom, 
-					COUNT(*) as nombre_commande, SUM(cpt_vendu.quantite) as nombre, nombre/nombre_commande as moyenne
+					COUNT(*) as nombre_commande, SUM(cpt_vendu.quantite) as nombre, 
+					SUM(cpt_vendu.quantite)/COUNT(*) as moyenne
 					FROM cpt_produits
 					JOIN cpt_vendu ON cpt_vendu.id_produit = cpt_produits.id_produit
 					JOIN cpt_debitfacture ON cpt_debitfacture.id_facture = cpt_vendu.id_facture
