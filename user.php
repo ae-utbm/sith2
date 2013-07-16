@@ -1232,8 +1232,24 @@ elseif ( ($_REQUEST["view"]=="stats") && $user->etudiant &&
 	list( $visites ) = $req->get_row();
 	$cts->add_paragraph("Vous avez eu $visites visites sur votre fiche.");
 
-	$req = new requete($site->db, "SELECT visites FROM utl_etu WHERE `id_utilisateur`=".$user->id);
+	$req = new requete($site->db, "SELECT cpt_produits.id_produit as id, cpt_produits.nom_prod as nom, COUNT(*) as nombre FROM cpt_produit
+					JOIN cpt_vendu ON cpt_vendu.id_produit = cpt_produits.id_produit
+					JOIN cpt_debitfacture ON cpt_debitfacture.id_facture = cpt_vendu.id_facture
+					WHERE cpt_debitfacture.id_utilisateur_client = $user->id
+					AND (cpt_produits.id_typeprod < 10 OR cpt_produits.id_typeprod = 27)
+					GROUP BY id ORDER BY nombre DESC");
 		
+    $cts->add(new sqltable(
+      "topconso",
+      "Top 10 de vos consommations", $items,
+      $topdir."user.php?view=stats",
+      "id",
+      array(
+        "nom"=>"Produit",
+        "nombre"=>"Quantité"),
+      array(),
+      array(),
+      array()), true);
 }
 else
 {
