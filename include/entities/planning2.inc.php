@@ -39,13 +39,13 @@ class planning2 extends stdentity
 
 	function add ( $name, $group, $admin_group, $weekly, $start, $end, $is_public = true )
 	{
-		$this->name = $name;
-		$this->group = $group;
-		$this->admin_group = $admin_group;
-		$this->weekly = $weekly;
-		$this->start = $start;
-		$this->end = $end;
-		$this->is_public= $is_public;
+		$this->name = mysql_real_escape_string($name);
+		$this->group = intval($group);
+		$this->admin_group = intval($admin_group);
+		$this->weekly = intval($weekly);
+		$this->start = mysql_real_escape_string($start);
+		$this->end = mysql_real_escape_string($end);
+		$this->is_public= ((bool)$is_public);
 
 		$sql = new insert ($this->dbrw,
                        "pl2_planning",
@@ -72,12 +72,12 @@ class planning2 extends stdentity
 
 	function update ( $name, $group, $admin_group, $start, $end , $is_public)
 	{
-		$this->name = $name;
-		$this->group = $group;
-		$this->admin_group = $admin_group;
-		$this->start = $start;
-		$this->end = $end;
-		$this->is_public = $is_public;
+		$this->name = mysql_real_escape_string($name);
+		$this->group = intval($group);
+		$this->admin_group = intval($admin_group);
+		$this->start = mysql_real_escape_string($start);
+		$this->end = mysql_real_escape_string($end);
+		$this->is_public = ((bool)$is_public);
 
 		$sql = new update ($this->dbrw,
                        "pl2_planning",
@@ -117,6 +117,11 @@ class planning2 extends stdentity
 
 	function add_gap( $start, $end, $gap_name, $max_users )
 	{
+		$start = mysql_real_escape_string($start);
+		$end = mysql_real_escape_string($end);
+		$gap_name = mysql_real_escape_string($gap_name);
+		$max_users = intval($max_users);
+
 		$gap_name = trim($gap_name);
 		if( $max_users <= 0 )
 			return -1;
@@ -153,6 +158,11 @@ class planning2 extends stdentity
 
 	function update_gap( $gap_id, $start, $end, $gap_name, $max_users )
 	{
+		$gap_id = intval($gap_id);
+		$start = mysql_real_escape_string($start);
+		$end = mysql_real_escape_string($end);
+		$gap_name = mysql_real_escape_string($gap_name);
+		$max_users = intval($max_users);
 		if($gap_id <= 0 )
 			return -1;
 		if( $max_users <= 0 )
@@ -188,6 +198,7 @@ class planning2 extends stdentity
 
 	function delete_gap( $gap_id )
 	{
+		$gap_id = intval($gap_id);
 		$sql = new delete($this->dbrw, "pl2_user_gap",
 			array(
                        		"id_gap" => $gap_id
@@ -205,7 +216,7 @@ class planning2 extends stdentity
 
 	function get_max_users_for( $gap_id, $start, $end )
 	{
-		$gap_id = mysql_escape_string($gap_id);
+		$gap_id = intval($gap_id);
 		$start = mysql_escape_string($start);
 		$end = mysql_escape_string($end);
 		if(!$this->weekly)
@@ -283,6 +294,11 @@ class planning2 extends stdentity
 	
 	function is_user_addable( $gap_id, $user_id, $start, $end )
 	{
+		$gap_id = intval($gap_id);
+		$user_id = $intval($user_id);
+		$start = mysql_real_escape_string($start);
+		$end = mysql_real_escape_string($end);
+
 		$sql = new requete($this->db, 
 			"SELECT * from pl2_user_gap
 			 WHERE id_gap = '$gap_id'
@@ -358,6 +374,10 @@ class planning2 extends stdentity
 
 	function add_user_to_gap( $gap_id, $user_id, $start, $end)
 	{
+		$gap_id = intval($gap_id);
+		$user_id = $intval($user_id);
+		$start = mysql_real_escape_string($start);
+		$end = mysql_real_escape_string($end);
 		if(!$this->is_user_addable($gap_id,$user_id,$start,$end))
 			return -1;
 		$sql = new insert ($this->dbrw,
@@ -379,6 +399,7 @@ class planning2 extends stdentity
 
 	function remove_user_from_gap( $user_gap_id )
 	{
+		$user_gap_id = intval($user_gap_id);
 		$sql = new delete($this->dbrw, "pl2_user_gap",
 			array(
                              "id_user_gap" => $user_gap_id
@@ -388,6 +409,7 @@ class planning2 extends stdentity
 
 	function get_gaps_for_user( $user_id)
 	{
+		$user_id = intval($user_id);
 		return new requete($this->db,
 			"SELECT id_gap FROM pl2_user_gap
 			 WHERE id_utilisateur = $user_id");
@@ -395,6 +417,8 @@ class planning2 extends stdentity
 
 	function get_gaps( $start, $end )
 	{
+		$start = mysql_real_escape_string($start);
+		$end = mysql_real_escape_string($end);
 		if($this->weekly)
 			return new requete($this->db,
 				"SELECT id_gap, start, end, name_gap, max_users FROM pl2_gap 
@@ -411,6 +435,8 @@ class planning2 extends stdentity
 
 	function get_gaps_time( $start, $end )
 	{
+		$start = mysql_real_escape_string($start);
+		$end = mysql_real_escape_string($end);
 		if($this->weekly)
 			return new requete($this->db,
 				"SELECT start as date FROM pl2_gap 
@@ -441,6 +467,7 @@ class planning2 extends stdentity
 
 	function get_gap_info( $gap_id )
 	{
+		$gap_id = intval($gap_id);
 		return new requete($this->db,
                         "SELECT id_gap, name_gap, start, end FROM pl2_gap 
 			 WHERE id_gap = $gap_id AND id_planning = $this->id");
@@ -448,6 +475,7 @@ class planning2 extends stdentity
 
 	function get_user_gap_info( $user_gap_id )
 	{
+		$user_gap_id = intval($user_gap_id);
 		return new requete($this->db,
                         "SELECT id_gap, id_utilisateur, start, end FROM pl2_user_gap
 			 WHERE id_user_gap = $user_gap_id");
@@ -455,12 +483,14 @@ class planning2 extends stdentity
 
 	function get_gaps_from_names( $name )
 	{
+		$name = mysql_real_escape_string($name);
 		return new requete($this->db,
 			"SELECT id_gap FROM pl2_gap WHERE id_planning = $this->id AND gap_name = '$name' ORDER BY start");
 	}
 
 	function get_week_start( $date )
 	{
+		$date = mysql_real_escape_string($date);
 		if($this->weekly)
 		{
 			$diff = $date - $this->start;
@@ -484,7 +514,8 @@ class planning2 extends stdentity
 
 	function get_users_for_gap( $gap_id, $date )
 	{
-		
+		$gap_id = intval($gap_id);
+		$date = mysql_real_escape_string($date);
 		$sql = new requete($this->db,
 			"SELECT start,end FROM pl2_gap
 			 WHERE id_gap = $gap_id");
