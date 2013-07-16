@@ -694,7 +694,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     {
 	$req = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
 					IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,
-						utl_etu_utbm.surnom_utbm, *
+						utl_etu_utbm.surnom_utbm, 
 						CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) 
 					as `nom_utilisateur`,
 					COUNT(*) as nombre_commande,
@@ -717,7 +717,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 	        ),true);
 	$req = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
 					IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,
-						utl_etu_utbm.surnom_utbm, *
+						utl_etu_utbm.surnom_utbm, 
 						CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) 
 					as `nom_utilisateur`,
 					COUNT(*) as nombre_commande,
