@@ -12,9 +12,11 @@ class planning2 extends stdentity
 
 	function load_by_id( $id )
 	{
+		if(is_null($id) || empty($id))
+			return false;
 		$req = new requete( $this->db, "SELECT * from `pl2_planning`
 						WHERE `id_planning` = '".
-						mysql_real_escape_string($id).
+						intval($id).
 						"' LIMIT 1");
 		if( $req->lines != 1 )
 		{
