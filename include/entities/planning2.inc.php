@@ -237,7 +237,7 @@ class planning2 extends stdentity
 		{
 			$to_break = false;
 			$sql = new requete($this->db,
-				"SELECT min(start) FROM pl2_absence
+				"SELECT min(pl2_absence.start) FROM pl2_absence
 				 JOIN pl2_gap 
 				 ON pl2_gap.id_planning = pl2_absence.id_planning
 				 JOIN pl2_user_gap
@@ -256,7 +256,7 @@ class planning2 extends stdentity
 			}
 
 			$sql = new requete($this->db,
-				"SELECT min(end) FROM pl2_user_gap
+				"SELECT min(pl2_user_gap.end) FROM pl2_user_gap
 				 JOIN pl2_gap
 				 ON pl2_gap.id_gap = pl2_user_gap.id_gap
 				 WHERE pl2_user_gap.start <= '".gmdate("Y-m-d H:i:s",$new_start)."' 
