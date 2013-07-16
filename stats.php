@@ -698,7 +698,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 						CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) 
 					as `nom_utilisateur`,
 					COUNT(*) as nombre_commande,
-					SUM(montant_facture) as total
+					SUM(montant_facture)/100 as total
 					FROM cpt_debitfacture
 					JOIN utilisateurs ON cpt_debitfacture.id_utilisateur = utilisateurs.id_utilisateur
 					JOIN utl_etu_utbm ON cpt_debitfacture.id_utilisateur = utl_etu_utbm.id_utilisateur
@@ -721,7 +721,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 						CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) 
 					as `nom_utilisateur`,
 					COUNT(*) as nombre_commande,
-					SUM(montant_facture) as total
+					SUM(montant_facture)/100 as total
 					FROM cpt_debitfacture
 					JOIN utilisateurs ON cpt_debitfacture.id_utilisateur = utilisateurs.id_utilisateur
 					JOIN utl_etu_utbm ON cpt_debitfacture.id_utilisateur = utl_etu_utbm.id_utilisateur
@@ -732,12 +732,58 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
 	$cts->add(new sqltable(
       	    	"barmens",
-      		"Barmens : Montant vendu", $req, "",
+      		"Barmens : Montant vendu ce semestre", $req, "",
 		"",
 	        array("nom_utilisateur"=>"Barmen", "nombre_commande" => "Nombre de commande" ,"total"=>"Somme totale"),
 	        array(), array(),
 	        array()
 	        ),true);
+
+	$req = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
+					IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,
+						utl_etu_utbm.surnom_utbm, 
+						CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) 
+					as `nom_utilisateur`,
+					COUNT(*) as nombre_commande,
+					SUM(montant_facture)/100 as total
+					FROM cpt_debitfacture
+					JOIN utilisateurs ON cpt_debitfacture.id_utilisateur = utilisateurs.id_utilisateur
+					JOIN utl_etu_utbm ON cpt_debitfacture.id_utilisateur = utl_etu_utbm.id_utilisateur
+					WHERE mode_paiement = 'AE'
+					GROUP BY utilisateurs.id_utilisateur
+					ORDER BY nombre_commande DESC LIMIT 30");
+
+	$cts->add(new sqltable(
+      	    	"barmens",
+      		"Barmens : Nombre de commande (depuis toujours)", $req, "",
+		"",
+	        array("nom_utilisateur"=>"Barmen", "nombre_commande" => "Nombre de commande" ,"total"=>"Somme totale"),
+	        array(), array(),
+	        array()
+	        ),true);
+	$req = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
+					IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,
+						utl_etu_utbm.surnom_utbm, 
+						CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) 
+					as `nom_utilisateur`,
+					COUNT(*) as nombre_commande,
+					SUM(montant_facture)/100 as total
+					FROM cpt_debitfacture
+					JOIN utilisateurs ON cpt_debitfacture.id_utilisateur = utilisateurs.id_utilisateur
+					JOIN utl_etu_utbm ON cpt_debitfacture.id_utilisateur = utl_etu_utbm.id_utilisateur
+					WHERE mode_paiement = 'AE'
+					GROUP BY utilisateurs.id_utilisateur
+					ORDER BY somme DESC LIMIT 30");
+
+	$cts->add(new sqltable(
+      	    	"barmens",
+      		"Barmens : Montant vendu (depuis toujours)", $req, "",
+		"",
+	        array("nom_utilisateur"=>"Barmen", "nombre_commande" => "Nombre de commande" ,"total"=>"Somme totale"),
+	        array(), array(),
+	        array()
+	        ),true);
+
 
     }
   }
