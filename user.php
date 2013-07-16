@@ -1232,7 +1232,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $user->etudiant &&
 	list( $visites ) = $req->get_row();
 	$cts->add_paragraph("Vous avez eu $visites visites sur votre fiche.");
 
-	$req = new requete($site->db, "SELECT cpt_produits.id_produit as id, cpt_produits.nom_prod as nom, COUNT(*) as nombre FROM cpt_produit
+	$req = new requete($site->db, "SELECT cpt_produits.id_produit as id, cpt_produits.nom_prod as nom, COUNT(*) as nombre FROM cpt_produits
 					JOIN cpt_vendu ON cpt_vendu.id_produit = cpt_produits.id_produit
 					JOIN cpt_debitfacture ON cpt_debitfacture.id_facture = cpt_vendu.id_facture
 					WHERE cpt_debitfacture.id_utilisateur_client = $user->id
