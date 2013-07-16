@@ -341,23 +341,23 @@ class planning2 extends stdentity
 			 AND
 			 (
 				(
-					pl2_gap.start < (SELECT end FROM pl2_gap WHERE id_gap = '$gap_id')
-					AND pl2_gap.start > (SELECT start FROM pl2_gap WHERE id_gap = '$gap_id')
+					pl2_gap.start < (SELECT tmp.end FROM pl2_gap AS tmp WHERE tmp.id_gap = '$gap_id')
+					AND pl2_gap.start > (SELECT tmp.start FROM pl2_gap AS tmp WHERE tmp.id_gap = '$gap_id')
 				)
 				OR
 				(
-					pl2_gap.end > (SELECT start FROM pl2_gap WHERE id_gap = '$gap_id')
-                                        AND pl2_gap.end < (SELECT end FROM pl2_gap WHERE id_gap = '$gap_id')
+					pl2_gap.end > (SELECT tmp.start FROM pl2_gap AS tmp WHERE tmp.id_gap = '$gap_id')
+                                        AND pl2_gap.end < (SELECT tmp.end FROM pl2_gap AS tmp WHERE tmp.id_gap = '$gap_id')
 				)
 				OR
 				(
-					pl2_gap.start <= (SELECT start FROM pl2_gap WHERE id_gap = '$gap_id')
-                                        AND pl2_gap.end >= (SELECT end FROM pl2_gap WHERE id_gap = '$gap_id')
+					pl2_gap.start <= (SELECT tmp.start FROM pl2_gap AS tmp WHERE tmp.id_gap = '$gap_id')
+                                        AND pl2_gap.end >= (SELECT tmp.end FROM pl2_gap AS tmp WHERE tmp.id_gap = '$gap_id')
 				)
 				OR
 				(
-					pl2_gap.start >= (SELECT start FROM pl2_gap WHERE id_gap = '$gap_id')
-                                        AND pl2_gap.end <= (SELECT end FROM pl2_gap WHERE id_gap = '$gap_id')
+					pl2_gap.start >= (SELECT tmp.start FROM pl2_gap AS tmp WHERE tmp.id_gap = '$gap_id')
+                                        AND pl2_gap.end <= (SELECT tmp.end FROM pl2_gap AS tmp WHERE tmp.id_gap = '$gap_id')
 				)
 			 )");
 		if($sql->lines > 0)
