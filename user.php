@@ -1250,6 +1250,32 @@ elseif ( ($_REQUEST["view"]=="stats") && $user->etudiant &&
       array(),
       array(),
       array()), true);
+
+	$req = new requete($site->db, "SELECT cpt_debitfacture.id_utilisateur as id_utilisateur, 
+					IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,
+						utl_etu_utbm.surnom_utbm, 
+						CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) 
+					as `nom_utilisateur`,
+					COUNT(*) as nombre_commande FROM cpt_debitfacture
+					JOIN utilisateurs ON utilisateurs.id_utilisateur = cpt_debitfacture.id_utilisateur
+					JOIN utl_etu_utbm ON utl_etu_utbm.id_utilisateur = cpt_debitfacture.id_utilisateur
+					JOIN cpt_vendu ON cpt_vendu.id_facture = cpt_debitfacture.id_facture
+					JOIN cpt_produits ON cpt_vendu.id_produit = cpt_produits.id_produit
+					WHERE cpt_debitfacture.id_utilisateur_client = $user->id
+					AND (cpt_produits.id_typeprod < 10 OR cpt_produits.id_typeprod = 27)
+					GROUP BY id ORDER BY nombre_commande DESC LIMIT 10");
+		
+    $cts->add(new sqltable(
+      "topconso",
+      "Top 10 de vos barmans", $req,
+      $topdir."user.php",
+      "id_utilisateur",
+      array(
+        "nom_utilisateur"=>"Nom",
+        "nombre_commande"=>"Nombre de commande"),
+      array(),
+      array(),
+      array()), true);
 }
 else
 {
