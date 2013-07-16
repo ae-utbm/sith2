@@ -233,6 +233,8 @@ class planning2 extends stdentity
 		$max_users = 0;
 		$new_start = $start;
 		$to_break = false;
+		$date_absence = null;
+		$date_min = null;
 		while(true)
 		{
 			$to_break = false;
