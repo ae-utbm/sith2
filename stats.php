@@ -728,7 +728,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 					WHERE mode_paiement = 'AE'
 					AND cpt_debitfacture.date_facture > '$debut_semestre'
 					GROUP BY utilisateurs.id_utilisateur
-					ORDER BY somme DESC LIMIT 30");
+					ORDER BY total DESC LIMIT 30");
 
 	$cts->add(new sqltable(
       	    	"barmens",
@@ -773,7 +773,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 					JOIN utl_etu_utbm ON cpt_debitfacture.id_utilisateur = utl_etu_utbm.id_utilisateur
 					WHERE mode_paiement = 'AE'
 					GROUP BY utilisateurs.id_utilisateur
-					ORDER BY somme DESC LIMIT 30");
+					ORDER BY total DESC LIMIT 30");
 
 	$cts->add(new sqltable(
       	    	"barmens",
