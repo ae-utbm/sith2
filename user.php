@@ -1241,7 +1241,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $user->etudiant &&
 		
     $cts->add(new sqltable(
       "topconso",
-      "Top 10 de vos consommations", $items,
+      "Top 10 de vos consommations", $req,
       $topdir."user.php?view=stats",
       "id",
       array(
