@@ -367,7 +367,7 @@ class galaxy
    */
   function rand()
   {
-    new requete($this->dbrw, "UPDATE `galaxy_star` SET x_star = x_star+5-( RAND( ) *10 ), y_star = y_star+5-( RAND( ) *10)");
+    new requete($this->dbrw, "UPDATE `galaxy_star` SET x_star = x_star+5-( RAND( ) *10 ), y_star = y_star+5-( RAND( ) *10) WHERE fixe_star != 1");
   }
 
   /**
@@ -395,7 +395,7 @@ class galaxy
       $nx = sprintf("%.f",$nx);
       $ny = sprintf("%.f",$ny);
       //echo "MOVE $id to ($nx, $ny)<br/>\n";
-      new requete ( $this->dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$id");
+      new requete ( $this->dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$id AND fixe_star != 1");
     }
 
     list($x1,$y1,$x2,$y2) = $this->limits();
@@ -415,7 +415,7 @@ class galaxy
       {
         list($nx,$ny) = $this->find_low_density_point($x1,$y1,$cw,"$ida,$idb");
         //echo "MOVE $ida,$idb to ($nx, $ny)<br/>\n";
-        new requete ( $this->dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$ida OR id_star=$idb");
+        new requete ( $this->dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$ida OR id_star=$idb fixe_star != 1");
       }
     }
 
