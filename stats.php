@@ -92,7 +92,7 @@ if (($_REQUEST["view"] == "cotisants" ) && isset($_REQUEST['bananas']) && ($_REQ
     $datas[$semestre] = $row['nbcotis'];
   }
 
-  $hist = new histogram($datas, "Top 10");
+  $hist = new histogram($datas, "Top 10", true);
   $hist->png_render();
   $hist->destroy();
 
