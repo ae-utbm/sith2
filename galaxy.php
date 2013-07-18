@@ -185,13 +185,35 @@ if ( $_REQUEST["action"] == "info" )
   )
   INNER JOIN asso ON (asso.id_asso = a.id_asso)
   WHERE a.id_utilisateur='".intval($user_a->id)."'
+  AND a.role > 0
+  AND b.role > 0
   GROUP BY a.id_asso");
 
   while ( $row = $req->get_row() )
   {
-    $reasons->add($row["together"]." jours ensemble à ".$row["nom_asso"]." : ".round((1-exp(-$row["together"]/365))*GALAXY_SCORE_2ANNEEASSO)." points");
-    $total += round((1-exp(-$row["together"]/365))*GALAXY_SCORE_2ANNEEASSO);
+    $reasons->add($row["together"]." jours ensemble à ".$row["nom_asso"]." en membres actifs: ".round((1-exp(-$row["together"]/365))*GALAXY_SCORE_2ANNEESACTIFASSO)." points");
+    $total += round((1-exp(-$row["together"]/365))*GALAXY_SCORE_2ANNEESACTIFASSO);
   }
+
+  $req = new requete($site->db,"SELECT asso.nom_asso, a.id_asso,
+  SUM(DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut))) AS together
+  FROM asso_membre AS a
+  JOIN asso_membre AS b ON
+  (
+  b.id_utilisateur='".intval($user_b->id)."'
+  AND a.id_asso = b.id_asso
+  )
+  INNER JOIN asso ON (asso.id_asso = a.id_asso)
+  WHERE a.id_utilisateur='".intval($user_a->id)."'
+  AND NOT (a.role > 0 AND b.role > 0)
+  GROUP BY a.id_asso");
+
+  while ( $row = $req->get_row() )
+  {
+    $reasons->add($row["together"]." jours ensemble à ".$row["nom_asso"]." : ".round((1-exp(-$row["together"]/365))*GALAXY_SCORE_2ANNEESASSO)." points");
+    $total += round((1-exp(-$row["together"]/365))*GALAXY_SCORE_2ANNEESASSO);
+  }
+
 
   $reasons->add("<b>Total: ".round($total)." points</b>");
 

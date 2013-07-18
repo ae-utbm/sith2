@@ -27,7 +27,8 @@
 
 define("GALAXY_SCORE_1PTPHOTO",1);
 define("GALAXY_SCORE_PARRAINAGE",15);
-define("GALAXY_SCORE_2ANNEEASSO",9.5);
+define("GALAXY_SCORE_2ANNEESACTIFASSO",15);
+define("GALAXY_SCORE_2ANNEESASSO",5);
 define("GALAXY_MINSCORE",10);
 
 /**
@@ -128,6 +129,7 @@ class galaxy
   LEFT JOIN utilisateurs usr2 ON (b.id_utilisateur = usr2.id_utilisateur)
   WHERE usr1.publique_utl != '0'
   AND usr2.publique_utl != '0'
+  AND NOT (a.role > 0 AND b.role > 0)
   GROUP BY a.id_utilisateur,b.id_utilisateur
   ORDER BY a.id_utilisateur,b.id_utilisateur");
 
@@ -137,9 +139,37 @@ class galaxy
       $b = max($row['u1'],$row['u2']);
 
       if ( isset($liens[$a][$b]) )
-        $liens[$a][$b] += round((1-exp(-$row['together']/365))*GALAXY_SCORE_2ANNEEASSO);
+        $liens[$a][$b] += round((1-exp(-$row['together']/365))*GALAXY_SCORE_2ANNEESASSO);
       else
-        $liens[$a][$b] = round((1-exp(-$row['together']/365))*GALAXY_SCORE_2ANNEEASSO);
+        $liens[$a][$b] = round((1-exp(-$row['together']/365))*GALAXY_SCORE_2ANNEESASSO);
+    }
+
+  $req = new requete($this->db,"SELECT a.id_utilisateur as u1,b.id_utilisateur as u2,
+  SUM(DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut))) AS together
+  FROM asso_membre AS a
+  JOIN asso_membre AS b ON
+  (
+  a.id_utilisateur < b.id_utilisateur
+  AND a.id_asso = b.id_asso
+  )
+  LEFT JOIN utilisateurs usr1 ON (a.id_utilisateur = usr1.id_utilisateur)
+  LEFT JOIN utilisateurs usr2 ON (b.id_utilisateur = usr2.id_utilisateur)
+  WHERE usr1.publique_utl != '0'
+  AND usr2.publique_utl != '0'
+  AND a.role > 0
+  AND b.role > 0
+  GROUP BY a.id_utilisateur,b.id_utilisateur
+  ORDER BY a.id_utilisateur,b.id_utilisateur");
+
+    while ( $row = $req->get_row() )
+    {
+      $a = min($row['u1'],$row['u2']);
+      $b = max($row['u1'],$row['u2']);
+
+      if ( isset($liens[$a][$b]) )
+        $liens[$a][$b] += round((1-exp(-$row['together']/365))*GALAXY_SCORE_2ANNEESACTIFASSO);
+      else
+        $liens[$a][$b] = round((1-exp(-$row['together']/365))*GALAXY_SCORE_2ANNEESACTIFASSO);
     }
 
     // 2- On vire les liens pas significatifs
