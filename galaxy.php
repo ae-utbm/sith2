@@ -293,8 +293,8 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     FROM `galaxy_link`
     INNER JOIN `utilisateurs` `utilisateurs_a` ON (`id_star_a`=`utilisateurs_a`.`id_utilisateur`)
     INNER JOIN `utilisateurs` `utilisateurs_b` ON (`id_star_b`=`utilisateurs_b`.`id_utilisateur`)
-    INNER JOIN `utl_etu_utbm` `utl_etu_utbm_a` ON (`utl_etu_utbm_a`.`id_utilisateur` = `utilisateurs_a`.`id_utilisateur`)
-    INNER JOIN `utl_etu_utbm` `utl_etu_utbm_b` ON (`utl_etu_utbm_b`.`id_utilisateur` = `utilisateurs_b`.`id_utilisateur`)
+    LEFT OUTER JOIN `utl_etu_utbm` `utl_etu_utbm_a` ON (`utl_etu_utbm_a`.`id_utilisateur` = `utilisateurs_a`.`id_utilisateur`)
+    LEFT OUTER JOIN `utl_etu_utbm` `utl_etu_utbm_b` ON (`utl_etu_utbm_b`.`id_utilisateur` = `utilisateurs_b`.`id_utilisateur`)
     WHERE `id_star_a`='".mysql_real_escape_string($user->id)."' OR `id_star_b`='".mysql_real_escape_string($user->id)."'
     ORDER BY 1";
 
