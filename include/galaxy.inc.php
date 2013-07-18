@@ -451,8 +451,8 @@ class galaxy
     $bottom_x = ceil($bottom_x);
     $bottom_y = ceil($bottom_y);
 
-    $mult_x = 10000/($bottom_x-$top_x);
-    $mult_y = 10000/($bottom_y-$top_y);
+    $mult_x = floor(10000/($bottom_x-$top_x));
+    $mult_y = floor(10000/($bottom_y-$top_y));
 
     $this->width = $tx;//($bottom_x-$top_x)*$tx;
     $this->height = $tx;//($bottom_y-$top_y)*$tx;
