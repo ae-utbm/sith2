@@ -27,7 +27,7 @@
 
 define("GALAXY_SCORE_1PTPHOTO",1);
 define("GALAXY_SCORE_PARRAINAGE",15);
-define("GALAXY_SCORE_1PTJOURSASSO",75);
+define("GALAXY_SCORE_2ANNEEASSO",10);
 define("GALAXY_MINSCORE",10);
 
 /**
@@ -123,7 +123,6 @@ class galaxy
   (
   a.id_utilisateur < b.id_utilisateur
   AND a.id_asso = b.id_asso
-  AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) >= ".GALAXY_SCORE_1PTJOURSASSO."
   )
   LEFT JOIN utilisateurs usr1 ON (a.id_utilisateur = usr1.id_utilisateur)
   LEFT JOIN utilisateurs usr2 ON (b.id_utilisateur = usr2.id_utilisateur)
@@ -138,9 +137,9 @@ class galaxy
       $b = max($row['u1'],$row['u2']);
 
       if ( isset($liens[$a][$b]) )
-        $liens[$a][$b] += round($row['together']/GALAXY_SCORE_1PTJOURSASSO);
+        $liens[$a][$b] += round((1-exp(-$row['together']/365))*GALAXY_SCORE_2ANNEEASSO);
       else
-        $liens[$a][$b] = round($row['together']/GALAXY_SCORE_1PTJOURSASSO);
+        $liens[$a][$b] = round((1-exp(-$row['together']/365))*GALAXY_SCORE_2ANNEEASSO);
     }
 
     // 2- On vire les liens pas significatifs
