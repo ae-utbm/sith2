@@ -182,7 +182,7 @@ if ( $_REQUEST["action"] == "info" )
   (
   b.id_utilisateur='".intval($user_b->id)."'
   AND a.id_asso = b.id_asso
-  AND MAX(a.date_debut,b.date_debut) < MIN(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW()))
+  AND GREATEST(a.date_debut,b.date_debut) < LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW()))
   )
   INNER JOIN asso ON (asso.id_asso = a.id_asso)
   WHERE a.id_utilisateur='".intval($user_a->id)."'
@@ -204,7 +204,7 @@ if ( $_REQUEST["action"] == "info" )
   b.id_utilisateur='".intval($user_b->id)."'
   AND a.id_asso = b.id_asso
   AND a.date_debut > b.date_fin
-  AND MAX(a.date_debut,b.date_debut) < MIN(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW()))
+  AND GREATEST(a.date_debut,b.date_debut) < LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW()))
   )
   INNER JOIN asso ON (asso.id_asso = a.id_asso)
   WHERE a.id_utilisateur='".intval($user_a->id)."'
