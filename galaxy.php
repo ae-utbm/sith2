@@ -182,7 +182,6 @@ if ( $_REQUEST["action"] == "info" )
   (
   b.id_utilisateur='".intval($user_b->id)."'
   AND a.id_asso = b.id_asso
-  AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) >= ".GALAXY_SCORE_1PTJOURSASSO."
   )
   INNER JOIN asso ON (asso.id_asso = a.id_asso)
   WHERE a.id_utilisateur='".intval($user_a->id)."'
@@ -190,8 +189,8 @@ if ( $_REQUEST["action"] == "info" )
 
   while ( $row = $req->get_row() )
   {
-    $reasons->add($row["together"]." jours ensemble à ".$row["nom_asso"]." : ".round($row["together"]/GALAXY_SCORE_1PTJOURSASSO,3)." points");
-    $total += $row["together"]/GALAXY_SCORE_1PTJOURSASSO;
+    $reasons->add($row["together"]." jours ensemble à ".$row["nom_asso"]." : ".round((1-exp(-$row["together"]/365))*GALAXY_SCORE_2ANNEEASSO)." points");
+    $total += round((1-exp(-$row["together"]/365))*GALAXY_SCORE_2ANNEEASSO);
   }
 
   $reasons->add("<b>Total: ".round($total)." points</b>");
