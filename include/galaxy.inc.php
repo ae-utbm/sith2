@@ -225,17 +225,17 @@ class galaxy
     }
 
     $prev_stars = array();
-    $prev_liens = array();
+    //$prev_liens = array();
 
     $req = new requete($this->dbrw, "SELECT id_star FROM galaxy_star");
 
     while ( list($id) = $req->get_row() )
       $prev_stars[$id] = $id;
 
-    $req = new requete($this->dbrw, "SELECT id_star_a, id_star_b, tense_link FROM galaxy_link");
+    //$req = new requete($this->dbrw, "SELECT id_star_a, id_star_b, tense_link FROM galaxy_link");
 
-    while ( list($a,$b,$c) = $req->get_row() )
-      $prev_liens[$a][$b] = $c;
+    //while ( list($a,$b,$c) = $req->get_row() )
+      //$prev_liens[$a][$b] = $c;
 
     // enlève les anciennes étoiles
     foreach ( $prev_stars as $id )
@@ -243,10 +243,12 @@ class galaxy
         new delete($this->dbrw,"galaxy_star",array( "id_star"=>$id) );
 
     // enlève les anciens liens
-    foreach ( $prev_liens as $a => $data )
-      foreach ( $data as $b => $score )
-        if (!isset($liens[$a][$b]) )
-          new delete($this->dbrw,"galaxy_link",array( "id_star_a"=>$a, "id_star_b"=>$b));
+    //foreach ( $prev_liens as $a => $data )
+      //foreach ( $data as $b => $score )
+        //if (!isset($liens[$a][$b]) )
+          //new delete($this->dbrw,"galaxy_link",array( "id_star_a"=>$a, "id_star_b"=>$b));
+    
+    $req = new requete($this->dbrw, "DELETE FROM galaxy_link");
 
     if ( count($prev_stars) == 0 )
     {
@@ -271,14 +273,14 @@ class galaxy
     // ajoute les nouveaux liens
     foreach ( $liens as $a => $data )
       foreach ( $data as $b => $score )
-        if (!isset($prev_liens[$a][$b]) )
+        //if (!isset($prev_liens[$a][$b]) )
           new insert($this->dbrw,"galaxy_link",array( "id_star_a"=>$a, "id_star_b"=>$b, "tense_link" => $score ));
 
     // met à jour les anciens liens
-    foreach ( $liens as $a => $data )
-      foreach ( $data as $b => $score )
-        if ( isset($prev_liens[$a][$b]) && $prev_liens[$a][$b] != $score )
-          new update($this->dbrw,"galaxy_link",array("tense_link"=>$score),array("id_star_a"=>$a,"id_star_b"=>$b));
+    //foreach ( $liens as $a => $data )
+    //  foreach ( $data as $b => $score )
+    //    if ( isset($prev_liens[$a][$b]) && $prev_liens[$a][$b] != $score )
+    //      new update($this->dbrw,"galaxy_link",array("tense_link"=>$score),array("id_star_a"=>$a,"id_star_b"=>$b));
 
     // met à jour les champs calculés
     new requete($this->dbrw, "UPDATE galaxy_star SET max_tense_star = ( SELECT MAX(tense_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
