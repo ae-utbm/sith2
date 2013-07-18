@@ -124,6 +124,7 @@ class galaxy
   (
   a.id_utilisateur < b.id_utilisateur
   AND a.id_asso = b.id_asso
+  AND GREATEST(a.date_debut,b.date_debut) < LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW()))
   )
   LEFT JOIN utilisateurs usr1 ON (a.id_utilisateur = usr1.id_utilisateur)
   LEFT JOIN utilisateurs usr2 ON (b.id_utilisateur = usr2.id_utilisateur)
@@ -151,6 +152,7 @@ class galaxy
   (
   a.id_utilisateur < b.id_utilisateur
   AND a.id_asso = b.id_asso
+  AND GREATEST(a.date_debut,b.date_debut) < LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW()))
   )
   LEFT JOIN utilisateurs usr1 ON (a.id_utilisateur = usr1.id_utilisateur)
   LEFT JOIN utilisateurs usr2 ON (b.id_utilisateur = usr2.id_utilisateur)
