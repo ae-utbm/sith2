@@ -97,7 +97,7 @@ class galaxy
     }
 
     // b- Parrainage : n pt / relation parrain-fillot
-    $req = new requete($this->db, "SELECT id_utilisateur as u1, id_utilisateur_fillot as u2 ".
+    $req = new requete($this->db, "SELECT parrains.id_utilisateur as u1, id_utilisateur_fillot as u2 ".
     "FROM `parrains` ".
     "LEFT JOIN utilisateurs usr1 ON (parrains.id_utilisateur = usr1.id_utilisateur) ".
     "LEFT JOIN utilisateurs usr2 ON (id_utilisateur_fillot = usr2.id_utilisateur) ".
