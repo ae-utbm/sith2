@@ -441,7 +441,7 @@ class galaxy
   /**
    * Préalable au rendu: fixe les coordonnées en pixels de tous les éléments
    */
-  function pre_render ($tx=100)
+  function pre_render ($tx=10000)
   {
     $req = new requete($this->db, "SELECT MIN(x_star), MIN(y_star), MAX(x_star), MAX(y_star) FROM  galaxy_star");
     list($top_x,$top_y,$bottom_x,$bottom_y) = $req->get_row();
@@ -451,10 +451,13 @@ class galaxy
     $bottom_x = ceil($bottom_x);
     $bottom_y = ceil($bottom_y);
 
-    $this->width = ($bottom_x-$top_x)*$tx;
-    $this->height = ($bottom_y-$top_y)*$tx;
+    $mult_x = 10000/($bottom_x-$top_x);
+    $mult_y = 10000/($bottom_y-$top_y);
 
-    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-$top_x) * $tx, ry_star = (y_star-$top_y) * $tx");
+    $this->width = $tx;//($bottom_x-$top_x)*$tx;
+    $this->height = $tx;//($bottom_y-$top_y)*$tx;
+
+    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-$top_x) * $mult_x, ry_star = (y_star-$top_y) * $mult_y");
   }
 
   /**
@@ -739,6 +742,12 @@ class galaxy
   {
     $req = new requete($this->db, "SELECT MIN(x_star), MIN(y_star), MAX(x_star), MAX(y_star) FROM  galaxy_star");
     return $req->get_row();
+  }
+
+  function get_size()
+  {
+    list( $min_x, $min_y, $max_x, $max_y ) = $this->limits();
+    return max($max_x-$min_x, $max_y - $min_y);
   }
 
 }
