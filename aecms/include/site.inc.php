@@ -50,6 +50,8 @@
  */
 
 $basedir = dirname(dirname($_SERVER['SCRIPT_FILENAME']));
+$basedircomp = explode("/",$basedir);
+$aecmsname = end($basedircomp);
 
 // Chargement de la configuration statique
 if ( !file_exists($basedir."/specific/aecms.conf.php") ) // COnfiguration par défaut, pour les tests
