@@ -522,18 +522,17 @@ foreach ( $site->tab_array as $row )
 }
 
 
+$prefix = $str_replace( $wwwtopdir, "/", $aecmstopdir);
 $tabs = array(
-        array("","configurecms.php", "Onglets"),
-        array("boxes","configurecms.php?view=boxes","Boites"),
-        array("options","configurecms.php?view=options","Options"),
-        array("css","configurecms.php?view=css","Style"),
-        array("news","configurecms.php?view=news","Nouvelles")
+        array("","$prefix/configurecms.php", "Onglets"),
+        array("boxes","$prefix/configurecms.php?view=boxes","Boites"),
+        array("options","$prefix/configurecms.php?view=options","Options"),
+        array("css","$prefix/configurecms.php?view=css","Style"),
+        array("news","$prefix/configurecms.php?view=news","Nouvelles")
         );
 if(isset($site->config['footer']))
-  $tabs[]=array("footer","configurecms.php?view=footer","Footer");
-
+  $tabs[]=array("footer","$prefix/configurecms.php?view=footer","Footer");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
-
 
 if ( $_REQUEST["view"] == "" )
 {
