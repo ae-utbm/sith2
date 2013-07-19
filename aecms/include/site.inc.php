@@ -484,7 +484,7 @@ class aecms extends site
         $this->buffer.=" class=\"selected\"";
         $links=$entry[4];
       }
-      $this->buffer.="><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
+      $this->buffer.="><a id=\"tab_".$entry[0]."\" href=\"" . $aecmstopdir . $entry[1] . "\"";
       $this->buffer.=" title=\"" . stripslashes($entry[2]) . "\">".
         stripslashes($entry[2]) . "</a></span>\n";
     }
@@ -500,7 +500,7 @@ class aecms extends site
         if ( ereg("http://(.*)",$entry[0]) )
           $this->buffer.="<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
         else
-          $this->buffer.="<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>\n";
+          $this->buffer.="<a href=\"".$aecmstopdir.$entry[0]."\">".$entry[1]."</a>\n";
       }
 
       $this->buffer.="</div>\n";
