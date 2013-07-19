@@ -522,7 +522,7 @@ foreach ( $site->tab_array as $row )
 }
 
 
-$prefix = $str_replace( $wwwtopdir, "/", $aecmstopdir);
+$prefix = str_replace( $wwwtopdir, "/", $aecmstopdir);
 $tabs = array(
         array("","$prefix/configurecms.php", "Onglets"),
         array("boxes","$prefix/configurecms.php?view=boxes","Boites"),
