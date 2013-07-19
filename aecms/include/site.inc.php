@@ -74,7 +74,6 @@ if ( CMS_ID_ASSO != intval(CMS_ID_ASSO) )
 }
 
 // Configuration générale (en BETA)
-$wwwtopdir = "./";
 /**
  * Repertoire de stockage des fichiers de configurations des AEMCS
  * @ingroup aecms
@@ -89,6 +88,8 @@ else
 require_once($topdir."include/site.inc.php");
 require_once($topdir."include/entities/asso.inc.php");
 require_once($topdir."include/entities/page.inc.php");
+
+$aecmstopdir = "./";
 
 // Met à jour le catalogue pour AECMS
 $GLOBALS["entitiescatalog"]["catphoto"][3]="photos.php";
@@ -434,13 +435,13 @@ class aecms extends site
     $this->buffer.="<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
     $this->buffer.="<title>".$this->title." - ".htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."</title>\n";
     $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/doku.css\" />\n";
-    $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/".$this->config["css.base"]."\" />\n";
+    $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $aecmstopdir . "css/".$this->config["css.base"]."\" />\n";
 
     foreach ( $this->extracss as $url )
       $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
 
     if ( file_exists($basedir."/specific/custom.css") )
-      $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "specific/custom.css?".filemtime($basedir."/specific/custom.css")."\" />\n";
+      $this->buffer.="<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $aecmstopdir . "specific/custom.css?".filemtime($basedir."/specific/custom.css")."\" />\n";
 
     foreach ( $this->rss as $title => $url )
       $this->buffer.="<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
