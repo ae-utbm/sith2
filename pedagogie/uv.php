@@ -53,6 +53,7 @@ if(isset($_REQUEST['id_uv']))
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
   $uv = new uv($site->db, $site->dbrw);
+  $is_admin = $site->user->is_in_group("pedag_admin");
 
   /**
    * nouvelle UV
@@ -79,7 +80,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
    * edition UV
    */
   if($_REQUEST['magicform']['name']=='editmain'){   /* informations principales */
-    $uv->update($_REQUEST['code'],
+    $uv->update(($is_admin?$_REQUEST['code']:$uv->code),
                 $_REQUEST['intitule'],
                 $_REQUEST['type'],
                 $_REQUEST['responsable'],
@@ -170,6 +171,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
 {
+  $is_admin = $site->user->is_in_group("pedag_admin");
   $uv = new uv($site->db, $site->dbrw, intval($_REQUEST['id']));
   if(!$uv->is_valid())
     $site->redirect('./');
@@ -193,7 +195,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    */
   $frm = new form("editmain", "uv.php?action=save", true, "post", "Informations principales");
   $frm->add_hidden("id", $uv->id);
-  $frm->add_text_field("code", "Code", $uv->code, true, 4, false, false);
+  $frm->add_text_field("code", "Code", $uv->code, true, 4, false, $is_admin);
   $frm->add_text_field("intitule", "Intitulé", $uv->intitule, true, strlen($uv->intitule), false,true,null,false,128);
   $frm->add_text_field("responsable", "Responsable", $uv->responsable,true,strlen($uv->responsable),false,true,null,false,64);
 
