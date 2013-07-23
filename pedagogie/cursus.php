@@ -56,16 +56,21 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   $cursus = new cursus($site->db, $site->dbrw);
 
   if($_REQUEST['magicform']['name']=='newcursus'){
-    $cursus->add($_REQUEST['intitule'],
-                 $_REQUEST['type'],
-                 $_REQUEST['name'],
-                 $_REQUEST['description'],
-                 $_REQUEST['responsable'],
-                 $_REQUEST['nb_some_of'],
-                 $_REQUEST['nb_all_of'],
-                 $_REQUEST['departement']);
+    if($site->user->is_in_group("pedag_admin"))
+    {
+	    $cursus->add($_REQUEST['intitule'],
+			 $_REQUEST['type'],
+			 $_REQUEST['name'],
+			 $_REQUEST['description'],
+			 $_REQUEST['responsable'],
+			 $_REQUEST['nb_some_of'],
+			 $_REQUEST['nb_all_of'],
+			 $_REQUEST['departement']);
 
-    $site->redirect("cursus.php?id=".$cursus->id."&action=edit#edituvcursus");
+	    $site->redirect("cursus.php?id=".$cursus->id."&action=edit#edituvcursus");
+    }
+    else
+	    $site->redirect("cursus.php");
   }
   if($_REQUEST['magicform']['name']=='editcursus'){
     $cursus->load_by_id(intval($_REQUEST['id']));
@@ -122,24 +127,27 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   $path .= " / "."Ajouter un cursus";
   $cts = new contents($path);
 
-  $frm = new form("newcursus", "cursus.php?action=save", true);
-  $frm->add_text_field("intitule", "Intitulé", "", true, 36);
-  $frm->add_text_field("name", "Nom \"court\"", "", false, 10);
-  $frm->add_text_field("responsable", "Responsable", "", false, 36);
-  $avail_type=array();
-  foreach($_CURSUS as $type=>$desc)
-    $avail_type[$type] = $desc['long'];
-  $frm->add_select_field("type", "Catégorie", $avail_type);
-  $avail_dept=array();
-  foreach($_DPT as $dept=>$desc)
-    $avail_dept[$dept] = $desc['long'];
-  $frm->add_select_field("departement", "Département", $avail_dept);
-  $frm->add_text_area("description", "Description", $cursus->description, 80, 10);
-  //$frm->add_text_field("nb_all_of", "Nombre d'UV principales", "", false, 2, false, true, " (\"à obtenir\" pour les mineurs, double-étoilées nécessaires pour les filières)");
-  //$frm->add_text_field("nb_some_of", "Nombre d'UV secondaires", "", false, 2, false, true, " (\"à choisir parmi\" pour les mineurs, simple-étoilées nécessaires pour les filières)");
+  if($site->user->is_in_group("pedag_admin"))
+  {
+	  $frm = new form("newcursus", "cursus.php?action=save", true);
+	  $frm->add_text_field("intitule", "Intitulé", "", true, 36);
+	  $frm->add_text_field("name", "Nom \"court\"", "", false, 10);
+	  $frm->add_text_field("responsable", "Responsable", "", false, 36);
+	  $avail_type=array();
+	  foreach($_CURSUS as $type=>$desc)
+	    $avail_type[$type] = $desc['long'];
+	  $frm->add_select_field("type", "Catégorie", $avail_type);
+	  $avail_dept=array();
+	  foreach($_DPT as $dept=>$desc)
+	    $avail_dept[$dept] = $desc['long'];
+	  $frm->add_select_field("departement", "Département", $avail_dept);
+	  $frm->add_text_area("description", "Description", $cursus->description, 80, 10);
+	  //$frm->add_text_field("nb_all_of", "Nombre d'UV principales", "", false, 2, false, true, " (\"à obtenir\" pour les mineurs, double-étoilées nécessaires pour les filières)");
+	  //$frm->add_text_field("nb_some_of", "Nombre d'UV secondaires", "", false, 2, false, true, " (\"à choisir parmi\" pour les mineurs, simple-étoilées nécessaires pour les filières)");
 
-  $frm->add_submit("savecursus", "Enregistrer & sélectionner les UV");
-  $cts->add($frm);
+	  $frm->add_submit("savecursus", "Enregistrer & sélectionner les UV");
+	  $cts->add($frm);
+  }
 
   $site->add_contents($cts);
   $site->end_page();
@@ -329,7 +337,8 @@ foreach($_DPT as $dept=>$desc){
                                "responsable"=>"Responsable"),
                          array("view"=>"Voir détails"), array()));
 }
-
+if($site->user->is_in_group("pedag_admin"))
+	$cts->puts("<input type=\"button\" onclick=\"location.href='cursus.php?action=new';\" value=\"+ Ajouter un cursus\" />");
 $site->add_contents($cts);
 $site->end_page();
 ?>
