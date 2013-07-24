@@ -294,7 +294,7 @@ elseif ( $_REQUEST["act"] == "UploadVideoFLV" )
                             false,
                             $cat->meta_id_asso,
                             NULL,
-                            $asso->is_valid() ? $asso->id : NULL,
+                            $photographer_asso->is_valid() ? $photographer_asso->id : NULL,
                             $licence);
 
     echo "<error>0</error>\n";
