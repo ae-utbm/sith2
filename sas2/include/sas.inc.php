@@ -107,11 +107,7 @@ class sas extends site
 
 
         $req = new requete($this->db,
-              "SELECT COUNT(`sas_photos`.`id_photo`) ".
-              "FROM `sas_personnes_photos` ".
-              "INNER JOIN `sas_photos` USING(`id_photo`) ".
-              "WHERE `sas_personnes_photos`.`modere_phutl` ='0' ".
-              "GROUP BY `sas_photos`.`id_photo`");
+              "SELECT COUNT(*) FROM (SELECT id_photo FROM sas_personnes_photos WHERE modere_phutl = '0' GROUP BY id_photo) as p");
         list($nnoms) = $req->get_row();
 
         if ( $nnoms > 0 )
