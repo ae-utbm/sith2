@@ -336,15 +336,23 @@ elseif ( $_REQUEST["view"] == "sas" )
 
   $cts->add_paragraph("".$total." photos (et vidéos) dans le SAS");
 
+  $req = new requete($site->db,"SELECT COUNT(*) FROM `sas_photos` WHERE droits_acquis=1");
+  list($nbphotos) = $req->get_row();
+
+  $cts->add_paragraph("".round($nbphotos*100/$total,1)."% photos dont tous les droits sont acquis");
+  
+    $req = new requete($site->db,"SELECT COUNT(*) FROM `sas_photos` WHERE droits_acquis=0 AND incomplet=0");
+  list($nbphotos) = $req->get_row();
+
+  $cts->add_paragraph("".round($nbphotos*100/$total,1)."% photos complètes dont les droits ne sont pas acquis");
+  
+  
   $req = new requete($site->db,"SELECT COUNT(*) FROM `sas_photos` WHERE incomplet=1");
   list($nbphotos) = $req->get_row();
 
   $cts->add_paragraph("".round($nbphotos*100/$total,1)."% photos incomplètes");
 
-  $req = new requete($site->db,"SELECT COUNT(*) FROM `sas_photos` WHERE droits_acquis=1");
-  list($nbphotos) = $req->get_row();
 
-  $cts->add_paragraph("".round($nbphotos*100/$total,1)."% photos dont tous les droits sont acquis");
 
 
   $req = new requete ($site->db, "SELECT COUNT(sas_photos.id_photo) as `count`, `utilisateurs`.`id_utilisateur`, " .
