@@ -46,10 +46,10 @@ class sas extends site
 
       if ( ($this->get_param("closed.sas",false) && !$this->user->is_in_group("root")) || !is_dir("/var/www/ae2/data/sas")	)
       $this->fatal_partial("sas");
-/*    if ( $GLOBALS["taiste"] )
+    if ( $GLOBALS["taiste"] )
       $this->set_side_boxes("right",array("monsas"));
     else
-      $this->set_side_boxes("left",array("monsas","connexion"));*/
+      $this->set_side_boxes("left",array("monsas"));
 
     if( $this->user->is_valid() )
     {
