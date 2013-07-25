@@ -486,7 +486,7 @@ class sasphoto extends contents
       $site->add_box("auto_right_comment",$subcts);
     }
     $subcts = new contents("Personnes");
-    $subcts->add("auto_right_listper", new sqltable(
+    $subcts->add(new sqltable(
         "listper",
         "Personnes", $req, $self."id_photo=".$photo->id,
         "id_utilisateur",
@@ -541,7 +541,6 @@ class sasphoto extends contents
         $frm->add_submit("valid","Ajouter");
         $subcts->add($frm,true);
       }
-      $subcts->add_title(2,"Outils");
     }
 
     if ( $photo->type_media == MEDIA_PHOTO )
