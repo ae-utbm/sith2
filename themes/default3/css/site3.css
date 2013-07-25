@@ -418,12 +418,12 @@ div.tabsv2
   margin:100;
   margin-top:15px;
   background : #555555;
-  height:36px;
   padding-left:0;
   margin-bottom:0;
 }
 div.tabsv2 span
 {
+  display: inline-block;
 }
 div.tabsv2 span a
 {
