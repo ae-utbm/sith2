@@ -409,7 +409,7 @@ class sasphoto extends contents
                  "'>Information n°".($i+1)."</a>");
     $site->add_box("auto_right_modalite",$list);
 
-    $subcts->add_title(2,"Informations");
+    $subcts = new contents("Informations");
     if(!$photo->modere || $photo->incomplet || !$photo->droits_acquis)
       $subcts->add_paragraph('<b>Cette photo n\'est pas en accès libre. Veuillez consulter les modalités de réutilisations pour de plus amples informations.</b>');
     if ( !is_null($photo->date_prise_vue) && $photo->date_prise_vue > 3600 )
@@ -470,6 +470,7 @@ class sasphoto extends contents
 
     $subcts->add(new taglist($photo));
 
+    $site->add_box("auto_right_information",$list);
     if ( $can_write )
     {
       $frm = new form("setcomment",$self."id_photo=".$photo->id,false,"POST","Commentaires");
