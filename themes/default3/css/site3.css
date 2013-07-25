@@ -455,8 +455,7 @@ div.tabsv2 span a:hover
 /*BARRE MENU 2 Liens rapide sous les onglets principaux---------------------------*/
 div.sectionlinks
 {
-  width:980px;
-  margin: 0 auto 0 auto;
+  margin: 0 100;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   text-align: justify;
