@@ -2489,11 +2489,31 @@ table.sqltable
   border-top: 1px #d8e7f3 solid;
   border-bottom: 1px #d8e7f3 solid;
 }
+/* Dans une boite */
+div.box * table.sqltable
+{
+  border-collapse:collapse;
+  border-right: 1px #d8e7f3 solid;
+  border-top: 1px #d8e7f3 solid;
+  border-bottom: 1px #d8e7f3 solid;
+}
+
 tr.head
 {
   background: #d8e7f3;
 }
+/* Dans une boite */
+div.box * tr.head
+{
+  background: #d8e7f3;
+}
+
 table.sqltable th
+{
+  background: #d8e7f3;
+}
+/* Dans une boite */
+div.box * table.sqltable th
 {
   background: #d8e7f3;
 }
@@ -2505,6 +2525,15 @@ tr.ln1
 {
   background: #ffffff;
 }
+div.box * tr.ln0
+{
+  background: #eff7ff;
+}
+div.box * tr.ln1
+{
+  background: #ffffff;
+}
+
 tr.prio4
 {
   background: #FFF7E4;
