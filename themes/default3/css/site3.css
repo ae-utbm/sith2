@@ -63,7 +63,7 @@ body
   margin: 0;
   padding: 0;
   background-repeat: no-repeat;
-  background-position: top;
+  background-position: -50px 0px;
 }
 html,body
 {
