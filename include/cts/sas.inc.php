@@ -224,8 +224,6 @@ class sasphoto extends contents
     $this->divid = "cts1";
 
     $imgcts = new contents();
-    $aftercts = new contents();
-    $comment = null;
 
     $exif="";
 
@@ -489,8 +487,7 @@ class sasphoto extends contents
       $frm->add_hidden("action","setcomment");
       $frm->add_text_area("commentaire","",$photo->commentaire,25,4);
       $frm->add_submit("valid","Enregistrer");
-      //$site->add_box("auto_right_comment",$frm);
-      $comment = $frm;
+      $site->add_box("auto_right_comment",$frm);
     }
     elseif ( $photo->commentaire != "")
     {
@@ -562,11 +559,7 @@ class sasphoto extends contents
     if ( $photo->type_media == MEDIA_PHOTO && $user->is_in_group ("moderateur_site") && $wwwtopdir == $topdir )
       $subcts->add_paragraph("<a href=\"".$page."?id_photo=".$photo->id."&amp;action=setweekly\">Mettre en photo de la semaine</a>");
 
-    //$site->add_box("auto_right_outils",$subcts);
-    $aftercts->add($subcts,false,true,"sas_outils");
-    $this->add($aftercts,false,true,"sas_after");
-    if(!is_null($comment))
-    	$aftercts->add($comment,false,true,"sas_comment");
+    $site->add_box("auto_right_outils",$subcts);
     $this->puts("<div class=\"clearboth\"></div>");
 
   }
