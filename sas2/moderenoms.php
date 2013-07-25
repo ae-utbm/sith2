@@ -95,7 +95,7 @@ if ( $_REQUEST["action"] == "modere" )
 
 $skip_photo = 0;
 if(isset($_REQUEST["skip"]))
-	$skip_photo = intval(isset($_REQUEST["skip"]));
+	$skip_photo = intval($_REQUEST["skip"]);
 
 $req = new requete($site->db,
       "SELECT `sas_photos`.* ".
