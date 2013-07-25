@@ -168,7 +168,7 @@ if ( $req->lines == 1 )
   $frm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
 
   $frm->add_submit("valid","Valider");
-  $frm->puts("<a href=\"?id_photo=".$_REQUEST["id_photo"]."&skip=".($skip_photo+1)."\">Passer</a>");
+  $frm->puts("<a href=\"?id_photo=".$photo->id."&skip=".($skip_photo+1)."\">Passer</a>");
   $site->add_box("auto_right_confirmperson",$frm);
 
   $cts->add($subcts,false,true,"photoinfo");
