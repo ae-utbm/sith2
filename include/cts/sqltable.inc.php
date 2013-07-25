@@ -137,7 +137,7 @@ class sqltable extends stdcontents
 
       foreach ( $actions as $key => $name )
       {
-        $this->buffer .= "<th></th>\n";
+        $this->buffer .= "<th style=\"width: 0pt;\"></th>\n";
       }
 
       $this->buffer .= "</tr>\n";
