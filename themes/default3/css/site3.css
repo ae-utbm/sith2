@@ -2568,5 +2568,10 @@ table.sqltable td
   border-left: 1px #d8e7f3 solid;
   padding: 2px;
 }
+div.box * table.sqltable td
+{
+  border-left: 1px #d8e7f3 solid;
+  padding: 2px;
+}
 /*FIN--------------------------------------------*/
 /*...............................................*/
