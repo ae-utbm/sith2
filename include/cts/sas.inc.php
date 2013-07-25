@@ -225,6 +225,7 @@ class sasphoto extends contents
 
     $imgcts = new contents();
     $aftercts = new contents();
+    $comment = null;
 
     $exif="";
 
@@ -489,7 +490,7 @@ class sasphoto extends contents
       $frm->add_text_area("commentaire","",$photo->commentaire,25,4);
       $frm->add_submit("valid","Enregistrer");
       //$site->add_box("auto_right_comment",$frm);
-      $aftercts->add($frm,false,true,"sas_comment");
+      $comment = $frm;
     }
     elseif ( $photo->commentaire != "")
     {
@@ -564,6 +565,8 @@ class sasphoto extends contents
     //$site->add_box("auto_right_outils",$subcts);
     $aftercts->add($subcts,false,true,"sas_outils");
     $this->add($aftercts,false,true,"sas_after");
+    if(!is_null($comment))
+    	$aftercts->add($comment,false,true,"sas_comment");
     $this->puts("<div class=\"clearboth\"></div>");
 
   }

@@ -248,3 +248,11 @@ img.mininav
   width:100%;
   background-color:#303030;
 }
+
+div#sas_comment {
+}
+div#sas_outils {
+    float: right;
+    width: 20%;
+}
+
