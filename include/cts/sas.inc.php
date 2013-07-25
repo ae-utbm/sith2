@@ -194,7 +194,7 @@ class sasphoto extends contents
 
   function sasphoto ( $title, $page, &$cat, &$photo, &$user, $Message="", &$metacat=null )
   {
-    global $wwwtopdir, $topdir;
+    global $wwwtopdir, $topdir, $site;
 
     $sqlph = $cat->get_photos ( $cat->id, $user, $user->get_groups_csv(), "sas_photos.id_photo");
     $count=0;
@@ -224,7 +224,6 @@ class sasphoto extends contents
     $this->divid = "cts1";
 
     $imgcts = new contents();
-    $subcts = new contents();
 
     $exif="";
 
@@ -297,6 +296,7 @@ class sasphoto extends contents
 
     if ( $idx != 0 || $idx != $count-1 )
     {
+      $subcts = new contents("Navigation");
       $subcts->puts("<div id=\"sasnav\">");
 
       if ( $idx != 0 )
@@ -334,6 +334,7 @@ class sasphoto extends contents
       }
 
       $subcts->puts("</div>");
+      $site->add_box("auto_right_sasnav",$subcts);
     }
 
     if ( $Message )
@@ -480,17 +481,6 @@ class sasphoto extends contents
       $subcts->add_title(2,"Commentaires");
       $subcts->add_paragraph(htmlentities($photo->commentaire,ENT_NOQUOTES,"UTF-8"));
     }
-/*    $subcts->add(new sqltable(
-        "listper",
-        "Personnes", $req, $self."id_photo=".$photo->id,
-        "id_utilisateur",
-        array("nom_utilisateur"=>"Utilisateur"),
-        $can_write?array("delete"=>"Supprimer"):array(),
-        array(),
-        array( )
-        ),true);*/
-
-    global $site;
     $site->add_box("auto_right_listper", new sqltable(
         "listper",
         "Personnes", $req, $self."id_photo=".$photo->id,
