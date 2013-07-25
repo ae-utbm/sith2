@@ -103,8 +103,9 @@ $req = new requete($site->db,
       "INNER JOIN `sas_photos` USING(`id_photo`) ".
       "WHERE `sas_personnes_photos`.`modere_phutl` ='0' ".
       "AND `sas_photos`.`id_photo`>'".$photo->id."'  $filter ".
+      "GROUP BY `sas_photos`.`id_photo` " .
       "ORDER BY `sas_photos`.`id_photo` " .
-      "LIMIT $skip_photo,1");
+      "LIMIT $skip_photo ,1");
 
 if ( $req->lines == 1 )
 {
