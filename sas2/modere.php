@@ -103,49 +103,56 @@ if ( $_REQUEST["action"] == "modere" )
           $photo->modere_personne($id);
       }
 
-      $utl = new utilisateur($site->db);
-      foreach( $_REQUEST["id_utilisateur"] as $id )
+      if(isset($_REQUEST["id_utilisateur"]))
       {
-        if ( !empty($id ) )
-        {
-          $utl->load_by_id($id);
-          if ( $utl->id > 0 )
-            $photo->add_personne($utl,true);
-          else
-          {
-            $incomplet|=true;
-            $error++;
-          }
-        }
-      }
+
+	      $utl = new utilisateur($site->db);
+	      foreach( $_REQUEST["id_utilisateur"] as $id )
+	      {
+		if ( !empty($id ) )
+		{
+		  $utl->load_by_id($id);
+		  if ( $utl->id > 0 )
+		    $photo->add_personne($utl,true);
+		  else
+		  {
+		    $incomplet|=true;
+		    $error++;
+		  }
+		}
+	      }
 
 
-      if ( !$incomplet )
-        $photo->set_incomplet(false);
+	      if ( !$incomplet )
+		$photo->set_incomplet(false);
 
-      $photo->set_modere(true,$site->user->id);
+	      $photo->set_modere(true,$site->user->id);
 
-      if ( $_REQUEST["restrict"] == "limittogroup" )
-      {
-        $photo->droits_acces = 0x310;
-        $photo->id_groupe = $_REQUEST["id_group"];
-      }
-      else
-        $photo->droits_acces = 0x311;
+	      if ( $_REQUEST["restrict"] == "limittogroup" )
+	      {
+		$photo->droits_acces = 0x310;
+		$photo->id_groupe = $_REQUEST["id_group"];
+	      }
+	      else
+		$photo->droits_acces = 0x311;
 
-      $phasso->load_by_id($_REQUEST["id_asso"]);
-      $ptasso->load_by_id($_REQUEST["id_asso_photographe"]);
+	      $phasso->load_by_id($_REQUEST["id_asso"]);
+	      $ptasso->load_by_id($_REQUEST["id_asso_photographe"]);
 
-      $photo->update_photo(
-        $photo->date_prise_vue,
-        $photo->commentaire,
-        NULL,
-        $phasso->id,
-        $_REQUEST["titre"],
-        $ptasso->id
-        );
+	      $photo->update_photo(
+		$photo->date_prise_vue,
+		$photo->commentaire,
+		NULL,
+		$phasso->id,
+		$_REQUEST["titre"],
+		$ptasso->id
+		);
 
-      $photo->set_tags($_REQUEST["tags"]);
+	      $photo->set_tags($_REQUEST["tags"]);
+	}
+	else
+		$error=1;
+	
     }
   }
 
