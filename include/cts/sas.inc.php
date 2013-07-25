@@ -485,8 +485,7 @@ class sasphoto extends contents
       $subcts->add_paragraph(htmlentities($photo->commentaire,ENT_NOQUOTES,"UTF-8"));
       $site->add_box("auto_right_comment",$subcts);
     }
-    $subcts = new contents("Personnes");
-    $subcts->add(new sqltable(
+    $site->add_box("auto_right_personne",new sqltable(
         "listper",
         "Personnes", $req, $self."id_photo=".$photo->id,
         "id_utilisateur",
@@ -494,8 +493,9 @@ class sasphoto extends contents
         $can_write?array("delete"=>"Supprimer"):array(),
         array(),
         array( )
-        ),true);
+        ));
 
+    $subcts = new contents("Outils");
     if ( $can_write )
     {
       $frm = new form("addpersonne",$self."id_photo=".$photo->id,false,"POST","Ajouter une personne");
@@ -517,10 +517,8 @@ class sasphoto extends contents
           $subcts->add($frm,true);
       }
     }
-    $site->add_box("auto_right_personne",$subcts);
 	
 
-    $subcts = new contents("Outils");
     if ( $can_write )
     {
       $subcts->add_paragraph("<a href=\"".$self."id_photo=".$photo->id."&amp;page=edit\">Editer</a>");
