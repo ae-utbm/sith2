@@ -92,10 +92,11 @@ if ( $_REQUEST["action"] == "modere" )
     $photo->set_incomplet(false);
 
 }
+else
+{
+	$photo->load_by_id($_REQUEST["id_photo"]);
+}
 
-$skip_photo = 0;
-if(isset($_REQUEST["skip"]))
-	$skip_photo = intval($_REQUEST["skip"]);
 
 $req = new requete($site->db,
       "SELECT `sas_photos`.* ".
@@ -105,7 +106,7 @@ $req = new requete($site->db,
       "AND `sas_photos`.`id_photo`>'".$photo->id."'  $filter ".
       "GROUP BY `sas_photos`.`id_photo` " .
       "ORDER BY `sas_photos`.`id_photo` " .
-      "LIMIT $skip_photo ,1");
+      "LIMIT 1");
 
 if ( $req->lines == 1 )
 {
@@ -168,7 +169,7 @@ if ( $req->lines == 1 )
   $frm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
 
   $frm->add_submit("valid","Valider");
-  $frm->puts("<a href=\"?id_photo=".$photo->id."&skip=".($skip_photo+1)."\">Passer</a>");
+  $frm->puts("<a href=\"?id_photo=".$photo->id."\">Passer</a>");
   $site->add_box("auto_right_confirmperson",$frm);
 
   $cts->add($subcts,false,true,"photoinfo");
