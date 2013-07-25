@@ -485,7 +485,8 @@ class sasphoto extends contents
       $subcts->add_paragraph(htmlentities($photo->commentaire,ENT_NOQUOTES,"UTF-8"));
       $site->add_box("auto_right_comment",$subcts);
     }
-    $site->add_box("auto_right_listper", new sqltable(
+    $subcts = new contents("Personnes");
+    $subcts->add("auto_right_listper", new sqltable(
         "listper",
         "Personnes", $req, $self."id_photo=".$photo->id,
         "id_utilisateur",
@@ -493,7 +494,7 @@ class sasphoto extends contents
         $can_write?array("delete"=>"Supprimer"):array(),
         array(),
         array( )
-        ));
+        ),true);
 
     if ( $can_write )
     {
@@ -515,8 +516,9 @@ class sasphoto extends contents
           $frm->add_submit("valid","Oui");
           $subcts->add($frm,true);
       }
+      $site->add_box("auto_right_personne",$subcts);
 
-      $subcts->add_title(2,"Outils");
+      $subcts = new contents("Outils");
       $subcts->add_paragraph("<a href=\"".$self."id_photo=".$photo->id."&amp;page=edit\">Editer</a>");
       $subcts->add_paragraph("<a href=\"".$self."id_photo=".$photo->id."&amp;action=delete\">Supprimer</a>");
 
@@ -555,7 +557,7 @@ class sasphoto extends contents
     if ( $photo->type_media == MEDIA_PHOTO && $user->is_in_group ("moderateur_site") && $wwwtopdir == $topdir )
       $subcts->add_paragraph("<a href=\"".$page."?id_photo=".$photo->id."&amp;action=setweekly\">Mettre en photo de la semaine</a>");
 
-    $this->add($subcts,false,true,"photoinfo");
+    $site->add_box("auto_right_personne",$subcts);
     $this->puts("<div class=\"clearboth\"></div>");
 
   }
