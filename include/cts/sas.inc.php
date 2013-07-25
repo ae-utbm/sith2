@@ -400,15 +400,14 @@ class sasphoto extends contents
     if(!$photo->droits_acquis)
       $array[]='7';
     $site->add_box("auto_right_licence",$subcts);
-    $subcts = new contents("Modalités de réutilisations");
+    $list = new contents("Modalités de réutilisations");
     foreach($array as $i=>$id)
       $list->add("<a href='".
                  $topdir.
                  "article.php?name=legals:sas#cas".
                  $id.
                  "'>Information n°".($i+1)."</a>");
-    $subcts->add($list,true);
-    $site->add_box("auto_right_modalite",$subcts);
+    $site->add_box("auto_right_modalite",$list);
 
     $subcts->add_title(2,"Informations");
     if(!$photo->modere || $photo->incomplet || !$photo->droits_acquis)
