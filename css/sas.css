@@ -88,7 +88,6 @@ div.gallery div.galitem div.tooldep
 
 #sasimg
 {
-  float:left;
   text-align:center;
   position:relative;
 }
@@ -248,5 +247,4 @@ img.mininav
 {
   width:100%;
   background-color:#303030;
-  padding:20px;
 }
