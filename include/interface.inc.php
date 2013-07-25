@@ -758,7 +758,7 @@ if(!defined("MOBILE")) { /* ths is too elaborate for a mobile version */
       $pattern = "auto_$side";
       foreach( $this->boxes as $name => $cts )
       {
-	if( !strncmp($haystack, $pattern, strlen($pattern)))
+	if( !strncmp($name, $pattern, strlen($pattern)))
 	{
 	    $this->buffer .= "<div class=\"box\" id=\"sbox_".$name."\">\n";
             if ( $cts->title && ($ref != null) )
