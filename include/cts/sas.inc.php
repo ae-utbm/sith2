@@ -516,8 +516,12 @@ class sasphoto extends contents
           $frm->add_submit("valid","Oui");
           $subcts->add($frm,true);
       }
-      $site->add_box("auto_right_personne",$subcts);
+    }
+    $site->add_box("auto_right_personne",$subcts);
+	
 
+    if ( $can_write )
+    {
       $subcts = new contents("Outils");
       $subcts->add_paragraph("<a href=\"".$self."id_photo=".$photo->id."&amp;page=edit\">Editer</a>");
       $subcts->add_paragraph("<a href=\"".$self."id_photo=".$photo->id."&amp;action=delete\">Supprimer</a>");
