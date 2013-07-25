@@ -520,9 +520,9 @@ class sasphoto extends contents
     $site->add_box("auto_right_personne",$subcts);
 	
 
+    $subcts = new contents("Outils");
     if ( $can_write )
     {
-      $subcts = new contents("Outils");
       $subcts->add_paragraph("<a href=\"".$self."id_photo=".$photo->id."&amp;page=edit\">Editer</a>");
       $subcts->add_paragraph("<a href=\"".$self."id_photo=".$photo->id."&amp;action=delete\">Supprimer</a>");
 
@@ -543,7 +543,7 @@ class sasphoto extends contents
         $frm->add_info("Vous pouvez ajouter une personne se trouvant sur cette photo. Votre propositon sera cependant soumise à modération.");
         $frm->add_user_fieldv2("id_utilisateur","");
         $frm->add_submit("valid","Ajouter");
-        $subcts->add($frm,true);
+        $site->add_box("auto_right_suggestpersonne",$frm);
       }
     }
 
@@ -560,7 +560,7 @@ class sasphoto extends contents
     if ( $photo->type_media == MEDIA_PHOTO && $user->is_in_group ("moderateur_site") && $wwwtopdir == $topdir )
       $subcts->add_paragraph("<a href=\"".$page."?id_photo=".$photo->id."&amp;action=setweekly\">Mettre en photo de la semaine</a>");
 
-    $site->add_box("auto_right_personne",$subcts);
+    $site->add_box("auto_right_outils",$subcts);
     $this->puts("<div class=\"clearboth\"></div>");
 
   }
