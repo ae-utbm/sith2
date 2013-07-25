@@ -339,11 +339,12 @@ class sasphoto extends contents
 
     if ( $Message )
     {
-      $subcts->add_title(2,"Opération réussie");
+      $subcts = new contents("Opération réussie");
       $subcts->add_paragraph($Message);
+      $site->add_box("auto_right_message",$subcts);
     }
 
-    $subcts->add_title(2,"Licence");
+    $subcts = new contents("Licence");
     $licence = new licence($photo->db);
     if (   !is_null($photo->id_licence)
         && $licence->load_by_id($photo->id_licence))
@@ -398,7 +399,8 @@ class sasphoto extends contents
       $array[]='6';
     if(!$photo->droits_acquis)
       $array[]='7';
-    $list = new itemlist("Modalités de réutilisations");
+    $site->add_box("auto_right_licence",$subcts);
+    $subcts = new contents("Modalités de réutilisations");
     foreach($array as $i=>$id)
       $list->add("<a href='".
                  $topdir.
@@ -406,6 +408,7 @@ class sasphoto extends contents
                  $id.
                  "'>Information n°".($i+1)."</a>");
     $subcts->add($list,true);
+    $site->add_box("auto_right_modalite",$subcts);
 
     $subcts->add_title(2,"Informations");
     if(!$photo->modere || $photo->incomplet || !$photo->droits_acquis)
