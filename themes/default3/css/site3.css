@@ -2496,6 +2496,7 @@ div.box * table.sqltable
   border-right: 1px #d8e7f3 solid;
   border-top: 1px #d8e7f3 solid;
   border-bottom: 1px #d8e7f3 solid;
+  width: 100%;
 }
 
 tr.head
