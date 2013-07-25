@@ -302,14 +302,7 @@ class sasphoto extends contents
       if ( $idx != 0 )
       {
         $subcts->puts("<div id=\"back\">");
-        $subcts->puts("<a href=\"".$self."id_photo=".$photos[$idx-1]."\" onclick=\"
-            if(openInContents( 'cts1', '".$page."', '".$exdata."id_photo=".$photos[$idx-1]."&fetch=photocts')) {
-              window.history.pushState(null, document.title, '?id_photo=".$photos[$idx-1]."');
-              return false;
-            } else {
-              return true;
-            }
-          \">");
+        $subcts->puts("<a href=\"".$self."id_photo=".$photos[$idx-1]."\" >");
         $subcts->puts("<img src=\"images.php?/".$photos[$idx-1].".vignette.jpg\" alt=\"Precedent\" class=\"mininav\" />");
         $subcts->puts("<img src=\"".$wwwtopdir."images/to_prev.png\" alt=\"Precedent\" class=\"mininavbtn\" />");
         $subcts->puts("</a>");
@@ -319,14 +312,7 @@ class sasphoto extends contents
       if ( $idx != $count-1 )
       {
         $subcts->puts("<div id=\"next\">");
-        $subcts->puts("<a href=\"".$self."id_photo=".$photos[$idx+1]."\" onclick=\"
-            if(openInContents( 'cts1', '".$page."', '".$exdata."id_photo=".$photos[$idx+1]."&fetch=photocts')) {
-              window.history.pushState(null, document.title, '?id_photo=".$photos[$idx+1]."');
-              return false;
-            } else {
-              return true;
-            }
-            \">");
+        $subcts->puts("<a href=\"".$self."id_photo=".$photos[$idx+1]."\">");
         $subcts->puts("<img src=\"images.php?/".$photos[$idx+1].".vignette.jpg\" alt=\"Suivant\" class=\"mininav\" />");
         $subcts->puts("<img src=\"".$wwwtopdir."images/to_next.png\" alt=\"Suivant\" class=\"mininavbtn\" />");
         $subcts->puts("</a>");
