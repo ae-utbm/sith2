@@ -470,19 +470,20 @@ class sasphoto extends contents
 
     $subcts->add(new taglist($photo));
 
-    $site->add_box("auto_right_information",$list);
+    $site->add_box("auto_right_information",$subcts);
     if ( $can_write )
     {
       $frm = new form("setcomment",$self."id_photo=".$photo->id,false,"POST","Commentaires");
       $frm->add_hidden("action","setcomment");
       $frm->add_text_area("commentaire","",$photo->commentaire,25,4);
       $frm->add_submit("valid","Enregistrer");
-      $subcts->add($frm,true);
+      $site->add_box("auto_right_comment",$frm);
     }
     elseif ( $photo->commentaire != "")
     {
-      $subcts->add_title(2,"Commentaires");
+      $subcts = new contents("Commentaires");
       $subcts->add_paragraph(htmlentities($photo->commentaire,ENT_NOQUOTES,"UTF-8"));
+      $site->add_box("auto_right_comment",$subcts);
     }
     $site->add_box("auto_right_listper", new sqltable(
         "listper",
