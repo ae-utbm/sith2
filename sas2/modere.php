@@ -92,19 +92,19 @@ if ( $_REQUEST["action"] == "modere" )
     }
     else
     {
-      $incomplet=!isset($_REQUEST["complet"]);
-
-      $req = new requete($site->db,"SELECT `id_utilisateur`,`modere_phutl` FROM `sas_personnes_photos` WHERE `id_photo`='".$photo->id."'");
-      while ( list($id,$modere) = $req->get_row() )
-      {
-        if ( !isset($_REQUEST["yet|$id"]) )
-          $photo->remove_personne($id);
-        elseif ( $modere == 0 )
-          $photo->modere_personne($id);
-      }
-
       if(isset($_REQUEST["id_utilisateur"]))
       {
+	      $incomplet=!isset($_REQUEST["complet"]);
+
+	      $req = new requete($site->db,"SELECT `id_utilisateur`,`modere_phutl` FROM `sas_personnes_photos` WHERE `id_photo`='".$photo->id."'");
+	      while ( list($id,$modere) = $req->get_row() )
+	      {
+		if ( !isset($_REQUEST["yet|$id"]) )
+		  $photo->remove_personne($id);
+		elseif ( $modere == 0 )
+		  $photo->modere_personne($id);
+	      }
+
 
 	      $utl = new utilisateur($site->db);
 	      foreach( $_REQUEST["id_utilisateur"] as $id )
