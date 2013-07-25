@@ -480,7 +480,7 @@ class sasphoto extends contents
       $subcts->add_title(2,"Commentaires");
       $subcts->add_paragraph(htmlentities($photo->commentaire,ENT_NOQUOTES,"UTF-8"));
     }
-    $subcts->add(new sqltable(
+/*    $subcts->add(new sqltable(
         "listper",
         "Personnes", $req, $self."id_photo=".$photo->id,
         "id_utilisateur",
@@ -488,7 +488,7 @@ class sasphoto extends contents
         $can_write?array("delete"=>"Supprimer"):array(),
         array(),
         array( )
-        ),true);
+        ),true);*/
 
     global $site;
     $site->add_box("auto_right_listper", new sqltable(
