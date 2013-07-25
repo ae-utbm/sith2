@@ -400,7 +400,7 @@ class sasphoto extends contents
     if(!$photo->droits_acquis)
       $array[]='7';
     $site->add_box("auto_right_licence",$subcts);
-    $list = new contents("Modalités de réutilisations");
+    $list = new itemlist("Modalités de réutilisations");
     foreach($array as $i=>$id)
       $list->add("<a href='".
                  $topdir.
