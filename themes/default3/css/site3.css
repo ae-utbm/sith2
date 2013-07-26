@@ -825,6 +825,7 @@ div.article h1 + h1
 div.article h1.wikititle
 {
   background:#dd0000;
+  border-radius: 0;
 }
 div.article h1 img.icon
 {
@@ -1015,6 +1016,7 @@ div.toolbox
   padding-top: 5px;
   padding-bottom: 5px;
   background: #ff8800;
+  margin-right: 20px;
 }
 div.toolbox a
 {
