@@ -1096,6 +1096,7 @@ div.article div.tabs
   padding-left:0px;
   margin: 20px 0 10px 0;
   text-transform:lowercase;
+  border-radius: 0 0 10px 10px;
 }
 div.article h1 + div.tabs
 {
