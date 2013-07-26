@@ -670,6 +670,7 @@ div.box h1
   background: #3388CC;
   text-align: justify;
   text-transform: uppercase;
+  border-radius: 10px 10px 0 0;
 }
 div.box h1 a
 {
@@ -682,7 +683,6 @@ div.box h1 a
 div.box h1 a:hover
 {
   text-decoration: none;
-  border-radius: 10px 10px 0 0;
 }
 
 /**CAS DE PAGE AVEC BOITE + CONTENU---------------------------------**/
