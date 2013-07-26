@@ -250,6 +250,7 @@ div#headermenu
   height:34px;
   background:#555555;
   font-family: verdana, arial, sans-serif;
+  border-radius: 10px 10px 0 0;
 }
 div#fsearchbox
 {
