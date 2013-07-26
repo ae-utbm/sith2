@@ -345,6 +345,7 @@ div#fsearchbox input
   top:34px;
   background:#3388cc;
   font-weight:bold;
+  border-radius: 0 0 10px 10px;
 }
 #dropmenudiv a
 {
