@@ -447,6 +447,7 @@ div.tabsv2 span.selected a
   color:#FFFFFF;
   background : #774499;
   text-decoration:none;
+  border-radius: 10px 10px 0 0;
 }
 div.tabsv2 span a:hover
 {
@@ -573,6 +574,7 @@ div.contents
   padding: 0 0 0 0;
   background-color:#fff;
   display:block;
+  border-radius: 0 0 10px 10px;
 }
 div.contents:after
 {
