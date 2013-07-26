@@ -682,6 +682,7 @@ div.box h1 a
 div.box h1 a:hover
 {
   text-decoration: none;
+  border-radius: 10px 10px 0 0;
 }
 
 /**CAS DE PAGE AVEC BOITE + CONTENU---------------------------------**/
@@ -694,6 +695,7 @@ div.box div.body
   padding: 8px;
   position:relative;
   background:#CCCCCC;
+  border-radius: 0 0 10px 10px;
 }
 div.box p
 {
