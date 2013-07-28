@@ -188,7 +188,6 @@ if ( $req->lines == 1 )
 
   $cts->add($imgcts,false,true,"sasimg");
 
-  $subcts = new contents();
 /*
   if ( $req->lines==0 )
   {
@@ -230,9 +229,8 @@ if ( $req->lines == 1 )
   $frm->addsub($sfrm);
 
   $frm->add_submit("fin","Valider/Suivant");
-  $subcts->add($frm,true);
+  $site->add_box("auto-right-peoples",$frm);
 
-  $cts->add($subcts,false,true,"photoinfo");
   $cts->puts("<div class=\"clearboth\"></div>");
 
 }
