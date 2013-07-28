@@ -834,7 +834,7 @@ div.article h1
   background-color: #FF8800;
   margin-bottom:10px;
 }
-div.article:first-child h1:first-child
+div.article:first-child h1:first-of-type
 {
   border-radius: 10px 10px 0 0;
 }
