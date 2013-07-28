@@ -251,14 +251,13 @@ if ( $req->lines == 1 )
 
   $cts->add($imgcts,false,true,"sasimg");
 
-  $subcts = new contents();
 
 
   $frm = new form("pasaccord",$page,false,"POST","Photo non acceptable");
   $frm->add_hidden("id_photo",$photo->id);
   $frm->add_hidden("action","modere");
   $frm->add_submit("delete","Supprimer");
-  $subcts->add($frm,true);
+  $site->add_box("auto_right_pasaccord",$frm);
 
   $frm = new form("accord",$page,false,"POST","Photo acceptable: informations");
   $frm->add_hidden("id_photo",$photo->id);
@@ -292,9 +291,8 @@ if ( $req->lines == 1 )
     $sfrm->add($ssfrm,false,true,!($photo->droits_acces & 1),"limittogroup",false,true);
     $frm->add($sfrm);
 
-  $subcts->add($frm,true);
+  $site->add_box("auto_right_accord",$frm);
 
-  $cts->add($subcts,false,true,"photoinfo");
   $cts->puts("<div class=\"clearboth\"></div>");
 
 }
