@@ -229,7 +229,7 @@ if ( $req->lines == 1 )
   $frm->addsub($sfrm);
 
   $frm->add_submit("fin","Valider/Suivant");
-  $site->add_box("auto-right-peoples",$frm);
+  $site->add_box("auto_right_peoples",$frm);
 
   $cts->puts("<div class=\"clearboth\"></div>");
 
