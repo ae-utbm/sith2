@@ -450,11 +450,11 @@ div.tabsv2 span.selected a
   text-decoration:none;
   
 }
-div.tabsv2 span.selected a:first-child
+div.tabsv2 span.selected:first-child a
 {
   border-radius: 10px 0 0 0;
 }
-div.tabsv2 span.selected a:last-child
+div.tabsv2 span.selected:last-child a
 {
   border-radius: 0 10px 0 0;
 }
@@ -465,11 +465,11 @@ div.tabsv2 span a:hover
   text-decoration:none;
   border-radius: 10px 10px 0 0;
 }
-div.tabsv2 span a:hover:first-child
+div.tabsv2 span:first-child a:hover
 {
   border-radius: 10px 0 0 0;
 }
-div.tabsv2 span a:hover:last-child
+div.tabsv2 span:last-child a:hover
 {
   border-radius: 0 10px 0 0;
 }
