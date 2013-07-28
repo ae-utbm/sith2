@@ -448,7 +448,15 @@ div.tabsv2 span.selected a
   color:#FFFFFF;
   background : #774499;
   text-decoration:none;
-  border-radius: 10px 10px 0 0;
+  
+}
+div.tabsv2 span.selected a:first-child
+{
+  border-radius: 10px 0 0 0;
+}
+div.tabsv2 span.selected a:last-child
+{
+  border-radius: 0 10px 0 0;
 }
 div.tabsv2 span a:hover
 {
@@ -456,6 +464,14 @@ div.tabsv2 span a:hover
   background : #3388CC;
   text-decoration:none;
   border-radius: 10px 10px 0 0;
+}
+div.tabsv2 span a:hover:first-child
+{
+  border-radius: 10px 0 0 0;
+}
+div.tabsv2 span a:hover:last-child
+{
+  border-radius: 0 10px 0 0;
 }
 
 /*BARRE MENU 2 Liens rapide sous les onglets principaux---------------------------*/
