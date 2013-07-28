@@ -833,6 +833,9 @@ div.article h1
   text-transform:uppercase;
   background-color: #FF8800;
   margin-bottom:10px;
+}
+div.article:first-child h1
+{
   border-radius: 10px 10px 0 0;
 }
 div.article h1 + h1
