@@ -39,7 +39,7 @@ $phasso = new asso($site->db);
 $ptasso = new asso($site->db);
 // Permet de restreindre le travail à une catégorie
 $cat = new catphoto($site->db,$site->dbrw);
-if ( isset($_REQUEST["id_catph"]))
+if ( isset($_REQUEST["id_catph"]) && intval($_REQUEST["id_catph"]) != 1 )
 {
   $cat->load_by_id($_REQUEST["id_catph"]);
   if ( $cat->is_valid() )
