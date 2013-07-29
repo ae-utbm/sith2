@@ -837,11 +837,7 @@ if ( $nb>0 || $cat->is_right($site->user,DROIT_AJOUTITEM) )
 
     if ( $cat->is_admin($site->user) )
     {
-      if(intval($cat->id) == 1)
-        $req = new requete($site->db, "SELECT COUNT(*) FROM `sas_photos` ".
-        "WHERE `incomplet`='1'");
-      else
-        $req = new requete($site->db, "SELECT COUNT(*) FROM `sas_photos` ".
+      $req = new requete($site->db, "SELECT COUNT(*) FROM `sas_photos` ".
         "WHERE `incomplet`='1' AND `id_catph`='".intval($cat->id)."' AND `id_groupe_admin` ='".$cat->id_groupe_admin."'");
       list($nbtcad)=$req->get_row();
     }
@@ -852,6 +848,12 @@ if ( $nb>0 || $cat->is_right($site->user,DROIT_AJOUTITEM) )
   {
     $nbtcad=0;
     $nbtcus=0;
+  }
+  if ( $site->user->is_in_group("sas_admin") && intval($cat->id) == 1)
+  {
+      $req = new requete($site->db, "SELECT COUNT(*) FROM `sas_photos` ".
+        "WHERE `incomplet`='1'");
+      list($nbtcad)=$req->get_row();
   }
 
   $tabs = array(array("","sas2/".$self."id_catph=".$cat->id, "photos - $nb"),
