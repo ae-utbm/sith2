@@ -39,7 +39,7 @@ $phasso = new asso($site->db);
 $ptasso = new asso($site->db);
 // Permet de restreindre le travail à une catégorie
 $cat = new catphoto($site->db,$site->dbrw);
-if ( isset($_REQUEST["id_catph"]) && intval($_REQUEST["id_catph"]) != 1 )
+if ( isset($_REQUEST["id_catph"]) )
 {
   $cat->load_by_id($_REQUEST["id_catph"]);
   if ( $cat->is_valid() )
@@ -131,6 +131,10 @@ if ( $_REQUEST["action"] == "complete" )
         );
     $photo->set_tags($_REQUEST["tags"]);
   }
+}
+if($site->user->is_in_group("sas_admin") && intval($_REQUEST("id_catph")) == 1)
+{
+	$filter = "";
 }
 
 $site->start_page("sas","Completer les noms",true);
