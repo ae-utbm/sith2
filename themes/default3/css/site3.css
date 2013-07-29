@@ -1116,6 +1116,9 @@ div.article div.tabs
   padding-left:0px;
   margin: 20px 0 10px 0;
   text-transform:lowercase;
+}
+div.article div.tabs:first-of-type
+{
   border-radius: 0 0 10px 10px;
 }
 div.article h1 + div.tabs
