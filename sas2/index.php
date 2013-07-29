@@ -855,6 +855,13 @@ if ( $nb>0 || $cat->is_right($site->user,DROIT_AJOUTITEM) )
         "WHERE `incomplet`='1'");
       list($nbtcad)=$req->get_row();
   }
+  if( intval($cat->id) == 1 )
+  {
+    $req = new requete($site->db, "SELECT COUNT(*) FROM `sas_photos` ".
+      "WHERE `incomplet`='1' AND (`droits_acces_ph` & 0x100) AND `id_utilisateur` ='".$site->user->id."'");
+    list($nbtcus)=$req->get_row();
+    
+  }
 
   $tabs = array(array("","sas2/".$self."id_catph=".$cat->id, "photos - $nb"),
           array("diaporama","sas2/".$self."view=diaporama&id_catph=".$cat->id,"diaporama"),
