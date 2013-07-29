@@ -132,7 +132,7 @@ if ( $_REQUEST["action"] == "complete" )
     $photo->set_tags($_REQUEST["tags"]);
   }
 }
-if($site->user->is_in_group("sas_admin") && intval($_REQUEST("id_catph")) == 1)
+if($site->user->is_in_group("sas_admin") && intval($_REQUEST["id_catph"]) == 1)
 {
 	$filter = "";
 }
