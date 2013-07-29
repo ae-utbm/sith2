@@ -1232,6 +1232,10 @@ elseif ( ($_REQUEST["view"]=="stats") && ($user->etudiant || $user->ancien_etudi
 	list( $visites ) = $req->get_row();
 	$cts->add_paragraph("Vous avez eu $visites visites sur votre fiche.");
 
+	$req = new requete($site->db, "SELECT COUNT(*) FROM sas_personnes_photos WHERE `id_utilisateur`=".$user->id);
+	list( $photos ) = $req->get_row();
+	$cts->add_paragraph("Vous avez été marqué sur $photos photos.");
+
 	$cts2 = new contents("Historique des consommations");
 	$cts2->add_paragraph("<center><img src=\"./user.php?id_utilisateur=$user->id&view=stats&graph=stat_comptoir_jour\" alt=\"Stats conso par heure\" /></center>");
 	$cts2->add_paragraph("<center><img src=\"./user.php?id_utilisateur=$user->id&view=stats&graph=stat_comptoir_semaine\" alt=\"Stats conso par jour de la semaine\" /></center>");
