@@ -88,7 +88,7 @@ div#header
 {
   z-index:59;
   position:relative;
-  margin:0 100;
+  margin:0 100px;
   height:85px;
 }
 div#logo
@@ -284,7 +284,7 @@ div#fsearchbox input
 
 #mobile_disclaimer
 {
-  width = 70%;
+  width: 70%;
   color: white;
   background-color: #38c;
   text-align: center;
@@ -417,7 +417,7 @@ div#fsearchbox input
 /*BARRE MENU 1 : Onglets principaux (header)---------------------------------*/
 div.tabsv2
 {
-  margin:100;
+  margin:100px;
   margin-top:15px;
   background : #555555;
   padding-left:0;
@@ -476,7 +476,7 @@ div.tabsv2 span:last-child a:hover
 /*BARRE MENU 2 Liens rapide sous les onglets principaux---------------------------*/
 div.sectionlinks
 {
-  margin: 0 100;
+  margin: 0 100px;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   text-align: justify;
@@ -583,7 +583,7 @@ div.contents
 {
   text-align:left;
   position:relative;
-  margin: 100;
+  margin: 100px;
   margin-top:0;
   margin-bottom:50px;
   padding-top:0.5em;
@@ -2000,9 +2000,6 @@ div.comment
   padding: 5px;
   background: #ffd;
   opacity: 0.7;
-  filter:alpha(opacity=70);
-  -moz-opacity:0.7;
-  -khtml-opacity: 0.7;
   border-bottom: 1px solid #777;
   font-size: 11px;
   display: block;
