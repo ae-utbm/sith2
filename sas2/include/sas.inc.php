@@ -49,7 +49,7 @@ class sas extends site
     if ( $GLOBALS["taiste"] )
       $this->set_side_boxes("right",array("monsas"));
     else
-      $this->set_side_boxes("left",array("monsas"));
+      $this->set_side_boxes("right",array("monsas"));
 
     if( $this->user->is_valid() )
     {
