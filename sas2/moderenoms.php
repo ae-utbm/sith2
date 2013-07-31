@@ -128,15 +128,6 @@ if ( $req->lines == 1 )
 
   $cts->add_title(2,$path);
 
-  $req = new requete($site->db,
-    "SELECT `utilisateurs`.`id_utilisateur`, " .
-    "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`".
-    "FROM `sas_personnes_photos` " .
-    "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`sas_personnes_photos`.`id_utilisateur` " .
-	"LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
-    "WHERE `sas_personnes_photos`.`id_photo`='".$photo->id."' " .
-    "ORDER BY `nom_utilisateur`");
-
   $imgcts = new contents();
   if ( $photo->type_media == MEDIA_VIDEOFLV )
     $imgcts->add(new flvideo($photo->id,"sas2/images.php?/".$photo->id.".flv"));
@@ -148,10 +139,10 @@ if ( $req->lines == 1 )
 
   $req = new requete($site->db,
     "SELECT `utilisateurs`.`id_utilisateur`, " .
-    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-    "sas_personnes_photos.modere_phutl " .
+    "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`".
     "FROM `sas_personnes_photos` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`sas_personnes_photos`.`id_utilisateur` " .
+	"LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
     "WHERE `sas_personnes_photos`.`id_photo`='".$photo->id."' " .
     "ORDER BY `nom_utilisateur`");
 
