@@ -591,6 +591,12 @@ if(!defined("MOBILE")) {
           $msg .= $nphoto." photo(s)";
         $elements[] = "<a href=\"".$topdir."sas2/modere.php\">$msg &agrave; moderer dans le SAS</a>";
       }
+      $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `modere_phutl`='0'");
+      list($nnoms) = $req->get_row();
+      if($nnoms > 0)
+      {
+        $elements[] = "<a href=\"".$topdir."sas2/moderenoms.php\">$nnoms noms &agrave; moderer dans le SAS</a>";
+      }
     }
 
     if( !$this->get_param("closed.sas",false) && is_dir("/var/www/ae2/data/sas"))
