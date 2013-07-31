@@ -2604,5 +2604,15 @@ div.box * table.sqltable td
   border-left: 1px #d8e7f3 solid;
   padding: 2px;
 }
+
+div.box * select
+{
+  width: 160px;
+}
+
+div.box * select[name="id_group"]
+{
+  width: 135px;
+}
 /*FIN--------------------------------------------*/
 /*...............................................*/
