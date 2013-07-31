@@ -139,7 +139,7 @@ if ( $req->lines == 1 )
 
   $req = new requete($site->db,
     "SELECT `utilisateurs`.`id_utilisateur`, " .
-    "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,CONCAT(`utl_etu_utbm`.`surnom_utbm`, '(', `utilisateurs`.`prenom_utl`, ' ', `utilisateurs`.`nom_utl`,')'), CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, ".
+    "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,CONCAT(`utl_etu_utbm`.`surnom_utbm`, ' (', `utilisateurs`.`prenom_utl`, ' ', `utilisateurs`.`nom_utl`,')'), CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, ".
 	"sas_personnes_photos.modere_phutl as modere " .
     "FROM `sas_personnes_photos` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`sas_personnes_photos`.`id_utilisateur` " .
@@ -157,7 +157,7 @@ if ( $req->lines == 1 )
     if ( $modere )
       $frm->add_checkbox("yet|$id","<a href=\"".$wwwtopdir."user.php?id_utilisateur=$id\" target=\"_blank\">".$nom."</a>",true);
     else
-      $frm->add_checkbox("yet|$id","<a href=\"".$wwwtopdir."user.php?id_utilisateur=$id\" target=\"_blank\">".$nom." (suggestion)</a>",true);
+      $frm->add_checkbox("yet|$id","<a href=\"".$wwwtopdir."user.php?id_utilisateur=$id\" target=\"_blank\"><b>".$nom."</b></a>",true);
   }
   $frm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
 
