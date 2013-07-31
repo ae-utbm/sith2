@@ -540,7 +540,7 @@ class sasphoto extends contents
     $subcts->add_paragraph("<a href=\"".$page."?id_photo=".$photo->id."&amp;page=askdelete\">Demander le retrait</a>");
 
     if( $user->is_in_group ("sas_admin"))
-      $subcts->add_paragraph("<a href=\"".$wwwtopdir."/sas2/modere.php?action=modere&id_photo=".$photo->id."\">Repasser en modération</a>");
+      $subcts->add_paragraph("<a href=\"".$wwwtopdir."sas2/modere.php?action=modere&id_photo=".$photo->id."\">Repasser en modération</a>");
 
     if ( $photo->type_media == MEDIA_PHOTO && $user->is_in_group ("moderateur_site") && $wwwtopdir == $topdir )
       $subcts->add_paragraph("<a href=\"".$page."?id_photo=".$photo->id."&amp;action=setweekly\">Mettre en photo de la semaine</a>");
