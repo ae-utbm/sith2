@@ -154,9 +154,9 @@ if ( $req->lines == 1 )
   while ( list($id,$nom,$modere) = $req->get_row() )
   {
     if ( $modere )
-      $frm->add_checkbox("yet|$id",$nom,true);
+      $frm->add_checkbox("yet|$id","<a href=\"".$wwwtopdir."user.php?id_utilisateur=$id\">".$nom."</a>",true);
     else
-      $frm->add_checkbox("yet|$id",$nom." (suggestion)",true);
+      $frm->add_checkbox("yet|$id","<a href=\"".$wwwtopdir."user.php?id_utilisateur=$id\">".$nom." (suggestion)</a>",true);
   }
   $frm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
 
