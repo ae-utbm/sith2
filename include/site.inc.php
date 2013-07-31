@@ -595,7 +595,7 @@ if(!defined("MOBILE")) {
       list($nnoms) = $req->get_row();
       if($nnoms > 0)
       {
-        $elements[] = "<a href=\"".$topdir."sas2/moderenoms.php\">$nnoms noms &agrave; moderer dans le SAS</a>";
+        $elements[] = "<a href=\"".$topdir."sas2/moderenoms.php\">$nnoms propositions de nom &agrave; moderer dans le SAS</a>";
       }
     }
 
