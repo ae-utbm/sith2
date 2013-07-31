@@ -45,8 +45,8 @@ class planning2 extends stdentity
 		$this->group = intval($group);
 		$this->admin_group = intval($admin_group);
 		$this->weekly = intval($weekly);
-		$this->start = mysql_real_escape_string($start);
-		$this->end = mysql_real_escape_string($end);
+		$this->start = intval($start);
+		$this->end = intval($end);
 		$this->is_public= ((bool)$is_public);
 
 		$sql = new insert ($this->dbrw,
@@ -77,8 +77,8 @@ class planning2 extends stdentity
 		$this->name = mysql_real_escape_string($name);
 		$this->group = intval($group);
 		$this->admin_group = intval($admin_group);
-		$this->start = mysql_real_escape_string($start);
-		$this->end = mysql_real_escape_string($end);
+		$this->start = intval($start);
+		$this->end = intval($end);
 		$this->is_public = ((bool)$is_public);
 
 		$sql = new update ($this->dbrw,
@@ -119,8 +119,8 @@ class planning2 extends stdentity
 
 	function add_gap( $start, $end, $gap_name, $max_users )
 	{
-		$start = mysql_real_escape_string($start);
-		$end = mysql_real_escape_string($end);
+		$start = intval($start);
+		$end = intval($end);
 		$gap_name = mysql_real_escape_string($gap_name);
 		$max_users = intval($max_users);
 
@@ -161,8 +161,8 @@ class planning2 extends stdentity
 	function update_gap( $gap_id, $start, $end, $gap_name, $max_users )
 	{
 		$gap_id = intval($gap_id);
-		$start = mysql_real_escape_string($start);
-		$end = mysql_real_escape_string($end);
+		$start = intval($start);
+		$end = intval($end);
 		$gap_name = mysql_real_escape_string($gap_name);
 		$max_users = intval($max_users);
 		if($gap_id <= 0 )
@@ -219,8 +219,8 @@ class planning2 extends stdentity
 	function get_max_users_for( $gap_id, $start, $end )
 	{
 		$gap_id = intval($gap_id);
-		$start = mysql_escape_string($start);
-		$end = mysql_escape_string($end);
+		$start = intval($start);
+		$end = intval($end);
 		if(!$this->weekly)
 		{
 			$sql = new requete($this->db,
@@ -311,8 +311,8 @@ class planning2 extends stdentity
 	{
 		$gap_id = intval($gap_id);
 		$user_id = intval($user_id);
-		$start = mysql_real_escape_string($start);
-		$end = mysql_real_escape_string($end);
+		$start = intval($start);
+		$end = intval($end);
 
 		$sql = new requete($this->db, 
 			"SELECT * from pl2_user_gap
@@ -391,8 +391,8 @@ class planning2 extends stdentity
 	{
 		$gap_id = intval($gap_id);
 		$user_id = intval($user_id);
-		$start = mysql_real_escape_string($start);
-		$end = mysql_real_escape_string($end);
+		$start = intval($start);
+		$end = intval($end);
 		if(!$this->is_user_addable($gap_id,$user_id,$start,$end))
 			return -1;
 		$sql = new insert ($this->dbrw,
@@ -432,8 +432,8 @@ class planning2 extends stdentity
 
 	function get_gaps( $start, $end )
 	{
-		$start = mysql_real_escape_string($start);
-		$end = mysql_real_escape_string($end);
+		$start = intval($start);
+		$end = intval($end);
 		if($this->weekly)
 			return new requete($this->db,
 				"SELECT id_gap, start, end, name_gap, max_users FROM pl2_gap 
@@ -443,15 +443,15 @@ class planning2 extends stdentity
 			return new requete($this->db,
                                 "SELECT id_gap, start, end, name_gap, max_users FROM pl2_gap 
                                  WHERE id_planning = $this->id ".
-				 ((empty($start)||is_null($start))?"":("AND end > '".gmdate("Y-m-d H:i:s",$start)."' ")).
-				 ((empty($end)||is_null($end))?"":("AND start < '".gmdate("Y-m-d H:i:s",$end)."' ")).
+				 (($start==0)?"":("AND end > '".gmdate("Y-m-d H:i:s",$start)."' ")).
+				 (($end==0)?"":("AND start < '".gmdate("Y-m-d H:i:s",$end)."' ")).
                                  "ORDER BY start ASC");
 	}
 
 	function get_gaps_time( $start, $end )
 	{
-		$start = mysql_real_escape_string($start);
-		$end = mysql_real_escape_string($end);
+		$start = intval($start);
+		$end = intval($end);
 		if($this->weekly)
 			return new requete($this->db,
 				"SELECT start as date FROM pl2_gap 
@@ -464,13 +464,13 @@ class planning2 extends stdentity
 			return new requete($this->db,
                                 "SELECT start as date FROM pl2_gap 
                                  WHERE id_planning = $this->id ".
-				 (is_null($start)?"":("AND end > '".gmdate("Y-m-d H:i:s",$start)."' ")).
-				 (is_null($end)?"":("AND start < '".gmdate("Y-m-d H:i:s",$end)."' ")).
+				 (($start==0)?"":("AND end > '".gmdate("Y-m-d H:i:s",$start)."' ")).
+				 (($end==0)?"":("AND start < '".gmdate("Y-m-d H:i:s",$end)."' ")).
                                  "UNION DISTINCT
 				 SELECT end as date FROM pl2_gap 
                                  WHERE id_planning = $this->id ".
-				 (is_null($start)?"":("AND end > '".gmdate("Y-m-d H:i:s",$start)."' ")).
-				 (is_null($end)?"":("AND start < '".gmdate("Y-m-d H:i:s",$end)."' ")).
+				 (($start==0)?"":("AND end > '".gmdate("Y-m-d H:i:s",$start)."' ")).
+				 (($end==0)?"":("AND start < '".gmdate("Y-m-d H:i:s",$end)."' ")).
                                  "ORDER BY date ASC");
 	}
 
