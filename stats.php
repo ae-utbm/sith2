@@ -366,15 +366,6 @@ elseif ( $_REQUEST["view"] == "sas" )
   $lst = new itemlist("Les meilleurs contributeurs (50)");
   $n=1;
 
-  if(!$site->user->is_in_group("sas_admin") && !$site->user->is_in_group("gestion_ae"))
-  {
-    while ( $row = $req->get_row() )
-    {
-      $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>");
-      $n++;
-    }
-  }
-  else
   {
     while ( $row = $req->get_row() )
     {
@@ -414,6 +405,70 @@ elseif ( $_REQUEST["view"] == "sas" )
   }
 
   $cts->add($lst,true);
+  $req = new requete ($site->db, "SELECT COUNT(sas_photos.id_photo) as `count`, `sas_photos`.`id_utilisateur_moderateur`, " .
+          "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
+          "FROM sas_photos " .
+          "INNER JOIN utilisateurs ON sas_photos.id_utilisateur_moderateur=utilisateurs.id_utilisateur " .
+          "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+          "GROUP BY sas_photos.id_utilisateur_moderateur " .
+          "ORDER BY count DESC LIMIT 50");
+
+  $lst = new itemlist("Mod&eacute;ration (50)");
+  $n=1;
+
+  {
+    while ( $row = $req->get_row() )
+    {
+      $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." photos)");
+      $n++;
+    }
+  }
+
+  $cts->add($lst,true);
+
+  $req = new requete ($site->db, "SELECT COUNT(*) as `count`, `sas_personnes_photos`.`id_utl_propose`, " .
+          "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
+          "FROM sas_personnes_photos " .
+          "INNER JOIN utilisateurs ON sas_personnes_photos.id_utl_propose=utilisateurs.id_utilisateur " .
+          "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+          "GROUP BY sas_photos.id_utilisateur_propose " .
+          "ORDER BY count DESC LIMIT 50");
+
+  $lst = new itemlist("Proposition de nom (50)");
+  $n=1;
+
+  {
+    while ( $row = $req->get_row() )
+    {
+      $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." propositions)");
+      $n++;
+    }
+  }
+
+  $cts->add($lst,true);
+
+  $req = new requete ($site->db, "SELECT COUNT(*) as `count`, `sas_personnes_photos`.`id_utl_modere`, " .
+          "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
+          "FROM sas_personnes_photos " .
+          "INNER JOIN utilisateurs ON sas_personnes_photos.id_utl_modere=utilisateurs.id_utilisateur " .
+          "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+	  "WHERE sas_personnes_photos.id_utl_propose <> sas_personnes_photos.id_utl_modere ".
+          "GROUP BY sas_photos.id_utilisateur_modere " .
+          "ORDER BY count DESC LIMIT 50");
+
+  $lst = new itemlist("Mod&eacute;ration de nom (50)");
+  $n=1;
+
+  {
+    while ( $row = $req->get_row() )
+    {
+      $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." propositions)");
+      $n++;
+    }
+  }
+
+  $cts->add($lst,true);
+
 
 }
 elseif ( $_REQUEST["view"] == "forum" )
@@ -588,7 +643,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
                   "nom_utilisateur" => "Utilisateur",
                   "promo_utbm" => "Promo",
                   "assos" =>"Associations");
-    if (isset($_REQUEST["fcsoldes"]))
+    if (isset($_REQUEST["plus"]))
     {
       $cols["total"] = "Total";
       $cols["total_db"] = "Total (dB€)";
@@ -625,7 +680,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
                   "nom_utilisateur" => "Utilisateur",
                   "promo_utbm" => "Promo",
                   "semestre" => "Semestre");
-    if (isset($_REQUEST["fcsoldes"]))
+    if (isset($_REQUEST["plus"]))
     {
       $cols["total"] = "Total";
     }
@@ -670,7 +725,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
             if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("foyer_admin") && !$site->user->is_in_group("kfet_admin"))
         $lst->add("N°$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>",$class);
             else
-        $lst->add("N°$n : <a href=\"../user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>".(isset($_REQUEST["fcsoldes"])?" ".($row["total"]/100):""),$class);
+        $lst->add("N°$n : <a href=\"../user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>".(isset($_REQUEST["plus"])?" ".($row["total"]/100):""),$class);
       $n++;
 
     }
