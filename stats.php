@@ -452,7 +452,7 @@ elseif ( $_REQUEST["view"] == "sas" )
           "FROM sas_personnes_photos " .
           "INNER JOIN utilisateurs ON sas_personnes_photos.id_utl_modere=utilisateurs.id_utilisateur " .
           "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
-	  "WHERE sas_personnes_photos.id_utl_propose <> sas_personnes_photos.id_utl_modere ".
+	  "WHERE (sas_personnes_photos.id_utl_propose <> sas_personnes_photos.id_utl_modere OR sas_personnes_photos.id_utl_propose IS NULL)".
           "GROUP BY sas_personnes_photos.id_utl_modere " .
           "ORDER BY count DESC LIMIT 50");
 
