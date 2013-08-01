@@ -98,7 +98,7 @@ if ( $_REQUEST["action"] == "complete" )
       {
         $utl->load_by_id($id);
         if ( $utl->is_valid() )
-          $photo->add_personne($utl,true);
+          $photo->add_personne($utl,true, $site->user->id);
         else
         {
           $incomplet|=true;
