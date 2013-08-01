@@ -405,7 +405,7 @@ elseif ( $_REQUEST["view"] == "sas" )
   }
 
   $cts->add($lst,true);
-  $req = new requete ($site->db, "SELECT COUNT(sas_photos.id_photo) as `count`, `sas_photos`.`id_utilisateur_moderateur`, " .
+  $req = new requete ($site->db, "SELECT COUNT(sas_photos.id_photo) as `count`, `sas_photos`.`id_utilisateur_moderateur` as id_utilisateur, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
           "FROM sas_photos " .
           "INNER JOIN utilisateurs ON sas_photos.id_utilisateur_moderateur=utilisateurs.id_utilisateur " .
@@ -426,7 +426,7 @@ elseif ( $_REQUEST["view"] == "sas" )
 
   $cts->add($lst,true);
 
-  $req = new requete ($site->db, "SELECT COUNT(*) as `count`, `sas_personnes_photos`.`id_utl_propose`, " .
+  $req = new requete ($site->db, "SELECT COUNT(*) as `count`, `sas_personnes_photos`.`id_utl_propose` as id_utilisateur, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
           "FROM sas_personnes_photos " .
           "INNER JOIN utilisateurs ON sas_personnes_photos.id_utl_propose=utilisateurs.id_utilisateur " .
@@ -447,7 +447,7 @@ elseif ( $_REQUEST["view"] == "sas" )
 
   $cts->add($lst,true);
 
-  $req = new requete ($site->db, "SELECT COUNT(*) as `count`, `sas_personnes_photos`.`id_utl_modere`, " .
+  $req = new requete ($site->db, "SELECT COUNT(*) as `count`, `sas_personnes_photos`.`id_utl_modere` as id_utilisateur, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
           "FROM sas_personnes_photos " .
           "INNER JOIN utilisateurs ON sas_personnes_photos.id_utl_modere=utilisateurs.id_utilisateur " .
