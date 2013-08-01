@@ -102,7 +102,7 @@ if ( $_REQUEST["action"] == "modere" )
 		if ( !isset($_REQUEST["yet|$id"]) )
 		  $photo->remove_personne($id);
 		elseif ( $modere == 0 )
-		  $photo->modere_personne($id);
+		  $photo->modere_personne($id, $site->user->id);
 	      }
 
 
@@ -113,7 +113,7 @@ if ( $_REQUEST["action"] == "modere" )
 		{
 		  $utl->load_by_id($id);
 		  if ( $utl->id > 0 )
-		    $photo->add_personne($utl,true);
+		    $photo->add_personne($utl,true, $site->user->id);
 		  else
 		  {
 		    $incomplet|=true;

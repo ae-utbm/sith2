@@ -304,7 +304,7 @@ if ( $photo->is_valid() )
     $utl->load_by_id($_REQUEST["id_utilisateur"]);
     if ( $utl->is_valid() )
     {
-      $photo->add_personne($utl,true);
+      $photo->add_personne($utl,true, $site->user->id);
       $Message="Personne ajout&eacute;e : ".$utl->get_html_link();
     }
     else
@@ -375,7 +375,7 @@ if ( $photo->is_valid() )
     $utl->load_by_id($_REQUEST["id_utilisateur"]);
     if ( $utl->is_valid() )
     {
-      $photo->add_personne($utl,false);
+      $photo->add_personne($utl,false, $site->user->id);
       $Message="Personne ajout&eacute;e comme suggestion : ".$utl->get_html_link();;
     }
     else

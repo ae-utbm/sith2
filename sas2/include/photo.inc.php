@@ -589,30 +589,64 @@ class photo extends basedb
    * @param $modere Précise si cet ajout est une suggestion(=false) ou pas(=true)
    * @see class Utilisateur
    */
-  function add_personne( $utl, $modere=true )
+  function add_personne( $utl, $modere=true, $id_utl_propose = null )
   {
     if($modere)
       $modere=1;
     else
       $modere=0;
-    $sql = new insert ($this->dbrw,
-      "sas_personnes_photos",
-      array(
-        "id_photo"=>$this->id,
-        "id_utilisateur"=>$utl->id,
-        "modere_phutl"=>$modere,
-        "accord_phutl"=> ( $utl->droit_image || $utl->id == $this->id_utilisateur )
-        )
-      );
+    $sql = null;
+    if(is_null($id_utl_propose))
+	    $sql = new insert ($this->dbrw,
+	      "sas_personnes_photos",
+	      array(
+		"id_photo"=>$this->id,
+		"id_utilisateur"=>$utl->id,
+		"modere_phutl"=>$modere,
+		"accord_phutl"=> ( $utl->droit_image || $utl->id == $this->id_utilisateur )
+		)
+	      );
+    elseif( $modere )
+	    $sql = new insert ($this->dbrw,
+	      "sas_personnes_photos",
+	      array(
+		"id_photo"=>$this->id,
+		"id_utilisateur"=>$utl->id,
+		"modere_phutl"=>$modere,
+		"accord_phutl"=> ( $utl->droit_image || $utl->id == $this->id_utilisateur ),
+		"id_utl_modere"=> $id_utl_propose,
+		"id_utl_propose"=> $id_utl_propose
+		)
+	      );
+    else
+	    $sql = new insert ($this->dbrw,
+	      "sas_personnes_photos",
+	      array(
+		"id_photo"=>$this->id,
+		"id_utilisateur"=>$utl->id,
+		"modere_phutl"=>$modere,
+		"accord_phutl"=> ( $utl->droit_image || $utl->id == $this->id_utilisateur ),
+		"id_utl_propose"=> $id_utl_propose
+		)
+	      );
+
+
     $this->_update_droits_acquis();
   }
 
   /**
    * @param $id_utilisateur Id de la personne
    */
-  function modere_personne($id_utilisateur)
+  function modere_personne($id_utilisateur, $id_modo = null)
   {
-    $sql = new update($this->dbrw,"sas_personnes_photos",array("modere_phutl"=>true),array(
+    $sql = null;
+    if(is_null($id_modo))
+      $sql = new update($this->dbrw,"sas_personnes_photos",array("modere_phutl"=>true),array(
+        "id_photo"=>$this->id,
+        "id_utilisateur"=>$id_utilisateur
+          ));
+    else
+      $sql = new update($this->dbrw,"sas_personnes_photos",array("modere_phutl"=>true, "id_utl_modere"=> $id_modo),array(
         "id_photo"=>$this->id,
         "id_utilisateur"=>$id_utilisateur
           ));
