@@ -711,7 +711,7 @@ if(!defined("MOBILE")) { /* ths is too elaborate for a mobile version */
       	{
 		if( !strncmp($name, $pattern, strlen($pattern)))
 		{
-			$names[] = $name;
+                	$names = array_merge( array($name), $names );
 		}
 
       	}
