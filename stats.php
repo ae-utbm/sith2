@@ -853,7 +853,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
                                         FROM cpt_produits
                                         JOIN cpt_vendu ON cpt_vendu.id_produit = cpt_produits.id_produit
                                         JOIN cpt_debitfacture ON cpt_debitfacture.id_facture = cpt_vendu.id_facture
-                                        WHERE cpt_debitfacture.date_facture > $debut_semestre 
+                                        WHERE cpt_debitfacture.date_facture > '$debut_semestre'
                                         AND (cpt_produits.id_typeprod < 10 OR cpt_produits.id_typeprod = 27)
                                         GROUP BY id ORDER BY nombre DESC LIMIT 30");
 
