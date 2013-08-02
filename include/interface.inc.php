@@ -706,7 +706,17 @@ if(!defined("MOBILE")) { /* ths is too elaborate for a mobile version */
     {
       if ( count($names) )
       {
-        $idpage .= substr($side,0,1);
+ 	$pattern = "auto_$side";
+      	foreach( $this->boxes as $name => $cts )
+      	{
+		if( !strncmp($name, $pattern, strlen($pattern)))
+		{
+			$names[] = $name;
+		}
+
+      	}
+
+       $idpage .= substr($side,0,1);
 
         if ( isset($this->sides_ref[$side]) )
         {
@@ -753,28 +763,6 @@ if(!defined("MOBILE")) { /* ths is too elaborate for a mobile version */
           }
 
         }
-	$pattern = "auto_$side";
-      	foreach( $this->boxes as $name => $cts )
-      	{
-		if( !strncmp($name, $pattern, strlen($pattern)))
-		{
-		    $this->buffer .= "<div class=\"box\" id=\"sbox_".$name."\">\n";
-	            if ( $cts->title && ($ref != null) )
-	              $this->buffer .= "<h1><a onmousedown=\"dnds_startdrag(event,'sbox_".$name."','".$ref."');\" class=\"dragstartzone\">".$cts->title."</a></h1>\n";
-	            elseif ( $cts->title )
-	              $this->buffer .= "<h1>".$cts->title."</h1>\n";
-
-	            $this->buffer .= "<div class=\"body\" id=\"sbox_body_".$name."\">\n";
-
-	            $this->buffer .= $cts->html_render();
-
-	            $this->buffer .= "</div>\n";
-	            $this->buffer .= "</div>\n";
-
-		}
-
-      	}
-
         $this->buffer .= "</div>\n";
       }
     }
