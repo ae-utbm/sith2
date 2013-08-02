@@ -847,6 +847,26 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 	        array()
 	        ),true);
 
+	$req = new requete($site->db, "SELECT cpt_produits.id_produit as id, cpt_produits.nom_prod as nom, 
+                                        SUM(if(cpt_vendu.prix_unit > 0, 1, 0)) as nombre_commande, SUM(cpt_vendu.quantite) as nombre, 
+                                        SUM(cpt_vendu.quantite)/SUM(if(cpt_vendu.prix_unit > 0, 1, 0)) as moyenne
+                                        FROM cpt_produits
+                                        JOIN cpt_vendu ON cpt_vendu.id_produit = cpt_produits.id_produit
+                                        JOIN cpt_debitfacture ON cpt_debitfacture.id_facture = cpt_vendu.id_facture
+                                        WHERE cpt_debitfacture.date_facture > $debut_semestre 
+                                        AND (cpt_produits.id_typeprod < 10 OR cpt_produits.id_typeprod = 27)
+                                        GROUP BY id ORDER BY nombre DESC LIMIT 30");
+
+	$cts->add(new sqltable(
+      	    	"topproduit",
+      		"Top 30 produits (ce semestre)", $req, "",
+		"",
+	        array("nom"=>"Produit", "nombre_commande" => "Nombre de commande" ,"nombre"=>"Nombre de produits vendu", "moyenne"=>"Moyenne par commande"),
+	        array(), array(),
+	        array()
+	        ),true);
+
+
 
     }
   }
