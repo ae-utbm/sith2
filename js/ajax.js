@@ -146,7 +146,8 @@ function evalCallback (page, data, callback)
  */
 function usersession_set ( topdir, key, value )
 {
-  evalCommand ( topdir + "gateway.php", "module=usersession&set=" + escape(key) + "&value=" + escape(value) );
+  //evalCommand ( topdir + "gateway.php", "module=usersession&set=" + escape(key) + "&value=" + escape(value) );
+  evalCommand ( "/gateway.php", "module=usersession&set=" + escape(key) + "&value=" + escape(value) );
 }
 
 /**
