@@ -717,7 +717,7 @@ if(!defined("MOBILE")) { /* ths is too elaborate for a mobile version */
             $elts =   explode(",",$_SESSION["usersession"][$ref]);
             foreach ( $elts as $elt )
             {
-              $name = substr($elt,5);
+              $name = substr($elt,50);
               if ( in_array($name,$names) )
                 $n_names[] = $name;
             }
