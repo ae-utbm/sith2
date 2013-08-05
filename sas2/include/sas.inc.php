@@ -95,7 +95,7 @@ class sas extends site
         if ( empty($msg))
           $msg = "rien";
 
-        $lst->add("<a href=\"modere.php\">$msg &agrave; moderer</a>");
+        $lst->add("<a href=\"modere.php\">$msg &agrave; mod&eacute;rer</a>");
 
         $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_photos` WHERE `incomplet`='1'");
         list($nphoto) = $req->get_row();
@@ -145,7 +145,7 @@ class sas extends site
           $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_photos` WHERE `incomplet`='1' AND id_groupe_admin='$id_groupe'");
           list($nphoto) = $req->get_row();
 
-          $lst->add("<a href=\"complete.php?mode=adminzone&amp;id_groupe_admin=$id_groupe\">$nphoto photos &agrave; completer</a>");
+          $lst->add("<a href=\"complete.php?mode=adminzone&amp;id_groupe_admin=$id_groupe\">$nphoto photos &agrave; compl&eacute;ter</a>");
           $box->add($lst,true);
         }
       }
