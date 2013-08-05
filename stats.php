@@ -961,8 +961,8 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
 
 
   $req = new requete($site->db,"SELECT `publique_utl`, COUNT(*) total, ".
-                              	"SUM(IF(`date_maj_utl` > '$debut_semestre' OR `publique_utl` = '2', 1, 0 )) `semestre_chg` ".
-                              	"SUM(IF(`date_maj_utl` > '$debut_annee' OR `publique_utl` = '2', 1, 0 )) `annee_chg` ".
+                              	"SUM(IF(`date_maj_utl` > '$debut_semestre' OR `publique_utl` = '2', 1, 0 )) `semestre_chg`, ".
+                              	"SUM(IF(`date_maj_utl` > '$debut_annee' OR `publique_utl` = '2', 1, 0 )) `annee_chg`, ".
                               	"SUM(IF(`date_maj_utl` > '2010-09-01' OR `publique_utl` = '2', 1, 0 )) `apres_chg` ".
                               	"FROM `utilisateurs` ".
                               	"GROUP BY `publique_utl` ".
