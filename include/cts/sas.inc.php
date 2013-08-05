@@ -198,6 +198,7 @@ class sasphoto extends contents
 
     $sqlph = $cat->get_photos ( $cat->id, $user, $user->get_groups_csv(), "sas_photos.id_photo");
     $count=0;
+    $modeincomplet = isset($_REQUEST["modeincomplet"]);
     while ( list($id) = $sqlph->get_row() )
     {
       if ( $id == $photo->id ) $idx = $count;
@@ -215,8 +216,8 @@ class sasphoto extends contents
     }
     else
     {
-      $self=$page."?";
-      $selfhtml=$page."?";
+      $self=$page."?".($modeincomplet?"modeincomplet&":"");
+      $selfhtml=$page."?".($modeincomplet?"modeincomplet&amp;":"");
       $exdata="";
     }
 

@@ -42,7 +42,7 @@ $catpr = new catphoto($site->db);
 $asso = new asso($site->db);
 $phasso = new asso($site->db);
 $ptasso = new asso($site->db);
-if( isset($_REQUEST["modeincomplet"]))
+if( isset($_REQUEST["modeincomplet"]) && !isset($_REQUEST["action"]))
 {
   $req = new requete($site->db,"SELECT sas_photos.id_photo as id FROM sas_personnes_photos 
 				JOIN sas_photos 
