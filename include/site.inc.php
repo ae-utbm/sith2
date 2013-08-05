@@ -605,7 +605,7 @@ if(!defined("MOBILE")) {
       list($nphoto) = $req->get_row();
       if ( $nphoto > 0 )
         $elements[] = "<a href=\"".$topdir."user/photos.php?see=new\"><b>".$nphoto." nouvelle(s) photo(s)</b> dans le SAS</a>";
-      $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` JOIN sas_photos ON sas_photos.id_photo = sas_personnes_photos.id_photo WHERE sas_photos.incomplet = 1 AND sas_personnes_photos.id_utilisateur = ".$site->user->id);
+      $req = new requete($this->db, "SELECT COUNT(*) FROM sas_personnes_photos JOIN sas_photos ON sas_photos.id_photo = sas_personnes_photos.id_photo WHERE sas_photos.incomplet = 1 AND sas_personnes_photos.id_utilisateur = ".$this->user->id);
       list($nincomplet) = $req->get_row();
       if ( $nincomplet > 0 )
         $elements[] = "<a href=\"".$topdir."sas2/?modeincomplet\"><b>".$nincomplet." photo(s) incompl&egrave;te(s) o&ugrave; vous &ecirc;tes pr&eacute;sent</a>";
