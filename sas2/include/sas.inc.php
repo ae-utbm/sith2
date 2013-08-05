@@ -100,7 +100,7 @@ class sas extends site
         $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_photos` WHERE `incomplet`='1'");
         list($nphoto) = $req->get_row();
 
-        $lst->add("<a href=\"complete.php\">$nphoto photos &agrave; completer</a>");
+        $lst->add("<a href=\"complete.php\">$nphoto photos &agrave; compl&eacute;ter</a>");
 
 
         $req = new requete($this->db,
