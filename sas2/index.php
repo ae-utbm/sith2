@@ -44,7 +44,7 @@ $phasso = new asso($site->db);
 $ptasso = new asso($site->db);
 if( isset($_REQUEST["modeincomplet"]))
 {
-  $req = new requete($site->db,"SELECT sas_photos.id_photo as id AS total FROM `sas_personnes_photos` 
+  $req = new requete($site->db,"SELECT sas_photos.id_photo as id FROM sas_personnes_photos 
 				JOIN sas_photos 
 				ON sas_photos.id_photo = sas_personnes_photos.id_photo 
 				WHERE incomplet = 1 
