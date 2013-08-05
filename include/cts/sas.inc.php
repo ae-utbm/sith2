@@ -340,11 +340,16 @@ class sasphoto extends contents
         array(),
         array( )
         ));
-
-    if ( $Message )
+    
+    if ( $Message || isset($_REQUEST["modeincomplet"]) )
     {
-      $subcts = new contents("Opération réussie");
-      $subcts->add_paragraph($Message);
+      $subcts = new contents($Message?"Opération réussie":"Passer");
+      if($Message)
+        $subcts->add_paragraph($Message);
+      if(isset($_REQUEST["modeincomplet"]))
+      {
+        $subcts->add_paragraph("<a href=\"".$page."?id_photo=".$photo->id."&amp;modeincomplet\">Suivant</a>");
+      }
       $site->add_box("auto_right_message",$subcts);
     }
 
@@ -482,9 +487,9 @@ class sasphoto extends contents
       $site->add_box("auto_right_comment",$subcts);
     }
 
-    $subcts = new contents("Outils");
     if ( $can_write )
     {
+      $subcts = new contents("Modération");
       $frm = new form("addpersonne",$self."id_photo=".$photo->id,false,"POST","Ajouter une personne");
       if ( $ErrorPersonne )
         $frm->error($ErrorPersonne);
@@ -503,9 +508,11 @@ class sasphoto extends contents
           $frm->add_submit("valid","Oui");
           $subcts->add($frm,true);
       }
+      $site->add_box("auto_right_suggestpersonne",$subcts);
     }
 	
 
+    $subcts = new contents("Outils");
     if ( $can_write )
     {
       $subcts->add_paragraph("<a href=\"".$self."id_photo=".$photo->id."&amp;page=edit\">Editer</a>");
