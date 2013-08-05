@@ -42,8 +42,36 @@ $catpr = new catphoto($site->db);
 $asso = new asso($site->db);
 $phasso = new asso($site->db);
 $ptasso = new asso($site->db);
+if( isset($_REQUEST["modeincomplet"]))
+{
+  $req = new requete($site->db,"SELECT sas_photos.id_photo as id AS total FROM `sas_personnes_photos` 
+				JOIN sas_photos 
+				ON sas_photos.id_photo = sas_personnes_photos.id_photo 
+				WHERE incomplet = 1 
+				AND sas_personnes_photos.id_utilisateur = '".$site->user->id."' 
+				".(isset($_REQUEST["id_photo"])?(" AND sas_photos.id_photo > '".intval($_REQUEST["id_photo"])."'"):"")." 
+				LIMIT 1");
+  if($req->lines > 0)
+  {
+    list( $id_photo ) = $req->get_row();
+    
+    $photo->load_by_id($id_photo);
+    if ( !$photo->is_valid() )
+	exit();
+    $cat->load_by_id($photo->id_catph);
+    
+  }
+  else
+  {
+    $cts = new contents("Fin");
+    $cts->add_paragraph("Merci de votre aide, vous êtes arrivés à la fin :).");
+    $site->add_contents($cts);
 
-if ( isset($_REQUEST["id_photo"]))
+    $site->end_page ();
+    exit();
+  }
+}
+elseif ( isset($_REQUEST["id_photo"]))
 {
   $photo->load_by_id($_REQUEST["id_photo"]);
   if ( !$photo->is_valid() )
