@@ -501,7 +501,7 @@ class sasphoto extends contents
 
       if ( $photo->incomplet )
       {
-          $frm = new form("setfull",$page."?id_photo=".$photo->id,false,"POST","Liste complète");
+          $frm = new form("setfull",$self."id_photo=".$photo->id,false,"POST","Liste complète");
           $frm->add_hidden("action","setfull");
           $frm->add_info("Toutes les personnes étant sur la photo (au premier plan) sont dans la liste.");
           if ( $req->lines==0 )
