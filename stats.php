@@ -940,11 +940,33 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
                           array()
             ),true);
 
+  $month = date("m");
+  $debut_semestre = null;
+  $debut_annee = null;
+  if ( $month >= 2 && $month < 9 )
+  {
+    $debut_semestre = date("Y")."-02-01";
+    $debut_annee = (date("Y")-1)."-09-01";
+  }
+  else if ( $month >= 9 )
+  {
+    $debut_semestre = date("Y")."-09-01";
+    $debut_annee = date("Y")."-02-01";
+  }
+  else
+  {
+    $debut_semestre = (date("Y")-1)."-09-01";
+    $debut_annee = (date("Y")-1)."-02-01";
+  }
+
+
   $req = new requete($site->db,"SELECT `publique_utl`, COUNT(*) total, ".
-                              "SUM(IF(`date_maj_utl` > '2010-09-01' OR `publique_utl` = '2', 1, 0 )) `apres_chg` ".
-                              "FROM `utilisateurs` ".
-                              "GROUP BY `publique_utl` ".
-                              "ORDER BY `publique_utl` DESC");
+                              	"SUM(IF(`date_maj_utl` > '$debut_semestre' OR `publique_utl` = '2', 1, 0 )) `semestre_chg` ".
+                              	"SUM(IF(`date_maj_utl` > '$debut_annee' OR `publique_utl` = '2', 1, 0 )) `annee_chg` ".
+                              	"SUM(IF(`date_maj_utl` > '2010-09-01' OR `publique_utl` = '2', 1, 0 )) `apres_chg` ".
+                              	"FROM `utilisateurs` ".
+                              	"GROUP BY `publique_utl` ".
+                              	"ORDER BY `publique_utl` DESC");
 
 
   $mcts->add(new sqltable("public_levels",
@@ -952,6 +974,8 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
                           "publique_utl",
                           array("publique_utl" => "Niveau d'accès",
                                 "total"=>"Toutes les fiches",
+                                "semestre_chg"=>"Fiches mises à jour depuis le ".date("d/m/Y",strtotime($debut_semestre)),
+                                "annee_chg"=>"Fiches mises à jour depuis le ".date("d/m/Y",strtotime($debut_annee)),
                                 "apres_chg"=>"Fiches mises à jour depuis le 01/09/2010"),
                           array(),
                           array(),
