@@ -168,7 +168,7 @@ if ( $_REQUEST["page"] == "process" )
 if ( isset($_REQUEST["setdroit"]) )
 {
   $site->user->set_droit_image ( $_REQUEST["droitauto"]=="oui" );
-  $site->user->set_seen_photoe ( $site->user );
+  //$site->user->set_seen_photo ( $site->user );
 }
 
 
