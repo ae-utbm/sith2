@@ -479,13 +479,13 @@ class galaxy
     $bottom_x = ceil($bottom_x);
     $bottom_y = ceil($bottom_y);
 
-    $mult_x = floor(10000/($bottom_x-$top_x));
-    $mult_y = floor(10000/($bottom_y-$top_y));
+    $mult_x = floor(10000/abs($bottom_x-$top_x));
+    $mult_y = floor(10000/abs($bottom_y-$top_y));
 
     $this->width = $tx;//($bottom_x-$top_x)*$tx;
     $this->height = $tx;//($bottom_y-$top_y)*$tx;
 
-    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-($top_x)) * $mult_x, ry_star = (y_star-($top_y)) * $mult_y");
+    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-($top_x)) * ($mult_x), ry_star = (y_star-($top_y)) * ($mult_y)");
   }
 
   /**
