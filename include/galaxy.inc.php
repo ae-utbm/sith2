@@ -488,7 +488,7 @@ class galaxy
     $this->height = $tx;//($bottom_y-$top_y)*$tx;
 
     echo("UPDATE galaxy_star SET rx_star = (x_star-($top_x)) * ($mult_x), ry_star = (y_star-($top_y)) * ($mult_y)\n");
-    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-($top_x)) * ($mult_x), ry_star = (y_star-($top_y)) * ($mult_y)");
+    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-'$top_x') * '$mult_x', ry_star = (y_star-'$top_y') * '$mult_y'");
   }
 
   /**
