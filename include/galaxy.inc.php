@@ -354,43 +354,27 @@ class galaxy
     "vy_link = b.y_star-a.y_star  ".
     "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
     new requete($this->dbrw,"UPDATE galaxy_link SET length_link = SQRT(POW(vx_link,2)+POW(vy_link,2))");
-    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=vx_link/length_link, dy_link=vy_link/length_link WHERE length_link != 0");
-    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=0, dy_link=0 WHERE length_link = ideal_length_link");
-    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=RAND(), dy_link=RAND() WHERE length_link != ideal_length_link AND dx_link=0 AND dy_link=0");
 
-    $req = new requete($this->db,"SELECT MAX(length_link/ideal_length_link),AVG(length_link/ideal_length_link) FROM galaxy_link");
 
-    $reducer=1000;
+    new requete($this->dbrw,"UPDATE galaxy_star SET 
+				galaxy_star.dx_star = (SELECT SUM(vx_link/POW(length_link,2)) 
+							FROM galaxy_link 
+							WHERE galaxy_link.id_star_a = galaxy_star.id_star 
+							OR galaxy_link.id_star_b = galaxy_star.id_star) / galaxy_star.sum_tense_star, 
+				galaxy_star.dy_star = (SELECT SUM(vy_link/POW(length_link,2)) 
+							FROM galaxy_link 
+							WHERE galaxy_link.id_star_a = galaxy_star.id_star 
+							OR galaxy_link.id_star_b = galaxy_star.id_star) / galaxy_star.sum_tense_star");
+    $req = new requete($this->db,"SELECT AVG(x_star/sum_tense_star), AVG(y_star/sum_tense_star) FROM galaxy_star");
+    list( $center_x, $center_y ) = $req->get_row();
 
-    if ( $req->lines > 0 )
-    {
-      list($max,$avg) = $req->get_row();
-      if ( $max > 1000 )
-      {
-        echo "failed due to expension";
-        exit();
-      }
-      if ( !is_null($max) && $max > 0 )
-        $reducer = max(25,round($max)*3);
-      //echo $max." ".$avg." (".$reducer.") - ";
-    }
+    new requete($this->dbrw,"UPDATE galaxy_star SET
+				dx_star = dx_star + (x_star - $center_x)/(sum_tense_star * (POW(x_star - $center_x , 2) + POW(y_star - $center_y , 2))), 
+				dy_star = dy_star + (y_star - $center_y)/(sum_tense_star * (POW(x_star - $center_x , 2) + POW(y_star - $center_y , 2)))");
 
-    new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
-    "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/$reducer, ".
-    "delta_link_b=(length_link-ideal_length_link)/ideal_length_link/$reducer*-1 ".
-    "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
-
-    new requete($this->dbrw,"UPDATE galaxy_star SET ".
-    "dx_star = COALESCE(( SELECT SUM( delta_link_a * dx_link ) FROM galaxy_link WHERE id_star_a = id_star ),0) + ".
-      "COALESCE((SELECT SUM( delta_link_b * dx_link ) FROM galaxy_link WHERE id_star_b = id_star ),0), ".
-    "dy_star = COALESCE(( SELECT SUM( delta_link_a * dy_link ) FROM galaxy_link WHERE id_star_a = id_star ),0) + ".
-      "COALESCE((SELECT SUM( delta_link_b * dy_link ) FROM galaxy_link WHERE id_star_b = id_star ),0) WHERE fixe_star != 1");
-    if ( $detectcollision )
-    {
-      new requete($this->dbrw,"UPDATE galaxy_star AS a, galaxy_star AS b SET a.dx_star=0, a.dy_star=0, b.dx_star=0, b.dy_star=0 WHERE a.id_star != b.id_star AND POW(a.x_star+a.dx_star-b.x_star-b.dx_star,2)+POW(a.y_star+a.dy_star-b.y_star-b.dy_star,2) < 0.05");
-      new requete($this->dbrw,"UPDATE galaxy_star AS a, galaxy_star AS b SET a.dx_star=0, a.dy_star=0, b.dx_star=0, b.dy_star=0 WHERE a.id_star != b.id_star AND POW(a.x_star+a.dx_star-b.x_star-b.dx_star,2)+POW(a.y_star+a.dy_star-b.y_star-b.dy_star,2) < 0.05");
-    }
-    new requete($this->dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0 AND fixe_star != 1");
+    new requete($this->dbrw,"UPDATE galaxy_star SET
+				x_star = x_star + dx_star,
+				y_star = y_star + dy_star");
 
 
   }
