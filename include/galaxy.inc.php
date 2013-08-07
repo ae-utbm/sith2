@@ -369,8 +369,8 @@ class galaxy
     list( $center_x, $center_y, $sum_tense ) = $req->get_row();
     new requete($this->dbrw,"UPDATE 	galaxy_star a, 
 					(SELECT a.id_star AS id_a, b.id_star AS id_b, 
-						SUM(b.sum_tense_star * (a.x_star - b.x_star)/(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2))) AS ax, 
-						SUM(b.sum_tense_star * (a.y_star - b.y_star)/(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2))) AS ay 
+						SUM(b.sum_tense_star * (a.x_star - b.x_star)/POW((POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),2)) AS ax, 
+						SUM(b.sum_tense_star * (a.y_star - b.y_star)/POW((POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),2)) AS ay 
 					 FROM galaxy_star AS a, galaxy_star AS b 
 					WHERE b.x_star < a.x_star + 1 AND b.x_star > a.x_star - 1 
 					AND b.y_star < a.y_star + 1 AND b.y_star > a.y_star - 1
