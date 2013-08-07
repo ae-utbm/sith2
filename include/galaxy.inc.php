@@ -487,15 +487,19 @@ class galaxy
     {
 	$mult_x = 1/$mult_x;
         $div_x = true;
+    	$mult_x = ceil($mult_x);
     }
+    else
+    	$mult_x = floor($mult_x);
     $mult_y = 10000/($bottom_y-$top_y);
     if(abs($mult_y)  < 1)
     {
 	$mult_y = 1/$mult_y;
         $div_y = true;
+    	$mult_y = ceil($mult_y);
     }
-    $mult_x = floor($mult_x);
-    $mult_y = floor($mult_y);
+    else
+	$mult_y = floor($mult_y);
     echo("$mult_x,$mult_y\n");
 
     $this->width = $tx;//($bottom_x-$top_x)*$tx;
