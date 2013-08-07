@@ -480,8 +480,12 @@ class galaxy
     $bottom_y = ceil($bottom_y);
     echo("$top_x,$top_y,$bottom_x,$bottom_y\n");
 
-    $mult_x = 10000/($bottom_x-$top_x);
-    $mult_y = 10000/($bottom_y-$top_y);
+    $mult_x = floor(10000/($bottom_x-$top_x));
+    if($mult_x == 0)
+	$mult_x = 1;
+    $mult_y = floor(10000/($bottom_y-$top_y));
+    if($mult_y == 0)
+	$mult_y = 1;
     echo("$mult_x,$mult_y\n");
 
     $this->width = $tx;//($bottom_x-$top_x)*$tx;
