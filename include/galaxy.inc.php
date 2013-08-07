@@ -485,7 +485,7 @@ class galaxy
     $mult_x = 10000/($bottom_x-$top_x);
     if(abs($mult_x) < 1)
     {
-	$mult_x = 1;
+	$mult_x = 1/$mult_x;
         $div_x = true;
     }
     $mult_y = 10000/($bottom_y-$top_y);
