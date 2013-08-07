@@ -357,11 +357,11 @@ class galaxy
 
 
     new requete($this->dbrw,"UPDATE galaxy_star SET 
-				galaxy_star.dx_star = (SELECT SUM(vx_link/POW(length_link,2)) 
+				galaxy_star.dx_star = galaxy_star.dx_star + (SELECT SUM(vx_link/POW(length_link,2)) 
 							FROM galaxy_link 
 							WHERE galaxy_link.id_star_a = galaxy_star.id_star 
 							OR galaxy_link.id_star_b = galaxy_star.id_star) / galaxy_star.sum_tense_star, 
-				galaxy_star.dy_star = (SELECT SUM(vy_link/POW(length_link,2)) 
+				galaxy_star.dy_star = galaxy_star.dy_star + (SELECT SUM(vy_link/POW(length_link,2)) 
 							FROM galaxy_link 
 							WHERE galaxy_link.id_star_a = galaxy_star.id_star 
 							OR galaxy_link.id_star_b = galaxy_star.id_star) / galaxy_star.sum_tense_star");
