@@ -480,19 +480,29 @@ class galaxy
     $bottom_y = ceil($bottom_y);
     echo("$top_x,$top_y,$bottom_x,$bottom_y\n");
 
-    $mult_x = floor(10000/($bottom_x-$top_x));
-    if($mult_x == 0)
+    $div_x = false;
+    $div_y = false;
+    $mult_x = 10000/($bottom_x-$top_x);
+    if(abs($mult_x) < 1)
+    {
 	$mult_x = 1;
-    $mult_y = floor(10000/($bottom_y-$top_y));
-    if($mult_y == 0)
-	$mult_y = 1;
+        $div_x = true;
+    }
+    $mult_y = 10000/($bottom_y-$top_y);
+    if(abs($mult_y)  < 1)
+    {
+	$mult_y = 1/$mult_y;
+        $div_y = true;
+    }
+    $mult_x = floor($mult_x);
+    $mult_y = floor($mult_y);
     echo("$mult_x,$mult_y\n");
 
     $this->width = $tx;//($bottom_x-$top_x)*$tx;
     $this->height = $tx;//($bottom_y-$top_y)*$tx;
 
-    echo("UPDATE galaxy_star SET rx_star = (x_star-($top_x)) * ($mult_x), ry_star = (y_star-($top_y)) * ($mult_y)\n");
-    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-'$top_x') * '$mult_x', ry_star = (y_star-'$top_y') * '$mult_y'");
+    echo("UPDATE galaxy_star SET rx_star = (x_star-($top_x)) ".($div_x?"/":"*")." ($mult_x), ry_star = (y_star-($top_y)) ".($div_x?"/":"*")." ($mult_y)\n");
+    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-'$top_x') ".($div_x?"/":"*")." '$mult_x', ry_star = (y_star-'$top_y') ".($div_y?"/":"*")." '$mult_y'");
   }
 
   /**
