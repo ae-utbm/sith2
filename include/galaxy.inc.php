@@ -367,9 +367,17 @@ class galaxy
 							OR galaxy_link.id_star_b = galaxy_star.id_star) / galaxy_star.sum_tense_star");
     $req = new requete($this->db,"SELECT AVG(x_star/sum_tense_star), AVG(y_star/sum_tense_star), SUM(sum_tense_star) FROM galaxy_star");
     list( $center_x, $center_y, $sum_tense ) = $req->get_row();
-    new requete($this->dbrw,"UPDATE galaxy_star AS a
-				SET dx_star = dx_star + (SELECT SUM(b.sum_tense_star * (a.x_star - b.x_star)/(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2))) FROM galaxy_star AS b WHERE b.x_star < a.x_star + 1 AND b.x_star > a.x_star - 1 AND b.y_star < a.y_star + 1 AND b.y_star > a.y_star - 1)/sum_tense_star, 
-				dy_star = dy_star + (SELECT SUM(b.sum_tense_star * (a.y_star - b.y_star)/(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2))) FROM galaxy_star AS b WHERE b.x_star < a.x_star + 1 AND b.x_star > a.x_star - 1 AND b.y_star < a.y_star + 1 AND b.y_star > a.y_star - 1)/sum_tense_star");
+    new requete($this->dbrw,"UPDATE 	galaxy_star a, 
+					(SELECT a.id_star AS id_a, b.id_star AS id_b, 
+						SUM(b.sum_tense_star * (a.x_star - b.x_star)/(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2))) AS ax, 
+						SUM(b.sum_tense_star * (a.y_star - b.y_star)/(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2))) AS ay 
+					 FROM galaxy_star AS a, galaxy_star AS b 
+					WHERE b.x_star < a.x_star + 1 AND b.x_star > a.x_star - 1 
+					AND b.y_star < a.y_star + 1 AND b.y_star > a.y_star - 1
+					GROUP BY id_a) b 
+				SET a.dx_star = a.dx_star + ax/sum_tense_star, 
+				dy_star = dy_star + ay/sum_tense_star
+				WHERE a.id_star = b.id_a");
 
     new requete($this->dbrw,"UPDATE galaxy_star SET
 				dx_star = dx_star + (x_star - $center_x)/(sum_tense_star/ $sum_tense * (POW(x_star - $center_x , 2) + POW(y_star - $center_y , 2))), 
