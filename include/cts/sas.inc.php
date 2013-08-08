@@ -527,7 +527,7 @@ class sasphoto extends contents
     }
     else
     {
-      if ( $photo->incomplet )
+      //if ( $photo->incomplet )
       {
         $frm = new form("suggestpersonne",$self."id_photo=".$photo->id,false,"POST","Ajouter une personne");
         $frm->add_hidden("action","suggestpersonne");
