@@ -356,7 +356,7 @@ class galaxy
     new requete($this->dbrw,"UPDATE galaxy_link SET length_link = IF(vx_link = 0 AND vy_link = 0, 1, SQRT(POW(vx_link,2)+POW(vy_link,2)))");
 
 
-    new requete($this->dbrw,"UPDATE galaxy_star, (SELECT g.id_star AS id, SUM(vx_link/POW(length_link,2)) AS ax, SUM(vy_link/POW(length_link,2)) AS ay
+    new requete($this->dbrw,"UPDATE galaxy_star, (SELECT g.id_star AS id, SUM(tense_link*vx_link/POW(length_link,3)) AS ax, SUM(tense_link*vy_link/POW(length_link,3)) AS ay
 							FROM galaxy_link 
 							JOIN galaxy_star AS g
 							WHERE galaxy_link.id_star_a = g.id_star 
@@ -372,8 +372,8 @@ class galaxy
     $safe_area_y = ($max_y - $min_y)/ $star_count;
     new requete($this->dbrw,"UPDATE 	galaxy_star a, 
 					(SELECT a.id_star AS id_a, b.id_star AS id_b, 
-						SUM(b.sum_tense_star * (a.x_star - b.x_star)/POW((POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),2)) AS ax, 
-						SUM(b.sum_tense_star * (a.y_star - b.y_star)/POW((POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),2)) AS ay 
+						SUM(b.sum_tense_star * (a.x_star - b.x_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),3)) AS ax, 
+						SUM(b.sum_tense_star * (a.y_star - b.y_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),3)) AS ay 
 					 FROM galaxy_star AS a, galaxy_star AS b 
 					WHERE b.x_star < a.x_star + '$safe_area_x' AND b.x_star > a.x_star - '$safe_area_x'
 					AND b.y_star < a.y_star + '$safe_area_y' AND b.y_star > a.y_star - '$safe_area_y'
