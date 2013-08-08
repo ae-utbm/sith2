@@ -375,8 +375,8 @@ class galaxy
 						SUM(b.sum_tense_star * (a.x_star - b.x_star)/POW((POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),2)) AS ax, 
 						SUM(b.sum_tense_star * (a.y_star - b.y_star)/POW((POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),2)) AS ay 
 					 FROM galaxy_star AS a, galaxy_star AS b 
-					WHERE b.x_star < a.x_star + $safe_area_x AND b.x_star > a.x_star - $safe_area_x
-					AND b.y_star < a.y_star + $safe_area_y AND b.y_star > a.y_star - $safe_area_y
+					WHERE b.x_star < a.x_star + '$safe_area_x' AND b.x_star > a.x_star - '$safe_area_x'
+					AND b.y_star < a.y_star + '$safe_area_y' AND b.y_star > a.y_star - '$safe_area_y'
 					GROUP BY id_a) b 
 				SET a.dx_star = a.dx_star + IFNULL(ax,0)/sum_tense_star, 
 				dy_star = dy_star + IFNULL(ay,0)/sum_tense_star
