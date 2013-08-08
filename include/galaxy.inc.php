@@ -536,16 +536,16 @@ class galaxy
   /**
    * Fait le rendu de l'image globale de galaxy
    */
-  function render ($target="galaxy_temp.png", $complete = true)
+  function render ($target="galaxy_temp.png", $complete = true,$ratio = 1)
   {
     if ( empty($this->width) || empty($this->height) )
       $this->pre_render();
 
-    $img = imagecreatetruecolor($this->width,$this->height);
+    $img = imagecreatetruecolor($this->width/$ratio,$this->height/$ratio);
 
     if ( $img === false )
     {
-      echo "failed imagecreatetruecolor($width,$height);";
+      echo "failed imagecreatetruecolor($width/$ratio,$height/$ratio);";
       exit();
     }
 
@@ -574,7 +574,7 @@ class galaxy
 
 	    while ( $row = $req->get_row() )
 	    {
-	      imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $wirecolor );
+	      imageline ($img, $row['x1']/$ratio, $row['y1']/$ratio, $row['x2']/$ratio, $row['y2']/$ratio, $wirecolor );
 	    }
     }
 
@@ -584,7 +584,7 @@ class galaxy
 
     while ( $row = $req->get_row() )
     {
-      imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $this->star_color($img,$row['sum_tense_star']) );
+      imagefilledellipse ($img, $row['rx_star']/$ratio, $row['ry_star']/$ratio, 5, 5, $this->star_color($img,$row['sum_tense_star']) );
     }
 
     if($complete)
@@ -597,7 +597,7 @@ class galaxy
 
 	    while ( $row = $req->get_row() )
 	    {
-	      imagestring($img, 1, $row['rx_star']+5, $row['ry_star']-3,  utf8_decode($row['nom']), $textcolor);
+	      imagestring($img, 1, $row['rx_star']/$ratio+5, $row['ry_star']/$ratio-3,  utf8_decode($row['nom']), $textcolor);
 	    }
     }
 
