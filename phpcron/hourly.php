@@ -20,14 +20,14 @@ $site = new site ();
 
 require_once($topdir. "include/galaxy.inc.php");
 
-$galaxy = new galaxy($site->db,$site->dbrw);
+/*$galaxy = new galaxy($site->db,$site->dbrw);
 
 $galaxy->update();
 
 for($i=0;$i<5;$i++) // Environs 1100 cycles/jours
   $galaxy->cycle();
 
-  $galaxy->mini_render($topdir."data/img/mini_galaxy.png");
+  $galaxy->mini_render($topdir."data/img/mini_galaxy.png");*/
 
 
 // Tâche 2 [verous]
