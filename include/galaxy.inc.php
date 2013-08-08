@@ -536,7 +536,7 @@ class galaxy
   /**
    * Fait le rendu de l'image globale de galaxy
    */
-  function render ($target="galaxy_temp.png")
+  function render ($target="galaxy_temp.png", $complete = true)
   {
     if ( empty($this->width) || empty($this->height) )
       $this->pre_render();
@@ -564,16 +564,18 @@ class galaxy
       if ( $i %100 == 0)
         imagestring($img, 1, $i, 22, $i, $textcolor);
     }
-
-    $req = new requete($this->db, "SELECT ABS(length_link-ideal_length_link) as ex, ".
-    "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
-    "FROM  galaxy_link ".
-    "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
-    "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b)");
-
-    while ( $row = $req->get_row() )
+    if($complete)
     {
-      imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $wirecolor );
+	    $req = new requete($this->db, "SELECT ABS(length_link-ideal_length_link) as ex, ".
+	    "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
+	    "FROM  galaxy_link ".
+	    "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
+	    "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b)");
+
+	    while ( $row = $req->get_row() )
+	    {
+	      imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $wirecolor );
+	    }
     }
 
     $req = new requete($this->db, "SELECT ".
@@ -585,15 +587,18 @@ class galaxy
       imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $this->star_color($img,$row['sum_tense_star']) );
     }
 
-    $req = new requete($this->db, "SELECT ".
-    "rx_star, ry_star, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom ".
-    "FROM  galaxy_star ".
-    "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star)".
-    "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)");
-
-    while ( $row = $req->get_row() )
+    if($complete)
     {
-      imagestring($img, 1, $row['rx_star']+5, $row['ry_star']-3,  utf8_decode($row['nom']), $textcolor);
+	    $req = new requete($this->db, "SELECT ".
+	    "rx_star, ry_star, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom ".
+	    "FROM  galaxy_star ".
+	    "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star)".
+	    "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)");
+
+	    while ( $row = $req->get_row() )
+	    {
+	      imagestring($img, 1, $row['rx_star']+5, $row['ry_star']-3,  utf8_decode($row['nom']), $textcolor);
+	    }
     }
 
     if ( is_null($target) )
