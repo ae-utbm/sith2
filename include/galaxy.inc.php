@@ -383,8 +383,8 @@ class galaxy
 				WHERE a.id_star = b.id_a");
 
     new requete($this->dbrw,"UPDATE galaxy_star SET
-				dx_star = IFNULL(dx_star + 100*(x_star - '$center_x')/( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star) - max_tense_star*(x_star - '$center_x')/( SQRT(POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star),0), 
-				dy_star = IFNULL(dy_star + 100*(y_star - '$center_y')/( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star) - max_tense_star*(y_star - '$center_y')/( SQRT(POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star),0)"); 
+				dx_star = IFNULL(dx_star + 1000*(x_star - '$center_x')/( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star) - max_tense_star*(x_star - '$center_x')/( SQRT(POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star),0), 
+				dy_star = IFNULL(dy_star + 1000*(y_star - '$center_y')/( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star) - max_tense_star*(y_star - '$center_y')/( SQRT(POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star),0)"); 
 
     new requete($this->dbrw,"UPDATE galaxy_star SET
 				x_star = IFNULL(x_star,RAND()) + dx_star,
