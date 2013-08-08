@@ -334,7 +334,7 @@ class galaxy
   {
     // s'assure que is_ready_public() renverra false pendant les calculs
     // se débloquera après un appel à pre_render() (causé par render() ou mini_render())
-    new requete($this->dbrw,"UPDATE `galaxy_star` SET rx_star = NULL, ry_star = NULL");
+    //new requete($this->dbrw,"UPDATE `galaxy_star` SET rx_star = NULL, ry_star = NULL");
     $this->done_pre_cycle=true;
   }
 
