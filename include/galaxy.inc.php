@@ -366,23 +366,25 @@ class galaxy
 				galaxy_star.dx_star = IFNULL(galaxy_star.dx_star + b.ax / galaxy_star.sum_tense_star,0), 
 				galaxy_star.dy_star = IFNULL(galaxy_star.dy_star + b.ay / galaxy_star.sum_tense_star,0)
 				WHERE galaxy_star.id_star = b.id");
-    $req = new requete($this->db,"SELECT AVG(x_star/sum_tense_star), AVG(y_star/sum_tense_star), SUM(sum_tense_star) FROM galaxy_star");
-    list( $center_x, $center_y, $sum_tense ) = $req->get_row();
+    $req = new requete($this->db,"SELECT COUNT(*), AVG(x_star/sum_tense_star), AVG(y_star/sum_tense_star), SUM(sum_tense_star), MAX(x_star), MIN(x_star), MAX(y_star), MIN(y_star) FROM galaxy_star");
+    list( $star_count, $center_x, $center_y, $sum_tense , $max_x, $min_x, $max_y, $min_y) = $req->get_row();
+    $safe_area_x = ($max_x - $min_x)/ $star_count;
+    $safe_area_y = ($max_y - $min_y)/ $star_count;
     new requete($this->dbrw,"UPDATE 	galaxy_star a, 
 					(SELECT a.id_star AS id_a, b.id_star AS id_b, 
 						SUM(b.sum_tense_star * (a.x_star - b.x_star)/POW((POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),2)) AS ax, 
 						SUM(b.sum_tense_star * (a.y_star - b.y_star)/POW((POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),2)) AS ay 
 					 FROM galaxy_star AS a, galaxy_star AS b 
-					WHERE b.x_star < a.x_star + 10 AND b.x_star > a.x_star - 10
-					AND b.y_star < a.y_star + 10 AND b.y_star > a.y_star - 10
+					WHERE b.x_star < a.x_star + $safe_area_x AND b.x_star > a.x_star - $safe_area_x
+					AND b.y_star < a.y_star + $safe_area_y AND b.y_star > a.y_star - $safe_area_y
 					GROUP BY id_a) b 
 				SET a.dx_star = a.dx_star + IFNULL(ax,0)/sum_tense_star, 
 				dy_star = dy_star + IFNULL(ay,0)/sum_tense_star
 				WHERE a.id_star = b.id_a");
 
     new requete($this->dbrw,"UPDATE galaxy_star SET
-				dx_star = IFNULL(dx_star + 50*POW(x_star - '$center_x',2)/( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star),0), 
-				dy_star = IFNULL(dy_star + 50*POW(y_star - '$center_y',2)/( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star),0)");
+				dx_star = IFNULL(dx_star + 100*(x_star - '$center_x')/( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star),0), 
+				dy_star = IFNULL(dy_star + 100*(y_star - '$center_y')/( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star),0)");
 
     new requete($this->dbrw,"UPDATE galaxy_star SET
 				x_star = IFNULL(x_star,RAND()) + dx_star,
