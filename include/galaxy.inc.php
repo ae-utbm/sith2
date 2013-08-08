@@ -370,6 +370,7 @@ class galaxy
     list( $star_count, $center_x, $center_y, $sum_tense , $max_x, $min_x, $max_y, $min_y) = $req->get_row();
     $safe_area_x = ($max_x - $min_x)/ sqrt($star_count);
     $safe_area_y = ($max_y - $min_y)/ sqrt($star_count);
+	$radius = (max(pow($max_x - $center_x,2), pow($min_x - $center_x,2)) + max(pow($max_y - $center_y,2), pow($min_y - $center_y,2)));
     new requete($this->dbrw,"UPDATE 	galaxy_star a, 
 					(SELECT a.id_star AS id_a, b.id_star AS id_b, 
 						SUM(b.sum_tense_star * (a.x_star - b.x_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),3)) AS ax, 
@@ -383,8 +384,8 @@ class galaxy
 				WHERE a.id_star = b.id_a");
 
     new requete($this->dbrw,"UPDATE galaxy_star SET
-				dx_star = IFNULL(dx_star + $sum_tense*(x_star - '$center_x')/( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star) - LOG(sum_tense_star)*(x_star - '$center_x')/( SQRT(POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star),0), 
-				dy_star = IFNULL(dy_star + $sum_tense*(y_star - '$center_y')/( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star) - LOG(sum_tense_star)*(y_star - '$center_y')/( SQRT(POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))*sum_tense_star),0)"); 
+				dx_star = IFNULL(dx_star + (0.95-EXP(-4*( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2)))/$radius))*(x_star - '$center_x')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0), 
+				dy_star = IFNULL(dy_star + (0.95-EXP(-4*( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2)))/$radius))*(y_star - '$center_y')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0)"); 
 
     //new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = 200 WHERE dx_star > 200");
     //new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = -200 WHERE dx_star < -200");
