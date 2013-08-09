@@ -391,6 +391,7 @@ class galaxy
     new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = -10 WHERE dx_star < -100");
     new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = 10 WHERE dy_star > 100");
     new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = -10 WHERE dy_star < -100");
+    new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = '0.9' * dy_star, dx_star = 0.9 * dx_star");
     new requete($this->dbrw,"UPDATE galaxy_star SET
 				x_star = IFNULL(x_star,RAND()) + dx_star,
 				y_star = IFNULL(y_star,RAND()) + dy_star");
