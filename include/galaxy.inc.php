@@ -356,7 +356,7 @@ class galaxy
     new requete($this->dbrw,"UPDATE galaxy_link SET length_link = IF(vx_link = 0 AND vy_link = 0, 1, SQRT(POW(vx_link,2)+POW(vy_link,2)))");
 
 
-    new requete($this->dbrw,"UPDATE galaxy_star, (SELECT g.id_star AS id, SUM(tense_link*vx_link/POW(length_link,1)) AS ax, SUM(tense_link*vy_link/POW(length_link,1)) AS ay
+    new requete($this->dbrw,"UPDATE galaxy_star, (SELECT g.id_star AS id, SUM(IF(g.id_star = id_star_a, -1, 1)*tense_link*vx_link/POW(length_link,1)) AS ax, SUM(IF(g.id_star = id_star_a, -1, 1)*tense_link*vy_link/POW(length_link,1)) AS ay
 							FROM galaxy_link 
 							JOIN galaxy_star AS g
 							WHERE galaxy_link.id_star_a = g.id_star 
