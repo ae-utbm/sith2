@@ -373,8 +373,8 @@ class galaxy
 	$radius = (max(pow($max_x - $center_x,2), pow($min_x - $center_x,2)) + max(pow($max_y - $center_y,2), pow($min_y - $center_y,2)));
     new requete($this->dbrw,"UPDATE 	galaxy_star a, 
 					(SELECT a.id_star AS id_a, b.id_star AS id_b, 
-						SUM(100000*(a.x_star - b.x_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),5)) AS ax, 
-						SUM(100000*(a.y_star - b.y_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),5)) AS ay 
+						SUM(10000000*(a.x_star - b.x_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),5)) AS ax, 
+						SUM(10000000*(a.y_star - b.y_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),5)) AS ay 
 					 FROM galaxy_star AS a, galaxy_star AS b 
 					WHERE b.x_star < a.x_star + '$safe_area_x' AND b.x_star > a.x_star - '$safe_area_x'
 					AND b.y_star < a.y_star + '$safe_area_y' AND b.y_star > a.y_star - '$safe_area_y'
