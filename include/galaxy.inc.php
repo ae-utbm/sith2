@@ -363,8 +363,8 @@ class galaxy
 							OR galaxy_link.id_star_b = g.id_star
 							GROUP BY id) b
 				SET 
-				galaxy_star.dx_star = IFNULL(galaxy_star.dx_star - b.ax / galaxy_star.sum_tense_star,0), 
-				galaxy_star.dy_star = IFNULL(galaxy_star.dy_star - b.ay / galaxy_star.sum_tense_star,0)
+				galaxy_star.dx_star = IFNULL(galaxy_star.dx_star + b.ax / galaxy_star.sum_tense_star,0), 
+				galaxy_star.dy_star = IFNULL(galaxy_star.dy_star + b.ay / galaxy_star.sum_tense_star,0)
 				WHERE galaxy_star.id_star = b.id");
     $req = new requete($this->db,"SELECT COUNT(*), AVG(x_star/sum_tense_star), AVG(y_star/sum_tense_star), SUM(sum_tense_star), MAX(x_star), MIN(x_star), MAX(y_star), MIN(y_star) FROM galaxy_star");
     list( $star_count, $center_x, $center_y, $sum_tense , $max_x, $min_x, $max_y, $min_y) = $req->get_row();
