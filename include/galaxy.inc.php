@@ -390,8 +390,8 @@ class galaxy
 				WHERE a.id_star = b.id_a");*/
 
     new requete($this->dbrw,"UPDATE galaxy_star SET
-				dx_star = IFNULL(dx_star + 0.1*(x_star - '$center_x')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0), 
-				dy_star = IFNULL(dy_star + 0.1*(y_star - '$center_y')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0)"); 
+				dx_star = IFNULL(dx_star - 0.1*(x_star - '$center_x')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0), 
+				dy_star = IFNULL(dy_star - 0.1*(y_star - '$center_y')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0)"); 
 
     new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = 100 WHERE dx_star > 100");
     new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = -100 WHERE dx_star < -100");
