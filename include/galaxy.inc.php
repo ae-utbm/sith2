@@ -374,20 +374,20 @@ class galaxy
 				WHERE galaxy_star.id_star = b.id");
     $req = new requete($this->db,"SELECT COUNT(*), AVG(x_star/sum_tense_star), AVG(y_star/sum_tense_star), SUM(sum_tense_star), MAX(x_star), MIN(x_star), MAX(y_star), MIN(y_star) FROM galaxy_star");
     list( $star_count, $center_x, $center_y, $sum_tense , $max_x, $min_x, $max_y, $min_y) = $req->get_row();
-    $safe_area_x = 2*($max_x - $min_x)/ sqrt($star_count);
-    $safe_area_y = 2*($max_y - $min_y)/ sqrt($star_count);
+    $safe_area_x = 1000;
+    $safe_area_y = 1000;
 	$radius = (max(pow($max_x - $center_x,2), pow($min_x - $center_x,2)) + max(pow($max_y - $center_y,2), pow($min_y - $center_y,2)));
-    /*new requete($this->dbrw,"UPDATE 	galaxy_star a, 
+    new requete($this->dbrw,"UPDATE 	galaxy_star a, 
 					(SELECT a.id_star AS id_a, b.id_star AS id_b, 
-						SUM(b.sum_tense_star*(a.x_star - b.x_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),5)) AS ax, 
-						SUM(b.sum_tense_star*(a.y_star - b.y_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),5)) AS ay 
+						SUM(b.sum_tense_star*(a.x_star - b.x_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),3)) AS ax, 
+						SUM(b.sum_tense_star*(a.y_star - b.y_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),3)) AS ay 
 					 FROM galaxy_star AS a, galaxy_star AS b 
 					WHERE b.x_star < a.x_star + '$safe_area_x' AND b.x_star > a.x_star - '$safe_area_x'
 					AND b.y_star < a.y_star + '$safe_area_y' AND b.y_star > a.y_star - '$safe_area_y'
 					GROUP BY id_a) b 
 				SET a.dx_star = a.dx_star + IFNULL(ax,0)/sum_tense_star, 
 				dy_star = dy_star + IFNULL(ay,0)/sum_tense_star
-				WHERE a.id_star = b.id_a");*/
+				WHERE a.id_star = b.id_a");
 
     new requete($this->dbrw,"UPDATE galaxy_star SET
 				dx_star = IFNULL(dx_star - 0.1*(x_star - '$center_x')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0), 
