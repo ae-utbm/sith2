@@ -393,10 +393,10 @@ class galaxy
 				dx_star = IFNULL(dx_star - 0.1*(x_star - '$center_x')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0), 
 				dy_star = IFNULL(dy_star - 0.1*(y_star - '$center_y')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0)"); 
 
-    new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = 100 WHERE dx_star > 100");
-    new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = -100 WHERE dx_star < -100");
-    new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = 100 WHERE dy_star > 100");
-    new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = -100 WHERE dy_star < -100");
+    new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = 10 WHERE dx_star > 10");
+    new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = -10 WHERE dx_star < -10");
+    new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = 10 WHERE dy_star > 10");
+    new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = -10 WHERE dy_star < -10");
     new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = '0.95' * dy_star, dx_star = 0.95 * dx_star");
     new requete($this->dbrw,"UPDATE galaxy_star SET
 				x_star = IFNULL(x_star,RAND()) + dx_star,
