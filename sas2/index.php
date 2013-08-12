@@ -50,6 +50,7 @@ if( isset($_REQUEST["modeincomplet"]) && !isset($_REQUEST["action"]))
 				WHERE incomplet = 1 
 				AND sas_personnes_photos.id_utilisateur = '".$site->user->id."' 
 				".(isset($_REQUEST["id_photo"])?(" AND sas_photos.id_photo > '".intval($_REQUEST["id_photo"])."'"):"")." 
+				ORDER BY sas_photos.id_photo
 				LIMIT 1");
   if($req->lines > 0)
   {
