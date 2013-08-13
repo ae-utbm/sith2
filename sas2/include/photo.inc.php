@@ -50,6 +50,7 @@ class photo extends basedb
   var $supprime;
 
   var $incomplet;
+  var $propose_incomplet;
   var $droits_acquis;
   var $couleur_moyenne;
   var $classification;
@@ -93,6 +94,7 @@ class photo extends basedb
     $this->commentaire = $row['commentaire_ph'];
     $this->titre = $row['titre_ph'];
     $this->incomplet = $row['incomplet'];
+    $this->propose_incomplet = $row['propose_incomplet'];
     $this->droits_acquis = $row['droits_acquis'];
     $this->couleur_moyenne = $row['couleur_moyenne'];
     $this->classification = $row['classification'];
@@ -284,11 +286,13 @@ class photo extends basedb
     if ( $nobody )
     {
       $this->incomplet=false;
+      $this->propose_incomplet=false;
       $this->droits_acquis=true;
     }
     else
     {
       $this->incomplet=true;
+      $this->propose_incomplet=true;
       $this->droits_acquis=false;
     }
     $this->id_catph = $id_catph;
@@ -315,6 +319,7 @@ class photo extends basedb
         "modere_ph"=>$this->modere,
         "commentaire_ph"=>$this->commentaire,
         "incomplet"=>$this->incomplet,
+        "propose_incomplet"=>$this->propose_incomplet,
         "droits_acquis"=>$this->droits_acquis,
         "couleur_moyenne"=>$this->couleur_moyenne,
         "classification"=>$this->classification,
@@ -435,11 +440,13 @@ class photo extends basedb
     if ( $nobody )
     {
       $this->incomplet=false;
+      $this->propose_incomplet=false;
       $this->droits_acquis=true;
     }
     else
     {
       $this->incomplet=true;
+      $this->propose_incomplet=true;
       $this->droits_acquis=false;
     }
 
@@ -467,6 +474,7 @@ class photo extends basedb
         "modere_ph"=>$this->modere,
         "commentaire_ph"=>$this->commentaire,
         "incomplet"=>$this->incomplet,
+        "propose_incomplet"=>$this->propose_incomplet,
         "droits_acquis"=>$this->droits_acquis,
         "couleur_moyenne"=>$this->couleur_moyenne,
         "classification"=>$this->classification,
@@ -689,11 +697,20 @@ class photo extends basedb
    * Et prosséde aux mises à jorus requises.
    * @param $incomplet Incomplet(=true) ou non (=false)
    */
-  function set_incomplet($incomplet=true)
+  function set_incomplet($incomplet=true,$suggest = false)
   {
-    $this->incomplet = $incomplet;
-    $sql = new update($this->dbrw,"sas_photos",array("incomplet"=>$this->incomplet),array("id_photo"=>$this->id) );
-    $this->_update_droits_acquis();
+    if(!$suggest)
+    {
+	    $this->incomplet = $incomplet;
+	    $this->propose_incomplet = $incomplet;
+	    $sql = new update($this->dbrw,"sas_photos",array("incomplet"=>$this->incomplet, "propose_incomplet"=>$this->propose_incomplet ),array("id_photo"=>$this->id) );
+	    $this->_update_droits_acquis();
+    }
+    else
+    {
+	    $this->propose_incomplet = $incomplet;
+	    $sql = new update($this->dbrw,"sas_photos",array("propose_incomplet"=>$this->propose_incomplet),array("id_photo"=>$this->id) );
+    }
   }
 
   function set_licence($id_licence)

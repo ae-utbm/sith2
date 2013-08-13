@@ -529,6 +529,7 @@ class sasphoto extends contents
     {
       //if ( $photo->incomplet )
       {
+        $tmpcts = new contents("Ajouter une personne");
         $frm = new form("suggestpersonne",$self."id_photo=".$photo->id,false,"POST","Ajouter une personne");
         $frm->add_hidden("action","suggestpersonne");
         if ( $ErrorSuggest )
@@ -536,7 +537,19 @@ class sasphoto extends contents
         $frm->add_info("Vous pouvez ajouter une personne se trouvant sur cette photo. Votre propositon sera cependant soumise à modération.");
         $frm->add_user_fieldv2("id_utilisateur","");
         $frm->add_submit("valid","Ajouter");
-        $site->add_box("auto_right_suggestpersonne",$frm);
+        $tmpcts->add($frm, true);
+        if ( $photo->propose_incomplet )
+        {
+          $frm = new form("setfull",$self."id_photo=".$photo->id,false,"POST","Liste complète");
+          $frm->add_hidden("action","suggestcomplet");
+          $frm->add_info("Toutes les personnes étant sur la photo (au premier plan) sont dans la liste.");
+          if ( $req->lines==0 )
+            $frm->add_info("ou il n'y a personnes sur cette photo (de reconnaissable).");
+          $frm->add_submit("valid","Oui");
+          $subcts->add($frm,true);
+        } 
+
+        $site->add_box("auto_right_suggestpersonne",$tmpcts);
       }
     }
 

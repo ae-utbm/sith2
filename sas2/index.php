@@ -411,6 +411,11 @@ if ( $photo->is_valid() )
       $ErrorSuggest="Personne inconnue...";
 
   }
+  elseif ( $_REQUEST["action"] == "suggestcomplet" )
+  {
+    $photo->set_incomplet(false,true);
+    $Message="La liste des personnes a été suggérée comme complète.";
+  }
   elseif ( $_REQUEST["action"] == "setweekly" &&  $site->user->is_in_group ("moderateur_site") )
   {
     copy($photo->get_abs_path().$photo->id.".jpg",
