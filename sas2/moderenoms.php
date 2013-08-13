@@ -88,8 +88,7 @@ if ( $_REQUEST["action"] == "modere" )
       $photo->modere_personne($id, $site->user->id);
   }
 
-  if ( !$incomplet )
-    $photo->set_incomplet(false);
+  $photo->set_incomplet($incomplet);
 
 }
 else
