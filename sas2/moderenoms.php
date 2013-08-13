@@ -102,8 +102,8 @@ $req = new requete($site->db,
       "SELECT `sas_photos`.* ".
       "FROM `sas_personnes_photos` ".
       "INNER JOIN `sas_photos` USING(`id_photo`) ".
-      "WHERE ( (`sas_personnes_photos`.`modere_phutl` ='0' ".
-      "AND `sas_photos`.`id_photo`>'".$photo->id."' ) OR `sas_photos`.propose_incomplet = 0)  $filter ".
+      "WHERE ( (`sas_personnes_photos`.`modere_phutl` ='0' OR `sas_photos`.propose_incomplet <> `sas_photos`.incomplet ) ".
+      "AND `sas_photos`.`id_photo`>'".$photo->id."' )  $filter ".
       "GROUP BY `sas_photos`.`id_photo` " .
       "ORDER BY `sas_photos`.`id_photo` " .
       "LIMIT 1");
