@@ -546,7 +546,7 @@ class sasphoto extends contents
           if ( $req->lines==0 )
             $frm->add_info("ou il n'y a personnes sur cette photo (de reconnaissable).");
           $frm->add_submit("valid","Oui");
-          $subcts->add($frm,true);
+          $tmpcts->add($frm,true);
         } 
 
         $site->add_box("auto_right_suggestpersonne",$tmpcts);
