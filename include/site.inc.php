@@ -591,11 +591,11 @@ if(!defined("MOBILE")) {
           $msg .= $nphoto." photo(s)";
         $elements[] = "<a href=\"".$topdir."sas2/modere.php\">$msg &agrave; moderer dans le SAS</a>";
       }
-      $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `modere_phutl`='0'");
+      $req = new requete($this->db, "SELECT COUNT(*) FROM (SELECT * FROM `sas_personnes_photos` WHERE `modere_phutl`='0' UNION SELECT * FROM sas_photos WHERE propose_incomplet <> incomplet)");
       list($nnoms) = $req->get_row();
       if($nnoms > 0)
       {
-        $elements[] = "<a href=\"".$topdir."sas2/moderenoms.php\">$nnoms propositions de nom &agrave; moderer dans le SAS</a>";
+        $elements[] = "<a href=\"".$topdir."sas2/moderenoms.php\">$nnoms propositions &agrave; moderer dans le SAS</a>";
       }
     }
 
