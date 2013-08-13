@@ -159,8 +159,8 @@ if ( $req->lines == 1 )
     else
       $frm->add_checkbox("yet|$id","<a href=\"".$wwwtopdir."user.php?id_utilisateur=$id\" target=\"_blank\"><b>".$nom."</b></a>",true);
   }
-  if(!$photo->incomplet)
-	  $frm->add_checkbox("complet","Liste complète",true);
+  if($photo->incomplet == $photo->propose_incomplet)
+	  $frm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
   else
 	  $frm->add_checkbox("complet","<b>Liste complète</b>",$photo->propose_incomplet?false:true);
 
