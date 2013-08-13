@@ -102,8 +102,8 @@ $req = new requete($site->db,
       "SELECT `sas_photos`.* ".
       "FROM `sas_personnes_photos` ".
       "INNER JOIN `sas_photos` USING(`id_photo`) ".
-      "WHERE `sas_personnes_photos`.`modere_phutl` ='0' ".
-      "AND `sas_photos`.`id_photo`>'".$photo->id."'  $filter ".
+      "WHERE ( (`sas_personnes_photos`.`modere_phutl` ='0' ".
+      "AND `sas_photos`.`id_photo`>'".$photo->id.") OR `sas_photos`.propose_incomplet = 0) '  $filter ".
       "GROUP BY `sas_photos`.`id_photo` " .
       "ORDER BY `sas_photos`.`id_photo` " .
       "LIMIT 1");
@@ -159,7 +159,10 @@ if ( $req->lines == 1 )
     else
       $frm->add_checkbox("yet|$id","<a href=\"".$wwwtopdir."user.php?id_utilisateur=$id\" target=\"_blank\"><b>".$nom."</b></a>",true);
   }
-  $frm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
+  if($photo->incomplet)
+	  $frm->add_checkbox("complet","Liste complète",false);
+  else
+	  $frm->add_checkbox("complet","<b>Liste complète</b>",$photo->propose_incomplet?false:true);
 
   $frm->add_submit("valid","Valider");
   $frm->puts("<a href=\"?id_photo=".$photo->id."\">Passer</a>");
