@@ -334,7 +334,7 @@ class galaxy
   {
     // s'assure que is_ready_public() renverra false pendant les calculs
     // se débloquera après un appel à pre_render() (causé par render() ou mini_render())
-    //new requete($this->dbrw,"UPDATE `galaxy_star` SET rx_star = NULL, ry_star = NULL");
+    new requete($this->dbrw,"UPDATE `galaxy_star` SET rx_star = NULL, ry_star = NULL");
     $this->done_pre_cycle=true;
   }
 
@@ -353,54 +353,44 @@ class galaxy
     "vx_link = b.x_star-a.x_star, ".
     "vy_link = b.y_star-a.y_star  ".
     "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
-    new requete($this->dbrw,"UPDATE galaxy_link SET length_link = IF(vx_link = 0 AND vy_link = 0, 1, SQRT(POW(vx_link,2)+POW(vy_link,2)))");
+    new requete($this->dbrw,"UPDATE galaxy_link SET length_link = SQRT(POW(vx_link,2)+POW(vy_link,2))");
+    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=vx_link/length_link, dy_link=vy_link/length_link WHERE length_link != 0");
+    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=0, dy_link=0 WHERE length_link = ideal_length_link");
+    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=RAND(), dy_link=RAND() WHERE length_link != ideal_length_link AND dx_link=0 AND dy_link=0");
 
+    $req = new requete($this->db,"SELECT MAX(length_link/ideal_length_link),AVG(length_link/ideal_length_link) FROM galaxy_link");
 
-    new requete($this->dbrw,"UPDATE galaxy_star, 
-							(SELECT g.id_star AS id, SUM(tense_link*vx_link/POW(length_link,1)) AS ax, SUM(tense_link*vy_link/POW(length_link,1)) AS ay
-							FROM galaxy_link 
-							JOIN galaxy_star AS g
-							WHERE galaxy_link.id_star_a = g.id_star 
-							GROUP BY id
-							UNION
-							SELECT g.id_star AS id, -SUM(tense_link*vx_link/POW(length_link,1)) AS ax, -SUM(tense_link*vy_link/POW(length_link,1)) AS ay
-							FROM galaxy_link 
-							JOIN galaxy_star AS g
-							WHERE galaxy_link.id_star_b = g.id_star 
-							GROUP BY id) b
-				SET 
-				galaxy_star.dx_star = IFNULL(galaxy_star.dx_star + b.ax / galaxy_star.sum_tense_star,0), 
-				galaxy_star.dy_star = IFNULL(galaxy_star.dy_star + b.ay / galaxy_star.sum_tense_star,0)
-				WHERE galaxy_star.id_star = b.id");
-    $req = new requete($this->db,"SELECT COUNT(*), AVG(x_star/sum_tense_star), AVG(y_star/sum_tense_star), SUM(sum_tense_star), MAX(x_star), MIN(x_star), MAX(y_star), MIN(y_star) FROM galaxy_star");
-    list( $star_count, $center_x, $center_y, $sum_tense , $max_x, $min_x, $max_y, $min_y) = $req->get_row();
-    $safe_area_x = 1000;
-    $safe_area_y = 1000;
-	$radius = (max(pow($max_x - $center_x,2), pow($min_x - $center_x,2)) + max(pow($max_y - $center_y,2), pow($min_y - $center_y,2)));
-    new requete($this->dbrw,"UPDATE 	galaxy_star a, 
-					(SELECT a.id_star AS id_a, b.id_star AS id_b, 
-						SUM(b.sum_tense_star*(a.x_star - b.x_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),3)) AS ax, 
-						SUM(b.sum_tense_star*(a.y_star - b.y_star)/POW(SQRT(POW(a.x_star - b.x_star,2) + POW(a.y_star - b.y_star, 2)),3)) AS ay 
-					 FROM galaxy_star AS a, galaxy_star AS b 
-					WHERE 1 AND b.x_star < a.x_star + '$safe_area_x' AND b.x_star > a.x_star - '$safe_area_x'
-					AND b.y_star < a.y_star + '$safe_area_y' AND b.y_star > a.y_star - '$safe_area_y'
-					GROUP BY id_a) b 
-				SET a.dx_star = a.dx_star + IFNULL(ax,0)/sum_tense_star, 
-				dy_star = dy_star + IFNULL(ay,0)/sum_tense_star
-				WHERE a.id_star = b.id_a");
+    $reducer=1000;
 
-    new requete($this->dbrw,"UPDATE galaxy_star SET
-				dx_star = IFNULL(dx_star - 0.1*(x_star - '$center_x')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0), 
-				dy_star = IFNULL(dy_star - 0.1*(y_star - '$center_y')/SQRT( (POW(x_star - '$center_x' , 2) + POW(y_star - '$center_y' , 2))),0)"); 
+    if ( $req->lines > 0 )
+    {
+      list($max,$avg) = $req->get_row();
+      if ( $max > 1000 )
+      {
+        echo "failed due to expension";
+        exit();
+      }
+      if ( !is_null($max) && $max > 0 )
+        $reducer = max(25,round($max)*3);
+      //echo $max." ".$avg." (".$reducer.") - ";
+    }
 
-    new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = 10 WHERE dx_star > 10");
-    new requete($this->dbrw,"UPDATE galaxy_star SET dx_star = -10 WHERE dx_star < -10");
-    new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = 10 WHERE dy_star > 10");
-    new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = -10 WHERE dy_star < -10");
-    new requete($this->dbrw,"UPDATE galaxy_star SET dy_star = '0.95' * dy_star, dx_star = 0.95 * dx_star");
-    new requete($this->dbrw,"UPDATE galaxy_star SET
-				x_star = IFNULL(x_star,RAND()) + dx_star,
-				y_star = IFNULL(y_star,RAND()) + dy_star");
+    new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
+    "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/$reducer, ".
+    "delta_link_b=(length_link-ideal_length_link)/ideal_length_link/$reducer*-1 ".
+    "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
+
+    new requete($this->dbrw,"UPDATE galaxy_star SET ".
+    "dx_star = COALESCE(( SELECT SUM( delta_link_a * dx_link ) FROM galaxy_link WHERE id_star_a = id_star ),0) + ".
+      "COALESCE((SELECT SUM( delta_link_b * dx_link ) FROM galaxy_link WHERE id_star_b = id_star ),0), ".
+    "dy_star = COALESCE(( SELECT SUM( delta_link_a * dy_link ) FROM galaxy_link WHERE id_star_a = id_star ),0) + ".
+      "COALESCE((SELECT SUM( delta_link_b * dy_link ) FROM galaxy_link WHERE id_star_b = id_star ),0) WHERE fixe_star != 1");
+    if ( $detectcollision )
+    {
+      new requete($this->dbrw,"UPDATE galaxy_star AS a, galaxy_star AS b SET a.dx_star=0, a.dy_star=0, b.dx_star=0, b.dy_star=0 WHERE a.id_star != b.id_star AND POW(a.x_star+a.dx_star-b.x_star-b.dx_star,2)+POW(a.y_star+a.dy_star-b.y_star-b.dy_star,2) < 0.05");
+      new requete($this->dbrw,"UPDATE galaxy_star AS a, galaxy_star AS b SET a.dx_star=0, a.dy_star=0, b.dx_star=0, b.dy_star=0 WHERE a.id_star != b.id_star AND POW(a.x_star+a.dx_star-b.x_star-b.dx_star,2)+POW(a.y_star+a.dy_star-b.y_star-b.dy_star,2) < 0.05");
+    }
+    new requete($this->dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0 AND fixe_star != 1");
 
 
   }
@@ -494,31 +484,13 @@ class galaxy
     $bottom_x = ceil($bottom_x);
     $bottom_y = ceil($bottom_y);
 
-    $div_x = false;
-    $div_y = false;
-    $mult_x = 10000/($bottom_x-$top_x);
-    if(abs($mult_x) < 1)
-    {
-	$mult_x = 1/$mult_x;
-        $div_x = true;
-    	$mult_x = ceil($mult_x);
-    }
-    else
-    	$mult_x = floor($mult_x);
-    $mult_y = 10000/($bottom_y-$top_y);
-    if(abs($mult_y)  < 1)
-    {
-	$mult_y = 1/$mult_y;
-        $div_y = true;
-    	$mult_y = ceil($mult_y);
-    }
-    else
-	$mult_y = floor($mult_y);
+    $mult_x = floor(10000/($bottom_x-$top_x));
+    $mult_y = floor(10000/($bottom_y-$top_y));
 
     $this->width = $tx;//($bottom_x-$top_x)*$tx;
     $this->height = $tx;//($bottom_y-$top_y)*$tx;
 
-    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-'$top_x') ".($div_x?"/":"*")." '$mult_x', ry_star = (y_star-'$top_y') ".($div_y?"/":"*")." '$mult_y'");
+    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-($top_x)) * $mult_x, ry_star = (y_star-($top_y)) * $mult_y");
   }
 
   /**
@@ -548,16 +520,16 @@ class galaxy
   /**
    * Fait le rendu de l'image globale de galaxy
    */
-  function render ($target="galaxy_temp.png", $complete = true,$ratio = 1)
+  function render ($target="galaxy_temp.png")
   {
     if ( empty($this->width) || empty($this->height) )
       $this->pre_render();
 
-    $img = imagecreatetruecolor($this->width/$ratio,$this->height/$ratio);
+    $img = imagecreatetruecolor($this->width,$this->height);
 
     if ( $img === false )
     {
-      echo "failed imagecreatetruecolor($width/$ratio,$height/$ratio);";
+      echo "failed imagecreatetruecolor($width,$height);";
       exit();
     }
 
@@ -576,18 +548,16 @@ class galaxy
       if ( $i %100 == 0)
         imagestring($img, 1, $i, 22, $i, $textcolor);
     }
-    if($complete)
-    {
-	    $req = new requete($this->db, "SELECT ABS(length_link-ideal_length_link) as ex, ".
-	    "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
-	    "FROM  galaxy_link ".
-	    "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
-	    "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b)");
 
-	    while ( $row = $req->get_row() )
-	    {
-	      imageline ($img, $row['x1']/$ratio, $row['y1']/$ratio, $row['x2']/$ratio, $row['y2']/$ratio, $wirecolor );
-	    }
+    $req = new requete($this->db, "SELECT ABS(length_link-ideal_length_link) as ex, ".
+    "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
+    "FROM  galaxy_link ".
+    "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
+    "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b)");
+
+    while ( $row = $req->get_row() )
+    {
+      imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $wirecolor );
     }
 
     $req = new requete($this->db, "SELECT ".
@@ -596,21 +566,18 @@ class galaxy
 
     while ( $row = $req->get_row() )
     {
-      imagefilledellipse ($img, $row['rx_star']/$ratio, $row['ry_star']/$ratio, 5, 5, $this->star_color($img,$row['sum_tense_star']) );
+      imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $this->star_color($img,$row['sum_tense_star']) );
     }
 
-    if($complete)
-    {
-	    $req = new requete($this->db, "SELECT ".
-	    "rx_star, ry_star, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom ".
-	    "FROM  galaxy_star ".
-	    "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star)".
-	    "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)");
+    $req = new requete($this->db, "SELECT ".
+    "rx_star, ry_star, COALESCE(surnom_utbm, CONCAT(prenom_utl,' ',nom_utl), alias_utl) AS nom ".
+    "FROM  galaxy_star ".
+    "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star)".
+    "INNER JOIN `utl_etu_utbm` ON (`utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`)");
 
-	    while ( $row = $req->get_row() )
-	    {
-	      imagestring($img, 1, $row['rx_star']/$ratio+5, $row['ry_star']/$ratio-3,  utf8_decode($row['nom']), $textcolor);
-	    }
+    while ( $row = $req->get_row() )
+    {
+      imagestring($img, 1, $row['rx_star']+5, $row['ry_star']-3,  utf8_decode($row['nom']), $textcolor);
     }
 
     if ( is_null($target) )
