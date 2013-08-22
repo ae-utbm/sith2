@@ -169,9 +169,9 @@ elseif ( $_REQUEST["view"] == "cotisants" )
   if ( $month >= 2 && $month < 9 )
     $debut_semestre = date("Y")."-02-01";
   else if ( $month >= 9 )
-    $debut_semestre = date("Y")."-09-01";
+    $debut_semestre = date("Y")."-08-15";
   else
-    $debut_semestre = (date("Y")-1)."-09-01";
+    $debut_semestre = (date("Y")-1)."-08-15";
 
   $cts->add_title(2,"Carte AE");
 
@@ -280,9 +280,9 @@ elseif ( $_REQUEST["view"] == "utilisateurs" )
   if ( $month >= 2 && $month < 9 )
     $debut_semestre = date("Y")."-02-01";
   else if ( $month >= 9 )
-    $debut_semestre = date("Y")."-09-01";
+    $debut_semestre = date("Y")."-08-15";
   else
-    $debut_semestre = (date("Y")-1)."-09-01";
+    $debut_semestre = (date("Y")-1)."-08-15";
 
 
   $cts->add_title(2,"Matmatronch");
@@ -664,7 +664,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
     $cts->add_title(2,"Consomateurs : Top 100 (tous les semestres)");
     $req = new requete ($site->db, "SELECT `utilisateurs`.`id_utilisateur`,  
-           IF(MONTH(date_facture) BETWEEN 2 AND 7, CONCAT('P',YEAR(date_facture)), CONCAT('A',YEAR(date_facture))) as `semestre`, 
+           IF((MONTH(date_facture) BETWEEN 2 AND 7) OR (DAYOFMONTH(date_facture) <15 AND MONTH(date_facture) = 8) , CONCAT('P',YEAR(date_facture)), CONCAT('A',YEAR(date_facture))) as `semestre`, 
            IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`,    
            ROUND(sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit)/100, 2) as total, promo_utbm    
            FROM cpt_vendu    
