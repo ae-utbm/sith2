@@ -165,8 +165,9 @@ elseif ( $_REQUEST["view"] == "cotisants" )
 
 
   $month = date("m");
+  $day = date("d");
 
-  if ( $month >= 2 && $month < 9 )
+  if ( ($month >= 2 && $month < 8) || ($month == 8 && $day < 15) )
     $debut_semestre = date("Y")."-02-01";
   else if ( $month >= 9 )
     $debut_semestre = date("Y")."-08-15";
@@ -276,8 +277,9 @@ elseif ( $_REQUEST["view"] == "utilisateurs" )
   $cts->add($tbl,true);
 
   $month = date("m");
+  $day = date("d");
 
-  if ( $month >= 2 && $month < 9 )
+  if ( ($month >= 2 && $month < 8) || ($month == 8 && $day < 15) )
     $debut_semestre = date("Y")."-02-01";
   else if ( $month >= 9 )
     $debut_semestre = date("Y")."-08-15";
@@ -607,8 +609,9 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
   $site->add_css("css/comptoirs.css");
 
   $month = date("m");
+  $day = date("d");
 
-  if ( $month >= 2 && $month < 9 )
+  if ( ($month >= 2 && $month < 8) || ($month == 8 && $day < 15) )
     $debut_semestre = date("Y")."-02-01";
   else if ( $month >= 9 )
     $debut_semestre = date("Y")."-08-15";
