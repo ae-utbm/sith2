@@ -169,7 +169,7 @@ elseif ( $_REQUEST["view"] == "cotisants" )
 
   if ( ($month >= 2 && $month < 8) || ($month == 8 && $day < 15) )
     $debut_semestre = date("Y")."-02-01";
-  else if ( $month >= 9 )
+  else if ( $month >= 9 ||  ($month == 8 && $day >= 15))
     $debut_semestre = date("Y")."-08-15";
   else
     $debut_semestre = (date("Y")-1)."-08-15";
@@ -281,7 +281,7 @@ elseif ( $_REQUEST["view"] == "utilisateurs" )
 
   if ( ($month >= 2 && $month < 8) || ($month == 8 && $day < 15) )
     $debut_semestre = date("Y")."-02-01";
-  else if ( $month >= 9 )
+  else if ( $month >= 9 ||  ($month == 8 && $day >= 15))
     $debut_semestre = date("Y")."-08-15";
   else
     $debut_semestre = (date("Y")-1)."-08-15";
@@ -613,7 +613,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
   if ( ($month >= 2 && $month < 8) || ($month == 8 && $day < 15) )
     $debut_semestre = date("Y")."-02-01";
-  else if ( $month >= 9 )
+  else if ( $month >= 9 ||  ($month == 8 && $day >= 15))
     $debut_semestre = date("Y")."-08-15";
   else
     $debut_semestre = (date("Y")-1)."-08-15";
