@@ -278,7 +278,11 @@ class comptoir extends stdentity
 
         if ( $req->lines == 0 ) // rien n'a été affecté, donc on re-crée une entrée
         {
-          _log($this->dbrw, "Entree de tracking absente", serialize(debug_backtrace()), "Comptoir", $Op);
+	  $req = new requete($this->db, "SELECT * from cpt_tracking WHERE closed_time IS NULL");
+          $mess_log = "";
+          while( list( $log_id, $log_id_cpt, $d_log, $d_act, $d_clo ) = $req->get_row())
+		$mess_log .= "$log_id, $log_id_cpt, $d_log, $d_act, $d_clo\n";
+          _log($this->dbrw, "Entree de tracking absente", $mess_log, "Comptoir", $Op);
           $req = new insert ($this->dbrw,
              "cpt_tracking",
              array(
