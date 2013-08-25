@@ -282,10 +282,6 @@ class comptoir extends stdentity
 	  $req = new requete($this->db, "SELECT * from cpt_tracking WHERE closed_time IS NULL 
 		AND `id_utilisateur` = '".mysql_real_escape_string($Op->id)."'
 		AND `id_comptoir` = '".mysql_real_escape_string($this->id)."'");
-          $mess_log = "";
-          while( list( $log_id, $log_id_cpt, $d_log, $d_act, $d_clo ) = $req->get_row())
-		$mess_log .= "$log_id, $log_id_cpt, $d_log, $d_act\n";
-          _log($this->dbrw, "Entree de tracking absente", $mess_log, "Comptoir", $Op);
           if($req->lines == 0)
           $req = new insert ($this->dbrw,
              "cpt_tracking",
