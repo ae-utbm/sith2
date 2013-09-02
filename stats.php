@@ -378,6 +378,14 @@ elseif ( $_REQUEST["view"] == "sas" )
 
   $cts->add($lst,true);
 
+  if ( ($month >= 2 && $month < 8) || ($month == 8 && $day < 15) )
+    $debut_semestre = date("Y")."-02-01";
+  else if ( $month >= 9 ||  ($month == 8 && $day >= 15))
+    $debut_semestre = date("Y")."-08-15";
+  else
+    $debut_semestre = (date("Y")-1)."-08-15";
+
+
   $req = new requete ($site->db, "SELECT COUNT(sas_personnes_photos.id_photo) as `count`, `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
           "FROM sas_personnes_photos " .
@@ -386,7 +394,18 @@ elseif ( $_REQUEST["view"] == "sas" )
           "GROUP BY sas_personnes_photos.id_utilisateur " .
           "ORDER BY count DESC LIMIT 50");
 
-  $lst = new itemlist("Les plus photographi&eacute;s (50)");
+  $req2 = new requete ($site->db, "SELECT COUNT(sas_personnes_photos.id_photo) as `count`, `utilisateurs`.`id_utilisateur`, " .
+          "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
+          "FROM sas_personnes_photos " .
+          "INNER JOIN utilisateurs ON sas_personnes_photos.id_utilisateur=utilisateurs.id_utilisateur " .
+	  "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+	  "WHERE sas_photos.date_ajout_ph > '$debut_semestre' ".
+          "GROUP BY sas_personnes_photos.id_utilisateur " .
+          "ORDER BY count DESC LIMIT 50");
+
+
+  $lst = new itemlist("Les plus photographi&eacute;s (tout semestres) (50)");
+  $lst2 = new itemlist("Les plus photographi&eacute;s (ce semestre) (50)");
   $n=1;
 
   if(!$site->user->is_in_group("sas_admin") && !$site->user->is_in_group("gestion_ae"))
@@ -396,6 +415,10 @@ elseif ( $_REQUEST["view"] == "sas" )
       $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>");
       $n++;
     }
+    while ( $row = $req2->get_row() )
+    {
+      $lst2->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>");
+    }
   }
   else
   {
@@ -404,9 +427,14 @@ elseif ( $_REQUEST["view"] == "sas" )
       $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." photos)");
       $n++;
     }
+    while ( $row = $req2->get_row() )
+    {
+      $lst2->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." photos)");
+    }
   }
 
   $cts->add($lst,true);
+  $cts->add($lst2,true);
   $req = new requete ($site->db, "SELECT COUNT(sas_photos.id_photo) as `count`, `sas_photos`.`id_utilisateur_moderateur` as id_utilisateur, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
           "FROM sas_photos " .
