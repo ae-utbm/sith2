@@ -484,7 +484,7 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 		{
 		  
 
-		  $req = new requete($site->db, "SELECT serviceident FROM utilisateurs WHERE id_utilisateur = ".$site->user->id." ");
+		$req = new requete($site->db, "SELECT serviceident FROM `utilisateurs` WHERE id_utilisateur = ".$site->user->id."");
 		  if($req->lines != 1)
 		  {
 			  echo "erreur";
