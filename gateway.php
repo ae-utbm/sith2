@@ -536,14 +536,14 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 	}
 	elseif($_REQUEST['req'] == 'comptoir')
 	{
-	    $req = new requete ($this->dbrw,
+	    $req = new requete ($site->dbrw,
 		   "UPDATE `cpt_tracking` SET `closed_time`='".date("Y-m-d H:i:s")."'
 		    WHERE `activity_time` <= '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
 		    AND `closed_time` IS NULL");
 
 
 	    // 2- On récupère les infos sur les bars ouverts
-	    $req = new requete ($this->dbrw,
+	    $req = new requete ($site->dbrw,
 		   "SELECT MAX(activity_time),id_comptoir
 		    FROM `cpt_tracking`
 		    WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
@@ -554,7 +554,7 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 	      $activity[$id]=strtotime($act);
 
 	    // 3- On récupère les infos sur tous les bars
-	    $req = new requete ($this->dbrw,
+	    $req = new requete ($site->dbrw,
 		   "SELECT id_comptoir, nom_cpt
 		    FROM cpt_comptoir
 		    WHERE type_cpt='0'
