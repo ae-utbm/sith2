@@ -484,13 +484,26 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 		{
 		  
 
-		$req = new requete($site->db, "SELECT serviceident FROM `utilisateurs` WHERE id_utilisateur = ".$site->user->id."");
+		  $req = new requete($site->db, "SELECT serviceident FROM `utilisateurs` WHERE id_utilisateur = ".$site->user->id."");
 		  if($req->lines != 1)
 		  {
 			  echo "erreur";
 			  exit();
 		  }
 		  list( $servident ) = $req->get_row();
+		  if(is_null($servident))
+		  {
+			  $site->user->gen_serviceident();
+			  $req = new requete($site->db, "SELECT serviceident FROM `utilisateurs` WHERE id_utilisateur = ".$site->user->id."");
+			  if($req->lines != 1)
+			  {
+				  echo "erreur";
+				  exit();
+			  }
+			  list( $servident ) = $req->get_row();
+			  
+		  }
+
 		  echo $site->user->id."\n";
 		  echo $servident."\n";
 		  exit();
