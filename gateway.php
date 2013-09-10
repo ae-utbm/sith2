@@ -438,6 +438,140 @@ elseif ($_REQUEST['module'] == 'eticket-ident' && isset ($_REQUEST['id_utilisate
     }
     exit ();
 }
+elseif($_REQUEST['module'] == 'appli-mobile')
+{
+	require_once($topdir. "include/mysql.inc.php");
+	if($_REQUEST['req'] == 'login')
+	{
+		switch ($_REQUEST["domain"])
+		{
+		  case "utbm" :
+		    $site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
+		  break;
+		  case "assidu" :
+		    $site->user->load_by_email($_REQUEST["username"]."@assidu-utbm.fr");
+		  break;
+		  case "id" :
+		    $site->user->load_by_id($_REQUEST["username"]);
+		  break;
+		  case "autre" :
+		    $site->user->load_by_email($_REQUEST["username"]);
+		  break;
+		  case "alias" :
+		    $site->user->load_by_alias($_REQUEST["username"]);
+		  break;
+		  case "carteae":
+		    $site->user->load_by_carteae($_REQUEST["username"], true, false);
+		  break;
+		  default :
+		    $site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
+		  break;
+		}
+
+		if ( !$site->user->is_valid() )
+		{
+		  echo "echec";
+		  exit();
+		}
+
+		if ( $site->user->hash != "valid" )
+		{
+		  echo "utilisateur non valide";
+		  exit();
+		}
+
+		if ( !$site->user->is_password($_REQUEST["password"]) )
+		{
+		  
+
+		  $req = new requete($site->db, "SELECT serviceident FROM utilisateurs WHERE id_utilisateur = '".$site->user->id."'");
+		  if($req->lines != 1)
+		  {
+			  echo "erreur";
+			  exit();
+		  }
+		  list( $servident ) = $req->get_row();
+		  echo $site->user->id."\n";
+		  echo $servident."\n";
+		  exit();
+		}
+		echo "erreur";
+		exit();
+	}
+	if(!isset($_REQUEST['serviceident']) || !isset($_REQUEST['id']))
+	{
+		echo "identifiant non valide";
+		exit();
+	}
+	$site->user->load_by_service_ident($_REQUEST['id'],$_REQUEST['serviceident']);
+	if ( !$site->user->is_valid() )
+	{
+		echo "identifiant non valide";
+		exit();
+	}
+
+	if($_REQUEST['req'] == 'montant')
+	{
+		if(!$site->user->ae)
+		{
+			echo "utilisateur non ae";
+			exit();
+		}
+		echo $site->user->montant_compte;
+		exit();
+
+	}
+	elseif($_REQUEST['req'] == 'comptoir')
+	{
+	    $req = new requete ($this->dbrw,
+		   "UPDATE `cpt_tracking` SET `closed_time`='".date("Y-m-d H:i:s")."'
+		    WHERE `activity_time` <= '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
+		    AND `closed_time` IS NULL");
+
+
+	    // 2- On récupère les infos sur les bars ouverts
+	    $req = new requete ($this->dbrw,
+		   "SELECT MAX(activity_time),id_comptoir
+		    FROM `cpt_tracking`
+		    WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
+		    AND `closed_time` IS NULL
+		    GROUP BY id_comptoir");
+
+	    while ( list($act,$id) = $req->get_row() )
+	      $activity[$id]=strtotime($act);
+
+	    // 3- On récupère les infos sur tous les bars
+	    $req = new requete ($this->dbrw,
+		   "SELECT id_comptoir, nom_cpt
+		    FROM cpt_comptoir
+		    WHERE type_cpt='0'
+		    AND id_comptoir != '4'
+		    AND id_comptoir != '8'
+		    AND id_comptoir != '13'
+		    ORDER BY nom_cpt");
+	    $list='';
+	    $i=0;
+	    while ( list($id,$nom) = $req->get_row() )
+	    {
+	      $i++;
+	      $led = 2;
+	      $descled = "ouvert";
+
+	      if ( !isset($activity[$id]) )
+	      {
+		$led = 0;
+	      }
+	      elseif ( time()-$activity[$id] > 600 )
+	      {
+		$led = 1;
+	      }
+	      echo "$nom:$led\n";
+	    }
+	    exit();
+
+	}
+	exit();
+}
 
 if ( $_REQUEST['class'] == "calendar" )
 {
