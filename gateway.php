@@ -585,6 +585,12 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 	}
 	exit();
 }
+elseif($_REQUEST['module'] == 'appli-mobile' &&  $_REQUEST['secret'] == "messageForTheLulz"  )
+{
+
+	echo "Baté\nTest";
+	exit();
+}
 
 if ( $_REQUEST['class'] == "calendar" )
 {
