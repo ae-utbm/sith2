@@ -480,7 +480,7 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 		  exit();
 		}
 
-		if ( !$site->user->is_password($_REQUEST["password"]) )
+		if ( $site->user->is_password($_REQUEST["password"]) )
 		{
 		  
 
