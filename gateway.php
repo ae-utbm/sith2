@@ -590,7 +590,12 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 
 	require_once($topdir. "include/mysql.inc.php");
 
-	$req = new requete($site->db, "SELECT id_message, id_utilisateur, message FROM `message_com` WHERE vu = 0 ORDER BY id_message LIMIT 1");
+	$req = new requete($site->db, "SELECT id_message,".
+		"IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, ".
+		"message FROM `message_com` 
+		JOIN utilisateurs ON utilisateurs.id_utilisateur = message_com.id_utilisateur
+		LEFT JOIN utl_etu_utbm ON utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur
+		WHERE vu = 0 ORDER BY id_message LIMIT 1");
 	if($req->lines != 1)
 	{
 		exit();
