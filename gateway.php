@@ -588,7 +588,18 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForTheLulz"  )
 {
 
-	echo "Baté\nTest";
+	require_once($topdir. "include/mysql.inc.php");
+
+	$req = new requete($site->db, "SELECT id_message, id_utilisateur, message FROM `message_com` WHERE vu = 0 ORDER BY id_message LIMIT 1");
+	if($req->lines != 1)
+	{
+		exit();
+	}
+	list( $id_message, $nom_utilisateur, $message ) = $req->get_row();
+
+	$req = new requete($site->dbrw, "UPDATE `message_com` SET vu = 1 WHERE id_message = $id_message");
+
+	echo "$nom_utilisateur\n$message";
 	exit();
 }
 
