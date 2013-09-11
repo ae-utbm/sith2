@@ -583,6 +583,13 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 	    exit();
 
 	}
+	elseif($_REQUEST['req'] == 'com')
+	{
+		
+	    $req = new requete ($site->dbrw,
+		    "INSERT INTO message_com (id_utilisateur, message) VALUES (".$site->user->id.", '".$_REQUEST['mess']."')");
+
+	}
 	exit();
 }
 elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForTheLulz"  )
