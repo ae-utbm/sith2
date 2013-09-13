@@ -586,8 +586,23 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 	elseif($_REQUEST['req'] == 'com')
 	{
 		
+	    $req = new requete ($site->db, "SELECT * FROM message_com WHERE id_utilisateur = ".$site->user->id." AND date > '".date("Y-m-d H:i:s",time()-30)."' ");
+	    if($req->lines != 0)
+	    {
+		    echo "Pas de spam";
+		    exit();
+	    }
+	    $req = new requete ($site->db, "SELECT COUNT(*) FROM message_com WHERE id_utilisateur = ".$site->user->id." AND date > '".date("Y-m-d H:i:s",time()-3600)."' ");
+	    list( $nb_message ) = $req->get_row();
+	    if($nb_message > 30 )
+	    {
+		    echo "Quota excédé";
+		    exit();
+	    }
 	    $req = new requete ($site->dbrw,
 		    "INSERT INTO message_com (id_utilisateur, message) VALUES (".$site->user->id.", '".mysql_real_escape_string($_REQUEST['mess'])."')");
+	    echo "Ok";
+	    exit();
 
 	}
 	exit();
