@@ -634,7 +634,7 @@ if ( $_REQUEST["page"] == "produits" )
   "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
   "`cpt_produits`.stock_global_prod, `cpt_produits`.prix_vente_barman_prod/100 AS prix_vente_barman_prod," .
   "`cpt_produits`.prix_vente_prod/100 AS prix_vente_prod, `cpt_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
-  "`cpt_produits`.`cbarre_prod`, " .
+  "`cpt_produits`.`cbarre_prod`, IF(`cpt_produits`.`plateau` = 1, 'Oui', 'Non') AS plateau," .
   "`asso`.`nom_asso`,`asso`.`id_asso`, " .
   "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod` " .
   "FROM `cpt_produits` " .
@@ -658,6 +658,7 @@ if ( $_REQUEST["page"] == "produits" )
    "prix_vente_barman_prod"=>"Prix barman",
    "prix_vente_prod"=>"Prix de vente",
    "prix_achat_prod"=>"Prix d'achat",
+   "plateau"=>"Plateau?",
    "stock_global_prod"=>"Stock global",
    "cbarre_prod"=>"Code barre",
    "nom_asso"=>"Association"
