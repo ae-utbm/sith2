@@ -395,7 +395,7 @@ elseif ( $_REQUEST["action"] == "view"  )
 
     $req = new requete($site->db, "SELECT " .
         "$decoupe AS `unit`, " .
-        "SUM(`cpt_vendu`.`quantite`), " .
+        "SUM(`cpt_vendu`.`quantite`) AS quantite, " .
         "SUM(`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`) AS `total`," .
         "SUM(`cpt_produits`.`prix_achat_prod`*`cpt_vendu`.`quantite`) AS `total_coutant`" .
         "FROM `cpt_vendu` " .
