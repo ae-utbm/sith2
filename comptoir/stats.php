@@ -90,7 +90,7 @@ if ( $_REQUEST["action"] == "view" )
   if ( count($conds) )
   {
     $req = new requete($site->db,
-      "SELECT nom_prod, id_produit, nom_asso, nom_typeprod, ventes, plateaux, 6 * plateaux AS ventes_en_plateau, ventes - 6 * plateaux AS ventes_hors_plateau" .
+      "SELECT nom_prod, id_produit, nom_asso, nom_typeprod, ventes, plateaux, 6 * plateaux AS ventes_en_plateau, ventes - 6 * plateaux AS ventes_hors_plateau " .
       "FROM ( " .
         "SELECT `cpt_produits`.`nom_prod`,`cpt_produits`.`id_produit`, " .
         "`asso`.`nom_asso`, " .
