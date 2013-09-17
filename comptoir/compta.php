@@ -391,7 +391,7 @@ elseif ( $_REQUEST["action"] == "view"  )
     elseif ( $_REQUEST["mode"] == "year" )
       $decoupe = "DATE_FORMAT(`cpt_debitfacture`.`date_facture`,'%Y')";
     else
-      $decoupe = "DATE_FORMAT(`cpt_debitfacture`.`date_facture`,'%Y-%m')";
+      $decoupe = "1";
 
     $req = new requete($site->db, "SELECT " .
         "$decoupe AS `unit`, " .
