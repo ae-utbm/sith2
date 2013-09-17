@@ -2542,6 +2542,7 @@ div.box * tr.head
 table.sqltable th
 {
   background: #d8e7f3;
+  padding: 3px 5px;
 }
 /* Dans une boite */
 div.box * table.sqltable th
@@ -2597,7 +2598,7 @@ tr.hilight
 table.sqltable td
 {
   border-left: 1px #d8e7f3 solid;
-  padding: 2px;
+  padding: 3px 5px;
 }
 div.box * table.sqltable td
 {
