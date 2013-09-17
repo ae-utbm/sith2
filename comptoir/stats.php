@@ -93,7 +93,8 @@ if ( $_REQUEST["action"] == "view" )
       "SELECT `cpt_produits`.`nom_prod`,`cpt_produits`.`id_produit`, " .
       "`asso`.`nom_asso`, " .
       "`cpt_type_produit`.`nom_typeprod`, " .
-      "SUM(`cpt_vendu`.`quantite`) AS `ventes` ".
+      "SUM(`cpt_vendu`.`quantite`) AS `ventes`, ".
+      "SUM(IF(`cpt_vendu`.`prix_unit` = 0, 1, 0)) AS `plateaux` ".
       "FROM `cpt_produits` " .
       "INNER JOIN `cpt_vendu` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
       "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
@@ -112,7 +113,8 @@ if ( $_REQUEST["action"] == "view" )
                         array("ventes"=>"Nombre de ventes",
                               "nom_typeprod"=>"Type",
                               "nom_prod"=>"Nom du produit",
-                              "nom_asso"=>"Association"),
+                              "nom_asso"=>"Association",
+                              "plateaux"=>"Plateaux"),
                         array(),
                         array(),
                         array());
