@@ -116,7 +116,9 @@ if ( $_REQUEST["action"] == "view" )
                               "nom_typeprod"=>"Type",
                               "nom_prod"=>"Nom du produit",
                               "nom_asso"=>"Association",
-                              "plateaux"=>"Plateaux"),
+                              "plateaux"=>"Plateaux",
+                              "ventes_en_plateau"=>"Ventes En Plateaux",
+                              "ventes_hors_plateau"=>"Ventes Hors Plateaux"),
                         array(),
                         array(),
                         array());
