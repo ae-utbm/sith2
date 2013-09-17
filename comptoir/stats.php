@@ -90,20 +90,22 @@ if ( $_REQUEST["action"] == "view" )
   if ( count($conds) )
   {
     $req = new requete($site->db,
-      "SELECT `cpt_produits`.`nom_prod`,`cpt_produits`.`id_produit`, " .
-      "`asso`.`nom_asso`, " .
-      "`cpt_type_produit`.`nom_typeprod`, " .
-      "SUM(`cpt_vendu`.`quantite`) AS `ventes`, ".
-      "SUM(IF(`cpt_vendu`.`prix_unit` = 0, 1, 0)) AS `plateaux` ".
-      "FROM `cpt_produits` " .
-      "INNER JOIN `cpt_vendu` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
-      "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
-      "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
-      //$comptoir_rqt .
-      "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-      "WHERE " .implode(" AND ",$conds).
-      "GROUP BY `cpt_produits`.`id_produit` " .
-      "ORDER BY `ventes` DESC");
+      "SELECT nom_prod, id_produit, nom_asso, nom_typeprod, ventes, plateaux, 6 * plateaux AS ventes_en_plateau, ventes - 6 * plateaux AS ventes_hors_plateau" .
+      "FROM ( " .
+        "SELECT `cpt_produits`.`nom_prod`,`cpt_produits`.`id_produit`, " .
+        "`asso`.`nom_asso`, " .
+        "`cpt_type_produit`.`nom_typeprod`, " .
+        "SUM(`cpt_vendu`.`quantite`) AS `ventes`, ".
+        "SUM(IF(`cpt_vendu`.`prix_unit` = 0, 1, 0)) AS `plateaux` ".
+        "FROM `cpt_produits` " .
+        "INNER JOIN `cpt_vendu` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
+        "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
+        "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
+        //$comptoir_rqt .
+        "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+        "WHERE " .implode(" AND ",$conds).
+        "GROUP BY `cpt_produits`.`id_produit` " .
+        "ORDER BY `ventes` DESC ) t");
 
     $tbl = new sqltable("products",
                         "Produits",
