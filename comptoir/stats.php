@@ -117,8 +117,8 @@ if ( $_REQUEST["action"] == "view" )
                               "nom_prod"=>"Nom du produit",
                               "nom_asso"=>"Association",
                               "plateaux"=>"Plateaux",
-                              "verres_en_plateau"=>"Verres En Plateaux",
-                              "verres_hors_plateau"=>"Verres Hors Plateaux"),
+                              "verres_hors_plateau"=>"Verres Hors Plateaux",
+                              "verres_en_plateau"=>"Verres En Plateaux"),
                         array(),
                         array(),
                         array());
