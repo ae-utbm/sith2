@@ -410,14 +410,28 @@ elseif ( $_REQUEST["action"] == "view"  )
         "GROUP BY `unit` ".
         "ORDER BY `unit`");
 
-    $tbl = new table("Tableau");
-
-    $tbl->add_row(array("","Quantité","CA","Coutant"));
-
-    while ( list($unit,$qte,$total,$coutant) = $req->get_row() )
-      $tbl->add_row(array($unit,$qte,$total/100,$coutant/100));
-
+    $tbl = new sqltable("stats",
+                        "Statistiques",
+                        $req,
+                        "",
+                        "",
+                        array("unit"=>"",
+                              "quantite"=>"Quantité",
+                              "total"=>"CA",
+                              "total_coutant"=>"Coutant"),
+                        array(),
+                        array(),
+                        array());
     $cts->add($tbl,true);
+
+    // $tbl = new table("Tableau");
+
+    // $tbl->add_row(array("","Quantité","CA","Coutant"));
+
+    // while ( list($unit,$qte,$total,$coutant) = $req->get_row() )
+    //   $tbl->add_row(array($unit,$qte,$total/100,$coutant/100));
+
+    // $cts->add($tbl,true);
 
 
     $cts->add(new image("Graphique","compta.graph.php?mode=".$_REQUEST["mode"]."&".
