@@ -620,12 +620,12 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 
 	if($activity > 600 && $activity < 607)
 	{
-		echo "Le lion\nEH OH!\nON PICOLE!";
+		echo "Le lion\nlion.mp3\nEH OH!\nON PICOLE!";
 		exit();
 	}
 	if($activity > intval(ini_get("session.gc_maxlifetime")) && $activity < (intval(ini_get("session.gc_maxlifetime"))+7))
 	{
-		echo "Le lion\nNOOOON!\n Le foyer est fermé :'-(";
+		echo "Le lion\nlion.mp3\nNOOOON!\n Le foyer est fermé :'-(";
 		exit();
 	}
 	
@@ -644,7 +644,7 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 
 	$req = new requete($site->dbrw, "UPDATE `message_com` SET vu = 1 WHERE id_message = $id_message");
 
-	echo "$nom_utilisateur\n$message";
+	echo "$nom_utilisateur\nsncf.mp3\n$message";
 	exit();
 }
 
