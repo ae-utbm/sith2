@@ -614,7 +614,7 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 	$req = new requete ($site->dbrw,
 		   "SELECT MAX(activity_time)
 		    FROM `cpt_tracking`
-		    AND id_comptoir = 2");
+		    WHERE id_comptoir = 2");
 	list( $activity ) = $req->get_row();
 	$activity = time()-strtotime($activity);
 
