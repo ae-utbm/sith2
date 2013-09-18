@@ -37,7 +37,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
   if ( !$user->is_valid() )
     $site->error_not_found("matmatronch");
 
-  if ( !($user->id==$site->user->id || $site->user->is_in_group("gestion_ae")) )
+  if ( !($user->id==$site->user->id || $site->user->is_in_group("gestion_ae")) || $site->user->is_in_group("foyer_admin") || $site->user->is_in_group("kfet_admin")  || $site->user->is_in_group("la_gommette_admin"))
     $site->error_forbidden("matmatronch","private");
 }
 else

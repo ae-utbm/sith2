@@ -2055,7 +2055,13 @@ L'équipe info AE";
       {
         $tabs[]=array("resa","user/reservations.php?id_utilisateur=".$this->id, "Reservations");
         $tabs[]=array("emp","user/emprunts.php?id_utilisateur=".$this->id, "Emprunts");
+      }
+      if (  $this->id == $user->id || $user->is_in_group("gestion_ae")  || $user->is_in_group("foyer_admin") || $user->is_in_group("kfet_admin") || $user->is_in_group("la_gommette_admin"))
+      {
         $tabs[]=array("compte","user/compteae.php?id_utilisateur=".$this->id, "Compte AE");
+      }
+      if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
+      {
         $tabs[]=array("stats","user.php?view=stats&id_utilisateur=".$this->id, "Statistiques");
       }
     }
