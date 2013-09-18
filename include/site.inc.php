@@ -597,6 +597,12 @@ if(!defined("MOBILE")) {
       {
         $elements[] = "<a href=\"".$topdir."sas2/moderenoms.php\">$nnoms propositions &agrave; moderer dans le SAS</a>";
       }
+      $req = new requete($this->db, "SELECT COUNT(*) FROM sas_photos WHERE incomplet = 1");
+      list($nnoms) = $req->get_row();
+      if($nnoms > 0)
+      {
+        $elements[] = "<a href=\"".$topdir."sas2/moderenoms.php\">$nnoms photos incomplètes dans le SAS</a>";
+      }
     }
 
     if( !$this->get_param("closed.sas",false) && is_dir("/var/www/ae2/data/sas"))
