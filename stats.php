@@ -377,6 +377,8 @@ elseif ( $_REQUEST["view"] == "sas" )
   }
 
   $cts->add($lst,true);
+  $month = date("m");
+  $day = date("d");
 
   if ( ($month >= 2 && $month < 8) || ($month == 8 && $day < 15) )
     $debut_semestre = date("Y")."-02-01";
@@ -401,7 +403,6 @@ elseif ( $_REQUEST["view"] == "sas" )
 	  "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
 	  "INNER JOIN `sas_photos` ON `sas_photos`.`id_photo`=`sas_personnes_photos`.`id_photo` ".
 	  "WHERE `sas_photos`.`date_ajout_ph` > '$debut_semestre' ".
-	  //"AND `sas_photos`.`date_ajout_ph` IS NOT NULL ".
           "GROUP BY sas_personnes_photos.id_utilisateur " .
           "ORDER BY count DESC LIMIT 50");
 
