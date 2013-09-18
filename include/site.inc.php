@@ -601,7 +601,7 @@ if(!defined("MOBILE")) {
       list($nnoms) = $req->get_row();
       if($nnoms > 0)
       {
-        $elements[] = "<a href=\"".$topdir."sas2/moderenoms.php\">$nnoms photos incomplètes dans le SAS</a>";
+        $elements[] = "<a href=\"".$topdir."sas2/complete.php\">$nnoms photos incomplètes dans le SAS</a>";
       }
     }
 
