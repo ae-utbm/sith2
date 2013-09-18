@@ -611,6 +611,24 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 {
 
 	require_once($topdir. "include/mysql.inc.php");
+	$req = new requete ($site->dbrw,
+		   "SELECT MAX(activity_time)
+		    FROM `cpt_tracking`
+		    AND id_comptoir = 2");
+	list( $activity ) = $req->get_row();
+	$activity = time()-strtotime($activity);
+
+	if($activity > 600 && $activity < 607)
+	{
+		echo "Le lion\nEH OH!\nON PICOLE!";
+		exit();
+	}
+	if($activity > intval(ini_get("session.gc_maxlifetime")) && $activity < (intval(ini_get("session.gc_maxlifetime"))+7))
+	{
+		echo "Le lion\nNOOOON!\n Le foyer est fermé :'-(";
+		exit();
+	}
+	
 
 	$req = new requete($site->db, "SELECT id_message,".
 		"IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, ".
