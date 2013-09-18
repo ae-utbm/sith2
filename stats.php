@@ -418,9 +418,11 @@ elseif ( $_REQUEST["view"] == "sas" )
       $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>");
       $n++;
     }
+    $n = 1;
     while ( $row = $req2->get_row() )
     {
       $lst2->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>");
+      $n++;
     }
   }
   else
@@ -430,9 +432,11 @@ elseif ( $_REQUEST["view"] == "sas" )
       $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." photos)");
       $n++;
     }
+    $n = 1;
     while ( $row = $req2->get_row() )
     {
       $lst2->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." photos)");
+      $n++;
     }
   }
 
