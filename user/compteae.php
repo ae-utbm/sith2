@@ -43,7 +43,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
 else
   $user = &$site->user;
 
-if ( ($_REQUEST["action"] == "delete") && $site->user->is_in_group("gestion_ae") && ( $site->user->is_in_group("root") || $site->user->id != $user->id ) )
+if ( ($_REQUEST["action"] == "delete") && ($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("foyer_admin") || $site->user->is_in_group("kfet_admin")  || $site->user->is_in_group("la_gommette_admin")) && ( $site->user->is_in_group("root") || $site->user->id != $user->id ) )
 {
   if ( isset($_REQUEST["id_facture"]))
   {
@@ -123,7 +123,7 @@ if ( $_REQUEST["page"] == "AE" || $_REQUEST["page"] == "SG" )
       "quantite"=>"Quantité",
       "prix_unit"=>"Prix unitaire",
       "total"=>"Total"),
-    ($mode == "AE") && ($site->user->is_in_group("gestion_ae") &&
+    ($mode == "AE") && (($site->user->is_in_group("gestion_ae")  || $site->user->is_in_group("foyer_admin") || $site->user->is_in_group("kfet_admin")  || $site->user->is_in_group("la_gommette_admin")) &&
                                     ($site->user->is_in_group("root") || $site->user->id != $user->id)) ? array("delete"=>"Annuler la facture"):array(),
     array(),
     array( )
