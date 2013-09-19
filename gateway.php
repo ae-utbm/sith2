@@ -623,8 +623,6 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 		$son = "sncf.mp3";
 	else
 		$son = "msn.mp3";
-	echo $son;
-	exit();
 
 	if($activity > 600 && $activity < 607)
 	{
