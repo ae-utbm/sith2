@@ -827,7 +827,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     }
 
     $tbl = new sqltable("top10",
-                        "Consomateurs Gommette: Top 100 (ce semestre)", $req, "stats.php",
+                        "Consomateurs (tous les lieux de vie): Top 100 (ce semestre)", $req, "stats.php",
                          "id_utilisateur",
                          $cols,
                          array(),
