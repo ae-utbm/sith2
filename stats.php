@@ -807,7 +807,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
           "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
           "WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' " .
           "AND id_produit !=338 " .
-	  "AND id_comptoir IN ( 1. 2. 35 ) ".
+	  "AND (id_comptoir = 1 OR  id_comptoir = 2 OR  id_comptoir = 35) ".
           "GROUP BY utilisateurs.id_utilisateur " .
           "ORDER BY total DESC LIMIT 100 " .
         ") top " .
