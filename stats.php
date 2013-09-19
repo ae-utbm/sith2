@@ -652,10 +652,10 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     $debut_semestre = date("Y")."-08-15";
   else
     $debut_semestre = (date("Y")-1)."-08-15";
-  $cts->add_title(2,"Consomateurs : Top 100 (ce semestre)");
 
   if (isset($_REQUEST["details"]))
   {
+    $cts->add_title(2,"Consomateurs foyer: Top 100 (ce semestre)");
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
         "ROUND(10 * log10(total), 2) as total_db " .
@@ -701,6 +701,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
     $cts->add($tbl);
 
+    $cts->add_title(2,"Consomateurs MDE: Top 100 (ce semestre)");
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
         "ROUND(10 * log10(total), 2) as total_db " .
@@ -746,6 +747,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
     $cts->add($tbl);
 
+    $cts->add_title(2,"Consomateurs Gommette: Top 100 (ce semestre)");
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
         "ROUND(10 * log10(total), 2) as total_db " .
@@ -779,7 +781,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     }
 
     $tbl = new sqltable("top10",
-                        "Consomateurs Gomette: Top 100 (ce semestre)", $req, "stats.php",
+                        "Consomateurs Gommette: Top 100 (ce semestre)", $req, "stats.php",
                          "id_utilisateur",
                          $cols,
                          array(),
@@ -791,6 +793,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
     $cts->add($tbl);
 
+    $cts->add_title(2,"Consomateurs : Top 100 (ce semestre)");
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
         "ROUND(10 * log10(total), 2) as total_db " .
@@ -874,6 +877,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
   }
   else
   {
+    $cts->add_title(2,"Consomateurs : Top 100 (ce semestre)");
     $req = new requete ($site->db, "SELECT `utilisateurs`.`id_utilisateur`, " .
         "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
         "sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) as total " .
