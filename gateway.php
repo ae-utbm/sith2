@@ -618,6 +618,12 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 	list( $activity ) = $req->get_row();
 	$activity = time()-strtotime($activity);
 
+	$son = "";
+	if(rand(0,2) < 1)
+		$son = "sncf.mp3";
+	else
+		$son = "msn.mp3";
+
 	if($activity > 600 && $activity < 607)
 	{
 		echo "Le lion\nlion.mp3\nEH OH!\nON PICOLE!";
@@ -644,7 +650,7 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 
 	$req = new requete($site->dbrw, "UPDATE `message_com` SET vu = 1 WHERE id_message = $id_message");
 
-	echo "$nom_utilisateur\nsncf.mp3\n$message";
+	echo "$nom_utilisateur\n$son\n$message";
 	exit();
 }
 
