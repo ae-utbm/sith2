@@ -943,9 +943,10 @@ elseif ( $comptoir->id > 0 )
 
     $req = new requete($site->db,
       "SELECT `utilisateurs`.`id_utilisateur`, " .
-      "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
+      "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`, ' (', `utl_etu_utbm`.`surnom_utbm`, ')') as `nom_utilisateur` " .
       "FROM `utl_groupe` " .
       "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` " .
+      "INNER JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur` " .
       "WHERE `utl_groupe`.`id_groupe`='".$comptoir->groupe_vendeurs."' " .
       "ORDER BY `utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl`");
 

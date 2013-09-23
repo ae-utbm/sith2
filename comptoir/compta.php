@@ -254,98 +254,98 @@ if ( $_REQUEST["action"] == "view" && $_REQUEST["mode"] == "" )
   if ( count($conds) )
   {
 
-  $req = new requete($site->db, "SELECT " .
-      "COUNT(`cpt_vendu`.`id_produit`), " .
-      "SUM(`cpt_vendu`.`quantite`), " .
-      "SUM(`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`) AS `total`," .
-      "SUM(`cpt_produits`.`prix_achat_prod`*`cpt_vendu`.`quantite`) AS `total_coutant`" .
-      "FROM `cpt_vendu` " .
-      "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
-      "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
-      "INNER JOIN `cpt_type_produit` ON `cpt_produits`.`id_typeprod` =`cpt_type_produit`.`id_typeprod` " .
-      "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-      "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_debitfacture`.`id_utilisateur` =`vendeur`.`id_utilisateur` " .
-      "INNER JOIN `utilisateurs` AS `client` ON `cpt_debitfacture`.`id_utilisateur_client` =`client`.`id_utilisateur` " .
-      "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
-      "WHERE " .implode(" AND ",$conds).
-      "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+    $req = new requete($site->db, "SELECT " .
+        "COUNT(`cpt_vendu`.`id_produit`), " .
+        "SUM(`cpt_vendu`.`quantite`), " .
+        "SUM(`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`) AS `total`," .
+        "SUM(`cpt_produits`.`prix_achat_prod`*`cpt_vendu`.`quantite`) AS `total_coutant`" .
+        "FROM `cpt_vendu` " .
+        "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+        "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
+        "INNER JOIN `cpt_type_produit` ON `cpt_produits`.`id_typeprod` =`cpt_type_produit`.`id_typeprod` " .
+        "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+        "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_debitfacture`.`id_utilisateur` =`vendeur`.`id_utilisateur` " .
+        "INNER JOIN `utilisateurs` AS `client` ON `cpt_debitfacture`.`id_utilisateur_client` =`client`.`id_utilisateur` " .
+        "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
+        "WHERE " .implode(" AND ",$conds).
+        "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-  list($ln,$qte,$sum,$sumcoutant) = $req->get_row();
-
-
-  $cts->add_title(2,"Sommes");
-  $cts->add_paragraph("Quantitée : $qte unités<br/>" .
-      "Chiffre d'affaire: ".($sum/100)." Euros<br/>" .
-      "Prix countant total estimé* : ".($sumcoutant/100)." Euros");
-
-  $frm = new form ("cptacptpdf","compta.php",true,"POST","PDF");
-  $frm->add_hidden("action","pdf");
-  $i=0;
-  foreach($conds as $value)
-  {
-    $frm->add_hidden("conds[".$i."]",$value);
-    $i++;
-  }
-  $frm->add_submit("valid","Générer le PDF");
-  $cts->add($frm,true);
+    list($ln,$qte,$sum,$sumcoutant) = $req->get_row();
 
 
+    $cts->add_title(2,"Sommes");
+    $cts->add_paragraph("Quantitée : $qte unités<br/>" .
+        "Chiffre d'affaire: ".($sum/100)." Euros<br/>" .
+        "Prix countant total estimé* : ".($sumcoutant/100)." Euros");
 
-  if ( $ln < 1000 )
-  {
-
-  $req = new requete($site->db, "SELECT " .
-      "`cpt_debitfacture`.`id_facture`, " .
-      "`cpt_debitfacture`.`date_facture`, " .
-      "`asso`.`id_asso`, " .
-      "`asso`.`nom_asso`, " .
-      "CONCAT(`client`.`prenom_utl`,' ',`client`.`nom_utl`) as `nom_utilisateur_client`, " .
-      "`client`.`id_utilisateur` AS `id_utilisateur_client`, " .
-      "CONCAT(`vendeur`.`prenom_utl`,' ',`vendeur`.`nom_utl`) as `nom_utilisateur_vendeur`, " .
-      "`vendeur`.`id_utilisateur` AS `id_utilisateur_vendeur`, " .
-      "`cpt_vendu`.`quantite`, " .
-      "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
-      "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
-      "`cpt_produits`.`prix_achat_prod`*`cpt_vendu`.`quantite`/100 AS `total_coutant`," .
-      "`cpt_comptoir`.`id_comptoir`, " .
-      "`cpt_comptoir`.`nom_cpt`," .
-      "`cpt_produits`.`nom_prod`, " .
-      "`cpt_produits`.`id_produit`, " .
-      "`cpt_type_produit`.`id_typeprod`, " .
-      "`cpt_type_produit`.`nom_typeprod`" .
-      "FROM `cpt_vendu` " .
-      "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
-      "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
-      "INNER JOIN `cpt_type_produit` ON `cpt_produits`.`id_typeprod` =`cpt_type_produit`.`id_typeprod` " .
-      "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-      "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_debitfacture`.`id_utilisateur` =`vendeur`.`id_utilisateur` " .
-      "INNER JOIN `utilisateurs` AS `client` ON `cpt_debitfacture`.`id_utilisateur_client` =`client`.`id_utilisateur` " .
-      "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
-      "WHERE " .implode(" AND ",$conds).
-      "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+    $frm = new form ("cptacptpdf","compta.php",true,"POST","PDF");
+    $frm->add_hidden("action","pdf");
+    $i=0;
+    foreach($conds as $value)
+    {
+      $frm->add_hidden("conds[".$i."]",$value);
+      $i++;
+    }
+    $frm->add_submit("valid","Générer le PDF");
+    $cts->add($frm,true);
 
 
-  $cts->add(new sqltable(
-    "listresp",
-    "Listing", $req, "compta.php",
-    "id_facture",
-    array(
-      "id_facture"=>"Facture",
-      "date_facture"=>"Date",
-      "nom_typeprod"=>"Type",
-      "nom_prod"=>"Produit",
-      "nom_cpt"=>"Lieu",
-      "nom_utilisateur_vendeur"=>"Vendeur",
-      "nom_utilisateur_client"=>"Client",
-      "nom_asso"=>"Asso.",
-      "quantite"=>"Qte",
-      "total"=>"Som.",
-      "total_coutant"=>"Coutant*"),
-    array("delete"=>"Annuler la facture"),
-    array(),
-    array( )
-    ),true);
-  }
+
+    if ( $ln < 1000 )
+    {
+
+      $req = new requete($site->db, "SELECT " .
+          "`cpt_debitfacture`.`id_facture`, " .
+          "`cpt_debitfacture`.`date_facture`, " .
+          "`asso`.`id_asso`, " .
+          "`asso`.`nom_asso`, " .
+          "CONCAT(`client`.`prenom_utl`,' ',`client`.`nom_utl`) as `nom_utilisateur_client`, " .
+          "`client`.`id_utilisateur` AS `id_utilisateur_client`, " .
+          "CONCAT(`vendeur`.`prenom_utl`,' ',`vendeur`.`nom_utl`) as `nom_utilisateur_vendeur`, " .
+          "`vendeur`.`id_utilisateur` AS `id_utilisateur_vendeur`, " .
+          "`cpt_vendu`.`quantite`, " .
+          "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
+          "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
+          "`cpt_produits`.`prix_achat_prod`*`cpt_vendu`.`quantite`/100 AS `total_coutant`," .
+          "`cpt_comptoir`.`id_comptoir`, " .
+          "`cpt_comptoir`.`nom_cpt`," .
+          "`cpt_produits`.`nom_prod`, " .
+          "`cpt_produits`.`id_produit`, " .
+          "`cpt_type_produit`.`id_typeprod`, " .
+          "`cpt_type_produit`.`nom_typeprod`" .
+          "FROM `cpt_vendu` " .
+          "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+          "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
+          "INNER JOIN `cpt_type_produit` ON `cpt_produits`.`id_typeprod` =`cpt_type_produit`.`id_typeprod` " .
+          "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+          "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_debitfacture`.`id_utilisateur` =`vendeur`.`id_utilisateur` " .
+          "INNER JOIN `utilisateurs` AS `client` ON `cpt_debitfacture`.`id_utilisateur_client` =`client`.`id_utilisateur` " .
+          "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
+          "WHERE " .implode(" AND ",$conds).
+          "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+
+
+      $cts->add(new sqltable(
+        "listresp",
+        "Listing", $req, "compta.php",
+        "id_facture",
+        array(
+          "id_facture"=>"Facture",
+          "date_facture"=>"Date",
+          "nom_typeprod"=>"Type",
+          "nom_prod"=>"Produit",
+          "nom_cpt"=>"Lieu",
+          "nom_utilisateur_vendeur"=>"Vendeur",
+          "nom_utilisateur_client"=>"Client",
+          "nom_asso"=>"Asso.",
+          "quantite"=>"Qte",
+          "total"=>"Som.",
+          "total_coutant"=>"Coutant*"),
+        array("delete"=>"Annuler la facture"),
+        array(),
+        array( )
+        ),true);
+    }
     $cts->add_paragraph("* ATTENTION: Prix coutant basé sur le prix actuel.");
 
   }
