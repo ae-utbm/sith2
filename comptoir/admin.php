@@ -850,7 +850,7 @@ elseif ( $typeprod->id > 0 )
   "INNER JOIN `cpt_comptoir` ON `cpt_mise_en_vente`.`id_comptoir` = `cpt_comptoir`.`id_comptoir` " .
   "WHERE `cpt_produits`.`id_typeprod`='".$typeprod->id."' " .
   (isset($_REQUEST['showall'])? "" : "AND `cpt_produits`.`prod_archive` != 1 ") .
-  (isset($_REQUEST['id_comptoir']) ? "" : ("AND `cpt_mise_en_vente`.`id_comptoir` = ". intval($_REQUEST['id_comptoir']) ." ")) .
+  (isset($_REQUEST['id_comptoir']) ? ("AND `cpt_mise_en_vente`.`id_comptoir` = ". intval($_REQUEST['id_comptoir']) ." ") : "") .
   "GROUP BY nom_prod, id_produit, prod_archive, stock_global_prod, prix_vente_barman_prod, " .
   "prix_vente_prod, prix_achat_prod, cbarre_prod, plateau, nom_asso, id_asso, id_typeprod, nom_typeprod, comptoirs " .
   "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod` ");
