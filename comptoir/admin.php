@@ -831,7 +831,7 @@ elseif ( $typeprod->id > 0 )
 
  $frm->add_text_area("description","Description",$typeprod->description);
  $frm->add_entity_select("id_assocpt", "Association qui vend g&eacute;n&eacute;ralement ce type", $site->db, "assocpt",$typeprod->id_assocpt);
- $frm->add_entity_select("id_comptoir", "Comptoir de vente de ce type", $site->db, "comptoir",$comptoir->id_assocpt);
+ // $frm->add_entity_select("id_comptoir", "Comptoir de vente de ce type", $site->db, "comptoir",$comptoir->id_assocpt);
  $frm->add_select_field("id_action","Action par d&eacute;faut",$ActionsProduits,$typeprod->id_action);
  $frm->add_submit("valid","Enregistrer");
  $cts->add($frm,true);
