@@ -271,7 +271,7 @@ if ($req3->lines > 0) {
   $cts->add(new sqltable("ebletickt",
           null,
           $req3,
-          "eticket.php",
+          "eticket.php?id_utilisateur=".$user->id,
           "id_ticket",
           array('id_ticket'=>'N°',
                 'nom_prod'=>'Produit correspondant'),
