@@ -842,7 +842,7 @@ elseif ( $typeprod->id > 0 )
   "`cpt_produits`.`cbarre_prod`, IF(`cpt_produits`.`plateau` = 1, 'Oui', 'Non') AS plateau," .
   "`asso`.`nom_asso`,`asso`.`id_asso`, " .
   "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
-  "CONCAT_WS(', ', `cpt_comptoir`.`nom_cpt`) AS comptoirs " .
+  "GROUP_CONCAT(`cpt_comptoir`.`nom_cpt` ORDER BY `cpt_comptoir`.`nom_cpt` SEPARATOR ', ') AS comptoirs " .
   "FROM `cpt_produits` " .
   "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
   "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
