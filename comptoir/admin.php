@@ -841,15 +841,21 @@ elseif ( $typeprod->id > 0 )
   "`cpt_produits`.prix_vente_prod/100 AS prix_vente_prod, `cpt_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
   "`cpt_produits`.`cbarre_prod`, IF(`cpt_produits`.`plateau` = 1, 'Oui', 'Non') AS plateau," .
   "`asso`.`nom_asso`,`asso`.`id_asso`, " .
-  "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod` " .
+  "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
+  "CONCAT_WS(', ', `cpt_mise_en_vente`.`nom_cpt`) AS comptoirs " .
   "FROM `cpt_produits` " .
   "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
   "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
   "LEFT JOIN `cpt_mise_en_vente` ON `cpt_produits`.`id_produit` = `cpt_mise_en_vente`.`id_produit` " .
+  "INNER JOIN `cpt_comptoir` ON `cpt_mise_en_vente`.`id_comptoir` = `cpt_comptoir`.`id_comptoir` " .
   "WHERE `cpt_produits`.`id_typeprod`='".$typeprod->id."' " .
   (isset($_REQUEST['showall'])? "" : "AND `cpt_produits`.`prod_archive` != 1 ") .
-  (($comptoir->id > 0) ? "" : ("AND `cpt_mise_en_vente`.`id_comptoir` = ". intval($comptoir->id) ." ")) .
-  "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
+  (isset($_REQUEST['id_comptoir']) ? "" : ("AND `cpt_mise_en_vente`.`id_comptoir` = ". intval($_REQUEST['id_comptoir']) ." ")) .
+  "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod` " .
+  "GROUP BY nom_prod, id_produit,prod_archive, stock_global_prod, prix_vente_barman_prod, " .
+  "prix_vente_prod, prix_achat_prod, cbarre_prod, plateau, nom_assoid_asso, id_typeprod, nom_typeprod, comptoirs");
+
+
 
  $section_name = "Produits";
  if (! isset($_REQUEST['showall']))
@@ -869,6 +875,7 @@ elseif ( $typeprod->id > 0 )
    "stock_global_prod"=>"Stock global",
    "cbarre_prod"=>"Code barre",
    "nom_asso"=>"Association",
+   "comptoirs"=>"Comptoirs",
    "prod_archive"=>"Archivé"
    ),
    array("edit"=>"Editer"), array("arch"=>"Archiver","unarch"=>"Desarchiver"), array("prod_archive"=>array(0=>"non",1=>"oui"))
