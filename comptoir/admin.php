@@ -821,7 +821,7 @@ elseif ( $typeprod->id > 0 )
  $cts->add_paragraph("<a href=\"compta.php?id_typeprod=".$typeprod->id."\">Comptabilité</a>");
 
 
- $frm = new form ("uptype","admin.php",true,"POST","Editer");
+ $frm = new form ("uptype","admin.php",true,"GET","Editer");
  $frm->add_hidden("action","uptype");
     $frm->add_hidden("id_typeprod", $typeprod->id);
  $frm->add_text_field("nom","Nom du type",$typeprod->nom,true);
