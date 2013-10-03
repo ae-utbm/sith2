@@ -1,21 +1,16 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <!--
   Created using jsbin.com
-  Source can be edited via http://jsbin.com/AsAcATA/5/edit
+  Source can be edited via http://jsbin.com/AsAcATA/19/edit
 -->
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
-  <script id="ambilight-script"
-                data-mask="./img/mask.png"
-                data-selector="#slideDiv img"
-                src="http://azproduction.ru/image-ambilight/ambilight-image.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <title></title>
 
 <style id="jsbin-css">
-#slideDiv>*{
-
+.hidden{
+ display:none;
 }
 #slideDiv {
     z-index: 1;
@@ -32,31 +27,24 @@
 }
 .logmessage{
 }
-b{
-  color:darkred;
-  position : absolute;
-  left:0;
-  margin-left:5px;
-}
-.notif>*>p{
-  text-align:right;
-  margin-right:5px;
-}
 .notif{
-    position: absolute;
-    text-align: center;
+  .display:flex;
+  flex-direction:row;
+  position: absolute;
     font-size: 50px;
     font-family:verdana;
     width: 100%;
     bottom: 0;
     margin: 0 auto;
     z-index: 2;
-      background:rgba(255,255,255,0.7);
+    background:white;
+    box-shadow: 0px -15px 10px darkred;
       border-top:-5px solid #FF8800;
 
   color:black;
 }
 body{
+  overflow:hidden;
       background: radial-gradient( rgb(67, 66, 72), #05050F);
     margin: 0 0 0 0 ;
     display:flex;
@@ -76,7 +64,7 @@ figure{
     max-width: 100%;
      background: radial-gradient( rgb(67, 66, 72), #05050F);
 
-    height:1200px;
+    height:1100px;
     vertical-align:middle;
     margin-top:auto;
     margin-bottom:auto;
@@ -90,12 +78,14 @@ figure{
    </div>
    <div class="notif"></div>
 <script>
-version="RC 1.0";
+version="RC 1.9";
 incomingMessage=[];
 affiches=[];
 pathToimg="http://ae.utbm.fr/data/files/";
 timeRefresh=6000 // in miliss
-msgRefresh=3000
+msgRefresh=4000
+maxLog=5;
+logCounter=0;
 logDiv=$("#logDiv");
 
 
@@ -104,14 +94,7 @@ refreshAffiche=function(){
     var xmlFile=$.get("http://ae.utbm.fr/affiches.php?page=xml");
     slideDiv.empty();
     xmlFile.error(function(self,errorCode,error){
-        //log.error("something went wrong");
-        //msg.content="unable to connect to ae.utbm.fr err: "+errorCode;
-        //msg.level="error";
-        //logDiv.appendChild(msg.toHTML());
-        setTimeout(function(){
-            logDiv.fadeIn("fast");
-        },10000);
-        //logDiv.removeChild(msg.toHTML());
+        logger("unable to connect to ae.utbm.fr err: "+errorCode,"error");
         return;
     });
     xmlFile.success(function(r){
@@ -175,16 +158,21 @@ messageCheck=function(){
   $.ajax({
     url:"http://ae.utbm.fr/gateway.php?module=ecrancom&secret=messageForTheLulz",
     error:function(self,errorcode,error){
-      logger("unable to retrieve message "+errorcode,"error");
+      logCounter++;
+      if(logCounter<maxLog){
+        logger("unable to retrieve message status is :"+errorcode,"error");
+      }
     },
     success:function(response){
+      logCounter=0;
       if(!response){
         return;
       }
       
       message=response.split('\n').slice(2,response.split('\n').length).join();
+audio.src=response.split('\n')[1];
       
-      logger("<b>"+response.split('\n')[0]+":</b><p>"+message+"</p>","");
+      logger("<div>"+response.split('\n')[0]+":</div><div>"+message+"</div>","");
     }
   });
 }
@@ -196,7 +184,7 @@ show=function(affiche){
         setTimeout(function(){
             show(current.next);
         },20);
-    },timeRefresh)
+    },timeRefresh-500);
 }
 logger = function (message, type) {
   if($(".logmessage").length==0){
@@ -204,10 +192,13 @@ logger = function (message, type) {
   }
   toAppend="<pre class='logmessage' style='display:none;'>"+message+"</pre>";
     $(".notif").append(toAppend);
-  $(".logmessage").fadeIn(400);
+  $(".logmessage").fadeIn(800);
+  audio.play();
+  $(".logmessage").style("background","red");
   
 };
 $(document).ready(function(){
+    audio=new Audio()
     slideDiv=$("#slider");
     refreshAffiche();
     launchslideShow();
