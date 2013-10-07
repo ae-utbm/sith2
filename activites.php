@@ -87,7 +87,8 @@ else
     $req = new requete($site->db,
       "SELECT `utilisateurs`.`id_utilisateur`, " .
       "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-      "`asso`.`nom_asso` ".
+      "`asso`.`nom_asso`, ".
+      "`asso`.`id_asso` ".
       "FROM `asso_membre` " .
       "INNER JOIN `utilisateurs` USING (`id_utilisateur`) " .
       "INNER JOIN `asso` USING (`id_asso`) " .
@@ -111,7 +112,7 @@ else
 
       $gal->add_item(
       "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"$img\" alt=\"Photo\" height=\"105\"></a>",
-      "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a><br /> (".htmlentities($row['nom_asso'],ENT_NOQUOTES,"UTF-8").")");
+      "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a><br /> <a href=\"../asso.php?id_asso=".$row['id_asso']."\">(".htmlentities($row['nom_asso'],ENT_NOQUOTES,"UTF-8").")</a>");
     }
     $cts->add($gal);
   }
