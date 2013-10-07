@@ -624,7 +624,7 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 	else
 		$son = "msn.mp3";
 
-	if($activity > 600 && $activity < 607)
+	/*if($activity > 600 && $activity < 607)
 	{
 		echo "Le lion\nlion.mp3\nEH OH!\nON PICOLE!";
 		exit();
@@ -633,7 +633,7 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 	{
 		echo "Le lion\nlion.mp3\nNOOOON!\n Le foyer est fermé :'-(";
 		exit();
-	}
+	}*/
 	
 
 	$req = new requete($site->db, "SELECT id_message,".
