@@ -25,6 +25,7 @@ require_once("carteae.inc.php");
  - 6 : Cotisation par l'Amicale
  - 7 : Cotisation réseau UT
  - 8 : Cotisation CROUS
+ - 9 : Cotisation Sbarro
 */
 
 class cotisation extends stdentity

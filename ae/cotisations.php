@@ -132,6 +132,7 @@ function add_new_form($id = null)
               6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2",
               7 => "Cotisation réseau UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire",
               8 => "Cotisation CROUS, 4€, jusqu'au $date2",
+              9 => "Cotisation Sbarro, 15€, jusqu'au $date2",
       ),1);
   $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
   $sub_frm_cotiz->add_info("&nbsp;");
@@ -301,6 +302,9 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     } elseif ( $_REQUEST["cotiz"] == 8 ) {
       $date_fin = strtotime($date2);
       $prix_paye = 400;
+    } elseif ( $_REQUEST["cotiz"] == 9 ) {
+      $date_fin = strtotime($date2);
+      $prix_paye = 1500;
     } else {
       $list->add("Le type de cotisation n'est pas valide");
       $site->add_contents($info);
@@ -495,6 +499,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                   6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2",
                   7 => "Cotisation inter UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire",
                   8 => "Cotisation CROUS, 4€, jusqu'au $date2",
+                  9 => "Cotisation Sbarro, 15€, jusqu'au $date2",
           ),1);
       $frm->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
