@@ -973,6 +973,12 @@ elseif ( $comptoir->id > 0 )
 
     $cts->add($tbl,true);
 
+    $req = new requete($site->db,
+      "SELECT `utilisateurs`.`email_utl` " .
+      "FROM `utl_groupe` " .
+      "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` " .
+      "WHERE `utl_groupe`.`id_groupe`='".$comptoir->groupe_vendeurs."'");
+
     $cts->puts("<textarea>");
 
     while ( list($email) = $req->get_row() ) {
@@ -986,12 +992,6 @@ elseif ( $comptoir->id > 0 )
     $frm->add_user_fieldv2("id_utilisateur","");
     $frm->add_submit("valid","Ajouter");
     $cts->add($frm,true);
-
-    $req = new requete($site->db,
-      "SELECT `utilisateurs`.`email_utl` " .
-      "FROM `utl_groupe` " .
-      "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` " .
-      "WHERE `utl_groupe`.`id_groupe`='".$comptoir->groupe_vendeurs."'");
  }
  elseif ( $_REQUEST["view"] == "edit" )
  {
