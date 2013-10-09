@@ -1295,7 +1295,11 @@ elseif ( ($_REQUEST["view"]=="stats") && ($user->etudiant || $user->ancien_etudi
 else
 {
   if ( $site->user->id != $user->id )
-    new requete($site->dbrw, "UPDATE `utl_etu` SET `visites`=`visites`+1 WHERE `id_utilisateur`=".$user->id);
+  {
+	  
+	  new requete($site->dbrw, "INSERT INTO `temp` (dest,orig) VALUES (".$user->id." , ".$site->user->id.")");
+	  new requete($site->dbrw, "UPDATE `utl_etu` SET `visites`=`visites`+1 WHERE `id_utilisateur`=".$user->id);
+  }
 
   $user->load_all_extra();
 
