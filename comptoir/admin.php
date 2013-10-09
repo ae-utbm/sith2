@@ -984,13 +984,13 @@ elseif ( $comptoir->id > 0 )
       "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` " .
       "WHERE `utl_groupe`.`id_groupe`='".$comptoir->groupe_vendeurs."'");
 
-    echo "<textarea>";
+    $cts->add("<textarea>");
 
     while ( list($email) = $req->get_row() ) {
-      echo $email . ",";
+      $cts->add($email . ",");
     }
 
-    echo "</textarea>";
+    $cts->add("</textarea>");
  }
  elseif ( $_REQUEST["view"] == "edit" )
  {
