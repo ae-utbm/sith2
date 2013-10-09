@@ -954,7 +954,7 @@ elseif ( $comptoir->id > 0 )
     $req = new requete($site->db,
       "SELECT `utilisateurs`.`id_utilisateur`, " .
       "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-      "`utl_etu_utbm`.`surnom_utbm` as `surnom_utilisateur`, `utilisateurs`.`email_utl` " .
+      "`utl_etu_utbm`.`surnom_utbm` as `surnom_utilisateur`, `utilisateurs`.`email_utl` as email " .
       "FROM `utl_groupe` " .
       "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` " .
       "INNER JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur` " .
@@ -965,12 +965,21 @@ elseif ( $comptoir->id > 0 )
         "listbarmen",
         "Personnes autorisées à vendre", $req, "admin.php?view=team&id_comptoir=".$comptoir->id,
         "id_utilisateur",
-        array("nom_utilisateur"=>"Utilisateur", "surnom_utilisateur"=>"Surnom"),
+        array("nom_utilisateur"=>"Utilisateur", "surnom_utilisateur"=>"Surnom", "email"=>"Email"),
         array("delbarman"=>"Supprimer"),
         array("delbarmen"=>"Supprimer"),
         array()
         );
+
     $cts->add($tbl,true);
+
+    $cts->puts("<textarea>");
+
+    while ( list($email) = $req->get_row() ) {
+      $cts->puts($email . ", ");
+    }
+
+    $cts->puts("</textarea>");
 
     $frm = new form("addbarman","admin.php?view=team&id_comptoir=".$comptoir->id, false,"POST","Ajouter un utilisateur");
     $frm->add_hidden("action","addbarman");
@@ -983,14 +992,6 @@ elseif ( $comptoir->id > 0 )
       "FROM `utl_groupe` " .
       "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` " .
       "WHERE `utl_groupe`.`id_groupe`='".$comptoir->groupe_vendeurs."'");
-
-    $cts->puts("<textarea>");
-
-    while ( list($email) = $req->get_row() ) {
-      $cts->puts($email . ",");
-    }
-
-    $cts->puts("</textarea>");
  }
  elseif ( $_REQUEST["view"] == "edit" )
  {
