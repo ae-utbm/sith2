@@ -979,7 +979,7 @@ elseif ( $comptoir->id > 0 )
       "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` " .
       "WHERE `utl_groupe`.`id_groupe`='".$comptoir->groupe_vendeurs."'");
 
-    $cts->puts("<textarea>");
+    $cts->puts("<textarea style='width:100%;min-height:100px'>");
 
     while ( list($email) = $req->get_row() ) {
       $cts->puts($email . ", ");
