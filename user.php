@@ -1228,7 +1228,7 @@ elseif ( ($_REQUEST["view"]=="stats") && $_REQUEST["graph"]=="stat_comptoir_mois
 elseif ( ($_REQUEST["view"]=="stats") && ($user->etudiant || $user->ancien_etudiant) &&
          ($site->user->is_in_group("gestion_ae") || $site->user->id == $user->id ))
 {
-	$req = new requete($site->db, "SELECT visites FROM utl_etu WHERE `id_utilisateur`=".$user->id);
+	$req = new requete($site->db, "SELECT COUNT(*) FROM utl_etu_visites WHERE `dest`=".$user->id);
 	list( $visites ) = $req->get_row();
 	$cts->add_paragraph("Vous avez eu $visites visites sur votre fiche.");
 
