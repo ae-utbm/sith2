@@ -123,7 +123,7 @@ class fsearch extends stdcontents
          ' LEFT JOIN utl_etu USING ( id_utilisateur )' .
 	 ' INNER JOIN utl_etu_visites ON utl_etu_visites.dest = utilisateurs.id_utilisateur ' .
          ' WHERE CONCAT(nom_utl,\' \',prenom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql .
-         ' GROUP BY utl_etu_visites.dest UNION DISTINCT SELECT surnom_utbm, \'4\' as method, utilisateurs.*, visites' .
+         ' GROUP BY utl_etu_visites.dest UNION DISTINCT SELECT surnom_utbm, \'4\' as method, utilisateurs.*, COUNT(*) AS visites' .
          ' FROM utl_etu_utbm' .
          ' INNER JOIN utilisateurs USING (id_utilisateur)' .
 	 ' INNER JOIN utl_etu_visites ON utl_etu_visites.dest = utilisateurs.id_utilisateur ' .
