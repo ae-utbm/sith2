@@ -1170,22 +1170,12 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
 
   $mcts = new contents("Matmatronch");
 
-  if ( $_REQUEST["action"] == "reset" )
-  {
-    $stats = new requete($site->dbrw, "UPDATE `utl_etu` SET `visites`='0' WHERE `visites`!='0'");
-    $mcts->add_title(2, "Reset");
-    $mcts->add_paragraph("Le reset des stats a &eacute;t&eacute; effectu&eacute; avec succ&egrave;s");
-  }
 
-  $mcts->add_title(2, "Administration");
-  $mcts->add_paragraph("Le matmatronch vient d'&ecirc;tre &eacute;dit&eacute;, il est temps de remettre les statistiques &agrave; z&eacute;ro :)".
-                    "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats.php?view=matmatronch&action=reset\">Reset !</a>");
-
-  $req = new requete($site->db,"SELECT `utl_etu`.`id_utilisateur`, `utl_etu`.`visites`, ".
+  $req = new requete($site->db,"SELECT `utl_etu_visites`.`dest` as id_utilisateur, COUNT(*) as visites, ".
                                "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
-                               "FROM `utl_etu` ".
-                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` ".
-                               "WHERE `utilisateurs`.`utbm_utl`='1' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
+                               "FROM `utl_etu_visites` ".
+                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu_visites`.`dest` ".
+                               "WHERE `utilisateurs`.`utbm_utl`='1' GROUP BY `utl_etu_visites`.`dest` ORDER BY visites DESC LIMIT 0, 10");
 
 
   $mcts->add(new sqltable("top_full",
@@ -1199,11 +1189,11 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
                          array()
             ),true);
 
-  $req = new requete($site->db,"SELECT `utl_etu`.`id_utilisateur`, `utl_etu`.`visites`, ".
+  $req = new requete($site->db,"SELECT `utl_etu_visites`.`dest` as id_utilisateur, COUNT(*) as visites, ".
                                "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
-                               "FROM `utl_etu` ".
-                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` ".
-                               "WHERE `utilisateurs`.`utbm_utl`='1' AND `utilisateurs`.`sexe_utl`='2' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
+                               "FROM `utl_etu_visites` ".
+                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu_visites`.`dest` ".
+                               "WHERE `utilisateurs`.`utbm_utl`='1' AND `utilisateurs`.`sexe_utl`='2' GROUP BY `utl_etu_visites`.`dest` ORDER BY visites DESC LIMIT 0, 10");
   $mcts->add(new sqltable("top_full",
                          "Top 10 des fiches matmatronch f&eacute;minines les plus visit&eacute;es", $req, "stats.php",
                          "id_utilisateur",
@@ -1215,11 +1205,11 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
                          array()
             ),true);
 
-  $req = new requete($site->db,"SELECT `utl_etu`.`id_utilisateur`, `utl_etu`.`visites`, ".
+  $req = new requete($site->db,"SELECT `utl_etu_visites`.`dest` as id_utilisateur, COUNT(*) as visites, ".
                                "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
-                               "FROM `utl_etu` ".
-                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` ".
-                               "WHERE `utilisateurs`.`utbm_utl`='1' AND `utilisateurs`.`sexe_utl`='1' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
+                               "FROM `utl_etu_visites` ".
+                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu_visites`.`dest` ".
+                               "WHERE `utilisateurs`.`utbm_utl`='1' AND `utilisateurs`.`sexe_utl`='1' GROUP BY `utl_etu_visites`.`dest` ORDER BY visites DESC LIMIT 0, 10");
   $mcts->add(new sqltable("top_full",
                           "Top 10 des fiches matmatronch masculines les plus visit&eacute;es", $req, "stats.php",
                           "id_utilisateur",
