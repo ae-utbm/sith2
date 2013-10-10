@@ -118,19 +118,21 @@ class fsearch extends stdcontents
          ' LEFT JOIN utl_etu USING ( id_utilisateur )' .
 	 ' INNER JOIN utl_etu_visites ON utl_etu_visites.dest = utilisateurs.id_utilisateur ' .
          ' WHERE CONCAT(prenom_utl,\' \',nom_utl) REGEXP \'^'.$sqlpattern.'\' '. $force_sql .
-         ' GROUP BY utl_etu_visites.dest UNION DISTINCT SELECT CONCAT(prenom_utl,\' \',nom_utl),\'1\' as method, utilisateurs.*, COUNT(*) as visites' .
+         ' GROUP BY IFNULL(utl_etu_visites.dest, utilisateurs.id_utilisateur) UNION DISTINCT SELECT CONCAT(prenom_utl,\' \',nom_utl),\'1\' as method, utilisateurs.*, COUNT(*) as visites' .
          ' FROM utilisateurs' .
          ' LEFT JOIN utl_etu USING ( id_utilisateur )' .
 	 ' INNER JOIN utl_etu_visites ON utl_etu_visites.dest = utilisateurs.id_utilisateur ' .
          ' WHERE CONCAT(nom_utl,\' \',prenom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql .
-         ' GROUP BY utl_etu_visites.dest UNION DISTINCT SELECT surnom_utbm, \'4\' as method, utilisateurs.*, COUNT(*) AS visites' .
+         ' GROUP BY IFNULL(utl_etu_visites.dest, utilisateurs.id_utilisateur) UNION DISTINCT SELECT surnom_utbm, \'4\' as method, utilisateurs.*, COUNT(*) AS visites' .
          ' FROM utl_etu_utbm' .
          ' INNER JOIN utilisateurs USING (id_utilisateur)' .
 	 ' INNER JOIN utl_etu_visites ON utl_etu_visites.dest = utilisateurs.id_utilisateur ' .
          ' LEFT JOIN utl_etu USING ( id_utilisateur )' .
          ' WHERE surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\''.
          ' AND CONCAT(prenom_utl,\' \',nom_utl) NOT REGEXP \'^'.$sqlpattern.'\' '.$force_sql .
-         ' GROUP BY utl_etu_visites.dest) t ORDER BY visites DESC LIMIT 3');
+         ' GROUP BY IFNULL(utl_etu_visites.dest, utilisateurs.id_utilisateur)) t ORDER BY visites DESC LIMIT 3');
+
+
 
         $this->buffer .= "<h2>Personnes</h2>";
         $this->buffer .= "<ul>";
