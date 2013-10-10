@@ -1294,11 +1294,13 @@ elseif ( ($_REQUEST["view"]=="stats") && ($user->etudiant || $user->ancien_etudi
 }
 else
 {
-  if ( $site->user->id != $user->id )
+  $req = new requete($site->db, "SELECT * from utl_etu_visites WHERE dest = "
+	  .$user->id." AND orig = ".$site->user->id." AND date > '"
+	  .date("Y-m-d H:i:s", time()-3600)."'");
+  if ( $site->user->id != $user->id && $req->lines == 0)
   {
 	  
-	  new requete($site->dbrw, "INSERT INTO `temp` (dest,orig) VALUES (".$user->id." , ".$site->user->id.")");
-	  new requete($site->dbrw, "UPDATE `utl_etu` SET `visites`=`visites`+1 WHERE `id_utilisateur`=".$user->id);
+	  new requete($site->dbrw, "INSERT INTO `utl_etu_visites` (dest,orig,date) VALUES (".$user->id." , ".$site->user->id." , '".date("Y-m-d H:i:s")."')");
   }
 
   $user->load_all_extra();
