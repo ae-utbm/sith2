@@ -134,6 +134,7 @@ class fsearch extends stdcontents
 
         $this->buffer .= "<h2>Personnes</h2>";
         $this->buffer .= "<ul>";
+	echo $req->lines;
 
         $this->nb += $req->lines;
 
