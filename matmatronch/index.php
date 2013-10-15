@@ -204,7 +204,7 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
       $req = new requete($site->db,"SELECT `utilisateurs`.*, `utl_etu`.citation,
         `utl_etu`.adresse_parents, `utl_etu`.ville_parents,
         `utl_etu`.cpostal_parents, `utl_etu`.pays_parents, `utl_etu`.tel_parents,
-        `utl_etu`.nom_ecole_etudiant, `utl_etu`.visites, `utl_etu`.id_ville,
+        `utl_etu`.nom_ecole_etudiant, `utl_etu`.id_ville,
         `utl_etu`.id_pays, `utl_etu_utbm`.semestre_utbm,
         `utl_etu_utbm`.branche_utbm, `utl_etu_utbm`.filiere_utbm,
         `utl_etu_utbm`.surnom_utbm, `utl_etu_utbm`.email_utbm,

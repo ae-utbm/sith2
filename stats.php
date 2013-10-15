@@ -42,8 +42,6 @@ if(!$site->user->is_in_group ("gestion_ae"))
                 array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
                 array("sas","stats.php?view=sas", "SAS"),
                 );
-  if($site->user->is_asso_role (27,2))
-    $tabs[]=array("matmatronch","stats.php?view=matmatronch", "Matmatronch");
   if($site->user->is_asso_role ( 2, 2 ))
     $tabs[]=array("comptoirs","stats.php?view=comptoirs", "Comptoirs");
 }
@@ -52,7 +50,6 @@ else
   $tabs = array(array("","stats.php", "Informations"),
                 array("cotisants","stats.php?view=cotisants", "Cotisants"),
                 array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
-                array("matmatronch","stats.php?view=matmatronch", "Matmatronch"),
                 array("sas","stats.php?view=sas", "SAS"),
                 array("actifs","stats.php?view=actifs", "Membres actifs"),
                 array("forum","stats.php?view=forum", "Forum"),
@@ -1162,170 +1159,6 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     }
   }
 
-}
-elseif ( $_REQUEST["view"] == "matmatronch" )
-{
-  if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_asso_role(27,2))
-    $site->error_forbidden("presentation");
-
-  $mcts = new contents("Matmatronch");
-
-
-  $req = new requete($site->db,"SELECT `utl_etu_visites`.`dest` as id_utilisateur, COUNT(*) as visites, ".
-                               "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
-                               "FROM `utl_etu_visites` ".
-                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu_visites`.`dest` ".
-                               "WHERE `utilisateurs`.`utbm_utl`='1' GROUP BY `utl_etu_visites`.`dest` ORDER BY visites DESC LIMIT 0, 10");
-
-
-  $mcts->add(new sqltable("top_full",
-                         "Top 10 g&eacute;n&eacute;ral des fiches matmatronch les plus visit&eacute;es", $req, "stats.php",
-                         "id_utilisateur",
-                         array("=num" => "N°",
-                               "nom_utilisateur"=>"Nom & Prénom",
-                               "visites"=>"Visites"),
-                         array(),
-                         array(),
-                         array()
-            ),true);
-
-  $req = new requete($site->db,"SELECT `utl_etu_visites`.`dest` as id_utilisateur, COUNT(*) as visites, ".
-                               "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
-                               "FROM `utl_etu_visites` ".
-                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu_visites`.`dest` ".
-                               "WHERE `utilisateurs`.`utbm_utl`='1' AND `utilisateurs`.`sexe_utl`='2' GROUP BY `utl_etu_visites`.`dest` ORDER BY visites DESC LIMIT 0, 10");
-  $mcts->add(new sqltable("top_full",
-                         "Top 10 des fiches matmatronch f&eacute;minines les plus visit&eacute;es", $req, "stats.php",
-                         "id_utilisateur",
-                         array("=num" => "N°",
-                               "nom_utilisateur"=>"Nom & Prénom",
-                               "visites"=>"Visites"),
-                         array(),
-                         array(),
-                         array()
-            ),true);
-
-  $req = new requete($site->db,"SELECT `utl_etu_visites`.`dest` as id_utilisateur, COUNT(*) as visites, ".
-                               "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
-                               "FROM `utl_etu_visites` ".
-                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu_visites`.`dest` ".
-                               "WHERE `utilisateurs`.`utbm_utl`='1' AND `utilisateurs`.`sexe_utl`='1' GROUP BY `utl_etu_visites`.`dest` ORDER BY visites DESC LIMIT 0, 10");
-  $mcts->add(new sqltable("top_full",
-                          "Top 10 des fiches matmatronch masculines les plus visit&eacute;es", $req, "stats.php",
-                          "id_utilisateur",
-                          array("=num" => "N°",
-                                "nom_utilisateur"=>"Nom & Prénom",
-                                "visites"=>"Visites"),
-                          array(),
-                          array(),
-                          array()
-            ),true);
-
-  $req = new requete($site->db,"SELECT `utl_etu_visites`.`orig` as id_utilisateur, COUNT(*) as visites, ".
-                               "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
-                               "FROM `utl_etu_visites` ".
-                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu_visites`.`orig` ".
-                               "GROUP BY `utl_etu_visites`.`orig` ORDER BY visites DESC LIMIT 0, 10");
-
-
-  $mcts->add(new sqltable("top_full",
-                         "Top 10 g&eacute;n&eacute;ral des personnes qui visitent le plus de fiches", $req, "stats.php",
-                         "id_utilisateur",
-                         array("=num" => "N°",
-                               "nom_utilisateur"=>"Nom & Prénom",
-                               "visites"=>"Visites"),
-                         array(),
-                         array(),
-                         array()
-            ),true);
-
-  $req = new requete($site->db,"SELECT `utl_etu_visites`.`orig` as id_utilisateur, COUNT(*) as visites, ".
-                               "CONCAT(`u1`.`nom_utl`,' ',`u1`.`prenom_utl`) as `nom_utilisateur` ".
-                               "FROM `utl_etu_visites` ".
-                               "INNER JOIN `utilisateurs` as u1 ON `u1`.`id_utilisateur`=`utl_etu_visites`.`orig` ".
-                               "INNER JOIN `utilisateurs` as u2 ON `u2`.`id_utilisateur`=`utl_etu_visites`.`dest` ".
-                               "WHERE `u2`.`utbm_utl`='1' AND `u2`.`sexe_utl`='2' GROUP BY `utl_etu_visites`.`orig` ORDER BY visites DESC LIMIT 0, 10");
-
-
-  $mcts->add(new sqltable("top_full",
-                         "Top 10 g&eacute;n&eacute;ral des personnes qui visitent le plus de fiches de femmes", $req, "stats.php",
-                         "id_utilisateur",
-                         array("=num" => "N°",
-                               "nom_utilisateur"=>"Nom & Prénom",
-                               "visites"=>"Visites"),
-                         array(),
-                         array(),
-                         array()
-            ),true);
-
-
-
-
-
-  $req = new requete($site->db,"SELECT `utl_etu_visites`.`orig` as id_utilisateur, COUNT(*) as visites, ".
-                               "CONCAT(`u1`.`nom_utl`,' ',`u1`.`prenom_utl`) as `nom_utilisateur` ".
-                               "FROM `utl_etu_visites` ".
-                               "INNER JOIN `utilisateurs` as u1 ON `u1`.`id_utilisateur`=`utl_etu_visites`.`orig` ".
-                               "INNER JOIN `utilisateurs` as u2 ON `u2`.`id_utilisateur`=`utl_etu_visites`.`dest` ".
-                               "WHERE `u2`.`utbm_utl`='1' AND `u2`.`sexe_utl`='1' GROUP BY `utl_etu_visites`.`orig` ORDER BY visites DESC LIMIT 0, 10");
-
-
-  $mcts->add(new sqltable("top_full",
-                         "Top 10 g&eacute;n&eacute;ral des personnes qui visitent le plus de fiches d'homme", $req, "stats.php",
-                         "id_utilisateur",
-                         array("=num" => "N°",
-                               "nom_utilisateur"=>"Nom & Prénom",
-                               "visites"=>"Visites"),
-                         array(),
-                         array(),
-                         array()
-            ),true);
-
-
-
-  $month = date("m");
-  $debut_semestre = null;
-  $debut_annee = null;
-  if ( $month >= 2 && $month < 9 )
-  {
-    $debut_semestre = date("Y")."-02-01";
-    $debut_annee = (date("Y")-1)."-09-01";
-  }
-  else if ( $month >= 9 )
-  {
-    $debut_semestre = date("Y")."-09-01";
-    $debut_annee = date("Y")."-02-01";
-  }
-  else
-  {
-    $debut_semestre = (date("Y")-1)."-09-01";
-    $debut_annee = (date("Y")-1)."-02-01";
-  }
-
-
-  $req = new requete($site->db,"SELECT `publique_utl`, COUNT(*) total, ".
-                              	"SUM(IF(`date_maj_utl` > '$debut_semestre' OR `publique_utl` = '2', 1, 0 )) `semestre_chg`, ".
-                              	"SUM(IF(`date_maj_utl` > '$debut_annee' OR `publique_utl` = '2', 1, 0 )) `annee_chg`, ".
-                              	"SUM(IF(`date_maj_utl` > '2010-09-01' OR `publique_utl` = '2', 1, 0 )) `apres_chg` ".
-                              	"FROM `utilisateurs` ".
-                              	"GROUP BY `publique_utl` ".
-                              	"ORDER BY `publique_utl` DESC");
-
-
-  $mcts->add(new sqltable("public_levels",
-                          "Accès aux fiches matmatronch", $req, "stats.php",
-                          "publique_utl",
-                          array("publique_utl" => "Niveau d'accès",
-                                "total"=>"Toutes les fiches",
-                                "semestre_chg"=>"Fiches mises à jour depuis le ".date("d/m/Y",strtotime($debut_semestre)),
-                                "annee_chg"=>"Fiches mises à jour depuis le ".date("d/m/Y",strtotime($debut_annee)),
-                                "apres_chg"=>"Fiches mises à jour depuis le 01/09/2010"),
-                          array(),
-                          array(),
-                          array("publique_utl"=>array(0=> "Fiches privées", 1=>"Fiches accessibles aux membres de l'ae", 2=>"Fiches accessibles aux membres de l'ae/utbm"))
-            ),true);
-
-  $cts->add($mcts);
 }
 elseif ( $_REQUEST["view"] == "elections" )
 {
