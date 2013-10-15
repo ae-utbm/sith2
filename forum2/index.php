@@ -344,7 +344,7 @@ if ( $_REQUEST['page'] == 'delete' )
       else
         $ret =$message->delete($forum, $sujet, $site->user->id);
 
-      $utl_concerne = new utilisateur();
+      $utl_concerne = new utilisateur($site->db);
       $utl_concerne->load_by_id($message->id_utilisateur);
       if($utl_concerne->is_valid())
 	      $utl_concerne->send_email("Suppression d'un de vos message",
