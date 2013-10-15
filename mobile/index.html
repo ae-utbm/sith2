@@ -1,0 +1,328 @@
+<html>
+<!--
+  Created using jsbin.com
+  Source can be edited via http://jsbin.com/UboyeQA/30/edit
+-->
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, user-scalable=false;">
+
+    <style id="jsbin-css">
+        .notif{
+            text-align:center;
+            min-height:50px;
+            margin-left :6px;
+            margin-right:6px;
+            margin-top:0px;
+        }
+        *{
+            font-family:verdana;
+        }
+        form>*{
+            display:block;
+            min-width:271px;
+            width:100%
+        }
+        body{
+            background:rgb(0,0,50);
+            background: radial-gradient( rgb(67, 66, 72), #05050F);
+
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .horizontalFlexBox{
+            display:-webkit-flex;
+            display:-ms-flex;
+            display:flex;
+            min-width:271px;
+            flex-direction:row;
+            -webkit-flex-direction:row;
+            -ms-flex-direction:row;
+            margin : 5px 5px 5px 5px;
+        }
+        .closed{
+            background:rgba(222,222,231,0.009);
+            color:#CD0619;
+        }
+
+        span>button{
+            margin-left:5px;
+            margin-right:5px;
+            width:90%;
+            max-width:800px;
+
+            padding-top:5px;
+            padding-bottom:5px;
+            background:rgba(222,222,231,0.02);
+            color:#4DCD06;
+        }
+        .flexbox{
+            display:-ms-flex;
+            display:-webkit-flex;
+            display:flex;
+            text-align:center;
+
+            position: relative;
+            top: 0; left: 0; bottom: 0; right: 0;
+
+            flex-direction:column;
+            -webkit-flex-direction:column;
+            -ms-flex-direction:column;
+            margin : 5px 5px 5px 5px;
+        }
+        .flexbox>*{
+            margin-top:4px;
+            margin-bottom:10px;
+        }
+        .hidden{
+            display:none;
+        }
+        .main>div>span{
+            text-align:center;
+        }
+        input{
+            background-color:#EBEBF9;
+            margin-left:5px;
+            margin-right:5px;
+            padding-left:5px;
+            min-height:50px;
+            border-top:0px solid white;
+            border-left:0px solid white;
+            border-right:0px solid white;
+            border-bottom:0px solid white;
+        }
+        input:focus{
+            box-shadow:0px 0px 5px 5px rgba(50,50,250,0.5);
+        }
+        img{
+            max-height:558px;
+            max-width:339px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        .main{
+            max-height:800px;
+            max-width:800px;
+            margin-top:auto;
+            margin-bottom:auto;
+            margin-left:auto;
+            margin-right:auto;
+            margin: auto;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+
+        }
+        .login>button{
+            font-size:15px;
+        }
+        button{
+            background:rgba(222,222,231,0.15);
+            color:white;
+            margin-left:5px;
+            margin-right:5px;
+            min-height:50px;
+            padding:2px 2px 2px 2px;
+            border:1px;
+        }
+
+        .error{
+            display:block;
+            background:rgba(222,222,231,0.02);
+            border:2px solid rgba(250,20,20,0.8);
+            text-align:center;
+            color:white;
+        }
+        .success{
+            display:block;
+            background:rgba(222,222,231,0.02);
+            border:2px solid rgba(20,150,20,0.3);
+            text-align:center;
+            color:white;
+        }
+
+        .warn{
+            display:block;
+            background:rgba(222,222,231,0.02);
+            border:2px solid rgba(250,187,0,0.3);
+            text-align:center;
+            color:white;
+        }
+
+        @keyframes shake{
+            0% { transform: translate(0px, 0px); }
+            10% { transform: translate(2px, 0px); }
+            20% { transform: translate(-2px, 0px); }
+            30% { transform: translate(2px,0px);}
+            40% { transform: translate(-2px,0px);}
+            50% { transform: translate(0px,0px);}
+            60% { transform: translate(-10px,0px);}
+            70% { transform: translate(10px,0px);}
+            80%{ transform: translate(-10px,0px);}
+
+        }
+
+        .shake{
+            animation-name: shake;
+            animation-duration: 0.5s;
+            transform-origin:50% 50%;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+    </style>
+</head>
+<body>
+u
+<div class="main">
+    <div class="flexbox">
+        <img onClick="logout()" src="http://img11.hostingpics.net/pics/117808aeblanc.png" height=200px alt="logo joli ici"/>
+        <form class="login flexbox">
+            <input required id="inputCarteAe" type="text" name="carteae" placeholder="Carte AE" maxlength=5 />
+            <input required name="password" type="password" placeholder="mot de passe"/>
+            <button onClick="logMe()" >Log me!</button>
+        </form>
+    </div>
+    <div class="message hidden flexbox">
+        <form class="flexbox">
+            <input id="messageId" placeholder="Message" maxlength="200"/>
+            <button onClick="send()" > Send </button>
+        </form>
+    </div>
+
+    <div class="flexbox">
+        <div class="notif hidden">
+        </div>
+    </div>
+</div>
+<script>
+    //licence openslip! apache 2
+
+    $(document).ready(function () {
+        logger = function (message, atype) {
+            $(".notif").empty();
+            $(".notif").removeClass("success");
+            $(".notif").removeClass("warn");      $(".notif").removeClass("error");
+            $(".notif").addClass(atype);
+            $(".notif").append("<pre>"+message+"</pre>");
+            if (atype == "error") {
+                i = 0;
+                $(".main").addClass("shake");
+                setTimeout(function () {
+                    $('.main').removeClass("shake");
+                }, 500);
+
+            }
+            $(".notif").fadeIn(500);
+            setTimeout(function () {
+                $(".notif").fadeOut(500);
+                $(".notif").empty();
+            }, 5000);
+
+        };
+
+        $("form").submit(function (e) {
+            e.preventDefault();
+        });
+
+        idUser = "";
+        serviceID = "";
+        logMe = function () {
+            id = $("input[name='carteae']").val();
+            pwd = $("input[name='password']").val();
+            if (!id || !pwd) {
+                return -1;
+            }
+            $(".login>button").css("background","rgba(95,95,95,0.4)");
+            $(".login>button").html("logging in progress");
+            $(".login>button").prop("disabled",true)
+            $.ajax({
+                url: "https://ae.utbm.fr/gateway.php?module=appli-mobile&req=login&domain=carteae&username=" + id + "&password=" + pwd,
+                error: function (info) {
+                    logger("failed\n" + info.status, "error");
+                    $(".login>button").prop("disabled",false)
+
+                    $(".login>button").html("log me!");
+                    $(".login>button").css("background","rgba(222,222,231,0.02)");
+
+
+                },
+                success: function (send, status, returnedValue) {
+                    $(".login>button").prop("disabled",false)
+                    $(".login>button").html("log me!");
+                    $(".login>button").css("background","rgba(222,222,231,0.02)");
+                    if (!returnedValue.responseText) {
+                        logger("failed", "error");
+                        return;
+                    }
+                    if (returnedValue.responseText == "echec" || returnedValue.responseText=="erreur") {
+                        logger("failed\n wrong credentials", "error");
+                        return;
+                    }
+                    logger("logged!", "success");
+                    userID = returnedValue.responseText.split("\n")[0];
+                    serviceID = returnedValue.responseText.split("\n")[1];
+                    $(".message").fadeIn(400);
+
+                    $(".login").fadeOut(300);
+                    $("#messageId").focus();
+                }
+
+            });
+        };
+        send = function () {
+            message = $("#messageId").val();
+            if (!userID || !serviceID) {
+                logger("not logged", "error");
+                $(".message").fadeOut();
+                $(".login").fadeIn();
+                return;
+            }
+            $(".message>form>button").css("background","rgba(95,95,95,0.4)");
+            $(".message>form>button").prop("disabled",true);
+            $(".message>form>button").html("in progress");
+
+            $.ajax({
+                url: "http://ae.utbm.fr/gateway.php?module=appli-mobile&req=com&id=" + userID + "&serviceident=" + serviceID + "&mess=" + message,
+                error: function (info) {
+                    logger("failed :" + info.status, "error");
+                    $(".message>form>button").css("background","rgba(222,222,231,0.02)");
+
+                },
+                success: function (send, status, returnedValue) {
+                    if (returnedValue.responseText == "Ok") {
+                        logger("message send!", "success");
+                        $(".message>form>button").prop("disabled",false)
+                        $(".message>form>button").html("send!");
+                        $(".message>form>button").css("background","rgba(222,222,231,0.02)");
+
+                    }
+                    else {
+                        logger("something wrong!\n" + returnedValue.responseText, "error");
+                        $(".message>form>button").prop("disabled",false)
+                        $(".message>form>button").html("send!");
+                        $(".message>form>button").css("background","rgba(222,222,231,0.02)");
+
+                    }
+                }
+            });
+        };
+        logout=function(){
+            $("input").val("");
+            userID="";
+            serviceID="";
+            $(".message").fadeOut();
+            $(".login").fadeIn();
+        }
+
+        logger("version RC 1.1","warn");
+        $("#inputCarteAe").focus();
+    })
+
+    ;
+</script>
+</body>
+</html>
+
+
+
+
