@@ -236,7 +236,7 @@ u
             $(".login>button").html("logging in progress");
             $(".login>button").prop("disabled",true)
             $.ajax({
-                url: "https://ae.utbm.fr/gateway.php?module=appli-mobile&req=login&domain=carteae&username=" + id + "&password=" + pwd,
+                url: "/gateway.php?module=appli-mobile&req=login&domain=carteae&username=" + id + "&password=" + pwd,
                 error: function (info) {
                     logger("failed\n" + info.status, "error");
                     $(".login>button").prop("disabled",false)
