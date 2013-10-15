@@ -282,7 +282,7 @@ if ( $_REQUEST['page'] == 'delete' )
 
 	    $cts->add_paragraph("Êtes vous sûr ?");
 
-	    $frm = new form("suppressmess?");
+	    $frm = new form("suppressmess","?");
 	    $frm->allow_only_one_usage();
 	     foreach ( $_POST as $key => $val )
 	      if ( $key != "magicform" )
