@@ -309,8 +309,10 @@ if ( $_REQUEST['page'] == 'delete' )
 		  $frm->add_hidden($key,$val);
 	      }
 
-	    $frm->add_text_area("raison","Raison de la modération (obligatoire)","",
-		    40,4,true, true);
+	    //if($message->id_utilisateur != $site->user->id)
+		    $frm->add_text_area("raison",
+			"Raison de la modération (obligatoire)",
+			"",40,4,true, true);
 
 	    $frm->add_submit("___i_am_really_sure","Valider");
 	    $frm->add_submit("___finally_i_want_to_cancel","Annuler");
@@ -326,7 +328,7 @@ if ( $_REQUEST['page'] == 'delete' )
       && isset($_POST["___i_am_really_sure"]))
 	{
 	  $raison = trim($_REQUEST["raison"]); 
-	  if( empty($raison))
+	  if( empty($raison) && ($message->id_utilisateur != $site->user->id))
 	  {
                 $cts = new contents("Raison manquante",
                         "La raison pour la suppression est obligatoire.");
@@ -341,6 +343,14 @@ if ( $_REQUEST['page'] == 'delete' )
         $sujet->delete($forum);
       else
         $ret =$message->delete($forum, $sujet, $site->user->id);
+
+      $utl_concerne = new utilisateur();
+      $utl_concerne->load_by_id($message->id_utilisateur);
+      if($utl_concerne->is_valid())
+	      $utl_concerne->send_email("Suppression d'un de vos message",
+		      "Votre message\n\n\"$message->contenu\"\n\n a été modéré par "
+		      .$site->user->prenom." ".$site->user->nom." pour la raison".
+		      " suivante:\n\n$raison");
 
       $cts = new contents("Suppression d'un message",
         "Message supprimé avec succès.");

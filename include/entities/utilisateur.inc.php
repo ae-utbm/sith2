@@ -1446,6 +1446,17 @@ class utilisateur extends stdentity
     $this->send_activation_email($email);
   }
 
+  function send_email ( $title, $body )
+  {
+
+    $ret = mail($this->email,
+                $title,
+                utf8_decode($body),
+                "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
+
+  }
+
+
   function send_activation_email ( $email )
   {
 
