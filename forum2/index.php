@@ -265,13 +265,62 @@ if ( $_REQUEST["action"] == "post" && !$forum->categorie )
 if ( $_REQUEST['page'] == 'delete' )
 {
   $site->allow_only_logged_users("forum");
+  
+
   if ( $message->is_valid() )
   {
     $user = new utilisateur($site->db);
     $user->load_by_id($message->id_utilisateur);
 
-    if ((($forum->is_admin($site->user)) || ($message->id_utilisateur == $site->user->id))
-      && $site->is_sure("", "Suppression du message ".$message->id." de ".$user->prenom." ".$user->nom." du ".human_date($message->date).".", 1))
+	if ( !isset($_POST["___i_am_really_sure"]) && !isset($_POST["___finally_i_want_to_cancel"]) )
+	  {
+	    $site->start_page($section,"Êtes vous sûr ?");
+
+	    $cts = new contents("Confirmation");
+
+	    $cts->add_paragraph("Suppression du message ".$message->id." de ".$user->prenom." ".$user->nom." du ".human_date($message->date).".");
+
+	    $cts->add_paragraph("Êtes vous sûr ?");
+
+	    $frm = new form("suppressmess?");
+	    $frm->allow_only_one_usage();
+	     foreach ( $_POST as $key => $val )
+	      if ( $key != "magicform" )
+	      {
+		if($key=="__script__")
+		  $frm->add_hidden($key,htmlspecialchars($val));
+		else if (is_array($val))
+		{
+		  foreach ( $val as $k => $v )
+		    $frm->add_hidden($key.'['.$k.']',$v);
+		}
+		else
+		  $frm->add_hidden($key,$val);
+	      }
+	    foreach ( $_GET as $key => $val )
+	      if ( $key != "magicform" )
+	      {
+		if (is_array($val))
+		{
+		  foreach ( $val as $k => $v )
+		    $frm->add_hidden($key.'['.$k.']',$v);
+		}
+		else
+		  $frm->add_hidden($key,$val);
+	      }
+
+	    $frm->add_submit("___i_am_really_sure","OUI");
+	    $frm->add_submit("___finally_i_want_to_cancel","NON");
+
+	    $cts->add($frm);
+
+	    $site->add_contents($cts);
+
+	    $site->end_page();
+	    exit();
+	  }
+	elseif ((($forum->is_admin($site->user)) || ($message->id_utilisateur == $site->user->id))
+      && isset($_POST["___i_am_really_sure"]))
     {
       $message_initial = new message($site->db);
       $message_initial->load_initial_of_sujet($sujet->id);
