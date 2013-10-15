@@ -1,208 +1,206 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <!--
   Created using jsbin.com
-  Source can be edited via http://jsbin.com/AsAcATA/19/edit
+  Source can be edited via http://jsbin.com/AsAcATA/21/edit
 -->
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <title></title>
 
-<style id="jsbin-css">
-.hidden{
- display:none;
-}
-#slideDiv {
-    z-index: 1;
-    min-height:100%;
-    height: 1200px;
-    background:rgb(0,0,50);
-    background: radial-gradient( rgb(67, 66, 72), #05050F);
-    vertical-align:middle;
-    margin-top:auto;
-    margin-bottom:auto;
-    margin-left: auto;
-    margin-right:auto;
-    text-align:center;
-}
-.logmessage{
-}
-.notif{
-  .display:flex;
-  flex-direction:row;
-  position: absolute;
-    font-size: 50px;
-    font-family:verdana;
-    width: 100%;
-    bottom: 0;
-    margin: 0 auto;
-    z-index: 2;
-    background:white;
-    box-shadow: 0px -15px 10px darkred;
-      border-top:-5px solid #FF8800;
+    <style id="jsbin-css">
+        .hidden{
+            display:none;
+        }
+        #slideDiv {
+            z-index: 1;
+            min-height:100%;
+            background:rgb(0,0,50);
+            background: radial-gradient( rgb(67, 66, 72), #05050F);
+            vertical-align:middle;
+            margin-top:auto;
+            margin-bottom:auto;
+            margin-left: auto;
+            margin-right:auto;
+            text-align:center;
+        }
+        .logmessage{
+        }
+        .notif{
+        .display:flex;
+        flex-direction:row;
+        position: absolute;
+        font-size: 50px;
+        font-family:verdana;
+        width: 100%;
+        bottom: 0;
+        margin: 0 auto;
+        z-index: 2;
+        background:white;
+        box-shadow: 0px -15px 10px darkred;
+        border-top:-5px solid #FF8800;
 
-  color:black;
-}
-body{
-  overflow:hidden;
-      background: radial-gradient( rgb(67, 66, 72), #05050F);
-    margin: 0 0 0 0 ;
-    display:flex;
-  flex-direction:column;
-    flex:fill;
-    justify-content:center;
-  align-content:stretch;
-}
-figure{
-    max-width: 100%;
-    display: flex;
-    flex-direction:row;
-    margin:0 0 0 0 ;
+        color:black;
+            }
+        body{
+            overflow:hidden;
+            height:100%;
+            background: radial-gradient( rgb(67, 66, 72), #05050F);
+            margin: 0 0 0 0 ;
+            display:flex;
+            flex-direction:column;
+            flex:fill;
+            justify-content:center;
+            align-content:stretch;
+        }
+        figure{
+            max-height: 100%;
+            height:100%;
+            display: flex;
+            flex-direction:row;
+            margin:0 0 0 0 ;
 
-}
-.flexImg{
-    max-width: 100%;
-     background: radial-gradient( rgb(67, 66, 72), #05050F);
+        }
+        .flexImg{
+            max-height: 100%;
+            background: radial-gradient( rgb(67, 66, 72), #05050F);
 
-    height:1100px;
-    vertical-align:middle;
-    margin-top:auto;
-    margin-bottom:auto;
-    margin-left: auto;
-    margin-right: auto;
-    }
-</style>
+            vertical-align:middle;
+            margin-top:auto;
+            margin-bottom:auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 <body>
-   <div id="slideDiv" class="flexbox">
-   </div>
-   <div class="notif"></div>
+<div id="slideDiv" class="flexbox">
+</div>
+<div class="notif"></div>
 <script>
-version="RC 1.9";
-incomingMessage=[];
-affiches=[];
-pathToimg="http://ae.utbm.fr/data/files/";
-timeRefresh=6000 // in miliss
-msgRefresh=4000
-maxLog=5;
-logCounter=0;
-logDiv=$("#logDiv");
+    version="RC 2.0";
+    incomingMessage=[];
+    affiches=[];
+    pathToimg="http://ae.utbm.fr/data/files/";
+    timeRefresh=6000 // in miliss
+    msgRefresh=4000
+    maxLog=5;
+    logCounter=0;
+    logDiv=$("#logDiv");
 
 
 
-refreshAffiche=function(){
-    var xmlFile=$.get("http://ae.utbm.fr/affiches.php?page=xml");
-    slideDiv.empty();
-    xmlFile.error(function(self,errorCode,error){
-        logger("unable to connect to ae.utbm.fr err: "+errorCode,"error");
-        return;
-    });
-    xmlFile.success(function(r){
-    try{
-        var xml=$(r);
-        var presentation=$(xml.find("presentation"));
-        for(var i=0;i<presentation.children().length;i++){
-            affiche=$(presentation.find("affiche")[i]);
-            path=pathToimg+$(affiche.find("fichier")).text();
-            newAffiche={
-              html:"<figure><img class='flexImg' src='"+path+"' alt='image missing'/></figure>",
-                next:""
-            };
-            if(i!==0){
-                affiches[i-1].next=newAffiche;
+    refreshAffiche=function(){
+        var xmlFile=$.get("http://ae.utbm.fr/affiches.php?page=xml");
+        slideDiv.empty();
+        xmlFile.error(function(self,errorCode,error){
+            logger("unable to connect to ae.utbm.fr err: "+errorCode,"error");
+            return;
+        });
+        xmlFile.success(function(r){
+            try{
+                var xml=$(r);
+                var presentation=$(xml.find("presentation"));
+                for(var i=0;i<presentation.children().length;i++){
+                    affiche=$(presentation.find("affiche")[i]);
+                    path=pathToimg+$(affiche.find("fichier")).text();
+                    newAffiche={
+                        html:"<figure><img class='flexImg' src='"+path+"' alt='image missing'/></figure>",
+                        next:""
+                    };
+                    if(i!==0){
+                        affiches[i-1].next=newAffiche;
+                    }
+                    affiches.push(newAffiche);
+                }
+                if(presentation.children().length>1){
+                    affiches[affiches.length-1].next=affiches[0];
+                }
+                if(presentation.children().length==1){
+                    affiche[0].next=affiches[0]
+                }
             }
-            affiches.push(newAffiche);
-        }
-        if(presentation.children().length>1){
-          affiches[affiches.length-1].next=affiches[0];
-        }
-        if(presentation.children().length==1){
-            affiche[0].next=affiches[0]
-        }
-    }
-    catch(Exception){
-        alert(Exception.message);
-    }
-    console.log(affiches.length);
-    launchslideShow()
-    launchMessageService()
-    });
-};
+            catch(Exception){
+                alert(Exception.message);
+            }
+            console.log(affiches.length);
+            launchslideShow()
+            launchMessageService()
+        });
+    };
 
-launchMessageService=function(){
-  setTimeout(function(){
-      messageCheck();
-      launchMessageService();
-  },msgRefresh);
-}
-launchslideShow=function(){
-    if(affiches.length>0){
-        show(affiches[0]);
-    }
-    else{
-        logger("Init in progress version="+version,"success")
-    }
-}
-messageCheck=function(){
-  if($(".logmessage").length>0){
-    $($(".logmessage")[0]).fadeOut(msgRefresh);
-    setTimeout(function(){
-      $($(".logmessage")[0]).remove();
-     if($(".logmessage").length==0){
-       $(".notif").fadeOut("slow"); 
-       
-    }},msgRefresh);
-  }else{
-      $(".notif").fadeOut("slow");
-  }
-  $.ajax({
-    url:"http://ae.utbm.fr/gateway.php?module=ecrancom&secret=messageForTheLulz",
-    error:function(self,errorcode,error){
-      logCounter++;
-      if(logCounter<maxLog){
-        logger("unable to retrieve message status is :"+errorcode,"error");
-      }
-    },
-    success:function(response){
-      logCounter=0;
-      if(!response){
-        return;
-      }
-      
-      message=response.split('\n').slice(2,response.split('\n').length).join();
-audio.src=response.split('\n')[1];
-      
-      logger("<div>"+response.split('\n')[0]+":</div><div>"+message+"</div>","");
-    }
-  });
-}
-show=function(affiche){
-    //if comment were print, you will see me a lot!
-    current=affiche;
-    setTimeout(function(){
-        $("#slideDiv").html(current.html);
+    launchMessageService=function(){
         setTimeout(function(){
-            show(current.next);
-        },20);
-    },timeRefresh-500);
-}
-logger = function (message, type) {
-  if($(".logmessage").length==0){
-    $(".notif").fadeIn(600); 
-  }
-  toAppend="<pre class='logmessage' style='display:none;'>"+message+"</pre>";
-    $(".notif").append(toAppend);
-  $(".logmessage").fadeIn(800);
-  audio.play();
-  $(".logmessage").style("background","red");
-  
-};
-$(document).ready(function(){
-    audio=new Audio()
-    slideDiv=$("#slider");
-    refreshAffiche();
-    launchslideShow();
-});
+            messageCheck();
+            launchMessageService();
+        },msgRefresh);
+    }
+    launchslideShow=function(){
+        if(affiches.length>0){
+            show(affiches[0]);
+        }
+        else{
+            logger("Init in progress version="+version,"success")
+        }
+    }
+    messageCheck=function(){
+        if($(".logmessage").length>0){
+            $($(".logmessage")[0]).fadeOut(msgRefresh);
+            setTimeout(function(){
+                $($(".logmessage")[0]).remove();
+                if($(".logmessage").length==0){
+                    $(".notif").fadeOut("slow");
+
+                }},msgRefresh);
+        }else{
+            $(".notif").fadeOut("slow");
+        }
+        $.ajax({
+            url:"http://ae.utbm.fr/gateway.php?module=ecrancom&secret=messageForTheLulz",
+            error:function(self,errorcode,error){
+                logCounter++;
+                if(logCounter<maxLog){
+                    logger("unable to retrieve message status is :"+errorcode,"error");
+                }
+            },
+            success:function(response){
+                logCounter=0;
+                if(!response){
+                    return;
+                }
+
+                message=response.split('\n').slice(2,response.split('\n').length).join();
+                audio.src=response.split('\n')[1];
+
+                logger("<div>"+response.split('\n')[0]+":</div><div>"+message+"</div>","");
+            }
+        });
+    }
+    show=function(affiche){
+        //if comment were print, you will see me a lot!
+        current=affiche;
+        setTimeout(function(){
+            $("#slideDiv").html(current.html);
+            setTimeout(function(){
+                show(current.next);
+            },20);
+        },timeRefresh-500);
+    }
+    logger = function (message, type) {
+        if($(".logmessage").length==0){
+            $(".notif").fadeIn(600);
+        }
+        toAppend="<pre class='logmessage' style='display:none;'>"+message+"</pre>";
+        $(".notif").append(toAppend);
+        $(".logmessage").fadeIn(800);
+        audio.play();
+    };
+    $(document).ready(function(){
+        audio=new Audio()
+        slideDiv=$("#slider");
+        refreshAffiche();
+        launchslideShow();
+    });
 </script>
 </body>
 </html>
