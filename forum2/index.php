@@ -309,6 +309,8 @@ if ( $_REQUEST['page'] == 'delete' )
 		  $frm->add_hidden($key,$val);
 	      }
 
+	    $frm->add_text_field("raison","Raison de la modération (obligatoire)","", true, 140);
+
 	    $frm->add_submit("___i_am_really_sure","OUI");
 	    $frm->add_submit("___finally_i_want_to_cancel","NON");
 
@@ -321,7 +323,15 @@ if ( $_REQUEST['page'] == 'delete' )
 	  }
 	elseif ((($forum->is_admin($site->user)) || ($message->id_utilisateur == $site->user->id))
       && isset($_POST["___i_am_really_sure"]))
-    {
+	{
+	  $raison = trim($_REQUEST["raison"]); 
+	  if( empty($raison))
+	  {
+                $cts = new contents("Suppression d'un message",
+                        "Message supprimé avec succès.");
+                $site->add_contents($cts);
+		exit();
+	  }
       $message_initial = new message($site->db);
       $message_initial->load_initial_of_sujet($sujet->id);
 
