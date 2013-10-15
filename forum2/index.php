@@ -309,7 +309,8 @@ if ( $_REQUEST['page'] == 'delete' )
 		  $frm->add_hidden($key,$val);
 	      }
 
-	    $frm->add_text_field("raison","Raison de la modération (obligatoire)","", true, 140);
+	    $frm->add_text_area("raison","Raison de la modération (obligatoire)","",
+		    40,4,true, true);
 
 	    $frm->add_submit("___i_am_really_sure","OUI");
 	    $frm->add_submit("___finally_i_want_to_cancel","NON");
