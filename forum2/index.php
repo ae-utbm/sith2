@@ -309,7 +309,7 @@ if ( $_REQUEST['page'] == 'delete' )
 		  $frm->add_hidden($key,$val);
 	      }
 
-	    //if($message->id_utilisateur != $site->user->id)
+	    if($message->id_utilisateur != $site->user->id)
 		    $frm->add_text_area("raison",
 			"Raison de la modération (obligatoire)",
 			"",40,4,true, true);
@@ -346,9 +346,9 @@ if ( $_REQUEST['page'] == 'delete' )
 
       $utl_concerne = new utilisateur($site->db);
       $utl_concerne->load_by_id($message->id_utilisateur);
-      if($utl_concerne->is_valid())
+      if($utl_concerne->is_valid() && $message->id_utilisateur != $site->user->id)
 	      $utl_concerne->send_email("Suppression d'un de vos message",
-		      "Votre message\n\n\"$message->contenu\"\n\n a été modéré par "
+		      "Votre message\n\n\"$message->contenu\"\n\na été modéré par "
 		      .$site->user->prenom." ".$site->user->nom." pour la raison".
 		      " suivante:\n\n$raison");
 
