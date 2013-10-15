@@ -54,7 +54,7 @@ else if (file_exists("/data/matmatronch/".$user->id.".identity.jpg"))
 {
   $src =  "/data/matmatronch/".$user->id.".identity.jpg";
   $dest = "/data/matmatronch/".$user->id.".identity.i.jpg";
-  print_r(exec("/usr/share/php5/exec/convert $src -thumbnail 64x64 -quality 95 $dest"));
+  print_r(exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 64x64 -quality 95 $dest")));
 
   $fiche->puts("<p align=\"center\"><img src=\"/data/matmatronch/".$user->id.".identity.i.jpg\" /></p>");
 }
@@ -66,7 +66,7 @@ else if (file_exists("/data/matmatronch/".$user->id.".jpg"))
 {
   $src =  "/data/matmatronch/".$user->id.".jpg";
   $dest = "/data/matmatronch/".$user->id.".i.jpg";
-  print_r(exec("/usr/share/php5/exec/convert $src -thumbnail 64x64 -quality 95 $dest"));
+  print_r(exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 64x64 -quality 95 $dest")));
 
   $fiche->puts("<p align=\"center\"><img src=\"/data/matmatronch/".$user->id.".i.jpg\" /></p>");
 }

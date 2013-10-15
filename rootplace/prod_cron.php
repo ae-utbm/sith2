@@ -42,7 +42,7 @@ $tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),
 if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
 {
   if ( $site->is_sure ( "","Passage en production",null, 2 ) )
-    @exec(PROD_CRON);
+    @exec(escapeshellcmd(PROD_CRON));
   $Ok=true;
 }
 if ( $_REQUEST["action"] == "scriptprod" && $GLOBALS["svalid_call"] )

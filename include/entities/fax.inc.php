@@ -204,7 +204,7 @@ class fax extends stdentity
       $this->pdffile = $topdir . "var/fax/". $this->id . ".pdf";
 
       /* convert pdf in order to comply with free.fr architecture */
-      @exec("mogrify -page A4 " . $this->pdffile);
+      @exec(escapeshellcmd("mogrify -page A4 " . $this->pdffile));
 
       return true;
     }

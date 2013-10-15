@@ -770,7 +770,7 @@ class asso extends stdentity
 
   function get_subscribed_email($mailing_list)
   {
-    exec("/usr/lib/mailman/bin/list_members ".$mailing_list, $emails, $ret);
+    exec(escapeshellcmd("/usr/lib/mailman/bin/list_members ".$mailing_list), $emails, $ret);
     if ($ret != 0)
       $emails = array();
 

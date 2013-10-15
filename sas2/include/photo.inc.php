@@ -360,15 +360,15 @@ class photo extends basedb
     $dest_vgt = $this->get_abs_path().$this->id.".vignette.jpg";
 
     list($w,$h) = getimagesize($tmp_filename);
-    exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 140x105 -quality 95 $dest_vgt");
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $tmp_filename -thumbnail 140x105 -quality 95 $dest_vgt"));
     if($w < 680 && $h < 510)
-      exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail ".$w."x".$h." -quality 80 $dest_dip");
+      exec(escapeshellcmd("/usr/share/php5/exec/convert $tmp_filename -thumbnail ".$w."x".$h." -quality 80 $dest_dip"));
     else
-      exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 680x510 -quality 80 $dest_dip");
+      exec(escapeshellcmd("/usr/share/php5/exec/convert $tmp_filename -thumbnail 680x510 -quality 80 $dest_dip"));
     if($w < 2400 && $h < 2400)
-      exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail ".$w."x".$h." -quality 80 $dest_hd");
+      exec(escapeshellcmd("/usr/share/php5/exec/convert $tmp_filename -thumbnail ".$w."x".$h." -quality 80 $dest_hd"));
     else
-      exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 2400x2400 -quality 80 $dest_hd");
+      exec(escapeshellcmd("/usr/share/php5/exec/convert $tmp_filename -thumbnail 2400x2400 -quality 80 $dest_hd"));
 
     //rotation automatique
     if(isset($IFDO['Orientation']))
@@ -509,9 +509,9 @@ class photo extends basedb
     $dest_vgt = $this->get_abs_path().$this->id.".vignette.jpg";
     $dest_flv = $this->get_abs_path().$this->id.".flv";
 
-    exec("/usr/share/php5/exec/convert $tmp_photo_filename -thumbnail 140x105 -quality 95 $dest_vgt");
-    exec("/usr/share/php5/exec/convert $tmp_photo_filename -thumbnail 680x510 -quality 80 $dest_dip");
-    exec("/usr/share/php5/exec/convert $tmp_photo_filename -thumbnail 2400x2400 -quality 80 $dest_hd");
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $tmp_photo_filename -thumbnail 140x105 -quality 95 $dest_vgt"));
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $tmp_photo_filename -thumbnail 680x510 -quality 80 $dest_dip"));
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $tmp_photo_filename -thumbnail 2400x2400 -quality 80 $dest_hd"));
 
     copy($tmp_flv_filename,$dest_flv);
 
@@ -931,9 +931,9 @@ class photo extends basedb
     $dest_dip = $this->get_abs_path().$this->id.".diapo.jpg";
     $dest_vgt = $this->get_abs_path().$this->id.".vignette.jpg";
 
-    exec("/usr/share/php5/exec/convert $src_hd -rotate ".intval($degrees)." -quality 80 $src_hd");
-    exec("/usr/share/php5/exec/convert $src_hd -thumbnail 140x105 -quality 95 $dest_vgt");
-    exec("/usr/share/php5/exec/convert $src_hd -thumbnail 680x510 -quality 80 $dest_dip");
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $src_hd -rotate ".intval($degrees)." -quality 80 $src_hd"));
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $src_hd -thumbnail 140x105 -quality 95 $dest_vgt"));
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $src_hd -thumbnail 680x510 -quality 80 $dest_dip"));
   }
 
   function flip($flip=1)
@@ -942,11 +942,11 @@ class photo extends basedb
     $dest_dip = $this->get_abs_path().$this->id.".diapo.jpg";
     $dest_vgt = $this->get_abs_path().$this->id.".vignette.jpg";
     if($flip==1)//horizontal
-      exec("/usr/share/php5/exec/convert $src_hd -flop ".intval($degrees)." -quality 80 $src_hd");
+      exec(escapeshellcmd("/usr/share/php5/exec/convert $src_hd -flop ".intval($degrees)." -quality 80 $src_hd"));
     if($flip==2)//vertical
-      exec("/usr/share/php5/exec/convert $src_hd -flip ".intval($degrees)." -quality 80 $src_hd");
-    exec("/usr/share/php5/exec/convert $src_hd -thumbnail 140x105 -quality 95 $dest_vgt");
-    exec("/usr/share/php5/exec/convert $src_hd -thumbnail 680x510 -quality 80 $dest_dip");
+      exec(escapeshellcmd("/usr/share/php5/exec/convert $src_hd -flip ".intval($degrees)." -quality 80 $src_hd"));
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $src_hd -thumbnail 140x105 -quality 95 $dest_vgt"));
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $src_hd -thumbnail 680x510 -quality 80 $dest_dip"));
   }
 
   function move_to ( $id_catph )

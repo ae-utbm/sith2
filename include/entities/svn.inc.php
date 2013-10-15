@@ -97,7 +97,7 @@ class svn_depot extends stdentity
       elseif($type == "aeinfo")
         $dest = SVN_PATH.AEINFO_SVN;
 
-      if(!exec("/usr/bin/svnadmin create ".$dest.$this->nom))
+      if(!exec(escapeshellcmd("/usr/bin/svnadmin create ".$dest.$this->nom)))
       {
         // il faut supprimer l'entrée dans la base de donnée
         return false;
@@ -108,7 +108,7 @@ class svn_depot extends stdentity
       @mkdir("/tmp/".$this->nom."/tags",0777);
       @mkdir("/tmp/".$this->nom."/trunk",0777);
       if(is_dir("/tmp/".$this->nom))
-        exec("svn import /tmp/".$this->nom." file://".$dest.$this->nom." -m 'Initial import'");
+        exec(escapeshellcmd("svn import /tmp/".$this->nom." file://".$dest.$this->nom." -m 'Initial import'"));
       @rmdir("/tmp/".$this->nom."/branches");
       @rmdir("/tmp/".$this->nom."/tags");
       @rmdir("/tmp/".$this->nom."/trunk");

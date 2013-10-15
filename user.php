@@ -490,7 +490,7 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/data/matmatronc
          ($site->user->is_asso_role ( 27, 1 )) || // ou MMT
          ($site->user->is_in_group("gestion_ae"))) // ou gestion_ae
     {
-      exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_idt");
+      exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_idt"));
     }
   }
 
@@ -500,7 +500,7 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/data/matmatronc
   if ( is_uploaded_file($_FILES['mmtfile']['tmp_name'])  )
   {
     $src = $_FILES['mmtfile']['tmp_name'];
-    exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_mmt");
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_mmt"));
   }
 
   $dest_idt = "/data/matmatronch/".$user->id.".identity.jpg";
@@ -525,8 +525,8 @@ if ( $_REQUEST["action"] == "setblouse" && $can_edit )
   if ( is_uploaded_file($_FILES['blousefile']['tmp_name'])  )
   {
     $src = $_FILES['blousefile']['tmp_name'];
-    exec("/usr/share/php5/exec/convert $src -thumbnail 1600x1600 -quality 80 $dest");
-    exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 -quality 90 $dest_mini");
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 1600x1600 -quality 80 $dest"));
+    exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 225x300 -quality 90 $dest_mini"));
   }
   $_REQUEST["page"] = "edit";
   $_REQUEST["open"] = "blouse";
