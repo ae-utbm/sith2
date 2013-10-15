@@ -328,8 +328,8 @@ if ( $_REQUEST['page'] == 'delete' )
 	  $raison = trim($_REQUEST["raison"]); 
 	  if( empty($raison))
 	  {
-                $cts = new contents("Suppression d'un message",
-                        "Message supprimé avec succès.");
+                $cts = new contents("Raison manquante",
+                        "La raison pour la suppression est obligatoire.");
 		$site->add_contents($cts);
 		$site->end_page();
 		exit();
