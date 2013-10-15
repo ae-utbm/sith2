@@ -312,8 +312,8 @@ if ( $_REQUEST['page'] == 'delete' )
 	    $frm->add_text_area("raison","Raison de la modération (obligatoire)","",
 		    40,4,true, true);
 
-	    $frm->add_submit("___i_am_really_sure","OUI");
-	    $frm->add_submit("___finally_i_want_to_cancel","NON");
+	    $frm->add_submit("___i_am_really_sure","Valider");
+	    $frm->add_submit("___finally_i_want_to_cancel","Annuler");
 
 	    $cts->add($frm);
 
@@ -330,7 +330,8 @@ if ( $_REQUEST['page'] == 'delete' )
 	  {
                 $cts = new contents("Suppression d'un message",
                         "Message supprimé avec succès.");
-                $site->add_contents($cts);
+		$site->add_contents($cts);
+		$site->end_page();
 		exit();
 	  }
       $message_initial = new message($site->db);
