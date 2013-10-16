@@ -600,7 +600,7 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 		    exit();
 	    }
 	    $req = new requete ($site->dbrw,
-		    "INSERT INTO message_com (id_utilisateur, message) VALUES (".$site->user->id.", '".mysql_real_escape_string($_REQUEST['mess'])."')");
+		    "INSERT INTO message_com (id_utilisateur, message) VALUES (".$site->user->id.", '".mysql_real_escape_string(htmlspecialchars($_REQUEST['mess']))."')");
 	    echo "Ok";
 	    exit();
 
