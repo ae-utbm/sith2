@@ -55,9 +55,9 @@
     }
     .selected:after{
         visibility:visible !important;
-        text-shadow: 0 0 10px red, 0 0 10px red,
-        0 0 10px red !important;
-        color:darkred !important;
+        color:rgb(150,150,150) !important;
+        text-shadow: 0 0 10px rgba(0,100,0,0.6), 0 0 10px rgba(0,100,0,0.6);
+        font-weight:bold;
 
     }
     .closed{
@@ -75,11 +75,16 @@
 
     }
     .checkboxfancy:after{
-        content:"•";
-        color:rgb(70,0,0);
+        content:"✉";
+        padding-bottom:15px;
+        color:rgb(0,0,0);
+        border-radius : 3px 3px 3px 3px;
         height:18px;
-
-
+        margin-left :auto;
+        margin-right:auto;
+        width:80px;
+        margin-bottom:15px;
+        font-size:30px;
     }
     .open{
 
@@ -251,6 +256,7 @@
     </div>
 
     <div class="horizontalFlexBox comptoirediv"></div>
+    <div class="horizontalFlexBox" id="accountValue"></div>
 
     <div class="flexbox">
         <div class="notif hidden">
@@ -278,10 +284,7 @@
 
                 }
             });
-        }
-
-        $(".message").fadeIn(400);
-        $(".comptoirediv").fadeIn(400);
+        };
 
         $(".login").fadeOut(300);
         logger = function (message, atype) {
@@ -350,6 +353,7 @@
 
 
 //getting statue from places
+                    updateAccount();
                     updateStatus();
                     $(".message").fadeIn(400);
                     $(".comptoirediv").fadeIn(400);
@@ -359,6 +363,31 @@
 
             });
         };
+        updateAccount=function(){
+            console.log("updating account");
+            $.ajax({
+                url:"http://ae.utbm.fr/gateway.php?module=appli-mobile&req=montant&id="+userID+"+&serviceident="+serviceID,
+                error: function (info) {
+                    logger("refresh account failed :" + info.status, "error");
+                },
+                success:function(send, status, returnedValue) {
+                    $("#accountValue").removeClass("error");
+                    $("#accountValue").removeClass("success");
+                    if (returnedValue.responseText == ""){
+                        logger("refresh account failed :" + info.status, "error");
+                        return;
+                    }
+                    if(returnedValue.responseText<20){
+                    $("#accountValue").addClass("error");
+                    }
+                    else{
+                    $("#accountValue").addClass("success");
+                    }
+                    $("#accountValue").html(returnedValue.responseText/100+"€");
+                }
+            })
+        }
+
         updateStatus=function(){
             console.log("updating status");
             $.ajax({
@@ -426,6 +455,7 @@
                     },
                     success: function (send, status, returnedValue) {
                         updateStatus();
+                        updateAccount();
                         if (returnedValue.responseText == "Ok") {
                             logger("message send!", "success");
                             $(".message>form>button").prop("disabled",false)
@@ -454,9 +484,7 @@
 
             logger("version RC 2.0","warn");
             $("#inputCarteAe").focus();
-        })
-
-        ;
+        });
 </script>
 </body>
 </html>
