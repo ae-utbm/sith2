@@ -604,7 +604,7 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 		    "INSERT INTO message_com (id_utilisateur, message) VALUES (".$site->user->id.", '".mysql_real_escape_string($_REQUEST['mess'])."')");
 	    else
 	      $req = new requete ($site->dbrw,
-		    "INSERT INTO message_com (id_utilisateur, message) VALUES (".$site->user->id.", '".mysql_real_escape_string(htmlentities($_REQUEST['mess']))."')");
+		    "INSERT INTO message_com (id_utilisateur, message) VALUES (".$site->user->id.", '".mysql_real_escape_string(htmlentities($_REQUEST['mess'],ENT_QUOTES,"UTF-8"))."')");
 	    echo "Ok";
 	    exit();
 
