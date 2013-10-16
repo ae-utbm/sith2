@@ -587,14 +587,14 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 	{
 		
 	    $req = new requete ($site->db, "SELECT * FROM message_com WHERE id_utilisateur = ".$site->user->id." AND date > '".date("Y-m-d H:i:s",time()-30)."' ");
-	    if($req->lines != 0)
+	    if($req->lines != 0 && !$site->user->is_in_group("root"))
 	    {
 		    echo "Pas de spam";
 		    exit();
 	    }
 	    $req = new requete ($site->db, "SELECT COUNT(*) FROM message_com WHERE id_utilisateur = ".$site->user->id." AND date > '".date("Y-m-d H:i:s",time()-3600)."' ");
 	    list( $nb_message ) = $req->get_row();
-	    if($nb_message > 30 )
+	    if($nb_message > 30 && !$site->user->is_in_group("root"))
 	    {
 		    echo "Quota excédé";
 		    exit();
