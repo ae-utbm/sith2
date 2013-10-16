@@ -93,7 +93,7 @@
 
 
     refreshAffiche=function(){
-        var xmlFile=$.get("http://ae.utbm.fr/affiches.php?page=xml");
+        var xmlFile=$.get("../affiches.php?page=xml");
         slideDiv.empty();
         xmlFile.error(function(self,errorCode,error){
             logger("unable to connect to ae.utbm.fr err: "+errorCode,"error");
@@ -166,7 +166,7 @@
             $(".notif").fadeOut("slow");
         }
         $.ajax({
-            url:"http://ae.utbm.fr/gateway.php?module=ecrancom&secret=messageForTheLulz",
+            url:"../gateway.php?module=ecrancom&secret=messageForTheLulz",
             error:function(self,errorcode,error){
                 logCounter++;
                 if(logCounter<maxLog){
