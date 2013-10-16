@@ -620,9 +620,9 @@ elseif($_REQUEST['module'] == 'ecrancom' &&  $_REQUEST['secret'] == "messageForT
 
 	$son = "";
 	if(rand(0,2) < 1)
-		$son = "sncf.mp3";
+		$son = "sncf.ogg";
 	else
-		$son = "msn.mp3";
+		$son = "msn.ogg";
 
 	/*if($activity > 600 && $activity < 607)
 	{
