@@ -84,6 +84,7 @@
     pathToimg="http://ae.utbm.fr/data/files/";
     timeRefresh=6000 // in miliss
     msgRefresh=4000
+    globalRefreshTime=60000
     maxLog=5;
     logCounter=0;
     logDiv=$("#logDiv");
@@ -110,7 +111,7 @@
                         next:""
                     };
                     if(i!==0){
-                        affiches[i-1].next=newAffiche;
+                        affichesm[i-1].next=newAffiche;
                     }
                     affiches.push(newAffiche);
                 }
@@ -139,6 +140,9 @@
     launchslideShow=function(){
         if(affiches.length>0){
             show(affiches[0]);
+            setTimeout(function(){
+                refreshAffiche()
+            },globalRefreshTime);
         }
         else{
             logger("Init in progress version="+version,"success")
