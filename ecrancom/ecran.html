@@ -78,7 +78,7 @@
 </div>
 <div class="notif"></div>
 <script>
-    version="RC 2.0";
+    version="1.0";
     incomingMessage=[];
     affiches=[];
     pathToimg="http://ae.utbm.fr/data/files/";
@@ -99,6 +99,7 @@
         });
         xmlFile.success(function(r){
             try{
+                affiches=[];
                 var xml=$(r);
                 var presentation=$(xml.find("presentation"));
                 for(var i=0;i<presentation.children().length;i++){
