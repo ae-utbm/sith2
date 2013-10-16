@@ -85,6 +85,7 @@
     timeRefresh=6000 // in miliss
     msgRefresh=4000
     globalRefreshTime=60000
+    isRefreshed=0;
     maxLog=5;
     logCounter=0;
     logDiv=$("#logDiv");
@@ -100,6 +101,7 @@
         });
         xmlFile.success(function(r){
             try{
+	        isRefreshed++;
                 for(var i=0;i<affiches.length;i++){
 		  affiches[i].next = null;
 		  affiches[i] = null;
@@ -143,7 +145,7 @@
     }
     launchslideShow=function(){
         if(affiches.length>0){
-            show(affiches[0]);
+            show(affiches[0],isRefreshed);
             setTimeout(function(){
                 refreshAffiche()
             },globalRefreshTime);
@@ -185,13 +187,17 @@
             }
         });
     }
-    show=function(affiche){
+    show=function(affiche,refreshedTime){
         //if comment were print, you will see me a lot!
         current=affiche;
+	if(refreshedTime < isRefreshed)
+	{
+		return;
+	}
         setTimeout(function(){
             $("#slideDiv").html(current.html);
             setTimeout(function(){
-                show(current.next);
+                show(current.next,refreshedTime);
             },20);
         },timeRefresh-500);
     }
