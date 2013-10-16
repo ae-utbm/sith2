@@ -283,7 +283,7 @@ u
             $(".message>form>button").html("in progress");
 
             $.ajax({
-                url: "http://ae.utbm.fr/gateway.php?module=appli-mobile&req=com&id=" + userID + "&serviceident=" + serviceID + "&mess=" + message,
+                url: "../gateway.php?module=appli-mobile&req=com&id=" + userID + "&serviceident=" + serviceID + "&mess=" + message,
                 error: function (info) {
                     logger("failed :" + info.status, "error");
                     $(".message>form>button").css("background","rgba(222,222,231,0.02)");
