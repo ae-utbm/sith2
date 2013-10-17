@@ -214,6 +214,12 @@ img {
 }.willRemember{
     background: rgba(0,160,0,0.4);
  }
+ .littleButton{
+     display:none;
+     min-width: 270px;
+     margin-left:auto;
+     margin-right:auto;
+ }
 button{
     background: rgba(222, 222, 231, 0.15);
     color: white;
@@ -238,7 +244,7 @@ button[disabled] {
     color: white;
 }
 
-.success {
+.success, {
     display: block;
     background: rgba(222, 222, 231, 0.02);
     border: 2px solid rgba(20, 150, 20, 0.3);
@@ -302,7 +308,7 @@ button[disabled] {
         <form class="login flexbox">
             <input required id="inputCarteAe" type="text" autocomplete="off" name="carteae" placeholder="Carte AE" maxlength=5/>
             <input required name="password" type="password" autocomplete="off" placeholder="mot de passe"/>
-            <button name="remember" id="remember">Mémoriser</button>
+            <button class="error" name="remember" id="remember">Mémoriser</button>
             <button onClick="logMe()">Connexion</button>
         </form>
     </div>
@@ -310,13 +316,12 @@ button[disabled] {
         <form class="flexbox">
             <input id="messageId" placeholder="Message" maxlength="200"/>
             <button onClick="send()"> Envoyer</button>
-            <button class="flexbox" onclick="logout()">Déconnexion</button>
         </form>
     </div>
 
     <div class="horizontalFlexBox comptoirediv"></div>
     <div class="horizontalFlexBox" id="accountValue"></div>
-
+    <button class="flexbox littleButton" onclick="logout()">Déconnexion</button>
     <div class="flexbox">
         <div class="notif hidden">
         </div>
@@ -330,6 +335,7 @@ $(document).ready(function () {
         updateStatus();
         $(".message").fadeIn(400);
         $(".comptoirediv").fadeIn(400);
+        $(".littleButton").fadeIn(400);
         $(".login").fadeOut(300);
         $("#messageId").focus();
     }
@@ -383,10 +389,10 @@ $(document).ready(function () {
     $("#remember").mouseup(function(e){
         e.preventDefault();
         if($(this).hasClass("willRemember")){
-            $(this).removeClass("willRemember")
+            $(this).toggleClass("willRemember error");
         }
         else{
-            $(this).addClass("willRemember");
+            $(this).toggleClass("error willRemember");
         }
     });
 
@@ -554,8 +560,9 @@ $(document).ready(function () {
         serviceID = "";
         $(".message").fadeOut();
         $(".comptoireDiv").fadeOut();
-        $("#accountValue").fadeOut()
+        $("#accountValue").fadeOut();
         $("#accountValue").html("");
+        $(".littleButton").fadeOut();
         $(".login").fadeIn();
     }
 
