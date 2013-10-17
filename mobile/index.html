@@ -214,8 +214,9 @@ img {
 }.willRemember{
     background: rgba(0,160,0,0.4);
  }
+
  .littleButton{
-     visibility:hidden;
+     display:block;
      min-width: 270px;
      margin-left:auto;
      margin-right:auto;
@@ -244,7 +245,7 @@ button[disabled] {
     color: white;
 }
 
-.success, {
+.success{
     display: block;
     background: rgba(222, 222, 231, 0.02);
     border: 2px solid rgba(20, 150, 20, 0.3);
@@ -321,7 +322,7 @@ button[disabled] {
 
     <div class="horizontalFlexBox comptoirediv"></div>
     <div class="horizontalFlexBox" id="accountValue"></div>
-    <button class="flexbox littleButton" onclick="logout()">Déconnexion</button>
+    <button class="flexbox hidden littleButton" onclick="logout()">Déconnexion</button>
     <div class="flexbox">
         <div class="notif hidden">
         </div>
