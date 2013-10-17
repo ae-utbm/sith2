@@ -62,7 +62,7 @@ label {
 .selected:after {
     visibility: visible !important;
     color: rgb(150, 150, 150) !important;
-    text-shadow: 0 0 10px rgba(0, 100, 0, 0.6), 0 0 10px rgba(0, 100, 0, 0.6);
+    text-shadow: 0 0 10px blue;
     font-weight: bold;
 
 }
@@ -111,12 +111,10 @@ label {
     background: rgba(222, 222, 231, 0.08);
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
-
     color: white;
 }
-
 .horizontalFlexBox>.flexbox {
-    min-width: 30%;
+    min-width: 90px;
 }
 
 span>button {
@@ -315,23 +313,24 @@ button[disabled] {
 
 $(document).ready(function () {
 
+    clickOnCheckbox=function(){
+        console.log($(this).hasClass("open"));
+        if ($(this).hasClass("selected")) {
+            $(this).removeClass("selected");
+            if ($(".selected").length == 0) {
+                $(".message>form>button").prop('disabled', true);
+            }
+        }
+        else {
+            $(this).addClass("selected");
+            $(".message>form>button").prop('disabled', false);
 
+
+        }
+    }
     initCheckBoxListener = function () {
-        $(".checkboxFancy").mouseup(function () {
-            console.log($(this).hasClass("open"));
-            if ($(this).hasClass("selected")) {
-                $(this).removeClass("selected");
-                if ($(".selected").length == 0) {
-                    $(".message>form>button").prop('disabled', true);
-                }
-            }
-            else {
-                $(this).addClass("selected");
-                $(".message>form>button").prop('disabled', false);
-
-
-            }
-        });
+        $(".checkboxFancy").mouseup(clickOnCheckbox());
+        $(".checkboxFancy").bind("touchend",clickOnCheckbox());
     };
 
     logger = function (message, atype) {
