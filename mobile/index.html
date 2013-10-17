@@ -62,8 +62,7 @@ label {
     -webkit-justify-content: space-around;
     -ms-justify-content: space-around;
 }
-
-.selected:after {
+.selected:after{
     visibility: visible !important;
     color: rgb(150, 150, 150) !important;
     text-shadow: 0 0 10px blue;
@@ -81,7 +80,7 @@ label {
     color: white;
 }
 
-.checkboxfancy, .checkboxfancy>* {
+.checkboxfancy, .checkboxfancy>*{
     cursor: pointer;
 
 }
@@ -208,9 +207,10 @@ img {
 
 .login>button {
     font-size: 15px;
-}
-
-button {
+}.willRemember{
+    background: rgba(0,160,0,0.4);
+ }
+button{
     background: rgba(222, 222, 231, 0.15);
     color: white;
     margin-left: 5px;
@@ -293,18 +293,20 @@ button[disabled] {
 <body>
 <div class="main">
     <div class="flexbox">
-        <img onClick="logout()" src="../images/ae-blanc.png" height=200px alt="logo joli ici"/>
+        <img src="../images/ae-blanc.png" height=200px alt="logo joli ici"/>
 
         <form class="login flexbox">
             <input required id="inputCarteAe" type="text" autocomplete="off" name="carteae" placeholder="Carte AE" maxlength=5/>
             <input required name="password" type="password" autocomplete="off" placeholder="mot de passe"/>
-            <button onClick="logMe()">Log me!</button>
+            <button name="remember" id="remember">Mémoriser</button>
+            <button onClick="logMe()">Connexion</button>
         </form>
     </div>
     <div class="message hidden flexbox">
         <form class="flexbox">
             <input id="messageId" placeholder="Message" maxlength="200"/>
-            <button onClick="send()"> Send</button>
+            <button onClick="send()"> Envoyer</button>
+            <button onclick="logout()">Déconnexion</button>
         </form>
     </div>
 
@@ -319,7 +321,20 @@ button[disabled] {
 <script>
 
 $(document).ready(function () {
+    if(localStorage["aeserviceidkey"] && localStorage["aeuseridkey"]){
+        userID=localStorage["aeuseridkey"];
+        serviceID=localStorage["aeserviceidkey"];
+        switchToMessageScreen();
 
+    }
+    switchToMessageScreen=function(){
+        updateAccount();
+        updateStatus();
+        $(".message").fadeIn(400);
+        $(".comptoirediv").fadeIn(400);
+        $(".login").fadeOut(300);
+        $("#messageId").focus();
+    }
     clickOnCheckbox = function (element) {
         console.log($(element).hasClass("open"));
         if ($(element).hasClass("selected")) {
@@ -368,6 +383,14 @@ $(document).ready(function () {
     $("form").submit(function (e) {
         e.preventDefault();
     });
+    $("#remember").mouseup(function(e){
+        if($(this).hasClass("willRemember")){
+            $(this).removeClass("willRemember")
+        }
+        else{
+            $(this).addClass("willRemember");
+        }
+    });
 
     idUser = "";
     serviceID = "";
@@ -378,59 +401,56 @@ $(document).ready(function () {
             return -1;
         }
         $(".login>button").css("background", "rgba(95,95,95,0.4)");
-        $(".login>button").html("logging in progress");
+        $(".login>button").html("Connexion...");
         $(".login>button").prop("disabled", true)
         $.ajax({
             url: "../gateway.php?module=appli-mobile&req=login&domain=carteae&username=" + id + "&password=" + pwd,
             error: function (info) {
-                logger("failed\n" + info.status, "error");
+                logger("echec\n" + info.status, "error");
                 $(".login>button").prop("disabled", false)
 
-                $(".login>button").html("log me!");
+                $(".login>button").html("Connexion");
                 $(".login>button").css("background", "rgba(222,222,231,0.02)");
 
 
             },
             success: function (send, status, returnedValue) {
                 $(".login>button").prop("disabled", false)
-                $(".login>button").html("log me!");
+                $(".login>button").html("Connexion");
                 $(".login>button").css("background", "rgba(222,222,231,0.02)");
                 if (!returnedValue.responseText) {
-                    logger("failed", "error");
+                    logger("serveur injoignable", "error");
                     return;
                 }
                 if (returnedValue.responseText == "echec" || returnedValue.responseText == "erreur") {
-                    logger("failed\n wrong credentials", "error");
+                    logger("mot de passe incorrect", "error");
                     return;
                 }
-                logger("logged!", "success");
+                logger("Bienvenue!", "success");
                 userID = returnedValue.responseText.split("\n")[0];
                 serviceID = returnedValue.responseText.split("\n")[1];
-
+                if(("#remember").hasClass("willRemember")){
+                    localStorage["aeserviceidkey"]=serviceID;
+                    localStorage["aeuseridkey"]=userID;
+                }
 
 //getting statue from places
-                updateAccount();
-                updateStatus();
-                $(".message").fadeIn(400);
-                $(".comptoirediv").fadeIn(400);
-                $(".login").fadeOut(300);
-                $("#messageId").focus();
+                switchToMessageScreen();
             }
 
         });
     };
     updateAccount = function () {
-        console.log("updating account");
         $.ajax({
             url: "../gateway.php?module=appli-mobile&req=montant&id=" + userID + "+&serviceident=" + serviceID,
             error: function (info) {
-                logger("refresh account failed :" + info.status, "error");
+                logger("Impossible de rafraichir le montant :" + info.status, "error");
             },
             success: function (send, status, returnedValue) {
                 $("#accountValue").removeClass("error");
                 $("#accountValue").removeClass("success");
                 if (returnedValue.responseText == "") {
-                    logger("refresh account failed :" + info.status, "error");
+                    logger("Impossible de rafraichir le montant:" + info.status, "error");
                     return;
                 }
                 if (returnedValue.responseText < 20) {
@@ -446,17 +466,16 @@ $(document).ready(function () {
     }
 
     updateStatus = function () {
-        console.log("updating status");
         $.ajax({
             url: "../gateway.php?module=appli-mobile&req=comptoir&id=" + userID + "+&serviceident=" + serviceID,
             error: function (info) {
-                logger("refresh Status failed :" + info.status, "error");
+                logger("impossilbe de rafraichir les comptoires :" + info.status, "error");
             },
             success: function (send, status, returnedValue) {
 
                 $(".comptoirediv").empty();
                 if (returnedValue.responseText == "") {
-                    logger("refresh Status failed :" + info.status, "error");
+                    logger("impossible de rafraichir les comptoires :" + info.status, "error");
                     return;
                 }
                 comptoire = returnedValue.responseText.split('\n');
@@ -493,7 +512,7 @@ $(document).ready(function () {
     send = function () {
         message = $("#messageId").val();
         if (!userID || !serviceID) {
-            logger("not logged", "error");
+            logger("non connecté", "error");
             $(".message").fadeOut();
             $("#accountValue").fadeOut();
             $("#accountValue").html("");
@@ -504,12 +523,12 @@ $(document).ready(function () {
         }
         $(".message>form>button").css("background", "rgba(95,95,95,0.4)");
         $(".message>form>button").prop("disabled", true);
-        $(".message>form>button").html("in progress");
+        $(".message>form>button").html("Connexion...");
 
         $.ajax({
             url: "../gateway.php?module=appli-mobile&req=com&id=" + userID + "&serviceident=" + serviceID + "&mess=" + message,
             error: function (info) {
-                logger("failed :" + info.status, "error");
+                logger("Echec :" + info.status, "error");
                 $(".message>form>button").css("background", "rgba(222,222,231,0.02)");
 
             },
@@ -517,16 +536,16 @@ $(document).ready(function () {
                 updateStatus();
                 updateAccount();
                 if (returnedValue.responseText == "Ok") {
-                    logger("message send!", "success");
+                    logger("Message envoyé", "success");
                     $(".message>form>button").prop("disabled", false)
-                    $(".message>form>button").html("send!");
+                    $(".message>form>button").html("Envoyer");
                     $(".message>form>button").css("background", "rgba(222,222,231,0.02)");
 
                 }
                 else {
                     logger("something wrong!\n" + returnedValue.responseText, "error");
                     $(".message>form>button").prop("disabled", false)
-                    $(".message>form>button").html("send!");
+                    $(".message>form>button").html("Envoyer!");
                     $(".message>form>button").css("background", "rgba(222,222,231,0.02)");
 
                 }
@@ -534,6 +553,8 @@ $(document).ready(function () {
         });
     };
     logout = function () {
+        localStorage["aeserviceidkey"]=false;
+        localStorage["aeuseridkey"]=false;
         $("input").val("");
         userID = "";
         serviceID = "";
