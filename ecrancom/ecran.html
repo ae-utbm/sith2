@@ -209,7 +209,8 @@
         toAppend="<pre class='logmessage' style='display:none;'>"+message+"</pre>";
         $(".notif").append(toAppend);
         $(".logmessage").fadeIn(800);
-        audio.play();
+        //Tim asked for removing this :
+       // audio.play();
     };
     $(document).ready(function(){
         audio=new Audio()
