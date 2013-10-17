@@ -331,7 +331,6 @@ $(document).ready(function () {
         $("#messageId").focus();
     }
     clickOnCheckbox = function (element) {
-        console.log($(element).hasClass("open"));
         if ($(element).hasClass("selected")) {
             $(element).removeClass("selected");
             if ($(".selected").length == 0) {
@@ -394,24 +393,23 @@ $(document).ready(function () {
         if (!id || !pwd) {
             return -1;
         }
-        $(".login>button").last().css("background", "rgba(95,95,95,0.4)");
-        $(".login>button").last().html("Connexion...");
-        $(".login>button").last().prop("disabled", true)
+        $(".login>button:last-child").css("background", "rgba(95,95,95,0.4)");
+        $(".login>button:last-child").html("Connexion...");
+        $(".login>button:last-child").prop("disabled", true)
         $.ajax({
             url: "../gateway.php?module=appli-mobile&req=login&domain=carteae&username=" + id + "&password=" + pwd,
             error: function (info) {
                 logger("echec\n" + info.status, "error");
-                $(".login>button").last().prop("disabled", false)
-
-                $(".login>button").last().html("Connexion");
-                $(".login>button").last().css("background", "rgba(222,222,231,0.02)");
+                $(".login>button:last-child").last().prop("disabled", false)
+                $(".login>button:last-child").last().html("Connexion");
+                $(".login>button:last-child").last().css("background", "rgba(222,222,231,0.02)");
 
 
             },
             success: function (send, status, returnedValue) {
-                $(".login>button").prop("disabled", false)
-                $(".login>button").html("Connexion");
-                $(".login>button").css("background", "rgba(222,222,231,0.02)");
+                $(".login>button:last-child").prop("disabled", false)
+                $(".login>button:last-child").html("Connexion");
+                $(".login>button:last-child").css("background", "rgba(222,222,231,0.02)");
                 if (!returnedValue.responseText) {
                     logger("serveur injoignable", "error");
                     return;
@@ -474,7 +472,6 @@ $(document).ready(function () {
                 }
                 comptoire = returnedValue.responseText.split('\n');
                 comptoire.pop();
-                console.log(comptoire);
                 for (var i = 0; i < comptoire.length; i++) {
                     if (i != 0 && i % 3 == 0) {
                         $(".comptoirediv").last().after('<div class="comptoirediv horizontalFlexBox"></div>');
@@ -532,7 +529,7 @@ $(document).ready(function () {
                 if (returnedValue.responseText == "Ok") {
                     logger("Message envoyé", "success");
                     $(".message>form>button").prop("disabled", false)
-                    $(".message>form>button").html("Envoyer");
+                    $(".message>form>button").html("Envoyer!");
                     $(".message>form>button").css("background", "rgba(222,222,231,0.02)");
 
                 }
@@ -547,8 +544,8 @@ $(document).ready(function () {
         });
     };
     logout = function () {
-        localStorage["aeserviceidkey"]=false;
-        localStorage["aeuseridkey"]=false;
+        localStorage.removeItem("aeserviceidkey");
+        localStorage.removeItem("aeuseridkey");
         $("input").val("");
         userID = "";
         serviceID = "";
