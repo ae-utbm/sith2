@@ -323,7 +323,7 @@ button[disabled] {
 
     <div class="horizontalFlexBox comptoirediv"></div>
     <div class="horizontalFlexBox" id="accountValue"></div>
-    <button class="flexbox littleButton hidden" onclick="logout()">Déconnexion</button>
+    <div class="horizontalFlexBox hidden" id="decoDiv"><button class="flexbox littleButton" onclick="logout()">Déconnexion</button></div>
     <div class="flexbox">
         <div class="notif hidden">
         </div>
@@ -337,7 +337,7 @@ $(document).ready(function () {
         updateStatus();
         $(".message").fadeIn(400);
         $(".comptoirediv").fadeIn(400);
-        $(".littleButton").fadeIn(400);
+        $("#decoDiv").fadeIn(400);
         $(".login").fadeOut(300);
         $("#messageId").focus();
     }
@@ -564,7 +564,7 @@ $(document).ready(function () {
         $(".comptoireDiv").fadeOut();
         $("#accountValue").fadeOut();
         $("#accountValue").html("");
-        $(".littleButton").fadeOut();
+        $("#decoDiv").fadeOut();
         $(".login").fadeIn();
     }
 
