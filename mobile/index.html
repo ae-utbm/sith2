@@ -322,12 +322,6 @@ button[disabled] {
 <script>
 
 $(document).ready(function () {
-    if(localStorage["aeserviceidkey"] && localStorage["aeuseridkey"]){
-        userID=localStorage["aeuseridkey"];
-        serviceID=localStorage["aeserviceidkey"];
-        switchToMessageScreen();
-
-    }
     switchToMessageScreen=function(){
         updateAccount();
         updateStatus();
@@ -394,8 +388,6 @@ $(document).ready(function () {
         }
     });
 
-    idUser = "";
-    serviceID = "";
     logMe = function () {
         id = $("input[name='carteae']").val();
         pwd = $("input[name='password']").val();
@@ -567,6 +559,16 @@ $(document).ready(function () {
         $(".login").fadeIn();
     }
 
+
+
+    idUser = "";
+    serviceID = "";
+    if(localStorage["aeserviceidkey"] && localStorage["aeuseridkey"]){
+        userID=localStorage["aeuseridkey"];
+        serviceID=localStorage["aeserviceidkey"];
+        switchToMessageScreen();
+
+    }
     logger("version 1.0", "success");
     $("#inputCarteAe").focus();
 });
