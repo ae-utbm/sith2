@@ -12,9 +12,6 @@
         .hidden{
             display:none;
         }
-        .logmessage{
-            text-align: center;
-        }
         #slideDiv {
             z-index: 1;
             min-height:100%;
@@ -27,12 +24,12 @@
             margin-right:auto;
             text-align:center;
         }
+        .logmessage{
+        }
         .notif{
-        display:flex;
         flex-direction:row;
         position: absolute;
-        text-align: center;
-        line-height: 100px;
+        font-size: 50px;
         font-family:verdana;
         width: 100%;
         bottom: 0;
@@ -151,9 +148,6 @@
                 refreshAffiche()
             },globalRefreshTime);
         }
-        else{
-            logger("Init in progress version="+version,"success")
-        }
     }
     messageCheck=function(){
         if($(".logmessage").length>0){
@@ -209,8 +203,8 @@
         toAppend="<pre class='logmessage' style='display:none;'>"+message+"</pre>";
         $(".notif").append(toAppend);
         $(".logmessage").fadeIn(800);
-        //Tim asked for removing this :
-       // audio.play();
+
+        //audio.play(); Tim asked for this comment
     };
     $(document).ready(function(){
         audio=new Audio()
