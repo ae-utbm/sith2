@@ -330,7 +330,7 @@ $(document).ready(function () {
         }
     }
     initCheckBoxListener = function () {
-        $(".checkboxFancy").mouseup(clickOnCheckbox());
+        $(".checkboxFancy").mouseup(function(){clickOnCheckbox()});
         $(".checkboxFancy").bind("touchend",clickOnCheckbox());
     };
 
