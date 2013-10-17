@@ -314,16 +314,16 @@ button[disabled] {
 
 $(document).ready(function () {
 
-    clickOnCheckbox=function(this){
-        console.log($(this).hasClass("open"));
-        if ($(this).hasClass("selected")) {
-            $(this).removeClass("selected");
+    clickOnCheckbox=function(element){
+        console.log($(element).hasClass("open"));
+        if ($(element).hasClass("selected")) {
+            $(element).removeClass("selected");
             if ($(".selected").length == 0) {
                 $(".message>form>button").prop('disabled', true);
             }
         }
         else {
-            $(this).addClass("selected");
+            $(element).addClass("selected");
             $(".message>form>button").prop('disabled', false);
 
 
