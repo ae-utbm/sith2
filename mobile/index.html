@@ -429,7 +429,7 @@ $(document).ready(function () {
                 logger("Bienvenue!", "success");
                 userID = returnedValue.responseText.split("\n")[0];
                 serviceID = returnedValue.responseText.split("\n")[1];
-                if(("#remember").hasClass("willRemember")){
+                if($("#remember").hasClass("willRemember")){
                     localStorage["aeserviceidkey"]=serviceID;
                     localStorage["aeuseridkey"]=userID;
                 }
