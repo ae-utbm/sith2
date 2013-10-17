@@ -306,8 +306,9 @@ button[disabled] {
         <form class="flexbox">
             <input id="messageId" placeholder="Message" maxlength="200"/>
             <button onClick="send()"> Envoyer</button>
-            <button onclick="logout()">Déconnexion</button>
         </form>
+        <button class="flexbox" onclick="logout()">Déconnexion</button>
+
     </div>
 
     <div class="horizontalFlexBox comptoirediv"></div>
@@ -384,6 +385,7 @@ $(document).ready(function () {
         e.preventDefault();
     });
     $("#remember").mouseup(function(e){
+        e.preventDefault();
         if($(this).hasClass("willRemember")){
             $(this).removeClass("willRemember")
         }
@@ -400,17 +402,17 @@ $(document).ready(function () {
         if (!id || !pwd) {
             return -1;
         }
-        $(".login>button").css("background", "rgba(95,95,95,0.4)");
-        $(".login>button").html("Connexion...");
-        $(".login>button").prop("disabled", true)
+        $(".login>button").last().css("background", "rgba(95,95,95,0.4)");
+        $(".login>button").last().html("Connexion...");
+        $(".login>button").last().prop("disabled", true)
         $.ajax({
             url: "../gateway.php?module=appli-mobile&req=login&domain=carteae&username=" + id + "&password=" + pwd,
             error: function (info) {
                 logger("echec\n" + info.status, "error");
-                $(".login>button").prop("disabled", false)
+                $(".login>button").last().prop("disabled", false)
 
-                $(".login>button").html("Connexion");
-                $(".login>button").css("background", "rgba(222,222,231,0.02)");
+                $(".login>button").last().html("Connexion");
+                $(".login>button").last().css("background", "rgba(222,222,231,0.02)");
 
 
             },
