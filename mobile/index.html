@@ -17,6 +17,7 @@
     margin-left: 6px;
     margin-right: 6px;
     margin-top: 0;
+    margin-bottom: 5px;
 }
 
 * {
@@ -55,8 +56,11 @@ label {
     flex-direction: row;
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
-    margin: 5px 5px 5px 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     justify-content: space-around;
+    -webkit-justify-content: space-around;
+    -ms-justify-content: space-around;
 }
 
 .selected:after {
@@ -113,9 +117,10 @@ label {
     border-left: 5px solid transparent;
     color: white;
 }
+
 .horizontalFlexBox>.flexbox {
     min-width: 90px;
-    width:30%;
+    width: 30%;
 }
 
 span>button {
@@ -165,6 +170,7 @@ input {
     background-color: #EBEBF9;
     margin-left: 5px;
     margin-right: 5px;
+
     padding-left: 5px;
     min-height: 50px;
     border-top: 0px solid white;
@@ -290,8 +296,8 @@ button[disabled] {
         <img onClick="logout()" src="../images/ae-blanc.png" height=200px alt="logo joli ici"/>
 
         <form class="login flexbox">
-            <input required id="inputCarteAe" type="text" name="carteae" placeholder="Carte AE" maxlength=5/>
-            <input required name="password" type="password" placeholder="mot de passe"/>
+            <input required id="inputCarteAe" type="text" autocomplete="off" name="carteae" placeholder="Carte AE" maxlength=5/>
+            <input required name="password" type="password" autocomplete="off" placeholder="mot de passe"/>
             <button onClick="logMe()">Log me!</button>
         </form>
     </div>
@@ -314,7 +320,7 @@ button[disabled] {
 
 $(document).ready(function () {
 
-    clickOnCheckbox=function(element){
+    clickOnCheckbox = function (element) {
         console.log($(element).hasClass("open"));
         if ($(element).hasClass("selected")) {
             $(element).removeClass("selected");
@@ -325,13 +331,15 @@ $(document).ready(function () {
         else {
             $(element).addClass("selected");
             $(".message>form>button").prop('disabled', false);
-
-
         }
     }
     initCheckBoxListener = function () {
-        $(".checkboxFancy").mouseup(function(){clickOnCheckbox(this)});
-        $(".checkboxFancy").bind("touchend",function(){clickOnCheckbox(this)});
+        $(".checkboxFancy").mouseup(function () {
+            clickOnCheckbox(this)
+        });
+        $(".checkboxFancy").bind("touchend", function () {
+            clickOnCheckbox(this)
+        });
     };
 
     logger = function (message, atype) {
@@ -486,6 +494,7 @@ $(document).ready(function () {
         if (!userID || !serviceID) {
             logger("not logged", "error");
             $(".message").fadeOut();
+            $("#accountDiv").fadeOut();
             $(".login").fadeIn();
             $(".comptoireDiv").fadeOut();
             return;
