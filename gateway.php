@@ -491,7 +491,7 @@ elseif($_REQUEST['module'] == 'appli-mobile')
 			  exit();
 		  }
 		  list( $servident ) = $req->get_row();
-		  if(is_null($servident))
+		  if(is_null($servident) || empty($servident))
 		  {
 			  $site->user->gen_serviceident();
 			  $req = new requete($site->db, "SELECT serviceident FROM `utilisateurs` WHERE id_utilisateur = ".$site->user->id."");
