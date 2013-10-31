@@ -37,22 +37,35 @@ if ($site->user->is_in_group("root")) {
                 $result .= "<nom>" . $row["nom_utl"] . "</nom>";
                 $result .= "<prenom>" . $row["prenom_utl"] . "</prenom>";
                 if($row["infos_personnelles"]==1){
-                $result .= "<surnom>" . $row["surnom_utbm"] . "</surnom>";
+                    if($row["surnom_utbm"]!=""){
+                        $result .= "<surnom>" . $row["surnom_utbm"] . "</surnom>";
+                    }
                 $result .= "<email>" . $row["email_utl"] . "</email>";
+                    if( $row["tel_portable_utl"]){
                 $result .= "<tel>" . $row["tel_portable_utl"] . "</tel>";
+                    }
                 }
             } catch (Exception $e) {
                 echo "unable to get basic info " . $e;
             }
             if($row["famille"]==1){
             try {
-                $req_fillots = new requete($site->db, "SELECT utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur_fillot=utl_etu_utbm.id_utilisateur where parrains.id_utilisateur = " .   $id_user. " ");
+                $req_fillots = new requete($site->db, "SELECT nom,prenom  utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur_fillot=utl_etu_utbm.id_utilisateur join utilisateurs on parrains.id_utilisateur_fillot=utilisateurs.id_utilisateur where parrains.id_utilisateur = " .   $id_user. " ");
                 while ($row_fillots = $req_fillots->get_row()) {
-                    $result .= "<fillot>" . $row_fillots["surnom_utbm"] . "</fillot>";
-                }
-                $req_parrains = new requete($site->db, "SELECT utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur=utl_etu_utbm.id_utilisateur where parrains.id_utilisateur_fillot = " .  $id_user . "");
+                    if($row_fillots["surnom_utbm"] !=""){
+                        $result .= "<fillot>" . $row_fillots["surnom_utbm"] . "</fillot>";
+                    }else{
+                        $result .= "<fillot>" . $row_fillots["nom"] ." ".$row_parrains["prenom"]. "</fillot>";
+
+                    }                }
+                $req_parrains = new requete($site->db, "SELECT nom,prenom utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur=utl_etu_utbm.id_utilisateur join utilisateurs on parrains.id_utilisateur=utilisateur.id_utilisateur where parrains.id_utilisateur_fillot = " .  $id_user . "");
                 while ($row_parrains = $req_parrains->get_row()) {
-                    $result .= "<parrain>" . $row_parrains["surnom_utbm"] . "</parrain>";
+                    if($row_parrains["surnom_utbm"] !=""){
+                        $result .= "<parrain>" . $row_parrains["surnom_utbm"] . "</parrain>";
+                    }else{
+                        $result .= "<parrain>" . $row_parrains["nom"] ." ".$row_parrains["prenom"]. "</parrain>";
+
+                    }
                 }
             } catch (Exception $e) {
                 echo "unable to get parrain / fillot " . $e;
@@ -72,7 +85,12 @@ if ($site->user->is_in_group("root")) {
                 while ($row_assoc = $req_assoc->get_row()) {
                     $result .= "<asso><nom>" . $row_assoc["nom_asso"] . "</nom>";
                     if ($row_assoc['desc_role']==""){
-                        $roleXML=$GLOBALS['ROLEASSO'][(int)$row_assoc['role']];
+                        if(                        $roleXML=$GLOBALS['ROLEASSO'][(int)$row_assoc['role']]=""){
+                            $roleXML=$GLOBALS['ROLEASSO100'][(int)$row_assoc['role']];
+                        }
+                        else{
+                            $roleXML=$GLOBALS['ROLEASSO'][(int)$row_assoc['role']];
+                        }
                     }
                     else{
                         $roleXML=$row_assoc['desc_role'];
