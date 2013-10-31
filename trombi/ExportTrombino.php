@@ -25,7 +25,7 @@ if ($site->user->is_in_group("root")) {
         echo "usage : promo=10";
         return;
     }
-    echo $_REQUEST["promo"];
+    echo "foo" . $_REQUEST["promo"];
     header ("Content-Type:text/xml");
     $result = "<xml>";
     try {
