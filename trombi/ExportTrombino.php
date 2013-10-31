@@ -56,9 +56,7 @@ if ( $site->user->is_in_group("root") )
                 $result.="<asso><nom>".$row_assoc["nom_asso"]."</nom>";
                 $result.="<role>".$row_assoc['role']."</role></asso>";
             }
-            $req_comment = new requete($site->db,
-            "select commentaire, utl_etu_utbm.surnom_utbm where id_commente = ".$id_user." from trombi_commentaire_ join utl_etu_utbm on trombino_commentaires.id_commentateur=utl_etu_utbm.id_utilisateur"
-            );
+            $req_comment = new requete($site->db,"select commentaire, utl_etu_utbm.surnom_utbm from trombi_commentaire_ join utl_etu_utbm on trombino_commentaires.id_commentateur=utl_etu_utbm.id_utilisateur where id_commente = ".$id_user);
             while($row_comment= $req_comment->get_row()){
                 $result.="<commentaire><nom>".$row_comment["surnom_utbm"]."</nom>";
                 $result.="<contenu>".$row_comment['commentaire']."</contenu></commentaire>";
@@ -66,7 +64,6 @@ if ( $site->user->is_in_group("root") )
             $result.="</utilisateur>";
 
         }
-        echo $result;
     }
 
 
