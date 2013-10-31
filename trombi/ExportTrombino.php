@@ -40,11 +40,11 @@ if ($site->user->is_in_group("root")) {
                 echo "unable to get basic info " . $e;
             }
             try {
-                $req_fillots = new requete($site->db, "SELECT utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur_fillot=utl_etu_utbm.id_utilisateur where id_utilisateur = " .   $id_user. " ");
+                $req_fillots = new requete($site->db, "SELECT utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur_fillot=utl_etu_utbm.id_utilisateur where parrains.id_utilisateur = " .   $id_user. " ");
                 while ($row_fillots = $req_fillots->get_row()) {
                     $result .= "<fillot>" . $row_fillots["surnom_utbm"] . "</fillot>";
                 }
-                $req_parrains = new requete($site->db, "SELECT utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur=utl_etu_utbm.id_utilisateur where id_utilisateur_fillot = " .  $id_user . "");
+                $req_parrains = new requete($site->db, "SELECT utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur=utl_etu_utbm.id_utilisateur where parrains.id_utilisateur_fillot = " .  $id_user . "");
                 while ($row_parrains = $req_parrains->get_row()) {
                     $result .= "<parrain>" . $row_parrains["surnom_utbm"] . "</parrain>";
                 }
