@@ -69,7 +69,7 @@ if ($site->user->is_in_group("root")) {
 
                 while ($row_assoc = $req_assoc->get_row()) {
                     $result .= "<asso><nom>" . $row_assoc["nom_asso"] . "</nom>";
-                    $result .= "<role>" . $row_assoc['role'] . "</role></asso>";
+                    $result .= "<role>" . $row_assoc['desc_role'] . "</role></asso>";
                 }
             } catch (Exception $e) {
                 echo "unable to fetch assos" . $e;
