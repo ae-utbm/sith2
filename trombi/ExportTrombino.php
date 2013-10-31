@@ -32,11 +32,11 @@ if ( $site->user->is_in_group("root") )
             $result.="<surnom>".$row["surnom_utbm"]."</surnom>";
             $result.="<email>".$row["email_utl"]."</email>";
             $result.="<tel>".$row["tel_portable_utl"]."</tel>";
-            $req_fillots= new request($site->db,"SELECT utl_etu_utbm.surnom_utbm from parrains where id_utilisateur = ".$row["id_utilisateur"]." join utl_etu_utbm on parrains.utilisateurs_id_fillot=utl_etu_utbm.id_utilisateur");
+            $req_fillots= new requete($site->db,"SELECT utl_etu_utbm.surnom_utbm from parrains where id_utilisateur = ".$row["id_utilisateur"]." join utl_etu_utbm on parrains.utilisateurs_id_fillot=utl_etu_utbm.id_utilisateur");
             while($row_fillots = $req_fillots->get_row()){
                  $result.="<fillot>".$row_fillots["surnom_utbm"]."</fillot>";
             }
-            $req_parrains= new request($site->db,"SELECT utl_etu_utbm.surnom_utbm from parrains where id_utilisateur_fillot = ".$row["id_utilisateur"]." join utl_etu_utbm on parrains.utilisateurs_id=utl_etu_utbm.id_utilisateur");
+            $req_parrains= new requete($site->db,"SELECT utl_etu_utbm.surnom_utbm from parrains where id_utilisateur_fillot = ".$row["id_utilisateur"]." join utl_etu_utbm on parrains.utilisateurs_id=utl_etu_utbm.id_utilisateur");
             while($row_parrains = $req_parrains->get_row()){
                 $result.="<parrain>".$row_parrains["surnom_utbm"]."</parrain>";
             }
