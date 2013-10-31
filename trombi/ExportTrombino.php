@@ -58,7 +58,7 @@ if ($site->user->is_in_group("root")) {
                         $result .= "<fillot>" . $row_fillots["nom_utl"] ." ".$row_parrains["prenom_utl"]. "</fillot>";
 
                     }                }
-                $req_parrains = new requete($site->db, "SELECT nom_utl,prenom_utl, utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur=utl_etu_utbm.id_utilisateur join utilisateurs on parrains.id_utilisateur=utilisateur.id_utilisateur where parrains.id_utilisateur_fillot = " .  $id_user . "");
+                $req_parrains = new requete($site->db, "SELECT nom_utl,prenom_utl, utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur=utl_etu_utbm.id_utilisateur join utilisateurs on parrains.id_utilisateur=utilisateurs.id_utilisateur where parrains.id_utilisateur_fillot = " .  $id_user . "");
                 while ($row_parrains = $req_parrains->get_row()) {
                     if($row_parrains["surnom_utbm"] !=""){
                         $result .= "<parrain>" . $row_parrains["surnom_utbm"] . "</parrain>";
