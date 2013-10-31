@@ -71,7 +71,7 @@ if ($site->user->is_in_group("root")) {
                 echo "unable to fetch assos" . $e;
             }
             try {
-                $req_comment = new requete($site->db, "select commentaire, utl_etu_utbm.surnom_utbm from trombi_commentaire join utl_etu_utbm on trombino_commentaire.id_commentateur=utl_etu_utbm.id_utilisateur where id_commente = " . $id_user);
+                $req_comment = new requete($site->db, "select commentaire, utl_etu_utbm.surnom_utbm from trombi_commentaire join utl_etu_utbm on trombi_commentaire.id_commentateur=utl_etu_utbm.id_utilisateur where id_commente = " . $id_user);
                 while ($row_comment = $req_comment->get_row()) {
                     $result .= "<commentaire><nom>" . $row_comment["surnom_utbm"] . "</nom>";
                     $result .= "<contenu>" . $row_comment['commentaire'] . "</contenu></commentaire>";
