@@ -53,15 +53,14 @@ if ($site->user->is_in_group("root")) {
             }
             try {
                 $req_assoc = new requete($site->db,
-                    "SELECT `asso`.`nom_asso`,`asso_membre`.`role`, " .
+                    "SELECT `asso`.`nom_asso`,`asso_membre`.`desc_role`, " .
                     "IF(`asso`.`id_asso_parent` IS NULL,`asso_membre`.`role`+100,`asso_membre`.`role`) AS `role`, " .
                     "`asso_membre`.`date_debut`, `asso_membre`.`desc_role`, " .
                     "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
                     "FROM `asso_membre` " .
                     "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
                     "WHERE asso_membre.id_utilisateur=" . $id_user.
-                    "AND `asso_membre`.`date_fin` is NULL " .
-                    "ORDER BY `asso`.`nom_asso`");
+                    "AND `asso_membre`.`date_fin` is NULL");
 
                 while ($row_assoc = $req_assoc->get_row()) {
                     $result .= "<asso><nom>" . $row_assoc["nom_asso"] . "</nom>";
