@@ -26,6 +26,8 @@ if ( $site->user->is_in_group("root") )
     $req = new requete($site->db,"SELECT utilisateurs.id_utilisateur,utilisateurs.nom_utl, utilisateurs.prenom_utl, utl_etu_utbm.surnom_utbm, utilisateurs.email_utl, utilisateurs.tel_portable_utl FROM `utilisateurs` JOIN utl_etu_utbm ON utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur  WHERE publique_mmtpapier_utl =1 AND utl_etu_utbm.promo_utbm =10 ");
     if ($req->lines >0){
         while($row = $req->get_row()){
+            $id_user=$row["utilisateurs.id_utilisateur"];
+            echo $id_user;
             $result.="<utilisateur>";
             $result.="<nom>".$row["nom_utl"]."</nom>";
             $result.="<prenom>".$row["prenom_utl"]."</prenom>";
@@ -47,7 +49,7 @@ if ( $site->user->is_in_group("root") )
                 "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
                 "FROM `asso_membre` " .
                 "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
-                "WHERE asso_membre.id_utilisateur='".$req["utilisateurs.id_utilisateur"]."' " .
+                "WHERE asso_membre.id_utilisateur='".$id_user."' " .
                 "AND `asso_membre`.`date_fin` is NULL " .
                 "ORDER BY `asso`.`nom_asso`");
             while($row_assoc= $req_assoc->get_row()){
@@ -55,7 +57,7 @@ if ( $site->user->is_in_group("root") )
                 $result.="<role>".$row_assoc['role']."</role></asso>";
             }
             $req_comment = new requete($site->db,
-            "select commentaire, utl_etu_utbm.surnom_utbm where id_commente = ".$req["utilisateurs.id_utilisateur"]." from trombi_commentaire_ join utl_etu_utbm on trombino_commentaires.id_commentateur=utl_etu_utbm.id_utilisateur"
+            "select commentaire, utl_etu_utbm.surnom_utbm where id_commente = ".$id_user." from trombi_commentaire_ join utl_etu_utbm on trombino_commentaires.id_commentateur=utl_etu_utbm.id_utilisateur"
             );
             while($row_comment= $req_comment->get_row()){
                 $result.="<commentaire><nom>".$row_comment["surnom_utbm"]."</nom>";
