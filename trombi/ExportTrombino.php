@@ -85,7 +85,7 @@ if ($site->user->is_in_group("root")) {
                 while ($row_assoc = $req_assoc->get_row()) {
                     $result .= "<asso><nom>" . $row_assoc["nom_asso"] . "</nom>";
                     if ($row_assoc['desc_role']==""){
-                        if(                        $roleXML=$GLOBALS['ROLEASSO'][(int)$row_assoc['role']]=""){
+                        if($GLOBALS['ROLEASSO'][(int)$row_assoc['role']]=""){
                             $roleXML=$GLOBALS['ROLEASSO100'][(int)$row_assoc['role']];
                         }
                         else{
