@@ -11,6 +11,8 @@ require_once($topdir . "include/cts/special.inc.php");
 require_once($topdir . "include/globals.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
+require_once($topdir . "include/entities/asso.inc.php");
+
 require_once($topdir . "include/graph.inc.php");
 require_once($topdir . "include/cts/imgcarto.inc.php");
 require_once($topdir . "include/pgsqlae.inc.php");
@@ -70,12 +72,12 @@ if ($site->user->is_in_group("root")) {
                 while ($row_assoc = $req_assoc->get_row()) {
                     $result .= "<asso><nom>" . $row_assoc["nom_asso"] . "</nom>";
                     if ($row_assoc['desc_role']==""){
-                        $role=$GLOBALS['ROLEASSO'][(int)$row_assoc['role']];
+                        $roleXML=$GLOBALS['ROLEASSO'][(int)$row_assoc['role']];
                     }
                     else{
-                        $role=$row_assoc['desc_role'];
+                        $roleXML=$row_assoc['desc_role'];
                     }
-                    $result .= "<role>" . $role . "</role></asso>";
+                    $result .= "<role>" . $roleXML . "</role></asso>";
                 }
             } catch (Exception $e) {
                 echo "unable to fetch assos" . $e;
