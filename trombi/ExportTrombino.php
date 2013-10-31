@@ -70,7 +70,7 @@ if ($site->user->is_in_group("root")) {
                 while ($row_assoc = $req_assoc->get_row()) {
                     $result .= "<asso><nom>" . $row_assoc["nom_asso"] . "</nom>";
                     if ($row_assoc['desc_role']==""){
-                        $role=$GLOBALS['ROLEASSO'][$row_assoc['role']];
+                        $role=$GLOBALS['ROLEASSO'][(int)$row_assoc['role']];
                     }
                     else{
                         $role=$row_assoc['desc_role'];
