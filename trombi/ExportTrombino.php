@@ -19,9 +19,11 @@ require_once("include/cts/commentaire.inc.php");
 
 $site = new site();
 if ($site->user->is_in_group("root")) {
+
+    header ("Content-Type:text/xml");
     $result = "<xml>";
     try {
-        $req = new requete($site->db, "SELECT utilisateurs.id_utilisateur,utilisateurs.nom_utl, utilisateurs.prenom_utl, utl_etu_utbm.surnom_utbm, utilisateurs.email_utl, utilisateurs.tel_portable_utl FROM `utilisateurs` JOIN utl_etu_utbm ON utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur  WHERE publique_mmtpapier_utl =1 AND utl_etu_utbm.promo_utbm =10 ");
+        $req = new requete($site->db, "SELECT photo,famille,infos_personnelles,associatif,commentaires,utilisateurs.id_utilisateur,utilisateurs.nom_utl, utilisateurs.prenom_utl, utl_etu_utbm.surnom_utbm, utilisateurs.email_utl, utilisateurs.tel_portable_utl FROM `utilisateurs` join utl_trombi on utilisateurs.id_utilisateur = utl_trombi.id_utilisateur JOIN utl_etu_utbm ON utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur  WHERE autorisation !=1 AND utl_etu_utbm.promo_utbm =10 ");
     } catch (Exception $e) {
         echo "main request doesn't work" . $e;
     }
@@ -29,16 +31,18 @@ if ($site->user->is_in_group("root")) {
         while ($row = $req->get_row()) {
             try {
                 $id_user = $row["id_utilisateur"];
-                echo "line read user id is ".$id_user;
                 $result .= "<utilisateur>";
                 $result .= "<nom>" . $row["nom_utl"] . "</nom>";
                 $result .= "<prenom>" . $row["prenom_utl"] . "</prenom>";
+                if($req["infos_personnelles"]==1){
                 $result .= "<surnom>" . $row["surnom_utbm"] . "</surnom>";
                 $result .= "<email>" . $row["email_utl"] . "</email>";
                 $result .= "<tel>" . $row["tel_portable_utl"] . "</tel>";
+                }
             } catch (Exception $e) {
                 echo "unable to get basic info " . $e;
             }
+            if($req["famille"]==1){
             try {
                 $req_fillots = new requete($site->db, "SELECT utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur_fillot=utl_etu_utbm.id_utilisateur where parrains.id_utilisateur = " .   $id_user. " ");
                 while ($row_fillots = $req_fillots->get_row()) {
@@ -51,6 +55,8 @@ if ($site->user->is_in_group("root")) {
             } catch (Exception $e) {
                 echo "unable to get parrain / fillot " . $e;
             }
+            }
+            if($req["associatif"]==1){
             try {
                 $req_assoc = new requete($site->db,
                     "SELECT `asso`.`nom_asso`,`asso_membre`.`desc_role`, " .
@@ -68,6 +74,8 @@ if ($site->user->is_in_group("root")) {
             } catch (Exception $e) {
                 echo "unable to fetch assos" . $e;
             }
+            }
+            if($req["commentaire"]==1){
             try {
                 $req_comment = new requete($site->db, "select commentaire, utl_etu_utbm.surnom_utbm from trombi_commentaire join utl_etu_utbm on trombi_commentaire.id_commentateur=utl_etu_utbm.id_utilisateur where id_commente = " . $id_user);
                 while ($row_comment = $req_comment->get_row()) {
@@ -77,11 +85,16 @@ if ($site->user->is_in_group("root")) {
             } catch (Exception $e) {
                 echo "unable to get comment " . $e;
             }
-            $result .= "</utilisateur>";
+            }
+            if($req["photo"]==1){
+                $result.="<photo>oui</photo>";
+            }else{
+                $result.="<photo>non</photo>";
+            }
+            $result .= "</utilisateur></xml>";
 
         }
         echo $result;
     }
-
 
 }
