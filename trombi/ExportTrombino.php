@@ -28,8 +28,8 @@ if ($site->user->is_in_group("root")) {
     if ($req->lines > 0) {
         while ($row = $req->get_row()) {
             try {
-                $id_user = $row["utilisateurs.id_utilisateur"];
-                echo $id_user;
+                $id_user = $row["id_utilisateur"];
+                echo "line read user id is ".$id_user;
                 $result .= "<utilisateur>";
                 $result .= "<nom>" . $row["nom_utl"] . "</nom>";
                 $result .= "<prenom>" . $row["prenom_utl"] . "</prenom>";
