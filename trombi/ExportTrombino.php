@@ -61,7 +61,7 @@ if ($site->user->is_in_group("root")) {
             if($row["associatif"]==1){
             try {
                 $req_assoc = new requete($site->db,
-                    "SELECT `asso`.`nom_asso`,`asso_membre`.`desc_role`, role " .
+                    "SELECT `asso`.`nom_asso`,`asso_membre`.`desc_role`, role, " .
                     "IF(`asso`.`id_asso_parent` IS NULL,`asso_membre`.`role`+100,`asso_membre`.`role`) AS `role`, " .
                     "`asso_membre`.`date_debut`, `asso_membre`.`desc_role`, " .
                     "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
