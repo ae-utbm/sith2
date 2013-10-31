@@ -47,7 +47,7 @@ if ( $site->user->is_in_group("root") )
                 "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
                 "FROM `asso_membre` " .
                 "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
-                "WHERE asso_membre.id_utilisateur='".$req["id_utilisateur"]."' " .
+                "WHERE asso_membre.id_utilisateur='".$req["utilisateurs.id_utilisateur"]."' " .
                 "AND `asso_membre`.`date_fin` is NULL " .
                 "ORDER BY `asso`.`nom_asso`");
             while($row_assoc= $req_assoc->get_row()){
