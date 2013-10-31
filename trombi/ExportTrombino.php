@@ -34,7 +34,7 @@ if ($site->user->is_in_group("root")) {
                 $result .= "<utilisateur>";
                 $result .= "<nom>" . $row["nom_utl"] . "</nom>";
                 $result .= "<prenom>" . $row["prenom_utl"] . "</prenom>";
-                if($req["infos_personnelles"]==1){
+                if($row["infos_personnelles"]==1){
                 $result .= "<surnom>" . $row["surnom_utbm"] . "</surnom>";
                 $result .= "<email>" . $row["email_utl"] . "</email>";
                 $result .= "<tel>" . $row["tel_portable_utl"] . "</tel>";
@@ -42,7 +42,7 @@ if ($site->user->is_in_group("root")) {
             } catch (Exception $e) {
                 echo "unable to get basic info " . $e;
             }
-            if($req["famille"]==1){
+            if($row["famille"]==1){
             try {
                 $req_fillots = new requete($site->db, "SELECT utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur_fillot=utl_etu_utbm.id_utilisateur where parrains.id_utilisateur = " .   $id_user. " ");
                 while ($row_fillots = $req_fillots->get_row()) {
@@ -56,7 +56,7 @@ if ($site->user->is_in_group("root")) {
                 echo "unable to get parrain / fillot " . $e;
             }
             }
-            if($req["associatif"]==1){
+            if($row["associatif"]==1){
             try {
                 $req_assoc = new requete($site->db,
                     "SELECT `asso`.`nom_asso`,`asso_membre`.`desc_role`, " .
@@ -75,7 +75,7 @@ if ($site->user->is_in_group("root")) {
                 echo "unable to fetch assos" . $e;
             }
             }
-            if($req["commentaire"]==1){
+            if($row["commentaire"]==1){
             try {
                 $req_comment = new requete($site->db, "select commentaire, utl_etu_utbm.surnom_utbm from trombi_commentaire join utl_etu_utbm on trombi_commentaire.id_commentateur=utl_etu_utbm.id_utilisateur where id_commente = " . $id_user);
                 while ($row_comment = $req_comment->get_row()) {
@@ -86,7 +86,7 @@ if ($site->user->is_in_group("root")) {
                 echo "unable to get comment " . $e;
             }
             }
-            if($req["photo"]==1){
+            if($row["photo"]==1){
                 $result.="<photo>oui</photo>";
             }else{
                 $result.="<photo>non</photo>";
