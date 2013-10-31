@@ -1,6 +1,4 @@
 <?php
-
-
 $topdir = "../";
 
 include($topdir. "include/site.inc.php");
@@ -34,6 +32,7 @@ if ( $site->user->is_in_group("root") )
             $result.="<surnom>".$row["surnom_utbm"]."</surnom>";
             $result.="<email>".$row["email_utl"]."</email>";
             $result.="<tel>".$row["tel_portable_utl"]."</tel>";
+            try{
             $req_fillots= new requete($site->db,"SELECT utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur_fillot=utl_etu_utbm.id_utilisateur where id_utilisateur = ".$row["utilisateurs.id_utilisateur"]." ");
             while($row_fillots = $req_fillots->get_row()){
                  $result.="<fillot>".$row_fillots["surnom_utbm"]."</fillot>";
@@ -41,6 +40,10 @@ if ( $site->user->is_in_group("root") )
             $req_parrains= new requete($site->db,"SELECT utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur=utl_etu_utbm.id_utilisateur where id_utilisateur_fillot = ".$row["utilisateurs.id_utilisateur"]."");
             while($row_parrains = $req_parrains->get_row()){
                 $result.="<parrain>".$row_parrains["surnom_utbm"]."</parrain>";
+            }
+            }
+            catch(Exception $e){
+                echo "unable to get parrain / fillot ".$e;
             }
             try{
             $req_assoc = new requete($site->db,
@@ -53,18 +56,24 @@ if ( $site->user->is_in_group("root") )
                 "WHERE asso_membre.id_utilisateur='".$id_user."' " .
                 "AND `asso_membre`.`date_fin` is NULL " .
                 "ORDER BY `asso`.`nom_asso`");
-            }
-            catch(Exception $e){
-                echo "unable to fetch assos".e;
-            }
+
             while($row_assoc= $req_assoc->get_row()){
                 $result.="<asso><nom>".$row_assoc["nom_asso"]."</nom>";
                 $result.="<role>".$row_assoc['role']."</role></asso>";
             }
+            }
+            catch(Exception $e){
+                echo "unable to fetch assos".$e;
+            }
+            try{
             $req_comment = new requete($site->db,"select commentaire, utl_etu_utbm.surnom_utbm from trombi_commentaire_ join utl_etu_utbm on trombino_commentaires.id_commentateur=utl_etu_utbm.id_utilisateur where id_commente = ".$id_user);
             while($row_comment= $req_comment->get_row()){
                 $result.="<commentaire><nom>".$row_comment["surnom_utbm"]."</nom>";
                 $result.="<contenu>".$row_comment['commentaire']."</contenu></commentaire>";
+            }
+            }
+            catch(Exception $e){
+                echo "unable to get comment ".$e;
             }
             $result.="</utilisateur>";
 
