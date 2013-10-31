@@ -19,6 +19,7 @@ require_once($topdir. "include/pgsqlae.inc.php");
 require_once("include/entities/commentaire.inc.php");
 require_once("include/cts/commentaire.inc.php");
 
+$site = new site();
 if ( $site->user->is_in_group("root") )
 {
     $result="<xml>";
