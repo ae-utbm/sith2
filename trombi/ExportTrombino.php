@@ -50,7 +50,7 @@ if ($site->user->is_in_group("root")) {
             }
             if($row["famille"]==1){
             try {
-                $req_fillots = new requete($site->db, "SELECT nom,prenom  utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur_fillot=utl_etu_utbm.id_utilisateur join utilisateurs on parrains.id_utilisateur_fillot=utilisateurs.id_utilisateur where parrains.id_utilisateur = " .   $id_user. " ");
+                $req_fillots = new requete($site->db, "SELECT nom,prenom,  utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur_fillot=utl_etu_utbm.id_utilisateur join utilisateurs on parrains.id_utilisateur_fillot=utilisateurs.id_utilisateur where parrains.id_utilisateur = " .   $id_user. " ");
                 while ($row_fillots = $req_fillots->get_row()) {
                     if($row_fillots["surnom_utbm"] !=""){
                         $result .= "<fillot>" . $row_fillots["surnom_utbm"] . "</fillot>";
@@ -58,7 +58,7 @@ if ($site->user->is_in_group("root")) {
                         $result .= "<fillot>" . $row_fillots["nom"] ." ".$row_parrains["prenom"]. "</fillot>";
 
                     }                }
-                $req_parrains = new requete($site->db, "SELECT nom,prenom utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur=utl_etu_utbm.id_utilisateur join utilisateurs on parrains.id_utilisateur=utilisateur.id_utilisateur where parrains.id_utilisateur_fillot = " .  $id_user . "");
+                $req_parrains = new requete($site->db, "SELECT nom,prenom, utl_etu_utbm.surnom_utbm from parrains join utl_etu_utbm on parrains.id_utilisateur=utl_etu_utbm.id_utilisateur join utilisateurs on parrains.id_utilisateur=utilisateur.id_utilisateur where parrains.id_utilisateur_fillot = " .  $id_user . "");
                 while ($row_parrains = $req_parrains->get_row()) {
                     if($row_parrains["surnom_utbm"] !=""){
                         $result .= "<parrain>" . $row_parrains["surnom_utbm"] . "</parrain>";
