@@ -42,6 +42,7 @@ if ( $site->user->is_in_group("root") )
             while($row_parrains = $req_parrains->get_row()){
                 $result.="<parrain>".$row_parrains["surnom_utbm"]."</parrain>";
             }
+            try{
             $req_assoc = new requete($site->db,
                 "SELECT `asso`.`nom_asso`,`asso_membre`.`role`, " .
                 "IF(`asso`.`id_asso_parent` IS NULL,`asso_membre`.`role`+100,`asso_membre`.`role`) AS `role`, ".
@@ -52,6 +53,10 @@ if ( $site->user->is_in_group("root") )
                 "WHERE asso_membre.id_utilisateur='".$id_user."' " .
                 "AND `asso_membre`.`date_fin` is NULL " .
                 "ORDER BY `asso`.`nom_asso`");
+            }
+            catch(Exception $e){
+                echo "unable to fetch assos".e;
+            }
             while($row_assoc= $req_assoc->get_row()){
                 $result.="<asso><nom>".$row_assoc["nom_asso"]."</nom>";
                 $result.="<role>".$row_assoc['role']."</role></asso>";
