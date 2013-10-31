@@ -95,7 +95,7 @@ if ($site->user->is_in_group("root")) {
                     else{
                         $roleXML=$row_assoc['desc_role'];
                     }
-                    $result .= "<role>" . $roleXML . "</role></asso>";
+                    $result .= "<role>" . escapeshellcmd($roleXML) . "</role></asso>";
                 }
             } catch (Exception $e) {
                 echo "unable to fetch assos" . $e;
