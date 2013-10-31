@@ -91,9 +91,10 @@ if ($site->user->is_in_group("root")) {
             }else{
                 $result.="<photo>non</photo>";
             }
-            $result .= "</utilisateur></xml>";
+            $result .= "</utilisateur>";
 
         }
+        $result.="</xml>";
         echo $result;
     }
 
