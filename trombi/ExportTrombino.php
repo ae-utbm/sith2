@@ -40,6 +40,15 @@ if ( $site->user->is_in_group("root") )
             while($row_parrains = $req_parrains->get_row()){
                 $result.="<parrain>".$row_parrains["surnom_utbm"]."</parrain>";
             }
+            echo "SELECT `asso`.`nom_asso`,`asso_membre`.`role`, " .
+                "IF(`asso`.`id_asso_parent` IS NULL,`asso_membre`.`role`+100,`asso_membre`.`role`) AS `role`, ".
+                "`asso_membre`.`date_debut`, `asso_membre`.`desc_role`, " .
+                "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+                "FROM `asso_membre` " .
+                "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
+                "WHERE asso_membre.id_utilisateur='".$req["id_utilisateur"]."' " .
+                "AND `asso_membre`.`date_fin` is NULL " .
+                "ORDER BY `asso`.`nom_asso`";
             $req_assoc = new requete($site->db,
                 "SELECT `asso`.`nom_asso`,`asso_membre`.`role`, " .
                 "IF(`asso`.`id_asso_parent` IS NULL,`asso_membre`.`role`+100,`asso_membre`.`role`) AS `role`, ".
@@ -47,7 +56,7 @@ if ( $site->user->is_in_group("root") )
                 "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
                 "FROM `asso_membre` " .
                 "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
-                "WHERE asso_membre.id_utilisateur='".$req["utilisateurs.id_utilisateur"]."' " .
+                "WHERE asso_membre.id_utilisateur='".$req["id_utilisateur"]."' " .
                 "AND `asso_membre`.`date_fin` is NULL " .
                 "ORDER BY `asso`.`nom_asso`");
             while($row_assoc= $req_assoc->get_row()){
