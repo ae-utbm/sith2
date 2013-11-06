@@ -89,6 +89,7 @@ div#header
   z-index:59;
   position:relative;
   width: 980px;
+  margin-left: 100px;
   height:85px;
 }
 div#logo
@@ -418,6 +419,7 @@ div#fsearchbox input
 div.tabsv2
 {
   width: 980px;
+  margin-left: 100px;
   margin-top:15px;
   background : #555555;
   padding-left:0;
@@ -476,7 +478,8 @@ div.tabsv2 span:last-child a:hover
 /*BARRE MENU 2 Liens rapide sous les onglets principaux---------------------------*/
 div.sectionlinks
 {
-  width: 980px;
+  width: 980px;  
+  margin-left: 100px;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   text-align: justify;
@@ -584,6 +587,7 @@ div.contents
   text-align:left;
   position:relative;
   width: 980px;
+  margin-left: 100px;
   margin-top:0;
   margin-bottom:50px;
   padding-top:0.5em;
