@@ -88,7 +88,7 @@ div#header
 {
   z-index:59;
   position:relative;
-  margin:0 100px;
+  width: 980px;
   height:85px;
 }
 div#logo
@@ -417,7 +417,7 @@ div#fsearchbox input
 /*BARRE MENU 1 : Onglets principaux (header)---------------------------------*/
 div.tabsv2
 {
-  margin:100px;
+  width: 980px;
   margin-top:15px;
   background : #555555;
   padding-left:0;
@@ -583,7 +583,7 @@ div.contents
 {
   text-align:left;
   position:relative;
-  margin: 100px;
+  width: 980px;
   margin-top:0;
   margin-bottom:50px;
   padding-top:0.5em;
