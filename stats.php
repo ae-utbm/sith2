@@ -1424,13 +1424,13 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 	echo "</div>";
 
 
-while( list($id, $nom, $total, $promo, $assos, $pourcentage ) = $req->get_row())
+while( $row = $req->get_row())
 {
 	echo "<div class=\"row\">\n";
-	echo "<div class=\"col-md-1\">$nom</div>";
-	echo "<div class=\"col-md-1\">$promo</div>";
-	echo "<div class=\"col-md-1\">$assos</div>";
-	echo "<div class=\"col-md-1\">$pourcentage</div>";
+	echo "<div class=\"col-md-1\">".$row["nom_utilisateur"]."</div>";
+	echo "<div class=\"col-md-1\">".$row["promo_utbm"]."</div>";
+	echo "<div class=\"col-md-1\">".$row["assos"]."</div>";
+	echo "<div class=\"col-md-1\">".$row["pourcentage"]."</div>";
 	echo "</div>";
 }
 
