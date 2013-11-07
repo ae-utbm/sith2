@@ -1402,6 +1402,8 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 			<head>
 	      			<title>Top temps réel</title>
 				<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+		    		<script src=\"https://code.jquery.com/jquery.js\"></script>
+				<script src=\"js/bootstrap.min.js\"></script>
 				<!-- Latest compiled and minified CSS -->
 				<link rel=\"stylesheet\" href=\"//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css\">
 
@@ -1416,8 +1418,6 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
       				<script src=\"https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js\"></script>
       			</head>
         		<body>
-		    		<script src=\"https://code.jquery.com/jquery.js\"></script>
-				<script src=\"js/bootstrap.min.js\"></script>
 				<script>function reload() { window.location.replace(\"$addresse\"); }
 
 					$( document ).ready(function() { setTimeout(reload,60000) });
