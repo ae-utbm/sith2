@@ -1418,7 +1418,10 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
         		<body>
 		    		<script src=\"https://code.jquery.com/jquery.js\"></script>
 				<script src=\"js/bootstrap.min.js\"></script>
-				<script>window.location.replace($addresse);</script>";
+				<script>function reload() { window.location.replace(\"$addresse\"); }
+
+					$( document ).ready(function() { setTimeout(reload,2000) });
+				</script>";
 
 	echo "<div class=\"row\">\n";
 	echo "<div class=\"col-md-1\">Nom</div>";
