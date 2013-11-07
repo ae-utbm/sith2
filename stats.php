@@ -1390,7 +1390,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
           "WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut' " .
           "AND id_produit !=338 " .
           "GROUP BY utilisateurs.id_utilisateur " .
-          "ORDER BY total DESC LIMIT 100 " .
+          "ORDER BY total DESC LIMIT 10 " .
         ") top " .
         "LEFT JOIN asso_membre USING ( `id_utilisateur` ) " .
         "LEFT JOIN asso USING ( `id_asso` ) " .
