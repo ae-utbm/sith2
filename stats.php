@@ -1372,7 +1372,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 	else
 		$date = time();
 	$debut = date("Y-m-d H:i:s",$date);
-	$addresse = "//stats.php?view=temps_reel&date=".$date;
+	$addresse = "stats.php?view=temps_reel&date=".$date;
 	$req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
 	"ROUND(10000*total/(SELECT SUM(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) FROM cpt_vendu
