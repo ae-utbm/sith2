@@ -1420,7 +1420,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 				<script src=\"js/bootstrap.min.js\"></script>
 				<script>function reload() { window.location.replace(\"$addresse\"); }
 
-					$( document ).ready(function() { setTimeout(reload,2000) });
+					$( document ).ready(function() { setTimeout(reload,60000) });
 				</script>";
 
 	echo "<div class=\"row\">\n";
