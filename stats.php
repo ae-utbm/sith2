@@ -1409,6 +1409,23 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 		    		<script src=\"https://code.jquery.com/jquery.js\"></script>
 				<script src=\"js/bootstrap.min.js\"></script>";
 
+	echo "<div class=\"row\">\n";
+	echo "<div class=\"col-md-1\">Nom</div>";
+	echo "<div class=\"col-md-1\">Promo</div>";
+	echo "<div class=\"col-md-1\">Assos</div>";
+	echo "<div class=\"col-md-1\">Pourcentage</div>";
+	echo "</div>";
+
+
+while( list($id, $nom, $total, $promo, $assos, $pourcentage ) = $req->get_row())
+{
+	echo "<div class=\"row\">\n";
+	echo "<div class=\"col-md-1\">$nom</div>";
+	echo "<div class=\"col-md-1\">$promo</div>";
+	echo "<div class=\"col-md-1\">$assos</div>";
+	echo "<div class=\"col-md-1\">$pourcentage</div>";
+	echo "</div>";
+}
 
 
   	echo "		</body>
