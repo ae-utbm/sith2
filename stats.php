@@ -1367,7 +1367,12 @@ elseif ($_REQUEST["view"] == "actifs" )
 }
 elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role ( 2, 2 )) && $_REQUEST["view"] == "temps_reel" )
 {
-	$debut = date("Y-m-d H:i:s",intval($_REQUEST["date"]));
+	if(isset($_REQUEST["date"]))
+		$date = intval($_REQUEST["date"]); 
+	else
+		$date = time();
+	$debut = date("Y-m-d H:i:s",$date);
+	$addresse = "//stats.php?view=temps_reel&date=".$date;
 	$req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
 	"ROUND(10000*total/(SELECT SUM(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) FROM cpt_vendu
@@ -1411,10 +1416,9 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
       				<script src=\"https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js\"></script>
       			</head>
         		<body>
-	    			<h1>Hello, world!</h1>
-
 		    		<script src=\"https://code.jquery.com/jquery.js\"></script>
-				<script src=\"js/bootstrap.min.js\"></script>";
+				<script src=\"js/bootstrap.min.js\"></script>
+				<script>window.location.replace($addresse);</script>";
 
 	echo "<div class=\"row\">\n";
 	echo "<div class=\"col-md-1\">Nom</div>";
