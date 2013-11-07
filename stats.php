@@ -731,7 +731,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     if (isset($_REQUEST["plus"]))
     {
       $cols["total"] = "Total";
-      $cols["total_db"] = "Total (dB€)";
+      $cols["pourcentage"] = "Pourcentage vente";
     }
 
     $tbl = new sqltable("top10",
