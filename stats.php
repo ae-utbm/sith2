@@ -1365,6 +1365,56 @@ elseif ($_REQUEST["view"] == "actifs" )
   $cts->add($cts2,true);
 
 }
+elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role ( 2, 2 )) && $_REQUEST["view"] == "temps_reel" )
+{
+	$debut = date("Y-m-d H:i:s",intval($_REQUEST["date"]));
+	$req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
+        "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
+	"ROUND(10000*total/(SELECT SUM(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) FROM cpt_vendu
+       		      INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture 
+		      WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut' 
+		      AND id_produit !=338),2) as pourcentage " .
+        "FROM ( " .
+          "SELECT `utilisateurs`.`id_utilisateur`, " .
+          "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
+          "ROUND(sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit)/100, 2) as total, promo_utbm " .
+          "FROM cpt_vendu " .
+          "INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture " .
+          "INNER JOIN utilisateurs ON cpt_debitfacture.id_utilisateur_client=utilisateurs.id_utilisateur " .
+          "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+          "WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut' " .
+          "AND id_produit !=338 " .
+          "GROUP BY utilisateurs.id_utilisateur " .
+          "ORDER BY total DESC LIMIT 100 " .
+        ") top " .
+        "LEFT JOIN asso_membre USING ( `id_utilisateur` ) " .
+        "LEFT JOIN asso USING ( `id_asso` ) " .
+        "GROUP BY id_utilisateur " .
+        "ORDER BY total DESC");
+
+	echo 	"<!DOCTYPE html>
+		<html>
+			<head>
+	      			<title>Top temps réel</title>
+				<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+				<!-- Bootstrap -->
+				<link href=\"css/bootstrap.min.css\" rel=\"stylesheet\">
+
+				<script src=\"https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js\"></script>
+      				<script src=\"https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js\"></script>
+      			</head>
+        		<body>
+	    			<h1>Hello, world!</h1>
+
+		    		<script src=\"https://code.jquery.com/jquery.js\"></script>
+				<script src=\"js/bootstrap.min.js\"></script>";
+
+
+
+  	echo "		</body>
+  		</html>";
+
+}
 else
 {
   $cts->add_paragraph("<br />Vous trouverez ici l'ensemble des statistiques (complètement in)utiles du site AE. ".
