@@ -1401,6 +1401,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 		<html>
 			<head>
 	      			<title>Top temps réel</title>
+				<meta charset=\"UTF-8\">
 				<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
 		    						<!-- Latest compiled and minified CSS -->
 				<link rel=\"stylesheet\" href=\"//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css\">
