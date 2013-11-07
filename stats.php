@@ -1413,6 +1413,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 
   	echo "		</body>
   		</html>";
+        exit();
 
 }
 else
