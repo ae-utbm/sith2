@@ -655,7 +655,10 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     $cts->add_title(2,"Consomateurs foyer: Top 100 (ce semestre)");
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
-        "ROUND(10 * log10(total), 2) as total_db " .
+        "ROUND(10000*total/(SELECT SUM(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) FROM cpt_vendu
+       		      INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture 
+		      WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' 
+		      AND id_produit !=338 AND id_comptoir = 2),2) as pourcentage " .
         "FROM ( " .
           "SELECT `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
@@ -750,7 +753,10 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     $cts->add_title(2,"Consomateurs Gommette: Top 100 (ce semestre)");
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
-        "ROUND(10 * log10(total), 2) as total_db " .
+        "ROUND(10000*total/(SELECT SUM(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) FROM cpt_vendu
+       		      INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture 
+		      WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' 
+		      AND id_produit !=338 AND id_comptoir = 35),2) as pourcentage " .
         "FROM ( " .
           "SELECT `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
@@ -777,7 +783,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     if (isset($_REQUEST["plus"]))
     {
       $cols["total"] = "Total";
-      $cols["total_db"] = "Total (dB€)";
+      $cols["pourcentage"] = "Pourcentage vente";
     }
 
     $tbl = new sqltable("top10",
@@ -796,7 +802,10 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     $cts->add_title(2,"Consomateurs (tous les lieux de vie): Top 100 (ce semestre)");
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
-        "ROUND(10 * log10(total), 2) as total_db " .
+	"ROUND(10000*total/(SELECT SUM(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) FROM cpt_vendu
+       		      INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture 
+		      WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' 
+		      AND id_produit !=338 AND  (id_comptoir = 1 OR  id_comptoir = 2 OR  id_comptoir = 35)),2) as pourcentage " .
         "FROM ( " .
           "SELECT `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
@@ -845,7 +854,10 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     $cts->add_title(2,"Consomateurs : Top 100 (ce semestre)");
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
-        "ROUND(10 * log10(total), 2) as total_db " .
+	"ROUND(10000*total/(SELECT SUM(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) FROM cpt_vendu
+       		      INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture 
+		      WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' 
+		      AND id_produit !=338),2) as pourcentage " .
         "FROM ( " .
           "SELECT `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
@@ -871,7 +883,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     if (isset($_REQUEST["plus"]))
     {
       $cols["total"] = "Total";
-      $cols["total_db"] = "Total (dB€)";
+      $cols["total_db"] = "pourcentage vente";
     }
 
     $tbl = new sqltable("top10",
