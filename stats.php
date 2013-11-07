@@ -701,10 +701,10 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
     $cts->add_title(2,"Consomateurs MDE: Top 100 (ce semestre)");
     $req = new requete ($site->db, "SELECT id_utilisateur, nom_utilisateur, total, promo_utbm, " .
         "GROUP_CONCAT(IF(role >=2 AND `date_fin` IS NULL AND id_asso_parent IS NULL, nom_asso, NULL) ORDER BY id_asso SEPARATOR ', ') assos, " .
-	"ROUND(total/(SELECT SUM(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) FROM cpt_vendu
+	"ROUND(10000*total/(SELECT SUM(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) FROM cpt_vendu
        		      INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture 
 		      WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' 
-		      AND id_produit !=338 AND id_comptoir = 1) as pourcentage " .
+		      AND id_produit !=338 AND id_comptoir = 1),2) as pourcentage " .
         "FROM ( " .
           "SELECT `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
