@@ -1417,7 +1417,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 			<body>
 				<script>function reload() { window.location.replace(\"$addresse\"); }
 
-					$( document ).ready(function() { setTimeout(reload,60000) });
+					$( document ).ready(function() { setTimeout(reload,10000) });
 				</script><div class=\"container\">";
 
 	echo "<table class=\"table table-striped\">\n";
