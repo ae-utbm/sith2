@@ -1420,18 +1420,21 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 					$( document ).ready(function() { setTimeout(reload,60000) });
 				</script><div class=\"container\">";
 
-	echo "<table class=\"table table-stripped\">\n";
+	echo "<table class=\"table table-striped\">\n";
 	echo "<thead><tr>";
+	echo "<th>#</th>";
 	echo "<th>Nom</th>";
 	echo "<th>Promo</th>";
 	echo "<th>Assos</th>";
 	echo "<th>Pourcentage</th>";
 	echo "</tr></thead><tbody>";
 
-
+$i = 0;
 while( $row = $req->get_row())
 {
+	$i++;
 	echo "<tr>\n";
+	echo "<td>".$i."</td>";
 	echo "<td>".$row["nom_utilisateur"]."</td>";
 	echo "<td>".$row["promo_utbm"]."</td>";
 	echo "<td>".$row["assos"]."</td>";
