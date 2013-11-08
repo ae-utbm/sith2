@@ -1420,26 +1420,27 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 					$( document ).ready(function() { setTimeout(reload,60000) });
 				</script><div class=\"container\">";
 
-	echo "<div class=\"row\">\n";
-	echo "<div class=\"col-md-3\">Nom</div>";
-	echo "<div class=\"col-md-3\">Promo</div>";
-	echo "<div class=\"col-md-3\">Assos</div>";
-	echo "<div class=\"col-md-3\">Pourcentage</div>";
-	echo "</div>";
+	echo "<table class=\"table table-stripped\">\n";
+	echo "<thead><tr>";
+	echo "<th>Nom</th>";
+	echo "<th>Promo</th>";
+	echo "<th>Assos</th>";
+	echo "<th>Pourcentage</th>";
+	echo "</tr></thead><tbody>";
 
 
 while( $row = $req->get_row())
 {
-	echo "<div class=\"row\">\n";
-	echo "<div class=\"col-md-3\">".$row["nom_utilisateur"]."</div>";
-	echo "<div class=\"col-md-3\">".$row["promo_utbm"]."</div>";
-	echo "<div class=\"col-md-3\">".$row["assos"]."</div>";
-	echo "<div class=\"col-md-3\">".$row["pourcentage"]."</div>";
-	echo "</div>";
+	echo "<tr>\n";
+	echo "<td>".$row["nom_utilisateur"]."</td>";
+	echo "<td>".$row["promo_utbm"]."</td>";
+	echo "<td>".$row["assos"]."</td>";
+	echo "<td>".$row["pourcentage"]."</td>";
+	echo "</tr>";
 }
 
 
-  	echo "		</div></body>
+  	echo "		</tbody></table></div></body>
   		</html>";
         exit();
 
