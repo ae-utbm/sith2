@@ -1421,20 +1421,20 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 				</script><div class=\"container\">";
 
 	echo "<div class=\"row\">\n";
-	echo "<div class=\"col-md-1\">Nom</div>";
-	echo "<div class=\"col-md-1\">Promo</div>";
-	echo "<div class=\"col-md-1\">Assos</div>";
-	echo "<div class=\"col-md-1\">Pourcentage</div>";
+	echo "<div class=\"col-md-3\">Nom</div>";
+	echo "<div class=\"col-md-3\">Promo</div>";
+	echo "<div class=\"col-md-3\">Assos</div>";
+	echo "<div class=\"col-md-3\">Pourcentage</div>";
 	echo "</div>";
 
 
 while( $row = $req->get_row())
 {
 	echo "<div class=\"row\">\n";
-	echo "<div class=\"col-md-1\">".$row["nom_utilisateur"]."</div>";
-	echo "<div class=\"col-md-1\">".$row["promo_utbm"]."</div>";
-	echo "<div class=\"col-md-1\">".$row["assos"]."</div>";
-	echo "<div class=\"col-md-1\">".$row["pourcentage"]."</div>";
+	echo "<div class=\"col-md-3\">".$row["nom_utilisateur"]."</div>";
+	echo "<div class=\"col-md-3\">".$row["promo_utbm"]."</div>";
+	echo "<div class=\"col-md-3\">".$row["assos"]."</div>";
+	echo "<div class=\"col-md-3\">".$row["pourcentage"]."</div>";
 	echo "</div>";
 }
 
