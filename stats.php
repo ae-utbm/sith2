@@ -1418,7 +1418,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 				<script>function reload() { window.location.replace(\"$addresse\"); }
 
 					$( document ).ready(function() { setTimeout(reload,60000) });
-				</script>";
+				</script><div class=\"container\">";
 
 	echo "<div class=\"row\">\n";
 	echo "<div class=\"col-md-1\">Nom</div>";
@@ -1439,7 +1439,7 @@ while( $row = $req->get_row())
 }
 
 
-  	echo "		</body>
+  	echo "		</div></body>
   		</html>";
         exit();
 
