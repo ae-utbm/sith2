@@ -310,9 +310,9 @@ button[disabled] {
         <form class="login flexbox">
             <input required id="inputCarteAe" type="text" autocomplete="off" name="carteae" placeholder="Carte AE" maxlength=5/>
             <input required name="password" type="password" autocomplete="off" placeholder="mot de passe"/>
-            <button class="error" name="remember" id="remember">Mémoriser</button>
-            <button onClick="logMe()">Connexion</button>
         </form>
+        <button class="login error" name="remember" id="remember">Mémoriser</button>
+        <button class="login" onClick="logMe()">Connexion</button>
     </div>
     <div class="message hidden flexbox">
         <form class="flexbox">
@@ -341,6 +341,13 @@ $(document).ready(function () {
         $(".login").fadeOut(300);
         $("#messageId").focus();
     }
+    $(document).keypress(function(event){
+        if(event.which==13){
+            if (!idUser || !serviceID) {
+                logMe();
+            }
+        }
+    });
     clickOnCheckbox = function (element) {
         if ($(element).hasClass("selected")) {
             $(element).removeClass("selected");
@@ -408,7 +415,13 @@ $(document).ready(function () {
         $(".login>button:last-child").html("Connexion...");
         $(".login>button:last-child").prop("disabled", true)
         $.ajax({
-            url: "../gateway.php?module=appli-mobile&req=login&domain=carteae&username=" + id + "&password=" + pwd,
+            type: "POST",
+            url: "../gateway.php",
+            data:"{module=appli-mobile," +
+                    "req=login," +
+                    "domain=carteae," +
+                    "username=" + id + "," +
+                    "password=" + pwd+"}",
             error: function (info) {
                 logger("echec\n" + info.status, "error");
                 $(".login>button:last-child").last().prop("disabled", false)
