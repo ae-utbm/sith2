@@ -385,35 +385,46 @@ div#fsearchbox input
 /*Boite d'information se trouvant dans le header----------------------*/
 #important
 {
-  position: absolute;
-  top: 40px;
-  right: 0;
-  width:345px;
-  height:54px;
-  font-size: 10px;
-  color : black;
-  background-image: url("../images/important.png");
-  background-repeat: no-repeat;
-  border:0;
-  padding:0;
-  margin:0;
-  overflow:hidden;
-  visibility: hidden;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width:345px;
+    height:54px;
+    font-size: 10px;
+    color : black;
+    background:rgba(250,130,0,0.9);
+    border-radius:40px 40px 40px 40px;
+    border:0;
+    padding:0;
+    margin:0;
+    overflow:hidden;
+    visibility: visible;
 }
 #important div.body
 {
-  background: none;
-  padding:9px 25px 7px 54px;
-  margin:0;
-  border:0;
-  text-align:left;
-  overflow:hidden;
+    background: none;
+    padding:5px 20px 30px 48px;
+    margin:0;
+    border:0;
+    text-align:left;
+    overflow:hidden;
 }
-#important a.logo
+#important:before
 {
-  width:0;
-  height:0;
-  float:left;
+    position:absolute;
+    left:5px;
+    top:7px;
+    display:inline-block;
+    min-height:25px;
+    min-width:40px;
+    color:white;
+    background:darkblue;
+    background: linear-gradient(to bottom,  #73b1e7 5%,darkblue 80%,#73b1e7 100%);
+    content:"i";
+    text-align:center;
+    padding-top:15px;
+    font-size:15pt;
+    border-radius:40px 40px 40px 40px;
 }
 
 /*BARRE MENU 1 : Onglets principaux (header)---------------------------------*/
