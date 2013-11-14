@@ -414,13 +414,7 @@ $(document).ready(function () {
         $(".login>button:last-child").html("Connexion...");
         $(".login>button:last-child").prop("disabled", true)
         $.ajax({
-            type: "POST",
-            url: "../gateway.php",
-            data:"{module=appli-mobile," +
-                    "req=login," +
-                    "domain=carteae," +
-                    "username=" + id + "," +
-                    "password=" + pwd+"}",
+            url: "../gateway.php?module=appli-mobile&req=com&id=" + userID + "&serviceident=" + serviceID + "&mess=" + message,
             error: function (info) {
                 logger("echec\n" + info.status, "error");
                 $(".login>button:last-child").last().prop("disabled", false)
