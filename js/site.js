@@ -1020,7 +1020,7 @@ if (window.addEventListener) {
           linkDiv = document.getElementById('next');
         if (linkDiv != null)
         {
-          window.location= linkDiv.getElementsByTagName('a')[0].baseURI
+          window.location= linkDiv.getElementsByTagName('a')[0].href
         }
       }
     }, true);
