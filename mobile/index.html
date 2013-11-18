@@ -424,7 +424,7 @@ $(document).ready(function () {
 
             },
             success: function (send, status, returnedValue) {
-                $(".login>button:last-child").prop("disabled", false)
+                $(".login>button:last-child").prop("ds isabled", false)
                 $(".login>button:last-child").html("Connexion");
                 $(".login>button:last-child").css("background", "rgba(222,222,231,0.02)");
                 if (!returnedValue.responseText) {
