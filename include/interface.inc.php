@@ -155,6 +155,7 @@ class interfaceweb
    * @param $bool  true|false
    */
   public function set_mobile($bool) {
+    return;
     /**
      * Define whether we want a mobile rendering or not
      * Will be redefined by set_mobile().
