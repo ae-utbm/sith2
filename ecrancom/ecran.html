@@ -176,7 +176,6 @@
                 }
 
                 message=response.split('\n').slice(2,response.split('\n').length).join();
-                audio.src=response.split('\n')[1];
 
                 logger("<div>"+response.split('\n')[0]+":</div><div>"+message+"</div>","");
             }
@@ -207,7 +206,6 @@
         //audio.play(); Tim asked for this comment
     };
     $(document).ready(function(){
-        audio=new Audio()
         slideDiv=$("#slider");
         refreshAffiche();
         launchslideShow();
