@@ -335,20 +335,7 @@ class interfaceweb
         $this->buffer .= "<div id=\"site\">\n";
         if (!defined("MOBILE")) {
             $ovl = false;
-            if (!isset ($_SESSION["mobile_disclaimer"])) {
-                /* If a mobile user agent is detected, display a disclaimer */
-                $mobile_ua = "/(android|up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone)/";
-                if (preg_match($mobile_ua, strtolower($_SERVER['HTTP_USER_AGENT']))) {
-                    $this->buffer .= "<div id=\"mobile_disclaimer\">\n";
-                    $this->buffer .= "Redirection vers la version<br /> mobile du site : ";
-                    $this->buffer .= "<br /><a href=\"/m\">oui</a> - ";
-                    $this->buffer .= "<a href=\"javascript:window.location.href=window.location.href\">non</a>";
-                    $this->buffer .= "</div>\n";
 
-                    $_SESSION["mobile_disclaimer"] = false;
-                    $ovl = true;
-                }
-            }
 
             $this->buffer .= "<div id=\"dropmenudiv\" onmouseover=\"clearhidemenu()\" onmouseout=\"dynamichide(event)\"></div>\n";
             $this->buffer .= "<div id=\"overlay\" " . (!$ovl ? "onclick=\"hideConnexionBox()\"" : "") . " style=\"display:" . ($ovl ? 'block' : 'none') . "\"></div>\n";
