@@ -69,8 +69,8 @@
             margin-right: auto;
         }
         .smallImg>figure>img{
-            min-height:90%;
-            max-height: 90%;
+            min-height:98%;
+            max-height: 98%;
         }
         .fullImg>figure>img{
             min-height: 100%;
@@ -162,19 +162,16 @@
                 $($(".logmessage")[0]).remove();
                 if($(".logmessage").length==0){
                     $(".notif").fadeOut("slow");
-                    if(!$(".fullImg")){
                         $("#slideDiv").removeClass("smallImg");
                         $("#slideDiv").addClass("fullImg");
 
-                    }
 
                 }},msgRefresh);
         }else{
-            if(!$(".fullImg")){
                 $("#slideDiv").removeClass("smallImg");
                 $("#slideDiv").addClass("fullImg");
 
-            }
+
         }
         $.ajax({
             url:"../gateway.php?module=ecrancom&secret=messageForTheLulz",
