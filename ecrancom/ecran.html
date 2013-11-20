@@ -6,7 +6,7 @@
 -->
 <head>
     <meta charset="utf-8">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="../js/jquery-2.0.3.min.js"></script>
     <title></title>
 
     <style id="jsbin-css">
@@ -14,6 +14,8 @@
             display:none;
         }
         #slideDiv {
+            display:flex;
+            flex-direction:"column";
             z-index: 1;
             min-height:100%;
             background:rgb(0,0,50);
@@ -48,20 +50,16 @@
             margin: 0 0 0 0 ;
             display:flex;
             flex-direction:column;
-            flex:fill;
             justify-content:center;
             align-content:stretch;
         }
         figure{
-            max-height: 100%;
-            height:100%;
             display: flex;
             flex-direction:row;
             margin:0 0 0 0 ;
 
         }
         .flexImg{
-            max-height: 100%;
             background: radial-gradient( rgb(67, 66, 72), #05050F);
 
             vertical-align:middle;
@@ -69,6 +67,14 @@
             margin-bottom:auto;
             margin-left: auto;
             margin-right: auto;
+        }
+        .smallImg>figure>img{
+            min-height:90%;
+            max-height: 90%;
+        }
+        .fullImg>figure>img{
+            min-height: 90%;
+            max-height: 90%;
         }
     </style>
 </head>
@@ -81,7 +87,7 @@
     incomingMessage=[];
     affiches=[];
     pathToimg="http://ae.utbm.fr/data/files/";
-    timeRefresh=6000 // in miliss
+    timeRefresh=9000 // in miliss
     msgRefresh=4000
     globalRefreshTime=60000
     isRefreshed=0;
@@ -156,10 +162,15 @@
                 $($(".logmessage")[0]).remove();
                 if($(".logmessage").length==0){
                     $(".notif").fadeOut("slow");
+                    if(!$(".fullImg")){
+                        $("#slideDiv").toggle("fullImg")
+                    }
 
                 }},msgRefresh);
         }else{
-            $(".notif").fadeOut("slow");
+            if(!$(".fullImg")){
+                $("#slideDiv").toggle("fullImg")
+            }
         }
         $.ajax({
             url:"../gateway.php?module=ecrancom&secret=messageForTheLulz",
@@ -201,6 +212,7 @@
         }
         toAppend="<pre class='logmessage' style='display:none;'>"+message+"</pre>";
         $(".notif").append(toAppend);
+        $("#slideDiv").toggle("smallImg");
         $(".logmessage").fadeIn(800);
 
         //audio.play(); Tim asked for this comment
