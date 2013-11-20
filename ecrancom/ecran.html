@@ -163,13 +163,17 @@
                 if($(".logmessage").length==0){
                     $(".notif").fadeOut("slow");
                     if(!$(".fullImg")){
-                        $("#slideDiv").toggleClass("fullImg, smallImg");
+                        $("#slideDiv").removeClass("smallImg");
+                        $("#slideDiv").addClass("fullImg");
+
                     }
 
                 }},msgRefresh);
         }else{
             if(!$(".fullImg")){
-                $("#slideDiv").toggleClass("fullImg, smallImg");
+                $("#slideDiv").removeClass("smallImg");
+                $("#slideDiv").addClass("fullImg");
+
             }
         }
         $.ajax({
@@ -212,7 +216,9 @@
         }
         toAppend="<pre class='logmessage' style='display:none;'>"+message+"</pre>";
         $(".notif").append(toAppend);
-        $("#slideDiv").toggleClass("fullImg, smallImg");
+
+        $("#slideDiv").removeClass("fullImg");
+        $("#slideDiv").addClass("smallImg");
         $(".logmessage").fadeIn(800);
 
         //audio.play(); Tim asked for this comment
