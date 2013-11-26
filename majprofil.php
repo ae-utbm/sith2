@@ -282,7 +282,7 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
         $cts->add_title(2,"Votre carte AE");
         $cts->add_paragraph("Vous devez ajouter une photo pour que votre carte AE soit imprimée.");
 
-        $cts->add_paragraph("En attendant, vous pouvez utiliser votre numéro de carte (nottament aux bars) : ".$carte->id.$carte->cle);
+        $cts->add_paragraph("En attendant, vous pouvez utiliser votre numéro de carte (notament aux bars) : ".$carte->id.$carte->cle);
       }
       elseif ($carte->etat_vie_carte < CETAT_CIRCULATION )
       {
@@ -299,7 +299,7 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
         else
           $cts->add_paragraph("Votre carte AE est en cours de préparation, elle sera prochainement disponible au bureau de l'AE de $lieu.");
 
-        $cts->add_paragraph("En attendant, vous pouvez utiliser votre numéro de carte (nottament aux bars) : ".$carte->id.$carte->cle);
+        $cts->add_paragraph("En attendant, vous pouvez utiliser votre numéro de carte (notament aux bars) : ".$carte->id.$carte->cle);
       }
     }
 
