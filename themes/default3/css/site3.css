@@ -392,6 +392,7 @@ div#fsearchbox input
     font-size: 10px;
     color : black;
     background: none repeat scroll 0 0 rgba(217, 231, 12, 0.9);
+    border-radius:40px 40px 40px 40px;
     border:0;
     padding:0;
     margin:0;
