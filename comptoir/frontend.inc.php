@@ -119,40 +119,7 @@ else if ( ($_REQUEST["action"] == "vente" || $_REQUEST["action"] == "ventefin" |
         else
         {
           $produit = new produit($site->db);
-          if($arrayBarCode[$i]="deco"){
-              //checking if there is enougth ecocup to deco
-              $req = new requete($site->db, "SELECT count( * )
-FROM `cpt_vendu`
-INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` = `cpt_vendu`.`id_facture`
-INNER JOIN `utilisateurs` ON cpt_debitfacture.id_utilisateur_client = `utilisateurs`.`id_utilisateur`
-WHERE utilisateurs.id_utilisateur =7011
-AND cpt_vendu.id_produit =1152");
-              $sum=0;
-             if($req->is_success()){
-                 $sum=$req->lines[0];
-             }
-              else{
-                  $ok=false;
-                  $Erreur="Erreur sql";
-              }
-              $req=new requete($site->db,"SELECT count( * )
-FROM `cpt_vendu`
-INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` = `cpt_vendu`.`id_facture`
-INNER JOIN `utilisateurs` ON cpt_debitfacture.id_utilisateur_client = `utilisateurs`.`id_utilisateur`
-WHERE utilisateurs.id_utilisateur =7011
-AND cpt_vendu.id_produit =1151");
-              if($req->is_success()){
-                  $sum-=$req->lines[0];
-              }
-              else{
-                  $ok=false;
-                  $Erreur="Erreur sql";
-              }
-              if($sum>0){
-                  $Erreur="Pas assez d'ecocup déjà clickée!";
-                  $ok=false;
-              }
-          }
+
           $produit->charge_par_code_barre($arrayBarCode[$i]);
 
           if ( $produit->id > 0 )
