@@ -641,7 +641,7 @@ if ( $_REQUEST["page"] == "produits" )
   "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
   "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
   (isset($_REQUEST['showall'])? "" : "AND `cpt_produits`.`prod_archive` != 1 ") .
-  "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
+  "ORDER BY `asso`.`nom_asso`,`cpt_produits`.`nom_prod`");
 
 
  $section_name = "Produits";
