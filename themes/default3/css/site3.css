@@ -673,7 +673,7 @@ img#bureau_ae_belfort_icon, img#bureau_ae_sevenans_icon
 }
 div.box
 {
-    position: fixed;
+    position: relative;
     margin: 0px;
     margin-bottom: 15px;
     padding: 0px;
@@ -2626,6 +2626,13 @@ div.box * select
 div.box * select[name="id_group"]
 {
     width: 135px;
+}
+#sbox_comptoir{
+    position : fixed;
+}
+#sbox_body_comptoir{
+    height: 600px;
+    overflow-y: scroll;
 }
 /*FIN--------------------------------------------*/
 /*...............................................*/
