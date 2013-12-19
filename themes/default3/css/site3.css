@@ -2632,7 +2632,8 @@ div.box * select[name="id_group"]
     position : fixed;
 }
 #sbox_body_comptoir{
-    max-height: 600px;
+    max-height: 380px;
+    overflow:auto;
 }
 /*FIN--------------------------------------------*/
 /*...............................................*/
