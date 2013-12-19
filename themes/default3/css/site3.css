@@ -603,6 +603,7 @@ div.contents
     padding: 0 0 0 0;
     background-color:#fff;
     display:block;
+    min-height:230px;
     border-radius: 0 0 10px 10px;
 }
 div.contents:after
@@ -2631,8 +2632,7 @@ div.box * select[name="id_group"]
     position : fixed;
 }
 #sbox_body_comptoir{
-    height: 600px;
-    overflow-y: scroll;
+    max-height: 600px;
 }
 /*FIN--------------------------------------------*/
 /*...............................................*/
