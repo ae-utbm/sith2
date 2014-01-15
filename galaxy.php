@@ -48,7 +48,7 @@ if ( !$ready )
 {
   if ( $_REQUEST["action"] == "area_image" || $_REQUEST["action"] == "area_html"  )
     exit();
-  $site->fatal_partial("matmatronch");
+  //$site->fatal_partial("matmatronch");
   exit();
 }
 
