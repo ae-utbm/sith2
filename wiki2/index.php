@@ -349,7 +349,7 @@ $side->add($lst);*/
 $tools = array();
 $tools[$wwwtopdir."wiki2/?name=".$pagepath]="Voir la page";
 if ( $can_edit )
-  $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=edit".(isset($_REQUEST["rev"])?"&rev=".$_REQUEST["rev"]:"")]="Editer";
+  $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=edit".(isset($_REQUEST["rev"])?"&rev=".htmlentities($_REQUEST["rev"]):"")]="Editer";
 else
   $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=srcs"]="Source";
 $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=refs"]="Références";
