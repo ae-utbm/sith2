@@ -216,17 +216,17 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     }
     if ( $user->utbm )
     {
-      $user->surnom = $_REQUEST['surnom'];
-      $user->semestre = $_REQUEST['semestre'];
-      $user->role = $_REQUEST['role'];
-      $user->departement = $_REQUEST['departement'];
-      $user->filiere = $_REQUEST['filiere'];
-      $user->promo_utbm = $_REQUEST['promo'];
+      $user->surnom = mysql_real_escape_string($_REQUEST['surnom']);
+      $user->semestre = intval($_REQUEST['semestre']);
+      $user->role = mysql_real_escape_string($_REQUEST['role']);
+      $user->departement = mysql_real_escape_string($_REQUEST['departement']);
+      $user->filiere = mysql_real_escape_string($_REQUEST['filiere']);
+      $user->promo_utbm = intval($_REQUEST['promo']);
 
       if ( $_REQUEST['date_diplome'] < time()
         && $_REQUEST['date_diplome'] != 0
         && $_REQUEST['date_diplome'] != "" )
-        $user->date_diplome_utbm = $_REQUEST['date_diplome'];
+        $user->date_diplome_utbm = mysql_real_escape_string($_REQUEST['date_diplome']);
       else
         $user->date_diplome_utbm = NULL;
     }
