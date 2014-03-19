@@ -403,7 +403,7 @@ elseif ( $_REQUEST["action"] == "changeemail" && $can_edit  )
 
       $cts->add_paragraph("Votre adresse e-mail principale a été modifiée");
 
-      $cts->add_paragraph("Vous allez recevoir un e-mail de vérification à l'adresse ".$_POST["email"].". Vous devrez cliquer sur le lien se trouvant dans cet e-mail piur pouvoir utiliser de nouveau le site.");
+      $cts->add_paragraph("Vous allez recevoir un e-mail de vérification à l'adresse ". htmlentities($_POST["email"]).". Vous devrez cliquer sur le lien se trouvant dans cet e-mail pour pouvoir utiliser de nouveau le site.");
 
       $cts->add_paragraph("Pour plus d'informations, ou si vous ne recevez pas l'email, consultez la documentation : <a href=\"article.php?name=docs:profil\">Documentation : Profil personnel : Questions et problèmes fréquents</a>");
 
@@ -443,9 +443,9 @@ elseif ( $_REQUEST["action"] == "changeemailutbm" && $can_edit  )
       $site->start_page("matmatronch",$user->prenom." ".$user->nom);
       $cts = new contents ($user->prenom . " " . $user->nom );
 
-      $cts->add_paragraph("Votre adresse e-mail utbm a été $lex");
+      $cts->add_paragraph("Votre adresse e-mail utbm a été " . htmlentities($lex));
 
-      $cts->add_paragraph("Vous allez recevoir un e-mail de vérification à l'adresse ".$_POST["email"].". Vous devrez cliquer sur le lien se trouvant dans cet e-mail piur pouvoir utiliser de nouveau le site.");
+      $cts->add_paragraph("Vous allez recevoir un e-mail de vérification à l'adresse ".htmlentities($_POST["email"]).". Vous devrez cliquer sur le lien se trouvant dans cet e-mail piur pouvoir utiliser de nouveau le site.");
 
       $cts->add_paragraph("Pour plus d'informations, ou si vous ne recevez pas l'email, consultez la documentation : <a href=\"article.php?name=docs:profil\">Documentation : Profil personnel : Questions et problèmes fréquents</a>");
 
@@ -490,7 +490,7 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/data/matmatronc
          ($site->user->is_asso_role ( 27, 1 )) || // ou MMT
          ($site->user->is_in_group("gestion_ae"))) // ou gestion_ae
     {
-      exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_idt"));
+      exec("/usr/share/php5/exec/convert " . escapeshellcmd($src) . " -thumbnail 225x300 " . escapeshellcmd($dest_idt));
     }
   }
 
@@ -500,7 +500,7 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/data/matmatronc
   if ( is_uploaded_file($_FILES['mmtfile']['tmp_name'])  )
   {
     $src = $_FILES['mmtfile']['tmp_name'];
-    exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_mmt"));
+    exec("/usr/share/php5/exec/convert " . escapeshellcmd($src) . " -thumbnail 225x300 " . escapeshellcmd($dest_mmt));
   }
 
   $dest_idt = "/data/matmatronch/".$user->id.".identity.jpg";
