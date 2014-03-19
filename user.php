@@ -525,8 +525,8 @@ if ( $_REQUEST["action"] == "setblouse" && $can_edit )
   if ( is_uploaded_file($_FILES['blousefile']['tmp_name'])  )
   {
     $src = $_FILES['blousefile']['tmp_name'];
-    exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 1600x1600 -quality 80 $dest"));
-    exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 225x300 -quality 90 $dest_mini"));
+    exec("/usr/share/php5/exec/convert " . escapeshellcmd($src) . " -thumbnail 1600x1600 -quality 80 " . escapeshellcmd($dest));
+    exec("/usr/share/php5/exec/convert " . escapeshellcmd($src) . " -thumbnail 225x300 -quality 90 " . escapeshellcmd($dest_mini));
   }
   $_REQUEST["page"] = "edit";
   $_REQUEST["open"] = "blouse";
