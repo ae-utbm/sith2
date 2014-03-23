@@ -28,7 +28,7 @@
  */
 
 $topdir = "./";
-require_once($topdir. "include/site.inc.php");
+require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/special.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
@@ -757,11 +757,13 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   }
   elseif ( $_REQUEST["see"] == "passwd" )
   {
+    $site->add_js("js/zxcvbn-async.js");
 
     $frm = new form("changepassword","user.php?id_utilisateur=".$user->id,true,"POST","Changer de mot de passe");
     $frm->add_hidden("action","changepassword");
     $frm->add_password_field("ae2_password","Mot de passe","",true);
     $frm->add_password_field("ae2_password2","Repetez le mot de passe","",true);
+    $frm->add_info("<div class='formrow'><div class='formlabel'>Qualité du mot de passe</div><div class='formfield' id='pmeter'>Champ vide</div></div>");
     $frm->add_submit("save","Enregistrer");
     $cts->add($frm,true);
 
