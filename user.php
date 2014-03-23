@@ -757,7 +757,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   }
   elseif ( $_REQUEST["see"] == "passwd" )
   {
-    $site->add_js("js/zxcvbn-async.js");
+    $site->add_js("js/zxcvbn.js");
 
     $frm = new form("changepassword","user.php?id_utilisateur=".$user->id,true,"POST","Changer de mot de passe");
     $frm->add_hidden("action","changepassword");

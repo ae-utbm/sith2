@@ -1,3 +1,7 @@
+//zxcvbn.js - BSD-like
+// - https://tech.dropbox.com/2012/04/zxcvbn-realistic-password-strength-estimation/
+// - https://github.com/dropbox/zxcvbn
+
 (function(){var w,o,r,x,J,K,L,M,N,O,P,Q,y,q,z,R,S,T,U,V,W;P=function(b){var a,d;d=[];for(a in b)d.push(a);return 0===d.length};y=function(b,a){return b.push.apply(b,a)};V=function(b,a){var d,c,e,f,g;f=b.split("");g=[];c=0;for(e=f.length;c<e;c++)d=f[c],g.push(a[d]||d);return g.join("")};R=function(b){var a,d,c,e;d=[];c=0;for(e=A.length;c<e;c++)a=A[c],y(d,a(b));return d.sort(function(b,a){return b.i-a.i||b.j-a.j})};N=function(b,a){var d,c,e,f,g,h,i,j,k;h=[];e=b.length;f=b.toLowerCase();for(d=j=0;0<=
 e?j<e:j>e;d=0<=e?++j:--j)for(c=k=d;d<=e?k<e:k>e;c=d<=e?++k:--k)if(f.slice(d,+c+1||9E9)in a)i=f.slice(d,+c+1||9E9),g=a[i],h.push({pattern:"dictionary",i:d,j:c,token:b.slice(d,+c+1||9E9),matched_word:i,rank:g});return h};r=function(b){var a,d,c,e,f;d={};a=1;e=0;for(f=b.length;e<f;e++)c=b[e],d[c]=a,a+=1;return d};o=function(b,a){return function(d){var c,e,f;c=N(d,a);e=0;for(f=c.length;e<f;e++)d=c[e],d.dictionary_name=b;return c}};z={a:["4","@"],b:["8"],c:["(","{","[","<"],e:["3"],g:["6","9"],i:["1",
 "!","|"],l:["1","|","7"],o:["0"],s:["$","5"],t:["+","7"],x:["%"],z:["2"]};S=function(b){var a,d,c,e,f;d={};f=b.split("");c=0;for(e=f.length;c<e;c++)b=f[c],d[b]=!0;b={};for(a in z){e=z[a];var g=f=void 0,h=void 0,h=[];f=0;for(g=e.length;f<g;f++)c=e[f],c in d&&h.push(c);c=h;0<c.length&&(b[a]=c)}return b};Q=function(b){var a,d,c,e,f,g,h,i,j,k,l,m,p;f=function(){var a;a=[];for(e in b)a.push(e);return a}();j=[[]];d=function(a){var b,c,d,f,g,i,h,j;c=[];f={};h=0;for(j=a.length;h<j;h++)g=a[h],b=function(){var b,
@@ -41,3 +45,36 @@ null,null],r:"cC,9(,0),lL,nN,tT".split(","),s:"nN,lL,/?,-_,zZ,vV".split(","),t:"
 null,null,"-","9"],"+":["6","9","-",null,null,null,null,"3"],"-":["9","/","*",null,null,null,"+","6"],".":["0","2","3",null,null,null,null,null],"/":["=",null,null,null,"*","-","9","8"],"0":[null,"1","2","3",".",null,null,null],1:[null,null,"4","5","2","0",null,null],2:["1","4","5","6","3",".","0",null],3:["2","5","6","+",null,null,".","0"],4:[null,null,"7","8","5","2","1",null],5:"4,7,8,9,6,3,2,1".split(","),6:["5","8","9","-","+",null,"3","2"],7:[null,null,null,"=","8","5","4",null],8:["7",null,
 "=","/","9","6","5","4"],9:"8,=,/,*,-,+,6,5".split(","),"=":[null,null,null,null,"/","9","8","7"]}};o=function(b){var a,d,c,e,f;a=0;for(c in b)f=b[c],a+=function(){var a,b,c;c=[];a=0;for(b=f.length;a<b;a++)(e=f[a])&&c.push(e);return c}().length;return a/=function(){var a;a=[];for(d in b)a.push(d);return a}().length};pa=o(E);ra=o(F);oa=function(){var b;b=[];for(v in E)b.push(v);return b}().length;qa=function(){var b;b=[];for(v in F)b.push(v);return b}().length;I=function(){return(new Date).getTime()};
 o=function(b,a){var d,c,e,f;c=I();if(null!=a){d=e=0;for(f=a.length;0<=f?e<f:e>f;d=0<=f?++e:--e)H[a[d].toLowerCase()]=d+1}d=R(b);d=ja(b,d);d.calc_time=I()-c;return d};"undefined"!==typeof window&&null!==window?(window.zxcvbn=o,"function"===typeof window.zxcvbn_load_hook&&window.zxcvbn_load_hook()):"undefined"!==typeof exports&&null!==exports&&(exports.zxcvbn=o)})();
+
+function checkPassword(pwd) {
+    var output = document.getElementById('pmeter');
+
+    if (pwd != '') {
+        var ret = zxcvbn(pwd);
+        switch(ret.score) {
+            case 0:
+                output.innerHTML = 'SUPER-FAIBLE';
+                output.style.color = 'crimson';
+                break;
+            case 1:
+                output.innerHTML = 'FAIBLE';
+                output.style.color = 'red'
+                    break;
+            case 2:
+                output.innerHTML = 'MEDIOCRE';
+                output.style.color = 'darkorange'
+                    break;
+            case 3:
+                output.innerHTML = 'MOYENNE';
+                output.style.color = 'deeppink';
+                break;
+            case 4:
+                output.innerHTML = 'CORRECTE';
+                output.style.color = 'green';
+                break;
+        }
+    } else {
+        output.innerHTML  = 'Champ vide';
+        output.style.color = 'black';
+    }
+}
