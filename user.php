@@ -761,7 +761,9 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
 
     $frm = new form("changepassword","user.php?id_utilisateur=".$user->id,true,"POST","Changer de mot de passe");
     $frm->add_hidden("action","changepassword");
-    $frm->add_password_field("ae2_password","Mot de passe","",true);
+    // This is hackish, but simpler than creating a custom method for the "form" class
+    $frm->puts('<div class="formrow"><div class="formlabel" >Mot de passe *</div><div class="formfield"><input id="ae2_password" name="ae2_password" onchange="checkPassword(document.getElementById(\'ae2_password\').value); return true;" onkeypress="checkPassword(document.getElementById(\'ae2_password\').value); return true;" onpaste="this.onkeypress();" oninput="this.onkeypress();" type="password"></div>
+</div>');
     $frm->add_password_field("ae2_password2","Repetez le mot de passe","",true);
     $frm->puts("<div class='formrow'><div class='formlabel'>Qualité du mot de passe</div><div class='formfield' id='pmeter'>Champ vide</div></div>");
     $frm->add_submit("save","Enregistrer");
