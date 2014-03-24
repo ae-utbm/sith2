@@ -551,7 +551,7 @@ class utilisateur extends stdentity
                           array("id_utilisateur" => $this->id));
       }
     }
-    $this->hash = md5(genere_pass(20));
+    $this->hash = genere_pass(20);
     $this->tovalid = $reason;
     $req = new update($this->dbrw,
                       "utilisateurs",
@@ -1100,8 +1100,8 @@ class utilisateur extends stdentity
 
 
   /** Gnration de mot de passe
-   * Cette fonction va gnrer une chane alatoire de la longueur
-   * spcifie. C'est notamment utile pour gnrer des mots de passe.
+   * Cette fonction va gnrer une chaine aleatoire de la longueur
+   * specifie. C'est notamment utile pour generer des mots de passe.
    *
    * @param nameLength Longueur de la chane
    *
@@ -1109,25 +1109,13 @@ class utilisateur extends stdentity
    */
   function genere_pass ($nameLength=12)
   {
-    $NameChars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKMNLOP';
-    $Vouel = 'aeiouAEIOU';
-    $Name = "";
+    $alphabet = 'abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKMNLOPQRSTUVWXYZ';
+    $pass = '';
 
-    for ($index = 1; $index <= $nameLength; $index++)
-    {
-      if ($index % 3 == 0)
-      {
-        $randomNumber = rand(1,strlen($Vouel));
-        $Name .= substr($Vouel,$randomNumber-1,1);
-      }
-      else
-      {
-        $randomNumber = rand(1,strlen($NameChars));
-        $Name .= substr($NameChars,$randomNumber-1,1);
-      }
-    }
+    for ($i = 1; $i <= $nameLength; $i++)
+        $pass .= $alphabet[mt_rand(0, strlen($alphabet) - 1)];
 
-  return $Name;
+  return $pass;
 
   }
 
