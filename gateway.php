@@ -50,7 +50,7 @@ if ( $_REQUEST['module']=="fsearch" )
           $cache->set_temporarily_cached_contents($_REQUEST["pattern"], $content);
   }
 
-  echo htmlentities($content);
+  echo $content;
   exit ();
 }
 elseif ( $_REQUEST['module']=="explorer" )
