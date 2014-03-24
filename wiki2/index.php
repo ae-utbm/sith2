@@ -66,9 +66,9 @@ function build_htmlpath ( $fullpath )
 function build_asso_htmlpath ( $fullpath )
 {
   $tokens = explode(":",$fullpath);
-  $pole = $tokens[0];
+  $pole = htmlentities($tokens[0]);
   unset($tokens[0]);
-  $asso = $tokens[1];
+  $asso = htmlentities($tokens[1]);
   unset($tokens[1]);
 
   $buffer = "<a href=\"./?name=".$pole.":".$asso."\">Wiki</a>";
