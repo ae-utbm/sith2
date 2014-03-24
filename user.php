@@ -92,7 +92,7 @@ if ( $_REQUEST['action'] == "reinit" && $site->user->is_in_group("gestion_ae") )
       $email = $user->email_utbm;
     else
       $email = $user->email;
-    $pass = genere_pass(10);
+    $pass = genere_pass(12);
     $user->invalidate();
     $user->change_password($pass);
 

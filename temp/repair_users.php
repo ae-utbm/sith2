@@ -231,8 +231,8 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
 
       }
     }
-    $pass = genere_pass(10);
-    $user->send_autopassword_email($_REQUEST["email"],$pass);
+    $pass = genere_pass(16);
+    $user->send_autopassword_email($_REQUEST["email"], $pass);
     $user->invalidate();
     $user->change_password($pass);
   }

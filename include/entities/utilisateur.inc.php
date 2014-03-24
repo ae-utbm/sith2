@@ -551,7 +551,7 @@ class utilisateur extends stdentity
                           array("id_utilisateur" => $this->id));
       }
     }
-    $this->hash = genere_pass(20);
+    $this->hash = crypt(genere_pass(20), uniqid('$2y$07$', true));
     $this->tovalid = $reason;
     $req = new update($this->dbrw,
                       "utilisateurs",
