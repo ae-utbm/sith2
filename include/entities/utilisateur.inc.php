@@ -551,7 +551,7 @@ class utilisateur extends stdentity
                           array("id_utilisateur" => $this->id));
       }
     }
-    $this->hash = crypt(genere_pass(20), uniqid('$2y$07$', true));
+    $this->hash = crypt(genere_pass(20), uniqid('$6$rounds=10000$', true));
     $this->tovalid = $reason;
     $req = new update($this->dbrw,
                       "utilisateurs",
@@ -574,7 +574,7 @@ class utilisateur extends stdentity
    */
   function change_password ( $new_password )
   {
-    $this->pass = crypt($new_password, uniqid('$2y$07$', true));
+    $this->pass = crypt($new_password, uniqid('$6$rounds=10000$', true));
     $req = new update($this->dbrw,
                       "utilisateurs",
                       array("pass_utl"=>$this->pass),
@@ -1200,7 +1200,7 @@ class utilisateur extends stdentity
         $alias.=1;
     }
     $this->alias = $alias;
-    $this->pass = crypt($password, uniqid('$2y$07$', true));
+    $this->pass = crypt($password, uniqid('$6$rounds=10000$', true));
     $this->sexe = $sexe;
     $this->date_naissance = $date_naissance;
     $this->droit_image = $droit_image;
