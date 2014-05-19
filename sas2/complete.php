@@ -74,9 +74,10 @@ else
   $page .= "mode=full";
 }
 
+$photo->load_by_id($_REQUEST["id_photo"]);
+
 if ( $_REQUEST["action"] == "complete" )
 {
-  $photo->load_by_id($_REQUEST["id_photo"]);
 
 
   if ( $photo->is_right($site->user,DROIT_ECRITURE))
