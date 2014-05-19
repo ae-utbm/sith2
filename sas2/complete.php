@@ -204,8 +204,8 @@ if ( $req->lines == 1 )
     $subcts->add($frm,true);
   }
 */
-  $frm = new form("peoples",$page,false,"POST","Compléter la photo");
-  $frm->add_hidden("id_photo",$photo->id);
+  $frm = new form("peoples",$page."&id_photo=$photo->id",false,"POST","Compléter la photo");
+  //$frm->add_hidden("id_photo",$photo->id);
   $frm->add_hidden("action","complete");
 
   $sfrm = new subform("people","Personnes sur la photo");
