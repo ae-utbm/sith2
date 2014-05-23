@@ -613,7 +613,7 @@ class produit extends stdentity
 	              "Ecocup: Restante ".$row["nb_consigne"]);
 
       // Le nombre renvoyé doit être >= 0 !
-      $val = max(0, intval($row["nb_consigne"]));
+      $val = max(0, intval($row["nb_consigne"]),$site->user);
       return $val;
 
 
