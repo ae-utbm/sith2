@@ -601,7 +601,7 @@ class produit extends stdentity
     if($this->id == 1151)
     {
       $req = new requete($this->db,
-	"SELECT  SUM(cpt_produits.prix_vente_prod*cpt_produits.quantite)/100 nb_consigne FROM cpt_vendu
+	"SELECT  SUM(cpt_produits.prix_vente_prod*cpt_vendu.quantite)/100 nb_consigne FROM cpt_vendu
         INNER JOIN cpt_produits ON cpt_vendu.id_produit = cpt_produits.id_produit
 	INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture = cpt_vendu.id_facture
 	WHERE cpt_debitfacture.id_utilisateur_client = '".intval($user->id)."' 
