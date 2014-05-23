@@ -610,7 +610,7 @@ class produit extends stdentity
       $row = $req->get_row();
 
       // Le nombre renvoyé doit être >= 0 !
-      $val = max(0, $this->limite_utilisateur - $row["nb_achetes"]);
+      $val = max(0, $row["nb_consigne"]);
       return $val;
 
 
