@@ -598,7 +598,7 @@ class produit extends stdentity
     }
 
     // Les putains d'Ecocup
-    if($this->id_produit == 1151)
+    if($this->id == 1151)
     {
       $req = new requete($this->db,
 	"SELECT  SUM(cpt_produits.prix_vente_prod)/100 nb_consigne FROM cpt_vendu
