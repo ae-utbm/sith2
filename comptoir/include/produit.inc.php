@@ -609,8 +609,11 @@ class produit extends stdentity
 
       $row = $req->get_row();
 
+      _log($site->dbrw,
+	              "Ecocup: Restante ".$row["nb_consigne"]);
+
       // Le nombre renvoyé doit être >= 0 !
-      $val = max(0, $row["nb_consigne"]);
+      $val = max(0, intval($row["nb_consigne"]));
       return $val;
 
 
