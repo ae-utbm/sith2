@@ -464,7 +464,7 @@ if ( $_REQUEST["page"] == "addcomptoir" && $site->user->is_in_group("gestion_ae"
  $frm->add_entity_select("id_groupe_vendeurs", "Groupe vendeur", $site->db, "group");
  $frm->add_entity_select("id_groupe_admins", "Groupe d'administration", $site->db, "group");
  $frm->add_entity_select("id_assocpt", "Association qui tient le comptoir", $site->db, "assocpt");
- $frm->add_select_field("type","Type de comptoir",$TypesComptoir);
+ $frm->add_select_field("type","Type de comptoir",$TypesComptoir,2);
  $frm->add_entity_select("id_salle", "Salle", $site->db, "salle",false,true);
   $frm->add_radiobox_field("rechargement", "Rechargement", array(1 => "Activé", 0 => "Désactivé"), 1, -1);
  $frm->add_submit("valid","Ajouter");
