@@ -92,7 +92,7 @@ if ( isset($_REQUEST["id_salle"]) )
 // Traitement des actions
 if ( $_REQUEST["action"] == "addcomptoir" && $site->user->is_in_group("gestion_ae") )
 {
- if ( $assocpt->id > 0 )
+ if ( $assocpt->id > 0 && !empty($_REQUEST["nom"]))
  {
   $comptoir->ajout( $_REQUEST["nom"], $assocpt->id, $_REQUEST["id_groupe_vendeurs"], $_REQUEST["id_groupe_admins"], $_REQUEST["type"],$salle->id,$_REQUEST["rechargement"] );
   $site->admin_comptoirs[$comptoir->id] = $comptoir->nom;
