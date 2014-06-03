@@ -142,13 +142,13 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
   }
   else
   {
-    $user->nom = mysql_real_escape_string($_REQUEST['nom']);
-    $user->prenom = mysql_real_escape_string($_REQUEST['prenom']);
-    $user->alias = mysql_real_escape_string($_REQUEST['alias']);
+    $user->nom = $_REQUEST['nom'];
+    $user->prenom = $_REQUEST['prenom'];
+    $user->alias = $_REQUEST['alias'];
     if($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role(27,1))
-      $user->sexe = mysql_real_escape_string($_REQUEST['sexe']);
-    $user->date_naissance = mysql_real_escape_string($_REQUEST['date_naissance']);
-    $user->addresse = mysql_real_escape_string($_REQUEST['addresse']);
+      $user->sexe = $_REQUEST['sexe'];
+    $user->date_naissance = $_REQUEST['date_naissance'];
+    $user->addresse = $_REQUEST['addresse'];
     if ( $_REQUEST['id_ville'] )
     {
       $ville->load_by_id($_REQUEST['id_ville']);
@@ -158,26 +158,26 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     else
     {
       $user->id_ville = null;
-      $user->id_pays = mysql_real_escape_string($_REQUEST['id_pays']);
+      $user->id_pays = $_REQUEST['id_pays'];
     }
     $user->tel_maison = telephone_userinput($_REQUEST['tel_maison']);
     $user->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
     $user->date_maj = time();
 
-    $user->publique = mysql_real_escape_string($_REQUEST["publique"]);
+    $user->publique = $_REQUEST["publique"];
     $user->publique_mmtpapier = isset($_REQUEST["publique_mmtpapier"]);
 
-    $user->signature = mysql_real_escape_string($_REQUEST['signature']);
+    $user->signature = $_REQUEST['signature'];
 
     $user->musicien = isset($_REQUEST['musicien']);
-    $user->taille_tshirt = mysql_real_escape_string($_REQUEST['taille_tshirt']);
+    $user->taille_tshirt = $_REQUEST['taille_tshirt'];
     $user->permis_conduire = isset($_REQUEST['permis_conduire']);
-    $user->date_permis_conduire = mysql_real_escape_string($_REQUEST['date_permis_conduire']);
+    $user->date_permis_conduire = $_REQUEST['date_permis_conduire'];
     $user->hab_elect = isset($_REQUEST['hab_elect']);
     $user->afps = isset($_REQUEST['afps']);
     $user->sst = isset($_REQUEST['sst']);
 
-    $user->jabber = mysql_real_escape_string($_REQUEST['jabber']);
+    $user->jabber = $_REQUEST['jabber'];
 
     $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".
       "utl_joue_instru.id_utilisateur ".
@@ -197,10 +197,10 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
 
     if ( $user->etudiant || $user->ancien_etudiant )
     {
-      $user->citation = mysql_real_escape_string($_REQUEST['citation']);
-      $user->adresse_parents = mysql_real_escape_string($_REQUEST['adresse_parents']);
+      $user->citation = $_REQUEST['citation'];
+      $user->adresse_parents = $_REQUEST['adresse_parents'];
       $user->tel_parents = telephone_userinput($_REQUEST['tel_parents']);
-      $user->nom_ecole_etudiant = mysql_real_escape_string($_REQUEST['nom_ecole']);
+      $user->nom_ecole_etudiant = $_REQUEST['nom_ecole'];
 
       if ( $_REQUEST['id_ville_parents'] )
       {
@@ -211,22 +211,22 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
       else
       {
         $user->id_ville_parents = null;
-        $user->id_pays_parents = mysql_real_escape_string($_REQUEST['id_pays_parents']);
+        $user->id_pays_parents = $_REQUEST['id_pays_parents'];
       }
     }
     if ( $user->utbm )
     {
-      $user->surnom = mysql_real_escape_string($_REQUEST['surnom']);
+      $user->surnom = $_REQUEST['surnom'];
       $user->semestre = intval($_REQUEST['semestre']);
-      $user->role = mysql_real_escape_string($_REQUEST['role']);
-      $user->departement = mysql_real_escape_string($_REQUEST['departement']);
-      $user->filiere = mysql_real_escape_string($_REQUEST['filiere']);
+      $user->role = $_REQUEST['role'];
+      $user->departement = $_REQUEST['departement'];
+      $user->filiere = $_REQUEST['filiere'];
       $user->promo_utbm = intval($_REQUEST['promo']);
 
       if ( $_REQUEST['date_diplome'] < time()
         && $_REQUEST['date_diplome'] != 0
         && $_REQUEST['date_diplome'] != "" )
-        $user->date_diplome_utbm = mysql_real_escape_string($_REQUEST['date_diplome']);
+        $user->date_diplome_utbm = $_REQUEST['date_diplome'];
       else
         $user->date_diplome_utbm = NULL;
     }
