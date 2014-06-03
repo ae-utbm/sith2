@@ -106,7 +106,6 @@ abstract class basedb extends stdentity
   {
 
     if(!$user->is_valid()) {
-	    echo "Droits: $required vs ".($required & $this->droits_acces)." vs $this->droits_acces";
 	    if($required == DROIT_LECTURE && (($required & $this->droits_acces) == $required))
 	    {
 		    return true;
