@@ -105,12 +105,17 @@ abstract class basedb extends stdentity
   function is_right ( &$user, $required )
   {
 
-	  if(!$user->is_valid()) {
-		  if($required == DROIT_LECTURE && (($required & $this->droits_access) == $required))
-			  return true;
-		  else
-			  return false;
-	  }
+    if(!$user->is_valid()) {
+	    echo "Droits: $required vs ".($required & $this->droits_access);
+	    if($required == DROIT_LECTURE && (($required & $this->droits_access) == $required))
+	    {
+		    return true;
+	    }
+	    else
+	    {
+		    return false;
+	    }
+    }
 
     if ( $this->is_admin($user)) return true;
 
