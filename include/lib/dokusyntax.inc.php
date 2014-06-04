@@ -1162,7 +1162,7 @@ class dokusyntax
     if (empty($xml->html))
       return 'Fichier oEmbed non supporté.';
 
-    return preg_replace("http\:\/\/","https\:\/\/",$xml->html);
+    return preg_replace("/http\:\/\//","https://",$xml->html);
   }
 
   function get_oembed_url($url)
