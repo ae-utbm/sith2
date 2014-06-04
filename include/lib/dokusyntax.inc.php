@@ -670,6 +670,7 @@ class dokusyntax
     $smPath = $wwwtopdir."images/forum/smilies/";
     foreach($smileys as $tag => $img)
     {
+      echo "$smPath/$img ".(file_exists($smPath . "/" . $img)?"existe":"n'existe pas")."\n";
       if ( file_exists($smPath . "/" . $img) )
       {
         $tag = preg_replace('!\]!i', '\]', $tag);
