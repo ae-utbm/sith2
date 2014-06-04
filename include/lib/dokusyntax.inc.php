@@ -667,7 +667,7 @@ class dokusyntax
       'FIXME'=>'fixme.gif',
       'DELETEME'=>'delete.gif'
                      );
-    $smPath = $_SERVER['DOCUMENT_ROOT']."/".$wwwtopdir."images/forum/smilies/";
+    $smPath = $topdir."images/forum/smilies/";
     foreach($smileys as $tag => $img)
     {
       echo "$smPath/$img ".(file_exists($smPath . "/" . $img)?"existe":"n'existe pas")."\n";
