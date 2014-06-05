@@ -667,7 +667,7 @@ class dokusyntax
       'FIXME'=>'fixme.gif',
       'DELETEME'=>'delete.gif'
                      );
-    $smPath = "/images/forum/smilies/";
+    $smPath = "images/forum/smilies/";
     foreach($smileys as $tag => $img)
     {
       if ( file_exists(__DIR__."/../..".$smPath . "/" . $img) )
@@ -686,7 +686,7 @@ class dokusyntax
         $tag = preg_replace('!\*!i', '\*', $tag);
         $tag = preg_replace('!\.!i', '\.', $tag);
         $tag = preg_replace('!\|!i', '\|', $tag);
-        $text = preg_replace('!( |^|\n)'.$tag.'( |$|\n)!i', "$1<img src=\"".$wwwtopdir.$smPath.$img."\" alt=\"\" />$2", $text);
+        $text = preg_replace('!( |^|\n)'.$tag.'( |$|\n)!i', "$1<img src=\"".$wwwtopdir.$smPath.$img."\" alt=\"$tag\" />$2", $text);
 
       }
     }
