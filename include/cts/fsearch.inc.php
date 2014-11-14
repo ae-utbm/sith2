@@ -110,10 +110,17 @@ class fsearch extends stdcontents
                          'WHERE (CONCAT(prenom_utl,\' \',nom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql.') OR ' .
                          '(CONCAT(nom_utl,\' \',prenom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql.') OR ' .
                          '(surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\' '.$force_sql.') LIMIT 1');
+	
 
       if ( $req->lines > 0 ) {
         $req = new requete($site->db,
-         'SELECT CONCAT(prenom_utl,\' \',nom_utl),\'1\' as method, utilisateurs.*' .
+         'SELECT surnom_utbm, \'4\' as method, utilisateurs.*' .
+         ' FROM utl_etu_utbm' .
+         ' INNER JOIN utilisateurs USING (id_utilisateur)' .
+         ' LEFT JOIN utl_etu USING ( id_utilisateur )' .
+         ' WHERE surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\''.
+         ' AND CONCAT(prenom_utl,\' \',nom_utl) NOT REGEXP \'^'.$sqlpattern.'\' '.$force_sql .
+	 ' UNION DISTINCT SELECT CONCAT(prenom_utl,\' \',nom_utl),\'1\' as method, utilisateurs.*' .
          ' FROM utilisateurs' .
          ' LEFT JOIN utl_etu USING ( id_utilisateur )' .
          ' WHERE CONCAT(prenom_utl,\' \',nom_utl) REGEXP \'^'.$sqlpattern.'\' '. $force_sql .
@@ -121,12 +128,6 @@ class fsearch extends stdcontents
          ' FROM utilisateurs' .
          ' LEFT JOIN utl_etu USING ( id_utilisateur )' .
          ' WHERE CONCAT(nom_utl,\' \',prenom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql .
-         ' UNION DISTINCT SELECT surnom_utbm, \'4\' as method, utilisateurs.*' .
-         ' FROM utl_etu_utbm' .
-         ' INNER JOIN utilisateurs USING (id_utilisateur)' .
-         ' LEFT JOIN utl_etu USING ( id_utilisateur )' .
-         ' WHERE surnom_utbm!=\'\' AND surnom_utbm REGEXP \'^'.$sqlpattern.'\''.
-         ' AND CONCAT(prenom_utl,\' \',nom_utl) NOT REGEXP \'^'.$sqlpattern.'\' '.$force_sql .
          ' LIMIT 3');
 
         $this->buffer .= "<h2>Personnes</h2>";
