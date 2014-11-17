@@ -280,7 +280,7 @@ class interfaceweb
         if (!defined('NOTAE')) {
             $this->buffer .= "<title>" . htmlentities($this->title, ENT_COMPAT, "UTF-8") . " - association des etudiants de l'utbm</title>\n";
             if (!defined("MOBILE"))
-                $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/gala2014/css/site3.css?" . filemtime($fstopdir . "themes/gala2014/css/site3.css") . "\" title=\"AE2-GALA\" />\n";
+                $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?" . filemtime($fstopdir . "themes/default3/css/site3.css") . "\" title=\"AE2-DEFAULT\" />\n";
             else
                 $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/mobile/css/site.css?" . filemtime($fstopdir . "themes/mobile/css/site.css") . "\" title=\"AE2-MOBILE\" />\n";
         } else {
@@ -289,7 +289,7 @@ class interfaceweb
                 $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . $this->css . "?" . filemtime($fstopdir . $this->css) . "\" title=\"AE2-NEW2\" />\n";
             else {
                 if (!defined("MOBILE"))
-                    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/gala2014/css/site3.css?" . filemtime($fstopdir . "themes/gala2014/css/site3.css") . "\" title=\"AE2-NEW3\" />\n";
+                    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default3/css/site3.css?" . filemtime($fstopdir . "themes/default3/css/site3.css") . "\" title=\"AE2-NEW3\" />\n";
                 else
                     $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/mobile/css/site.css?" . filemtime($fstopdir . "themes/mobile/css/site.css") . "\" title=\"AE2-MOBILE\" />\n";
             }
