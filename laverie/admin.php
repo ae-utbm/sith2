@@ -703,7 +703,7 @@ else // Vente
       $cpt->load_by_id (CPT_MACHINES);
       $debit = new debitfacture($site->db, $site->dbrw);
       if ( !$debit->debitAE($user, $site->user, $cpt, $caddie, false) )
-        $ErreurVente .= "Solde insuffisent";
+        $ErreurVente .= "Solde insuffisant";
     }
 
     if ( !empty($ErreurVente) )
