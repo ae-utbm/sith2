@@ -48,7 +48,7 @@ $lst->add("<a href=\"".$topdir."group.php\">Gestion des groupes</a>");
 $lst->add("<a href=\"logs.php\">Affichage des logs</a>");
 $lst->add("<a href=\"warning.php\">Message d'alerte</a>");
 $lst->add("<a href=\"updatebyxml.php\">Mise à jour xml</a>");
-$lst->add("<a href=\"saslicences.php\">Gestion des licences pour le sas</a>");
+$lst->add("<a href=\"saslicences.php\">Gestion des licences pour le SAS</a>");
 $lst->add("<a href=\"forum.php\">Gestion du forum</a>");
 $cts->add($lst);
 
@@ -61,7 +61,7 @@ $cts->add($lst);
 
 $cts->add_title(2,"SVN");
 $lst = new itemlist();
-$lst->add("<a href=\"svn.php\">Gestion des svn</a>");
+$lst->add("<a href=\"svn.php\">Gestion des SVN</a>");
 $cts->add($lst);
 
 $cts->add_title(2,"Maintenance");
@@ -81,7 +81,7 @@ $lst = new itemlist();
 $lst->add("<a href=\"prod_cron.php\">Passage de /taiste en production</a>");
 $lst->add("<a href=\"userdelete.php\">Supprimer un utilisateur</a>");
 $lst->add("<a href=\"userfusion.php\">Fusionner des utilisateurs</a>");
-$lst->add("<a href=\"photomassiveimport.php\">iport massif import photo identité</a>");
+$lst->add("<a href=\"photomassiveimport.php\">Import massif photo identité</a>");
 
 $cts->add($lst);
 
