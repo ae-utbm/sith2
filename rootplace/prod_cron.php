@@ -23,7 +23,8 @@
  */
 define("PROD_CRON", "/var/www/cron_update.sh");
 define("PROD_SCRIPT", "/var/www/update-official-www.sh");
-define("POST_COMMIT_SCRIPT", "/data/svn/aeinfo/ae2/hooks/post-commit");
+define("POST_COMMIT_SCRIPT", "/data/svn/ae2/hooks/post-commit");
+define("REFRESH_TAISTE", "/var/www/refresh-taiste-database.sh");
 $topdir="../";
 
 require_once($topdir. "include/site.inc.php");
@@ -36,13 +37,21 @@ if ( !$site->user->is_in_group("root") )
 $site->start_page("none","Administration / passage en prod");
 $cts = new contents("<a href=\"./\">Administration</a> / Passage en production");
 $tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),
+              array("","rootplace/prod_cron.php?view=refreshdb","Rafraichir taiste"),
               array("script","rootplace/prod_cron.php?view=script","Script de passage en prod"),
-              array("commit","rootplace/prod_cron.php?view=commit","Script de post commit"));
+              array("commit","rootplace/prod_cron.php?view=commit","Script de post commit"),
+              array("clone","rootplace/prod_cron.php?view=refreshdbscript","Script de refresh de taiste"));
 
 if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
 {
   if ( $site->is_sure ( "","Passage en production",null, 2 ) )
     @exec(escapeshellcmd(PROD_CRON));
+  $Ok=true;
+}
+if ( $_REQUEST["action"] == "refreshdb" && $GLOBALS["svalid_call"] )
+{
+  if ( $site->is_sure ( "","Rafraichir taiste",null, 2 ) )
+    @exec(escapeshellcmd(REFRESH_TAISTE));
   $Ok=true;
 }
 if ( $_REQUEST["action"] == "scriptprod" && $GLOBALS["svalid_call"] )
@@ -77,7 +86,22 @@ if ( $_REQUEST["action"] == "scriptpostcommit" && $GLOBALS["svalid_call"] )
     }
   }
 }
-
+if ( $_REQUEST["action"] == "refreshdbscript" && $GLOBALS["svalid_call"] )
+{
+  if ( $site->is_sure ( "","Modification du script de refresh de taiste",null, 2 ) )
+  {
+    if(!$handle = @fopen(REFRESH_TAISTE, "w"))
+      $Ok=false;
+    else
+    {
+      $content = preg_replace("/\r\n/","\n",htmlspecialchars_decode($_REQUEST["__script__"]));
+      @fwrite($handle,$content);
+      @fclose ($handle);
+      $_REQUEST["view"]="script";
+      $Ok=true;
+    }
+  }
+}
 
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 $cts->add_paragraph("Révision en production : ".get_rev());
@@ -88,6 +112,8 @@ if ( $Ok )
     $cts->add_paragraph("Script de passage en prod modifié");
   elseif( $_REQUEST["action"] == "commit" )
     $cts->add_paragraph("Script de post commit modifié");
+  elseif( $_REQUEST["action"] == "refreshdbscript" )
+    $cts->add_paragraph("Script de refresh modifié");
 }
 
 if($_REQUEST["view"]=="script")
@@ -105,7 +131,7 @@ if($_REQUEST["view"]=="script")
     $cts->add($frm,true);
   }
 }
-if($_REQUEST["view"]=="commit")
+else if($_REQUEST["view"]=="commit")
 {
   if(!$handle = @fopen(POST_COMMIT_SCRIPT, "r"))
     $cts->add_paragraph("Impossible d'ouvrir le script de post commit !");
@@ -116,6 +142,33 @@ if($_REQUEST["view"]=="commit")
     $frm->allow_only_one_usage();
     $frm->add_hidden("action","scriptpostcommit");
     $frm->add_text_area("__script__", "Script : ",$script,80,40);
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
+  }
+}
+else if($_REQUEST["view"]=="refreshdbscript")
+{
+  if(!$handle = @fopen(REFRESH_TAISTE, "r"))
+    $cts->add_paragraph("Impossible d'ouvrir le script de rafraichissement !");
+  else
+  {
+    $script = @fread($handle, @filesize(REFRESH_TAISTE));
+    $frm = new form("refreshdbscript", "prod_cron.php", false, "POST", "Editer le script de refresh de taiste");
+    $frm->allow_only_one_usage();
+    $frm->add_hidden("action","refreshdbscript");
+    $frm->add_text_area("__script__", "Script : ",$script,80,40);
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
+  }
+}
+else if ($_REQUEST["view"] == "refreshdb")
+{
+  if ($_REQUEST["action"] == "refreshdb" && $Ok) {
+    $cts->add_paragraph("<b>Fafraichissement programmé dans les deux minutes à venir.</b>");
+  } else {
+    $frm = new form("refreshdb", "prod_cron.php", false, "POST", "Rafraichir la BDD de taiste");
+    $frm->allow_only_one_usage();
+    $frm->add_hidden("action","refreshdb");
     $frm->add_submit("valid","Valider");
     $cts->add($frm,true);
   }
