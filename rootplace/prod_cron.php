@@ -165,9 +165,9 @@ else if($_REQUEST["view"]=="refreshdbscript")
 else if ($_REQUEST["view"] == "refreshdb")
 {
   if ($_REQUEST["action"] == "refreshdb" && $Ok) {
-    $cts->add_paragraph("<b>Fafraichissement programmé dans les deux minutes à venir.</b>");
+    $cts->add_paragraph("<b>Rafraichissement programmé dans les deux minutes à venir.</b>");
   } else {
-    $frm = new form("refreshdb", "prod_cron.php", false, "POST", "Rafraichir la BDD de taiste");
+    $frm = new form("refreshdb", "prod_cron.php", false, "POST", "Rafraichir la BDD de taiste (Peut prendre 1/4h!)");
     $frm->allow_only_one_usage();
     $frm->add_hidden("action","refreshdb");
     $frm->add_submit("valid","Valider");
