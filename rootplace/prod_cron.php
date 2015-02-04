@@ -40,7 +40,7 @@ $tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),
               array("refresh","rootplace/prod_cron.php?view=refreshdb","Rafraichir taiste"),
               array("script","rootplace/prod_cron.php?view=script","Script de passage en prod"),
               array("commit","rootplace/prod_cron.php?view=commit","Script de post commit"),
-              array("clone","rootplace/prod_cron.php?view=refreshdbscript","Script de refresh de taiste"));
+              array("refreshscript","rootplace/prod_cron.php?view=refreshdbscript","Script de refresh de taiste"));
 
 if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
 {
@@ -52,6 +52,7 @@ if ( $_REQUEST["action"] == "refreshdb" && $GLOBALS["svalid_call"] )
 {
   if ( $site->is_sure ( "","Rafraichir taiste",null, 2 ) )
     @exec(escapeshellcmd(REFRESH_TAISTE));
+  $_REQUEST["view"]="refresh";
   $Ok=true;
 }
 if ( $_REQUEST["action"] == "scriptprod" && $GLOBALS["svalid_call"] )
@@ -97,7 +98,7 @@ if ( $_REQUEST["action"] == "refreshdbscript" && $GLOBALS["svalid_call"] )
       $content = preg_replace("/\r\n/","\n",htmlspecialchars_decode($_REQUEST["__script__"]));
       @fwrite($handle,$content);
       @fclose ($handle);
-      $_REQUEST["view"]="script";
+      $_REQUEST["view"]="refreshscript";
       $Ok=true;
     }
   }
