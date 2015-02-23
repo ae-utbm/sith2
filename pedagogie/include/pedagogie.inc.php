@@ -160,7 +160,7 @@ function check_semester_format(&$value){
  */
 function check_uv_format(&$value){
   $value = strtoupper($value);
-  return preg_match('/^[A-Z]{2}[0-9]{1}[A-Z]{1}$/', $value);
+  return preg_match('/^[A-Z]{2}[0-9]{1}[0-9A-Z]{1}$/', $value);
 }
 
 /**
