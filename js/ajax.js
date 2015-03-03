@@ -200,7 +200,9 @@ function fsearch_keyup(event)
       return false;
   }
 
-  fsearch_query ();
+  fsearch_timeout_id = setTimeout(function () {
+			fsearch_query ();
+		}, 300);
 
   return true;
 }
