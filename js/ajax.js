@@ -409,45 +409,50 @@ function fsfield_sel ( topdir, field, id, title, iconfile )
  *
  * @ingroup display_cts_js
  */
+var timer;
 function fsfield_keyup ( event, topdir, field, myclass, constraints )
 {
   if ( event != null )
     if ( event.ctrlKey || event.keyCode == 27 || event.keyCode == 13  )
       return false;
 
-  var obj = document.getElementById(field + '_field');
-
-  if ( !obj ) return false;
-
-  fsfield_sequence[field] = fsfield_sequence[field]+1;
-  if(typeof(constraints) == 'object')
-  {
-    var append='';
-    for ( var sqlfield in constraints )
+  if (timer)
+	  clearTimeout(timer);
+  timer = setTimeout(function () {
+    var obj = document.getElementById(field + '_field');
+  
+    if ( !obj ) return false;
+  
+    fsfield_sequence[field] = fsfield_sequence[field]+1;
+    if(typeof(constraints) == 'object')
     {
-      var obj2 = document.getElementById(constraints[sqlfield]).value;
-      if(obj2 && obj2!='')
-        append=append+'&conds['+sqlfield+']='+obj2;
+      var append='';
+      for ( var sqlfield in constraints )
+      {
+        var obj2 = document.getElementById(constraints[sqlfield]).value;
+        if(obj2 && obj2!='')
+          append=append+'&conds['+sqlfield+']='+obj2;
+      }
+      evalCommand( topdir + "gateway.php",
+        "module=fsfield"+
+        "&topdir="+topdir+
+        "&pattern="+obj.value+
+        "&field="+field+
+        "&class="+myclass+
+        "&sequence="+fsfield_sequence[field]+
+        append);
     }
-    evalCommand( topdir + "gateway.php",
-      "module=fsfield"+
-      "&topdir="+topdir+
-      "&pattern="+obj.value+
-      "&field="+field+
-      "&class="+myclass+
-      "&sequence="+fsfield_sequence[field]+
-      append);
-  }
-  else
-  {
-    evalCommand( topdir + "gateway.php",
-      "module=fsfield"+
-      "&topdir="+topdir+
-      "&pattern="+obj.value+
-      "&field="+field+
-      "&class="+myclass+
-      "&sequence="+fsfield_sequence[field] );
-  }
+    else
+    {
+      evalCommand( topdir + "gateway.php",
+        "module=fsfield"+
+        "&topdir="+topdir+
+        "&pattern="+obj.value+
+        "&field="+field+
+        "&class="+myclass+
+        "&sequence="+fsfield_sequence[field] );
+    }
+  }, 300);
   return true;
 }
 
