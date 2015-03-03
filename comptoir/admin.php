@@ -895,6 +895,7 @@ elseif ( $comptoir->id > 0 )
 {
 
   $allow_editteam = ($comptoir->groupe_vendeurs == 5) || ($comptoir->groupe_vendeurs == 16) || ($comptoir->groupe_vendeurs == 57);
+  $err = NULL;
 
 
 
@@ -927,13 +928,18 @@ elseif ( $comptoir->id > 0 )
     {
       $user = new utilisateur($site->dbrw);
       $user->load_by_id($_REQUEST["id_utilisateur"]);
-      if ( $user->id > 0 )
+      if ( $user->id > 0 && $user->cotisant) // l'utilisateur doit etre cotisant
         $grp->add_user_to_group($user->id);
+	  else
+		$err = "Les barmans doivent être cotisants";
     }
   }
 
  $site->start_page("services","Administration des comptoirs");
  $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / ".$comptoir->nom);
+
+ if($err != NULL)
+	$cts->add_paragraph("Erreur: ".$err, "formerror");
 
  $cts->add_paragraph("<a href=\"admin.php?page=barcodes&amp;id_comptoir=".$comptoir->id."\">Codes barre</a>");
  $cts->add_paragraph("<a href=\"compta.php?id_comptoir=".$comptoir->id."\">Comptabilité</a>");
