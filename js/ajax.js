@@ -314,6 +314,7 @@ function userselect_set_user(topdir, ref,id,nom)
  */
 var userselect_sequence=0;
 var userselect_actual_sequence=0;
+var timer=0;
 
 function userselect_keyup(event,ref,topdir)
 {
@@ -321,13 +322,17 @@ function userselect_keyup(event,ref,topdir)
     if ( event.ctrlKey || event.keyCode == 27 || event.keyCode == 13  )
       return false;
 
-  var obj = document.getElementById(ref+'_field');
+  if (timer)
+	  clearTimeout(timer);
+  timer = setTimeout(function () {
+    var obj = document.getElementById(ref+'_field');
 
-  if ( !obj ) return false;
+    if ( !obj ) return false;
 
-  userselect_sequence=userselect_sequence+1;
+    userselect_sequence=userselect_sequence+1;
 
-  evalCommand( topdir + "gateway.php", "module=userfield&userselect_sequence="+userselect_sequence+"&pattern="+obj.value+"&ref="+ref );
+    evalCommand( topdir + "gateway.php", "module=userfield&userselect_sequence="+userselect_sequence+"&pattern="+obj.value+"&ref="+ref );
+  }, 300);
 
   return true;
 }
