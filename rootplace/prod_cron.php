@@ -45,7 +45,7 @@ $tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),
 if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
 {
   if ( $site->is_sure ( "","Passage en production",null, 2 ) )
-    @exec(escapeshellcmd(PROD_CRON));
+    @exec(escapeshellcmd(PROD_SCRIPT));
   $Ok=true;
 }
 if ( $_REQUEST["action"] == "refreshdb" && $GLOBALS["svalid_call"] )
@@ -177,7 +177,7 @@ else if ($_REQUEST["view"] == "refreshdb")
 else
 {
   if ($_REQUEST["action"] == "passprod" && $Ok) {
-    $cts->add_paragraph("<b>Passage en prod programmé dans les deux minutes à venir.</b>");
+    $cts->add_paragraph("<b>Passage en prod en cours d'execution.</b>");
   } else {
     $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Passer en production");
     $frm->allow_only_one_usage();
