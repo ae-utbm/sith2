@@ -229,7 +229,7 @@ function CheckEmail($email, $type = 0)
 /* obtention de la revision actuelle du site (subversion) */
 function get_rev ()
 {
-  return exec ("/usr/share/php5/exec/rev_info.sh");
+  return exec ("git log --pretty=format:'%h' -n 1");
 }
 
 
