@@ -117,14 +117,24 @@ function setCheckboxesRange(the_form, basename, min, max)
 function switchSelConnection(obj)
 {
     var sel = obj.options[obj.selectedIndex].innerHTML;
-    var txt = "identifiant";
-
-    if (sel == "Alias")
-      txt = "alias";
-    else if (sel == "E-mail" || sel == "UTBM / Assidu")
-      txt = "prenom.nom";
-
-  obj.parentNode.parentNode.parentNode.childNodes[2].childNodes[2].childNodes[0].value = txt;
+    var txt;
+    switch (sel)
+    {
+        case "Alias":
+            txt = "alias";
+            break;
+        case "E-mail":
+        case "UTBM / Assidu":
+            txt = "prenom.nom";
+            break;
+        default:
+            txt  = "identifiant";
+            break;
+    }
+    var username = obj.parentNode.parentNode.parentNode.childNodes[2].childNodes[2].childNodes[0];
+    username.setAttribute("onfocus", "if(this.value=='" + txt + "')this.value=''");
+    username.setAttribute("onblur", "if(this.value=='')this.value='" + txt + "'");
+    username.value = txt;
 }
 
 
