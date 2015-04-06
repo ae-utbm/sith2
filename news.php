@@ -216,16 +216,6 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
 	// Prévisualisation
 	if (isset($_REQUEST["preview"]))
 	{
-		$frm->add_text_field("title", "Titre",$news->titre,true);
-		$frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$news->id_asso,true);
-		$frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$news->id_lieu,true);
-		$frm->add_text_field("tags", "Tags",$news->get_tags());
-		$frm->add_text_area ("resume","Resume",$news->resume);
-		$frm->add_dokuwiki_toolbar('content');
-		$frm->add_text_area ("content", "Contenu",$news->contenu,80,10,true);
-	}
-	else
-	{
 		$frm->add_text_field("title", "Titre de la nouvelle", $_REQUEST["title"], true);
 		$frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$_REQUEST["id_asso"],true);
 		$frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",false,true);
@@ -233,6 +223,16 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
 		$frm->add_text_area ("resume","Resum&eacute;",$_REQUEST["resume"], 40, 3, true);
 		$frm->add_dokuwiki_toolbar('content');
 		$frm->add_text_area ("content", "Contenu",$_REQUEST["content"],80,10,true);
+	}
+	else
+	{
+		$frm->add_text_field("title", "Titre",$news->titre,true);
+		$frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$news->id_asso,true);
+		$frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$news->id_lieu,true);
+		$frm->add_text_field("tags", "Tags",$news->get_tags());
+		$frm->add_text_area ("resume","Resume",$news->resume);
+		$frm->add_dokuwiki_toolbar('content');
+		$frm->add_text_area ("content", "Contenu",$news->contenu,80,10,true);
 	}
 	if( $site->user->is_in_group("moderateur_site") )
 	$frm->add_checkbox("automodere", "<b>Auto-modération</b>", true);
