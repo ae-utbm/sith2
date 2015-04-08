@@ -1,99 +1,43 @@
 <!DOCTYPE html>
 <html>
-<!--
-  Created using jsbin.com
-  Source can be edited via http://jsbin.com/AsAcATA/21/edit
--->
 <head>
     <meta charset="utf-8">
     <script src="../js/jquery-2.0.3.min.js"></script>
-    <title></title>
+    <title>Ecran com</title>
 
     <style id="jsbin-css">
         .hidden{
-            display:none;
         }
         #slideDiv {
-            display:flex;
-            flex-direction:"column";
+            display:block;
             z-index: 1;
-            min-height:100%;
-            background:rgb(0,0,50);
-            background: radial-gradient( rgb(67, 66, 72), #05050F);
+            max-height:100%;
+            max-width:100%;
             vertical-align:middle;
-            margin-top:auto;
-            margin-bottom:auto;
-            margin-left: auto;
-            margin-right:auto;
+            margin: auto;
             text-align:center;
         }
-        .logmessage{
+        html{
+            height:100%;
         }
-        .notif{
-        flex-direction:row;
-        position: absolute;
-        font-size: 12pt;
-        font-family:verdana;
-        width: 100%;
-        bottom: 0;
-        margin: 0 auto;
-        z-index: 2;
-        background:white;
-        box-shadow: 0 -15px 10px darkred;
-        padding-left:15px;
-        color:black;
-            }
         body{
             overflow:hidden;
             height:100%;
             background: radial-gradient( rgb(67, 66, 72), #05050F);
-            margin: 0 0 0 0 ;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-content:stretch;
-        }
-        figure{
-            display: flex;
-            flex-direction:row;
-            margin:0 0 0 0 ;
-
-        }
-        .flexImg{
-            background: radial-gradient( rgb(67, 66, 72), #05050F);
-
-            vertical-align:middle;
-            margin-top:auto;
-            margin-bottom:auto;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .smallImg>figure>img{
-            min-height:80%;
-            max-height:80%;
-        }
-        .fullImg>figure>img{
-            min-height: 100%;
-            max-height: 100%;
+            margin: 0px;
         }
     </style>
 </head>
 <body>
-<div id="slideDiv" class="flexbox fullImg">
-</div>
-<div class="notif"></div>
+<div id="slideDiv"></div>
 <script>
     version="1.0";
     incomingMessage=[];
     affiches=[];
-    pathToimg="http://ae.utbm.fr/data/files/";
-    timeRefresh=9000 // in miliss
-    msgRefresh=4000
-    globalRefreshTime=60000
+    pathToimg="../data/files/";
+    timeRefresh=15000 // in millisecond
+    globalRefreshTime=3600000
     isRefreshed=0;
-    maxLog=5;
-    logCounter=0;
-    logDiv=$("#logDiv");
 
 
 
@@ -101,16 +45,15 @@
         var xmlFile=$.get("../affiches.php?page=xml");
         slideDiv.empty();
         xmlFile.error(function(self,errorCode,error){
-            logger("unable to connect to ae.utbm.fr err: "+errorCode,"error");
             return;
         });
         xmlFile.success(function(r){
             try{
-	        isRefreshed++;
+                isRefreshed++;
                 for(var i=0;i<affiches.length;i++){
-		  affiches[i].next = null;
-		  affiches[i] = null;
-		}
+                  affiches[i].next = null;
+                  affiches[i] = null;
+                }
                 affiches=[];
                 var xml=$(r);
                 var presentation=$(xml.find("presentation"));
@@ -118,7 +61,7 @@
                     affiche=$(presentation.find("affiche")[i]);
                     path=pathToimg+$(affiche.find("fichier")).text();
                     newAffiche={
-                        html:"<figure><img class='flexImg' src='"+path+"' alt='image missing'/></figure>",
+                        html:"<img id='affiche' src='"+path+"' alt='Image missing'/>",
                         next:""
                     };
                     if(i!==0){
@@ -141,12 +84,6 @@
         });
     };
 
-    launchMessageService=function(){
-        setTimeout(function(){
-            messageCheck();
-            launchMessageService();
-        },msgRefresh);
-    }
     launchslideShow=function(){
         if(affiches.length>0){
             show(affiches[0],isRefreshed);
@@ -154,77 +91,37 @@
                 refreshAffiche()
             },globalRefreshTime);
         }
-    }
-    messageCheck=function(){
-        if($(".logmessage").length>0){
-            $($(".logmessage")[0]).fadeOut(msgRefresh);
-            setTimeout(function(){
-                $($(".logmessage")[0]).remove();
-                if($(".logmessage").length==0){
-                    $(".notif").fadeOut("slow");
-                        $("#slideDiv").removeClass("smallImg");
-                        $("#slideDiv").addClass("fullImg");
+    };
 
-
-                }},msgRefresh);
-        }else{
-                $("#slideDiv").removeClass("smallImg");
-                $("#slideDiv").addClass("fullImg");
-
-
-        }
-        $.ajax({
-            url:"../gateway.php?module=ecrancom&secret=messageForTheLulz",
-            error:function(self,errorcode,error){
-                logCounter++;
-                if(logCounter<maxLog){
-                    logger("unable to retrieve message status is :"+errorcode,"error");
-                }
-            },
-            success:function(response){
-                logCounter=0;
-                if(!response){
-                    return;
-                }
-
-                message=response.split('\n').slice(2,response.split('\n').length).join();
-
-                logger("<div>"+response.split('\n')[0]+":</div><div>"+message+"</div>","");
-            }
-        });
-    }
     show=function(affiche,refreshedTime){
         //if comment were print, you will see me a lot!
         current=affiche;
-	if(refreshedTime < isRefreshed)
-	{
-		return;
-	}
+        if(refreshedTime < isRefreshed)
+        {
+                return;
+        }
         setTimeout(function(){
             $("#slideDiv").html(current.html);
+            var width = $('#affiche').first().width;
+            var height = $('#affiche').first().height;
+            if (width > height)
+            {
+                $('#affiche').width($(window).width());
+            }
+            else
+            {
+                $('#affiche').height($(window).height());
+            }
             setTimeout(function(){
                 show(current.next,refreshedTime);
             },20);
         },timeRefresh-500);
-    }
-    logger = function (message, type) {
-        if($(".logmessage").length==0){
-            $(".notif").fadeIn(600);
-        }
-        toAppend="<pre class='logmessage' style='display:none;'>"+message+"</pre>";
-        $(".notif").append(toAppend);
-
-        $("#slideDiv").removeClass("fullImg");
-        $("#slideDiv").addClass("smallImg");
-        $(".logmessage").fadeIn(800);
-
-        //audio.play(); Tim asked for this comment
     };
+
     $(document).ready(function(){
         slideDiv=$("#slider");
         refreshAffiche();
         launchslideShow();
-        launchMessageService()
     });
 </script>
 </body>
