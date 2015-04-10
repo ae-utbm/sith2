@@ -48,7 +48,10 @@ $site = new site();
 
 $site->allow_only_logged_users("services");
 
-if ( !$site->user->is_in_group("gestion_machines") )
+$is_admin = $site->user->is_in_group("gestion_machines");
+$is_vendor = $site->user->is_in_group("jetons_laverie");
+
+if ( !$is_admin && !$is_vendor )
   $site->error_forbidden("services","group");
 
 // En dure en attendant la correction de la base de donnés
@@ -75,268 +78,274 @@ $id_salle = intval($_REQUEST["id_salle"]);
 $site->start_page("services","Laverie");
 $cts = new contents("<a href=\"index.php\">Laverie</a> / <a href=\"admin.php\">Administration</a> / ".$salles[$id_salle]);
 
-$cts->add(new tabshead(
-      array(
-      array("","laverie/admin.php?id_salle=$id_salle", "Vente"),
-            array("jt","laverie/admin.php?id_salle=$id_salle&view=jt", "Jetons"),
-            array("pl","laverie/admin.php?id_salle=$id_salle&view=pl", "Plannings"),
-            array("bc","laverie/admin.php?id_salle=$id_salle&view=bc", "Mauvais clients"),
-            array("mc","laverie/admin.php?id_salle=$id_salle&view=mc", "Machines")
-            ),$_REQUEST["view"]));
+if( $is_admin )
+	$cts->add(new tabshead(
+		  array(
+				array("","laverie/admin.php?id_salle=$id_salle", "Vente"),
+				array("jt","laverie/admin.php?id_salle=$id_salle&view=jt", "Jetons"),
+				array("pl","laverie/admin.php?id_salle=$id_salle&view=pl", "Plannings"),
+				array("bc","laverie/admin.php?id_salle=$id_salle&view=bc", "Mauvais clients"),
+				array("mc","laverie/admin.php?id_salle=$id_salle&view=mc", "Machines")
+		  ),$_REQUEST["view"]));
 
 $user = new utilisateur($site->db,$site->dbrw);
 $machine = new machine($site->db,$site->dbrw);
 // Traitement des actions
-if ( $_REQUEST["action"] == "autoplanning" )
+if( $is_admin )
 {
-
-  $req = new requete($site->db,"SELECT * FROM mc_machines WHERE loc='$id_salle' AND hs='0' ORDER BY lettre");
-  while ( $row = $req->get_row() )
+  if ( $_REQUEST["action"] == "autoplanning" )
   {
-    $machine->_load($row);
-    $machine->create_all_creneaux_between($_REQUEST["apl_date_debut"],$_REQUEST["apl_date_fin"],3600);
-  }
 
-  $cts->add_title(2,"Generation des plannings");
-  $cts->add_paragraph("Plannings générés");
-}
-elseif ( $_REQUEST["action"] == "retjetons" )
-{
-  $cts->add_title(2,"Retour des jetons");
-
-  $jetons = explode(" ",$_REQUEST["data"]);
-  $jeton = new jeton($site->db,$site->dbrw);
-
-  foreach ( $jetons as $nom_jeton )
-  {
-    $nom_jeton = trim($nom_jeton);
-    if ( !empty($nom_jeton) || $nom_jeton == "0")
+    $req = new requete($site->db,"SELECT * FROM mc_machines WHERE loc='$id_salle' AND hs='0' ORDER BY lettre");
+    while ( $row = $req->get_row() )
     {
-      if ( $jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
-        $jeton->given_back();
-      else
-        $cts->add_paragraph("Jeton $nom_jeton inconnu.");
+      $machine->_load($row);
+      $machine->create_all_creneaux_between($_REQUEST["apl_date_debut"],$_REQUEST["apl_date_fin"],3600);
     }
+
+    $cts->add_title(2,"Generation des plannings");
+    $cts->add_paragraph("Plannings générés");
   }
-
-  $cts->add_paragraph("Fait.");
-}
-elseif ( $_REQUEST["action"] == "newjetons" )
-{
-  $cts->add_title(2,"Ajout des jetons");
-
-  $jetons = explode(" ",$_REQUEST["data"]);
-  $jeton = new jeton($site->db,$site->dbrw);
-
-  foreach ( $jetons as $nom_jeton )
+  elseif ( $_REQUEST["action"] == "retjetons" )
   {
-    $nom_jeton = trim($nom_jeton);
-    if ( !empty($nom_jeton) )
+    $cts->add_title(2,"Retour des jetons");
+
+    $jetons = explode(" ",$_REQUEST["data"]);
+    $jeton = new jeton($site->db,$site->dbrw);
+
+    foreach ( $jetons as $nom_jeton )
     {
-      if ( !$jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
-        $jeton->add ( $id_salle, $_REQUEST["type"], $nom_jeton );
-      else
-        $cts->add_paragraph("Jeton $nom_jeton déjà existant.");
-    }
-  }
-
-  $cts->add_paragraph("Fait.");
-}
-elseif ( $_REQUEST["action"] == "deljetons" )
-{
-  $cts->add_title(2,"Suppression des jetons");
-
-  $jetons = explode(" ",$_REQUEST["data"]);
-  $jeton = new jeton($site->db,$site->dbrw);
-
-  foreach ( $jetons as $nom_jeton )
-  {
-    $nom_jeton = trim($nom_jeton);
-    if ( !empty($nom_jeton) )
-    {
-      if ( $jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
+      $nom_jeton = trim($nom_jeton);
+      if ( !empty($nom_jeton) || $nom_jeton == "0")
       {
-        if($jeton->delete( $id_salle, $_REQUEST["type"], $nom_jeton ))
-	{
-	  $cts->add_paragraph("Jeton $nom_jeton emprunté, suppression impossible.");
-	}
-	else
-	{
-	  $cts->add_paragraph("Jeton $nom_jeton supprimé.");
-	}
+        if ( $jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
+          $jeton->given_back();
+        else
+          $cts->add_paragraph("Jeton $nom_jeton inconnu.");
       }
+    }
+
+    $cts->add_paragraph("Fait.");
+  }
+  elseif ( $_REQUEST["action"] == "newjetons" )
+  {
+    $cts->add_title(2,"Ajout des jetons");
+
+    $jetons = explode(" ",$_REQUEST["data"]);
+    $jeton = new jeton($site->db,$site->dbrw);
+
+    foreach ( $jetons as $nom_jeton )
+    {
+      $nom_jeton = trim($nom_jeton);
+      if ( !empty($nom_jeton) )
+      {
+        if ( !$jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
+          $jeton->add ( $id_salle, $_REQUEST["type"], $nom_jeton );
+        else
+          $cts->add_paragraph("Jeton $nom_jeton déjà existant.");
+      }
+    }
+
+    $cts->add_paragraph("Fait.");
+  }
+  elseif ( $_REQUEST["action"] == "deljetons" )
+  {
+    $cts->add_title(2,"Suppression des jetons");
+
+    $jetons = explode(" ",$_REQUEST["data"]);
+    $jeton = new jeton($site->db,$site->dbrw);
+
+    foreach ( $jetons as $nom_jeton )
+    {
+      $nom_jeton = trim($nom_jeton);
+      if ( !empty($nom_jeton) )
+      {
+        if ( $jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
+        {
+          if($jeton->delete( $id_salle, $_REQUEST["type"], $nom_jeton ))
+	  {
+	    $cts->add_paragraph("Jeton $nom_jeton emprunté, suppression impossible.");
+	  }
+	  else
+	  {
+	    $cts->add_paragraph("Jeton $nom_jeton supprimé.");
+	  }
+        }
+        else
+          $cts->add_paragraph("Jeton $nom_jeton inexistant.");
+      }
+    }
+
+    $cts->add_paragraph("Fait.");
+  }
+  elseif($_REQUEST['action'] == "blacklist")
+  {
+    if ( !isset($_REQUEST['id_utilisateurs']) )
+      $_REQUEST['id_utilisateurs'] = array($_REQUEST['id_utilisateur']);
+
+    $cts->add_title(2,"Bloquage");
+
+    foreach ( $_REQUEST['id_utilisateurs'] as $id )
+    {
+      $user = new utilisateur($site->db, $site->dbrw);
+      $user->load_by_id($id);
+      $user->add_to_group(GRP_BLACKLIST);
+      $cts->add_paragraph($user->get_html_link()." a bien été banni de l'usage des machines");
+    }
+    $user->id = null;
+  }
+  elseif($_REQUEST['action'] == "unblacklist")
+  {
+    if ( !isset($_REQUEST['id_utilisateurs']) )
+      $_REQUEST['id_utilisateurs'] = array($_REQUEST['id_utilisateur']);
+
+    $cts->add_title(2,"De-bloquage");
+
+    foreach ( $_REQUEST['id_utilisateurs'] as $id )
+    {
+      $user->load_by_id($id);
+      $user->remove_from_group(GRP_BLACKLIST);
+      $cts->add_paragraph($user->get_html_link()." a bien été débanni de l'usage des machines");
+    }
+    $user->id = null;
+  }
+  elseif($_REQUEST['action'] == "mail_rappel")
+  {
+    if ( !isset($_REQUEST['id_utilisateurs']) )
+      $_REQUEST['id_utilisateurs'] = array($_REQUEST['id_utilisateur']);
+
+    $cts->add_title(2,"Mail de rappel");
+
+    foreach ( $_REQUEST['id_utilisateurs'] as $id )
+    {
+      $id = intval($id);
+
+      $user->load_by_id($id);
+
+      $sql = new requete($site->db, "SELECT
+      `mc_jeton_utilisateur`.`id_jeton`
+      , `mc_jeton`.`nom_jeton`
+      , DATEDIFF(CURDATE(), `mc_jeton_utilisateur`.`prise_jeton`) AS `duree`
+      FROM `mc_jeton`
+      INNER JOIN `mc_jeton_utilisateur` ON `mc_jeton`.`id_jeton` = `mc_jeton_utilisateur`.`id_jeton`
+      WHERE `id_utilisateur` = $id AND mc_jeton_utilisateur.retour_jeton IS NULL");
+      /* et si y'a pas de lignes ? */
+      if ($sql->lines <= 0)
+        continue;
+
+      $body = "Bonjour,
+
+  Vous utilisez le service de machines à laver proposé par l'AE et nous vous en remercions, nous attirons votre attention sur le fait que les jetons vous sont prêtés pour une utilisation des machines dans la journée suivante, ceci afin de permettre une bonne circulation des jetons, garantissant ainsi à tous la possiblité de bénéficier de ce service.
+
+  Or vous avez encore en votre possession le(s) jeton(s) suivant(s) : \n";
+
+      while ($row = $sql->get_row())
+        $body .= "- Jeton n°".$row['nom_jeton'].", emprunté depuis ".$row['duree']." jours \n";
+
+      $body .= "\n Afin que tout le monde puisse profiter des machines mises à disposition par l'AE nous vous remercions de bien vouloir utiliser ou rapporter ces jetons dans les plus brefs délais, à défaut de quoi, vous pourriez vous voir bloquer l'accès à ce service.
+
+  Merci d'avance
+
+  Les responsables machines à laver";
+
+      $mail = mail($user->email, utf8_decode("[AE] Jetons de machines à laver"), utf8_decode($body),
+          "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: laverie@utbm.fr");
+
+      if ($mail)
+        $cts->add_paragraph("Mail de rappel &agrave; ".$user->get_html_link()." : Envoy&eacute;");
       else
-        $cts->add_paragraph("Jeton $nom_jeton inexistant.");
+        $cts->add_paragraph("Erreur lors de l'envoi du mail de rappel pour ".$user->get_html_link(),"error");
+    }
+    $user->id = null;
+  }
+  elseif($_REQUEST['action'] == "hs")
+  {
+    if ( !isset($_REQUEST['id_machines']) )
+      $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);
+
+    $cts->add_title(2,"Hors service");
+
+    foreach ( $_REQUEST['id_machines'] as $id )
+    {
+      $machine->load_by_id($id);
+      $machine->set_hs(true);
+      $cts->add_paragraph($machine->get_html_link()." marquée hors service");
     }
   }
-
-  $cts->add_paragraph("Fait.");
-}
-elseif($_REQUEST['action'] == "blacklist")
-{
-  if ( !isset($_REQUEST['id_utilisateurs']) )
-    $_REQUEST['id_utilisateurs'] = array($_REQUEST['id_utilisateur']);
-
-  $cts->add_title(2,"Bloquage");
-
-  foreach ( $_REQUEST['id_utilisateurs'] as $id )
+  elseif($_REQUEST['action'] == "es")
   {
-    $user = new utilisateur($site->db, $site->dbrw);
-    $user->load_by_id($id);
-    $user->add_to_group(GRP_BLACKLIST);
-    $cts->add_paragraph($user->get_html_link()." a bien été banni de l'usage des machines");
+    if ( !isset($_REQUEST['id_machines']) )
+      $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);
+
+    $cts->add_title(2,"En service");
+
+    foreach ( $_REQUEST['id_machines'] as $id )
+    {
+      $machine->load_by_id($id);
+      $machine->set_hs(false);
+      $cts->add_paragraph($machine->get_html_link()." marquée en service");
+    }
   }
-  $user->id = null;
-}
-elseif($_REQUEST['action'] == "unblacklist")
-{
-  if ( !isset($_REQUEST['id_utilisateurs']) )
-    $_REQUEST['id_utilisateurs'] = array($_REQUEST['id_utilisateur']);
-
-  $cts->add_title(2,"De-bloquage");
-
-  foreach ( $_REQUEST['id_utilisateurs'] as $id )
+  elseif( $_REQUEST['action'] == "delete"
+          && (isset($_REQUEST['id_machines']) || isset($_REQUEST['id_machine'])) )
   {
-    $user->load_by_id($id);
-    $user->remove_from_group(GRP_BLACKLIST);
-    $cts->add_paragraph($user->get_html_link()." a bien été débanni de l'usage des machines");
+    if ( !isset($_REQUEST['id_machines']) )
+      $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);
+
+    $cts->add_title(2,"Suppression");
+
+    foreach ( $_REQUEST['id_machines'] as $id )
+    {
+      $machine->load_by_id($id);
+      $machine->delete();
+      $cts->add_paragraph($machine->get_html_link()." supprimée");
+    }
+
   }
-  $user->id = null;
-}
-elseif($_REQUEST['action'] == "mail_rappel")
-{
-  if ( !isset($_REQUEST['id_utilisateurs']) )
-    $_REQUEST['id_utilisateurs'] = array($_REQUEST['id_utilisateur']);
-
-  $cts->add_title(2,"Mail de rappel");
-
-  foreach ( $_REQUEST['id_utilisateurs'] as $id )
+  elseif( $_REQUEST['action'] == "ajoutmachine" && $_REQUEST['lettre_machine'] )
   {
-    $id = intval($id);
-
-    $user->load_by_id($id);
-
-    $sql = new requete($site->db, "SELECT
-    `mc_jeton_utilisateur`.`id_jeton`
-    , `mc_jeton`.`nom_jeton`
-    , DATEDIFF(CURDATE(), `mc_jeton_utilisateur`.`prise_jeton`) AS `duree`
-    FROM `mc_jeton`
-    INNER JOIN `mc_jeton_utilisateur` ON `mc_jeton`.`id_jeton` = `mc_jeton_utilisateur`.`id_jeton`
-    WHERE `id_utilisateur` = $id AND mc_jeton_utilisateur.retour_jeton IS NULL");
-    /* et si y'a pas de lignes ? */
-    if ($sql->lines <= 0)
-      continue;
-
-    $body = "Bonjour,
-
-Vous utilisez le service de machines à laver proposé par l'AE et nous vous en remercions, nous attirons votre attention sur le fait que les jetons vous sont prêtés pour une utilisation des machines dans la journée suivante, ceci afin de permettre une bonne circulation des jetons, garantissant ainsi à tous la possiblité de bénéficier de ce service.
-
-Or vous avez encore en votre possession le(s) jeton(s) suivant(s) : \n";
-
-    while ($row = $sql->get_row())
-      $body .= "- Jeton n°".$row['nom_jeton'].", emprunté depuis ".$row['duree']." jours \n";
-
-    $body .= "\n Afin que tout le monde puisse profiter des machines mises à disposition par l'AE nous vous remercions de bien vouloir utiliser ou rapporter ces jetons dans les plus brefs délais, à défaut de quoi, vous pourriez vous voir bloquer l'accès à ce service.
-
-Merci d'avance
-
-Les responsables machines à laver";
-
-    $mail = mail($user->email, utf8_decode("[AE] Jetons de machines à laver"), utf8_decode($body),
-        "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: laverie@utbm.fr");
-
-    if ($mail)
-      $cts->add_paragraph("Mail de rappel &agrave; ".$user->get_html_link()." : Envoy&eacute;");
-    else
-      $cts->add_paragraph("Erreur lors de l'envoi du mail de rappel pour ".$user->get_html_link(),"error");
+    $machine->create_machine ( $_REQUEST['lettre_machine'], $_REQUEST['type_machine'], $id_salle);
   }
-  $user->id = null;
-}
-elseif($_REQUEST['action'] == "hs")
-{
-  if ( !isset($_REQUEST['id_machines']) )
-    $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);
-
-  $cts->add_title(2,"Hors service");
-
-  foreach ( $_REQUEST['id_machines'] as $id )
+  elseif( $_REQUEST['action'] == "freeplanning" )
   {
-    $machine->load_by_id($id);
-    $machine->set_hs(true);
-    $cts->add_paragraph($machine->get_html_link()." marquée hors service");
+    $machine->load_by_id($_REQUEST['id_machine']);
+    if ( $machine->is_valid() )
+    {
+      $cts->add_title(2,"Liberation de creneaux");
+      $cts->add_paragraph($machine->get_html_link()." : creneaux libérés de ".date("d/m/Y H:i",$_REQUEST['fpl_date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['fpl_date_fin']));
+      $machine->free_all_creneaux_between($_REQUEST['fpl_date_debut'],$_REQUEST['fpl_date_fin']);
+    }
   }
-}
-elseif($_REQUEST['action'] == "es")
-{
-  if ( !isset($_REQUEST['id_machines']) )
-    $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);
-
-  $cts->add_title(2,"En service");
-
-  foreach ( $_REQUEST['id_machines'] as $id )
+  elseif( $_REQUEST['action'] == "removeplanning" )
   {
-    $machine->load_by_id($id);
-    $machine->set_hs(false);
-    $cts->add_paragraph($machine->get_html_link()." marquée en service");
+    $machine->load_by_id($_REQUEST['id_machine']);
+    if ( $machine->is_valid() )
+    {
+      $cts->add_title(2,"Suppression de creneaux");
+      $cts->add_paragraph($machine->get_html_link()." : creneaux supprimés de ".date("d/m/Y H:i",$_REQUEST['rpl_date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['rpl_date_fin']));
+      $machine->remove_all_creneaux_between($_REQUEST['rpl_date_debut'],$_REQUEST['rpl_date_fin']);
+    }
   }
-}
-elseif( $_REQUEST['action'] == "delete"
-        && (isset($_REQUEST['id_machines']) || isset($_REQUEST['id_machine'])) )
-{
-  if ( !isset($_REQUEST['id_machines']) )
-    $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);
-
-  $cts->add_title(2,"Suppression");
-
-  foreach ( $_REQUEST['id_machines'] as $id )
+  elseif( $_REQUEST['action'] == "genplanning" )
   {
-    $machine->load_by_id($id);
-    $machine->delete();
-    $cts->add_paragraph($machine->get_html_link()." supprimée");
+    $machine->load_by_id($_REQUEST['id_machine']);
+    if ( $machine->is_valid() )
+    {
+      $cts->add_title(2,"Generation de creneaux");
+      $cts->add_paragraph($machine->get_html_link()." : creneaux générés de ".date("d/m/Y H:i",$_REQUEST['gpl_date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['gpl_date_fin']));
+      $machine->create_all_creneaux_between($_REQUEST['gpl_date_debut'],$_REQUEST['gpl_date_fin'],3600);
+    }
   }
-
-}
-elseif( $_REQUEST['action'] == "ajoutmachine" && $_REQUEST['lettre_machine'] )
-{
-  $machine->create_machine ( $_REQUEST['lettre_machine'], $_REQUEST['type_machine'], $id_salle);
-}
-elseif( $_REQUEST['action'] == "freeplanning" )
-{
-  $machine->load_by_id($_REQUEST['id_machine']);
-  if ( $machine->is_valid() )
-  {
-    $cts->add_title(2,"Liberation de creneaux");
-    $cts->add_paragraph($machine->get_html_link()." : creneaux libérés de ".date("d/m/Y H:i",$_REQUEST['fpl_date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['fpl_date_fin']));
-    $machine->free_all_creneaux_between($_REQUEST['fpl_date_debut'],$_REQUEST['fpl_date_fin']);
+  elseif($_REQUEST['action'] == 'chgjetlimit') {
+    $site->set_param("nb_max_jetons_$id_salle", $_REQUEST['nombre']);
   }
-}
-elseif( $_REQUEST['action'] == "removeplanning" )
-{
-  $machine->load_by_id($_REQUEST['id_machine']);
-  if ( $machine->is_valid() )
-  {
-    $cts->add_title(2,"Suppression de creneaux");
-    $cts->add_paragraph($machine->get_html_link()." : creneaux supprimés de ".date("d/m/Y H:i",$_REQUEST['rpl_date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['rpl_date_fin']));
-    $machine->remove_all_creneaux_between($_REQUEST['rpl_date_debut'],$_REQUEST['rpl_date_fin']);
-  }
-}
-elseif( $_REQUEST['action'] == "genplanning" )
-{
-  $machine->load_by_id($_REQUEST['id_machine']);
-  if ( $machine->is_valid() )
-  {
-    $cts->add_title(2,"Generation de creneaux");
-    $cts->add_paragraph($machine->get_html_link()." : creneaux générés de ".date("d/m/Y H:i",$_REQUEST['gpl_date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['gpl_date_fin']));
-    $machine->create_all_creneaux_between($_REQUEST['gpl_date_debut'],$_REQUEST['gpl_date_fin'],3600);
-  }
-}
-elseif($_REQUEST['action'] == 'chgjetlimit') {
-  $site->set_param("nb_max_jetons_$id_salle", $_REQUEST['nombre']);
 }
 
 // Contenu des onglets
 if ( $_REQUEST["view"] == "mc" ) // Liste des machines
 {
+  if ( !$is_admin )
+    $site->error_forbidden("services","group");
 
   /* Liste des machines */
   $sql = new requete($site->db, "SELECT id as id_machine, lettre, type FROM mc_machines
@@ -391,6 +400,8 @@ if ( $_REQUEST["view"] == "mc" ) // Liste des machines
 }
 elseif ( $_REQUEST["view"] == "bc" ) // Mauvais clients
 {
+  if ( !$is_admin )
+    $site->error_forbidden("services","group");
 
   $sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton,
     mc_jeton_utilisateur.id_utilisateur,
@@ -489,6 +500,9 @@ elseif ( $_REQUEST["view"] == "bc" ) // Mauvais clients
 }
 elseif ( $_REQUEST["view"] == "pl" ) // Plannings
 {
+  if ( !$is_admin )
+    $site->error_forbidden("services","group");
+
   $date = getDate();
 
   if($date['wday'] == 0)
@@ -563,6 +577,8 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
 }
 elseif ( $_REQUEST["view"] == "jt" ) // Jetons
 {
+  if ( !$is_admin )
+    $site->error_forbidden("services","group");
 
   $frm = new form("retjetons", "admin.php?id_salle=$id_salle&view=jt",false,"POST","Retour de jetons");
   $frm->add_hidden("action","retjetons");

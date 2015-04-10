@@ -60,6 +60,7 @@ if ( $site->user->is_in_group("blacklist_machines") )
 $salles = array(6=>"Laverie belfort",8=>"Laverie Sevenans");
 
 $is_admin = $site->user->is_in_group("gestion_machines");
+$is_vendor = $site->user->is_in_group("jetons_laverie");
 
 /*if ( $_REQUEST["contrat"] == "accept" )
 {
@@ -99,7 +100,7 @@ if ( $_REQUEST["action"] == "reserver" )
 
   $user = $site->user;
 
-  if ( $is_admin && isset($_REQUEST["id_utilisateur"]) )
+  if ( ( $is_admin || $is_vendor ) && isset($_REQUEST["id_utilisateur"]) )
   {
     $user = new utilisateur($site->db);
     $user->load_by_id($_REQUEST["id_utilisateur"]);
@@ -181,7 +182,7 @@ if ( $_REQUEST["page"] == "reserver" )
   if ( $Erreur )
     $frm->error($Erreur);
 
-  if ( $is_admin )
+  if ( $is_admin || $is_vendor )
     $frm->add_entity_smartselect ( "id_utilisateur", "Reserver pour", $site->user );
 
   $frm->add_submit("valid","Confirmer");
@@ -227,7 +228,7 @@ elseif ( $_REQUEST["page"] == "viewreserv" )
   $frm->add_submit("search","Rechercher un créneau");
   $cts->add($frm,true);
 
-  if ( $is_admin )
+  if ( $is_admin || $is_vendor )
   {
     $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
     $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=1&amp;id_salle=".htmlentities($_REQUEST["id_salle"])."\">Afficher les réservations pour les lavages</a>");
@@ -301,7 +302,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   $frm->add_submit("search","Rechercher un créneau");
   $cts->add($frm,true);
 
-  if ( $is_admin )
+  if ( $is_admin || $is_vendor )
   {
     $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
     $cts->add_paragraph("<a href=\"index.php?page=viewreserv&amp;operation=1&amp;id_salle=".$_REQUEST["id_salle"]."\">Afficher les réservations pour les lavages</a>");
@@ -363,7 +364,7 @@ $cts->add($tbl, true);
 
 //TODO: liste des jetons empruntés ?
 
-if ( $is_admin )
+if ( $is_admin || $is_vendor )
   $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
 
 $site->add_contents($cts);
