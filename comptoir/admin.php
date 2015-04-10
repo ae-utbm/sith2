@@ -101,7 +101,11 @@ if ( $_REQUEST["action"] == "addcomptoir" && $site->user->is_in_group("gestion_a
     $grp_vendeurs->load_by_id($_REQUEST["id_groupe_vendeurs"]);
     $grp_admins = new group ( $site->db);
     $grp_admins->load_by_id($_REQUEST["id_groupe_admins"]);
-    _log($site->dbrw,"Ajout d'un comptoir","Ajout du comptoir \"".$comptoir->nom."\" de type ".$comptoir->type.", administré par le groupe ".$grp_admins->nom." (id : ".$grp_admins->id.") et tenu par le groupe ".$grp_vendeurs->nom." (id : ".$grp_vendeurs->id.")","Comptoirs".$site->user->id);
+    _log($site->dbrw,
+	"Ajout d'un comptoir",
+	"Ajout du comptoir \"".$comptoir->nom."\" de type ".$comptoir->type.", administré par le groupe ".$grp_admins->nom." (id : ".$grp_admins->id.") et tenu par le groupe ".$grp_vendeurs->nom." (id : ".$grp_vendeurs->id.")",
+	"Comptoirs",
+	$site->user);
  }
 }
 elseif ( $_REQUEST["action"] == "delcomptoir" && $site->user->is_in_group("gestion_ae") )
