@@ -118,7 +118,7 @@ class affiche extends stdentity
    */
   function get_contents ()
   {
-    $image = new image($this->titre, "http://ae.utbm.fr".$wwwtopdir."d.php?action=download&download=preview&id_file=".$this->id_file);
+    $image = new image($this->titre, "http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."d.php?action=download&download=preview&id_file=".$this->id_file);
 
     $cts = new contents("Affiche : ".$this->titre);
     $cts->add($image);

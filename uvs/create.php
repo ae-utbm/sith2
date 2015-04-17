@@ -44,7 +44,7 @@ $site->start_page("services", "Emploi du temps");
 
 $cts = new contents("Pédagogie : Maintenance");
 $cts->add_paragraph("La partie pédagogie est partiellement fermée pour une refonte complète.");
-$cts->add_paragraph("Pour tout bug ou demande de fonctionnalité, contactez <a href=\"http://ae.utbm.fr".$wwwtopdir."user.php?id_utilisateur=1956\">Gliss</a>.");
+$cts->add_paragraph("Pour tout bug ou demande de fonctionnalité, contactez <a href=\"http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."user.php?id_utilisateur=1956\">Gliss</a>.");
 $site->add_contents($cts);
 
 $site->end_page();

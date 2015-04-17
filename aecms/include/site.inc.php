@@ -196,7 +196,7 @@ class aecms extends site
       {
         if ( $this->user->hash != "valid" )
         {
-          header("Location: http://ae.utbm.fr".$wwwtopdir."article.php?name=site:activate");
+          header("Location: http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."article.php?name=site:activate");
           exit();
         }
         if($this->user->is_password($_POST["password"]))

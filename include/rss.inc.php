@@ -54,7 +54,7 @@ class rssfeed
   function rssfeed()
   {
     $this->pubDate = time();
-    $this->generator = "http://ae.utbm.fr".$wwwtopdir;
+    $this->generator = "http://ae.utbm.fr". $GLOBALS["wwwtopdir"];
   }
 
   /**

@@ -43,21 +43,21 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 echo "<rss version=\"2.0\" xmlns:media=\"http://search.yahoo.com/mrss/\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n";
 echo "	<channel>\n";
 echo "		<title>".htmlspecialchars($cat->nom)."</title>\n";
-echo "		<link>http://ae.utbm.fr".$wwwtopdir."sas2/?id_catph=".$cat->id."</link>\n";
+echo "		<link>http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."sas2/?id_catph=".$cat->id."</link>\n";
 echo " 		<description></description>\n";
 echo "		<pubDate>".gmdate("D, j M Y G:i:s T")."</pubDate>\n";
 echo "		<lastBuildDate>".gmdate("D, j M Y G:i:s T")."</lastBuildDate>\n";
-echo "		<generator>http://ae.utbm.fr".$wwwtopdir."sas2/</generator>\n";
+echo "		<generator>http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."sas2/</generator>\n";
 
 echo "		<image>\n";
 
 if ( is_null($cat->id_photo) )
-  echo "			<url>http://ae.utbm.fr".$wwwtopdir."images/misc/sas-default.png</url>\n";
+  echo "			<url>http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."images/misc/sas-default.png</url>\n";
 else
-  echo "			<url>http://ae.utbm.fr".$wwwtopdir."sas2/images.php?/".$cat->id_photo.".vignette.jpg</url>\n";
+  echo "			<url>http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."sas2/images.php?/".$cat->id_photo.".vignette.jpg</url>\n";
 
 echo "			<title>".htmlspecialchars($cat->nom)."</title>\n";
-echo "			<link>http://ae.utbm.fr".$wwwtopdir."sas2/?id_catph=".$cat->id."</link>\n";
+echo "			<link>http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."sas2/?id_catph=".$cat->id."</link>\n";
 echo "		</image>\n";
 
 
@@ -68,10 +68,10 @@ while ( $row = $sqlph->get_row() )
 {
   $photo->_load($row);
 
-  $img_vignette = "http://ae.utbm.fr".$wwwtopdir."sas2/images.php?/".$photo->id.".vignette.jpg";
-  $img = "http://ae.utbm.fr".$wwwtopdir."sas2/images.php?/".$photo->id.".jpg";
+  $img_vignette = "http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."sas2/images.php?/".$photo->id.".vignette.jpg";
+  $img = "http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."sas2/images.php?/".$photo->id.".jpg";
   $title = $photo->id;
-  $link = "http://ae.utbm.fr".$wwwtopdir."sas2/?id_photo=".$photo->id;
+  $link = "http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."sas2/?id_photo=".$photo->id;
 
   $description="<p><a href=\"$link\" title=\"$title\"><img src=\"$img_vignette\" alt=\"$title\" /></a></p> ";
 

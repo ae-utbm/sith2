@@ -473,24 +473,24 @@ class dokusyntax
           return $file->get_html_link();
         }
         if ( !isset($match[2]) || $match[2] == "/download" )
-          $link = "https://ae.utbm.fr".$wwwtopdir."d.php?action=download&amp;id_file=".$match[1];
+          $link = "https://ae.utbm.fr". $GLOBALS["wwwtopdir"]."d.php?action=download&amp;id_file=".$match[1];
         elseif ( $match[2] == "/preview" )
-          $link = "https://ae.utbm.fr".$wwwtopdir."d.php?action=download&amp;download=preview&amp;id_file=".$match[1];
+          $link = "https://ae.utbm.fr". $GLOBALS["wwwtopdir"]."d.php?action=download&amp;download=preview&amp;id_file=".$match[1];
         elseif ( $match[2] == "/thumb" )
-          $link = "https://ae.utbm.fr".$wwwtopdir."d.php?action=download&amp;download=thumb&amp;id_file=".$match[1];
+          $link = "https://ae.utbm.fr". $GLOBALS["wwwtopdir"]."d.php?action=download&amp;download=thumb&amp;id_file=".$match[1];
         elseif ( $match[2] == "/info" )
-          $link = "https://ae.utbm.fr".$wwwtopdir."d.php?id_file=".$match[1];
+          $link = "https://ae.utbm.fr". $GLOBALS["wwwtopdir"]."d.php?id_file=".$match[1];
       }
       else
       {
         //les article://
-        $link = preg_replace("/article:\/\//i","https://ae.utbm.fr".$wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
+        $link = preg_replace("/article:\/\//i","https://ae.utbm.fr". $GLOBALS["wwwtopdir"].$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
         //les wiki://
-        $link = preg_replace("/wiki:\/\//i","https://ae.utbm.fr".$wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link);
+        $link = preg_replace("/wiki:\/\//i","https://ae.utbm.fr". $GLOBALS["wwwtopdir"].$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link);
         if( defined('CMS_ID_ASSO') )
           $link = preg_replace("/sas:\/\//i","images.php?/",$link);
         else
-          $link = preg_replace("/sas:\/\//i","https://ae.utbm.fr".$wwwtopdir."sas2/images.php?/",$link);
+          $link = preg_replace("/sas:\/\//i","https://ae.utbm.fr". $GLOBALS["wwwtopdir"]."sas2/images.php?/",$link);
       }
     }
     elseif ( !strpos($link,'mailto:') && !preg_match("#(\.|/)#",$link) )

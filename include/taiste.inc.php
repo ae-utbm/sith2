@@ -26,14 +26,18 @@
  * 02111-1307, USA.
  */
 
+$wwwtopdir = "";
+
 if (!strncmp('/var/www/taiste', $_SERVER['SCRIPT_FILENAME'], 15)) {
 	$GLOBALS["taiste"] = true;
+	$GLOBALS["wwwtopdir"] = "/taiste/";
 	$wwwtopdir = "/taiste/";
 	$fstopdir = $_SERVER['DOCUMENT_ROOT'] . "/../taiste/";
 }
 
 else {
 	$GLOBALS["taiste"] = false;
+	$GLOBALS["wwwtopdir"] = "/";
 	$wwwtopdir = "/";
 	$fstopdir = $_SERVER['DOCUMENT_ROOT'] . "/";
 }

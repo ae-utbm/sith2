@@ -49,7 +49,7 @@ $cts = new contents("Pédagogie : Maintenance");
 $cts->add_paragraph("La partie pédagogie est partiellement fermée pour une refonte complète.");
 $cts->add_paragraph("<b>La base de donnée de l'ancien système à désormais été synchronisée avec la nouvelle, les nouvelles modifications ne pourront être prises en compte.</b>");
 $cts->add_paragraph("Soyez conscients que certains éléments tels que le calcul des crédits peuvent être erronés, nous vous rappelons que seuls les informations fournies par l'UTBM font foi.");
-$cts->add_paragraph("Pour tout bug ou demande de fonctionnalité, contactez <a href=\"http://ae.utbm.fr".$wwwtopdir."user.php?id_utilisateur=1956\">Gliss</a>.");
+$cts->add_paragraph("Pour tout bug ou demande de fonctionnalité, contactez <a href=\"http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."user.php?id_utilisateur=1956\">Gliss</a>.");
 
 
 $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");

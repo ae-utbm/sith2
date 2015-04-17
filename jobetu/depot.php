@@ -175,7 +175,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 	$frm->add_text_field("tel_fixe", "Téléphone (fixe)", $site->user->tel_maison, false);
 	$frm->add_text_field("tel_portable", "Télephone (portable)", $site->user->tel_portable, false);
 	$frm->puts("");
-	$frm->add_checkbox("accept_cgu", "J'ai lu et j'accepte les <a href=\"http://ae.utbm.fr".$wwwtopdir."article.php?name=docs:jobetu:cgu\">conditions générales d'utilisation</a>", false);
+	$frm->add_checkbox("accept_cgu", "J'ai lu et j'accepte les <a href=\"http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."article.php?name=docs:jobetu:cgu\">conditions générales d'utilisation</a>", false);
 	$frm->add_submit("go", "Etape suivante");
 	$frm->set_focus("adresse");
 
@@ -234,7 +234,7 @@ else
 	$cts->add_title(2, "Quelques details concernant votre depot");
 	$cts->add_paragraph("Vous vous appretez à déposer une annonce sur AE Job Etu et nous vous en remercions");
 	$cts->add_paragraph("Vous devrez tout d'abord vous inscrire si c'est la premiere fois que vous venez et puis allez y.");
-	$cts->add_paragraph("A lire : <a href=\"http://ae.utbm.fr".$wwwtopdir."article.php?name=docs:jobetu:cgu\">C.G.U.</a>");
+	$cts->add_paragraph("A lire : <a href=\"http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."article.php?name=docs:jobetu:cgu\">C.G.U.</a>");
 
 	$frm = new form("go", "depot.php?action=annonce", false, "POST", false);
 	$frm->add_submit("next", "Etape suivante");

@@ -52,7 +52,7 @@ class apply_annonce_box extends stdcontents
 
     /** Contenu  ************************************************************/
     $this->buffer .= "<div id=\"annonce_".$annonce->id."\" class=\"content\"> \n";
-    $this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Demandeur </div> \n <div class=\"desc_content\"> <a href=\"$topdir/user.php?id_utilisateur=$annonce->id_client\"><img src=\"http://ae.utbm.fr".$wwwtopdir."images/icons/16/user.png\" /> ".$annonce->nom_client."</a></div> \n</div>";
+    $this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Demandeur </div> \n <div class=\"desc_content\"> <a href=\"$topdir/user.php?id_utilisateur=$annonce->id_client\"><img src=\"http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."images/icons/16/user.png\" /> ".$annonce->nom_client."</a></div> \n</div>";
     if( $annonce->allow_diff )
     {
       $this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> </div> \n <div class=\"desc_content\"><i>La diffusion du numéro de téléphone du demandeur à été autorisée, pensez prendre contact afin d'augmenter vos chances</i></div> \n</div>";
