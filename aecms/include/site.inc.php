@@ -49,7 +49,6 @@
  *
  */
 
-require_once($topdir . "include/taiste.inc.php");
 
 $basedir = dirname(dirname($_SERVER['SCRIPT_FILENAME']));
 $basedircomp = explode("/",$basedir);
@@ -165,7 +164,7 @@ class aecms extends site
 
   function allow_only_logged_users($section="none")
   {
-    global $topdir;
+    global $topdir, $wwwtopdir;
 
     if ( $this->user->is_valid() )
       return;
@@ -196,7 +195,7 @@ class aecms extends site
       {
         if ( $this->user->hash != "valid" )
         {
-          header("Location: http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."article.php?name=site:activate");
+          header("Location: http://ae.utbm.fr".$wwwtopdir."article.php?name=site:activate");
           exit();
         }
         if($this->user->is_password($_POST["password"]))
