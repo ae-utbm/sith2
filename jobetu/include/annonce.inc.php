@@ -22,6 +22,7 @@
  */
 
 require_once("jobuser_etu.inc.php");
+require_once($topdir . "include/taiste.inc.php");
 
 /**
  * @todo conformer cette classe à stdentity

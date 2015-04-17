@@ -235,7 +235,9 @@ class icontents extends istdcontents
         $this->buffer .= " align=\"$align\"";
       $this->buffer .="><font color=\"#000000\">";
       $this->buffer .= $text;
-      $this->buffer .="</font></td>";      $this->buffer .="</tr>";      $this->buffer .="</table>";
+      $this->buffer .="</font></td>";
+      $this->buffer .="</tr>";
+      $this->buffer .="</table>";
 
       return;
     }

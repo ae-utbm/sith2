@@ -29,6 +29,7 @@ require_once($topdir . "include/lib/dokusyntax.inc.php");
 require_once($topdir . "include/lib/bbcode.inc.php");
 require_once($topdir . "include/entities/forum.inc.php");
 require_once($topdir . "include/entities/utilisateur.inc.php");
+require_once($topdir . "include/taiste.inc.php");
 
 class rssfeedforum extends rssfeed
 {
@@ -47,7 +48,7 @@ class rssfeedforum extends rssfeed
 
     $this->title = "Les " . $nbmessage . " derniers messages du forum de l'AE";
     $this->description = $this->title;
-    $this->pubUrl = "http://ae.utbm.fr/forum2/";
+    $this->pubUrl = "http://ae.utbm.fr".$wwwtopdir."forum2/";
     $this->link = $this->pubUrl;
 
     $this->rssfeed();
@@ -114,7 +115,7 @@ class rssfeedforum extends rssfeed
     global $topdir;
     header("Content-Type: text/xml; charset=utf-8");
     echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
-    echo "<?xml-stylesheet type=\"text/css\" href=\"http://ae.utbm.fr/themes/default/css/site.css?".filemtime($topdir."themes/default/css/site.css")."\" ?>";
+    echo "<?xml-stylesheet type=\"text/css\" href=\"http://ae.utbm.fr".$wwwtopdir."themes/default/css/site.css?".filemtime($topdir."themes/default/css/site.css")."\" ?>";
     echo "<rss version=\"2.0\" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\">\n";
     echo "<channel>\n";
 

@@ -2,6 +2,8 @@
 $topdir="../";
 require_once("include/sas.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
+require_once($topdir . "include/taiste.inc.php");
+
 $site = new sas();
 
 if ( $_REQUEST["act"] == "Info" )
@@ -10,7 +12,7 @@ if ( $_REQUEST["act"] == "Info" )
   echo "<!DOCTYPE UBPTExchange>\n";
   echo "<info>\n";
   echo "  <name>Stock à Souvenirs (v2)</name>\n";
-  echo "  <url>http://ae.utbm.fr/sas2/</url>\n";
+  echo "  <url>http://ae.utbm.fr".$wwwtopdir."sas2/</url>\n";
   echo "  <message>(none)</message>\n";
   echo "  <domains>\n";
   echo "    <domain>utbm.fr</domain>\n";

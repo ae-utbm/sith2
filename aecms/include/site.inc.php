@@ -49,6 +49,8 @@
  *
  */
 
+require_once($topdir . "include/taiste.inc.php");
+
 $basedir = dirname(dirname($_SERVER['SCRIPT_FILENAME']));
 $basedircomp = explode("/",$basedir);
 $aecmsname = end($basedircomp);
@@ -194,7 +196,7 @@ class aecms extends site
       {
         if ( $this->user->hash != "valid" )
         {
-          header("Location: http://ae.utbm.fr/article.php?name=site:activate");
+          header("Location: http://ae.utbm.fr".$wwwtopdir."article.php?name=site:activate");
           exit();
         }
         if($this->user->is_password($_POST["password"]))

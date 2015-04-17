@@ -32,6 +32,8 @@
  * Supporte georss et rdf
  * @see rssfeednews
  */
+ require_once($topdir . "include/taiste.inc.php");
+ 
 class rssfeed
 {
 
@@ -52,7 +54,7 @@ class rssfeed
   function rssfeed()
   {
     $this->pubDate = time();
-    $this->generator = "http://ae.utbm.fr/";
+    $this->generator = "http://ae.utbm.fr".$wwwtopdir;
   }
 
   /**

@@ -89,7 +89,7 @@ EOF;
   $frm = new form("activ_form", "index.php?activate", false, "POST");
   if($error)
     $frm->error($error);
-  $frm->add_checkbox("accept_cgu", "Je reconnais avoir lu et accepter les <a href=\"http://ae.utbm.fr/article.php?name=docs:jobetu:cgu\">CGU d'AE Job Etu</a>");
+  $frm->add_checkbox("accept_cgu", "Je reconnais avoir lu et accepter les <a href=\"http://ae.utbm.fr".$wwwtopdir."article.php?name=docs:jobetu:cgu\">CGU d'AE Job Etu</a>");
   $frm->add_submit("go", "Activer mon compte");
   $cts->add($frm);
   $site->add_contents($cts, true);

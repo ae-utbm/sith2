@@ -49,7 +49,7 @@ if ( $site->user->id )
 
     $sid = $site->create_session(true);
 
-    $url = "http://ae.utbm.fr/i/?sid=$sid";
+    $url = "http://ae.utbm.fr".$wwwtopdir."i/?sid=$sid";
 
   $body = "Bonjour,
 Pour accéder au site mobile de l'AE, veuillez vous rendre à l'adresse :

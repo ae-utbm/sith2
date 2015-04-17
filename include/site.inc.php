@@ -672,11 +672,11 @@ if(!defined("MOBILE")) {
             $pm = $asso->get_pending_unmod_mail();
             if ($pm == 1)
             {
-                $elements[] = "<a href=\"https://ae.utbm.fr/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mail en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
+                $elements[] = "<a href=\"https://ae.utbm.fr".$wwwtopdir."mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mail en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
             }
             else if ($pm > 1)
             {
-                $elements[] = "<a href=\"https://ae.utbm.fr/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
+                $elements[] = "<a href=\"https://ae.utbm.fr".$wwwtopdir."mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
             }
         }
       }

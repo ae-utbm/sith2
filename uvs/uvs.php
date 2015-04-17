@@ -52,7 +52,7 @@ $site->start_page("services", "Informations UV");
 
 $cts = new contents("Pédagogie : Maintenance");
 $cts->add_paragraph("La partie pédagogie est partiellement fermée pour une refonte complète.");
-$cts->add_paragraph("Pour tout bug ou demande de fonctionnalité, contactez <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=1956\">Gliss</a>.");
+$cts->add_paragraph("Pour tout bug ou demande de fonctionnalité, contactez <a href=\"http://ae.utbm.fr".$wwwtopdir."user.php?id_utilisateur=1956\">Gliss</a>.");
 $site->add_contents($cts);
 
 // Génération d'un camembert sur les
@@ -890,7 +890,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       if (isset($_REQUEST['id_file']) &&
           ($_REQUEST['action'] == "download"))
         {
-          header("location: http://ae.utbm.fr/d.php?id_file=".
+          header("location: http://ae.utbm.fr".$wwwtopdir."d.php?id_file=".
                  $_REQUEST['id_file'].
                  "&action=download");
         }

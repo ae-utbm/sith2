@@ -50,7 +50,7 @@ while ($row = $events->get_row ())
   else
     $dateonly = false;
 
-  $cal->add_event ( "http://ae.utbm.fr/news.php?id_nouvelle=".$row["id_nouvelle"]."&date=".$row["date_debut_eve"], $row['titre_nvl'], $row['resume_nvl'], $st, $end, $dateonly, "http://ae.utbm.fr/news.php?id_nouvelle=".$row["id_nouvelle"], $row["nom_geopoint"], $row["lat_geopoint"], $row["long_geopoint"] );
+  $cal->add_event ( "http://ae.utbm.fr".$wwwtopdir."news.php?id_nouvelle=".$row["id_nouvelle"]."&date=".$row["date_debut_eve"], $row['titre_nvl'], $row['resume_nvl'], $st, $end, $dateonly, "http://ae.utbm.fr".$wwwtopdir."news.php?id_nouvelle=".$row["id_nouvelle"], $row["nom_geopoint"], $row["lat_geopoint"], $row["long_geopoint"] );
 }
 
 

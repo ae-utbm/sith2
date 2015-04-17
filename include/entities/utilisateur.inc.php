@@ -25,6 +25,7 @@
  *
  */
 require_once("carteae.inc.php");
+require_once($topdir . "include/taiste.inc.php");
 
 
 $GLOBALS["utbm_roles"] = array("etu"=>"Étudiant", "adm"=>"Personnel administratif", "ens"=>"Enseignant", "per"=>"Personnel", "doc"=>"Doctorant","anc"=>"Ancien étudiant","srv"=>"Service");
@@ -1449,7 +1450,7 @@ class utilisateur extends stdentity
 Votre adresse email a été changée.
 
 Pour valider votre adresse email et reactiver votre compte, veuillez vous rendre à l'adresse
-http://ae.utbm.fr/confirm.php?id=" . $this->id . "&hash=" . $this->hash . "
+http://ae.utbm.fr".$wwwtopdir."confirm.php?id=" . $this->id . "&hash=" . $this->hash . "
 
 L'équipe info AE";
 
@@ -1469,7 +1470,7 @@ Votre compte a été crée sur le site de l'AE
 Votre mot de passe: $password
 
 Pour activer votre compte, veuillez vous rendre à l'adresse
-http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "
+http://ae.utbm.fr".$wwwtopdir."majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "
 
 L'équipe info AE";
 
@@ -1489,7 +1490,7 @@ Votre compte a été réinitialisé.
 Votre mot de passe: $password
 
 Pour activer votre compte, veuillez vous rendre à l'adresse
-http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "
+http://ae.utbm.fr".$wwwtopdir."majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "
 
 L'équipe info AE";
 
@@ -2146,7 +2147,7 @@ L'équipe info AE";
         "Votre compte n'est pas toujours pas activé, de plus il faudrais mettre à jour votre profil.\n".
         "\n".
         "Pour mettre à jour votre profil et activer votre compte, allez à l'adresse suivante :\n".
-        "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "\n".
+        "http://ae.utbm.fr".$wwwtopdir."majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "\n".
         "\n".
         "L'équipe info AE";
     else
@@ -2154,7 +2155,7 @@ L'équipe info AE";
         "Il faudrais mettre à jour votre profil.\n".
         "\n".
         "Pour mettre à jour votre profil, allez à l'adresse suivante :\n".
-        "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&token=" . $site->create_token_for_user($this->id) . "\n".
+        "http://ae.utbm.fr".$wwwtopdir."majprofil.php?id_utilisateur=" . $this->id . "&token=" . $site->create_token_for_user($this->id) . "\n".
         "\n".
         "L'équipe info AE";
 
@@ -2176,7 +2177,7 @@ L'équipe info AE";
         $infotext.
         "\n\n".
         "Pour mettre à jour votre profil, et ajouter votre photo au format numérique en ligne, allez à l'adresse suivante :\n".
-        "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "\n".
+        "http://ae.utbm.fr".$wwwtopdir."majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "\n".
         "\n".
         "L'équipe info AE";
     else
@@ -2184,7 +2185,7 @@ L'équipe info AE";
         $infotext.
         "\n\n".
         "Pour mettre à jour votre profil, et ajouter votre photo au format numérique en ligne, allez à l'adresse suivante :\n".
-        "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&token=" . $site->create_token_for_user($this->id) . "\n".
+        "http://ae.utbm.fr".$wwwtopdir."majprofil.php?id_utilisateur=" . $this->id . "&token=" . $site->create_token_for_user($this->id) . "\n".
         "\n".
         "L'équipe info AE";
 
@@ -2510,7 +2511,7 @@ L'équipe info AE";
 Votre identifiant de services est : $uid
 
 Vous pouvez notament l'utiliser pour consulter les flux rss du forum :
-http://ae.utbm.fr/forum2/rss.php?id_utilisateur=".$this->id."&serviceident=$uid
+http://ae.utbm.fr".$wwwtopdir."forum2/rss.php?id_utilisateur=".$this->id."&serviceident=$uid
 
 Vous ne devez en aucun cas communiquer cet identifiant à une tierce personne. Cet
 identifiant est strictement personnel. En cas de perte, un nouvel idententifiant

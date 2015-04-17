@@ -251,7 +251,7 @@ elseif ( isset($_REQUEST["id_utilisateur"]) )
     $cts->add_paragraph("C'est utilisateur n'est pas présent dans galaxy car son profil n'est pas publique.");
     if ($user->id==$site->user->id)
       $cts->add_paragraph("Pour apparaitre dans galaxy, vous devez rendre votre profil publique ".
-          "<a href=\"http://ae.utbm.fr/taiste/user.php?id_utilisateur=".$site->user->id."&page=edit\">en éditant votre fiche Matmatronch</a>.".
+          "<a href=\"http://ae.utbm.fr".$wwwtopdir."user.php?id_utilisateur=".$site->user->id."&page=edit\">en éditant votre fiche Matmatronch</a>.".
           "Vous serez alors automatiquement intégré à galaxy à condition d'être lié à d'autres utilisateurs.");
   }
   elseif ( $req->lines == 0 )

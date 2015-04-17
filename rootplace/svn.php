@@ -114,13 +114,13 @@ if(isset($_REQUEST["id_depot"]))
               unset($_REQUEST["action"]);
             }
             else
-              $erreur="alias invalide, veuillez le modifier <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=".
+              $erreur="alias invalide, veuillez le modifier <a href=\"http://ae.utbm.fr".$wwwtopdir."user.php?id_utilisateur=".
                       $user->id."&page=edit\">ici</a>";
           }
           else
-            $erreur="utilisateur sans alias, qu'il aille sur http://ae.utbm.fr/user/svn.php, ".
+            $erreur="utilisateur sans alias, qu'il aille sur http://ae.utbm.fr".$wwwtopdir."user/svn.php, ".
                     "notifier l'utilisateur par <a href=\"?mail=Vous devez vous rendre à cette ".
-                    "adresse : http://ae.utbm.fr/user/svn.php pour scpécifier un alias valide&id=".
+                    "adresse : http://ae.utbm.fr".$wwwtopdir."user/svn.php pour scpécifier un alias valide&id=".
                     $user->id."\">mail</a>.";
       }
     }

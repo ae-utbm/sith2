@@ -32,27 +32,12 @@ $timing["all"] -= microtime(true);
 
 setlocale(LC_ALL, "fr_FR.UTF8");
 
-if (!strncmp('/var/www/taiste', $_SERVER['SCRIPT_FILENAME'], 15))
-    $GLOBALS["taiste"] = true;
-else
-    $GLOBALS["taiste"] = false;
-
 require_once($topdir . "include/mysql.inc.php");
 require_once($topdir . "include/mysqlae.inc.php");
 require_once($topdir . "include/entities/std.inc.php");
 require_once($topdir . "include/entities/utilisateur.inc.php");
 require_once($topdir . "include/cts/standart.inc.php");
-
-//if ( !isset($wwwtopdir) )
-//{
-if ($GLOBALS["taiste"]) {
-    $wwwtopdir = "/taiste/";
-    $fstopdir = $_SERVER['DOCUMENT_ROOT'] . "/../taiste/";
-} else {
-    $wwwtopdir = "/";
-    $fstopdir = $_SERVER['DOCUMENT_ROOT'] . "/";
-}
-//}
+require_once($topdir . "include/taiste.inc.php");
 
 
 /** Classe générant l'interface

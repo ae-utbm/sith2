@@ -22,6 +22,7 @@
  */
 
 require_once($topdir."include/rss.inc.php");
+require_once($topdir . "include/taiste.inc.php");
 
 class jobetu extends stdentity
 {
@@ -121,7 +122,7 @@ class rssjobetu extends rssfeed
 		$this->db = $db;
     $this->title = "AE JobEtu";
     $this->description = "Les dernières annonces de JobEtu";
-    $this->link = "http://ae.utbm.fr/jobetu/";
+    $this->link = "http://ae.utbm.fr".$wwwtopdir."jobetu/";
 
 		$this->rssfeed();
 	}
@@ -134,7 +135,7 @@ class rssjobetu extends rssfeed
 		{
 			echo "<item>\n";
   		echo "<title>".htmlspecialchars($row["titre"],ENT_NOQUOTES,"UTF-8")."</title>\n";
-  		echo "<link>http://ae.utbm.fr/jobetu/board_etu.php?view=general&amp;id_annonce=".$row["id_annonce"]."&amp;action=detail</link>\n";
+  		echo "<link>http://ae.utbm.fr".$wwwtopdir."jobetu/board_etu.php?view=general&amp;id_annonce=".$row["id_annonce"]."&amp;action=detail</link>\n";
   		$buffer = "<b>Catégorie</b> : ".$row["job_nom"]."<br /><br />";
   		$buffer .= "<b>Description</b> :<br />".$row["desc"]."<br />";
   		$buffer .= "<b>Profil recherché</b> :<br />".$row["profil"]."<br /><br />";
@@ -142,7 +143,7 @@ class rssjobetu extends rssfeed
   		$buffer .= "<b>Rémunération</b> : ".$row["indemnite"]."<br />";
   		echo "<description>".htmlspecialchars($buffer, ENT_NOQUOTES,"UTF-8")."</description>\n";
   		echo "<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date"]))."</pubDate>\n";
-  		echo "<guid>http://ae.utbm.fr/jobetu/board_etu.php?view=general&amp;action=detail&amp;id_annonce=".$row["id_annonce"]."</guid>\n";
+  		echo "<guid>http://ae.utbm.fr".$wwwtopdir."jobetu/board_etu.php?view=general&amp;action=detail&amp;id_annonce=".$row["id_annonce"]."</guid>\n";
   		echo "</item>\n";
 		}
 

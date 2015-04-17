@@ -24,6 +24,7 @@
 
 require_once($topdir."include/rss.inc.php");
 require_once($topdir."include/entities/news.inc.php");
+require_once($topdir . "include/taiste.inc.php");
 
 /**
  * @file
@@ -49,7 +50,7 @@ class rssfeednews extends rssfeed
   function rssfeednews ( &$db )
   {
     $this->db = $db;
-    $this->pubUrl = "http://ae.utbm.fr/";
+    $this->pubUrl = "http://ae.utbm.fr".$wwwtopdir;
     $this->rssfeed();
   }
 
@@ -72,7 +73,7 @@ class rssfeednews extends rssfeed
         echo "<link>".$this->pubUrl."news.php?id_nouvelle=".$row["id_nouvelle"]."</link>\n";
         echo "<description><![CDATA[ ".$wikicts->buffer." ]]></description>\n";
         echo "<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_nvl"]))."</pubDate>\n";
-        echo "<guid>http://ae.utbm.fr/news.php?id_nouvelle=".$row["id_nouvelle"]."</guid>\n";
+        echo "<guid>http://ae.utbm.fr".$wwwtopdir."news.php?id_nouvelle=".$row["id_nouvelle"]."</guid>\n";
 
         if ( !is_null($row["lat_geopoint"]) && !is_null($row["long_geopoint"]) )
           echo "<georss:point>".sprintf("%.12F",$row['lat_geopoint']*360/2/M_PI)." ".

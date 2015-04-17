@@ -45,6 +45,11 @@ $site->add_css("css/userfullinfo.css");
 
 $site->allow_only_logged_users("matmatronch");
 
+if ( $GLOBALS["taiste"] )
+  $matmatronche_folder = "../data/matmatronch/";
+else
+  $matmatronche_folder = "data/matmatronch/";
+
 if ( isset($_REQUEST['id_utilisateur']) )
 {
   $user = new utilisateur($site->db,$site->dbrw);
@@ -480,9 +485,9 @@ elseif ( $_REQUEST["action"] == "serviceident" && $can_edit  )
   $user->gen_serviceident();
 }
 
-if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/data/matmatronch/") )
+if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/".$matmatronche_folder) )
 {
-  $dest_idt = "/data/matmatronch/".intval($user->id).".identity.jpg";
+  $dest_idt = "/".$matmatronche_folder.intval($user->id).".identity.jpg";
   if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )
   {
     $src = $_FILES['idtfile']['tmp_name'];
@@ -494,7 +499,7 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/data/matmatronc
     }
   }
 
-  $dest_mmt = "/data/matmatronch/".intval($user->id).".jpg";
+  $dest_mmt = "/".$matmatronche_folder.intval($user->id).".jpg";
   if( isset($_REQUEST['delete_mmt']) && file_exists($dest_mmt))
     unlink($dest_mmt);
   if ( is_uploaded_file($_FILES['mmtfile']['tmp_name'])  )
@@ -503,7 +508,7 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/data/matmatronc
     exec("/usr/share/php5/exec/convert " . escapeshellcmd($src) . " -thumbnail 225x300 " . escapeshellcmd($dest_mmt));
   }
 
-  $dest_idt = "/data/matmatronch/".intval($user->id).".identity.jpg";
+  $dest_idt = "/".$matmatronche_folder.intval($user->id).".identity.jpg";
   if(isset($_REQUEST['delete_idt']) && file_exists($dest_idt)
      && ($site->user->is_asso_role ( 27, 1 )
    || $site->user->is_in_group("gestion_ae")))
@@ -515,8 +520,8 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/data/matmatronc
 
 if ( $_REQUEST["action"] == "setblouse" && $can_edit )
 {
-  $dest = "/data/matmatronch/".intval($user->id).".blouse.jpg";
-  $dest_mini = "/data/matmatronch/".intval($user->id).".blouse.mini.jpg";
+  $dest = "/".$matmatronche_folder.intval($user->id).".blouse.jpg";
+  $dest_mini = "/".$matmatronche_folder.intval($user->id).".blouse.mini.jpg";
   if( isset($_REQUEST['delete_blouse']) && file_exists($dest))
   {
     unlink($dest);
@@ -785,9 +790,9 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_hidden("action","setphotos");
 
     $subfrm = new form("mmt",null,null,null,"Avatar");
-    if ( file_exists( $topdir."data/matmatronch/".intval($user->id).".jpg") )
+    if ( file_exists( $topdir.$matmatronche_folder.intval($user->id).".jpg") )
     {
-      $subfrm->add_info("<img src=\"".$topdir."data/matmatronch/".intval($user->id).".jpg?".filemtime($topdir."data/matmatronch/".intval($user->id).".jpg")."\" alt=\"\" width=\"100\" /><br/>");
+      $subfrm->add_info("<img src=\"".$topdir.$matmatronche_folder.intval($user->id).".jpg?".filemtime($topdir.$matmatronche_folder.intval($user->id).".jpg")."\" alt=\"\" width=\"100\" /><br/>");
     }
     $subfrm->add_file_field ( "mmtfile", "Fichier" );
     $subfrm->add_checkbox("delete_mmt","Supprimer mon avatar");
@@ -795,9 +800,9 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
 
     $subfrm = new form("idt",null,null,null,"Photo identit&eacute; (carte AE et matmatronch)");
 
-    if ( file_exists( $topdir."data/matmatronch/".intval($user->id).".identity.jpg") )
+    if ( file_exists( $topdir.$matmatronche_folder.intval($user->id).".identity.jpg") )
     {
-      $subfrm->add_info("<img src=\"".$topdir."data/matmatronch/".intval($user->id).".identity.jpg?".filemtime($topdir."data/matmatronch/".intval($user->id).".identity.jpg")."\" alt=\"\" width=\"100\" /><br/>");
+      $subfrm->add_info("<img src=\"".$topdir.$matmatronche_folder.intval($user->id).".identity.jpg?".filemtime($topdir.$matmatronche_folder.intval($user->id).".identity.jpg")."\" alt=\"\" width=\"100\" /><br/>");
 
       if ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae"))
       {
@@ -824,8 +829,8 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_hidden("action","setblouse");
     $subfrm = new form("blouse",null,null,null,"Photo de la blouse");
 
-    if ( file_exists( $topdir."data/matmatronch/".intval($user->id).".blouse.mini.jpg") )
-      $subfrm->add_info("<img src=\"".$topdir."data/matmatronch/".intval($user->id).".blouse.mini.jpg\" alt=\"\" width=\"100\" /><br/>");
+    if ( file_exists( $topdir.$matmatronche_folder.intval($user->id).".blouse.mini.jpg") )
+      $subfrm->add_info("<img src=\"".$topdir.$matmatronche_folder.intval($user->id).".blouse.mini.jpg\" alt=\"\" width=\"100\" /><br/>");
 
     $subfrm->add_file_field ( "blousefile", "Fichier" );
     $subfrm->add_checkbox("delete_blouse","Supprimer la photo de ma blouse");
@@ -1395,7 +1400,7 @@ else
   {
     $cts->add_title(2, "Cotisation AE");
 
-    if ($can_edit && !file_exists("/data/matmatronch/" . $user->id .".identity.jpg"))
+    if ($can_edit && !file_exists("/" . $matmatronche_folder . $user->id .".identity.jpg"))
       $cts->add_paragraph("<img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION</b>: " .
                           "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".intval($user->id).
                           "\">Photo d'identit&eacute; non pr&eacute;sente !</a>");

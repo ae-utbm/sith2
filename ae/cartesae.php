@@ -322,7 +322,7 @@ Votre carte AE est prête a être imprimée.
 Cependant vous ne disposez pas de photo d'identité sur votre profil pour figurer sur votre carte AE.
 
 Vous devez ajouter une photo d'identité à votre profil en vous rendant à l'adresse :
-    http://ae.utbm.fr/user.php?id_utilisateur=".$user->id."&see=photos&page=edit
+    http://ae.utbm.fr".$wwwtopdir."user.php?id_utilisateur=".$user->id."&see=photos&page=edit
 Votre carte AE sera désormais transmise pour impression.
 
 

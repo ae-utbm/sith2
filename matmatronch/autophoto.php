@@ -157,7 +157,7 @@ $frm->add_text_field("title","Titre du message");
 $frm->add_info("Bonjour,");
 $frm->add_text_area("message","Message","");
 $frm->add_info("Pour mettre à jour votre profil, et ajouter votre photo au format numérique en ligne, allez à l'adresse suivante :<br/>".
-        "http://ae.utbm.fr/majprofil.php?...<br/>".
+        "http://ae.utbm.fr".$wwwtopdir."majprofil.php?...<br/>".
         "<br/>".
         "L'équipe info AE");
 $frm->add_submit("valid","Envoyer");

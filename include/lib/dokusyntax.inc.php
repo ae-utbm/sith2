@@ -32,6 +32,7 @@
 
 require_once($topdir . "include/cts/planning2.inc.php");
 require_once($topdir . "include/entities/planning2.inc.php");
+require_once($topdir . "include/taiste.inc.php");
 
 class dokusyntax
 {
@@ -472,24 +473,24 @@ class dokusyntax
           return $file->get_html_link();
         }
         if ( !isset($match[2]) || $match[2] == "/download" )
-          $link = "https://ae.utbm.fr/d.php?action=download&amp;id_file=".$match[1];
+          $link = "https://ae.utbm.fr".$wwwtopdir."d.php?action=download&amp;id_file=".$match[1];
         elseif ( $match[2] == "/preview" )
-          $link = "https://ae.utbm.fr/d.php?action=download&amp;download=preview&amp;id_file=".$match[1];
+          $link = "https://ae.utbm.fr".$wwwtopdir."d.php?action=download&amp;download=preview&amp;id_file=".$match[1];
         elseif ( $match[2] == "/thumb" )
-          $link = "https://ae.utbm.fr/d.php?action=download&amp;download=thumb&amp;id_file=".$match[1];
+          $link = "https://ae.utbm.fr".$wwwtopdir."d.php?action=download&amp;download=thumb&amp;id_file=".$match[1];
         elseif ( $match[2] == "/info" )
-          $link = "https://ae.utbm.fr/d.php?id_file=".$match[1];
+          $link = "https://ae.utbm.fr".$wwwtopdir."d.php?id_file=".$match[1];
       }
       else
       {
         //les article://
-        $link = preg_replace("/article:\/\//i",'https://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
+        $link = preg_replace("/article:\/\//i","https://ae.utbm.fr".$wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
         //les wiki://
-        $link = preg_replace("/wiki:\/\//i",'https://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link);
+        $link = preg_replace("/wiki:\/\//i","https://ae.utbm.fr".$wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link);
         if( defined('CMS_ID_ASSO') )
           $link = preg_replace("/sas:\/\//i","images.php?/",$link);
         else
-          $link = preg_replace("/sas:\/\//i","https://ae.utbm.fr/sas2/images.php?/",$link);
+          $link = preg_replace("/sas:\/\//i","https://ae.utbm.fr".$wwwtopdir."sas2/images.php?/",$link);
       }
     }
     elseif ( !strpos($link,'mailto:') && !preg_match("#(\.|/)#",$link) )
@@ -1039,13 +1040,13 @@ class dokusyntax
     list($width,$height) = split('x',$sizes,2);
     $name=trim($name);
     //les dfiles://
-    $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i","https://ae.utbm.fr/d.php?action=download&download=preview&id_file=$1",$img);
-    $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i","https://ae.utbm.fr/d.php?action=download&download=thumb&id_file=$1",$img);
-    $img = preg_replace("/dfile:\/\//i","https://ae.utbm.fr/d.php?action=download&id_file=",$img);
+    $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i","https://ae.utbm.fr".$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$img);
+    $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i","https://ae.utbm.fr".$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$img);
+    $img = preg_replace("/dfile:\/\//i","https://ae.utbm.fr".$wwwtopdir."d.php?action=download&id_file=",$img);
     if( defined('CMS_ID_ASSO') )
       $img = preg_replace("/sas:\/\//i","images.php?/",$img);
     else
-      $img = preg_replace("/sas:\/\//i","https://ae.utbm.fr/sas2/images.php?/",$img);
+      $img = preg_replace("/sas:\/\//i","https://ae.utbm.fr".$wwwtopdir."sas2/images.php?/",$img);
 
     if ( preg_match("/\.flv$/i",$img) )
     {

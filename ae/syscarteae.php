@@ -62,7 +62,7 @@ if ( $_REQUEST["action"] == "genfact" )
   $factured_infos = array ('name' => "AE UTBM - Carte AE",
       'addr' => array("6 Boulevard Anatole France",
       "90000 BELFORT"),
-      'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
+      'logo' => "http://ae.utbm.fr".$wwwtopdir."images/Ae-blanc.jpg");
 
   $date_facturation = 'Période du '
                       .date("d/m/Y", mktime ( 0, 0, 0, substr($month,4), 1, substr($month,0,4)))
@@ -155,7 +155,7 @@ elseif ( $_REQUEST["action"] == "genonefact" )
   $factured_infos = array ('name' => "AE - UTBM",
        'addr' => array("6 Boulevard Anatole France",
            "90000 BELFORT"),
-       'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
+       'logo' => "http://ae.utbm.fr".$wwwtopdir."images/Ae-blanc.jpg");
 
   $facturing_infos = array ('name' => $asso->nom,
        'addr' => explode("\n",utf8_decode($asso->adresse_postale)));
