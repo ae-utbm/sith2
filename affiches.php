@@ -335,7 +335,7 @@ if ( $file->id > 0 )
 else
 {
   $frm->add_file_field("affiche_file","Affiche");
-  $frm->add_info("Fichier PNG ou JPEG");
+  $frm->add_info("Fichier PNG ou JPEG < 1 Mo");
 }
 
 if ($site->user->is_in_group("moderateur_site")) $frm->add_checkbox("automodere", "<b>Auto-modération</b>");
