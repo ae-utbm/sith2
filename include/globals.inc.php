@@ -226,7 +226,7 @@ function CheckEmail($email, $type = 0)
   return false;
 }
 
-/* obtention de la revision actuelle du site (subversion) */
+/* obtention de la revision actuelle du site (git) */
 function get_rev ()
 {
   return exec ("git log --pretty=format:'%h' -n 1");
