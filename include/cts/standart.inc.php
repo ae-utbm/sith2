@@ -995,8 +995,8 @@ class form extends stdcontents
    * @param $name    Nom du champ
    * @param $title    Libéllé
    * @param $values  Valeurs possibles (key=>Titre)
-   * @param $checked  Nom de la radio box activee par defaut
-   * @param $disabled  Nom de la radio box desactivee non active
+   * @param $value  Nom de la radio box activee par defaut
+   * @param $disabled  Nom de la radio box desactivee (non selectionnable)
    * @param $required  Précise si le champ est obligatoire
    * @param $imgs  Tableau associatif des items et des images
    */
@@ -1096,7 +1096,7 @@ class form extends stdcontents
 
 
   /**
-   * Ajoute une sleection d'entité par liste à choix au formulaire.
+   * Ajoute une selection d'entité par liste à choix au formulaire.
    * Exploité par add_entity_smartselect et add_entity_select
    *
    * @param $name    Nom du champ
@@ -1170,17 +1170,37 @@ class form extends stdcontents
     if ( $admin )
       $this->add_entity_select( "rights_id_group_admin", "Propri&eacute;taire", $basedb->db, "group",$basedb->id_groupe_admin);
 
-    $this->add_entity_select( "rights_id_group", "Groupe", $basedb->db, "group",$basedb->id_groupe);
+	if ($context == "files")
+	{
+		$this->add_entity_select( "rights_id_group", "Groupe", $basedb->db, "group", 10000); // ae-membres (id = 10000) sélectionné par défaut
+	}
+	else
+	{
+		$this->add_entity_select( "rights_id_group", "Groupe", $basedb->db, "group", $basedb->id_groupe);
+	}
+    
 
     $this->buffer .= "<div class=\"_right_opts\">";
 
-    $this->add_radiobox_field ( "__rights_lect", "Droits d'acc&egrave;s",
-            array( 0x111 => "Lecture par tous"),
-            $basedb->droits_acces & 0x111 );
-    $this->add_radiobox_field ( "__rights_lect", "",
+	if ($context == "files")
+	{
+		// Pourquoi 2 appels à add_radiobox_field et pas un seul avec les 2 champs passés dans values ?
+		$this->add_radiobox_field ( "__rights_lect", "",
+            array( 0x110 => "Lecture par les membres du groupe s&eacute;lectionn&eacute;"),
+            $basedb->droits_acces & 0x110 );
+		$this->add_radiobox_field ( "__rights_lect", "Droits d'acc&egrave;s",
+            array( 0x111 => "Lecture par tous (incluant les personnes non identifiées)"),
+			$basedb->droits_acces & 0x110 );
+	}
+	else
+	{
+		$this->add_radiobox_field ( "__rights_lect", "Droits d'acc&egrave;s",
+            array( 0x111 => "Lecture par tous (incluant les personnes non identifiées)"),
+			$basedb->droits_acces & 0x111 );
+		$this->add_radiobox_field ( "__rights_lect", "",
             array( 0x110 => "Lecture par les membres du groupe s&eacute;lectionn&eacute;"),
             $basedb->droits_acces & 0x111 );
-
+	}
     $this->buffer .= "</div>";
 
     /* Est-ce vraiment utile ?
