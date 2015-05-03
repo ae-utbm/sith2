@@ -24,6 +24,7 @@
 define('FPDF_FONTPATH', $topdir . 'font/');
 
 require_once($topdir . "include/lib/barcodefpdf.inc.php");
+require_once($topdir . "include/lib/phpqrcode/qrlib.php");
 
 class eticket_pdf extends FPDF
 {
@@ -55,15 +56,22 @@ class eticket_pdf extends FPDF
 
         $this->SetX (87);
         $this->Image ($user_infos['avatar'], null, null, 30, 35);
+		
         $this->Ln(5);
 
         $this->add_line ('Prénom:', $user_infos['prenom']);
         $this->add_line ('Nom:', $user_infos['nom']);
         $this->add_line ('Surnom:', $user_infos['nickname']);
 
-        $this->Ln(30);
+        $this->Ln(20);
+		
         $this->SetX (70);
         $this->add_code ($code);
+		
+		$this->Ln(20);
+		
+		$this->SetX (80);
+		$this->add_QRcode ($code);
     }
 
     function add_line($key, $value)
@@ -73,6 +81,7 @@ class eticket_pdf extends FPDF
         $this->Cell(60,9,utf8_decode($value), "B", 1, "R");
     }
 
+	// Add barcode
     function add_code ($code)
     {
         /* We try to use the same informations as carteae.inc.php */
@@ -81,13 +90,24 @@ class eticket_pdf extends FPDF
         if (!$barcode->DrawObject (0.25))
             echo "Error occured with barcode : ".$barcode->GetError ()."\n";
     }
-
+	
+	// Add QRcode
+	function add_QRcode ($code)
+    {
+        /* We try to use the same informations as carteae.inc.php */
+        $code = strtoupper ($code);
+		$tmpfname = $topdir . 'images/eticket/qrcodes/' . uniqid('qrc_') . '.png';
+		QRcode::png($code, $tmpfname, 'H', 4, 2);
+		$this->Image ($tmpfname);
+		unlink($tmpfname);
+    }
+	
     function Header ()
     {
         $this->SetFont('Arial','',12);
 
         $this->Image ($this->img_header, null, null, 0, 0, 'JPG');
-        $this->Ln(40);
+        $this->Ln(30);
     }
 
     /* Met le bandeau des partenaires en footer */

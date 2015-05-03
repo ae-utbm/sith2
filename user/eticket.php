@@ -81,7 +81,8 @@ $eticket_pdf = new eticket_pdf ($file->get_real_filename ());
 $eticket_pdf->renderize (array ('prenom' => $user->prenom,
                                 'nom' => $user->nom,
                                 'nickname' => $user->surnom,
-                                'avatar' => $topdir . str_replace ("unknown.png", "unknown.jpg", $user->get_preview ())), $code);
+                                'avatar' => $topdir . str_replace ("unknown.png", "unknown.jpg", $user->get_preview ())),
+						$code);
 $eticket_pdf->Output ('eticket_'.$id_ticket.'.pdf', 'D');
 
 ?>
