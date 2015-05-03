@@ -96,7 +96,7 @@ class eticket_pdf extends FPDF
     {
         /* We try to use the same informations as carteae.inc.php */
         $code = strtoupper ($code);
-		$tmpfname = $topdir . 'images/eticket/qrcodes/' . uniqid('qrc_') . '.png';
+		$tmpfname = uniqid('qrc_') . '.png';
 		QRcode::png($code, $tmpfname, 'H', 4, 2);
 		$this->Image ($tmpfname);
 		unlink($tmpfname);
