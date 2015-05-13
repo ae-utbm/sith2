@@ -30,8 +30,8 @@ $wwwtopdir = "";
 
 if (!strncmp('/var/www/taiste', $_SERVER['SCRIPT_FILENAME'], 15)) {
 	$GLOBALS["taiste"] = true;
-	$GLOBALS["wwwtopdir"] = "/taiste/";
-	$wwwtopdir = "/taiste/";
+	$GLOBALS["wwwtopdir"] = "/";
+	$wwwtopdir = "/";
 	$fstopdir = $_SERVER['DOCUMENT_ROOT'] . "/../taiste/";
 }
 

@@ -154,7 +154,7 @@ class interfaceweb
         /* Check if user is connected */
         if (!$this->user->is_valid()) {
             if ($GLOBALS["taiste"])
-                $frm = new form("connect", "/taiste/connect.php", true, "POST", "Connexion");
+                $frm = new form("connect", $GLOBALS['wwwtopdir']."/connect.php", true, "POST", "Connexion");
             else
                 $frm = new form("connect", "/connect.php", true, "POST", "Connexion");
             $frm->add_select_field("domain",
@@ -388,7 +388,7 @@ class interfaceweb
             //else
             //  $url = "http://ae.utbm.fr";
             if ($GLOBALS["taiste"])
-                $url .= "/taiste/";
+                $url = "https://ae-taiste.utbm.fr";
 
             if (defined("MOBILE"))
                 $url .= 'm/';
@@ -459,7 +459,7 @@ class interfaceweb
                             $this->buffer .= "menu_utilisateur[$i]='<a href=\"" . $topdir . "ae/infotodo.php\">Tâches équipe info</a>';";
                         }
                         $i++;
-                        $this->buffer .= "menu_utilisateur[$i]='<a href=\"/taiste/\">/taiste</a>';";
+                        $this->buffer .= "menu_utilisateur[$i]='<a href=\"https://ae-taiste.utbm.fr/\">Taiste</a>';";
                     }
                     $i++;
                     if ($this->user->utbm) {
