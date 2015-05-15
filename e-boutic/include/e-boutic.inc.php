@@ -1,4 +1,5 @@
-<?
+<?php
+
 /**
  * @brief La classe e-boutic permettant le design du site de la
  * boutique en ligne.

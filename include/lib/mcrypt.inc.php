@@ -1,4 +1,5 @@
-<?
+<?php
+
 /** @file
  *
  * @brief fonctions de cryptographie mcrypt permettant

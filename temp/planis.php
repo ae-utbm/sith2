@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('RAYON_TERRE', 6400);
 

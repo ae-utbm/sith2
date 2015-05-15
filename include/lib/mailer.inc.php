@@ -1,4 +1,5 @@
-<?
+<?php
+
 class mailer
 {
   private $to       = array();

@@ -1,4 +1,5 @@
-<?
+<?php
+
 exit();
 
 $_SERVER['SCRIPT_FILENAME']="/var/www/ae2/phpcron";

@@ -1,4 +1,4 @@
-<?
+<?php
 /* Copyright 2009
  * - Simon Lopez < simon dot lopez at ayolo dot org >
  *

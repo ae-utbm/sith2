@@ -1,4 +1,5 @@
-<?
+<?php
+
 /** @file
  *
  * @brief Gestion du planning par semestre, fourni par

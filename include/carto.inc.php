@@ -1,4 +1,5 @@
-<?
+<?php
+
 /*
  *  Placement de points sur une carte de France - projet ultra
  *  expérimental

@@ -1,4 +1,5 @@
-<?
+<?php
+
 /* Copyright 2010
  * - Jérémie Laval < jeremie dot laval at gmail dot com >
  *

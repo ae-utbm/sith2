@@ -1,4 +1,5 @@
-<?
+<?php
+
 /*
  * @brief Classe de traçage d'objets géographiques.
  *

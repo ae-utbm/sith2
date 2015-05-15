@@ -1,4 +1,5 @@
-<?
+<?php
+
 /** @file
  *
  * @brief Classe d'HTTP Post

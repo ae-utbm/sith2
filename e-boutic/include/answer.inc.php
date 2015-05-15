@@ -1,4 +1,5 @@
-<?
+<?php
+
 /** @file
  *
  * @brief Classe answer, g�rant l'analyse de la r�ponse des serveurs

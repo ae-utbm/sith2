@@ -1,4 +1,5 @@
-<?
+<?php
+
 /** @file
  *
  * @brief Succès du paiement. en principe pas grand chose à faire,

@@ -1,4 +1,5 @@
-<?
+<?php
+
 /*
  * Generation de facture pdf a la volee
  *

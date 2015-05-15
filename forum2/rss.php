@@ -1,4 +1,5 @@
-<?
+<?php
+
 /*
  * FORUM2 - flux rss
  *

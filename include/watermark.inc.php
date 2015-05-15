@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** @file
  * Generation d'images watermarkees AE

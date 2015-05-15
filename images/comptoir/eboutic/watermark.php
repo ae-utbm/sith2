@@ -1,4 +1,5 @@
-<?
+<?php
+
 /** @file
  *
  * @brief Generation d'images watermarkees

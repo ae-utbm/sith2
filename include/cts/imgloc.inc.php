@@ -1,4 +1,5 @@
-<?
+<?php
+
 /*
  * @brief Classe de traçage de lieux, basé sur l'utilisation de la
  * clase imgcarto. Cette classe a par ailleurs pour objectif de lier

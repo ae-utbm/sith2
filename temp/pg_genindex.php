@@ -1,4 +1,5 @@
-<?
+<?php
+
 // Exceptionnellement encodé en ISO Latin 1 (encodage du PG)
 
 

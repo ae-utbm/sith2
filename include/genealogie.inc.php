@@ -1,4 +1,5 @@
-<?
+<?php
+
 /** @file
  * Generation d'images d'arbre genealogique
  *

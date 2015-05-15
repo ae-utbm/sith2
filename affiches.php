@@ -1,4 +1,5 @@
-<?
+<?php
+
 /* Copyright 2010
  * - Julien Etelain < julien at pmad dot net >
  * - Pierre Mauduit

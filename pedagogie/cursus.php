@@ -1,4 +1,5 @@
-<?
+<?php
+
 /* Copyright 2007
  * - Manuel Vonthron < manuel DOT vonthron AT acadis DOT org >
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>

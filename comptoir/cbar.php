@@ -1,4 +1,5 @@
-<?
+<?php
+
 $topdir = "../";
 
 include($topdir."include/lib/barcode.inc.php");
