@@ -208,7 +208,7 @@ if ( count($cts->wiki->index["childs"]) )
       foreach($itm["childs"] as $sitm)
         {
           if (count($sitm["childs"]) )
-            $lst->add(make_index(&$sitm));
+            $lst->add(make_index($sitm));
           else
             $lst->add("<a href=\"#".$sitm["ancre"]."\">".$sitm["title"]."</a>");
         }

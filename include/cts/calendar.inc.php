@@ -65,7 +65,7 @@ class calendar extends stdcontents
     $this->db = $db;
     $this->subclass=$subclass;
     /* Si les paramètres temporels sont donnés, on les utilise */
-    if ($_GET['caldate'] != "")
+    if (isset($_GET['caldate']) && $_GET['caldate'] != "")
       $this->date = strtotime($_GET['caldate']);
 
     /* Sinon, on prend le timestamp courant */

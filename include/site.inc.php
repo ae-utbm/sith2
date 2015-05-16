@@ -56,7 +56,8 @@ class site extends interfaceweb
   {
     global $timing;
     $timing["includes"] = microtime(true)+$timing["all"];
-    $timing["site::site"] -= microtime(true);
+    if(isset($timing["site::site"])) $timing["site::site"] -= microtime(true);
+    else $timing["site::site"] = 0;
 
     $this->siteae=$siteae;
 

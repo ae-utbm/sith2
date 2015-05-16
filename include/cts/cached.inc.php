@@ -30,7 +30,9 @@ class cachedcontents extends stdcontents
 
     public function is_cached()
     {
-        return $this->redis->exists($this->uid) && !isset($_GET["__nocache"]);
+	if($this->redis != NULL)
+            return $this->redis->exists($this->uid) && !isset($_GET["__nocache"]);
+	return false;
     }
 
     public function get_cache()
@@ -55,35 +57,44 @@ class cachedcontents extends stdcontents
         $this->title = $contents->title;
         $this->buffer = "<!-- C".date ("d/m/Y H:i:s")." -->".$contents->html_render();
 
-	if($contents->is_cachable())
+	if($contents->is_cachable() && $this->redis != NULL)
         	$this->redis->set ($this->uid, $this->title."\n".$this->buffer);
         return $this;
     }
 
     public function set_contents_timeout ( &$contents, $timestamp )
     {
-        $this->set_contents ($contents);
-        $this->redis->expireAt ($this->uid, $timestamp);
+	if($this->redis != NULL) {
+            $this->set_contents ($contents);
+            $this->redis->expireAt ($this->uid, $timestamp);
 
-        return $this;
+            return $this;
+	} else {
+	    return false;
+        }
     }
 
     public function set_contents_until ( &$contents, $seconds )
     {
-        $this->set_contents ($contents);
-        $this->redis->expire ($this->uid, $seconds);
+	if($this->redis != NULL) {
+            $this->set_contents ($contents);
+            $this->redis->expire ($this->uid, $seconds);
 
-        return $this;
+            return $this;
+	} else {
+	    return false;
+        }
     }
 
     private function get_redis_instance ()
     {
         $redis = redis_open_connection ();
-        $redis->select (1);
-        return $redis;
-    }
-
-    /**
+	if($redis != NULL)
+            $redis->select (1);
+        return $redis;    
+    }                     
+                          
+    /**                   
      * Mise en cache automatique d'un stdcontent générant son code HTML uniquement
      * lors de l'appel à html_render().
      * C'est aussi un bon exemple de l'usage de cachedcontents.

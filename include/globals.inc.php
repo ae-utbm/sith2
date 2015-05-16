@@ -42,6 +42,13 @@ $conf=array(
   'htmlok'=>false
 );
 
+$timing=array(
+  'all'=>0,
+  'site::start_page'=>0,
+  'render'=>0,
+  'mysql'=>0,
+  'mysql.counter'=>0);
+
 
 /** Convertit la date en une chaîne human readable
  *

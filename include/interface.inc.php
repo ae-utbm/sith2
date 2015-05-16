@@ -28,7 +28,8 @@
  * 02111-1307, USA.
  */
 
-$timing["all"] -= microtime(true);
+if (isset($timing["all"])) $timing["all"] -= microtime(true);
+else $timing["all"] = 0;
 
 setlocale(LC_ALL, "fr_FR.UTF8");
 
@@ -748,7 +749,7 @@ class interfaceweb
         if ($this->get_param("backup_server", true)) {
             $this->buffer .= "<div id=\"topalert\">";
             $this->buffer .= "<img width=\"16\" height=\"16\" src=\"" . $wwwtopdir . "themes/default/images/exclamation.png\" />";
-            $this->buffer .= "Le système fonctionne actuellement sur le serveur de secours, " .
+            $this->buffer .= "Le système fonctionne actuellement en mode minimaliste, " .
                 "veuillez limiter vos actions au strict minimum.";
             $this->buffer .= "</div>";
         } elseif ($this->get_param("warning_enabled", true)) {
@@ -868,7 +869,8 @@ class interfaceweb
         while (list($id, $name) = $req->get_row())
             $this->params[$id] = $name;
 
-        $this->params["backup_server"] = serialize($_SERVER["BACKUP_AE_SERVER"]);
+	if(isset($_SERVER["BACKUP_AE_SERVER"]))
+            $this->params["backup_server"] = serialize($_SERVER["BACKUP_AE_SERVER"]);
     }
 
     /**
