@@ -253,12 +253,12 @@ class operation extends stdentity
 		{
 			$req = new update($this->dbrw,
 						"cpta_operation",
-						array("op_effctue"=>$done),
+						array("op_effctue"=>$done, "date_op"=>date("Y-m-d")),
 						array("id_op"=>$this->id_op_liee));
 		}
 		$req = new update($this->dbrw,
 					"cpta_operation",
-					array("op_effctue"=>$done),
+					array("op_effctue"=>$done, "date_op"=>date("Y-m-d")),
 					array("id_op"=>$this->id));
 		$this->effectue=$done;
 	}
