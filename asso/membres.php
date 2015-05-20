@@ -90,7 +90,16 @@ elseif ( $_REQUEST["action"]=="add" && $can_admin)
     $ErreurAdd = "Utilisateur NON Cotisant AE";
 
   else if ( ($_REQUEST["date_debut"] <= time()) && ($_REQUEST["date_debut"] > 0) )
+  {
     $asso->add_actual_member ( $user->id, $_REQUEST["date_debut"], $_REQUEST["role"], $_REQUEST["role_desc"] );
+
+    /* Si on ajoute un responsable à l'association laverie, celui-ci est ajouté au groupe gestion_machines */
+    if ( $asso->id == 84 && $_REQUEST["role"] == ROLEASSO_PRESIDENT )
+      $user->add_to_group(30);
+    /* Si on ajoute un membre_actif ou supérieur à l'association laverie, celui-ci est ajouté au groupe jetons_laverie */
+    else if ( $asso->id == 84  && $_REQUEST["role"] >= ROLEASSO_MEMBREACTIF )
+      $user->add_to_group(61);
+  }
 
   else
     $ErreurAddMe = "Données invalides";
@@ -119,11 +128,29 @@ elseif ( $_REQUEST["action"]=="delete" && $can_admin)
   list($id_utilisateur,$date_debut) = explode(",",$_REQUEST["id_membership"]);
   $date_debut = strtotime($date_debut);
   $asso->remove_member($id_utilisateur,$date_debut);
+
+  /* Si on est dans l'association laverie, alors on retire également les groupes jetons_laverie et gestion_machines */
+  if ( $asso->id == 84 )
+  {
+    $user = new utilisateur($site->db);
+    $user->load_by_id($id_utilisateur);
+    $user->remove_from_group(30);
+    $user->remove_from_group(61);
+  }
 }
 elseif ( $_REQUEST["action"]=="ancien" && $can_admin)
 {
   list($id_utilisateur,$date_debut) = explode(",",$_REQUEST["id_membership"]);
   $asso->make_former_member($id_utilisateur,time());
+
+  /* Si on est dans l'association laverie, alors on retire également les groupes jetons_laverie et gestion_machines */
+  if ( $asso->id == 84 )
+  {
+    $user = new utilisateur($site->db);
+    $user->load_by_id($id_utilisateur);
+    $user->remove_from_group(30);
+    $user->remove_from_group(61);
+  }
 }
 elseif ( $_REQUEST["action"]=="deletes" && $can_admin)
 {
@@ -132,6 +159,15 @@ elseif ( $_REQUEST["action"]=="deletes" && $can_admin)
     list($id_utilisateur,$date_debut) = explode(",",$id_membership);
     $date_debut = strtotime($date_debut);
     $asso->remove_member($id_utilisateur,$date_debut);
+
+    /* Si on est dans l'association laverie, alors on retire également les groupes jetons_laverie et gestion_machines */
+    if ( $asso->id == 84 )
+    {
+      $user = new utilisateur($site->db);
+      $user->load_by_id($id_utilisateur);
+      $user->remove_from_group(30);
+      $user->remove_from_group(61);
+    }
   }
 }
 elseif ( $_REQUEST["action"]=="anciens" && $can_admin)
@@ -140,6 +176,15 @@ elseif ( $_REQUEST["action"]=="anciens" && $can_admin)
   {
     list($id_utilisateur,$date_debut) = explode(",",$id_membership);
     $asso->make_former_member($id_utilisateur,time());
+
+    /* Si on est dans l'association laverie, alors on retire également les groupes jetons_laverie et gestion_machines */
+    if ( $asso->id == 84 )
+    {
+      $user = new utilisateur($site->db);
+      $user->load_by_id($id_utilisateur);
+      $user->remove_from_group(30);
+      $user->remove_from_group(61);
+    }
   }
 }
 elseif ( $_REQUEST["action"]=="addme" && $asso->id_parent )
