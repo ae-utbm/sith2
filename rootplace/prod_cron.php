@@ -38,6 +38,7 @@ $site->start_page("none","Administration / passage en prod");
 $cts = new contents("<a href=\"./\">Administration</a> / Passage en production");
 $tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),
               array("refreshdb","rootplace/prod_cron.php?view=refreshdb","Rafraichir taiste"),
+              array("branch","rootplace/prod_cron.php?view=branch","Changer taiste de branche"),
               array("script","rootplace/prod_cron.php?view=script","Script de passage en prod"),
               array("commit","rootplace/prod_cron.php?view=commit","Script de post commit"),
               array("refreshdbscript","rootplace/prod_cron.php?view=refreshdbscript","Script de refresh de taiste"));
@@ -173,6 +174,28 @@ else if ($_REQUEST["view"] == "refreshdb")
     $frm->add_submit("valid","Valider");
     $cts->add($frm,true);
   }
+}
+else if ($_REQUEST["view"] == "branch")
+{
+  if ($GLOBALS["taiste"])
+  {
+    exec("git branch", $output);
+    $branches = array();
+    foreach($output as $line)
+    {
+      $branches[substr($line, 2)] = substr($line, 2);
+      if($line[0] == "*")
+        $current_branch = substr($line, 2);
+    }
+
+    $frm = new form("changebranch", "prod_cron.php", false, "POST", "Changer la branche de taiste");
+    $frm->add_select_field("selected_branch","Choix de la branche",$branches,$current_branch);
+    $frm->add_hidden("action","changebranch");
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
+  }
+  else
+    $cts->add_paragraph("<b>Passez sur taiste pour pouvoir changer la branche de taiste.</b>");
 }
 else
 {
