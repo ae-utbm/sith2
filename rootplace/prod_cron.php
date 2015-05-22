@@ -24,6 +24,7 @@
 define("PROD_CRON", "/var/www/cron_update.sh");
 define("PROD_SCRIPT", "/var/www/update-official-www.sh");
 define("POST_COMMIT_SCRIPT", "/data/svn/ae2/hooks/post-commit");
+define("POST_UPDATE_SCRIPT", "/var/www/post-update ");
 define("REFRESH_TAISTE", "/var/www/refresh-taiste-database.sh");
 $topdir="../";
 
@@ -42,6 +43,7 @@ $tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),
               array("script","rootplace/prod_cron.php?view=script","Script de passage en prod"),
               array("commit","rootplace/prod_cron.php?view=commit","Script de post commit"),
               array("refreshdbscript","rootplace/prod_cron.php?view=refreshdbscript","Script de refresh de taiste"));
+
 
 if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
 {
@@ -104,6 +106,11 @@ if ( $_REQUEST["action"] == "refreshdbscript" && $GLOBALS["svalid_call"] )
     }
   }
 }
+if ( $_REQUEST["action"] == "changebranch" && $GLOBALS["svalid_call"] )
+{
+    @exec(POST_UPDATE_SCRIPT . htmlspecialchars_decode($_REQUEST["selected_branch"]), $output);
+    $Ok=true;
+}
 
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 $cts->add_paragraph("Révision en production : ".get_rev());
@@ -116,6 +123,8 @@ if ( $Ok )
     $cts->add_paragraph("Script de post commit modifié");
   elseif( $_REQUEST["action"] == "refreshdbscript" )
     $cts->add_paragraph("Script de refresh modifié");
+  else if( $_REQUEST["action"] == "changebranch" )
+    $cts->add_paragraph("La branch de taiste a bien été modifiée");
 }
 
 if($_REQUEST["view"]=="script")
@@ -179,7 +188,7 @@ else if ($_REQUEST["view"] == "branch")
 {
   if ($GLOBALS["taiste"])
   {
-    exec("git branch", $output);
+    @exec("git branch", $output);
     $branches = array();
     foreach($output as $line)
     {
@@ -190,12 +199,13 @@ else if ($_REQUEST["view"] == "branch")
 
     $frm = new form("changebranch", "prod_cron.php", false, "POST", "Changer la branche de taiste");
     $frm->add_select_field("selected_branch","Choix de la branche",$branches,$current_branch);
+    $frm->allow_only_one_usage();
     $frm->add_hidden("action","changebranch");
     $frm->add_submit("valid","Valider");
     $cts->add($frm,true);
   }
   else
-    $cts->add_paragraph("<b>Passez sur taiste pour pouvoir changer la branche de taiste.</b>");
+    $cts->add_paragraph("<b>Il faut être sur taiste pour pouvoir changer la branche de taiste.</b>");
 }
 else
 {
