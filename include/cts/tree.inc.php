@@ -76,7 +76,7 @@ class treects extends itemlist
     else
       $this->title = $title;
 
-    $this->tree_itere(&$this,$start);
+    $this->tree_itere($this,$start);
 
   }
 
@@ -108,7 +108,7 @@ class treects extends itemlist
         {
           $this->data[$sid]["done"]=1;
           $nitm = new itemlist($title);
-          $this->tree_itere(&$nitm,$sid);
+          $this->tree_itere($nitm,$sid);
           $itm->add($nitm);
         }
       }

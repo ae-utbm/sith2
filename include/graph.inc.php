@@ -297,7 +297,7 @@ class graphic
     //$info=array();
     //$ret=0;
 
-    exec ("/usr/share/php5/exec/gnuplot-4.2 " .$this->conf_file/*,$info,$ret*/);
+    exec ("/usr/bin/gnuplot " .$this->conf_file/*,$info,$ret*/);
     //print_r($info);
     //echo $ret;
   }
@@ -314,7 +314,6 @@ class graphic
     $img_wmarked = new img_watermark (imagecreatefrompng($this->img_file));
     $img_wmarked->save_image($this->img_file);
     $img_wmarked->destroy();
-
 
     header("Pragma: public");
     header("Expires: 0");
@@ -395,7 +394,7 @@ class histogram
 
   function png_render ()
   {
-    exec ("/usr/share/php5/exec/gnuplot-4.2 " .$this->conf_file);
+    exec ("/usr/bin/gnuplot " .$this->conf_file);
 
     /* tunage sauce AE */
     $img_wmarked = new img_watermark (imagecreatefrompng($this->img_file));
