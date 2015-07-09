@@ -49,6 +49,11 @@ $timing=array(
   'mysql'=>0,
   'mysql.counter'=>0);
 
+/**
+ * Chemin vers les differents programmes externes
+ */
+
+$CONVERT="/usr/bin/convert ";
 
 /** Convertit la date en une chaîne human readable
  *
