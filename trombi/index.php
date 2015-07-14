@@ -700,7 +700,7 @@ else
 
     foreach ( $commentaires as $row )
     {
-      $cts->add(new comment_contents(&$row, $site->user->id, $is_user_moderator));
+      $cts->add(new comment_contents($row, $site->user->id, $is_user_moderator));
     }
 
   }
