@@ -128,7 +128,7 @@ class fsearch extends stdcontents
          ' FROM utilisateurs' .
          ' LEFT JOIN utl_etu USING ( id_utilisateur )' .
          ' WHERE CONCAT(nom_utl,\' \',prenom_utl) REGEXP \'^'.$sqlpattern.'\' '.$force_sql .
-         ' LIMIT 3');
+         ' LIMIT 10');
 
         $this->buffer .= "<h2>Personnes</h2>";
         $this->buffer .= "<ul>";
@@ -168,7 +168,7 @@ class fsearch extends stdcontents
       "LEFT JOIN tag USING (id_tag) " .
       "WHERE (nom_asso REGEXP '".$sqlpattern."' ".
       " OR nom_tag REGEXP '".$sqlpattern."') " .
-      "AND `hidden`=0 LIMIT 3");
+      "AND `hidden`=0 LIMIT 6");
 
     if ( $req->lines ) {
       $this->nb += $req->lines;
