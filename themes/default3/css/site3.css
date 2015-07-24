@@ -831,6 +831,7 @@ div.article
     margin-bottom: 10px;
     clear: both;
     position:relative;
+    font-family: arial, sans-serif;
 }
 div.article a
 {
@@ -872,30 +873,33 @@ div.article h1 a
 div.article h2
 {
     font-size: 120%;
-    font-family: arial, sans-serif;
     padding-bottom: 0.2em;
     border-bottom: 1px #000000 solid;
     margin-bottom: 1em;
     margin-top: 2em;
 }
-div.article div.level2
-{
-    margin-left:0.2em;
-    font-family: arial, sans-serif;
-}
 div.article h3
 {
     font-size: 110%;
-    font-family: arial, sans-serif;
     border-bottom: 1px #000000 solid;
     margin-bottom: 1em;
     margin-top: 2em;
-    margin-left:1em;
+    margin-left:0.7em;
+}
+div.article h4 {
+    margin-left: 1.4em;
+}
+div.article div.level2
+{
+    margin-left:0.2em;
 }
 div.article div.level3
 {
     margin-left:1.2em;
-    font-family: arial, sans-serif;
+}
+div.article div.level4
+{
+    margin-left:1.4em;
 }
 div.article img
 {
