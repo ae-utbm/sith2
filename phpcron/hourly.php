@@ -13,14 +13,15 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
 
-$site = new site ();
-
 // Tâche 1 [galaxy] : màj, et cycles
 
 
 require_once($topdir. "include/galaxy.inc.php");
 
 $galaxy = new galaxy($site->db,$site->dbrw);
+
+if (!$galaxy->is_ready_public())
+  $galaxy->init();
 
 $galaxy->update();
 

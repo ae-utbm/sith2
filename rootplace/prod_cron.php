@@ -1,7 +1,8 @@
 <?php
 
-/* Copyright 2007
+/* Copyright 2007-2015
  * - Julien Etelain < julien at pmad dot net >
+ * - Florent Jacquet (Skia) < lordbanana25 at mailoo dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.

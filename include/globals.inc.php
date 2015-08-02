@@ -6,10 +6,11 @@
  *
  */
 
-/* Copyright 2004
+/* Copyright 2004-2015
  * - Alexandre Belloni <alexandre POINT belloni CHEZ utbm POINT fr>
  * - Thomas Petazzoni <thomas POINT petazzoni CHEZ enix POINT org>
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
+ * - Florent Jacquet (Skia) < lordbanana25 at mailoo dot org >
  *
  * Ce fichier fait partie du site de l'Association des Ãtudiants de
  * l'UTBM, http://ae.utbm.fr.
