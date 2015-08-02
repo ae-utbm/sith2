@@ -127,6 +127,18 @@ class wiki extends basedb
   function load_by_fullpath ( $fullpath )
   {
 
+    $req = new requete($this->db, "SELECT wiki.id_wiki, MAX(`id_rev`) as max
+FROM `wiki`
+INNER JOIN `wiki_rev`
+ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` )
+WHERE `wiki`.`fullpath_wiki` = '" . mysql_real_escape_string($fullpath) . "'");
+
+    $row = $req->get_row();
+    $max = $row['max'];
+    $wiki = $row['id_wiki'];
+
+    new update($this->dbrw,"wiki",array("id_rev_last"=>$max),array("id_wiki"=>$wiki));
+
     $req = new requete($this->db, "SELECT *
         FROM `wiki`
         INNER JOIN `wiki_rev`
