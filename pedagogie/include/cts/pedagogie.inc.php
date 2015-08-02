@@ -274,7 +274,7 @@ function last_comments_box(&$db, $nb=5)
 {
   $cts = new contents("Commentaires");
 
-  $sql = new requete(&$db, "SELECT id_uv as id, id_commentaire, code, surnom_utbm
+  $sql = new requete($db, "SELECT id_uv as id, id_commentaire, code, surnom_utbm
                             FROM pedag_uv_commentaire
                             NATURAL JOIN pedag_uv
                             NATURAL JOIN utl_etu_utbm

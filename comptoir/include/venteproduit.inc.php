@@ -166,7 +166,7 @@ class venteproduit extends stdentity
    */
   function charge ( $produit, $comptoir )
   {
-    if ( !$this->_charge(&$produit,&$comptoir) )
+    if ( !$this->_charge($produit,$comptoir) )
       return false;
     if ($produit->action == ACTION_VSTOCKLIM || $produit->action == ACTION_PASS )
       if ($this->stock_local == 0 || $produit->stock_global == 0)
