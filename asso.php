@@ -129,9 +129,9 @@ else if ( isset($_REQUEST["id_asso"]) )
         $dest_icon = "/var/www/ae2/data/img/logos/".$asso->nom_unix.".icon.png";
         $dest_full = "/var/www/ae2/data/img/logos/".$asso->nom_unix.".jpg";
 
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 80x80 $dest_small"));
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -resize 48x48 -size 48x48 xc:transparent +swap -gravity center -composite $dest_icon"));
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -background white $dest_full"));
+        exec(escapeshellcmd("/usr/bin/convert $src -thumbnail 80x80 $dest_small"));
+        exec(escapeshellcmd("/usr/bin/convert $src -resize 48x48 -size 48x48 xc:transparent +swap -gravity center -composite $dest_icon"));
+        exec(escapeshellcmd("/usr/bin/convert $src -background white $dest_full"));
       }
       else
         $ErreurLogo = "Erreur lors de l'upload";
