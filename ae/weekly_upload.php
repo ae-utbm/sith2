@@ -68,9 +68,9 @@ if ( is_dir("/var/www/var/img") && $_REQUEST["action"] == "setplanning" )
       else
       {
         $src = $_FILES['file']['tmp_name'];
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 140x100 -quality 95 \"$dest_small\""));
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 680x510 -quality 95 \"$dest_diapo\""));
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -quality 95 \"$dest_full\""));
+        exec(escapeshellcmd("/usr/bin/convert $src -thumbnail 140x100 -quality 95 \"$dest_small\""));
+        exec(escapeshellcmd("/usr/bin/convert $src -thumbnail 680x510 -quality 95 \"$dest_diapo\""));
+        exec(escapeshellcmd("/usr/bin/convert $src -quality 95 \"$dest_full\""));
         $cts->add_title(2,"Planning mis à jour");
         $cts->add_paragraph("<p><img src=\"".$topdir."images/actions/done.png\">Le planning a été correctement mis à jour.</p>");
       }
@@ -132,9 +132,9 @@ if ( is_dir("/var/www/var/img") && $_REQUEST["action"] == "setweekly_photo" )
         $dest_diapo = "/var/www/var/img/com/weekly_photo-diapo.jpg";
         $dest_full  = "/var/www/var/img/com/weekly_photo.jpg";
 
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 140x100 -quality 95 \"$dest_small\""));
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 680x510 -quality 95 \"$dest_diapo\""));
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -quality 95 \"$dest_full\""));
+        exec(escapeshellcmd("/usr/bin/convert $src -thumbnail 140x100 -quality 95 \"$dest_small\""));
+        exec(escapeshellcmd("/usr/bin/convert $src -thumbnail 680x510 -quality 95 \"$dest_diapo\""));
+        exec(escapeshellcmd("/usr/bin/convert $src -quality 95 \"$dest_full\""));
 
         $cts->add_title(2,"Photo de la semaine mis à jour");
         $cts->add_paragraph("<p><img src=\"".$topdir."images/actions/done.png\">La photo de la semaine a été correctement mis à jour.</p>");
