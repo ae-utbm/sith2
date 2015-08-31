@@ -128,11 +128,13 @@ function add_new_form($id = null)
               2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3",
               3 => "Cursus Branche, 45 €, jusqu'au $date4",
               4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2",
-              5 => "Cotisation par Assidu, 4€, jusqu'au $date2",
-              6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2",
+              5 => "Cotisation par Assidu, 0€, jusqu'au $date2",
+              6 => "Cotisation par l'Amicale, 0€, jusqu'au $date2",
               7 => "Cotisation réseau UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire",
-              8 => "Cotisation CROUS, 4€, jusqu'au $date2",
-              9 => "Cotisation Sbarro, 15€, jusqu'au $date2",
+              8 => "Cotisation CROUS, 0€, jusqu'au $date2",
+              9 => "Cotisation Sbarro/ESTA, 15€, jusqu'au $date2",
+              10 => "Cursus Alternant, 30 €, jusqu'au $date4",
+
       ),1);
   $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
   $sub_frm_cotiz->add_info("&nbsp;");
@@ -292,19 +294,22 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
       $prix_paye = 0;
     } elseif ( $_REQUEST["cotiz"] == 5 ) {
       $date_fin = strtotime($date2);
-      $prix_paye = 400;
+      $prix_paye = 0;
     } elseif ( $_REQUEST["cotiz"] == 6 ) {
       $date_fin = strtotime($date2);
-      $prix_paye = 400;
+      $prix_paye = 0;
     } elseif ( $_REQUEST["cotiz"] == 7 ) {
       $date_fin = strtotime($date1);
       $prix_paye = 0;
     } elseif ( $_REQUEST["cotiz"] == 8 ) {
       $date_fin = strtotime($date2);
-      $prix_paye = 400;
+      $prix_paye = 0;
     } elseif ( $_REQUEST["cotiz"] == 9 ) {
       $date_fin = strtotime($date2);
       $prix_paye = 1500;
+    } elseif ( $_REQUEST["cotiz"] == 10 ) {
+      $date_fin = strtotime($date4);
+      $prix_paye = 3000;
     } else {
       $list->add("Le type de cotisation n'est pas valide");
       $site->add_contents($info);
@@ -495,11 +500,12 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                   2 => "Cursus Tronc Commun, 45 €, jusqu'au $date3",
                   3 => "Cursus Branche, 45 €, jusqu'au $date4",
                   4 => "Membre honoraire ou occasionnel, 0 €, jusqu'au $date2",
-                  5 => "Cotisation par Assidu, 4€, jusqu'au $date2",
-                  6 => "Cotisation par l'Amicale, 4€, jusqu'au $date2",
+                  5 => "Cotisation par Assidu, 0€, jusqu'au $date2",
+                  6 => "Cotisation par l'Amicale, 0€, jusqu'au $date2",
                   7 => "Cotisation inter UT, 0€, jusqu'au $date1, preuve de cotisation nécessaire",
-                  8 => "Cotisation CROUS, 4€, jusqu'au $date2",
-                  9 => "Cotisation Sbarro, 15€, jusqu'au $date2",
+                  8 => "Cotisation CROUS, 0€, jusqu'au $date2",
+                  9 => "Cotisation Sbarro/ESTA, 15€, jusqu'au $date2",
+                  10 => "Cursus Alternant, 30 €, jusqu'au $date4",
           ),1);
       $frm->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
