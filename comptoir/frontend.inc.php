@@ -318,7 +318,7 @@ else if ( $_REQUEST["action"] == "recharge" && count($site->comptoir->operateurs
     if ( isset($_POST['rechcommand']) )
     {
       $strRedirect = 'Location: ';
-
+      
       if (strcmp($_SERVER['HTTPS'], 'on')==0)
       {
         $strRedirect .= 'https://';
@@ -332,7 +332,7 @@ else if ( $_REQUEST["action"] == "recharge" && count($site->comptoir->operateurs
 
       setcookie('action', 'logclient', time()+60);
       setcookie('id_utilisateur_achat', $client->id, time()+60);
-//      $strRedirect .= '&action=logclient&id_utilisateur_achat='.$client->id;
+      $strRedirect .= '&action=logclient&id_utilisateur_achat='.$client->id;
 
       header($strRedirect);
 
