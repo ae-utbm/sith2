@@ -109,11 +109,13 @@ function add_new_form($id = null)
   if ( $ErreurNewStudent )
     $frm->error($ErreurNewStudent);
 
-  $sub_frm_ident = new form("ident",null,null,null,"Identité");
+  $sub_frm_ident = new form("ident",null,null,date('Y-m-d'),null,"Identité");
 
   $sub_frm_ident->add_text_field("nom","Nom","",true);
 
   $sub_frm_ident->add_text_field("prenom","Prénom","",true);
+
+  $sub_frm_ident->add_date_field("date_naissance","Date de naissance",strtotime(date('Y-m-d')),true);
 
   $sub_frm_ident->add_text_field("emailutbm","e-mail (UTBM si possible)","",true,false,false,true);
   $sub_frm_ident->add_checkbox("emailutbmvalid", "Sauter la verification d'email et valider immediatement le compte", isset($_SESSION['emailutbmvalid']) && $_SESSION['emailutbmvalid']);
@@ -185,7 +187,7 @@ function add_user_info_form ($user = null)
   if ($user->date_naissance)
     $sub_frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance,false,true);
   else
-    $sub_frm->add_date_field("date_naissance","Date de naissance",strtotime("1986-01-01"),false,true);
+    $sub_frm->add_date_field("date_naissance","Date de naissance",strtotime(date('Y-m-d')),false,true);
 
   if ($user->utbm)
   {
