@@ -140,7 +140,7 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
 
     $user->surnom=$_REQUEST["surnom_etu"];
     $user->sexe=$_REQUEST["sexe_etu"];
-    //$user->date_naissance=$_REQUEST["date_naissance_etu"];
+    $user->date_naissance=$_REQUEST["date_naissance_etu"];
 
     $user->addresse=$_REQUEST["addresse_etu"];
 
@@ -170,7 +170,7 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
 
     $user->surnom=$_REQUEST["surnom_dip"];
     $user->sexe=$_REQUEST["sexe_dip"];
-    //$user->date_naissance=$_REQUEST["date_naissance_dip"];
+    $user->date_naissance=$_REQUEST["date_naissance_dip"];
 
     $user->addresse=$_REQUEST["addresse_dip"];
 
@@ -196,7 +196,7 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
     $user->role = "etu";
     $user->surnom=$_REQUEST["surnom_anc"];
     $user->sexe=$_REQUEST["sexe_anc"];
-    //$user->date_naissance=$_REQUEST["date_naissance_anc"];
+    $user->date_naissance=$_REQUEST["date_naissance_anc"];
 
     $user->addresse=$_REQUEST["addresse_anc"];
 
@@ -407,7 +407,7 @@ if ( $user->utbm )
 
   $sfrm->add_text_field("surnom_etu","Surnom (utbm)",$user->surnom);
   $sfrm->add_select_field("sexe_etu","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
-  //$sfrm->add_date_field("date_naissance_etu","Date de naissance",$user->date_naissance);
+  $sfrm->add_date_field("date_naissance_etu","Date de naissance",$user->date_naissance);
 
   $sfrm->add_text_field("addresse_etu","Adresse personelle",$user->addresse);
 
@@ -428,7 +428,7 @@ if ( $user->utbm )
 
   $sfrm->add_text_field("surnom_dip","Surnom (utbm)",$user->surnom);
   $sfrm->add_select_field("sexe_dip","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
-  //$sfrm->add_date_field("date_naissance_dip","Date de naissance",$user->date_naissance);
+  $sfrm->add_date_field("date_naissance_dip","Date de naissance",$user->date_naissance);
 
   $sfrm->add_text_field("addresse_dip","Adresse personelle",$user->addresse);
 
@@ -445,7 +445,7 @@ if ( $user->utbm )
 
   $sfrm->add_text_field("surnom_anc","Surnom (utbm)",$user->surnom);
   $sfrm->add_select_field("sexe_anc","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
-  //$sfrm->add_date_field("date_naissance_anc","Date de naissance",$user->date_naissance);
+  $sfrm->add_date_field("date_naissance_anc","Date de naissance",$user->date_naissance);
 
   $sfrm->add_text_field("addresse_anc","Adresse personelle",$user->addresse);
 
