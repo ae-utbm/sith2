@@ -28,7 +28,13 @@ if ($site->user->is_in_group("root")) {
     header ("Content-Type:text/xml");
     $result = "<xml>";
     try {
-        $req = new requete($site->db, "SELECT photo,famille,infos_personnelles,associatif,commentaires,utilisateurs.id_utilisateur,utilisateurs.nom_utl, utilisateurs.prenom_utl, utl_etu_utbm.surnom_utbm, utilisateurs.email_utl, utilisateurs.tel_portable_utl FROM `utilisateurs` join utl_trombi on utilisateurs.id_utilisateur = utl_trombi.id_utilisateur JOIN utl_etu_utbm ON utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur  WHERE autorisation !=1 AND utl_etu_utbm.promo_utbm =".$_GET["promo"]);
+        $req = new requete($site->db, "SELECT photo,famille,infos_personnelles,associatif,commentaires,utilisateurs.id_utilisateur,utilisateurs.nom_utl, utilisateurs.prenom_utl, utl_etu_utbm.surnom_utbm, utilisateurs.email_utl, utilisateurs.tel_portable_utl 
+            FROM `utilisateurs` join utl_trombi 
+            ON utilisateurs.id_utilisateur = utl_trombi.id_utilisateur 
+            JOIN utl_etu_utbm 
+            ON utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur  
+            WHERE autorisation !=1 
+            AND utl_etu_utbm.promo_utbm =".$_GET["promo"]);
     } catch (Exception $e) {
         echo "main request doesn't work" . $e;
     }
