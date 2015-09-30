@@ -32,17 +32,11 @@ $req = new requete($db,"SELECT * FROM mailing");
 while ( $row = $req->get_row() )
 {
     if ($row["role"] >= 2) {
-        $ml_bureau[$row["nom_unix_asso"]] .= $row["email_utl"] . " ";
+        $ml[$row["nom_unix_asso"]] .= $row["email_utl"] . " ";
     }
-    $ml_membre[$row["nom_unix_asso"]] .= $row["email_utl"] . " ";
 }
-foreach ($ml_bureau as $k => $v) {
-    echo $k . ".bureau: ".$v;
-    echo "\n";
-}
-foreach ($ml_membre as $k => $v) {
-    echo $k . ".membres: ".$v;
+foreach ($ml as $k => $v) {
+    echo $k . ": ".$v;
     echo "\n";
 }
 
-?>
