@@ -103,11 +103,15 @@ else if ( isset($_REQUEST["id_asso"]) )
         if ( $site->user->is_in_group("gestion_ae") )
         {
           $asso_parent->load_by_id($_REQUEST['asso_parent']);
+          $prez = new page($site->db, $site->dbrw);
+          $prez->load_by_pagename("activites:".$asso->nom_unix);
 
           if ( $GLOBALS["is_using_ssl"] )
             $asso->update_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']), isset($_REQUEST['hidden']));
           else
             $asso->update_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],null,null,isset($_REQUEST['distinct_benevole']), isset($_REQUEST['hidden']));
+
+          $prez->update_name(str_replace('.', '_', $_REQUEST['nom_unix']));
         }
         elseif ( $GLOBALS["is_using_ssl"] )
           $asso->update_asso($asso->nom,$asso->nom_unix,$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']));

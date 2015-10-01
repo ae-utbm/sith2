@@ -265,6 +265,30 @@ WHERE `wiki`.`fullpath_wiki` = '" . mysql_real_escape_string($fullpath) . "'");
     return $this->revision($this->id_utilisateur,$title, $contents, $comment);
   }
 
+  function get_parent() {
+      $parent = new wiki($this->db  );
+      $parent->load_by_id($this->id_wiki_parent);
+      return $parent;
+  }
+
+  /*
+   * Update wiki name and fullpath
+   *
+   * Be careful, no check are made if another page has already the same name!
+   */
+  function update_name($new_name) {
+      $this->name = $new_name;
+      $parent = $this->get_parent();
+      if ( !empty($parent->fullpath) )
+          $this->fullpath = $parent->fullpath.":".$this->name;
+      else
+          $this->fullpath =$this->name;
+      new update($this->dbrw,"wiki",
+          array("name_wiki" => $this->name,
+                "fullpath_wiki" => $this->fullpath),
+          array("id_wiki"=>$this->id));
+  }
+
   function update_last_rev()
   {
     new update($this->dbrw,"wiki",array("id_rev_last"=>$this->id_rev_last),array("id_wiki"=>$this->id));
