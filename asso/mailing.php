@@ -198,8 +198,7 @@ if ( $asso->is_mailing_allowed() )
       $cts->add_paragraph("Adresse e-mail invalide","error");
     elseif ( in_array($_REQUEST["liste"],$mailings) )
     {
-      asso::_ml_subscribe ( $site->dbrw, $_REQUEST["liste"], $_REQUEST["email"] );
-      $cts->add_paragraph("Demande d'inscription de ".$_REQUEST["email"]." à ".$_REQUEST["liste"]." enregistrée.");
+      $cts->add_paragraph("Demande d'inscription de ".$_REQUEST["email"]." à ".$_REQUEST["liste"]." non enregistrée (en cours de désactivation).");
     }
   }
   $cts->add_paragraph("Comptez un délai de 60 minutes pour que l'inscription soit effective.");
@@ -217,8 +216,7 @@ if ( $asso->is_mailing_allowed() )
       $cts->add_paragraph("Adresse e-mail invalide","error");
     elseif ( in_array($_REQUEST["liste"],$mailings) )
     {
-      asso::_ml_unsubscribe ( $site->dbrw, $_REQUEST["liste"], $_REQUEST["email"] );
-      $cts->add_paragraph("Demande de desinscription de ".$_REQUEST["email"]." à ".$_REQUEST["liste"]." enregistrée.");
+      $cts->add_paragraph("Demande de desinscription de ".$_REQUEST["email"]." à ".$_REQUEST["liste"]." non enregistrée (en cours de désactivation).");
     }
   }
   $cts->add_paragraph("Comptez un délai de 60 minutes pour que la desinscription soit effective.");

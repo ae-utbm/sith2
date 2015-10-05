@@ -4,8 +4,9 @@
  *
  */
 
-/* Copyright 2005-2007
+/* Copyright 2005-2007-2015
  * - Julien Etelain <julien CHEZ pmad POINT net>
+ * - Skia <lordbanana25 AT mailoo DOT org>
  *
  * Ce fichier fait partie du site de l'Association des étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -199,17 +200,6 @@ class asso extends stdentity
       $this->id = $sql->get_id();
     else
       $this->id = null;
-
-    if ( $this->nom_unix && $this->is_mailing_allowed() )
-    {
-      if ( !is_null($this->id_parent) )
-        $this->_ml_create($this->dbrw,$this->nom_unix.".membres",$this->email);
-
-      if ( $this->distinct_benevole )
-        $this->_ml_create($this->dbrw,$nom_unix.".benevoles",$this->email);
-
-      $this->_ml_create($this->dbrw,$this->nom_unix.".bureau",$this->email);
-    }
   }
 
   /** Modifie l'association
@@ -224,31 +214,6 @@ class asso extends stdentity
     $old_allow = $this->is_mailing_allowed();
     $old_id_parent = $this->id_parent;
     $this->id_parent = $id_parent;
-
-    if ( $this->is_mailing_allowed() )
-    {
-      if ( !$old_allow || ($nom_unix && !$this->nom_unix) )
-      {
-        if ( $nom_unix )
-        {
-          if ( !is_null($id_parent) )
-            $this->_ml_create($this->dbrw,$nom_unix.".membres",$this->email);
-
-          if ( $distinct_benevole )
-            $this->_ml_create($this->dbrw,$nom_unix.".benevoles",$this->email);
-
-          $this->_ml_create($this->dbrw,$nom_unix.".bureau",$this->email);
-        }
-      }
-      elseif ( $this->nom_unix )
-      {
-        if ( is_null($old_id_parent) && !is_null($id_parent) )
-          $this->_ml_create($this->dbrw,$this->nom_unix.".membres",$this->email);
-
-        if ( $distinct_benevole && !$this->distinct_benevole )
-          $this->_ml_create($this->dbrw,$this->nom_unix.".benevoles",$this->email);
-      }
-    }
 
     global $topdir;
     require_once ($topdir. 'include/cts/fsearchcache.inc.php');
@@ -314,14 +279,11 @@ class asso extends stdentity
 
     $prevrole = $this->member_role($id_utl);
 
-    if ( is_null($prevrole) )
-      $this->_ml_all_subscribe_user($id_utl,$role);
-    elseif ( $role == $prevrole )
+    if ( $role == $prevrole )
       return;
     else
     {
       $this->make_former_member($id_utl,$date_debut,true);
-      $this->_ml_all_delta_user($id_utl,$prevrole,$role);
     }
 
     // Boulet-proof
@@ -392,9 +354,6 @@ class asso extends stdentity
 
     if ( !$date_fin )
       $date_fin = time();
-
-    if ( !$ignore_ml )
-      $this->_ml_all_unsubscribe_user($id_utl);
 
     // Boulet-proof
     // Verifie que l'action ne gènère par une durée nulle ou négative
@@ -513,10 +472,6 @@ class asso extends stdentity
       );
 
     $newrole = $this->member_role($id_utl);
-    if ( is_null($newrole) && !is_null($prevrole) )
-      $this->_ml_all_unsubscribe_user($id_utl,$prevrole);
-    elseif ( $newrole != $prevrole && !is_null($prevrole) && !is_null($newrole) )
-      $this->_ml_all_delta_user($id_utl,$prevrole,$newrole);
   }
 
   function get_member_for_role ($role)
@@ -583,7 +538,6 @@ class asso extends stdentity
    return $this->id+20000;
   }
 
-
   function get_html_path()
   {
     global $wwwtopdir;
@@ -603,129 +557,6 @@ class asso extends stdentity
     return true;
   }
 
-  function _ml_all_subscribe_user ( $id_utl, $role=null )
-  {
-    if ( !$this->is_mailing_allowed() )
-      return;
-
-    $user = new utilisateur($this->db);
-    $user->load_by_id($id_utl);
-
-    if ( !$user->is_valid() )
-      return;
-
-    if ( !$this->nom_unix )
-      return;
-
-    if ( is_null($role) )
-      $role = $this->member_role($user->id);
-
-    if ( !is_null($this->id_parent) )
-      $this->_ml_subscribe($this->dbrw,$this->nom_unix.".membres",$user->email);
-
-    if ( $this->distinct_benevole && $role >= ROLEASSO_MEMBREACTIF )
-      $this->_ml_subscribe($this->dbrw,$this->nom_unix.".benevoles",$user->email);
-
-    if ( $role > ROLEASSO_MEMBREACTIF )
-      $this->_ml_subscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);
-  }
-
-  function _ml_all_unsubscribe_user ( $id_utl, $role=null )
-  {
-    if ( !$this->is_mailing_allowed() )
-      return;
-
-    $user = new utilisateur($this->db);
-    $user->load_by_id($id_utl);
-
-    if ( !$user->is_valid() )
-      return;
-
-    if ( !$this->nom_unix )
-      return;
-
-    if ( is_null($role) )
-      $role = $this->member_role($user->id);
-
-    if ( !is_null($this->id_parent) )
-      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".membres",$user->email);
-
-    if ( $this->distinct_benevole && $role >= ROLEASSO_MEMBREACTIF )
-      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".benevoles",$user->email);
-
-    if ( $role > ROLEASSO_MEMBREACTIF )
-      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);
-  }
-
-  function _ml_all_delta_user ( $id_utl, $oldrole, $newrole )
-  {
-    if ( !$this->is_mailing_allowed() )
-      return;
-
-    $user = new utilisateur($this->db);
-    $user->load_by_id($id_utl);
-
-    if ( !$user->is_valid() )
-      return;
-
-    if ( !$this->nom_unix )
-      return;
-
-    if ( $this->distinct_benevole )
-    {
-      if ( $oldrole >= ROLEASSO_MEMBREACTIF && $newrole < ROLEASSO_MEMBREACTIF )
-        $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".benevoles",$user->email);
-      elseif ( $oldrole < ROLEASSO_MEMBREACTIF && $newrole >= ROLEASSO_MEMBREACTIF )
-        $this->_ml_subscribe($this->dbrw,$this->nom_unix.".benevoles",$user->email);
-    }
-
-
-    if ( $oldrole > ROLEASSO_MEMBREACTIF && $newrole <= ROLEASSO_MEMBREACTIF )
-      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);
-    elseif ( $oldrole <= ROLEASSO_MEMBREACTIF && $newrole > ROLEASSO_MEMBREACTIF )
-      $this->_ml_subscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);
-
-  }
-
-  static function _ml_subscribe ( $db, $ml, $email )
-  {
-    if ( !$email )
-      return;
-    //echo "SUBSCRIBE $ml $email<br/>";
-    new insert($db,"ml_todo",array("action_todo"=>"SUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
-  }
-
-  static function _ml_unsubscribe ( $db, $ml, $email )
-  {
-    if ( !$email )
-      return;
-    //echo "UNSUBSCRIBE $ml $email<br/>";
-    new insert($db,"ml_todo",array("action_todo"=>"UNSUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
-  }
-
-  static function _ml_create ( $db, $ml, $owner="" )
-  {
-    if ( empty($owner) )
-      $owner = "ae@utbm.fr";
-    //echo "CREATE $ml $owner<br/>";
-    new insert($db,"ml_todo",array("action_todo"=>"CREATE","ml_todo"=>strtolower($ml),"email_todo"=>$owner));
-  }
-
-  static function _ml_rename ( $db, $old, $new )
-  {
-    //TODO: rename mailing $old to $new
-    //echo "MOVE $old TO $new<br/>";
-    //>>> MAIL ADMIN
-  }
-
-  static function _ml_remove ( $db, $ml )
-  {
-    //TODO: destroy $ml
-    //echo "DESTROY $ml<br/>";
-    //>>> MAIL ADMIN
-  }
-
-
   function is_mailing_allowed()
   {
     if ( $this->id == 1 )
@@ -737,47 +568,15 @@ class asso extends stdentity
     return false;
   }
 
-  function get_pending_unmod_mail()
-  {
-    if (strlen($this->nom_unix) <= 0)
-      return 0;
-
-    $path = '/var/lib/mailman/data/';
-    $dir = scandir ($path);
-    $count = 0;
-    foreach ($dir as $entry) {
-        if (strpos ($entry, $this->nom_unix . ".membres") !== false)
-            $count++;
-    }
-    return $count;
-  }
-
+  /* Vieux hack pourri pour essayer de pas péter mldiff.php */
   function get_exist_ml()
   {
-    if ($mailings_lists != null)
-      return $mailings_lists;
+    if($this->nom_unix === "ae")
+        return array("ae", "ae.com", "ae.info");
 
-    $path = '/var/lib/mailman/lists/';
-    $dir = scandir ($path);
-    $mailings_lists = array ();
-    foreach ($dir as $entry) {
-        if (strpos ($entry, $this->nom_unix) !== false)
-            $mailings_lists[] = $entry;
-    }
-
-    return $mailings_lists;
+    return array($this->nom_unix);
   }
 
-  function get_subscribed_email($mailing_list)
-  {
-    exec(escapeshellcmd("/usr/lib/mailman/bin/list_members ".$mailing_list), $emails, $ret);
-    if ($ret != 0)
-      $emails = array();
-
-    return $emails;
-  }
 }
 
 
-
-?>
