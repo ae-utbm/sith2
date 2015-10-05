@@ -613,5 +613,3 @@ abstract class stdentity
 
 }
 
-
-?>

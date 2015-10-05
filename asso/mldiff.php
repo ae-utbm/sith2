@@ -101,7 +101,7 @@ elseif ( $asso->is_mailing_allowed() )
   $cts->add_paragraph("Les modifications sur cette page peuvent mettre quelques minutes à être effectué, merci de ne pas répéter inutilement des demandes d'inscription ou de desinscription.");
 
   // On affiche les inscrits aux ml
-  foreach($asso->get_exist_ml() as $ml)
+  foreach($asso->get_existing_ml() as $ml)
   {
     $user_ids = array();
     $asso_user_ids = array();

@@ -175,20 +175,17 @@ $cts->add(new tabshead($subtabs,"mailing","","subtab"));
 
 if ( $asso->is_mailing_allowed() )
 {
-  $mailings = array($asso->nom_unix.".bureau"=>$asso->nom_unix.".bureau");
+  $mailings = array($asso->nom_unix=>$asso->nom_unix);
 
   $cts->add_title(2,"Mailing listes");
 
   if ( !is_null($asso->id_parent) )
   {
-    $cts->add_paragraph($asso->nom_unix.".membres@ml.aeinfo.net : Mailing liste de tous les membres (inscription libre).");
-    $cts->add_paragraph($asso->nom_unix.".bureau@ml.aeinfo.net : Mailing liste de tous les membres ayant un role supérieur ou égal à \"Membre du bureau\".");
+    $cts->add_paragraph($asso->nom_unix."@utbm.fr : Mailing liste de tous les membres ayant un role supérieur ou égal à \"Membre du bureau\".");
 
     $cts->add_paragraph("Pour utiliser les mailing listes, chaque utilisateur doit envoyer ses messages depuis son adresse principale configuré sur le site, il peut la changer si elle ne convient pas. Cette adresse peut être différente de votre adresse utbm.");
 
     $cts->add_paragraph("Votre adresse principale est ".$site->user->email.". <a href=\"../user.php?page=edit&amp;see=email\">Changer d'adresse principale</a>");
-
-    $mailings[$asso->nom_unix.".membres"] = $asso->nom_unix.".membres";
   }
 
   $cts->add_title(2,"Inscription manuelle");

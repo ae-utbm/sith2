@@ -568,13 +568,18 @@ class asso extends stdentity
     return false;
   }
 
-  /* Vieux hack pourri pour essayer de pas péter mldiff.php */
-  function get_exist_ml()
+  function get_existing_ml()
   {
-    if($this->nom_unix === "ae")
-        return array("ae", "ae.com", "ae.info");
-
-    return array($this->nom_unix);
+      $req = new requete($this->db, "SELECT * FROM `mailing`
+          WHERE `id_asso_parent` = '" . $this->id . "'");
+      if ( $req->lines >= 0 )
+      {
+          $list = array();
+          foreach ($req->get_row() as $row)
+              $list[] = $row['id'];
+          return $list;
+      }
+      return false;
   }
 
 }
