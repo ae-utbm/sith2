@@ -145,8 +145,13 @@ class utilisateur extends stdentity
   {
     if ($this->id == null)
       return "Personne";
+    else
+        $this->load_all_extra();
+    $str = $this->prenom." ".$this->nom;
+    if($this->surnom)
+        $str .= " (".$this->surnom.")";
 
-    return $this->prenom." ".$this->nom;
+    return $str;
   }
 
   /** Charge un utilisateur en fonction de son id
