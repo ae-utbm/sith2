@@ -34,7 +34,7 @@ while ( $row = $req->get_row() )
 {
     $mailing = new mailing($site->db);
     $mailing->load_by_id($row['id_mailing']);
-    echo $mailing.get_full_name(),": ";
+    echo $mailing->get_full_name(),": ";
     foreach($mailing->get_subscribed_user() as $user_id) {
         $user = new utilisateur($site->db);
         $user->load_by_id($user_id);
