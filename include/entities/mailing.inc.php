@@ -162,5 +162,27 @@ class mailing extends stdentity
         else
             return 1;
     }
+
+    function get_subscribed_user() {
+        $req = new requete($this->db, "SELECT * FROM `mailing_member`
+            WHERE `id_mailing` = '" . mysql_real_escape_string($id) . "'
+            AND id_user IS NOT NULL");
+        $list = array();
+        foreach($req->get_row() as $row) {
+            $list[] = $row['id_user'];
+        }
+        return $list;
+    }
+
+    function get_subscribed_email() {
+        $req = new requete($this->db, "SELECT * FROM `mailing_member`
+            WHERE `id_mailing` = '" . mysql_real_escape_string($id) . "'
+            AND email IS NOT NULL");
+        $list = array();
+        foreach($req->get_row() as $row) {
+            $list[] = $row['email'];
+        }
+        return $list;
+    }
 }
 

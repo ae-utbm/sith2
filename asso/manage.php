@@ -64,16 +64,63 @@ $cts->add(new tabshead($subtabs,"mailing","","subtab"));
 
 if ( $asso->is_mailing_allowed() )
 {
-    if($_REQUEST['view'] === 'list') {
-        $mllist = $asso->get_existing_ml();
-        $mailing = new mailing($site->db);
-        foreach ($mllist as $ml_id) {
-            $mailing->load_by_id($ml_id);
-            $cts.add_paragraph($mailing);
+    if (isset($_REQUEST['add_mailing'])) {
+        if (preg_match('/^[a-z-]{3,8}$/', strtolower($_REQUEST['add_mailing'], $name))) {
+            $mailing = new mailing($site->db, $site->dbrw);
+            $mailing->create($name[0], $asso->id);
+            $cts->add_paragraph("Mailing ".$name[0]." créée!");
+        }
+    } elseif (isset($_REQUEST['del_mailing'])) {
+        $mailing = new mailing($site->db, $site->dbrw);
+        $mailing->load_by_id($_REQUEST['del_mailing']);
+        $name = $mailing->nom;
+        $mailing->remove();
+        $cts->add_paragraph("Mailing ".$name." supprimée!");
+    } elseif (isset($_REQUEST['add_member'])) {
+        $user = new user($site->db);
+        $user->load_by_id($_REQUEST['add_member']);
+        if ($user->id >= 1) {
+            $mailing = new mailing($site->db, $site->dbrw);
+            $mailing->add_member($user->id);
+            $cts->add_paragraph($user->get_display_name() . " ajouté à " . $mailing->nom);
+        }
+    } elseif (isset($_REQUEST['del_member'])) {
+        $user = new user($site->db);
+        $user->load_by_id($_REQUEST['del_member']);
+        if ($user->id >= 1) {
+            $mailing = new mailing($site->db, $site->dbrw);
+            $mailing->del_member($user->id);
+            $cts->add_paragraph($user->get_display_name() . " supprimé de " . $mailing->nom);
+        }
+    } elseif (isset($_REQUEST['add_email'])) {
+        if(filter_var($_REQUEST['add_email'], FILTER_VALIDATE_EMAIL)) {
+            $mailing = new mailing($site->db, $site->dbrw);
+            $mailing->add_email($_REQUEST['add_email']);
+            $cts->add_paragraph($_REQUEST['add_email'] . " ajouté à " . $mailing->nom);
+        }
+    } elseif (isset($_REQUEST['del_email'])) {
+        if(filter_var($_REQUEST['del_email'], FILTER_VALIDATE_EMAIL)) {
+            $mailing = new mailing($site->db, $site->dbrw);
+            $mailing->del_email($_REQUEST['del_email']);
+            $cts->add_paragraph($_REQUEST['del_email'] . " supprimé de " . $mailing->nom);
         }
     }
-}
 
+    $mllist = $asso->get_existing_ml();
+    $mailing = new mailing($site->db);
+    foreach ($mllist as $ml_id) {
+        $mailing->load_by_id($ml_id);
+        $table = new table($mailing->nom);
+        foreach($mailing->get_subscribed_user() as $user_id) {
+            $user = new user($site->db);
+            $user->load_by_id($user_id);
+            $table->add_row($user->get_display_name());
+        }
+        foreach($mailing->get_subscribed_email() as $mail)
+            $table->add_row($mail);
+        $cts->add($table);
+    }
+}
 
 $site->add_contents($cts);
 $site->end_page();

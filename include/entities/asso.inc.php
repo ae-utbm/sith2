@@ -572,14 +572,10 @@ class asso extends stdentity
   {
       $req = new requete($this->db, "SELECT * FROM `mailing`
           WHERE `id_asso_parent` = '" . $this->id . "'");
-      if ( $req->lines >= 0 )
-      {
-          $list = array();
-          foreach ($req->get_row() as $row)
-              $list[] = $row['id'];
-          return $list;
-      }
-      return false;
+      $list = array();
+      foreach ($req->get_row() as $row)
+          $list[] = $row['id'];
+      return $list;
   }
 
 }
