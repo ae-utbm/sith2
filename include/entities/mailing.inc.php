@@ -74,13 +74,13 @@ class mailing extends stdentity
     }
 
     function remove() {
-        new delete($site->dbrw,
+        new delete($this->dbrw,
             'mailing_membres',
             array(
                 'id_mailing'=>$this->id
             )
         );
-        new delete($site->dbrw,
+        new delete($this->dbrw,
             'mailing',
             array(
                 'id_mailing'=>$this->id
@@ -157,14 +157,14 @@ class mailing extends stdentity
             return 1;
     }
 
-    function del_user($id_user) {
-        $sql = new delete($site->dbrw,
+    function del_member($id_user) {
+        $sql = new delete($this->dbrw,
             'mailing_membres',
             array(
                 'id_mailing'=>$this->id,
                 'id_user'=>$id_user
             )
-        );
+        , 1);
         if ($sql)
             return 0;
         else
