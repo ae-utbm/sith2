@@ -1,5 +1,6 @@
 <?php
 
+require_once($topdir. "include/entities/mailing.inc.php");
 require_once($topdir. "include/mysql.inc.php");
 require_once($topdir. "include/mysqlae.inc.php");
 
