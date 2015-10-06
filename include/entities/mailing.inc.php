@@ -32,6 +32,7 @@ class mailing extends stdentity
 {
     var $nom;
     var $id_asso_parent;
+    var $is_valid;
 
     function create($nom, $id_asso_parent) {
         if ( is_null($this->dbrw) ) return; // "Read Only" mode
@@ -43,7 +44,8 @@ class mailing extends stdentity
             "mailing",
             array(
                 "id_asso_parent" => $this->id_asso_parent,
-                "nom" => $this->nom
+                "nom" => $this->nom,
+                "is_valid"=>0
             )
         );
 
@@ -54,7 +56,7 @@ class mailing extends stdentity
     }
 
     function update($nom, $id_asso_parent) {
-        if ( is_null($this->dbrw) ) return; // "Read Only" mode
+        if ( is_null($this->dbrw) ) return;
 
         $this->nom = $nom;
         $this->id_asso_parent = $id_asso_parent;
@@ -63,7 +65,8 @@ class mailing extends stdentity
             "mailing",
             array(
                 "id_asso_parent" => $this->id_asso_parent,
-                "nom_asso" => $this->nom
+                "nom_asso" => $this->nom,
+                "is_valid"=>0
             ),
             array ( "id_mailing" => $this->id )
 
@@ -72,7 +75,7 @@ class mailing extends stdentity
 
     function remove() {
         new delete($site->dbrw,
-            'mailing_member',
+            'mailing_membres',
             array(
                 'id_mailing'=>$this->id
             )
@@ -88,6 +91,7 @@ class mailing extends stdentity
     function _load($row) {
         $this->nom = $row['nom'];
         $this->id_asso_parent = $row['id_asso_parent'];
+        $this->is_valid = $row['is_valid'];
     }
 
     /** Charge une mailing par son ID
@@ -101,15 +105,33 @@ class mailing extends stdentity
         if ( $req->lines == 1 )
         {
             $this->_load($req->get_row());
+            $this->id = $id;
             return true;
         }
         $this->id = null;
         return false;
     }
 
+    function get_full_name() {
+        $req = new requete($this->db, "SELECT * FROM `mailing` ml
+            JOIN `asso`  asso ON asso.`id_asso` = ml.`id_asso_parent`
+            WHERE `id_mailing` = '" . mysql_real_escape_string($this->id) . "'
+            LIMIT 1");
+        if ( $req->lines == 1 ) {
+            $row = $req->get_row();
+            return $row['nom_unix_asso'].".".$this->nom;
+        } else {
+            return $this->nom;
+        }
+    }
+
+    function get_address() {
+        return $this->get_full_name()."@utbm.fr";
+    }
+
     function add_member($id_user) {
         $sql = new insert ($this->dbrw,
-            "mailing_member",
+            "mailing_membres",
             array(
                 "id_mailing" => $this->id,
                 "id_user" => $id_user
@@ -123,7 +145,7 @@ class mailing extends stdentity
 
     function add_email($email) {
         $sql = new insert ($this->dbrw,
-            "mailing_member",
+            "mailing_membres",
             array(
                 "id_mailing" => $this->id,
                 "email" => $email
@@ -137,7 +159,7 @@ class mailing extends stdentity
 
     function del_user($id_user) {
         $sql = new delete($site->dbrw,
-            'mailing_member',
+            'mailing_membres',
             array(
                 'id_mailing'=>$this->id,
                 'id_user'=>$id_user
@@ -151,7 +173,7 @@ class mailing extends stdentity
 
     function del_email($email) {
         $sql = new delete ($this->dbrw,
-            "mailing_member",
+            "mailing_membres",
             array(
                 "id_mailing" => $this->id,
                 "email" => $email
@@ -164,22 +186,22 @@ class mailing extends stdentity
     }
 
     function get_subscribed_user() {
-        $req = new requete($this->db, "SELECT * FROM `mailing_member`
-            WHERE `id_mailing` = '" . mysql_real_escape_string($id) . "'
+        $req = new requete($this->db, "SELECT * FROM `mailing_membres`
+            WHERE `id_mailing` = '" . mysql_real_escape_string($this->id) . "'
             AND id_user IS NOT NULL");
         $list = array();
-        foreach($req->get_row() as $row) {
+        while($row = $req->get_row()) {
             $list[] = $row['id_user'];
         }
         return $list;
     }
 
     function get_subscribed_email() {
-        $req = new requete($this->db, "SELECT * FROM `mailing_member`
-            WHERE `id_mailing` = '" . mysql_real_escape_string($id) . "'
+        $req = new requete($this->db, "SELECT * FROM `mailing_membres`
+            WHERE `id_mailing` = '" . mysql_real_escape_string($this->id) . "'
             AND email IS NOT NULL");
         $list = array();
-        foreach($req->get_row() as $row) {
+        while($row = $req->get_row()) {
             $list[] = $row['email'];
         }
         return $list;

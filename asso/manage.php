@@ -28,6 +28,7 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/mailing.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
+require_once($topdir. "include/entities/utilisateur.inc.php");
 
 
 $site = new site ();
@@ -65,44 +66,59 @@ $cts->add(new tabshead($subtabs,"mailing","","subtab"));
 if ( $asso->is_mailing_allowed() )
 {
     if (isset($_REQUEST['add_mailing'])) {
-        if (preg_match('/^[a-z-]{3,8}$/', strtolower($_REQUEST['add_mailing'], $name))) {
+        if (preg_match('/^[a-z-]{3,8}$/', strtolower($_REQUEST['add_mailing']), $name) === 1) {
             $mailing = new mailing($site->db, $site->dbrw);
             $mailing->create($name[0], $asso->id);
             $cts->add_paragraph("Mailing ".$name[0]." créée!");
+        } else {
+            $cts->add_paragraph("Mailing ".$_REQUEST['add_mailing']." non valide (entre 3 et 8 lettres, tiret autorisé)");
         }
-    } elseif (isset($_REQUEST['del_mailing'])) {
+    } 
+    if (isset($_REQUEST['del_mailing'])) {
         $mailing = new mailing($site->db, $site->dbrw);
         $mailing->load_by_id($_REQUEST['del_mailing']);
         $name = $mailing->nom;
         $mailing->remove();
         $cts->add_paragraph("Mailing ".$name." supprimée!");
-    } elseif (isset($_REQUEST['add_member'])) {
-        $user = new user($site->db);
+    } 
+    if (isset($_REQUEST['add_member'])) {
+        $user = new utilisateur($site->db);
         $user->load_by_id($_REQUEST['add_member']);
         if ($user->id >= 1) {
             $mailing = new mailing($site->db, $site->dbrw);
+            $mailing->load_by_id($_REQUEST['id_mailing']);
             $mailing->add_member($user->id);
             $cts->add_paragraph($user->get_display_name() . " ajouté à " . $mailing->nom);
         }
-    } elseif (isset($_REQUEST['del_member'])) {
-        $user = new user($site->db);
+    } 
+    if (isset($_REQUEST['del_member'])) {
+        $user = new utilisateur($site->db);
         $user->load_by_id($_REQUEST['del_member']);
         if ($user->id >= 1) {
             $mailing = new mailing($site->db, $site->dbrw);
+            $mailing->load_by_id($_REQUEST['id_mailing']);
             $mailing->del_member($user->id);
             $cts->add_paragraph($user->get_display_name() . " supprimé de " . $mailing->nom);
         }
-    } elseif (isset($_REQUEST['add_email'])) {
+    } 
+    if (isset($_REQUEST['add_email']) && $_REQUEST['add_email'] != '') {
         if(filter_var($_REQUEST['add_email'], FILTER_VALIDATE_EMAIL)) {
             $mailing = new mailing($site->db, $site->dbrw);
+            $mailing->load_by_id($_REQUEST['id_mailing']);
             $mailing->add_email($_REQUEST['add_email']);
             $cts->add_paragraph($_REQUEST['add_email'] . " ajouté à " . $mailing->nom);
+        } else {
+            $cts->add_paragraph("e-mail non valide");
         }
-    } elseif (isset($_REQUEST['del_email'])) {
+    } 
+    if (isset($_REQUEST['del_email']) && $_REQUEST['del_email'] != '') {
         if(filter_var($_REQUEST['del_email'], FILTER_VALIDATE_EMAIL)) {
             $mailing = new mailing($site->db, $site->dbrw);
+            $mailing->load_by_id($_REQUEST['id_mailing']);
             $mailing->del_email($_REQUEST['del_email']);
             $cts->add_paragraph($_REQUEST['del_email'] . " supprimé de " . $mailing->nom);
+        } else {
+            $cts->add_paragraph("e-mail non valide");
         }
     }
 
@@ -110,16 +126,30 @@ if ( $asso->is_mailing_allowed() )
     $mailing = new mailing($site->db);
     foreach ($mllist as $ml_id) {
         $mailing->load_by_id($ml_id);
-        $table = new table($mailing->nom);
+        $cts->add_title(2, $mailing->get_address() . ($mailing->is_valid ? "" : " (Attention, mailing non modérée!)"));
+        $table = new table();
         foreach($mailing->get_subscribed_user() as $user_id) {
-            $user = new user($site->db);
+            $user = new utilisateur($site->db);
             $user->load_by_id($user_id);
-            $table->add_row($user->get_display_name());
+            $table->add_row(array($user->get_display_name(), $user->email));
         }
         foreach($mailing->get_subscribed_email() as $mail)
-            $table->add_row($mail);
+            $table->add_row(array("Utilisateur non enregistré", $mail));
         $cts->add($table);
+        $ml[$mailing->id] = $mailing->get_full_name();
     }
+    $frm = new form("add_user","manage.php?id_asso=".$asso->id,false,"POST","Ajouter un membre");
+    $frm->add_select_field("id_mailing", "Mailing", $ml);
+    $frm->add_user_fieldv2("add_member","Membre");
+    $frm->add_text_field("add_email","Email","");
+    $frm->add_submit("valid","Ajouter");
+    $cts->add($frm,true);
+    $frm = new form("add_mailing","manage.php?id_asso=".$asso->id,false,"POST","Ajouter une mailing");
+    $frm->add_text_field("add_mailing","Nom","");
+    $frm->add_submit("valid","Ajouter");
+    $cts->add($frm,true);
+} else {
+    $cts->add_paragraph("Les mailings ne sont pas activées pour cette association.");
 }
 
 $site->add_contents($cts);
