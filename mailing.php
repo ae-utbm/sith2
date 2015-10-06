@@ -31,18 +31,14 @@ if ( $valid->lines != 1 )
 $req = new requete($db,"SELECT * FROM mailing");
 while ( $row = $req->get_row() )
 {
-    if ($row["role"] >= 2) {
-        $ml_bureau[$row["nom_unix_asso"]] .= $row["email_utl"] . " ";
+    $mailing = new mailing($site->db);
+    $mailing->load_by_id($row['id_mailing']);
+    echo $mailing.get_full_name(),": ";
+    foreach($mailing->get_subscribed_user() as $user_id) {
+        $user = new utilisateur($site->db);
+        $user->load_by_id($user_id);
+        echo $user->email," ";
     }
-    $ml_membre[$row["nom_unix_asso"]] .= $row["email_utl"] . " ";
+    foreach($mailing->get_subscribed_email() as $mail)
+        echo $mail,"  ";
 }
-foreach ($ml_bureau as $k => $v) {
-    echo $k . ".bureau: ".$v;
-    echo "\n";
-}
-foreach ($ml_membre as $k => $v) {
-    echo $k . ".membres: ".$v;
-    echo "\n";
-}
-
-?>
