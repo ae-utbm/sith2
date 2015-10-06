@@ -1753,7 +1753,29 @@ class table extends stdcontents
 
   function set_head ( $heads )
   {
+    $this->buffer .= "<tr>";
+    foreach ( $heads as $cell )
+    {
+      if ( !is_array($cell) )
+      {
+        $this->buffer .= "  <th>".$cell."</th>\n";
+      }
+      else
+      {
+        $this->buffer .= "  <th";
+        if ( $cell[1] )
+        {
+          $this->buffer .= " class=\"".$cell[1]."\"";
+        }
+        if ( $cell[2] )
+        {
+          $this->buffer .= " id=\"".$cell[2]."\"";
+        }
 
+        $this->buffer .= ">".$cell[0]."</th>\n";
+      }
+    }
+    $this->buffer .= "</tr>\n";
   }
 
   function add_row ( $row, $class=false, $id=false )
