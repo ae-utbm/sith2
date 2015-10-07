@@ -489,7 +489,12 @@ class asso extends stdentity
    * bureau
    */
   function get_team_member () {
-      $sql = 'SELECT id_utilisateur FROM `asso_membre` WHERE id_asso='.$this->id.' AND role >= '.ROLEASSO_MEMBREBUREAU.' ORDER BY role';
+      $sql = 'SELECT id_utilisateur 
+          FROM `asso_membre` 
+          WHERE id_asso='.$this->id.' 
+          AND role >= '.ROLEASSO_MEMBREBUREAU.' 
+          AND date_fin IS NULL
+          ORDER BY role';
       $req = new requete ($this->db, $sql);
       $list = array();
       if($req->lines > 0) {
