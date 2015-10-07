@@ -258,7 +258,8 @@ if($site->user->is_in_group("gestion_ae"))
         "description_salres" => "Motif",
         "date_accord_res"=>"Accord le"
         ),
-      array("info"=>"Details"),
+      array("info"=>"Details",
+            "delete"=>"Supprimer"),
       array(),
       array()
       ));
