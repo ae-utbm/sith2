@@ -1,8 +1,11 @@
 <?php
 
-require_once($topdir. "include/entities/mailing.inc.php");
+$topdir = "./";
+
 require_once($topdir. "include/mysql.inc.php");
 require_once($topdir. "include/mysqlae.inc.php");
+require_once($topdir. "include/entities/mailing.inc.php");
+require_once($topdir. "include/entities/utilisateur.inc.php");
 
 if ( isset ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != "on" )
 {
@@ -32,11 +35,11 @@ if ( $valid->lines != 1 )
 $req = new requete($db,"SELECT * FROM mailing");
 while ( $row = $req->get_row() )
 {
-    $mailing = new mailing($site->db);
+    $mailing = new mailing($db);
     $mailing->load_by_id($row['id_mailing']);
     echo $mailing->get_full_name(),": ";
     foreach($mailing->get_subscribed_user() as $user_id) {
-        $user = new utilisateur($site->db);
+        $user = new utilisateur($db);
         $user->load_by_id($user_id);
         echo $user->email," ";
     }
