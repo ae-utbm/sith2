@@ -32,7 +32,7 @@ if ( $valid->lines != 1 )
   exit();
 }
 
-$req = new requete($db,"SELECT * FROM mailing");
+$req = new requete($db,"SELECT * FROM mailing WHERE is_valid = 1");
 while ( $row = $req->get_row() )
 {
     $mailing = new mailing($db);

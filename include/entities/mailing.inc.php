@@ -55,7 +55,7 @@ class mailing extends stdentity
             $this->id = null;
     }
 
-    function update($nom, $id_asso_parent) {
+    function update($nom, $id_asso_parent, $is_valid=0) {
         if ( is_null($this->dbrw) ) return;
 
         $this->nom = $nom;
@@ -66,7 +66,7 @@ class mailing extends stdentity
             array(
                 "id_asso_parent" => $this->id_asso_parent,
                 "nom_asso" => $this->nom,
-                "is_valid"=>0
+                "is_valid"=>$is_valid
             ),
             array ( "id_mailing" => $this->id )
 
@@ -110,6 +110,16 @@ class mailing extends stdentity
         }
         $this->id = null;
         return false;
+    }
+
+    function set_valid() {
+        $sql = new update ($this->dbrw,
+            "mailing",
+            array(
+                "is_valid"=>1
+            ),
+            array ( "id_mailing" => $this->id )
+        );
     }
 
     function get_full_name() {

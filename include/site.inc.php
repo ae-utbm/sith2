@@ -4,7 +4,7 @@
  * @brief Fonctions générales du site.
  *
  */
-/* Copyright 2004,2005,2006,2007,2008
+/* Copyright 2004,2005,2006,2007,2008,2015
  * - Alexandre Belloni <alexandre POINT belloni CHEZ utbm POINT fr>
  * - Thomas Petazzoni <thomas POINT petazzoni CHEZ enix POINT org>
  * - Maxime Petazzoni <maxime POINT petazzoni CHEZ bulix POINT org>
@@ -13,6 +13,7 @@
  * - Benjamin Collet <bcollet CHEZ oxynux POINT org>
  * - Sarah Amsellem <sarah POINT amsellem CHEZ gmail POINT com>
  * - Simon Lopez < simon dot lopez at ayolo dot org >
+ * - Skia < lordbanana25 AT mailoo DOT org >
  *
  * Ce fichier fait partie du site de l'Association des 0tudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -465,6 +466,9 @@ if(!defined("MOBILE")) {
       $req = new requete($this->db,"SELECT COUNT(*) FROM `pedag_uv_commentaire` WHERE `valid`='0' ");
       list($nbcomsignales) = $req->get_row();
 
+      $req = new requete($this->db,"SELECT COUNT(*) FROM `mailing` WHERE `is_valid`='0' ");
+      list($nbmailings) = $req->get_row();
+
       if ( $nbnews > 0 )
         $elements[] = "<a href=\"".$topdir."ae/moderenews.php\"><b>$nbnews nouvelle(s)</b> à modérer</b></a>";
 
@@ -476,6 +480,9 @@ if(!defined("MOBILE")) {
 
       if ( $nbaffiches > 0 )
         $elements[] = "<a href=\"".$topdir."ae/modereaffiches.php\"><b>$nbaffiches affiche(s)</b> à modérer</b></a>";
+
+      if ( $nbmailings > 0 )
+        $elements[] = "<a href=\"".$topdir."ae/moderemailings.php\"><b>$nbmailings mailing(s)</b> à modérer</b></a>";
 
       if ( $nbcomsignales > 0 )
         $elements[] = "<a href=\"".$topdir."ae/moderecomuv.php\"><b>$nbcomsignales commentaire(s)</b> d'UV abusifs signalés</b></a>";
