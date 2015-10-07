@@ -67,23 +67,6 @@ if ((isset($_REQUEST['id_mailing']))
 
 /* presentation des mailings en attente de moderation */
 
-$req = new requete($site->db,"SELECT `nvl_nouvelles`.*,
-                                     `asso`.`nom_unix_asso`,
-                                     `utilisateurs`.`id_utilisateur`,
-                                     CONCAT(`utilisateurs`.`prenom_utl`,
-                                            ' ',
-                                            `utilisateurs`.`nom_utl`) AS `nom_utilisateur`
-
-                              FROM `nvl_nouvelles`
-            LEFT JOIN `asso` ON
-                                         `asso`.`id_asso` =
-                                         `nvl_nouvelles`.`id_asso`
-                              INNER JOIN `utilisateurs` ON
-                                         `utilisateurs`.`id_utilisateur` =
-                                         `nvl_nouvelles`.`id_utilisateur`
-
-                              WHERE `modere_nvl`='0' ORDER BY `date_nvl`");
-
 $req = new requete($site->db,"SELECT `mailing`.`id_mailing`,
                                      CONCAT(`asso`.`nom_unix_asso`,
                                             IF(`mailing`.`nom` = '',
@@ -115,6 +98,35 @@ $tabl = new sqltable ("modere_mailing",
 
 $modhelp->add ($tabl);
 $site->add_contents ($modhelp);
+
+$req = new requete($site->db,"SELECT `mailing`.`id_mailing`,
+                                     CONCAT(`asso`.`nom_unix_asso`,
+                                            IF(`mailing`.`nom` = '',
+                                                '',
+                                                CONCAT('.',`mailing`.`nom`)),
+                                            '@utbm.fr') as address,
+                                     `asso`.`nom_asso`
+                              FROM `mailing`
+                              JOIN `asso`
+                              ON `mailing`.`id_asso_parent` = `asso`.`id_asso`
+                              WHERE `mailing`.`is_valid` = '1'");
+
+$modhelp = new contents("Liste des mailings",
+      "<p>Liste des mailings listes actuellement existantes</p>");
+
+
+$tabl = new sqltable ("list_mailing",
+    "Liste des mailings listes",
+    $req,
+    "moderemailings.php",
+    "id_mailing",
+    array ("address" => "Adresse",
+           "nom_asso" => "Association"),
+    array ("delete" => "Supprimer"),
+    array (),
+    array ());
+
+$site->add_contents ($tabl);
 
 $site->end_page ();
 
