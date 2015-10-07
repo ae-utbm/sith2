@@ -1,7 +1,8 @@
 <?php
 
-/* Copyright 2007
+/* Copyright 2007-2015
  * - Julien Etelain < julien at pmad dot net >
+ * - Skia < lordbanana25 AT mailoo DOT org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -82,6 +83,7 @@ $lst->add("<a href=\"prod_cron.php\">Scripts de maintenance</a>");
 $lst->add("<a href=\"userdelete.php\">Supprimer un utilisateur</a>");
 $lst->add("<a href=\"userfusion.php\">Fusionner des utilisateurs</a>");
 $lst->add("<a href=\"photomassiveimport.php\">Importation massif de photos d'identité</a>");
+$lst->add("<a href=\"../ae/moderemailings.php\">Gestion des mailings listes</a>");
 
 $cts->add($lst);
 

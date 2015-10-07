@@ -39,24 +39,6 @@ function make_delete_link($mailing, $user=false, $mail=false) {
     return $link.'">Supprimer</a>';
 }
 
-function reset_default_mailing($site, $asso) {
-    $mllist = $asso->get_existing_ml();
-    $mailing = new mailing($site->db, $site->dbrw);
-    foreach ($mllist as $ml_id) {
-        $mailing->load_by_id($ml_id);
-        if($mailing->nom === ""
-            || ($asso->nom_unix === "ae" && $mailing->nom === "bureau"))
-            $mailing->remove();
-    }
-    if ($asso->nom_unix === "ae")
-        $mailing->create("bureau", $asso->id, 1);
-    else
-        $mailing->create("", $asso->id, 1);
-    foreach($asso->get_team_member() as $user_id) {
-        $mailing->add_member($user_id);
-    }
-}
-
 $site = new site ();
 $asso = new asso($site->db,$site->dbrw);
 $asso->load_by_id($_REQUEST["id_asso"]);
