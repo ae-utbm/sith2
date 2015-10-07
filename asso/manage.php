@@ -44,13 +44,14 @@ function reset_default_mailing($site, $asso) {
     $mailing = new mailing($site->db, $site->dbrw);
     foreach ($mllist as $ml_id) {
         $mailing->load_by_id($ml_id);
-        if($mailing->nom === "")
+        if($mailing->nom === ""
+            || ($asso->nom_unix === "ae" && $mailing->nom === "bureau"))
             $mailing->remove();
     }
     if ($asso->nom_unix === "ae")
-        $mailing->create("bureau", $asso->id);
+        $mailing->create("bureau", $asso->id, 1);
     else
-        $mailing->create("", $asso->id);
+        $mailing->create("", $asso->id, 1);
     foreach($asso->get_team_member() as $user_id) {
         $mailing->add_member($user_id);
     }

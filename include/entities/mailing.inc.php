@@ -34,7 +34,7 @@ class mailing extends stdentity
     var $id_asso_parent;
     var $is_valid;
 
-    function create($nom, $id_asso_parent) {
+    function create($nom, $id_asso_parent, $is_valid = 0) {
         if ( is_null($this->dbrw) ) return; // "Read Only" mode
 
         $this->nom = $nom;
@@ -45,7 +45,7 @@ class mailing extends stdentity
             array(
                 "id_asso_parent" => $this->id_asso_parent,
                 "nom" => $this->nom,
-                "is_valid"=>0
+                "is_valid"=>$is_valid
             )
         );
 
