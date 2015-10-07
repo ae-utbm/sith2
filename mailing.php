@@ -45,4 +45,5 @@ while ( $row = $req->get_row() )
     }
     foreach($mailing->get_subscribed_email() as $mail)
         echo $mail,"  ";
+    echo "\n";
 }
