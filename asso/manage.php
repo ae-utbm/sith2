@@ -47,7 +47,10 @@ function reset_default_mailing($site, $asso) {
         if($mailing->nom === "")
             $mailing->remove();
     }
-    $mailing->create("", $asso->id);
+    if ($asso->nom_unix === "ae")
+        $mailing->create("bureau", $asso->id);
+    else
+        $mailing->create("", $asso->id);
     foreach($asso->get_team_member() as $user_id) {
         $mailing->add_member($user_id);
     }
