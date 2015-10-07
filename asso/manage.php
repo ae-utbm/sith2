@@ -92,7 +92,8 @@ if ( $asso->is_mailing_allowed() )
     if (isset($_REQUEST['add_mailing'])) {
         if (preg_match('/^[a-z-]{3,8}$/', strtolower($_REQUEST['add_mailing']), $name) === 1) {
             $mailing = new mailing($site->db, $site->dbrw);
-            $mailing->create($name[0], $asso->id);
+            $modere = ($site->user->is_in_group('root')) ? 1 : 0;
+            $mailing->create($name[0], $asso->id, $modere);
             $cts->add_paragraph("Mailing ".$mailing->get_address()." créée!");
         } else {
             $cts->add_paragraph("Mailing ".$_REQUEST['add_mailing']." non valide (entre 3 et 8 lettres, tiret autorisé)");

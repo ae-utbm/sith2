@@ -34,18 +34,31 @@ if (!$site->user->is_in_group ("moderateur_site"))
 
 $site->start_page ("accueil", "Modération des mailings");
 
-/*suppression via la sqltable */
+/* moderation/suppression via la sqltable */
 if ((isset($_REQUEST['id_mailing']))
     && ($_REQUEST['action'] == "modere"))
 {
-  $news = new mailing ($site->db, $site->dbrw);
+  $ml = new mailing ($site->db, $site->dbrw);
   $id = intval($_REQUEST['id_mailing']);
-  $news->load_by_id ($id);
-  $news->set_valid ();
+  $ml->load_by_id ($id);
+  $ml->set_valid ();
 
   $site->add_contents (new contents("Moderation",
             "<p>Modération eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
 }
+if ((isset($_REQUEST['id_mailing']))
+    && ($_REQUEST['action'] == "delete"))
+{
+  $ml = new mailing ($site->db, $site->dbrw);
+  $id = intval($_REQUEST['id_mailing']);
+  $ml->load_by_id ($id);
+  $ml->remove ();
+
+  $site->add_contents (new contents("Suppression",
+            "<p>Suppression eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
+}
+
+
 
 /* Evidemment on pourrait mettre de la moderation massive, mais je ne
  * pense pas que ce soit une super idee concernant la qualité de la
@@ -95,7 +108,8 @@ $tabl = new sqltable ("modere_mailing",
     "id_mailing",
     array ("address" => "Adresse",
            "nom_asso" => "Association"),
-    array ("modere" => "moderer"),
+    array ("modere" => "Modérer",
+           "delete" => "Supprimer"),
     array (),
     array ());
 
