@@ -39,6 +39,20 @@ function make_delete_link($mailing, $user=false, $mail=false) {
     return $link.'">Supprimer</a>';
 }
 
+function reset_default_mailing($site, $asso) {
+    $mllist = $asso->get_existing_ml();
+    $mailing = new mailing($site->db, $site->dbrw);
+    foreach ($mllist as $ml_id) {
+        $mailing->load_by_id($ml_id);
+        if($mailing->nom === "")
+            $mailing->remove();
+    }
+    $mailing->create("", $asso->id);
+    foreach($asso->get_team_member() as $user_id) {
+        $mailing->add_member($user_id);
+    }
+}
+
 $site = new site ();
 $asso = new asso($site->db,$site->dbrw);
 $asso->load_by_id($_REQUEST["id_asso"]);
@@ -73,6 +87,7 @@ $cts->add(new tabshead($subtabs,"mailing","","subtab"));
 
 if ( $asso->is_mailing_allowed() )
 {
+    /* ACTIONS */
     if (isset($_REQUEST['add_mailing'])) {
         if (preg_match('/^[a-z-]{3,8}$/', strtolower($_REQUEST['add_mailing']), $name) === 1) {
             $mailing = new mailing($site->db, $site->dbrw);
@@ -89,6 +104,9 @@ if ( $asso->is_mailing_allowed() )
         $mailing->remove();
         $cts->add_paragraph("Mailing ".$name." supprimée!");
     } 
+    if (isset($_REQUEST['reset'])) {
+        reset_default_mailing($site, $asso);
+    }
     if (isset($_REQUEST['add_member'])) {
         $user = new utilisateur($site->db);
         $user->load_by_id($_REQUEST['add_member']);
@@ -129,6 +147,9 @@ if ( $asso->is_mailing_allowed() )
             $cts->add_paragraph("e-mail non valide");
         }
     }
+
+
+    /* PAGE */
 
     $mllist = $asso->get_existing_ml();
     $mailing = new mailing($site->db);

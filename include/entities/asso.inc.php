@@ -483,6 +483,23 @@ class asso extends stdentity
       return $row['id_utilisateur'];
   }
 
+  /**
+   * Renvoie la liste des membres du bureau de l'association
+   * @return $list  Un tableau contenant la liste des ID utilisateur membres du 
+   * bureau
+   */
+  function get_team_member () {
+      $sql = 'SELECT id_utilisateur FROM `asso_membre` WHERE id_asso='.$this->id.' AND role >= '.ROLEASSO_MEMBREBUREAU.' ORDER BY role';
+      $req = new requete ($this->db, $sql);
+      $list = array();
+      if($req->lines > 0) {
+          while($row = $req->get_row()) {
+              $list[] = intval($row['id_utilisateur']);
+          }
+      }
+      return $list;
+  }
+
   function get_tabs($user)
   {
     $tabs = array(array("info","asso.php?id_asso=".$this->id, "Informations"));
