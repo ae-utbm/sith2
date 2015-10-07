@@ -119,6 +119,8 @@ class mailing extends stdentity
             LIMIT 1");
         if ( $req->lines == 1 ) {
             $row = $req->get_row();
+            if ($this->nom == "")
+                return $row['nom_unix_asso'];
             return $row['nom_unix_asso'].".".$this->nom;
         } else {
             return $this->nom;
