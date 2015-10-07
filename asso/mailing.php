@@ -166,7 +166,7 @@ $cts->add(new tabshead($asso->get_tabs($site->user),"mebs"));
 
 $subtabs = array();
 $subtabs[] = array("mailing","asso/mailing.php?id_asso=".$asso->id,"Mailing aux membres");
-$subtabs[] = array("mldiff","asso/mldiff.php?id_asso=".$asso->id,"Gérer les mailings-lists");
+$subtabs[] = array("manage","asso/manage.php?id_asso=".$asso->id,"Gérer les mailings-lists");
 $subtabs[] = array("trombino","asso/membres.php?view=trombino&id_asso=".$asso->id,"Trombino (membres actuels)");
 $subtabs[] = array("vcards","asso/membres.php?action=getallvcards&id_asso=".$asso->id,"Télécharger les vCard (membres actuels)");
 $subtabs[] = array("anciens","asso/membres.php?view=anciens&id_asso=".$asso->id,"Anciens membres");
@@ -188,7 +188,7 @@ if ( $asso->is_mailing_allowed() )
     $cts->add_paragraph("Votre adresse principale est ".$site->user->email.". <a href=\"../user.php?page=edit&amp;see=email\">Changer d'adresse principale</a>");
   }
 
-  $cts->add_title(2,"Inscription manuelle");
+  $cts->add_title(2,"Inscription manuelle (non fonctionnel)");
   if ( $_REQUEST["action"] == "subscribe" )
   {
     if ( !CheckEmail($_REQUEST["email"],3) )
@@ -206,7 +206,7 @@ if ( $asso->is_mailing_allowed() )
   $frm->add_submit("valid","Inscrire");
   $cts->add($frm);
 
-  $cts->add_title(2,"Desinscription manuelle");
+  $cts->add_title(2,"Desinscription manuelle (non fonctionnel)");
   if ( $_REQUEST["action"] == "unsubscribe" )
   {
     if ( !CheckEmail($_REQUEST["email"],3) )
