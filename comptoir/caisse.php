@@ -231,7 +231,7 @@ elseif ($_REQUEST['action'] == "new")
 
     if ($user->is_in_group("gestion_syscarteae"))
     {
-      if ($id_comptoir==2)
+      if ($site->comptoir->id=='2')
       {
         $frm->add_checkbox("caisse_videe", "Coffre vidé");
       }
