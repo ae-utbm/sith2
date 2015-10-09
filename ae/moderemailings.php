@@ -29,7 +29,7 @@ require_once($topdir . "include/entities/mailing.inc.php");
 
 $site = new site ();
 
-if (!$site->user->is_in_group ("moderateur_site"))
+if (!($site->user->is_in_group ("moderateur_site") || $site->user->is_in_group("root")))
   $site->error_forbidden("accueil");
 
 $site->start_page ("accueil", "Modération des mailings");
