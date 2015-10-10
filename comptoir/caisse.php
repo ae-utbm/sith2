@@ -231,7 +231,14 @@ elseif ($_REQUEST['action'] == "new")
 
     if ($user->is_in_group("gestion_syscarteae"))
     {
-      $frm->add_checkbox("caisse_videe", "Caisse vidée");
+      if ($site->comptoir->id=='2')
+      {
+        $frm->add_checkbox("caisse_videe", "Coffre vidé");
+      }
+      else 
+      {
+        $frm->add_checkbox("caisse_videe", "Caisse vidée");
+      }
     }
 
     $frm->add_text_area("comment", "Commentaire", "", 60, 12);
