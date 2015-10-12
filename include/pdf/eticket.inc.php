@@ -86,7 +86,7 @@ class eticket_pdf extends FPDF
     {
         /* We try to use the same informations as carteae.inc.php */
         $code = strtoupper ($code);
-        $barcode = new PDF_C128AObject(67, 25, BCS_ALIGN_CENTER | BCS_DRAW_TEXT, $code, &$this, $this->GetX (), $this->GetY ());
+        $barcode = new PDF_C128AObject(67, 25, BCS_ALIGN_CENTER | BCS_DRAW_TEXT, $code, $this, $this->GetX (), $this->GetY ());
         if (!$barcode->DrawObject (0.25))
             echo "Error occured with barcode : ".$barcode->GetError ()."\n";
     }

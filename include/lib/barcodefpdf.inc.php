@@ -175,7 +175,7 @@ class PDF_C128AObject extends PDF_BarcodeObject
 
   function PDF_C128AObject($Width, $Height, $Style, $Value, $FPDF, $x=0, $y=0)
   {
-    $this->PDF_BarcodeObject($Width, $Height, $Style, &$FPDF, $x, $y);
+    $this->PDF_BarcodeObject($Width, $Height, $Style, $FPDF, $x, $y);
     $this->mValue   = $Value;
     $this->mChars   = " !\"#$%&'()*+´-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_";
     $this->mCharSet = array ("212222",   /*   00 */
