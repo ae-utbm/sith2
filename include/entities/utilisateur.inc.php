@@ -1004,6 +1004,7 @@ class utilisateur extends stdentity
                         "utilisateurs",
                         array("utbm_utl"=>$this->utbm),
                         array("id_utilisateur"=>$this->id));
+      $this->validate();
       return true;
     }
 
@@ -1378,8 +1379,10 @@ class utilisateur extends stdentity
                       array('email_utl' => $this->email),
                       array( 'id_utilisateur' => $this->id));
 
-    if ( $admin )
+    if ( $admin ) {
+      $this->validate();
       return;
+    }
 
     $this->invalidate("email");
     $this->send_activation_email($email);
@@ -1396,7 +1399,10 @@ class utilisateur extends stdentity
         ),
       array( 'id_utilisateur' => $this->id));
 
-    if ( $admin ) return;
+    if ( $admin ) {
+        $this->validate();
+        return;
+    }
 
     $this->invalidate("emailutbm");
     $this->send_activation_email($email);
@@ -1420,7 +1426,7 @@ class utilisateur extends stdentity
 Votre adresse email a été changée.
 
 Pour valider votre adresse email et reactiver votre compte, veuillez vous rendre à l'adresse
-http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."confirm.php?id=" . $this->id . "&hash=" . $this->hash . "
+http://ae". ($GLOBALS['taiste'] ? "-taiste" : "") .".utbm.fr". $GLOBALS["wwwtopdir"]."confirm.php?id=" . $this->id . "&hash=" . $this->hash . "
 
 L'équipe info AE";
 
