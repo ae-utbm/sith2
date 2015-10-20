@@ -114,8 +114,8 @@ class eticket_pdf extends FPDF
     function Footer ()
     {
         // Positionnement à 1,5 cm du bas
-        $this->SetY(-25);
-        $this->Image ($this->bandeau_partenaires, 0, $this->GetY(), 210, 20);
+        $this->SetY(-45);
+        $this->Image ($this->bandeau_partenaires, 0, $this->GetY(), 210, 0);
     }
 }
 
