@@ -93,8 +93,7 @@ class genealogie
      * la "descendance"
      */
     $req = "SELECT COALESCE(`surnom_utbm`,`alias_utl`),
-                   CONCAT(`prenom_utl`,' ',`nom_utl`) AS `nom`
-
+                    `utilisateurs`.`id_utilisateur`
             FROM `utilisateurs`
             INNER JOIN `utl_etu_utbm` USING ( `id_utilisateur` )
             WHERE `utilisateurs`.`id_utilisateur` = ". $this->id_utl;
@@ -102,7 +101,8 @@ class genealogie
     $sql = new requete ($this->db, $req);
     $rs = $sql->get_row ();
     $this->surnom = $rs[0];
-    $nom = $rs[1] . "\\n" . $rs[0];
+    $this->explored[] = $rs[1];
+    $nom = $rs[0];
 
     $this->get_childs ($this->id_utl, $nom, 3);
 
@@ -151,7 +151,7 @@ class genealogie
       {
   /* recuperation du surnom */
   $infos = $sql->get_row();
-  $nom_child = $infos[1] . "\\n" . $infos[0];
+  $nom_child = $infos[0];
   $id_child  = $infos[2];
   $this->write_on_conf ($nom, $nom_child);
   if (!in_array($id_child, $this->explored))
