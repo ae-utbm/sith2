@@ -53,9 +53,13 @@ if ( !$site->user->is_valid() )
 }
 
 $id = mysql_real_escape_string($_REQUEST['id']);
+$depth = 3;
+if(isset($_REQUEST['depth'])) {
+    $depth = intval(mysql_real_escape_string($_REQUEST['depth']));
+}
 
 $gene = new genealogie ();
-$gene->generate_filiation_utl ($id, $site->db);
+$gene->generate_filiation_utl ($id, $site->db, $depth);
 $gene->generate ();
 
 $gene->destroy ();

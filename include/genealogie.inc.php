@@ -40,6 +40,9 @@ class genealogie
   /* utilisateur (id) */
   var $id_utl;
 
+  /* profondeur */
+  var $depth;
+
   /* utilisateur (surnom) */
   var $surnom;
 
@@ -72,11 +75,12 @@ class genealogie
     $this->out_conf .= "\tnode [shape=box,style=filled,color=firebrick1];\n";
  }
 
-  function generate_filiation_utl ($id_utl, $db)
+  function generate_filiation_utl ($id_utl, $db, $depth)
   {
     /* affectation variables membres */
     $this->id_utl = $id_utl;
     $this->db = $db;
+    $this->depth = $depth;
     /* tableau des fillots deja parses */
     $this->explored = array ();
 
@@ -104,7 +108,7 @@ class genealogie
     $this->explored[] = $rs[1];
     $nom = $rs[0];
 
-    $this->get_childs ($this->id_utl, $nom, 3);
+    $this->get_childs ($this->id_utl, $nom, $this->depth);
 
     /* fin configuration */
     $this->out_conf .= "}\n";
