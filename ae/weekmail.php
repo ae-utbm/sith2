@@ -130,8 +130,10 @@ if($_REQUEST['action']
   else
   {
     unset($_REQUEST['page']);
-    $weekmail->send();
-    $site->add_contents(new contents(false,'Weekmail envoyé avec succès'));
+    if($weekmail->send()==True)
+        $site->add_contents(new contents(false,'Weekmail envoyé avec succès'));
+    else
+        $site->add_contents(new contents(false,'Erreur dans l\'envoi du weekmail'));
   }
 }
 

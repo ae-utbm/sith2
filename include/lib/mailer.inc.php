@@ -101,11 +101,13 @@ class mailer
     else
       $msg   .= eregi_replace("\\\'","'",str_replace('=','=3D', $this->htmltext))."\n";
     $msg     .= "--$boundary--\n";
-    mail(implode(', ',$this->to),
-         $this->subject,
-         $msg,
-         "Reply-to: ".$this->from."\nFrom: ".$this->from."\n".$header);
-    unset($msg);
+    if(mail(implode(', ',$this->to),
+             $this->subject,
+             $msg,
+             "Reply-to: ".$this->from."\nFrom: ".$this->from."\n".$header))
+        return 1;
+    else
+        return 0;
   }
 }
 ?>

@@ -404,16 +404,15 @@ L\'AE';
                             //'enseignants@utbm.fr',
                             //'iatoss@utbm.fr',
                             'personnels@utbm.fr',
-                            'aude.petit@utbm.fr',
-                            'info@ml.aeinfo.net'));
+                            'aude.petit@utbm.fr'));
     $this->rendu_html = $this->_render_html();
     $this->rendu_txt  = $this->_render_txt();
     $mailer->set_html($this->rendu_html);
     $mailer->set_plain($this->rendu_txt);
-    $mailer->send();
+    $this->statut = $mailer->send();
     new update($this->dbrw,
                'weekmail',
-               array('statut_weekmail'=>1,
+               array('statut_weekmail'=>$this->statut,
                      'date_weekmail'=>date('Y-m-d'),
                      'rendu_html_weekmail'=>$this->rendu_html,
                      'rendu_txt_weekmail'=>$this->rendu_txt),
@@ -421,7 +420,7 @@ L\'AE';
     /*new delete($this->dbrw,
                'weekmail_news',
                array('id_weekmail'=>$this->id));*/
-    return true;
+    return $this->statut;
   }
 
   public function is_valid( )
