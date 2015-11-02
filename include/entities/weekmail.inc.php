@@ -22,6 +22,7 @@
  */
 
 require_once($topdir.'include/entities/files.inc.php');
+require_once($topdir.'include/taiste.inc.php');
 require_once($topdir.'include/entities/asso.inc.php');
 require_once($topdir.'include/lib/weekmail_parser.inc.php');
 /**
@@ -400,11 +401,13 @@ L\'AE';
     require_once($topdir.'include/lib/mailer.inc.php');
     $mailer = new mailer('Association des Etudiants <ae@utbm.fr>',
                          '[weekmail] '.$this->titre);
-    $mailer->add_dest(array('etudiants@utbm.fr',
-                            //'enseignants@utbm.fr',
-                            //'iatoss@utbm.fr',
-                            'personnels@utbm.fr',
-                            'aude.petit@utbm.fr'));
+    if($GLOBALS['taiste']){
+        $mailer->add_dest(array('ae.info@utbm.fr'));
+    } else {
+        $mailer->add_dest(array('etudiants@utbm.fr',
+                    'personnels@utbm.fr',
+                    'aude.petit@utbm.fr'));
+    }
     $this->rendu_html = $this->_render_html();
     $this->rendu_txt  = $this->_render_txt();
     $mailer->set_html($this->rendu_html);
