@@ -36,7 +36,7 @@ require_once ("./include/answer.inc.php");
 function log_success ($message)
 {
   $fp = fopen("/var/www/ae2/e-boutic/.autorep.log", "a+");
-  fwrite($fp, $message . "\n");
+  fwrite($fp, date() + $message . "\n");
   fclose($fp);
 }
 
