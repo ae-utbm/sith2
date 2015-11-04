@@ -489,27 +489,24 @@ div.tabsv2 span:last-child a:hover
 div.sectionlinks
 {
     margin: 0 100px;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    padding: 10px 20px;
     text-align: justify;
     text-transform: uppercase;
     background-color:#774499;
-    height:8px;
+    vertical-align: middle;
 }
 div.sectionlinks a, div.sectionlinks span
 {
     padding-right: 1em;
     padding-left: 1em;
-    font-size: 80%;
+    font-size: 100%;
     color: #ffffff;
-    margin:5px;
+    display: inline-block;
+    margin: 0 -0.5px;
 }
 div.sectionlinks a:hover
 {
-    padding-right: 1em;
-    padding-left: 1em;
-    font-size: 80%;
-    color: #ffffff;
+    color: lightgrey;
 }
 
 /*SUBSTITUT MENU 2 :en cas d'absence de liens rapide sous les onglets principaux */
