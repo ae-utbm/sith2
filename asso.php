@@ -93,7 +93,7 @@ else if ( isset($_REQUEST["id_asso"]) )
         $Error = "Un ou plusieurs champs sont incomplets.";
         $_REQUEST['page'] = "edit";
       }
-      elseif ( !preg_match("#^([a-z0-9][a-z0-9\.]+[a-z0-9])$#i",strtolower($_REQUEST['nom_unix'])) )
+      elseif ( !preg_match("#^([a-z0-9][a-z0-9\.\-]+[a-z0-9])$#i",strtolower($_REQUEST['nom_unix'])) )
       {
         $Error = "Le nom Unix ne doit comporter que des caractères alpha-numériques et des points (jamais à la fin), et doit faire au moins trois caractères";
         $_REQUEST['page'] = "edit";
