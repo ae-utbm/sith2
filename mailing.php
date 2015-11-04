@@ -59,6 +59,8 @@ while ( $row = $req->get_row() )
 {
     $mailing = new mailing($db);
     $mailing->load_by_id($row['id_mailing']);
+    if (empty($mailing->get_subscribed_user()))
+        continue;
     echo $mailing->get_full_name(),": ";
     foreach($mailing->get_subscribed_user() as $user_id) {
         $user = new utilisateur($db);

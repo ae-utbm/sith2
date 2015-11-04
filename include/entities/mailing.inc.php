@@ -229,6 +229,10 @@ function reset_default_mailing($site, $asso) {
             || ($asso->nom_unix === "ae" && $mailing->nom === "bureau"))
             $mailing->remove();
     }
+    if ($asso->hidden == 1) {
+        error_log("Asso ".$asso->nom_unix." is hidden, not regenerating its mailing list");
+        return;
+    }
     if ($asso->nom_unix === "ae")
         $mailing->create("bureau", $asso->id, 1);
     else

@@ -132,8 +132,7 @@ $site->add_contents ($tabl);
 if ($site->user->is_in_group('root')) {
     if(isset($_REQUEST['regenerate'])) {
         $req = new requete($site->db, "SELECT *
-                                       FROM `asso`
-                                       WHERE hidden = 0");
+                                       FROM `asso`");
         while($row = $req->get_row()) {
             $asso = new asso($site->db);
             $asso->load_by_id($row['id_asso']);

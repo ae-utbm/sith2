@@ -135,7 +135,8 @@ if ( $asso->is_mailing_allowed() )
 
     /* PAGE */
 
-    $cts->add_paragraph('<a href="manage.php?id_asso='.$asso->id.'&reset">Réinitialiser la mailing du bureau</a>');
+    if ($asso->hidden == 0)
+        $cts->add_paragraph('<a href="manage.php?id_asso='.$asso->id.'&reset">Réinitialiser la mailing du bureau</a>');
 
     $mllist = $asso->get_existing_ml();
     $mailing = new mailing($site->db);
