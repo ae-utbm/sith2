@@ -8,3 +8,4 @@ include/mysqlpg.inc.php
 include/cts/gmap.inc.php
 include/entities/fax.inc.php
 e-boutic/include/request.inc.php
+images/icons/16/static*.png
