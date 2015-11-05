@@ -41,8 +41,6 @@ function log_success ($message)
   fclose($fp);
 }
 
-
-
 /* Ca, c'est cense etre obligatoire
  * (doc sogenactif)
  */

@@ -150,6 +150,45 @@ class answer
 
   }
 
+  function set_answer($data) {
+    $ret = explode("!", $data);
+
+    /** la plupart de ces affectations sont inutiles
+        toutefois j'ai pr�f�r� rester proche de l'API et les garder */
+    $this->code                = $ret[1];
+    $this->error               = $ret[2];
+    $this->merchant_id         = $ret[3];
+    $this->merchant_country    = $ret[4];
+    $this->amount              = $ret[5];
+    $this->transaction_id      = $ret[6];
+    $this->payment_means       = $ret[7];
+    $this->transmission_date   = $ret[8];
+    $this->payment_time        = $ret[9];
+    $this->payment_date        = $ret[10];
+    $this->response_code       = $ret[11];
+    $this->payment_certificate = $ret[12];
+    $this->authorisation_id    = $ret[13];
+    $this->currency_code       = $ret[14];
+    $this->card_number         = $ret[15];
+    $this->cvv_flag            = $ret[16];
+    $this->cvv_response_code   = $ret[17];
+    $this->bank_response_code  = $ret[18];
+    $this->complementary_code  = $ret[19];
+    $this->complementary_info  = $ret[20];
+    $this->return_context      = $ret[21];
+    $this->caddie              = $ret[22];
+    $this->receipt_complement  = $ret[23];
+    $this->merchant_language   = $ret[24];
+    $this->language            = $ret[25];
+    $this->customer_id         = $ret[26];
+    $this->order_id            = $ret[27];
+    $this->customer_email      = $ret[28];
+    $this->customer_ip_address = $ret[29];
+    $this->capture_day         = $ret[30];
+    $this->capture_mode        = $ret[31];
+    $this->data                = $ret[32];
+  }
+
   /**
    * @brief fonction de v�rification d'ajout
    * pour �viter de sauver 2 fois de suite la meme facture
