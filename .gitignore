@@ -2,3 +2,6 @@
 .*
 accounts
 data
+include/redis.inc.php
+include/mysqlae.inc.php
+include/mysqlpg.inc.php

@@ -55,11 +55,11 @@ else
   class mysqlae extends mysql {
     function mysqlae ($type = "ro") {
       if ($type == "rw") {
-        if ( ! $this->mysql('login_read_write', 'mdp_read_write', 'host', 'base')) {
+        if ( ! $this->mysql('__LOG_RW__', '__PWD_RW__', '__HOST__', '__BASE__')) {
           return FALSE;
         }
       } else {
-        if ( ! $this->mysql('login_read_only', 'mdp_read_only', 'host', 'base')) {
+        if ( ! $this->mysql('__LOG_RO__', '__PWD_RO__', '__HOST__', '__BASE__')) {
           return FALSE;
         }
       }
@@ -71,7 +71,7 @@ else
     function mysqlforum ()
     {
       // Tschuut on a rien vu ...
-      if ( ! $this->mysql('importforum', 'importequoi', 'host', 'UTBM'))
+      if ( ! $this->mysql('importforum', 'importequoi', '__HOST__', 'UTBM'))
         return FALSE;
     }
   }

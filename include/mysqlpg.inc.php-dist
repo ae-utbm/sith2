@@ -3,7 +3,7 @@ class mysqlpg extends mysql {
 
   function mysqlpg ($type = "ro") {
 
-    $this->mysql('login_petit_geni', 'mdp_petit_geni', 'host', 'base');
+    $this->mysql('__LOG_RO__', '__PWD_RO__', '__HOST__', '__BASE__');
 
   }
 }

@@ -54,8 +54,8 @@ class fax extends stdentity
   var $numdest;
 
   /* les identifiants freebox de l'AE */
-  var $login = "__LOGIN_FREEBOX__";
-  var $pass = "__MDP_FREEBOX__";
+  var $login = "0384581564";
+  var $pass = "ZaRypqz4";
 
   /* identifiant de l'utilisateur faisant la demande */
   var $id_utilisateur;

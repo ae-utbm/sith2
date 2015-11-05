@@ -28,7 +28,7 @@ function redis_open_connection ()
     try {
 	$redis = new Redis ();
 	$redis->pconnect ('192.168.2.219');
-    	$redis->auth ('mdp_redis');
+    	$redis->auth ('__REDIS_PWD__');
 	return $redis;
     } catch (Exception $e) {
 	if($GLOBALS['taiste'])
