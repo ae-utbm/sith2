@@ -62,6 +62,7 @@ class eticket_pdf extends FPDF
         $this->add_line ('Prénom:', $user_infos['prenom']);
         $this->add_line ('Nom:', $user_infos['nom']);
         $this->add_line ('Surnom:', $user_infos['nickname']);
+        $this->add_line('Nombre de place'.(($user_infos['quantite']>1)?'s':'').':', $user_infos['quantite']);
 
         $this->Ln(20);
 		
