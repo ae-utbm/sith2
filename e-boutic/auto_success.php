@@ -35,12 +35,11 @@ require_once ("./include/answer.inc.php");
 /* fonction rapide de log des retours */
 function log_success ($message)
 {
-  $fp = fopen("/var/www/ae2/e-boutic/.autorep.log", "a+");
-  fwrite($fp, date() + $message . "\n");
+  $rep = ($GLOBALS['taiste']) ? "taiste" : "ae2";
+  $fp = fopen("/var/www/".$rep."/e-boutic/.autorep.log", "a+");
+  fwrite($fp, date("Y\-m\-d H\:i") . " " . $message . "\n");
   fclose($fp);
 }
-
-
 
 /* Ca, c'est cense etre obligatoire
  * (doc sogenactif)
@@ -51,7 +50,8 @@ if (!isset($_POST['DATA']))
   die();
 }
 
-log_success("Variable DATA postée.");
+log_success("Variable DATA postée: ".$_POST['DATA']);
+error_log("DATA: ".$_POST['DATA']);
 
 /* else : les serveurs sogenactif ont bien posté ce
    qu'on attendait                                   */
