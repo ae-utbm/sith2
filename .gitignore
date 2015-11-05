@@ -5,3 +5,6 @@ data
 include/redis.inc.php
 include/mysqlae.inc.php
 include/mysqlpg.inc.php
+include/cts/gmap.inc.php
+include/entities/fax.inc.php
+e-boutic/include/request.inc.php
