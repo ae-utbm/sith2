@@ -962,7 +962,7 @@ elseif ( $_REQUEST["page"] == "new" )
   $frm->add_date_field("date","Date",time(),true);
   $frm->add_select_field("mode","Mode",$modes_operation);
   $frm->add_text_field("num_cheque","Numéro de chèque");
-  $frm->add_text_field("commentaire","Commentaire","",false);
+  $frm->add_text_area("commentaire","Commentaire","",false);
   $frm->add_select_field("id_libelle","Etiquette",$site->get_libelles($cptasso->id_asso),null);
   $frm->add_entity_smartselect ("id_efact","Facture", $efact, true, false, array("id_classeur"=>$cla->id));
   $frm->add_attached_files_field("files","Fichiers",array(),$asso->id,"Comptabilité/".$cla->nom."/Justificatifs");
