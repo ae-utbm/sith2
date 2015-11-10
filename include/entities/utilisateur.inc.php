@@ -25,6 +25,7 @@
  *
  */
 require_once("carteae.inc.php");
+require_once($topdir . "include/cts/fsearchcache.inc.php");
 require_once($topdir . "include/taiste.inc.php");
 
 
