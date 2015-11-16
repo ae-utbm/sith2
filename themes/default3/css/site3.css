@@ -59,10 +59,10 @@
 body
 {
     background: #000000;
-    background-image: url("../images/fond_gala_2015.png");
+    background-image: url("../images/fond_gala_2015.png"), url("../images/fond_gala_2015_mosaic.png");
     margin: 0;
     padding: 0;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat, repeat;
     background-position: -0px 0px;
 }
 html,body
