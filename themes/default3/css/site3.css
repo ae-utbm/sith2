@@ -59,11 +59,11 @@
 body
 {
     background: #CCCCCC;
-    background-image: url("../images/fond_pere_200_13.png");
+    background-image: url("../images/global-top.png");
     margin: 0;
     padding: 0;
-    background-repeat: no-repeat, repeat;
-    background-position: -0px 0px, 44px 27px;
+    background-repeat: no-repeat;
+    background-position: -50px 0px;
 }
 html,body
 {
@@ -89,12 +89,10 @@ div#header
     z-index:59;
     position:relative;
     margin:0 100px;
-    height:205px;
+    height:85px;
 }
 div#logo
 {
-    bottom: 0;
-    position: absolute;
     float:left;
     /*display:block-inline;*/
 }
