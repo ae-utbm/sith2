@@ -93,6 +93,8 @@ div#header
 }
 div#logo
 {
+    bottom: 0;
+    position: absolute;
     float:left;
     /*display:block-inline;*/
 }
