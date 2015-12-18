@@ -123,7 +123,7 @@ if ( isset($_REQUEST["id_asso"]) )
   $lst->add("<a href=\"membres.php?id_asso=".$asso->id."\">Consulter</a>");
   $lst->add("<a href=\"mailing.php?id_asso=".$asso->id."#sendmembers\"><b>Envoyer un email à tous les membres</b></a>");
   if ( $asso->is_mailing_allowed() )
-    $lst->add("<a href=\"mailing.php?id_asso=".$asso->id."\">Mailing listes, inscription/desinscription manuelle.</a>");
+    $lst->add("<a href=\"manage.php?id_asso=".$asso->id."\">Mailing listes, inscription/desinscription manuelle.</a>");
 
   $brd->add($lst,true);
 
