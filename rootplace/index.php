@@ -48,9 +48,10 @@ $lst = new itemlist();
 $lst->add("<a href=\"".$topdir."group.php\">Gestion des groupes</a>");
 $lst->add("<a href=\"logs.php\">Affichage des logs</a>");
 $lst->add("<a href=\"warning.php\">Message d'alerte</a>");
-$lst->add("<a href=\"updatebyxml.php\">Mise à jour xml</a>");
 $lst->add("<a href=\"saslicences.php\">Gestion des licences pour le SAS</a>");
 $lst->add("<a href=\"forum.php\">Gestion du forum</a>");
+$lst->add("<a href=\"../ae/moderemailings.php\">Gestion des mailings listes</a>");
+$lst->add("<a href=\"prod_cron.php\">Scripts de gestion du site AE</a>");
 $cts->add($lst);
 
 $cts->add_title(2,"AECMS");
@@ -79,11 +80,10 @@ $cts->add($lst);
 
 $cts->add_title(2,"Outils");
 $lst = new itemlist();
-$lst->add("<a href=\"prod_cron.php\">Scripts de maintenance</a>");
 $lst->add("<a href=\"userdelete.php\">Supprimer un utilisateur</a>");
 $lst->add("<a href=\"userfusion.php\">Fusionner des utilisateurs</a>");
 $lst->add("<a href=\"photomassiveimport.php\">Importation massif de photos d'identité</a>");
-$lst->add("<a href=\"../ae/moderemailings.php\">Gestion des mailings listes</a>");
+$lst->add("<a href=\"updatebyxml.php\">Mise à jour xml</a>");
 
 $cts->add($lst);
 
