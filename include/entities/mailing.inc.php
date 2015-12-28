@@ -233,12 +233,18 @@ function reset_default_mailing($site, $asso) {
         error_log("Asso ".$asso->nom_unix." is hidden, not regenerating its mailing list");
         return;
     }
-    if ($asso->nom_unix === "ae")
+    if ($asso->nom_unix === "ae") {
         $mailing->create("bureau", $asso->id, 1);
-    else
+        foreach($asso->get_team_member() as $user_id) {
+            $mailing->add_member($user_id);
+        }
+    } else {
         $mailing->create("", $asso->id, 1);
-    foreach($asso->get_team_member() as $user_id) {
-        $mailing->add_member($user_id);
+        foreach(array($asso->get_member_for_role(ROLEASSO_PRESIDENT), 
+                    $asso->get_member_for_role(ROLEASSO_VICEPRESIDENT), 
+                    $asso->get_member_for_role(ROLEASSO_SECRETAIRE)) as $user_id) {
+            $mailing->add_member($user_id);
+        }
     }
 }
 
