@@ -58,12 +58,12 @@
 }
 body
 {
-    background: #ae2d2d;
-    background-image: url("../images/noel_header.jpg");
+    background: #CCCCCC;
+    background-image: url("../images/global-top.png");
     margin: 0;
     padding: 0;
     background-repeat: no-repeat;
-    background-position: 0px 0px;
+    background-position: -50px 0px;
 }
 html,body
 {
@@ -89,13 +89,11 @@ div#header
     z-index:59;
     position:relative;
     margin:0 100px;
-    height:200px;
+    height:85px;
 }
 div#logo
 {
     float:left;
-    position:absolute;
-    bottom:0;
     /*display:block-inline;*/
 }
 
