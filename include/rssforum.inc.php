@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  * flux rss du forum
  *
