@@ -67,6 +67,7 @@ class utilisateur extends stdentity
   var $tel_maison;
   var $tel_portable;
   var $alias;
+  var $serviceident;
 
   var $utbm;
   var $etudiant;
@@ -403,6 +404,7 @@ class utilisateur extends stdentity
     $this->tel_maison = $row['tel_maison_utl'];
     $this->tel_portable = $row['tel_portable_utl'];
     $this->alias = $row['alias_utl'];
+    $this->serviceident = $row['serviceident'];
     $this->utbm = $row['utbm_utl'];
     $this->etudiant = $row['etudiant_utl'];
     $this->ancien_etudiant = $row['ancien_etudiant_utl'];
@@ -2480,6 +2482,7 @@ L'équipe info AE";
     if(!$this->is_valid())
       return;
     $uid=gen_uid();
+    $this->serviceident = $uid;
     new update($this->dbrw,
                "utilisateurs",
                array("serviceident"=>$uid),

@@ -38,7 +38,11 @@ if(   isset($_REQUEST['id_utilisateur'])
 {
   $user->load_by_service_ident($_REQUEST['id_utilisateur'],$_REQUEST['serviceident']);
 }
-$rss = new rssfeedforum($db, 40, $user);
+$id_forum=null;
+if (isset($_REQUEST['id_forum'])) {
+    $id_forum = mysql_real_escape_string($_REQUEST['id_forum']);
+}
+$rss = new rssfeedforum($db, 40, $user, $id_forum);
 $rss->output();
 
 

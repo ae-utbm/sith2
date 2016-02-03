@@ -35,20 +35,22 @@ class rssfeedforum extends rssfeed
 {
   var $nb;
   var $db;
+  var $id_forum;
 
-  function rssfeedforum(&$db, $nbmessage = 50, &$user=null)
+  function rssfeedforum(&$db, $nbmessage = 50, &$user=null, $id_forum=null)
   {
     $this->db = $db;
     if(is_null($user))
       $user=new utilisateur($this->db);
     $this->user = &$user;
+    $this->id_forum = $id_forum;
     if (intval($nbmessage) < 0)
       $nbmessage = 50;
     $this->nb = $nbmessage;
 
     $this->title = "Les " . $nbmessage . " derniers messages du forum de l'AE";
     $this->description = $this->title;
-    $this->pubUrl = "http://ae.utbm.fr". $GLOBALS["wwwtopdir"]."forum2/";
+    $this->pubUrl = "https://ae.utbm.fr". $GLOBALS["wwwtopdir"]."forum2/";
     $this->link = $this->pubUrl;
 
     $this->rssfeed();
@@ -65,6 +67,14 @@ class rssfeedforum extends rssfeed
                "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
                "(id_groupe_admin IN ($grps)) OR " .
                "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$this->user->id."')) ";
+    }
+    if ( $this->id_forum != null ) {
+        if ($query != '') {
+            $query .= ' AND ';
+        } else {
+            $query .= ' WHERE ';
+        }
+        $query .= "(`frm_forum`.`id_forum` = ".$this->id_forum.")";
     }
     $req = new requete ($this->db, "SELECT
                                              COALESCE(`surnom_utbm`,CONCAT(`prenom_utl`,' ',`nom_utl`)) AS `nom_utilisateur`

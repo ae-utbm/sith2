@@ -61,8 +61,6 @@ if (!$site->get_param ("forum_open", false)) {
 $site->add_css("css/forum.css");
 $site->add_css("css/doku.css");
 $site->add_css("css/planning2.css");
-$site->add_rss("Les 40 derniers messages du forum de l'AE",
-         "rss.php");
 
 if($site->user->is_in_group("ban_forum"))
 {
@@ -159,8 +157,14 @@ if ( isset($_REQUEST["setnosecret"]) )
   setcookie ("nosecret", $_REQUEST["setnosecret"], time() + 31536000, "/", $domain, 0);
 
 
-if ( !$forum->is_valid() )
+if ( !$forum->is_valid() ) {
+  $site->add_rss("Les 40 derniers messages du forum de l'AE",
+             "rss.php?id_utilisateur=".$site->user->id."&serviceident=".$site->user->serviceident);
   $forum->load_by_id(1); // Le forum id=1 est la racine
+} else {
+  $site->add_rss("Les 40 derniers messages du forum de l'AE",
+             "rss.php?id_utilisateur=".$site->user->id."&serviceident=".$site->user->serviceident."&id_forum=".$forum->id);
+}
 
 if ( !$forum->is_right($site->user,DROIT_LECTURE) )
 {
@@ -265,7 +269,7 @@ if ( $_REQUEST["action"] == "post" && !$forum->categorie )
 if ( $_REQUEST['page'] == 'delete' )
 {
   $site->allow_only_logged_users("forum");
-  
+
 
   if ( $message->is_valid() )
   {
@@ -327,7 +331,7 @@ if ( $_REQUEST['page'] == 'delete' )
 	elseif ((($forum->is_admin($site->user)) || ($message->id_utilisateur == $site->user->id))
       && isset($_POST["___i_am_really_sure"]))
 	{
-	  $raison = trim($_REQUEST["raison"]); 
+	  $raison = trim($_REQUEST["raison"]);
 	  if( empty($raison) && ($message->id_utilisateur != $site->user->id))
 	  {
                 $cts = new contents("Raison manquante",
