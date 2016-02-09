@@ -139,6 +139,7 @@ function add_new_form($id = null)
 
       ),1);
   $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
+  $sub_frm_cotiz->add_select_field("comptoir","Comptoir",array(0 => "Bureau AE Belfort", 1 => "Bureau AE Sevenans", 2 => "Bureau AE Montbéliard"));
   $sub_frm_cotiz->add_info("&nbsp;");
 
   $sub_frm_cotiz_ecole = new form("ecoleform",null,null,null,"Étudiant");
@@ -317,8 +318,16 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
       $site->add_contents($info);
     }
 
+    if ( $_REQUEST["comptoir"] == 0 ) {
+      $id_comptoir = 6;
+    } elseif ( $_REQUEST["comptoir"] == 1 ) {
+      $id_comptoir = 5;
+    } elseif ( $_REQUEST["comptoir"] == 2 ) {
+      $id_comptoir = 9;
+    }
+
     $cotisation->load_lastest_by_user ( $user->id );
-    $cotisation->add ( $user->id, $date_fin, $_REQUEST["paiement"], $prix_paye, $_REQUEST["cotiz"] );
+    $cotisation->add ( $user->id, $date_fin, $_REQUEST["paiement"], $prix_paye, $_REQUEST["cotiz"], $id_comptoir );
 
     $a_pris_cadeau = $_REQUEST["cadeau"] == true;
 
@@ -510,6 +519,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                   10 => "Cursus Alternant, 30 €, jusqu'au $date4",
           ),1);
       $frm->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
+      $frm->add_select_field("comptoir","Comptoir",array(0 => "Bureau de Belfort", 1 => "Bureau de Sevenans", 2 => "Bureau de Montbéliard"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
       $frm->add_checkbox("a_pris_cadeau","Cadeau distribué",false);
       foreach ($partenariats as $id_partenariat => $texte_partenariat)
@@ -635,6 +645,7 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
 
     $frm->add_hidden("cotiz",$_POST['cotiz']);
     $frm->add_hidden("paiement",$_POST['paiement']);
+    $frm->add_hidden("comptoir",$_POST['comptoir']);
     $frm->add_hidden("droit_image",$_POST['droit_image']);
     $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
     if (isset($_REQUEST['partenariats']))
@@ -730,6 +741,7 @@ elseif ($_REQUEST["action"] == "newstudent")
     $frm->add($sub_frm,false,false,false,false,false,true,true);
     $frm->add_hidden("cotiz",$_POST['cotiz']);
     $frm->add_hidden("paiement",$_POST['paiement']);
+    $frm->add_hidden("comptoir",$_POST['comptoir']);
     $frm->add_hidden("droit",$_REQUEST["droit_image"]);
     $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
     if (isset($_REQUEST['partenariats']))

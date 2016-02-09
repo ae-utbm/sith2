@@ -90,7 +90,7 @@ class cotisation extends stdentity
   }
 
 
-  function add ( $id_utilisateur, $date_fin, $mode_paiement, $prix_paye, $type_cotis )
+  function add ( $id_utilisateur, $date_fin, $mode_paiement, $prix_paye, $type_cotis, $id_comptoir )
   {
 
     $this->id_utilisateur = $id_utilisateur;
@@ -101,7 +101,7 @@ class cotisation extends stdentity
     $this->mode_paiement_cotis = $mode_paiement;
     $this->prix_paye_cotis = $prix_paye;
     $this->type_cotis = $type_cotis;
-
+    $this->id_comptoir = $id_comptoir;
     $sql = new insert ($this->dbrw,
       "ae_cotisations",
       array(
@@ -113,6 +113,7 @@ class cotisation extends stdentity
         "mode_paiement_cotis" => $this->mode_paiement_cotis,
         "prix_paye_cotis" => $this->prix_paye_cotis,
         "type_cotis" => $this->type_cotis,
+        "id_comptoir" => $this->id_comptoir,
         )
       );
 
@@ -161,6 +162,21 @@ class cotisation extends stdentity
       );
   }
 
+  function comptoir($cadeau=true)
+  {
+    $this->a_pris_cadeau = $cadeau;
+
+    $sql = new update ($this->dbrw,
+      "ae_cotisations",
+      array(
+        "a_pris_cadeau" => $this->a_pris_cadeau
+        ),
+      array(
+        "id_cotisation"=>$this->id
+        )
+      );
+  }
+  
   function mark_carte($carte=true)
   {
     $this->a_pris_carte = $carte;
