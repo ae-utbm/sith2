@@ -26,22 +26,19 @@ $topdir="../";
 require_once("include/comptoirs.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 require_once("include/facture.inc.php");
-$site = new sitecomptoirs();
+$site = new site();
+
+$site = new site ();
+if (!$site->user->is_valid())
+    $site->error_forbidden("services");
+if (!$site->user->is_in_group ('gestion_ae'))
+    $site->error_forbidden("services");
 
 if ( !$site->user->is_valid() )
 {
   header("Location: ../403.php?reason=session");
   exit();
 }
-
-$site->fetch_proprio_comptoirs();
-$comptoirs = array(0=>"-") + $site->proprio_comptoirs;
-
-if ( !count($site->proprio_comptoirs) && !$site->user->is_in_group("gestion_ae") )
-  $site->error_forbidden("services");
-
-$site->set_admin_mode();
-
 
 if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
 {
@@ -166,7 +163,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
 
 $site->start_page("services","Comptabilité cotisations");
 
-$cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / Ventes système carte AE/e-boutic");
+$cts = new contents("<a href=\"admin.php\">Administration cotisations</a> / Ventes système carte AE/e-boutic");
 
 $frm = new form ("cptacpt","compta.php",true,"POST","Critères de selection");
 $frm->add_hidden("action","view");
