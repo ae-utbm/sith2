@@ -43,6 +43,7 @@ $sublist->add("<a href=\"".$topdir."entreprise.php\">Carnet d'adresses</a>");
 $sublist->add("<a href=\"".$topdir."compta/\">Comptabilité</a>");
 $sublist->add("<a href=\"".$topdir."comptoir/admin.php\">Comptoirs AE</a>");
 $sublist->add("<a href=\"".$topdir."compta/eticket.php\">Gestion E-tickets</a>");
+$sublist->add("<a href=\"".$topdir."compta/cotisations.php\">Cotisations</a>");
 $board->add($sublist,true);
 
 $sublist = new itemlist ("Opérations diverses", "boxlist");
