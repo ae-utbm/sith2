@@ -172,8 +172,8 @@ $frm->add_hidden("action","view");
 $frm->add_select_field("mode","Mode", array(""=>"Brut","day"=>"Statistiques/Jour","week"=>"Statistiques/Semaines","month"=>"Statistiques/Mois","year"=>"Statistiques/Année"),$_REQUEST["mode"]);
 $frm->add_datetime_field("debut","Date et heure de début");
 $frm->add_datetime_field("fin","Date et heure de fin");
-$frm->add_select_field("id_comptoir","Comptoir", $comptoirs,$_REQUEST["id_comptoir"]);
-$frm->add_entity_select("type_cotis", "Type de cotisation", $site->db, "produit",$_REQUEST["id_produit"],true);
+$frm->add_select_field("id_comptoir","Comptoir", array(""=>"Tous", 5=>"Bureau de Sevenans", 6=>"Bureau de Belfort", 7=>"Bureau de Montbéliard"),$_REQUEST["id_comptoir"]);
+$frm->add_entity_select("type_cotis", "Type de cotisation", $site->db, "cotis",$_REQUEST["type_cotis"],true);
 $frm->add_submit("valid","Voir");
 $cts->add($frm,true);
 
@@ -197,14 +197,12 @@ if ( $_REQUEST["action"] == "view" && $_REQUEST["mode"] == "" )
   if ( $comptoir || $site->user->is_in_group("gestion_ae") )
   {
 
-    if ( $_REQUEST["type de cotisation"] )
-      $conds[] = "cpt_vendu.id_assocpt='".intval($_REQUEST["id_assocpt"])."'";
+    if ( $_REQUEST["type_cotis"] )
+      $conds[] = "ae_cotisations.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
 
-    if ( $_REQUEST["id_typeprod"] )
-      $conds[] = "cpt_produits.id_typeprod='".intval($_REQUEST["id_typeprod"])."'";
+    if ( $_REQUEST["type_cotis"] )
+      $conds[] = "ae_cotisation.type_cotis='".intval($_REQUEST["type_cotis"])."'";
 
-    if ( $_REQUEST["id_produit"] )
-      $conds[] = "cpt_vendu.id_produit='".intval($_REQUEST["id_produit"])."'";
   }
 
   if ( count($conds) )
@@ -302,14 +300,12 @@ elseif ( $_REQUEST["action"] == "view"  )
   if ( $comptoir || $site->user->is_in_group("gestion_ae") )
   {
 
-    if ( $_REQUEST["id_assocpt"] )
-      $conds[] = "cpt_vendu.id_assocpt='".intval($_REQUEST["id_assocpt"])."'";
+    if ( $_REQUEST["type_cotis"] )
+      $conds[] = "ae_cotisations.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
 
-    if ( $_REQUEST["id_typeprod"] )
-      $conds[] = "cpt_produits.id_typeprod='".intval($_REQUEST["id_typeprod"])."'";
+    if ( $_REQUEST["type_cotis"] )
+      $conds[] = "ae_cotisation.type_cotis='".intval($_REQUEST["type_cotis"])."'";
 
-    if ( $_REQUEST["id_produit"] )
-      $conds[] = "cpt_vendu.id_produit='".intval($_REQUEST["id_produit"])."'";
   }
 
   if ( count($conds))
