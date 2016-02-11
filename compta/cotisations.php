@@ -1,6 +1,7 @@
 <?php
-/* Copyright 2015
+/* Copyright 2015-2016
  * - Simon Magnin-Feysot < pike at smagnin dot org >
+ * - Skia < skia at libskia dot so >
  * Copyright 2006
  * - Julien Etelain < julien at pmad dot net >
  *
@@ -23,9 +24,10 @@
  * 02111-1307, USA.
  */
 $topdir="../";
-require_once("include/comptoirs.inc.php");
+require_once($topdir."include/site.inc.php");
+require_once($topdir."comptoir/include/comptoirs.inc.php");
+require_once($topdir."comptoir/include/facture.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
-require_once("include/facture.inc.php");
 $site = new site();
 
 $site = new site ();
@@ -273,7 +275,7 @@ if ( $_REQUEST["action"] == "view" && $_REQUEST["mode"] == "" )
           "prix_paye_cotis"=>"Prix payé",
         array(),
         array( )
-        ),true);
+        ),true));
     }
     $cts->add_paragraph("* ATTENTION: Prix coutant basé sur le prix actuel.");
 
@@ -361,7 +363,7 @@ elseif ( $_REQUEST["action"] == "view"  )
     $cts->add(new image("Graphique","compta.graph.php?mode=".$_REQUEST["mode"]."&".
     "debut=".$_REQUEST["debut"]."&".
     "fin=".$_REQUEST["fin"]."&".
-    "id_comptoir=".$_REQUEST["id_comptoir"].),true);
+    "id_comptoir=".$_REQUEST["id_comptoir"]),true);
 
   }
 
