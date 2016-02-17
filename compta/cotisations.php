@@ -192,7 +192,7 @@ if ( $_REQUEST["action"] == "view" && $_REQUEST["mode"] == "" )
     if ( $_REQUEST["fin"] )
         $conds[] = "ae_cotisations.date_cotis <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
 
-    if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["comptoir"] )
+    if ( $_REQUEST["comptoir"] )
     {
         $conds[] = "ae_cotisations.id_comptoir='".intval($_REQUEST["comptoir"])."'";
         $comptoir=true;
@@ -282,7 +282,7 @@ elseif ( $_REQUEST["action"] == "view"  )
     if ( $_REQUEST["fin"] )
         $conds[] = "ae_cotisations.date_cotis <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
 
-    if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["comptoir"] )
+    if ( $_REQUEST["comptoir"] )
     {
         $conds[] = "ae_cotisations.id_comptoir='".intval($_REQUEST["comptoir"])."'";
         $comptoir=true;
