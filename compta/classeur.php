@@ -309,32 +309,10 @@ else if ( $_REQUEST["action"] == "newoplinked" && ($op->is_valid()) && $GLOBALS[
   }
 
 }
-elseif ( $_REQUEST["action"] == "delete" && ($op->is_valid()))
-{
-  if ( $op->id_op_liee && !$site->user->is_in_group("compta_admin") )
-    $Erreur = "Vous ne pouvez pas supprimer cette opération car elle est liée à une autre opération. Seuls les administrateurs sont habilités à faire une telle opération.";
-  elseif($site->is_sure("", "Vous allez supprimer une opération."))
-    $op->delete();
-}
 elseif ( $_REQUEST["action"] == "done" && ($op->is_valid()))
 {
   $op->mark_done();
 }
-elseif($_REQUEST["action"] == "deletes")
-{
-  foreach($_REQUEST["id_ops"] as $id)
-  {
-    $op->load_by_id($id);
-
-    if ( $op->is_valid() )
-    {
-      if ( $op->id_op_liee && !$site->user->is_in_group("compta_admin") )
-        $Erreur = "Une (ou plusieurs) opérations n'a pas été supprimée car elle est liée à une autre opération. Seuls les administrateurs sont habilités à faire une telle opération.";
-      else
-        $op->delete();
-    }
-  }
-}//
 elseif ( ereg("^ssetlbl=([0-9]*)$",$_REQUEST["action"],$regs) )
 {
   $libelle = new compta_libelle($site->db);
@@ -1071,7 +1049,7 @@ $req = new requete ( $site->db, "SELECT " .
 
 $cts->add_paragraph("Effectue : ".($globalsum[1]/100)." Eur, Total : ".(($globalsum[0]+$globalsum[1])/100)." Eur");
 
-$batch = array("dones"=>"Marquer comme effectué","deletes"=>"Supprimer","prints"=>"Imprimer");
+$batch = array("dones"=>"Marquer comme effectué","prints"=>"Imprimer");
 
 $batch[] = "----";
 
@@ -1123,7 +1101,7 @@ $cts->add(new sqltable(
     "op_effctue"=>"Eff.",
     "commentaire_op"=>"Commentaire"
     ),
-  array("edit"=>"Editer","delete"=>"Supprimer","done"=>"Effectué","print"=>"Imprimer"),
+  array("edit"=>"Editer","done"=>"Effectué","print"=>"Imprimer"),
   $batch,
   array("op_effctue"=>array(0=>"Non",1=>"Oui"),"mode_op"=>$modes_operation)
   ));
