@@ -404,9 +404,11 @@ L\'AE';
     if($GLOBALS['taiste']){
         $mailer->add_dest(array('ae.info@utbm.fr'));
     } else {
-        $mailer->add_dest(array('etudiants@utbm.fr',
-                    'personnels@utbm.fr',
-                    'aude.petit@utbm.fr'));
+        $mailer->add_dest(array(
+            'etudiants@utbm.fr',
+            'personnels@utbm.fr',
+            //'florent.jacquet@utbm.fr',
+        ));
     }
     $this->rendu_html = $this->_render_html();
     $this->rendu_txt  = $this->_render_txt();
