@@ -21,6 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+if (isset($_REQUEST['id_comptoir']))
+    header("Location: https://ae2.utbm.fr/counter/admin".$_REQUEST['id_comptoir']);
+else
+    header("Location: https://ae2.utbm.fr/counter/admin");
+exit;
 
 $topdir="../";
 require_once("include/comptoirs.inc.php");
@@ -132,7 +137,7 @@ elseif ( $_REQUEST["action"] == "delcomptoir" && $site->user->is_in_group("gesti
  $frm->add_hidden("id_comptoir_succ",$_REQUEST["id_comptoir_succ"]);
  $frm->add_submit("valid","Supprimer");
  $cts->add($frm,true);
- 
+
  $site->add_contents($cts);
  $site->end_page();
  exit();
@@ -170,7 +175,7 @@ elseif ( $_REQUEST["action"] == "dodelcomptoir" && $site->user->is_in_group("ges
  $site->end_page();
  exit();
 
- 
+
 }
 /*
  Ajout d'un type de produit

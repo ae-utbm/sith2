@@ -20,6 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+if ( isset($_REQUEST['id_utilisateur']) )
+    header("Location: https://ae2.utbm.fr/user/".$_REQUEST['id_utilisateur']."/account");
+else
+    header("Location: https://ae2.utbm.fr/user/");
+exit;
+
 $topdir="../";
 require_once($topdir."include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
@@ -42,6 +48,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
 }
 else
   $user = &$site->user;
+
 
 if ( ($_REQUEST["action"] == "delete") && ($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("foyer_admin") || $site->user->is_in_group("kfet_admin")  || $site->user->is_in_group("la_gommette_admin")) && ( $site->user->is_in_group("root") || $site->user->id != $user->id ) )
 {

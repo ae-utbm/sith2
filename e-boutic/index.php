@@ -29,6 +29,9 @@
  * 02111-1307, USA.
  */
 
+header("Location: https://ae2.utbm.fr/eboutic/");
+exit;
+
 $topdir="../";
 
 require_once($topdir . "include/site.inc.php");

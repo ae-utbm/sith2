@@ -42,6 +42,9 @@
  * @see get_localisation
  */
 
+header("Location: https://ae2.utbm.fr/counter/".$_REQUEST['id_comptoir']);
+exit;
+
 $topdir="../";
 require_once("include/comptoirs.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
