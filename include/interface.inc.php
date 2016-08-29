@@ -436,7 +436,8 @@ class interfaceweb
                     $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"" . $topdir . "user.php?id_utilisateur=" . $this->user->id . "\">Mes informations</a>';";
                     $i++;
                     if ($this->user->ae) {
-                        $this->buffer .= "menu_utilisateur[$i]='<a href=\"" . $topdir . "user/compteae.php\">Compte AE : " . (sprintf("%.2f", $this->user->montant_compte / 100)) . " €</a>';";
+                        $this->buffer .= "menu_utilisateur[$i]='<a href=\"" . $topdir . "user/compteae.php?id_utilisateur=" .
+                            $this->user->id . "\">Compte AE : " . (sprintf("%.2f", $this->user->montant_compte / 100)) . " €</a>';";
                         $i++;
                     }
                     $i++;
