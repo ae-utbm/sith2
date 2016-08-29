@@ -22,6 +22,9 @@
  * 02111-1307, USA.
  */
 
+if ($_REQUEST['name'] == "services")
+    header("Location: https://ae2.utbm.fr/page/services/");
+
 $topdir="./";
 
 require_once($topdir. "include/site.inc.php");
