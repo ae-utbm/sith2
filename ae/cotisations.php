@@ -23,8 +23,8 @@
  * 02111-1307, USA.
  */
 
-header("Location: https://ae2.utbm.fr/subscription");
-exit;
+// header("Location: https://ae2.utbm.fr/subscription");
+// exit;
 
 $topdir = "../";
 

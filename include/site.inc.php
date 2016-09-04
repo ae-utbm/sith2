@@ -938,6 +938,7 @@ if(!defined("MOBILE")) {
 }
     }
 
+    return "";
     return '<div id="head_comptoirs">'.$list.'</div>';
   }
 

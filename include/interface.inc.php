@@ -363,7 +363,7 @@ class interfaceweb
                 $this->buffer .= "<a href=\"./edt.php\">Emploi du temps</a>";
                 $this->buffer .= "<a href=\"./matmat.php\">Mat'Matronch</a>";
                 if ($this->user->ae)
-                    $this->buffer .= "<p>Compte AE : " . (sprintf("%.2f", $this->user->montant_compte / 100)) . "</p>";
+                    $this->buffer .= "<p>Compte AE</p>";
                 //$this->buffer .= "<a href=\"./forum2.php\">Forum</a>";
 
                 $this->buffer .= "</div>";
@@ -437,7 +437,7 @@ class interfaceweb
                     $i++;
                     if ($this->user->ae) {
                         $this->buffer .= "menu_utilisateur[$i]='<a href=\"" . $topdir . "user/compteae.php?id_utilisateur=" .
-                            $this->user->id . "\">Compte AE : " . (sprintf("%.2f", $this->user->montant_compte / 100)) . " €</a>';";
+                            $this->user->id . "\">Compte AE</a>';";
                         $i++;
                     }
                     $i++;
