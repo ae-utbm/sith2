@@ -20,6 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+header("Location: https://ae2.utbm.fr/user/tools");
 $topdir="../";
 
 require_once("include/compta.inc.php");
