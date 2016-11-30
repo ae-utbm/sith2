@@ -20,6 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+header("Location: https://ae2.utbm.fr/sas/");
 $topdir="../";
 require_once("include/sas.inc.php");
 require_once($topdir."include/cts/gallery.inc.php");
@@ -44,23 +45,23 @@ $phasso = new asso($site->db);
 $ptasso = new asso($site->db);
 if( isset($_REQUEST["modeincomplet"]) && !isset($_REQUEST["action"]))
 {
-  $req = new requete($site->db,"SELECT sas_photos.id_photo as id FROM sas_personnes_photos 
-				JOIN sas_photos 
-				ON sas_photos.id_photo = sas_personnes_photos.id_photo 
-				WHERE incomplet = 1 
-				AND sas_personnes_photos.id_utilisateur = '".$site->user->id."' 
-				".(isset($_REQUEST["id_photo"])?(" AND sas_photos.id_photo > '".intval($_REQUEST["id_photo"])."'"):"")." 
+  $req = new requete($site->db,"SELECT sas_photos.id_photo as id FROM sas_personnes_photos
+				JOIN sas_photos
+				ON sas_photos.id_photo = sas_personnes_photos.id_photo
+				WHERE incomplet = 1
+				AND sas_personnes_photos.id_utilisateur = '".$site->user->id."'
+				".(isset($_REQUEST["id_photo"])?(" AND sas_photos.id_photo > '".intval($_REQUEST["id_photo"])."'"):"")."
 				ORDER BY sas_photos.id_photo
 				LIMIT 1");
   if($req->lines > 0)
   {
     list( $id_photo ) = $req->get_row();
-    
+
     $photo->load_by_id($id_photo);
     if ( !$photo->is_valid() )
 	exit();
     $cat->load_by_id($photo->id_catph);
-    
+
   }
   else
   {
@@ -898,7 +899,7 @@ if ( $nb>0 || $cat->is_right($site->user,DROIT_AJOUTITEM) )
     $req = new requete($site->db, "SELECT COUNT(*) FROM `sas_photos` ".
       "WHERE `incomplet`='1' AND (`droits_acces_ph` & 0x100) AND `id_utilisateur` ='".$site->user->id."'");
     list($nbtcus)=$req->get_row();
-    
+
   }
 
   $tabs = array(array("","sas2/".$self."id_catph=".$cat->id, "photos - $nb"),

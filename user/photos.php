@@ -39,6 +39,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
 {
   $user = new utilisateur($site->db);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
+  header("Location: https://ae2.utbm.fr/user/".$user->id."/pictures");
 
   if ( !$user->is_valid() )
     $site->error_not_found("matmatronch");
