@@ -72,22 +72,22 @@ if ( $asso->is_mailing_allowed() )
 {
     /* ACTIONS */
     if (isset($_REQUEST['add_mailing'])) {
-        if (preg_match('/^[a-z-]{3,8}$/', strtolower($_REQUEST['add_mailing']), $name) === 1) {
+        if (preg_match('/^[a-z-]{3,20}$/', strtolower($_REQUEST['add_mailing']), $name) === 1) {
             $mailing = new mailing($site->db, $site->dbrw);
             $modere = ($site->user->is_in_group('root')) ? 1 : 0;
             $mailing->create($name[0], $asso->id, $modere);
             $cts->add_paragraph("Mailing ".$mailing->get_address()." créée!");
         } else {
-            $cts->add_paragraph("Mailing ".$_REQUEST['add_mailing']." non valide (entre 3 et 8 lettres, tiret autorisé)");
+            $cts->add_paragraph("Mailing ".$_REQUEST['add_mailing']." non valide (entre 3 et 20 lettres, tiret autorisé)");
         }
-    } 
+    }
     if (isset($_REQUEST['del_mailing'])) {
         $mailing = new mailing($site->db, $site->dbrw);
         $mailing->load_by_id($_REQUEST['del_mailing']);
         $name = $mailing->get_address();
         $mailing->remove();
         $cts->add_paragraph("Mailing ".$name." supprimée!");
-    } 
+    }
     if (isset($_REQUEST['reset'])) {
         reset_default_mailing($site, $asso);
     }
@@ -100,7 +100,7 @@ if ( $asso->is_mailing_allowed() )
             $mailing->add_member($user->id);
             $cts->add_paragraph($user->get_html_link() . " ajouté à " . $mailing->get_address());
         }
-    } 
+    }
     if (isset($_REQUEST['del_member'])) {
         $user = new utilisateur($site->db);
         $user->load_by_id($_REQUEST['del_member']);
@@ -110,7 +110,7 @@ if ( $asso->is_mailing_allowed() )
             $mailing->del_member($user->id);
             $cts->add_paragraph($user->get_html_link() . " supprimé de " . $mailing->get_address());
         }
-    } 
+    }
     if (isset($_REQUEST['add_email']) && $_REQUEST['add_email'] != '') {
         if(filter_var($_REQUEST['add_email'], FILTER_VALIDATE_EMAIL)) {
             $mailing = new mailing($site->db, $site->dbrw);
@@ -120,7 +120,7 @@ if ( $asso->is_mailing_allowed() )
         } else {
             $cts->add_paragraph("e-mail non valide");
         }
-    } 
+    }
     if (isset($_REQUEST['del_email']) && $_REQUEST['del_email'] != '') {
         if(filter_var($_REQUEST['del_email'], FILTER_VALIDATE_EMAIL)) {
             $mailing = new mailing($site->db, $site->dbrw);
