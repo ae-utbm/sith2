@@ -21,6 +21,12 @@
  * 02111-1307, USA.
  */
 
+if ( isset($_REQUEST['id_asso']) )
+    header("Location: https://ae2.utbm.fr/com/weekmail/new_article?club=".$_REQUEST['id_asso']);
+else
+    header("Location: https://ae2.utbm.fr/com/weekmail/new_article");
+exit;
+
 $topdir = "../";
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");

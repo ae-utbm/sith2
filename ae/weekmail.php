@@ -20,6 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+header("Location: https://ae2.utbm.fr/com/weekmail");
+
 $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
