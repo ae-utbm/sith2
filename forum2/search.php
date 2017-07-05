@@ -67,6 +67,8 @@ $forum->load_by_id(1);
 
 if ( $_REQUEST["page"] == "unread" )
 {
+  header("Location: https://ae2.utbm.fr/forum/last_unread")
+
   $site->allow_only_logged_users("forum");
 
   $site->start_page("forum","Messages non lus");
@@ -183,6 +185,8 @@ if ( $_REQUEST["page"] == "unread" )
 }
 elseif ( $_REQUEST["page"] == "starred" )
 {
+  header("Location: https://ae2.utbm.fr/forum")
+
   $site->allow_only_logged_users("forum");
 
   $site->start_page("forum","Sujets favoris");
