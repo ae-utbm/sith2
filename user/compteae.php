@@ -21,9 +21,9 @@
  * 02111-1307, USA.
  */
 if ( isset($_REQUEST['id_utilisateur']) )
-    header("Location: https://ae2.utbm.fr/user/".$_REQUEST['id_utilisateur']."/account");
+    header("Location: https://ae.utbm.fr/user/".$_REQUEST['id_utilisateur']."/account");
 else
-    header("Location: https://ae2.utbm.fr/user/");
+    header("Location: https://ae.utbm.fr/user/");
 exit;
 
 $topdir="../";

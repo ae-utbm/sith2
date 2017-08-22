@@ -1,5 +1,5 @@
 <?php
-header("Location: https://ae2.utbm.fr/matmatronch/clear");
+header("Location: https://ae.utbm.fr/matmatronch/clear");
 $topdir = "./../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");

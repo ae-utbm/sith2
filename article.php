@@ -23,7 +23,7 @@
  */
 
 if ($_REQUEST['name'] == "services")
-    header("Location: https://ae2.utbm.fr/page/services/");
+    header("Location: https://ae.utbm.fr/page/services/");
 
 $topdir="./";
 

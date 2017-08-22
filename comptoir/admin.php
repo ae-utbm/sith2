@@ -22,9 +22,9 @@
  * 02111-1307, USA.
  */
 if (isset($_REQUEST['id_comptoir']))
-    header("Location: https://ae2.utbm.fr/counter/admin/".$_REQUEST['id_comptoir']);
+    header("Location: https://ae.utbm.fr/counter/admin/".$_REQUEST['id_comptoir']);
 else
-    header("Location: https://ae2.utbm.fr/counter/admin/");
+    header("Location: https://ae.utbm.fr/counter/admin/");
 exit;
 
 $topdir="../";

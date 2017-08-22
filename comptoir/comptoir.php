@@ -42,7 +42,7 @@
  * @see get_localisation
  */
 
-header("Location: https://ae2.utbm.fr/counter/".$_REQUEST['id_comptoir']);
+header("Location: https://ae.utbm.fr/counter/".$_REQUEST['id_comptoir']);
 exit;
 
 $topdir="../";
