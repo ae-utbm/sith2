@@ -24,7 +24,7 @@
  * 02111-1307, USA.
  */
 
-header("Location: https://ae2.utbm.fr/launderette/");
+header("Location: https://ae.utbm.fr/launderette/");
 exit;
 
 define("ID_ASSO_LAVERIE", 84);

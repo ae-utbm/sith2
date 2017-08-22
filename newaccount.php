@@ -22,7 +22,7 @@
  * 02111-1307, USA.
  */
 
-header("Location: https://ae2.utbm.fr/register");
+header("Location: https://ae.utbm.fr/register");
 exit;
 
 $topdir = "./";

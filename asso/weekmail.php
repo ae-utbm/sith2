@@ -22,9 +22,9 @@
  */
 
 if ( isset($_REQUEST['id_asso']) )
-    header("Location: https://ae2.utbm.fr/com/weekmail/new_article?club=".$_REQUEST['id_asso']);
+    header("Location: https://ae.utbm.fr/com/weekmail/new_article?club=".$_REQUEST['id_asso']);
 else
-    header("Location: https://ae2.utbm.fr/com/weekmail/new_article");
+    header("Location: https://ae.utbm.fr/com/weekmail/new_article");
 exit;
 
 $topdir = "../";

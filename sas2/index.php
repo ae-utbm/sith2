@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-header("Location: https://ae2.utbm.fr/sas/");
+header("Location: https://ae.utbm.fr/sas/");
 $topdir="../";
 require_once("include/sas.inc.php");
 require_once($topdir."include/cts/gallery.inc.php");
